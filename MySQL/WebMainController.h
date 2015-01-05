@@ -17,6 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *stop;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refresh;
 
-@property (nonatomic, weak) IBOutlet NSDictionary *feedItem;
+@property (strong, nonatomic) NSDictionary *feedItem;
 
 @end

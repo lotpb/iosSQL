@@ -17,14 +17,14 @@
     NSMutableArray *filteredString;
     BOOL isFilltered;
 }
-@property (weak, nonatomic) IBOutlet UIImageView *blog2ImageView;
-@property (weak, nonatomic) IBOutlet UILabel *blogtitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *blogsubtitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *blogmsgDateLabel;
+@property (strong, nonatomic) UIImageView *blog2ImageView;
+@property (strong, nonatomic) UILabel *blogtitleLabel;
+@property (strong, nonatomic) UILabel *blogsubtitleLabel;
+@property (strong, nonatomic) UILabel *blogmsgDateLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *Like;
+@property (strong, nonatomic) UILabel *Like;
 @end
 
 

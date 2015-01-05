@@ -9,39 +9,66 @@
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
 #import "Location.h"
+#import "ViewController.h"
 #import "MapViewController.h"
 #import "WebViewController.h"
 
 @interface LeadDetailViewControler : UIViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *leadNo;
-@property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UILabel *amount;
-@property (weak, nonatomic) IBOutlet UILabel *date;
-@property (weak, nonatomic) IBOutlet UILabel *callback;
-@property (weak, nonatomic) IBOutlet UILabel *address;
-@property (weak, nonatomic) IBOutlet UILabel *city;
-@property (weak, nonatomic) IBOutlet UILabel *state;
-@property (weak, nonatomic) IBOutlet UILabel *zip;
-@property (weak, nonatomic) IBOutlet UILabel *photo;
-@property (weak, nonatomic) IBOutlet UILabel *phone;
+@property (strong, nonatomic) NSString *leadNo;
+@property (weak, nonatomic) IBOutlet UILabel *labelNo;
+@property (strong, nonatomic) NSString *name;
+@property (weak, nonatomic) IBOutlet UILabel *labelname;
+@property (strong, nonatomic) NSString *amount;
+@property (weak, nonatomic) IBOutlet UILabel *labelamount;
+@property (strong, nonatomic) NSString *date;
+@property (weak, nonatomic) IBOutlet UILabel *labeldate;
+@property (strong, nonatomic) NSString *address;
+@property (weak, nonatomic) IBOutlet UILabel *labeladdress;
+@property (strong, nonatomic) NSString *city;
+@property (weak, nonatomic) IBOutlet UILabel *labelcity;
 @property (weak, nonatomic) IBOutlet UILabel *following;
-@property (weak, nonatomic) IBOutlet UILabel *time;
-@property (weak, nonatomic) IBOutlet UITextField *email;
-@property (weak, nonatomic) IBOutlet UITextField *first;
-@property (weak, nonatomic) IBOutlet UITextField *spouse;
-@property (weak, nonatomic) IBOutlet UITextView *comments;
-@property (weak, nonatomic) IBOutlet UITextField *salesman;
-@property (weak, nonatomic) IBOutlet UITextView *aptdate;
-@property (weak, nonatomic) IBOutlet UITextField *jobNo;
-@property (weak, nonatomic) IBOutlet UITextField *adNo;
-@property (weak, nonatomic) IBOutlet UITextField *active;
+//label text only
+@property (strong, nonatomic) NSString *l1datetext;
+@property (weak, nonatomic) IBOutlet UILabel *labeldatetext;
+
+@property (strong, nonatomic) NSString *tbl11;
+@property (strong, nonatomic) NSString *tbl12;
+@property (strong, nonatomic) NSString *tbl13;
+@property (strong, nonatomic) NSString *tbl14;
+@property (strong, nonatomic) NSString *tbl15;
+
+@property (strong, nonatomic) NSString *tbl21;
+@property (strong, nonatomic) NSString *tbl22;
+@property (strong, nonatomic) NSString *tbl23;
+@property (strong, nonatomic) NSString *tbl24;
+@property (strong, nonatomic) NSString *tbl25;
+
+@property (strong, nonatomic) NSString *l11;
+@property (strong, nonatomic) NSString *l12;
+@property (strong, nonatomic) NSString *l13;
+@property (strong, nonatomic) NSString *l14;
+@property (strong, nonatomic) NSString *l15;
+@property (strong, nonatomic) NSString *l21;
+@property (strong, nonatomic) NSString *l22;
+@property (strong, nonatomic) NSString *l23;
+@property (strong, nonatomic) NSString *l24;
+@property (strong, nonatomic) NSString *l25;
+@property (strong, nonatomic) NSString *lnewsTitle;
+
+@property (strong, nonatomic) NSString *state;
+@property (strong, nonatomic) NSString *zip;
+@property (strong, nonatomic) NSString *photo;
+@property (strong, nonatomic) NSString *comments;
+@property (strong, nonatomic) NSString *active;
+
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
 
+// below from custom cell
+@property (strong, nonatomic) UILabel *leadtitleLabel;
+@property (strong, nonatomic) UILabel *leadsubtitleLabel;
+@property (strong, nonatomic) UILabel *leadreadmore;
 //@property (weak, nonatomic) IBOutlet UIImageView *leadImageView;
-@property (weak, nonatomic) IBOutlet UILabel *leadtitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *leadsubtitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *leadreadmore;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView2;
@@ -50,5 +77,10 @@
 @property (weak, nonatomic) IBOutlet UISwitch *mySwitch;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 @property (weak, nonatomic) Location *selectedLocation;
+
+// not in use below
+@property (strong, nonatomic) NSString *salesman;
+@property (strong, nonatomic) NSString *jobdescription;
+@property (strong, nonatomic) NSString *advertiser;
 
 @end

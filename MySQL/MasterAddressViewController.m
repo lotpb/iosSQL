@@ -31,10 +31,10 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddressBook)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = addButton;
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
-    self.navigationItem.leftBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem = doneButton;
 }
 
 - (void)didReceiveMemoryWarning

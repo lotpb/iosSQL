@@ -78,12 +78,12 @@
 {   // Return the number of feed items (initially 0)
     return 1;
 }
-
+//this keep contraint errors away don't remove
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44; //this keep contraint errors away don't remove
+    return 44;
 }
-
+//this keep contraint errors away don't remove
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 44; //this keep contraint errors away don't remove
@@ -152,9 +152,9 @@
 {
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-    localNotification.alertBody = @"new Blog Posted at iOScreator.com";
+    localNotification.alertBody = @"New Blog Posted at mySQL.com";
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = 1;
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;//The number to diplay on the icon badge
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }

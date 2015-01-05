@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Last Name</string>
+			<key>Key</key>
+			<string>lastNameKey</string>
+			<key>DefaultValue</key>
+			<string>lastNameKey</string>
+			<key>File</key>
+			<string>EditProfile</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>First Name</string>
+			<key>Key</key>
+			<string>firstNameKey</string>
+			<key>DefaultValue</key>
+			<string>firstNameKey</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Website</string>
+			<key>Key</key>
+			<string>websiteKey</string>
+			<key>DefaultValue</key>
+			<string>websiteKey</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>PRIVATE INFO</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Email</string>
+			<key>Key</key>
+			<string>emailKey</string>
+			<key>DefaultValue</key>
+			<string>emailKey</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>User Name</string>
+			<key>Key</key>
+			<string>username</string>
+			<key>DefaultValue</key>
+			<string>username</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Password</string>
+			<key>Key</key>
+			<string>password</string>
+			<key>DefaultValue</key>
+			<string>password</string>
+		</dict>
+	</array>
+	<key>Title</key>
+	<string>EditProfile</string>
+	<key>StringsTable</key>
+	<string>EditProfile</string>
+</dict>
+</plist>

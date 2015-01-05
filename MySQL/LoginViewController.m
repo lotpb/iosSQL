@@ -31,6 +31,13 @@
         _reEnterPasswordField.hidden = YES;
         _registerBtn.hidden = YES;
     }
+    
+     [[UITextField appearance] setTintColor:[UIColor grayColor]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.usernameField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

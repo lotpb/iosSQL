@@ -14,9 +14,8 @@
     HomeModel *_homeModel; NSMutableArray *_feedItems; Location *_selectedLocation;
     UIRefreshControl *refreshControl;
 }
-//@property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation ViewController
@@ -25,6 +24,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav"]];
     self.title =  @"Leads";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
@@ -32,15 +32,16 @@
     self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
     self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"active"];
+    self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
     self.definesPresentationContext = YES;
     
     _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] init];
     
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    NSArray *actionButtonItems = @[searchItem,addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark TableRefresh
@@ -63,17 +64,13 @@
 
     [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
         [refreshView addSubview:refreshControl];
-/*
-    NSMutableArray *scopeButtonTitles = [[NSMutableArray alloc] init];
-    [scopeButtonTitles addObject:NSLocalizedString(@"All", @"Search display controller All button.")];
-    self.searchBar.scopeButtonTitles = scopeButtonTitles; */
-    
 }
+
 /*
-- (void)viewDidUnload
+- (void)viewDidAppear
 {
-    [self setSearchBar:nil];
-    [super viewDidUnload];
+    self.searchBar.hidden = NO;
+    //[super viewDidAppear:(BOOL)animated];
 } 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -82,22 +79,27 @@
     [self resignFirstResponder];
 } */
 
-- (void)didReceiveMemoryWarning {
+-(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - TableView
--(void)reloadDatas {
-    [refreshControl endRefreshing];
+#pragma mark - BarButton NewData
+-(IBAction)newData:(id)sender{
+    [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
 }
 
+#pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {
     // Set the downloaded items to the array
     _feedItems = items;
-    
-    // Reload the table view
     [self.listTableView reloadData];
+}
+
+#pragma mark Table Refresh Control
+-(void)reloadDatas {
+    [self.tableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark TableView Delete Button
@@ -146,7 +148,7 @@
         NSLog(@"%lu", (unsigned long)success.length);
         
         [self.tableView reloadData];
-       // [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+    // [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
     }
 }
 
@@ -183,7 +185,11 @@
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 55.0;
+    
+    if (!isFilltered)
+        return 55.0;
+    else
+       return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -198,13 +204,13 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
     [label setFont:[UIFont systemFontOfSize:12]];
     [label setTextColor:[UIColor whiteColor]];
-    label.numberOfLines = 0;
-    NSString *string = newString;
+     label.numberOfLines = 0;
+     NSString *string = newString;
     [label setText:string];
     [view addSubview:label];
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(12, 45, 60, 1.5)];
-    separatorLineView.backgroundColor = [UIColor redColor];
+    separatorLineView.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
@@ -241,17 +247,17 @@
 
 #pragma mark - search
 - (void)searchButton:(id)sender {
+    
     self.searchBar.hidden = NO;
    [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
   
-    self.searchBar.text=@"";
+     self.searchBar.text=@"";
      self.searchBar.hidden = YES;
     [self.searchBar resignFirstResponder];
-    //[self.listTableView reloadData];
-    //[self.listTableView becomeFirstResponder];
+
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -291,12 +297,19 @@
             
             if (self.searchBar.selectedScopeButtonIndex == 3)
             {
-                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
                     [filteredString addObject:string];
                 }
             }
             
+            if (self.searchBar.selectedScopeButtonIndex == 4)
+            {
+                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
         }
      }
 }
@@ -305,13 +318,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!isFilltered)
-        _selectedLocation = _feedItems[indexPath.row];
+         _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+       //_selectedLocation = _feedItems[indexPath.row];
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"detailSegue" sender:self];
-    // [self.navigationController pushViewController:detailViewController animated:YES];
-   // [tableView deselectRowAtIndexPath:indexPath animated:NO];
+     //[self.searchBar resignFirstResponder];
+       [self performSegueWithIdentifier:@"detailSegue" sender:self];
+    
+    // [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"LeadDetailController"] animated:YES];
+    // [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -320,7 +336,32 @@
     {
     // Get reference to the destination view controller
     LeadDetailViewControler *detailVC = segue.destinationViewController;
-    detailVC.selectedLocation = _selectedLocation;
+   // detailVC.selectedLocation = _selectedLocation;
+        detailVC.leadNo = _selectedLocation.leadNo; detailVC.date = _selectedLocation.date;
+        detailVC.name = _selectedLocation.name; detailVC.address = _selectedLocation.address;
+        detailVC.city = _selectedLocation.city; detailVC.state = _selectedLocation.state;
+        detailVC.zip = _selectedLocation.zip; detailVC.amount = _selectedLocation.amount;
+        detailVC.tbl11 = _selectedLocation.callback; detailVC.tbl12 = _selectedLocation.phone;
+        detailVC.tbl13 = _selectedLocation.first; detailVC.tbl14 = _selectedLocation.spouse;
+        detailVC.tbl15 = _selectedLocation.email; detailVC.tbl21 = _selectedLocation.aptdate;
+        detailVC.tbl22 = _selectedLocation.salesNo; detailVC.tbl23 = _selectedLocation.jobNo;
+        detailVC.tbl24 = _selectedLocation.adNo; detailVC.tbl25 = _selectedLocation.time;
+         
+        detailVC.salesman = _selectedLocation.salesman;
+        detailVC.jobdescription = _selectedLocation.jobdescription;
+        detailVC.advertiser = _selectedLocation.advertiser;
+        
+        detailVC.photo = _selectedLocation.photo;
+        detailVC.comments = _selectedLocation.comments;
+        detailVC.active = _selectedLocation.active;
+        
+        detailVC.l11 = @"Call Back"; detailVC.l12 = @"Phone";
+        detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
+        detailVC.l15 = @"Email"; detailVC.l21 = @"Apt Date";
+        detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
+        detailVC.l24 = @"Advertiser"; detailVC.l25 = @"Time";
+        detailVC.l1datetext = @"Lead Date:";
+        detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }
 }
 

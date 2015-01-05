@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EmployeeModel.h"
+#import "LeadDetailViewControler.h"
 
 @interface EmployeeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, EmployeeModelProtocol>
 {

@@ -14,7 +14,7 @@
 {
     VendorModel *_VendorModel; NSMutableArray *_feedItems; VendLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation VendorViewController
@@ -39,8 +39,10 @@
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark  Bar Button
+    
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    NSArray *actionButtonItems = @[searchItem,addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark  Table Refresh
@@ -73,15 +75,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table
--(void)reloadDatas {
-    [refreshControl endRefreshing];
+#pragma mark - BarButton NewData
+-(IBAction)newData:(id)sender{
+    [self performSegueWithIdentifier:@"newVendSeque"sender:self];
 }
 
+#pragma mark - Table
 -(void)itemsDownloaded:(NSMutableArray *)items
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
+}
+
+#pragma mark Table Refresh Control
+-(void)reloadDatas {
+    [self.tableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark  Table Delete Button
@@ -149,7 +158,10 @@
 
 #pragma mark  Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 55.0;
+    if (!isFilltered)
+        return 55.0;
+    else
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -182,7 +194,7 @@
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
@@ -280,9 +292,36 @@
 {
    if ([[segue identifier] isEqualToString:@"venddetailSegue"])
    {
-   // Get reference to the destination view controller
-   VendorDetailController *detailVC = segue.destinationViewController;
-   detailVC.selectedLocation = _selectedLocation;
+   LeadDetailViewControler *detailVC = segue.destinationViewController;
+   //detailVC.selectedLocation = _selectedLocation;
+       detailVC.leadNo = _selectedLocation.vendorNo;
+       detailVC.date = _selectedLocation.webpage;
+       detailVC.name = _selectedLocation.vendorName;
+       detailVC.address = _selectedLocation.address;
+       detailVC.city = _selectedLocation.city;
+       detailVC.state = _selectedLocation.state;
+       detailVC.zip = _selectedLocation.zip;
+       detailVC.amount = _selectedLocation.profession;
+       detailVC.tbl11 = _selectedLocation.phone;
+       detailVC.tbl12 = _selectedLocation.phone1;
+       detailVC.tbl13 = _selectedLocation.phone2;
+       detailVC.tbl14 = _selectedLocation.phone3;
+       detailVC.tbl15 = _selectedLocation.assistant;
+       detailVC.tbl21 = _selectedLocation.email;
+       detailVC.tbl22 = _selectedLocation.department;
+       detailVC.tbl23 = _selectedLocation.office;
+       detailVC.tbl24 = _selectedLocation.manager;
+       detailVC.tbl25 = _selectedLocation.profession;
+       detailVC.comments = _selectedLocation.comments;
+       detailVC.active = _selectedLocation.active;
+       
+       detailVC.l11 = @"Phone"; detailVC.l12 = @"Phone1";
+       detailVC.l13 = @"Phone2"; detailVC.l14 = @"Phone3";
+       detailVC.l15 = @"Assistant"; detailVC.l21 = @"Email";
+       detailVC.l22 = @"Department"; detailVC.l23 = @"Office";
+       detailVC.l24 = @"Manager"; detailVC.l25 = @"Profession";
+       detailVC.l1datetext = @"Web Page:";
+       detailVC.lnewsTitle = @"Business News Peter Balsamo Appointed to United's Board of Directors";
    }
 }
 

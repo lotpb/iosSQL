@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forwardButton;
 
 
-@property (nonatomic, weak) IBOutlet NSDictionary *feedItem;
+@property (strong, nonatomic) NSDictionary *feedItem;
 
 
 @end

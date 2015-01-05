@@ -13,18 +13,16 @@
 
 @interface BlogEditDetailView : UIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *msgNo;
-@property (strong, nonatomic) IBOutlet UILabel *postby;
-@property (strong, nonatomic) IBOutlet UITextField *msgDate;
-@property (strong, nonatomic) IBOutlet UILabel *subject;
-@property (strong, nonatomic) IBOutlet UILabel *rating;
+@property (strong, nonatomic) UILabel *msgNo;
+@property (strong, nonatomic) UILabel *postby;
+@property (strong, nonatomic) UITextField *msgDate;
+@property (strong, nonatomic) UILabel *subject;
+@property (strong, nonatomic) UILabel *rating;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *subtitleLabel;
 //@property (weak, nonatomic) IBOutlet UILabel *Like;
 @property (weak, nonatomic) IBOutlet UIButton *update;
-
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) BlogLocation *selectedLocation;
-
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
 @end

@@ -14,12 +14,19 @@
 
 @interface EmployeeDetailController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *active;
 @property (weak, nonatomic) IBOutlet UILabel *employeeNo;
+@property (weak, nonatomic) IBOutlet UILabel *lastnametext;
+@property (weak, nonatomic) IBOutlet UILabel *streettext;
+@property (weak, nonatomic) IBOutlet UILabel *citytext;
+@property (weak, nonatomic) IBOutlet UILabel *titlelabel;
+@property (weak, nonatomic) IBOutlet UILabel* emaillabel;
+
 @property (weak, nonatomic) IBOutlet NSString *first;
 @property (weak, nonatomic) IBOutlet NSString *middle;
-@property (weak, nonatomic) IBOutlet UILabel *lastname;
-@property (weak, nonatomic) IBOutlet UILabel *city;
-@property (weak, nonatomic) IBOutlet UILabel *street;
+@property (weak, nonatomic) IBOutlet NSString *lastname;
+@property (weak, nonatomic) IBOutlet NSString *city;
+@property (weak, nonatomic) IBOutlet NSString *street;
 @property (weak, nonatomic) IBOutlet NSString *state;
 @property (weak, nonatomic) IBOutlet NSString *zip;
 @property (weak, nonatomic) IBOutlet NSString *phone;
@@ -27,14 +34,12 @@
 @property (weak, nonatomic) IBOutlet NSString *workphone;
 @property (weak, nonatomic) IBOutlet NSString *cellphone;
 @property (weak, nonatomic) IBOutlet NSString *email;
+@property (weak, nonatomic) IBOutlet NSString *manager;
 @property (weak, nonatomic) IBOutlet NSString *company;
 @property (weak, nonatomic) IBOutlet NSString *social;
 @property (weak, nonatomic) IBOutlet NSString *country;
 @property (weak, nonatomic) IBOutlet NSString *titleEmploy;
-@property (weak, nonatomic) IBOutlet UILabel *manager;
-@property (weak, nonatomic) IBOutlet UITextView *comments;
-@property (weak, nonatomic) IBOutlet UILabel *active;
-@property (weak, nonatomic) IBOutlet UILabel *titlelabel;
+@property (weak, nonatomic) IBOutlet NSString *comments;
 
 //@property (weak, nonatomic) IBOutlet UIImageView *employImageView;
 @property (weak, nonatomic) IBOutlet UILabel *employtitleLabel;

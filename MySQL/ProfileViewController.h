@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ProfileViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 

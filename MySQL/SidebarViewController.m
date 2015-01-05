@@ -35,7 +35,7 @@ NSArray *menuItems;
     self.tableView.backgroundColor = [UIColor blackColor];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    menuItems = @[@"title", @"home", @"news", @"map", @"photo", @"email", @"contacts", @"facebook", @"profile"];
+    menuItems = @[@"title", @"home", @"settings", @"map", @"photo", @"email", @"contacts", @"social", @"notification", @"profile"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,13 +44,18 @@ NSArray *menuItems;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Table
+//| ----------------------------------------------------------------------------
+// Peter Balsamo added this mail Controller
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 5)
     {
-        NSString *emailTitle = @"Test Email";
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        
+        NSString *emailTitle = @"Email Support";
         NSString *messageBody = @"<h1>Learning iOS Programming!</h1>";
-        NSArray *toRecipents = [NSArray arrayWithObject:@"support@appcoda.com"];
+        NSArray *toRecipents =  [NSArray arrayWithObject:[standardDefaults objectForKey:@"emailKey"]];
         
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
         mc.mailComposeDelegate = self;
@@ -62,7 +67,8 @@ NSArray *menuItems;
         [self presentViewController:mc animated:YES completion:NULL];
     }
 }
-
+//| ----------------------------------------------------------------------------
+// Peter Balsamo added this mail Controller
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     switch (result)
@@ -86,14 +92,15 @@ NSArray *menuItems;
     // Close the Mail Interface
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
+//| ----------------------------------------------------------------------------
 
-    //tried estimateheight but didnt work
+  //tried estimateheight but didnt work this logiIn
 - (CGFloat)tableView:(UITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
 
-#pragma mark - Table view data source
+#pragma mark tableview data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -115,19 +122,14 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return Cell;
 }
 
+#pragma mark - segue
+
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
 {
     // Set the title of navigation bar by using the menu items
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;
     destViewController.title = [[menuItems objectAtIndex:indexPath.row] capitalizedString];
- /*
-    // Set the photo if it navigates to the PhotoView
-    if ([segue.identifier isEqualToString:@"showPhoto"]) {
-        PhotoViewController *photoController = (PhotoViewController*)segue.destinationViewController;
-        NSString *photoFilename = [NSString stringWithFormat:@"%@_photo.jpg", [menuItems objectAtIndex:indexPath.row]];
-        photoController.photoFilename = photoFilename;
-    } */
     
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
+#import "LeadDetailViewControler.h"
 #import "MapViewController.h"
 
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,HomeModelProtocol>
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, HomeModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

@@ -15,7 +15,7 @@
     UIRefreshControl *refreshControl;
    // NSString *msgNo; //added
 }
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation BlogViewController
@@ -34,8 +34,7 @@
     self.searchBar.showsScopeBar = YES;
     self.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
     self.definesPresentationContext = YES;
-   // [self.view addSubview:self.tableView];
-    //[self.view addSubview:self.searchBar];
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
   
     _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
     _BlogModel.delegate = self; [_BlogModel downloadItems];
@@ -68,8 +67,7 @@
 }
 
 #pragma mark - Bar Button
--(void)foundView:(id)sender
-{
+-(void)foundView:(id)sender {
     [self performSegueWithIdentifier:@"NewBlogSegue" sender:self];
 }
 
@@ -78,21 +76,20 @@
     return 80.0;
 }
 
--(void)itemsDownloaded:(NSMutableArray *)items
-{
-    // Set the downloaded items to the array
+-(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
 }
 
-#pragma mark TableRefresh Reload
+#pragma mark Table Refresh Control
 -(void)reloadDatas {
+    [self.tableView reloadData];
     [refreshControl endRefreshing];
 }
 
 #pragma mark TableView Delete Button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return UITableViewCellEditingStyleDelete;
 }
@@ -204,7 +201,10 @@
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 55.0;
+    if (!isFilltered)
+        return 55.0;
+    else
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -237,7 +237,7 @@
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
@@ -249,7 +249,7 @@
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(158, 45, 60, 1.5)];
-    separatorLineView2.backgroundColor = [UIColor redColor];
+    separatorLineView2.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)

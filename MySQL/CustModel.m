@@ -79,13 +79,15 @@
         newLocation.active = jsonElement[@"Active"];
         newLocation.rate = jsonElement[@"Rate"];
         newLocation.contractor = jsonElement[@"Contractor"];
-        newLocation.phone = jsonElement[@"Photo"];
+        newLocation.photo = jsonElement[@"Photo"];
         newLocation.photo1 = jsonElement[@"Photo1"];
         newLocation.photo2 = jsonElement[@"Photo2"];
         newLocation.email = jsonElement[@"Email"];
         newLocation.first = jsonElement[@"First"];
         newLocation.spouse = jsonElement[@"Spouse"];
-        
+        newLocation.lastname = jsonElement[@"Last Name"];
+        newLocation.salesman = jsonElement[@"Salesman"];
+        newLocation.product = jsonElement[@"Product"];
         // Add this question to the locations array
         [_locations addObject:newLocation];
     }

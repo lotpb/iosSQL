@@ -13,7 +13,8 @@
 {
     CustModel *_CustModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation CustController
@@ -24,12 +25,20 @@
     self.title =  @"Customer";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
+    self.searchBar.delegate = self;
     self.searchBar.hidden = YES;
+    self.searchBar.barTintColor = [UIColor clearColor];
+    self.searchBar.showsScopeBar = YES;
+    self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date", @"active"];
+    self.definesPresentationContext = YES;
     
     _feedItems = [[NSMutableArray alloc] init]; _CustModel = [[CustModel alloc] init]; _CustModel.delegate = self; [_CustModel downloadItems];
     
+     filteredString= [[NSMutableArray alloc] init];
+    
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    NSArray *actionButtonItems = @[searchItem,addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark TableRefresh
@@ -55,26 +64,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - SearchBar
-- (void)searchButton:(id)sender{
-    [self.searchBar becomeFirstResponder];
-     self.searchBar.hidden = NO;
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    self.searchBar.hidden = YES;
+#pragma mark - BarButton NewData
+-(IBAction)newData:(id)sender{
+    [self performSegueWithIdentifier:@"newCustSeque"sender:self];
 }
 
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items{
-    // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
 }
 
-#pragma mark TableRefresh
+#pragma mark Table Refresh Control
 -(void)reloadDatas{
-    [refreshControl endRefreshing];
+     [self.tableView reloadData];
+     [refreshControl endRefreshing];
 }
 
 #pragma mark TableView Delete
@@ -87,11 +91,9 @@
 - (void) setEditing:(BOOL)editing
            animated:(BOOL)animated{
     
-    [super setEditing:editing
-             animated:animated];
+    [super setEditing:editing animated:animated];
     
-    [self.listTableView setEditing:editing
-                          animated:animated];
+    [self.listTableView setEditing:editing animated:animated];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -112,21 +114,29 @@
 
 #pragma mark TableView Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _feedItems.count;
+    if (isFilltered)
+        return filteredString.count;
+    else
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustLocation *item = _feedItems[indexPath.row];
     static NSString *CellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (myCell == nil) {
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
     
-        myCell.textLabel.text = item.leadNo;
-        myCell.detailTextLabel.text = item.city;
+    CustLocation *item;
+    if (!isFilltered) {
+        item = _feedItems[indexPath.row];
+    } else {
+        item = [filteredString objectAtIndex:indexPath.row];
+    }
     
+        myCell.textLabel.text = item.lastname;
+        myCell.detailTextLabel.text = item.city;
         UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
        [myCell.imageView setImage:myImage];
     
@@ -135,7 +145,10 @@
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 55.0;
+    if (!isFilltered)
+        return 55.0;
+    else
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -168,7 +181,7 @@
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
@@ -180,27 +193,136 @@
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(158, 45, 60, 1.5)];
-    separatorLineView2.backgroundColor = [UIColor redColor];
+    separatorLineView2.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView2];
+    
+    if (!isFilltered)
+        [view setBackgroundColor:[UIColor clearColor]];
+    else
+        [view setBackgroundColor:[UIColor blackColor]];
     
     return view;
 }
 
+#pragma mark - SearchBar
+- (void)searchButton:(id)sender {
+    
+    self.searchBar.hidden = NO;
+    [self.searchBar becomeFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    self.searchBar.text=@"";
+    self.searchBar.hidden = YES;
+    [self.searchBar resignFirstResponder];
+    
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if(searchText.length == 0)
+    {
+        isFilltered = NO;
+    } else {
+        isFilltered = YES;
+        filteredString = [[NSMutableArray alloc]init];
+        
+        for(CustLocation* string in _feedItems)
+        {
+            if (self.searchBar.selectedScopeButtonIndex == 0)
+            {
+                NSRange stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
+            
+            if (self.searchBar.selectedScopeButtonIndex == 1)
+            {
+                NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
+            
+            if (self.searchBar.selectedScopeButtonIndex == 2)
+            {
+                NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
+            
+            if (self.searchBar.selectedScopeButtonIndex == 3)
+            {
+                NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
+            
+            if (self.searchBar.selectedScopeButtonIndex == 4)
+            {
+                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound) {
+                    [filteredString addObject:string];
+                }
+            }
+        }
+    }
+}
+
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{   // Set selected location to var
+{     if (!isFilltered)
     _selectedLocation = _feedItems[indexPath.row];
-    // Manually call segue to detail view controller
-    [self performSegueWithIdentifier:@"detailSegue" sender:self];
+else
+    _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+    
+    [self performSegueWithIdentifier:@"detailCustSegue" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{ /*
-    if ([[segue identifier] isEqualToString:@"detailSegue"])
+{
+    if ([[segue identifier] isEqualToString:@"detailCustSegue"])
     {
-        // Get reference to the destination view controller
         LeadDetailViewControler *detailVC = segue.destinationViewController;
-        detailVC.selectedLocation = _selectedLocation;
-    } */
+       // detailVC.selectedLocation = _selectedLocation;
+        detailVC.leadNo = _selectedLocation.custNo;
+        detailVC.date = _selectedLocation.date;
+        detailVC.name = _selectedLocation.lastname;
+        detailVC.address = _selectedLocation.address;
+        detailVC.city = _selectedLocation.city;
+        detailVC.state = _selectedLocation.state;
+        detailVC.zip = _selectedLocation.zip;
+        detailVC.amount = _selectedLocation.amount;
+        detailVC.tbl11 = _selectedLocation.jobNo;
+        detailVC.tbl12 = _selectedLocation.phone;
+        detailVC.tbl13 = _selectedLocation.first;
+        detailVC.tbl14 = _selectedLocation.spouse;
+        detailVC.tbl15 = _selectedLocation.email;
+        detailVC.tbl21 = _selectedLocation.start;
+        detailVC.tbl22 = _selectedLocation.salesman;
+        detailVC.tbl23 = _selectedLocation.product;
+        detailVC.tbl24 = _selectedLocation.contractor;
+        detailVC.tbl25 = _selectedLocation.quan;
+        detailVC.salesman = _selectedLocation.salesNo;
+        detailVC.jobdescription = _selectedLocation.leadNo;
+        detailVC.advertiser = _selectedLocation.completion;
+        detailVC.photo = _selectedLocation.photo;
+        detailVC.comments = _selectedLocation.comments;
+        detailVC.active = _selectedLocation.active;
+        //rate, prodNo, photo1, photo2
+     
+        detailVC.l11 = @"Job"; detailVC.l12 = @"Phone";
+        detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
+        detailVC.l15 = @"Email"; detailVC.l21 = @"Start date";
+        detailVC.l22 = @"Salesman"; detailVC.l23 = @"Product";
+        detailVC.l24 = @"Contractor"; detailVC.l25 = @"Quan";
+        detailVC.l1datetext = @"Sale Date:";
+        detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
+    }
 }
+
 @end

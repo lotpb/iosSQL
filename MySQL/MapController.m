@@ -9,8 +9,7 @@
 #import "MapController.h"
 #import "SWRevealViewController.h"
 
-#define NY_LATITUDE 40.714353
-#define NY_LONGTITUDE -74.005973
+
 
 @interface MapController ()
 
@@ -21,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title =  @"Map of New York";
+    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;
     

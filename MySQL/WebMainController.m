@@ -40,6 +40,7 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     self.webView.scalesPageToFit = YES;
    [self.webView loadRequest:request];
+    //self.tabBarItem.title = @"Web";
 }
 
 - (IBAction)WebTypeChanged:(id)sender {

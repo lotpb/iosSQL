@@ -14,7 +14,7 @@
 {
     EmployeeModel *_EmployeeModel; NSMutableArray *_feedItems; EmployeeLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation EmployeeViewController
@@ -38,8 +38,10 @@
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark Bar Button
+    
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    NSArray *actionButtonItems = @[searchItem,addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark TableRefresh
@@ -70,6 +72,11 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - BarButton NewData
+-(IBAction)newData:(id)sender{
+    [self performSegueWithIdentifier:@"newEmplySegue"sender:self];
+}
+
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items
 {   // This delegate method will get called when the items are finished downloading
@@ -77,8 +84,9 @@
     [self.listTableView reloadData];
 }
 
-#pragma mark TableRefresh
+#pragma mark Table Refresh Control
 -(void)reloadDatas{
+    [self.tableView reloadData];
     [refreshControl endRefreshing];
 }
 
@@ -165,7 +173,10 @@
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 55.0;
+    if (!isFilltered)
+        return 55.0;
+    else
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -198,7 +209,7 @@
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
@@ -288,16 +299,51 @@
     _selectedLocation = _feedItems[indexPath.row];
     
     // Manually call segue to detail view controller
-     [self performSegueWithIdentifier:@"detailSegue" sender:self];
+     [self performSegueWithIdentifier:@"employdetailSegue" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([[segue identifier] isEqualToString:@"detailSegue"])
+   if ([[segue identifier] isEqualToString:@"employdetailSegue"])
    {
-   // Get reference to the destination view controller
-   EmployeeDetailController *detailVC = segue.destinationViewController;
-   detailVC.selectedLocation = _selectedLocation;
+       LeadDetailViewControler *detailVC = segue.destinationViewController;
+    // detailVC.selectedLocation = _selectedLocation;
+       if ( [_selectedLocation.first isEqual:[NSNull null]] ) { _selectedLocation.first = @""; }
+       if ( [_selectedLocation.lastname isEqual:[NSNull null]] ) { _selectedLocation.lastname = @""; }
+       if ( [_selectedLocation.company isEqual:[NSNull null]] ) { _selectedLocation.company = @""; }
+       
+       detailVC.leadNo = _selectedLocation.employeeNo;
+       detailVC.date = _selectedLocation.email;
+       detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",_selectedLocation.first,_selectedLocation.lastname, _selectedLocation.company];
+       detailVC.address = _selectedLocation.street;
+       detailVC.city = _selectedLocation.city;
+       detailVC.state = _selectedLocation.state;
+       detailVC.zip = _selectedLocation.zip;
+       detailVC.amount = _selectedLocation.titleEmploy;
+       detailVC.tbl11 = _selectedLocation.homephone;
+       detailVC.tbl12 = _selectedLocation.workphone;
+       detailVC.tbl13 = _selectedLocation.cellphone;
+       detailVC.tbl14 = _selectedLocation.social;
+       detailVC.tbl15 = _selectedLocation.middle;
+       detailVC.tbl21 = _selectedLocation.email;
+       detailVC.tbl22 = _selectedLocation.department;
+       detailVC.tbl23 = _selectedLocation.titleEmploy;
+       detailVC.tbl24 = _selectedLocation.manager;
+       detailVC.tbl25 = _selectedLocation.country;
+       detailVC.comments = _selectedLocation.comments;
+       detailVC.active = _selectedLocation.active;
+       
+       detailVC.salesman = _selectedLocation.first;
+       detailVC.jobdescription = _selectedLocation.middle;
+       detailVC.advertiser = _selectedLocation.company;
+       
+       detailVC.l11 = @"Home Phone"; detailVC.l12 = @"Work phone";
+       detailVC.l13 = @"Mobile Phone"; detailVC.l14 = @"Social Security";
+       detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";
+       detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
+       detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
+       detailVC.l1datetext = @"Email:";
+       detailVC.lnewsTitle = @"Employee News Peter Balsamo Appointed to United's Board of Directors";
    }
 }
 

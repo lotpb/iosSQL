@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import <Parse/Parse.h>
 
-@interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchBarDelegate, UIPopoverControllerDelegate>
+@interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *listTableView;
-
-@property (weak, nonatomic) IBOutlet UILabel *newstitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *newssubtitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *newsreadmore;
-@property (weak, nonatomic) IBOutlet UIImageView *newsImageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *wallScroll;
+//-(IBAction)logoutPressed:(id)sender;
 
 @end

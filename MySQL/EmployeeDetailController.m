@@ -30,53 +30,49 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = self.selectedLocation.lastname;
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 120.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    self.comments.hidden = YES;
+   // self.comments.hidden = YES;
     
-    NSString *firstItem = self.selectedLocation.first;
-    NSString *middleItem = self.selectedLocation.middle;
-    //NSString *lastnameItem = self.selectedLocation.lastname;
-    NSString *homephoneItem = self.selectedLocation.homephone;
-    NSString *workphoneItem = self.selectedLocation.workphone;
-    NSString *cellItem = self.selectedLocation.cellphone;
-    NSString *emailItem = self.selectedLocation.email;
-    NSString *departmentItem = self.selectedLocation.department;
-    NSString *countryItem = self.selectedLocation.country;
-    NSString *managerItem = self.selectedLocation.manager;
-    NSString *socialItem = self.selectedLocation.social;
-    NSString *titleItem = self.selectedLocation.titleEmploy;
-    NSString *companyItem = self.selectedLocation.company;
+    NSString *firstItem, *middleItem, *lastnameItem, *streetItem, *cityItem, *stateItem, *ziptItem, *homephoneItem, *workphoneItem, *cellItem, *emailItem, *departmentItem, *countryItem, *managerItem, *socialItem, *titleItem, *companyItem, *commentsItem;
+
+  //  if  ( [self.selectedLocation.first isEqual:[NSNull null]] )  {
+  //      firstItem = @""; }
     
     if ( ( ![self.selectedLocation.first isEqual:[NSNull null]] ) && ( [self.selectedLocation.first length] != 0 ) ) {firstItem = self.selectedLocation.first;
-    } else { self.lastname.text = @""; }
+    } else { firstItem = @""; }
     
     if ( ( ![self.selectedLocation.middle isEqual:[NSNull null]] ) && ( [self.selectedLocation.middle length] != 0 ) ) {middleItem = self.selectedLocation.middle;
     } else { middleItem = @""; }
     
-    if ( ( ![self.selectedLocation.lastname isEqual:[NSNull null]] ) && ( [self.selectedLocation.lastname length] != 0 ) ) {self.lastname.text = self.selectedLocation.lastname;
-    } else { self.lastname.text = @""; }
+    if ( ( ![self.selectedLocation.lastname isEqual:[NSNull null]] ) && ( [self.selectedLocation.lastname length] != 0 ) ) {lastnameItem = self.selectedLocation.lastname;
+    } else { lastnameItem = @""; }
     
     if ( ( ![self.selectedLocation.company isEqual:[NSNull null]] ) && ( [self.selectedLocation.company length] != 0 ) ) {companyItem = self.selectedLocation.company;
     } else { companyItem = @""; }
    
-    if ( ( ![self.selectedLocation.street isEqual:[NSNull null]] ) && ( [self.selectedLocation.street length] != 0 ) ) {self.street.text = self.selectedLocation.street;
-    } else { self.street.text = @"Address"; }
+    if ( ( ![self.selectedLocation.street isEqual:[NSNull null]] ) && ( [self.selectedLocation.street length] != 0 ) ) {streetItem = self.selectedLocation.street;
+    } else { streetItem = @"Address"; }
     
-    if ( ( ![self.selectedLocation.city isEqual:[NSNull null]] ) && ( [self.selectedLocation.city length] != 0 ) ) {self.city.text = self.selectedLocation.city;
-    } else { self.city.text = @"City"; }
+    if ( ( ![self.selectedLocation.city isEqual:[NSNull null]] ) && ( [self.selectedLocation.city length] != 0 ) ) {cityItem = self.selectedLocation.city;
+    } else { cityItem = @"City"; }
     
-    if ( ( ![self.selectedLocation.state isEqual:[NSNull null]] ) && ( [self.selectedLocation.state length] != 0 ) ) {self.state = self.selectedLocation.state;
-    } else { self.state = @"State"; }
+    if ( ( ![self.selectedLocation.state isEqual:[NSNull null]] ) && ( [self.selectedLocation.state length] != 0 ) ) {stateItem = self.selectedLocation.state;
+    } else { stateItem = @"State"; }
     
-    if ( ( ![self.selectedLocation.zip isEqual:[NSNull null]] ) && ( [self.selectedLocation.zip length] != 0 ) ) {self.zip = self.selectedLocation.zip;
-    } else { self.zip = @"Zip"; }
+    if ( ( ![self.selectedLocation.zip isEqual:[NSNull null]] ) && ( [self.selectedLocation.zip length] != 0 ) ) {ziptItem = self.selectedLocation.zip;
+    } else { ziptItem = @"Zip"; }
     
     if ( ( ![self.selectedLocation.homephone isEqual:[NSNull null]] ) && ( [self.selectedLocation.homephone length] != 0 ) ) {homephoneItem = self.selectedLocation.homephone;
     } else { homephoneItem = @"No Phone"; }
+    
+    if ( ( ![self.selectedLocation.workphone isEqual:[NSNull null]] ) && ( [self.selectedLocation.workphone length] != 0 ) ) {workphoneItem = self.selectedLocation.workphone;
+    } else { workphoneItem = @"No Phone"; }
+    
+    if ( ( ![self.selectedLocation.cellphone isEqual:[NSNull null]] ) && ( [self.selectedLocation.cellphone length] != 0 ) ) {cellItem = self.selectedLocation.cellphone;
+    } else { cellItem = @"No Phone"; }
     
     if ( ( ![self.selectedLocation.titleEmploy isEqual:[NSNull null]] ) && ( [self.selectedLocation.titleEmploy length] != 0 ) ) {titleItem = self.selectedLocation.titleEmploy;
     } else { titleItem = @"None"; }
@@ -95,21 +91,18 @@
    
     if ( ( ![self.selectedLocation.country isEqual:[NSNull null]] ) && ( [self.selectedLocation.country length] != 0 ) ) {countryItem = self.selectedLocation.country;
     } else { countryItem = @"None"; }
-  
-    if ( ( ![self.selectedLocation.workphone isEqual:[NSNull null]] ) && ( [self.selectedLocation.workphone length] != 0 ) ) {workphoneItem = self.selectedLocation.workphone;
-    } else { workphoneItem = @"No Phone"; }
     
-    if ( ( ![self.selectedLocation.cellphone isEqual:[NSNull null]] ) && ( [self.selectedLocation.cellphone length] != 0 ) ) {cellItem = self.selectedLocation.cellphone;
-    } else { cellItem = @"No Phone"; }
+    if ( ( ![self.selectedLocation.comments isEqual:[NSNull null]] ) && ( [self.selectedLocation.comments length] != 0 ) ) {commentsItem = self.selectedLocation.comments;
+    } else { commentsItem = @"No Comments"; }
     
-    if ( ( ![self.selectedLocation.comments isEqual:[NSNull null]] ) && ( [self.selectedLocation.comments length] != 0 ) ) {self.comments.text = self.selectedLocation.comments;
-    } else { self.comments.text = @"No Comments"; }
-    
+    self.title = [NSString stringWithFormat:@"%@ %@ %@",firstItem,lastnameItem, companyItem];
     self.employeeNo.text = self.selectedLocation.employeeNo;
-    self.lastname.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem,self.lastname.text, companyItem];
-    self.city.text = [NSString stringWithFormat:@"%@ %@ %@",self.city.text, self.state, self.zip];
-    self.titlelabel.text = self.selectedLocation.titleEmploy;
-    //self.company.text = self.selectedLocation.company;
+    self.lastnametext.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem,lastnameItem, companyItem];
+    self.streettext.text = streetItem;
+    self.citytext.text = [NSString stringWithFormat:@"%@ %@ %@",cityItem, stateItem, ziptItem];
+    self.titlelabel.text = titleItem;
+    self.emaillabel.text = emailItem;
+    self.comments = commentsItem;
     
     ///below must be on bottom from above
    tableData = [NSArray arrayWithObjects:homephoneItem, workphoneItem, cellItem, socialItem, emailItem, nil];
@@ -137,7 +130,8 @@
 #pragma mark  Active Switch
     if ( [self.selectedLocation.active isEqual:@"1"] )
     {[self.mySwitch setOn:YES];
-    } else { [self.mySwitch setOn:NO]; }
+    } else { [self.mySwitch setOn:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -231,9 +225,10 @@
         [myCell.employsubtitleLabel setTextColor:[UIColor grayColor]];
         myCell.employreadmore.text = @"Read more";
         myCell.employreadmore.font = [UIFont systemFontOfSize:8.0];
-        myCell.employnews.text = self.comments.text;
+        myCell.employnews.text = self.comments;
         myCell.employnews.font = [UIFont boldSystemFontOfSize:8.0];
         [myCell.employnews setTextColor:[UIColor darkGrayColor]];
+        
         //Social buttons - code below
         UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(10,85, 20, 20)];
         [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];

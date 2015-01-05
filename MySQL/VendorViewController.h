@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VendorModel.h"
+#import "LeadDetailViewControler.h"
 
 @interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, VendorModelProtocol>
 {

@@ -43,7 +43,8 @@
     self.mapView.showsUserLocation = YES;
     [self.locationManager startUpdatingLocation];
     
-     self.mapView.showsUserLocation = YES;
+    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    
     [self.mapView setZoomEnabled:YES];
     [self.mapView setScrollEnabled:YES];}
 
@@ -69,8 +70,12 @@
     region.center = [(CLCircularRegion *)placemark.region center];
     region.span.longitudeDelta /= 1500.0;
     region.span.latitudeDelta /= 1500.0;
+    region = [self.mapView regionThatFits:region];
     [self.mapView setRegion:region animated:YES];
-    [self.mapView addAnnotation:placemark]; } } ];
+    [self.mapView addAnnotation:placemark];
+    
+    
+    } } ];
 }
 
 // MKMapViewDelegate Methods

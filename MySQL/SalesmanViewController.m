@@ -13,7 +13,7 @@
 {
     SalesModel *_SalesModel; NSMutableArray *_feedItems; SalesLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation SalesmanViewController
@@ -37,8 +37,9 @@
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark  Bar Button
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    NSArray *actionButtonItems = @[searchItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark  Table Refresh
@@ -71,14 +72,16 @@
 }
 
 #pragma mark - Table
--(void)reloadDatas {
-    [refreshControl endRefreshing];
-}
-
 -(void)itemsDownloaded:(NSMutableArray *)items
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
+}
+
+#pragma mark Table Refresh Control
+-(void)reloadDatas {
+    [self.tableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark  Table Delete Button
@@ -144,7 +147,10 @@
 
 #pragma mark  Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 55.0;
+    if (!isFilltered)
+        return 55.0;
+    else
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -177,7 +183,7 @@
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];

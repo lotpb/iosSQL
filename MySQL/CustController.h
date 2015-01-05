@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "CustModel.h"
+#import "LeadDetailViewControler.h"
+#import "MapViewController.h"
+//#import <ParseUI/ParseUI.h>
+//#import <Parse/Parse.h>
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CustModelProtocol>
+{
+    NSMutableArray *filteredString;
+    BOOL isFilltered;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
