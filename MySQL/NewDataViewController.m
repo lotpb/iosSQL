@@ -20,7 +20,7 @@
 @end
 
 @implementation NewDataViewController
-@synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
+@synthesize active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,7 +67,15 @@
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
         self.date.text = dateString;
         self.aptDate.text = dateString;
+        self.time = dateString;
     }
+    
+    self.aptDate.inputView = [self datePicker];
+    self.saleNo.inputView = [self salesPicker];
+    self.jobNo.inputView = [self jobPicker];
+    self.adNo.inputView = [self adPicker];
+    self.city.inputView = [self cityPicker];
+    self.active = @"1";
   
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
@@ -81,11 +89,6 @@
     [[UITextView appearance] setTintColor:[UIColor grayColor]];
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
     
-    self.aptDate.inputView = [self datePicker];
-    self.saleNo.inputView = [self salesPicker];
-    self.jobNo.inputView = [self jobPicker];
-    self.adNo.inputView = [self adPicker];
-    self.city.inputView = [self cityPicker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -204,7 +207,7 @@
 }
 
 -(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
+{
     _feedItemsJ = items;
   //  NSLog(@"Incoming array: %@", items);
 }
@@ -275,30 +278,31 @@
 #pragma mark - Button Update Database
 -(void)share:(id)sender {
     
-  //  [self.listTableView reloadData];
- //   NSString *_leadNo = self.leadNo;
-    NSString *_active = @"1";
+ // NSString *_leadNo = self.leadNo;
+    NSString *_active = self.active;
     NSString *_date = self.date.text;
+    NSString *_first = self.first.text;
     NSString *_name = self.last.text;
     NSString *_address = self.address.text;
     NSString *_city = self.city.text;
     NSString *_state = self.state.text;
     NSString *_zip = self.zip.text;
-    NSString *_comments = self.comment.text;
-    NSString *_amount = self.amount.text;
     NSString *_phone = self.phone.text;
     NSString *_aptdate = self.aptDate.text;
     NSString *_email = self.email.text;
-    NSString *_first = self.first.text;
+    NSString *_amount = self.amount.text;
     NSString *_spouse = self.spouse.text;
     NSString *_callback = self.callback.text;
-    NSString *_time = self.time.text;
-    NSString *_photo = self.photo.text;
     NSString *_salesNo = self.saleNo.text;
     NSString *_jobNo = self.jobNo.text;
     NSString *_adNo = self.adNo.text;
+    NSString *_comments = self.comment.text;
+    NSString *_time = self.time;
+    NSString *_photo = self.photo.text;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_time=%@&_photo=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&", _name, _date, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _time, _photo, _salesNo, _jobNo, _adNo, _active];
+    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
+    
+    NSLog(@"rawStr is %@",rawStr);
     
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -319,6 +323,8 @@
     
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
+    
+   [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
     
    // [self performSegueWithIdentifier:@"homeReturnSegue"sender:self];
 

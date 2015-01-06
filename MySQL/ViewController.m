@@ -359,7 +359,7 @@
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
         detailVC.l15 = @"Email"; detailVC.l21 = @"Apt Date";
         detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
-        detailVC.l24 = @"Advertiser"; detailVC.l25 = @"Time";
+        detailVC.l24 = @"Advertiser"; detailVC.l25 = @"Last Updated";
         detailVC.l1datetext = @"Lead Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }

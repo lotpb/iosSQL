@@ -14,7 +14,7 @@
 
 @interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol, SalesModelProtocol>
 
-@property (weak, nonatomic) NSString *leadNo;
+//@property (weak, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) NSString *active;
 @property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *first;
@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *jobNo;
 @property (weak, nonatomic) IBOutlet UITextField *adNo;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
-@property (weak, nonatomic) IBOutlet UITextField *time;
+@property (weak, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;

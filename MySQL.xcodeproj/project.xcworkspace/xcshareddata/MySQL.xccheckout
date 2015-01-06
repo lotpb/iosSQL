@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>02383270-D628-43C8-A88A-2DEAF4E37122</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MySQL</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>392379C088402E6D2780DAA76B99E01D91C335CA</key>
+		<string>https://github.com/lotpb/MySQL.git</string>
+		<key>E0BB6D8CF4E8DA35D3162D3889A9745BE3D37D87</key>
+		<string>https://github.com/lotpb/iosSQL.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MySQL.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>392379C088402E6D2780DAA76B99E01D91C335CA</key>
+		<string>../..MySQL</string>
+		<key>E0BB6D8CF4E8DA35D3162D3889A9745BE3D37D87</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/lotpb/iosSQL.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E0BB6D8CF4E8DA35D3162D3889A9745BE3D37D87</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E0BB6D8CF4E8DA35D3162D3889A9745BE3D37D87</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosSQL</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>392379C088402E6D2780DAA76B99E01D91C335CA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosSQLMySQL</string>
+		</dict>
+	</array>
+</dict>
+</plist>
