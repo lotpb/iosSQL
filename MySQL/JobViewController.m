@@ -8,10 +8,12 @@
 
 #import "JobViewController.h"
 #import "JobLocation.h"
+#import <Parse/Parse.h>
 
 @interface JobViewController ()
 {
     JobModel *_JobModel; NSMutableArray *_feedItems; JobLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    NSMutableArray *jobCount;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
@@ -34,6 +36,14 @@
     _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self;
     [_JobModel downloadItems];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Description"]];
+    //[query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        jobCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -163,7 +173,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"JOB \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
+      NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) jobCount.count];
     NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

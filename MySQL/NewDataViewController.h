@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HomeModel.h"
 #import "JobModel.h"
-#import "SalesModel.h"
 #import <Parse/Parse.h>
+//#import "AddData.h"
+//#import "HomeModel.h"
 
-@interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol, SalesModelProtocol>
+@interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
 
 //@property (weak, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) NSString *active;

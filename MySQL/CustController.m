@@ -313,7 +313,7 @@ else
         detailVC.photo = _selectedLocation.photo;
         detailVC.comments = _selectedLocation.comments;
         detailVC.active = _selectedLocation.active;
-        //rate, prodNo, photo1, photo2
+        //rate, prodNo, photo1, photo2, time
      
         detailVC.l11 = @"Job"; detailVC.l12 = @"Phone";
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";

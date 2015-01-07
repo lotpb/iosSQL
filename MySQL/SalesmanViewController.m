@@ -8,10 +8,13 @@
 
 #import "SalesmanViewController.h"
 #import "SalesLocation.h"
+#import <Parse/Parse.h>
 
 @interface SalesmanViewController ()
 {
     SalesModel *_SalesModel; NSMutableArray *_feedItems; SalesLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    
+    NSMutableArray *salesCount;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
@@ -33,6 +36,14 @@
     _SalesModel = [[SalesModel alloc] init];
     _SalesModel.delegate = self;
     [_SalesModel downloadItems];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Active"]];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        salesCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -156,7 +167,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"SALESMAN \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) salesCount.count];
     NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

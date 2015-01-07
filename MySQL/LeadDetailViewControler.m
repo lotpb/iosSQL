@@ -38,9 +38,8 @@
     NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1;
     
 #pragma mark Bar Button
-
-    UIBarButtonItem *mapItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(mapButton:)];
-    NSArray *actionButtonItems = @[mapItem];
+    UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
+    NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     if ( ( ![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0 ) ) {self.name = self.name;
@@ -150,8 +149,9 @@ tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, s
     self.listTableView2.layoutMargins = UIEdgeInsetsZero;
 }
 
-#pragma mark - Buttons
-- (void)mapButton:(id)sender{
+#pragma mark - map Buttons
+//- (void)mapButton:(id)sender{
+- (IBAction)mapButton:(UIButton *)sender{
     [self performSegueWithIdentifier:@"mapdetailSegue"sender:self];
 }
 
@@ -266,7 +266,40 @@ return myCell;
     }
 }
 
-#pragma mark - Airdrop
+#pragma mark - AlertController ios8
+-(void)showNew:(id)sender {
+    
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:@"Confirm"
+                                 message:@"Enter new data entry"
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+    
+    
+    [view addAction:ok];
+    [view addAction:cancel];
+    [self presentViewController:view animated:YES completion:nil];
+    
+}
+
+#pragma mark - social Buttons
 - (void)share:(id)sender{
     NSString * message = self.date;
     NSString * message1 = self.name;

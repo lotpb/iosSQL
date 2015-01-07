@@ -72,6 +72,7 @@
 		AF3F388719EB595D00CB785F /* BlogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F388619EB595D00CB785F /* BlogViewController.m */; };
 		AF4D46B71A55F3B6005984AD /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4D46B61A55F3B6005984AD /* calendar.png */; };
 		AF4D46BA1A5634FB005984AD /* NewDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4D46B91A5634FB005984AD /* NewDataViewController.m */; };
+		AF4E626B1A5C1A90007A56D0 /* AddData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4E626A1A5C1A90007A56D0 /* AddData.m */; };
 		AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF558C6D19DACE25004D30D7 /* MaplViewController.m */; };
 		AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF558C6F19DAD06A004D30D7 /* MapKit.framework */; };
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
@@ -98,7 +99,6 @@
 		AFA352F619FC70CA00840AA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F519FC70CA00840AA3 /* QuartzCore.framework */; };
 		AFA352F819FC70D500840AA3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F719FC70D500840AA3 /* Security.framework */; };
 		AFA352FC19FC70F200840AA3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352FB19FC70F200840AA3 /* SystemConfiguration.framework */; };
-		AFA6092519E9A42000A3ED8E /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA6092419E9A41F00A3ED8E /* WebViewController.m */; };
 		AFA7CC8D1A3F8C5700128607 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */; };
 		AFA7CC921A3FD2B300128607 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA7CC911A3FD2B300128607 /* ParseUI.framework */; };
 		AFA99E1E1A49E79700231173 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA99E1D1A49E79700231173 /* NotificationController.m */; };
@@ -223,6 +223,8 @@
 		AF4D46B61A55F3B6005984AD /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = calendar.png; path = images/calendar.png; sourceTree = "<group>"; };
 		AF4D46B81A5634FB005984AD /* NewDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDataViewController.h; sourceTree = "<group>"; };
 		AF4D46B91A5634FB005984AD /* NewDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDataViewController.m; sourceTree = "<group>"; };
+		AF4E62691A5C1A90007A56D0 /* AddData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddData.h; path = ../AddData.h; sourceTree = "<group>"; };
+		AF4E626A1A5C1A90007A56D0 /* AddData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddData.m; path = ../AddData.m; sourceTree = "<group>"; };
 		AF558C6C19DACE25004D30D7 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AF558C6D19DACE25004D30D7 /* MaplViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaplViewController.m; sourceTree = "<group>"; };
 		AF558C6F19DAD06A004D30D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -264,8 +266,6 @@
 		AFA352F719FC70D500840AA3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AFA352F919FC70E300840AA3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AFA352FB19FC70F200840AA3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AFA6092319E9A41F00A3ED8E /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		AFA6092419E9A41F00A3ED8E /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AFA7CC911A3FD2B300128607 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = "../../../Downloads/parse-library-1/ParseUI.framework"; sourceTree = "<group>"; };
 		AFA99E1C1A49E79700231173 /* NotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
@@ -511,6 +511,26 @@
 			name = "Database Files";
 			sourceTree = "<group>";
 		};
+		AF4E626C1A5CBABA007A56D0 /* NewData */ = {
+			isa = PBXGroup;
+			children = (
+				AF4D46B81A5634FB005984AD /* NewDataViewController.h */,
+				AF4D46B91A5634FB005984AD /* NewDataViewController.m */,
+				AF4E62691A5C1A90007A56D0 /* AddData.h */,
+				AF4E626A1A5C1A90007A56D0 /* AddData.m */,
+			);
+			name = NewData;
+			sourceTree = "<group>";
+		};
+		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
+			isa = PBXGroup;
+			children = (
+				AF99267A1A4C6B0C00429EC8 /* CollectionViewController.h */,
+				AF99267B1A4C6B0C00429EC8 /* CollectionViewController.m */,
+			);
+			name = Junk;
+			sourceTree = "<group>";
+		};
 		AF5554641A1402BA00EE0D1D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,8 +610,6 @@
 				AFBC9E8C19D9CEDF0050E67A /* ViewController.m */,
 				AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */,
 				AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */,
-				AFA6092319E9A41F00A3ED8E /* WebViewController.h */,
-				AFA6092419E9A41F00A3ED8E /* WebViewController.m */,
 				AF558C6C19DACE25004D30D7 /* MapViewController.h */,
 				AF558C6D19DACE25004D30D7 /* MaplViewController.m */,
 			);
@@ -685,10 +703,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
-				AF4D46B81A5634FB005984AD /* NewDataViewController.h */,
-				AF4D46B91A5634FB005984AD /* NewDataViewController.m */,
-				AF99267A1A4C6B0C00429EC8 /* CollectionViewController.h */,
-				AF99267B1A4C6B0C00429EC8 /* CollectionViewController.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
@@ -696,6 +710,8 @@
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AFBC9E9119D9CEDF0050E67A /* Images.xcassets */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
+				AF4E626D1A5CBAED007A56D0 /* Junk */,
+				AF4E626C1A5CBABA007A56D0 /* NewData */,
 				AFA3528019FBD43B00840AA3 /* Leads */,
 				AF6A13731A07BD0C00C3EEAC /* Customer */,
 				AF8F7E131A37E26B009D34EA /* Salesman */,
@@ -957,7 +973,6 @@
 				AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */,
 				AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */,
 				AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */,
-				AFA6092519E9A42000A3ED8E /* WebViewController.m in Sources */,
 				AF65081119EB158300CEF44D /* MainViewController.m in Sources */,
 				AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */,
 				AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */,
@@ -988,6 +1003,7 @@
 				AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,
 				AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */,
+				AF4E626B1A5C1A90007A56D0 /* AddData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

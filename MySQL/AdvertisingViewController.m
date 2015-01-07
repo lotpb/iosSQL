@@ -8,11 +8,14 @@
 
 #import "AdvertisingViewController.h"
 #import "AdLocation.h"
+#import <Parse/Parse.h>
 
 @interface AdvertisingViewController ()
 
 {
     AdModel *_AdModel; NSMutableArray *_feedItems; AdLocation *_selectedLocation; UIRefreshControl *refreshControl;
+  
+    NSMutableArray *adCount;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
@@ -32,8 +35,15 @@
     
     _feedItems = [[NSMutableArray alloc] init];
     _AdModel = [[AdModel alloc] init];
-    _AdModel.delegate = self;
-    [_AdModel downloadItems];
+    _AdModel.delegate = self; [_AdModel downloadItems];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Active"]];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -159,7 +169,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"ADS \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) adCount.count];
     NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

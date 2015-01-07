@@ -57,20 +57,34 @@
 
 #pragma mark - ActionSheet
 -(void)showDeleteConfirmation:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Really delete the selected contact?"
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"No, I changed my mind"
-                                               destructiveButtonTitle:@"Yes, delete it"
-                                                    otherButtonTitles:nil];
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:@"Delete the selected message?"
+                                 message:@"Yes, delete it"
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // In this case the device is an iPad.
-        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
-    } else {
-        // In this case the device is an iPhone/iPod Touch.
-        [actionSheet showInView:self.view];
-    }
-    actionSheet.tag = 200;
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+  
+    
+    [view addAction:ok];
+    [view addAction:cancel];
+    [self presentViewController:view animated:YES completion:nil];
+
 }
 
 #pragma mark - TableView

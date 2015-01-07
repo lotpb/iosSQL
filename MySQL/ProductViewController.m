@@ -8,10 +8,12 @@
 
 #import "ProductViewController.h"
 #import "ProductLocation.h"
+#import <Parse/Parse.h>
 
 @interface ProductViewController ()
 {
     ProductModel *_ProductModel; NSMutableArray *_feedItems; ProductLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    NSMutableArray *prodCount;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
@@ -34,6 +36,14 @@
     _ProductModel = [[ProductModel alloc] init];
     _ProductModel.delegate = self;
     [_ProductModel downloadItems];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Product"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Active"]];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        prodCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -163,7 +173,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"PRODUCT \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) prodCount.count];
     NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
