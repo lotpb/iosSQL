@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BlogViewController.h"
 #import "BlogLocation.h"
-#import "BlogModel.h"
+#import "BlogViewController.h"
+//#import "BlogNewViewController.h"
+//#import "BlogModel.h"
 
 @interface BlogEditDetailView : UIViewController
 

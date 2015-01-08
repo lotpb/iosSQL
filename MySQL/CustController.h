@@ -10,8 +10,6 @@
 #import "CustModel.h"
 #import "LeadDetailViewControler.h"
 #import "MapViewController.h"
-//#import <ParseUI/ParseUI.h>
-//#import <Parse/Parse.h>
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CustModelProtocol>
 {

@@ -8,6 +8,7 @@
 
 #import "NewDataViewController.h"
 #import "JobLocation.h"
+#import "LeadDetailViewControler.h"
 //#import "AddData.h"
 
 @interface NewDataViewController ()
@@ -87,10 +88,30 @@
     self.jobNo.inputView = [self customPicker:2];
     self.adNo.inputView = [self customPicker:3];
     self.city.inputView = [self customPicker:4];
+   // [self.city addTarget:self action:@selector(updateCity) forControlEvents:UIControlEventEditingChanged];
     self.active = @"1";
-    self.phone.text = @"(516)";
+    self.leadNo = self.leadNo;
+    self.first.text = self.tfi11;
+    self.last.text = self.tla12;
+    self.address.text = self.tad13;
+    self.city.text = self.tci14;
+    self.state.text = self.tst15;
+    self.zip.text = self.tzi21;
+    self.email.text = self.tem23;
+    self.amount.text = self.tam24;
+    self.spouse.text = self.tsp25;
+    self.saleNo.text = self.tsa21;
+    self.jobNo.text = self.tjo22;
+    self.comment.text = self.tco23;
+    self.photo.text = self.tph24;
     //self.callback.text = @"none";
-  
+    if (self.tph22.length == 0) {
+        self.phone.text = @"(516)";
+    } else {
+        self.phone.text = self.tph22;
+    }
+    
+#pragma mark - Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -105,6 +126,11 @@
     
 }
 
+#pragma mark - Button Update
+-(IBAction)updateCity:(id)sender{
+    [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.title =  @"New Data";
@@ -114,14 +140,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
-{
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
 -(void)itemsDownloaded:(NSMutableArray *)items
@@ -147,7 +165,7 @@
 // The number of rows of data
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    if (pickerView.tag == 1)
+   if (pickerView.tag == 1)
        return salesArray.count;
    else if(pickerView.tag == 2)
        return _feedItemsJ.count;
@@ -193,7 +211,6 @@
         }
 }
 #pragma mark - CustomPicker
-
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
@@ -227,14 +244,13 @@
     
     return pickerView;
 }
-// not working
+// Picker done button not working
 -(void)doneClicked:(UIBarButtonItem*)button
 {
     [self.view endEditing:YES];
 }
 
 - (UIView *)datePicker {
-    
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
     pickerView.backgroundColor = [UIColor lightGrayColor];
     
@@ -246,6 +262,14 @@
     [pickerView addSubview:datePicker];
     
     return pickerView;
+}
+
+-(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
+{
+    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+    gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
 #pragma mark - New Leads
@@ -297,10 +321,8 @@
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
     
-   [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
-    
+   [self.navigationController popViewControllerAnimated:YES];
    // [self performSegueWithIdentifier:@"homeReturnSegue"sender:self];
-
 }
 
 #pragma mark - New Customer

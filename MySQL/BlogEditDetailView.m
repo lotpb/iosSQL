@@ -8,8 +8,6 @@
 
 #import "BlogEditDetailView.h"
 #import "CustomTableViewCell.h"
-#import "BlogNewViewController.h"
-
 
 @interface BlogEditDetailView ()
 

@@ -16,6 +16,7 @@
 
 //@property (weak, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) NSString *active;
+@property (weak, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *first;
 @property (weak, nonatomic) IBOutlet UITextField *last;
@@ -34,6 +35,23 @@
 @property (weak, nonatomic) IBOutlet UITextField *jobNo;
 @property (weak, nonatomic) IBOutlet UITextField *adNo;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
+
+@property (strong, nonatomic) NSString *tfi11;
+@property (strong, nonatomic) NSString *tla12;
+@property (strong, nonatomic) NSString *tad13;
+@property (strong, nonatomic) NSString *tci14;
+@property (strong, nonatomic) NSString *tst15;
+
+@property (strong, nonatomic) NSString *tzi21;
+@property (strong, nonatomic) NSString *tph22;
+@property (strong, nonatomic) NSString *tem23;
+@property (strong, nonatomic) NSString *tam24;
+@property (strong, nonatomic) NSString *tsp25;
+@property (strong, nonatomic) NSString *tsa21;
+@property (strong, nonatomic) NSString *tjo22;
+@property (strong, nonatomic) NSString *tco23;
+@property (strong, nonatomic) NSString *tph24;
+
 @property (weak, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 

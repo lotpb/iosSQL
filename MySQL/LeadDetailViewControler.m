@@ -8,6 +8,7 @@
 
 #import "LeadDetailViewControler.h"
 #import "CustomTableViewCell.h"
+#import "NewDataViewController.h"
 
 @interface LeadDetailViewControler ()
 
@@ -150,7 +151,6 @@ tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, s
 }
 
 #pragma mark - map Buttons
-//- (void)mapButton:(id)sender{
 - (IBAction)mapButton:(UIButton *)sender{
     [self performSegueWithIdentifier:@"mapdetailSegue"sender:self];
 }
@@ -271,11 +271,23 @@ return myCell;
     
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:@"Confirm"
-                                 message:@"Enter new data entry"
+                                 message:@"Enter data entry"
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"OK"
+    UIAlertAction* new = [UIAlertAction
+                         actionWithTitle:@"New"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+        [self performSegueWithIdentifier:@"newcustSegue" sender:self];
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    
+    
+    UIAlertAction* edit = [UIAlertAction
+                         actionWithTitle:@"Edit"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
@@ -283,6 +295,7 @@ return myCell;
                              [view dismissViewControllerAnimated:YES completion:nil];
                              
                          }];
+    
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"
                              style:UIAlertActionStyleDefault
@@ -293,7 +306,8 @@ return myCell;
                              }];
     
     
-    [view addAction:ok];
+    [view addAction:new];
+    [view addAction:edit];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
     
@@ -321,6 +335,25 @@ return myCell;
        detailVC.mapstate = self.state;
        detailVC.mapzip = self.zip;
    }
+    //dont work below Leads make a customer
+    if ([segue.identifier isEqualToString:@"newcustSegue"]) {
+        NewDataViewController *detailVC = segue.destinationViewController;
+        detailVC.leadNo = self.leadNo;
+        detailVC.tfi11 = self.tbl13;
+        detailVC.tla12 = self.name;
+        detailVC.tad13 = self.address;
+        detailVC.tci14 = self.city;
+        detailVC.tst15 = self.state;
+        detailVC.tzi21 = self.zip;
+        detailVC.tph22 = self.tbl12;
+        detailVC.tem23 = self.tbl15;
+        detailVC.tam24 = self.amount;
+        detailVC.tsp25 = self.tbl14;
+        detailVC.tsa21 = self.tbl22;
+        detailVC.tjo22 = self.tbl23;
+        detailVC.tco23 = self.comments;
+        detailVC.tph24 = self.photo;
+    }
 }
 
 @end
