@@ -21,7 +21,7 @@
 @end
 
 @implementation NewDataViewController
-@synthesize active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
+@synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
 
 //int tagpicker;
 
@@ -97,13 +97,23 @@
     self.city.text = self.tci14;
     self.state.text = self.tst15;
     self.zip.text = self.tzi21;
-    self.email.text = self.tem23;
-    self.amount.text = self.tam24;
-    self.spouse.text = self.tsp25;
+    if  ( [self.tem23 isEqual:[NSNull null]] )
+    {self.email.text = @"";
+    } else { self.email.text = self.tem23; }
+    if  ( [self.tam24 isEqual:[NSNull null]] )
+    {self.amount.text = @"";
+    } else { self.amount.text = self.tam24; }
+    if  ( [self.tsp25 isEqual:[NSNull null]] )
+    {self.spouse.text = @"";
+    } else { self.spouse.text = self.tsp25; }
     self.saleNo.text = self.tsa21;
     self.jobNo.text = self.tjo22;
-    self.comment.text = self.tco23;
-    self.photo.text = self.tph24;
+    if  ( [self.tco23 isEqual:[NSNull null]] )
+    {self.comment.text = @"";
+    } else { self.comment.text = self.tco23; }
+    if  ( [self.tph24 isEqual:[NSNull null]] )
+    {self.photo.text = @"";
+    } else { self.photo.text = self.tph24; }
     //self.callback.text = @"none";
     if (self.tph22.length == 0) {
         self.phone.text = @"(516)";
@@ -332,7 +342,7 @@
     NSString *_active = self.active;
     NSString *_date = self.date.text;
     NSString *_first = self.first.text;
-    NSString *_leadNo = self.last.text;
+    NSString *_leadNo = self.leadNo;
     NSString *_address = self.address.text;
     NSString *_city = self.city.text;
     NSString *_state = self.state.text;

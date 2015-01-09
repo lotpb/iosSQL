@@ -29,6 +29,7 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.searchBar.delegate = self;
+    self.searchBar.returnKeyType = UIReturnKeySearch;
     self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
     self.searchBar.showsScopeBar = YES;
@@ -66,13 +67,13 @@
         [refreshView addSubview:refreshControl];
 }
 
-/*
-- (void)viewDidAppear
+- (void)viewDidAppear:(BOOL)animated
 {
-    self.searchBar.hidden = NO;
-    //[super viewDidAppear:(BOOL)animated];
-} 
+    [super viewDidAppear:animated];
+    [self.searchBar resignFirstResponder];
+}
 
+/*
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

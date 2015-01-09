@@ -33,25 +33,26 @@ UIRefreshControl *refreshControl;
     [self.searchBar becomeFirstResponder];
    // self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
-   // self.searchBar.showsScopeBar = YES;
-   // self.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
+    self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
     //self.edgesForExtendedLayout = UIRectEdgeNone;
     
     zipArray = [[NSMutableArray alloc] init];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"ZipNo"]];
+     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    //[query selectKeys:@[@"ZipNo"]];
     [query selectKeys:@[@"City"]];
     [query selectKeys:@[@"State"]];
-    [query selectKeys:@[@"Zip"]];
-    //[query orderByDescending:@"City"];
+    [query selectKeys:@[@"zipCode"]];
+    [query orderByDescending:@"City"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        for (PFObject *object in objects) {
-            [zipArray addObject:[object objectForKey:@"City"]];
-        }
-        [self.listTableView reloadData];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [zipArray addObject:object];
+                [self.listTableView reloadData]; }
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]); }
     }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:zipArray];
@@ -65,7 +66,18 @@ UIRefreshControl *refreshControl;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+     self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
+//   self.edgesForExtendedLayout = UIRectEdgeTop;
+//   self.navigationController.navigationBar.translucent = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self resignFirstResponder];
+  //  self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -111,32 +123,28 @@ UIRefreshControl *refreshControl;
     if (myCell == nil) {
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    
-   
-    
     if (!isFilltered) {
-        cityName = [zipArray objectAtIndex:indexPath.row];
+        cityName = [[zipArray objectAtIndex:indexPath.row] objectForKey:@"City"];
     } else {
-        cityName = [filteredString objectAtIndex:indexPath.row];
+        cityName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
     }
     
   myCell.textLabel.text = cityName;
     myCell.detailTextLabel.text = nil;//item.city;
- //   UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
- //   [myCell.imageView setImage:myImage];
+  //  myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-    self.searchBar.hidden = NO;
+  //  self.searchBar.hidden = NO;
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     self.searchBar.text=@"";
-    self.searchBar.hidden = YES;
+   // self.searchBar.hidden = YES;
     [self.searchBar resignFirstResponder];
 }
 
@@ -145,20 +153,18 @@ UIRefreshControl *refreshControl;
     if(searchText.length == 0)
     {
         isFilltered = NO;
-        //[filteredString removeAllObjects];
-        // [filteredString addObjectsFromArray:_feedItems];
     } else {
         isFilltered = YES;
-        //[filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
-        for(NSString *str in zipArray)
+        for(PFObject *str in zipArray)
         {
-            NSRange stringRange = [str rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            NSRange stringRange = [[str objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             if(stringRange.location != NSNotFound) {
                 [filteredString addObject:str];
             }
         }
     }
+[self.tableView reloadData];
 }
 
 #pragma mark - Segue
@@ -166,7 +172,6 @@ UIRefreshControl *refreshControl;
     
     if (!isFilltered)
         cityName = [zipArray objectAtIndex:indexPath.row];
-    //_selectedLocation = _feedItems[indexPath.row];
     else
         cityName = [filteredString objectAtIndex:indexPath.row];
     
@@ -178,14 +183,17 @@ UIRefreshControl *refreshControl;
 {
     if ([[segue identifier] isEqualToString:@"cityreturnSegue"])
     {
-        // Get reference to the destination view controller
-    //    NewDataViewController *detailVC = segue.destinationViewController;
-        // detailVC.selectedLocation = _selectedLocation;
-       // detailVC.city = [cityName objectForKey:@"City"]
-       // detailVC.state = [object objectForKey:@"State"]
-      //  detailVC.zip = [object objectForKey:@"Zip"]
-  
-      
+        NewDataViewController *detailVC = segue.destinationViewController;
+        NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        if (!isFilltered) {
+        detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
+        detailVC.self.tst15 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"];
+        detailVC.self.tzi21 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]; }
+        else {
+        detailVC.self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"];
+        detailVC.self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"];
+        detailVC.self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"];
+        }
     }
 }
 

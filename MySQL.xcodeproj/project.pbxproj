@@ -519,6 +519,8 @@
 			children = (
 				AF4D46B81A5634FB005984AD /* NewDataViewController.h */,
 				AF4D46B91A5634FB005984AD /* NewDataViewController.m */,
+				AF2881E71A5DA29E00644802 /* LookupCityController.h */,
+				AF2881E81A5DA29E00644802 /* LookupCityController.m */,
 				AF4E62691A5C1A90007A56D0 /* AddData.h */,
 				AF4E626A1A5C1A90007A56D0 /* AddData.m */,
 			);
@@ -706,8 +708,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
-				AF2881E71A5DA29E00644802 /* LookupCityController.h */,
-				AF2881E81A5DA29E00644802 /* LookupCityController.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
