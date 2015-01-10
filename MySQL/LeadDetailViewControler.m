@@ -9,6 +9,7 @@
 #import "LeadDetailViewControler.h"
 #import "CustomTableViewCell.h"
 #import "NewDataViewController.h"
+#import "EditDataViewController.h"
 
 @interface LeadDetailViewControler ()
 
@@ -18,7 +19,7 @@
 {
     NSArray *tableData, *tableData2, *tableData3, *tableData4;
 }
-@synthesize leadNo, date, name, address, city, state, zip, comments, amount,active, photo, salesman, jobdescription, advertiser;
+@synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -292,6 +293,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
+        [self performSegueWithIdentifier:@"editformSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              
                          }];
@@ -336,7 +338,7 @@ return myCell;
        detailVC.mapzip = self.zip;
    }
     //dont work below Leads make a customer
-    if ([segue.identifier isEqualToString:@"newcustSegue"]) {
+    if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust
         NewDataViewController *detailVC = segue.destinationViewController;
         detailVC.leadNo = self.leadNo;
         detailVC.tfi11 = self.tbl13;
@@ -353,6 +355,30 @@ return myCell;
         detailVC.tjo22 = self.tbl23;
         detailVC.tco23 = self.comments;
         detailVC.tph24 = self.photo;
+    }
+    
+    if ([segue.identifier isEqualToString:@"editformSegue"]) { //edit leads
+        EditDataViewController *detailVC = segue.destinationViewController;
+        detailVC.leadNo = self.leadNo;
+        detailVC.tfi11 = self.tbl13; //first
+        detailVC.tla12 = self.name;
+        detailVC.tad13 = self.address;
+        detailVC.tci14 = self.city;
+        detailVC.tst15 = self.state;
+        detailVC.tzi21 = self.zip;
+        detailVC.tph22 = self.tbl12; //phone
+        detailVC.tem23 = self.tbl15; //email
+        detailVC.tam24 = self.amount;
+        detailVC.tsp25 = self.tbl14; //spouse
+        detailVC.tsa21 = self.tbl22; //salesNo
+        detailVC.tjo22 = self.tbl23; //jobNo
+        detailVC.tco23 = self.comments;
+        detailVC.tph24 = self.photo;
+        detailVC.tca26 = self.tbl11; //callback
+        detailVC.tap27 = self.tbl21;//aptdate
+        detailVC.tan28 = self.tbl24; //adNo
+        detailVC.tda29 = self.date; //date
+        detailVC.tac30 = self.active;
     }
 }
 

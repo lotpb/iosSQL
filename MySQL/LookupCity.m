@@ -1,15 +1,15 @@
 //
-//  LookupCityController.m
+//  LookupCity.m
 //  MySQL
 //
 //  Created by Peter Balsamo on 1/7/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "LookupCityController.h"
+#import "LookupCity.h"
 #import <Parse/Parse.h>
 
-@interface LookupCityController ()
+@interface LookupCity ()
 {
 UIRefreshControl *refreshControl;
  NSMutableArray *zipArray;
@@ -19,7 +19,7 @@ UIRefreshControl *refreshControl;
 
 @end
 
-@implementation LookupCityController
+@implementation LookupCity
 @synthesize searchBar;
 
 - (void)viewDidLoad
@@ -78,6 +78,7 @@ UIRefreshControl *refreshControl;
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
   //  self.navigationController.navigationBar.translucent = NO;
+  //  [[self delegate] passTheData:[[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];];
 }
 
 - (void)didReceiveMemoryWarning
@@ -171,12 +172,11 @@ UIRefreshControl *refreshControl;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!isFilltered)
-        cityName = [zipArray objectAtIndex:indexPath.row];
+        [zipArray objectAtIndex:indexPath.row];
     else
-        cityName = [filteredString objectAtIndex:indexPath.row];
+        [filteredString objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"cityreturnSegue" sender:self];
-
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -186,7 +186,8 @@ UIRefreshControl *refreshControl;
         NewDataViewController *detailVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         if (!isFilltered) {
-        detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
+         //    detailVC.[self.loadformData];
+            detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
         detailVC.self.tst15 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"];
         detailVC.self.tzi21 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]; }
         else {

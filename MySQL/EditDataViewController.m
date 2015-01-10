@@ -1,27 +1,25 @@
 //
-//  NewDataViewController.m
+//  EditDataViewController.m
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/1/15.
+//  Created by Peter Balsamo on 1/10/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "NewDataViewController.h"
+#import "EditDataViewController.h"
 #import "JobLocation.h"
 #import "LeadDetailViewControler.h"
-//#import "LookupCityController.h"
-//#import "AddData.h"
 
-@interface NewDataViewController ()
+@interface EditDataViewController ()
 {
-   JobModel *_JobModel; NSMutableArray *_feedItemsJ;
-   JobLocation *itemJ;
-   NSMutableArray *salesArray, *adArray, *zipArray, *productArray;
+    JobModel *_JobModel; NSMutableArray *_feedItemsJ;
+    JobLocation *itemJ;
+    NSMutableArray *salesArray, *adArray, *zipArray, *productArray;
 }
 
 @end
 
-@implementation NewDataViewController
+@implementation EditDataViewController
 @synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
 
 - (void)viewDidLoad {
@@ -30,9 +28,9 @@
     _feedItemsJ = [[NSMutableArray alloc] init];
     _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self; [_JobModel downloadItems];
-   
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"SalesNo"];
@@ -42,7 +40,7 @@
     }];
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
-     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query1 selectKeys:@[@"AdNo"]];
     [query1 selectKeys:@[@"Advertiser"]];
     [query1 orderByDescending:@"Advertiser"];
@@ -52,7 +50,7 @@
     }];
     
     PFQuery *query2 = [PFQuery queryWithClassName:@"Zip"];
-     query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query2 selectKeys:@[@"ZipNo"]];
     [query2 selectKeys:@[@"City"]];
     [query2 selectKeys:@[@"State"]];
@@ -71,86 +69,87 @@
     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         productArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
-
-    if (self.date.text.length == 0) {
-        NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-        gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-        self.date.text = dateString;
-        self.aptDate.text = dateString;
-        self.time = dateString;
-    }
-    
-    self.active = @"1";
+       //self.time = self.time;
+    self.date.text = self.tda29;
     self.leadNo = self.leadNo;
-  //self.callback.text = @"none";
     
-    if  ( [self.tla12 isEqual:[NSNull null]] )
+    if ( [self.tla12 isEqual:[NSNull null]] )
         self.last.text = @"";
     else self.last.text = self.tla12;
-    
-    if  ( [self.tad13 isEqual:[NSNull null]] )
+  
+    if ( [self.tad13 isEqual:[NSNull null]] )
         self.address.text = @"";
     else self.address.text = self.tad13;
+
+    if ( [self.tci14 isEqual:[NSNull null]] )
+        self.state.text = @"";
+    else self.state.text = self.tci14;
     
-    if  ( [self.tci14 isEqual:[NSNull null]] )
-        self.city.text = @"";
-    else self.city.text = self.tci14;
-    
-    if  ( [self.tst15 isEqual:[NSNull null]] )
+    if ( [self.tst15 isEqual:[NSNull null]] )
         self.state.text = @"";
     else self.state.text = self.tst15;
     
-    if  ( [self.tzi21 isEqual:[NSNull null]] )
+    if ( [self.tzi21 isEqual:[NSNull null]] )
         self.zip.text = @"";
     else self.zip.text = self.tzi21;
-    
-    if  ( [self.tsa21 isEqual:[NSNull null]] )
+ 
+    if ( [self.tsa21 isEqual:[NSNull null]] )
         self.saleNo.text = @"";
     else self.saleNo.text = self.tsa21;
     
-    if  ( [self.tjo22 isEqual:[NSNull null]] )
-           self.jobNo.text = @"";
-      else self.jobNo.text = self.tjo22;
+    if ( [self.tjo22 isEqual:[NSNull null]] )
+        self.jobNo.text = @"";
+    else self.jobNo.text = self.tjo22;
+
+    if ( [self.tem23 isEqual:[NSNull null]] )
+        self.email.text = @"";
+        else self.email.text = self.tem23;
     
-    if  ( [self.tfi11 isEqual:[NSNull null]] )
-           self.first.text = @"";
-      else self.first.text = self.tfi11;
+    if ( [self.tfi11 isEqual:[NSNull null]] )
+        self.first.text = @"";
+    else self.first.text = self.tfi11;
     
-    if  ( [self.tem23 isEqual:[NSNull null]] )
-           self.email.text = @"";
-      else self.email.text = self.tem23;
+    if ( [self.tam24 isEqual:[NSNull null]] )
+        self.amount.text = @"";
+        else self.amount.text = self.tam24;
     
-    if  ( [self.tam24 isEqual:[NSNull null]] )
-           self.amount.text = @"";
-      else self.amount.text = self.tam24;
+    if ( [self.tsp25 isEqual:[NSNull null]] )
+        self.spouse.text = @"";
+        else self.spouse.text = self.tsp25;
     
-    if  ( [self.tsp25 isEqual:[NSNull null]] )
-           self.spouse.text = @"";
-      else self.spouse.text = self.tsp25;
+    if ( [self.tco23 isEqual:[NSNull null]] )
+        self.comment.text = @"";
+        else self.comment.text = self.tco23;
     
-    if  ( [self.tco23 isEqual:[NSNull null]] )
-           self.comment.text = @"";
-      else self.comment.text = self.tco23;
+    if ( [self.tph24 isEqual:[NSNull null]] )
+        self.photo.text = @"";
+        else self.photo.text = self.tph24;
     
-    if  ( [self.tph24 isEqual:[NSNull null]] )
-           self.photo.text = @"";
-      else self.photo.text = self.tph24;
+    if (self.tph22.length == 0)
+        self.phone.text = @"";
+        else self.phone.text = self.tph22;
     
-       if (self.tph22.length == 0)
-           self.phone.text = @"(516)";
-      else self.phone.text = self.tph22;
+    if ( [self.tac30 isEqual:[NSNull null]] ) //active
+        self.company.text = @"";
+        else self.company.text = self.tac30;
     
-    if  ( [self.company isEqual:[NSNull null]] )
-           self.company.text = @"";
+    if ( [self.tan28 isEqual:[NSNull null]] )
+        self.adNo.text = @"";
+        else self.adNo.text = self.tan28;
+    
+    if ( [self.tca26 isEqual:[NSNull null]] )
+        self.callback.text = @"";
+        else self.callback.text = self.tca26;
+    
+    if ( [self.tap27 isEqual:[NSNull null]] )
+        self.aptDate.text = @"";
+        else self.aptDate.text = self.tap27;
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
     self.jobNo.inputView = [self customPicker:2];
     self.adNo.inputView = [self customPicker:3];
     self.city.inputView = [self customPicker:4];
-    // [self.city addTarget:self action:@selector(updateCity) forControlEvents:UIControlEventEditingChanged];
     
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -169,7 +168,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     self.title =  @"New Data";
+    self.title =  @"Edit Data";
     [self.first becomeFirstResponder];
 }
 
@@ -218,7 +217,7 @@
     if (callback.text.length == 0)
         self.callback.text = [prefs objectForKey:@"callback"];
     if (company.text.length == 0)
-    self.company.text = [prefs objectForKey:@"company"];
+        self.company.text = [prefs objectForKey:@"company"];
 }
 
 #pragma mark Clear Form Data
@@ -249,58 +248,58 @@
 {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if(self.first.text.length > 0){
-      NSString *firstString = self.first.text;
+        NSString *firstString = self.first.text;
         [prefs setObject:firstString forKey:@"first"];}
     if(self.last.text.length > 0) {
-      NSString *lastString = self.last.text;
+        NSString *lastString = self.last.text;
         [prefs setObject:lastString forKey:@"last"];}
     if(self.address.text.length > 0){
-      NSString *addressString = self.address.text;
+        NSString *addressString = self.address.text;
         [prefs setObject:addressString forKey:@"address"];}
     if(self.city.text.length > 0){
-       NSString *cityString = self.city.text;
+        NSString *cityString = self.city.text;
         [prefs setObject:cityString forKey:@"city"];}
     if(self.state.text.length > 0) {
-       NSString *stateString = self.state.text;
+        NSString *stateString = self.state.text;
         [prefs setObject:stateString forKey:@"state"];}
     if(self.zip.text.length > 0) {
-       NSString *zipString = self.zip.text;
+        NSString *zipString = self.zip.text;
         [prefs setObject:zipString forKey:@"zip"];}
     if(self.email.text.length > 0) {
-       NSString *emailString = self.email.text;
+        NSString *emailString = self.email.text;
         [prefs setObject:emailString forKey:@"email"];}
     if(self.amount.text.length > 0) {
-       NSString *amountString = self.amount.text;
+        NSString *amountString = self.amount.text;
         [prefs setObject:amountString forKey:@"amount"];}
     if(self.spouse.text.length > 0) {
-       NSString *spouseString = self.spouse.text;
+        NSString *spouseString = self.spouse.text;
         [prefs setObject:spouseString forKey:@"spouse"];}
     if(self.saleNo.text.length > 0) {
-       NSString *saleNoString = self.saleNo.text;
+        NSString *saleNoString = self.saleNo.text;
         [prefs setObject:saleNoString forKey:@"saleNo"];}
     if(self.jobNo.text.length > 0) {
-       NSString *jobNoString = self.jobNo.text;
+        NSString *jobNoString = self.jobNo.text;
         [prefs setObject:jobNoString forKey:@"jobNo"];}
     if(self.comment.text.length > 0) {
-       NSString *commentString = self.comment.text;
+        NSString *commentString = self.comment.text;
         [prefs setObject:commentString forKey:@"comment"];}
     if(self.phone.text.length > 0) {
-       NSString *phoneString = self.phone.text;
+        NSString *phoneString = self.phone.text;
         [prefs setObject:phoneString forKey:@"phone"];}
     if(self.leadNo.length > 0) {
-       NSString *leadNoString = self.leadNo;
+        NSString *leadNoString = self.leadNo;
         [prefs setObject:leadNoString forKey:@"leadNo"];}
     if(self.adNo.text.length > 0){
-       NSString *adNoString = self.adNo.text;
+        NSString *adNoString = self.adNo.text;
         [prefs setObject:adNoString forKey:@"adNo"];}
     if(self.callback.text.length > 0){
-       NSString *callbackString = self.callback.text;
+        NSString *callbackString = self.callback.text;
         [prefs setObject:callbackString forKey:@"callback"];}
     if(self.company.text.length > 0){
-       NSString *companyString = self.company.text;
+        NSString *companyString = self.company.text;
         [prefs setObject:companyString forKey:@"company"];}
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
 }
 
 #pragma mark - Button Update
@@ -442,7 +441,7 @@
 
 #pragma mark - New Leads
 -(void)share:(id)sender {
- // NSString *_leadNo = self.leadNo;
+    // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
     NSString *_date = self.date.text;
     NSString *_first = self.first.text;
@@ -478,10 +477,10 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-  //  NSLog(@"%lu", (unsigned long)responseString.length);
-  //  NSLog(@"%lu", (unsigned long)success.length);
-   [self.navigationController popViewControllerAnimated:YES];
-   [self clearFormData];
+    //  NSLog(@"%lu", (unsigned long)responseString.length);
+    //  NSLog(@"%lu", (unsigned long)success.length);
+    [self.navigationController popViewControllerAnimated:YES];
+    [self clearFormData];
 }
 
 #pragma mark - New Customer
@@ -511,7 +510,7 @@
     //completion,photo1,photo2,quan
     NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_time=%@&_photo=%@&_contractor=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _time, _photo,_contractor];
     
-  //  NSLog(@"rawStr is %@",rawStr);
+    //  NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -524,8 +523,8 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-  //  NSLog(@"%lu", (unsigned long)responseString.length);
-  //  NSLog(@"%lu", (unsigned long)success.length);
+    //  NSLog(@"%lu", (unsigned long)responseString.length);
+    //  NSLog(@"%lu", (unsigned long)success.length);
     [self.navigationController popViewControllerAnimated:YES];
     
 }
