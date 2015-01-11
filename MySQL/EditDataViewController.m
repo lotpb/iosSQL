@@ -157,8 +157,8 @@
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.profileImageView.clipsToBounds = YES;
 #pragma mark BarButtons
-    UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(share:)];
-    NSArray *actionButtonItems = @[saveItem];
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
+    NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     [[UITextView appearance] setTintColor:[UIColor grayColor]];
@@ -304,11 +304,11 @@
 
 #pragma mark - Button Update
 -(IBAction)updateCity:(id)sender{
-    [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
+    [self performSegueWithIdentifier:@"lookupEditCitySegue"sender:self];
 }
 
 -(IBAction)updateJob:(id)sender{
-    [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
+    [self performSegueWithIdentifier:@"lookupEditJobSegue"sender:self];
 }
 
 #pragma mark - View Picker
@@ -439,11 +439,18 @@
     }
 }
 
-#pragma mark - New Leads
--(void)share:(id)sender {
-    // NSString *_leadNo = self.leadNo;
+#pragma mark - Edit Leads
+-(void)updateLeads:(id)sender {  // dont work
+    NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
-    NSString *_date = self.date.text;
+    
+    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+    gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSString *dateString = [gmtDateFormatter stringFromDate:self.date.text];
+   // self.date.text = dateString;
+    
+    NSString *_date = dateString;
     NSString *_first = self.first.text;
     NSString *_name = self.last.text;
     NSString *_address = self.address.text;
@@ -463,10 +470,10 @@
     NSString *_time = self.time;
     NSString *_photo = self.photo.text;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
+    NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date%@&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _leadNo, _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
     //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveLeads.php"];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
@@ -480,11 +487,11 @@
     //  NSLog(@"%lu", (unsigned long)responseString.length);
     //  NSLog(@"%lu", (unsigned long)success.length);
     [self.navigationController popViewControllerAnimated:YES];
-    [self clearFormData];
+  //  [self clearFormData];
 }
 
 #pragma mark - New Customer
--(void)shareCust:(id)sender {
+-(void)shareCust:(id)sender { /*
     // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
     NSString *_date = self.date.text;
@@ -526,7 +533,7 @@
     //  NSLog(@"%lu", (unsigned long)responseString.length);
     //  NSLog(@"%lu", (unsigned long)success.length);
     [self.navigationController popViewControllerAnimated:YES];
-    
+    */
 }
 
 #pragma mark - UITextViewDelegate

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NewDataViewController.h"
+#import "EditDataViewController.h"
 
 //@protocol PassingData <NSObject>
 //@required

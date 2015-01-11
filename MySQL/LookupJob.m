@@ -25,7 +25,7 @@
 {
     [super viewDidLoad];
     
-    self.title =  @"City lookup";
+    self.title =  @"Job lookup";
     self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
@@ -183,11 +183,9 @@
         NewDataViewController *detailVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         if (!isFilltered) {
-            detailVC.self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"];
-   }
+            detailVC.self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"];}
         else {
-            detailVC.self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"];
-        }
+            detailVC.self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]; }
     }
 }
 @end

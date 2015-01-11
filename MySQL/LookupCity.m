@@ -12,8 +12,8 @@
 @interface LookupCity ()
 {
 UIRefreshControl *refreshControl;
- NSMutableArray *zipArray;
-     NSString *cityName;
+NSMutableArray *zipArray;
+NSString *cityName;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
@@ -186,8 +186,8 @@ UIRefreshControl *refreshControl;
         NewDataViewController *detailVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         if (!isFilltered) {
-         //    detailVC.[self.loadformData];
-            detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
+         // detailVC.[self.loadformData];
+        detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
         detailVC.self.tst15 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"];
         detailVC.self.tzi21 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]; }
         else {
