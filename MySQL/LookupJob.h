@@ -10,6 +10,13 @@
 #import "NewDataViewController.h"
 #import "EditDataViewController.h"
 
+@protocol LookupJobDelegate <NSObject>
+
+@required
+- (void)jobFromController:(NSString *)passedData;
+
+@end
+
 @interface LookupJob : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 {
@@ -17,8 +24,7 @@
     BOOL isFilltered;
 }
 
-//@property (nonatomic, strong) id <PassingData> delegate;
-
+@property (nonatomic, strong) id<LookupJobDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

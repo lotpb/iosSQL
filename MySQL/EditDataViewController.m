@@ -9,8 +9,10 @@
 #import "EditDataViewController.h"
 #import "JobLocation.h"
 #import "LeadDetailViewControler.h"
+#import "LookupCity.h"
+#import "LookupJob.h"
 
-@interface EditDataViewController ()
+@interface EditDataViewController () <LookupCityDelegate, LookupJobDelegate>
 {
     JobModel *_JobModel; NSMutableArray *_feedItemsJ;
     JobLocation *itemJ;
@@ -82,8 +84,8 @@
     else self.address.text = self.tad13;
 
     if ( [self.tci14 isEqual:[NSNull null]] )
-        self.state.text = @"";
-    else self.state.text = self.tci14;
+        self.city.text = @"";
+    else self.city.text = self.tci14;
     
     if ( [self.tst15 isEqual:[NSNull null]] )
         self.state.text = @"";
@@ -301,12 +303,39 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
+#pragma mark - LookupCity Data
+- (void)cityFromController:(NSString *)passedData{
+    self.city.text = passedData;
+}
 
-#pragma mark - Button Update
+- (void)stateFromController:(NSString *)passedData{
+    self.state.text = passedData;
+}
+
+- (void)zipFromController:(NSString *)passedData{
+    self.zip.text = passedData;
+}
+
+- (void)jobFromController:(NSString *)passedData{
+    self.jobNo.text = passedData;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{   if ([[segue identifier] isEqualToString:@"lookupEditCitySegue"]) {
+       LookupCity *addViewControler = [segue destinationViewController];
+       [addViewControler setDelegate:self];
+}
+    if ([[segue identifier] isEqualToString:@"lookupEditJobSegue"]) {
+        LookupJob *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:self];
+    }
+}
+
+#pragma mark Lookup City needed
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:@"lookupEditCitySegue"sender:self];
 }
-
+#pragma mark - Lookup Job needed
 -(IBAction)updateJob:(id)sender{
     [self performSegueWithIdentifier:@"lookupEditJobSegue"sender:self];
 }
@@ -373,7 +402,6 @@
 -(void)itemsDownloaded:(NSMutableArray *)items
 {
     _feedItemsJ = items;
-    //  NSLog(@"Incoming array: %@", items);
 }
 
 // The number of columns of data
@@ -387,7 +415,6 @@
         return 1;
     else if(pickerView.tag == 4)
         return 1;
-    
     return 1;
 }
 // The number of rows of data
@@ -401,7 +428,6 @@
         return adArray.count;
     else if(pickerView.tag == 4)
         return zipArray.count;
-    
     return 0;
 }
 
@@ -440,17 +466,17 @@
 }
 
 #pragma mark - Edit Leads
--(void)updateLeads:(id)sender {  // dont work
+-(void)updateLeads:(id)sender {
     NSString *_leadNo = self.leadNo;
-    NSString *_active = self.active;
-    
+    NSString *_active = self.company.text;
+ /*
     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
     gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSString *dateString = [gmtDateFormatter stringFromDate:self.date.text];
-   // self.date.text = dateString;
-    
-    NSString *_date = dateString;
+   // self.date.text = dateString; */
+
+  //NSString *_date = dateString;
     NSString *_first = self.first.text;
     NSString *_name = self.last.text;
     NSString *_address = self.address.text;
@@ -470,7 +496,7 @@
     NSString *_time = self.time;
     NSString *_photo = self.photo.text;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date%@&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _leadNo, _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
+    NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
     //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
@@ -484,10 +510,8 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-    //  NSLog(@"%lu", (unsigned long)responseString.length);
-    //  NSLog(@"%lu", (unsigned long)success.length);
-    [self.navigationController popViewControllerAnimated:YES];
-  //  [self clearFormData];
+    [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
+    [self clearFormData];
 }
 
 #pragma mark - New Customer
@@ -532,82 +556,10 @@
     [success dataUsingEncoding:NSUTF8StringEncoding];
     //  NSLog(@"%lu", (unsigned long)responseString.length);
     //  NSLog(@"%lu", (unsigned long)success.length);
-    [self.navigationController popViewControllerAnimated:YES];
+   [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
     */
 }
 
-#pragma mark - UITextViewDelegate
-/*
- (void)checkIfComplete{
- BOOL complete = YES;
- for(int i = 0; i < self.mandatoryFields.count; i++){
- UITextField *tempTextField = self.mandatoryFields[i];
- 
- if(tempTextField.text.length == 0){
- complete = NO;
- break;
- }
- }
- 
- self.btnSave.enabled = complete;
- } */
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    // First check whether the replacement string's numeric...
-    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-    NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
-    bool isNumeric = [string isEqualToString:filtered];
-    
-    // Then if the replacement string's numeric, or if it's
-    // a backspace, or if it's a decimal point and the text
-    // field doesn't already contain a decimal point,
-    // reformat the new complete number using
-    // NSNumberFormatterDecimalStyle
-    if (isNumeric ||
-        [string isEqualToString:@""] ||
-        ([string isEqualToString:@"."] &&
-         [textField.text rangeOfString:@"."].location == NSNotFound)) {
-            
-            // Create the decimal style formatter
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            [formatter setMaximumFractionDigits:10];
-            
-            // Combine the new text with the old; then remove any
-            // commas from the textField before formatting
-            NSString *combinedText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-            NSString *numberWithoutCommas = [combinedText stringByReplacingOccurrencesOfString:@"," withString:@""];
-            NSNumber *number = [formatter numberFromString:numberWithoutCommas];
-            
-            NSString *formattedString = [formatter stringFromNumber:number];
-            
-            // If the last entry was a decimal at the end of the
-            // re-add it here because the formatter will naturally
-            // remove it.
-            if ([string isEqualToString:@"."] &&
-                range.location == textField.text.length) {
-                formattedString = [formattedString stringByAppendingString:@"."];
-            }
-            
-            textField.text = formattedString;
-            
-        }
-    
-    // Return no, because either the replacement string is not
-    // valid or it is and the textfield has already been updated
-    // accordingly
-    return NO;
-}
 
 @end

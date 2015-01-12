@@ -10,10 +10,14 @@
 #import "NewDataViewController.h"
 #import "EditDataViewController.h"
 
-//@protocol PassingData <NSObject>
-//@required
-//- (void) passTheData:(NSString *)passedData;
-//@end
+@protocol LookupCityDelegate <NSObject>
+
+@required
+- (void)cityFromController:(NSString *)passedData;
+- (void)stateFromController:(NSString *)passedData;
+- (void)zipFromController:(NSString *)passedData;
+
+@end
 
 @interface LookupCity : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
@@ -21,8 +25,8 @@
     BOOL isFilltered;
 }
 
-//@property (nonatomic, strong) id <PassingData> delegate;
-
+@property (nonatomic, strong) id<LookupCityDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end

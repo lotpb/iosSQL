@@ -15,6 +15,9 @@ UIRefreshControl *refreshControl;
 NSMutableArray *zipArray;
 NSString *cityName;
 }
+@property (strong, nonatomic) NSString *tci14;
+@property (strong, nonatomic) NSString *tst15;
+@property (strong, nonatomic) NSString *tzi21;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
@@ -30,8 +33,8 @@ NSString *cityName;
     self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
-    [self.searchBar becomeFirstResponder];
-   // self.searchBar.hidden = YES;
+   [self.searchBar becomeFirstResponder];
+  //self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
@@ -41,7 +44,7 @@ NSString *cityName;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
      query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    //[query selectKeys:@[@"ZipNo"]];
+  //[query selectKeys:@[@"ZipNo"]];
     [query selectKeys:@[@"City"]];
     [query selectKeys:@[@"State"]];
     [query selectKeys:@[@"zipCode"]];
@@ -78,7 +81,6 @@ NSString *cityName;
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
   //  self.navigationController.navigationBar.translucent = NO;
-  //  [[self delegate] passTheData:[[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];];
 }
 
 - (void)didReceiveMemoryWarning
@@ -130,22 +132,22 @@ NSString *cityName;
         cityName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
     }
     
-  myCell.textLabel.text = cityName;
+    myCell.textLabel.text = cityName;
     myCell.detailTextLabel.text = nil;//item.city;
-  //  myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+  //myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-  //  self.searchBar.hidden = NO;
+  // self.searchBar.hidden = NO;
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    self.searchBar.text=@"";
-   // self.searchBar.hidden = YES;
+     self.searchBar.text=@"";
+   //self.searchBar.hidden = YES;
     [self.searchBar resignFirstResponder];
 }
 
@@ -168,6 +170,21 @@ NSString *cityName;
 [self.tableView reloadData];
 }
 
+- (void)passDataBack {
+   
+    NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+     if (!isFilltered) {
+     [self.delegate cityFromController:self.tci14 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"]];
+     [self.delegate stateFromController:self.tst15 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"]];
+     [self.delegate zipFromController:self.tzi21 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]];
+     } else {
+     [self.delegate cityFromController:self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"]];
+     [self.delegate stateFromController:self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"]];
+     [self.delegate zipFromController:self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"]];
+        }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -176,26 +193,7 @@ NSString *cityName;
     else
         [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"cityreturnSegue" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"cityreturnSegue"])
-    {
-        NewDataViewController *detailVC = segue.destinationViewController;
-        NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-        if (!isFilltered) {
-         // detailVC.[self.loadformData];
-        detailVC.self.tci14 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];
-        detailVC.self.tst15 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"];
-        detailVC.self.tzi21 = [[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]; }
-        else {
-        detailVC.self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"];
-        detailVC.self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"];
-        detailVC.self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"];
-        }
-    }
+    [self passDataBack];
 }
 
 @end

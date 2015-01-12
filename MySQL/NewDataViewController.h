@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "JobModel.h"
 #import <Parse/Parse.h>
-//#import "AddData.h"
-//#import "HomeModel.h"
 
 @interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
 
@@ -51,6 +49,11 @@
 @property (strong, nonatomic) NSString *tjo22;
 @property (strong, nonatomic) NSString *tco23;
 @property (strong, nonatomic) NSString *tph24;
+@property (strong, nonatomic) NSString *tca26;
+//@property (strong, nonatomic) NSString *tap27;  //aptdate
+@property (strong, nonatomic) NSString *tan28;
+//@property (strong, nonatomic) NSString *tda29;  //date
+@property (strong, nonatomic) NSString *tac30;
 
 @property (weak, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *photo;

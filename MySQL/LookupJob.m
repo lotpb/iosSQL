@@ -15,6 +15,7 @@
     NSMutableArray *jobArray;
     NSString *jobName;
 }
+@property (strong, nonatomic) NSString *tjo22;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -30,7 +31,6 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
     [self.searchBar becomeFirstResponder];
-    // self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
@@ -75,7 +75,6 @@
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
     //  self.navigationController.navigationBar.translucent = NO;
-    //  [[self delegate] passTheData:[[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"];];
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,6 +164,17 @@
     [self.tableView reloadData];
 }
 
+- (void)passDataBack {
+    
+    NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+    if (!isFilltered) {
+        [self.delegate jobFromController:self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+    } else {
+        [self.delegate jobFromController:self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -173,9 +183,9 @@
     else
     [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"jobreturnSegue" sender:self];
+    [self passDataBack];
 }
-
+/*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"jobreturnSegue"])
@@ -187,5 +197,5 @@
         else {
             detailVC.self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]; }
     }
-}
+} */
 @end

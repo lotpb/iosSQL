@@ -9,10 +9,10 @@
 #import "NewDataViewController.h"
 #import "JobLocation.h"
 #import "LeadDetailViewControler.h"
-//#import "LookupCityController.h"
-//#import "AddData.h"
+#import "LookupCity.h"
+#import "LookupJob.h"
 
-@interface NewDataViewController ()
+@interface NewDataViewController () <LookupCityDelegate, LookupJobDelegate>
 {
    JobModel *_JobModel; NSMutableArray *_feedItemsJ;
    JobLocation *itemJ;
@@ -114,13 +114,13 @@
            self.jobNo.text = @"";
       else self.jobNo.text = self.tjo22;
     
+    if  ( [self.tem23 isEqual:[NSNull null]] )
+        self.email.text = @"";
+    else self.email.text = self.tem23;
+    
     if  ( [self.tfi11 isEqual:[NSNull null]] )
            self.first.text = @"";
       else self.first.text = self.tfi11;
-    
-    if  ( [self.tem23 isEqual:[NSNull null]] )
-           self.email.text = @"";
-      else self.email.text = self.tem23;
     
     if  ( [self.tam24 isEqual:[NSNull null]] )
            self.amount.text = @"";
@@ -142,15 +142,23 @@
            self.phone.text = @"(516)";
       else self.phone.text = self.tph22;
     
-    if  ( [self.company isEqual:[NSNull null]] )
-           self.company.text = @"";
+    if ( [self.tac30 isEqual:[NSNull null]] ) //active
+        self.company.text = @"1";
+    else self.company.text = self.tac30;
+    
+    if ( [self.tan28 isEqual:[NSNull null]] )
+        self.adNo.text = @"";
+    else self.adNo.text = self.tan28;
+    
+    if ( [self.tca26 isEqual:[NSNull null]] )
+        self.callback.text = @"";
+    else self.callback.text = self.tca26;
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
     self.jobNo.inputView = [self customPicker:2];
     self.adNo.inputView = [self customPicker:3];
     self.city.inputView = [self customPicker:4];
-    // [self.city addTarget:self action:@selector(updateCity) forControlEvents:UIControlEventEditingChanged];
     
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -206,7 +214,7 @@
     if (adNo.text.length == 0)
         self.adNo.text = [prefs objectForKey:@"adNo"];
     if (saleNo.text.length == 0)
-        self.saleNo.text = [prefs objectForKey:@"saleNo"];
+        self.saleNo.text = [prefs objectForKey:@"salesNo"];
     if (jobNo.text.length == 0)
         self.jobNo.text = [prefs objectForKey:@"jobNo"];
     if (comment.text.length == 0)
@@ -277,7 +285,7 @@
         [prefs setObject:spouseString forKey:@"spouse"];}
     if(self.saleNo.text.length > 0) {
        NSString *saleNoString = self.saleNo.text;
-        [prefs setObject:saleNoString forKey:@"saleNo"];}
+        [prefs setObject:saleNoString forKey:@"salesNo"];}
     if(self.jobNo.text.length > 0) {
        NSString *jobNoString = self.jobNo.text;
         [prefs setObject:jobNoString forKey:@"jobNo"];}
@@ -303,11 +311,39 @@
 
 }
 
-#pragma mark - Button Update
+#pragma mark - LookupCity Data
+- (void)cityFromController:(NSString *)passedData{
+    self.city.text = passedData;
+}
+
+- (void)stateFromController:(NSString *)passedData{
+    self.state.text = passedData;
+}
+
+- (void)zipFromController:(NSString *)passedData{
+    self.zip.text = passedData;
+}
+
+- (void)jobFromController:(NSString *)passedData{
+    self.jobNo.text = passedData;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{   if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
+    LookupCity *addViewControler = [segue destinationViewController];
+    [addViewControler setDelegate:self];
+}
+    if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
+        LookupJob *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:self];
+    }
+}
+
+#pragma mark Lookup City needed
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
 }
-
+#pragma mark Lookup Job needed
 -(IBAction)updateJob:(id)sender{
     [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
 }
@@ -374,7 +410,6 @@
 -(void)itemsDownloaded:(NSMutableArray *)items
 {
     _feedItemsJ = items;
-    //  NSLog(@"Incoming array: %@", items);
 }
 
 // The number of columns of data
@@ -486,7 +521,7 @@
 
 #pragma mark - New Customer
 -(void)shareCust:(id)sender {
-    // NSString *_leadNo = self.leadNo;
+ // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
     NSString *_date = self.date.text;
     NSString *_first = self.first.text;
