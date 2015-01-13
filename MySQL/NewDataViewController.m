@@ -72,87 +72,85 @@
         productArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
 
+        self.leadNo = self.leadNo;
+    
+    if  ( [self.frm11 isEqual:[NSNull null]] )
+        self.first.text = @"";
+        else self.first.text = self.frm11;
+    
+    if  ( [self.frm12 isEqual:[NSNull null]] )
+        self.last.text = @"";
+        else self.last.text = self.frm12;
+    
+    if ( [self.frm13 isEqual:[NSNull null]] )
+        self.company.text = @"";
+        else self.company.text = self.frm13;
+    
+    if  ( [self.frm14 isEqual:[NSNull null]] )
+        self.address.text = @"";
+        else self.address.text = self.frm14;
+    
+    if  ( [self.frm15 isEqual:[NSNull null]] )
+        self.city.text = @"";
+        else self.city.text = self.frm15;
+    
+    if  ( [self.frm16 isEqual:[NSNull null]] )
+        self.state.text = @"";
+        else self.state.text = self.frm16;
+    
+    if  ( [self.frm17 isEqual:[NSNull null]] )
+        self.zip.text = @"";
+        else self.zip.text = self.frm17;
+    
     if (self.date.text.length == 0) {
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
         gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-        self.date.text = dateString;
-        self.aptDate.text = dateString;
-        self.time = dateString;
-    }
+        self.date.text = dateString; //frm18
+        self.aptDate.text = dateString; } //frm19
     
-    self.active = @"1";
-    self.leadNo = self.leadNo;
-  //self.callback.text = @"none";
+    if (self.frm20.length == 0)
+        self.phone.text = @"(516)";
+        else self.phone.text = self.frm20;
     
-    if  ( [self.tla12 isEqual:[NSNull null]] )
-        self.last.text = @"";
-    else self.last.text = self.tla12;
-    
-    if  ( [self.tad13 isEqual:[NSNull null]] )
-        self.address.text = @"";
-    else self.address.text = self.tad13;
-    
-    if  ( [self.tci14 isEqual:[NSNull null]] )
-        self.city.text = @"";
-    else self.city.text = self.tci14;
-    
-    if  ( [self.tst15 isEqual:[NSNull null]] )
-        self.state.text = @"";
-    else self.state.text = self.tst15;
-    
-    if  ( [self.tzi21 isEqual:[NSNull null]] )
-        self.zip.text = @"";
-    else self.zip.text = self.tzi21;
-    
-    if  ( [self.tsa21 isEqual:[NSNull null]] )
+    if  ( [self.frm21 isEqual:[NSNull null]] )
         self.saleNo.text = @"";
-    else self.saleNo.text = self.tsa21;
+        else self.saleNo.text = self.frm21;
     
-    if  ( [self.tjo22 isEqual:[NSNull null]] )
-           self.jobNo.text = @"";
-      else self.jobNo.text = self.tjo22;
+    if  ( [self.frm22 isEqual:[NSNull null]] )
+        self.jobNo.text = @"";
+        else self.jobNo.text = self.frm22;
     
-    if  ( [self.tem23 isEqual:[NSNull null]] )
-        self.email.text = @"";
-    else self.email.text = self.tem23;
-    
-    if  ( [self.tfi11 isEqual:[NSNull null]] )
-           self.first.text = @"";
-      else self.first.text = self.tfi11;
-    
-    if  ( [self.tam24 isEqual:[NSNull null]] )
-           self.amount.text = @"";
-      else self.amount.text = self.tam24;
-    
-    if  ( [self.tsp25 isEqual:[NSNull null]] )
-           self.spouse.text = @"";
-      else self.spouse.text = self.tsp25;
-    
-    if  ( [self.tco23 isEqual:[NSNull null]] )
-           self.comment.text = @"";
-      else self.comment.text = self.tco23;
-    
-    if  ( [self.tph24 isEqual:[NSNull null]] )
-           self.photo.text = @"";
-      else self.photo.text = self.tph24;
-    
-       if (self.tph22.length == 0)
-           self.phone.text = @"(516)";
-      else self.phone.text = self.tph22;
-    
-    if ( [self.tac30 isEqual:[NSNull null]] ) //active
-        self.company.text = @"1";
-    else self.company.text = self.tac30;
-    
-    if ( [self.tan28 isEqual:[NSNull null]] )
+    if ( [self.frm23 isEqual:[NSNull null]] )
         self.adNo.text = @"";
-    else self.adNo.text = self.tan28;
+        else self.adNo.text = self.frm23;
+
+    if  ( [self.frm24 isEqual:[NSNull null]] )
+           self.amount.text = @"";
+        else self.amount.text = self.frm24;
     
-    if ( [self.tca26 isEqual:[NSNull null]] )
+    if  ( [self.frm25 isEqual:[NSNull null]] )
+        self.email.text = @"";
+        else self.email.text = self.frm25;
+    
+    if  ( [self.frm26 isEqual:[NSNull null]] )
+           self.spouse.text = @"";
+        else self.spouse.text = self.frm26;
+    
+    if ( [self.frm27 isEqual:[NSNull null]] )
         self.callback.text = @"";
-    else self.callback.text = self.tca26;
+       else self.callback.text = self.frm27;
+    
+    if  ( [self.frm28 isEqual:[NSNull null]] )
+           self.comment.text = @"";
+        else self.comment.text = self.frm28;
+    
+    if  ( [self.frm29 isEqual:[NSNull null]] )
+           self.photo.text = @"";
+        else self.photo.text = self.frm29;
+    
+        self.active.text = @"1"; //frm30
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];

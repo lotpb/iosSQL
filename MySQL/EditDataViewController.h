@@ -12,12 +12,14 @@
 
 @interface EditDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
 
-//@property (weak, nonatomic) NSString *leadNo;
-@property (weak, nonatomic) NSString *active;
+
+@property (weak, nonatomic) NSString *custNo;
 @property (weak, nonatomic) NSString *leadNo;
-@property (retain, nonatomic) IBOutlet UITextField *date;
-@property (retain, nonatomic) IBOutlet UITextField *first;
-@property (retain, nonatomic) IBOutlet UITextField *last;
+@property (weak, nonatomic) NSString *time;
+@property (weak, nonatomic) IBOutlet UITextField *active;
+@property (weak, nonatomic) IBOutlet UITextField *date;
+@property (weak, nonatomic) IBOutlet UITextField *first;
+@property (weak, nonatomic) IBOutlet UITextField *last;
 @property (weak, nonatomic) IBOutlet UITextField *company;
 @property (weak, nonatomic) IBOutlet UITextField *address;
 @property (weak, nonatomic) IBOutlet UITextField *city;
@@ -34,30 +36,28 @@
 @property (weak, nonatomic) IBOutlet UITextField *adNo;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
 
-@property (strong, nonatomic) NSString *tfi11;
-@property (strong, nonatomic) NSString *tla12;
-@property (strong, nonatomic) NSString *tad13;
-@property (strong, nonatomic) NSString *tci14;
-@property (strong, nonatomic) NSString *tst15;
+@property (strong, nonatomic) NSString *frm11;
+@property (strong, nonatomic) NSString *frm12;
+@property (strong, nonatomic) NSString *frm13;
+@property (strong, nonatomic) NSString *frm14;
+@property (strong, nonatomic) NSString *frm15;
+@property (strong, nonatomic) NSString *frm16;
+@property (strong, nonatomic) NSString *frm17;
+@property (strong, nonatomic) NSString *frm18;
+@property (strong, nonatomic) NSString *frm19;
+@property (strong, nonatomic) NSString *frm20;
+@property (strong, nonatomic) NSString *frm21;
+@property (strong, nonatomic) NSString *frm22;
+@property (strong, nonatomic) NSString *frm23;
+@property (strong, nonatomic) NSString *frm24;
+@property (strong, nonatomic) NSString *frm25;
+@property (strong, nonatomic) NSString *frm26;
+@property (strong, nonatomic) NSString *frm27;
+@property (strong, nonatomic) NSString *frm28;
+@property (strong, nonatomic) NSString *frm29;
+@property (strong, nonatomic) NSString *frm30;
 
-@property (strong, nonatomic) NSString *tzi21;
-@property (strong, nonatomic) NSString *tph22;
-@property (strong, nonatomic) NSString *tem23;
-@property (strong, nonatomic) NSString *tam24;
-@property (strong, nonatomic) NSString *tsp25;
-@property (strong, nonatomic) NSString *tsa21;
-@property (strong, nonatomic) NSString *tjo22;
-@property (strong, nonatomic) NSString *tco23;
-@property (strong, nonatomic) NSString *tph24;
-@property (strong, nonatomic) NSString *tca26;
-@property (strong, nonatomic) NSString *tap27;
-@property (strong, nonatomic) NSString *tan28;
-@property (strong, nonatomic) NSString *tda29;
-@property (strong, nonatomic) NSString *tac30;
-
-@property (weak, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *photo;
-
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
 

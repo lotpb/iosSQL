@@ -283,8 +283,7 @@ return myCell;
                              //Do some thing here
         [self performSegueWithIdentifier:@"newcustSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
-                             
-                         }];
+                             }];
     
     
     UIAlertAction* edit = [UIAlertAction
@@ -293,20 +292,17 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-        [self performSegueWithIdentifier:@"editformSegue" sender:self];
+        [self performSegueWithIdentifier:@"editLeadSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
-                             
-                         }];
+                             }];
     
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                                 
-                             }];
-    
+                            [view dismissViewControllerAnimated:YES completion:nil];
+                            }];
     
     [view addAction:new];
     [view addAction:edit];
@@ -340,45 +336,79 @@ return myCell;
     //dont work below Leads make a customer
     if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust
         NewDataViewController *detailVC = segue.destinationViewController;
+    //  detailVC.custNo = self.custNo;
         detailVC.leadNo = self.leadNo;
-        detailVC.tfi11 = self.tbl13;
-        detailVC.tla12 = self.name;
-        detailVC.tad13 = self.address;
-        detailVC.tci14 = self.city;
-        detailVC.tst15 = self.state;
-        detailVC.tzi21 = self.zip;
-        detailVC.tph22 = self.tbl12;
-        detailVC.tem23 = self.tbl15;
-        detailVC.tam24 = self.amount;
-        detailVC.tsp25 = self.tbl14;
-        detailVC.tsa21 = self.tbl22;
-        detailVC.tjo22 = self.tbl23;
-        detailVC.tco23 = self.comments;
-        detailVC.tph24 = self.photo;
+        detailVC.frm11 = self.tbl13; //first
+        detailVC.frm12 = self.name;
+        detailVC.frm14 = self.address;
+        detailVC.frm15 = self.city;
+        detailVC.frm16 = self.state;
+        detailVC.frm17 = self.zip;
+        detailVC.frm20 = self.tbl12; //phone
+        detailVC.frm25 = self.tbl15; //email
+        detailVC.frm24 = self.amount;
+        detailVC.frm26 = self.tbl14; //spouse
+        detailVC.frm21 = self.tbl22; //salesNo
+        detailVC.frm22 = self.tbl23; //jobNo
+        detailVC.frm28 = self.comments;
+        detailVC.frm29 = self.photo;
+        detailVC.frm30 = self.active;
     }
-    
-    if ([segue.identifier isEqualToString:@"editformSegue"]) { //edit leads
+ 
+    if ([segue.identifier isEqualToString:@"editLeadSegue"]) { //edit Lead
         EditDataViewController *detailVC = segue.destinationViewController;
         detailVC.leadNo = self.leadNo;
-        detailVC.tfi11 = self.tbl13; //first
-        detailVC.tla12 = self.name;
-        detailVC.tad13 = self.address;
-        detailVC.tci14 = self.city;
-        detailVC.tst15 = self.state;
-        detailVC.tzi21 = self.zip;
-        detailVC.tph22 = self.tbl12; //phone
-        detailVC.tem23 = self.tbl15; //email
-        detailVC.tam24 = self.amount;
-        detailVC.tsp25 = self.tbl14; //spouse
-        detailVC.tsa21 = self.tbl22; //salesNo
-        detailVC.tjo22 = self.tbl23; //jobNo
-        detailVC.tco23 = self.comments;
-        detailVC.tph24 = self.photo;
-        detailVC.tca26 = self.tbl11; //callback
-        detailVC.tap27 = self.tbl21;//aptdate
-        detailVC.tan28 = self.tbl24; //adNo
-        detailVC.tda29 = self.date; //date
-        detailVC.tac30 = self.active;
+        detailVC.frm11 = self.tbl13; //first
+        detailVC.frm12 = self.name;
+        detailVC.frm13 = nil;
+        detailVC.frm14 = self.address;
+        detailVC.frm15 = self.city;
+        detailVC.frm16 = self.state;
+        detailVC.frm17 = self.zip;
+        detailVC.frm18 = self.date;
+        detailVC.frm19 = self.tbl21; //aptdate
+        detailVC.frm20 = self.tbl12; //phone
+        detailVC.frm21 = self.tbl22; //salesNo
+        detailVC.frm22 = self.tbl23; //jobNo
+        detailVC.frm23 = self.tbl24; //adNo
+        detailVC.frm24 = self.amount;
+        detailVC.frm25 = self.tbl15; //email
+        detailVC.frm26 = self.tbl14; //spouse
+        detailVC.frm27 = self.tbl11; //callback
+        detailVC.frm28 = self.comments;
+        detailVC.frm29 = self.photo;
+        detailVC.frm30 = self.active;
+    }
+    
+    if ([segue.identifier isEqualToString:@"editCustSegue"]) {
+        EditDataViewController *detailVC = segue.destinationViewController;
+        detailVC.custNo = self.custNo;
+        detailVC.leadNo = self.leadNo;
+        detailVC.frm11 = self.tbl13; //first
+        detailVC.frm12 = self.name; //last Name
+        detailVC.frm13 = self.tbl24; //contractor
+        detailVC.frm14 = self.address;
+        detailVC.frm15 = self.city;
+        detailVC.frm16 = self.state;
+        detailVC.frm17 = self.zip;
+        detailVC.frm18 = self.date;
+   //   detailVC.frm19 = self.tbl21;  //start
+        detailVC.frm20 = self.tbl12; //phone
+        detailVC.frm21 = self.tbl22; //salesNo
+        detailVC.frm22 = self.tbl11; //jobNo
+    //  detailVC.frm23 = self.tbl23; //productNo
+        detailVC.frm24 = self.amount;
+        detailVC.frm25 = self.tbl15; //email
+        detailVC.frm26 = self.tbl14; //spouse
+        detailVC.frm27 = self.tbl25;  //quan
+        detailVC.frm28 = self.comments;
+        detailVC.frm29 = self.photo;
+        detailVC.frm30 = self.active;
+   //   detailVC.frm31 = self.photo1;
+   //   detailVC.frm32 = self.photo2;
+   //   detailVC.frm33 = self.rate; //rate
+   //   detailVC.frm34 = self.complete; //aptdate
+       
     }
 }
 

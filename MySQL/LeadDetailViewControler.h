@@ -14,6 +14,7 @@
 
 @interface LeadDetailViewControler : UIViewController
 
+@property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) IBOutlet UILabel *labelNo;
 @property (strong, nonatomic) NSString *name;

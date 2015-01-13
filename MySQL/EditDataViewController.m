@@ -22,7 +22,7 @@
 @end
 
 @implementation EditDataViewController
-@synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
+@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,82 +71,85 @@
     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         productArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
-       //self.time = self.time;
-    self.date.text = self.tda29;
-    self.leadNo = self.leadNo;
     
-    if ( [self.tla12 isEqual:[NSNull null]] )
-        self.last.text = @"";
-    else self.last.text = self.tla12;
-  
-    if ( [self.tad13 isEqual:[NSNull null]] )
-        self.address.text = @"";
-    else self.address.text = self.tad13;
-
-    if ( [self.tci14 isEqual:[NSNull null]] )
-        self.city.text = @"";
-    else self.city.text = self.tci14;
+        self.leadNo = self.leadNo;
     
-    if ( [self.tst15 isEqual:[NSNull null]] )
-        self.state.text = @"";
-    else self.state.text = self.tst15;
-    
-    if ( [self.tzi21 isEqual:[NSNull null]] )
-        self.zip.text = @"";
-    else self.zip.text = self.tzi21;
- 
-    if ( [self.tsa21 isEqual:[NSNull null]] )
-        self.saleNo.text = @"";
-    else self.saleNo.text = self.tsa21;
-    
-    if ( [self.tjo22 isEqual:[NSNull null]] )
-        self.jobNo.text = @"";
-    else self.jobNo.text = self.tjo22;
-
-    if ( [self.tem23 isEqual:[NSNull null]] )
-        self.email.text = @"";
-        else self.email.text = self.tem23;
-    
-    if ( [self.tfi11 isEqual:[NSNull null]] )
+    if ( [self.frm11 isEqual:[NSNull null]] )
         self.first.text = @"";
-    else self.first.text = self.tfi11;
+        else self.first.text = self.frm11;
     
-    if ( [self.tam24 isEqual:[NSNull null]] )
-        self.amount.text = @"";
-        else self.amount.text = self.tam24;
+    if ( [self.frm12 isEqual:[NSNull null]] )
+        self.last.text = @"";
+        else self.last.text = self.frm12;
     
-    if ( [self.tsp25 isEqual:[NSNull null]] )
-        self.spouse.text = @"";
-        else self.spouse.text = self.tsp25;
-    
-    if ( [self.tco23 isEqual:[NSNull null]] )
-        self.comment.text = @"";
-        else self.comment.text = self.tco23;
-    
-    if ( [self.tph24 isEqual:[NSNull null]] )
-        self.photo.text = @"";
-        else self.photo.text = self.tph24;
-    
-    if (self.tph22.length == 0)
-        self.phone.text = @"";
-        else self.phone.text = self.tph22;
-    
-    if ( [self.tac30 isEqual:[NSNull null]] ) //active
+    if ( [self.frm13 isEqual:[NSNull null]] )
         self.company.text = @"";
-        else self.company.text = self.tac30;
+        else self.company.text = self.frm13;
+  
+    if ( [self.frm14 isEqual:[NSNull null]] )
+        self.address.text = @"";
+        else self.address.text = self.frm14;
+
+    if ( [self.frm15 isEqual:[NSNull null]] )
+        self.city.text = @"";
+        else self.city.text = self.frm15;
     
-    if ( [self.tan28 isEqual:[NSNull null]] )
-        self.adNo.text = @"";
-        else self.adNo.text = self.tan28;
+    if ( [self.frm16 isEqual:[NSNull null]] )
+        self.state.text = @"";
+        else self.state.text = self.frm16;
     
-    if ( [self.tca26 isEqual:[NSNull null]] )
-        self.callback.text = @"";
-        else self.callback.text = self.tca26;
+    if ( [self.frm17 isEqual:[NSNull null]] )
+        self.zip.text = @"";
+        else self.zip.text = self.frm17;
     
-    if ( [self.tap27 isEqual:[NSNull null]] )
+        self.date.text = self.frm18;
+    
+    if ( [self.frm19 isEqual:[NSNull null]] )
         self.aptDate.text = @"";
-        else self.aptDate.text = self.tap27;
+        else self.aptDate.text = self.frm19;
     
+    if (self.frm20.length == 0)
+        self.phone.text = @"";
+        else self.phone.text = self.frm20;
+ 
+    if ( [self.frm21 isEqual:[NSNull null]] )
+        self.saleNo.text = @"";
+        else self.saleNo.text = self.frm21;
+    
+    if ( [self.frm22 isEqual:[NSNull null]] )
+        self.jobNo.text = @"";
+        else self.jobNo.text = self.frm22;
+
+    if ( [self.frm23 isEqual:[NSNull null]] )
+        self.adNo.text = @"";
+        else self.adNo.text = self.frm23;
+    
+    if ( [self.frm24 isEqual:[NSNull null]] )
+        self.amount.text = @"";
+        else self.amount.text = self.frm24;
+    
+    if ( [self.frm25 isEqual:[NSNull null]] )
+        self.email.text = @"";
+        else self.email.text = self.frm25;
+    
+    if ( [self.frm26 isEqual:[NSNull null]] )
+        self.spouse.text = @"";
+        else self.spouse.text = self.frm26;
+    
+    if ( [self.frm27 isEqual:[NSNull null]] )
+        self.callback.text = @"";
+        else self.callback.text = self.frm27;
+    
+    if ( [self.frm28 isEqual:[NSNull null]] )
+        self.comment.text = @"";
+        else self.comment.text = self.frm28;
+    
+    if ( [self.frm29 isEqual:[NSNull null]] )
+        self.photo.text = @"";
+        else self.photo.text = self.frm29;
+    
+        self.active.text = self.frm30;
+
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
     self.jobNo.inputView = [self customPicker:2];
@@ -514,32 +517,36 @@
     [self clearFormData];
 }
 
-#pragma mark - New Customer
--(void)shareCust:(id)sender { /*
-    // NSString *_leadNo = self.leadNo;
-    NSString *_active = self.active;
-    NSString *_date = self.date.text;
-    NSString *_first = self.first.text;
+#pragma mark - Edit Customer
+-(void)updateCust:(id)sender {
+    NSString *_custNo = self.custNo;
     NSString *_leadNo = self.leadNo;
+    NSString *_date = self.date.text;
     NSString *_address = self.address.text;
     NSString *_city = self.city.text;
     NSString *_state = self.state.text;
     NSString *_zip = self.zip.text;
-    NSString *_phone = self.phone.text;
-    NSString *_start = self.aptDate.text;
-    NSString *_email = self.email.text;
+    NSString *_comments = self.comment.text;
     NSString *_amount = self.amount.text;
+    NSString *_phone = self.phone.text;
+//  NSString *_quan = self.quan;
+    NSString *_email = self.email.text;
+    NSString *_first = self.first.text;
     NSString *_spouse = self.spouse.text;
     NSString *_rate = self.callback.text;
+    NSString *_photo = self.photo.text;
+//  NSString *_photo1 = self.photo1.text;
+//  NSString *_photo2 = self.photo2.text;
     NSString *_salesNo = self.saleNo.text;
     NSString *_jobNo = self.jobNo.text;
+    NSString *_start = self.date.text;
+    NSString *_complete = self.aptDate.text;
     NSString *_productNo = self.adNo.text;
-    NSString *_comments = self.comment.text;
-    NSString *_time = self.time;
-    NSString *_photo = self.photo.text;
     NSString *_contractor = self.company.text;
-    //completion,photo1,photo2,quan
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_time=%@&_photo=%@&_contractor=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _time, _photo,_contractor];
+//  NSString *_active = self.active.text;
+//  NSString *_time = self.time;
+                               
+    NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_date=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&", _custNo, _leadNo, _date,_address, _city, _state, _zip, _comments, _amount, _phone, _email,_first, _spouse, _rate, _photo, _salesNo, _jobNo, _start, _complete, _productNo,_contractor];
     
     //  NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -554,10 +561,10 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-    //  NSLog(@"%lu", (unsigned long)responseString.length);
-    //  NSLog(@"%lu", (unsigned long)success.length);
-   [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
-    */
+
+    [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
+    [self clearFormData];
+    
 }
 
 
