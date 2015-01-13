@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustModel.h"
 #import "LeadDetailViewControler.h"
+#import "NewDataViewController.h"
 #import "MapViewController.h"
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CustModelProtocol>

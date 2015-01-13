@@ -8,7 +8,6 @@
 
 #import "EmployeeViewController.h"
 #import "EmployeeLocation.h"
-#import "EmployeeDetailController.h"
 
 @interface EmployeeViewController ()
 {
@@ -307,6 +306,7 @@
    if ([[segue identifier] isEqualToString:@"employdetailSegue"])
    {
        LeadDetailViewControler *detailVC = segue.destinationViewController;
+       detailVC.formController = @"Employee";
     // detailVC.selectedLocation = _selectedLocation;
        if ( [_selectedLocation.first isEqual:[NSNull null]] ) { _selectedLocation.first = @""; }
        if ( [_selectedLocation.lastname isEqual:[NSNull null]] ) { _selectedLocation.lastname = @""; }
@@ -345,6 +345,11 @@
        detailVC.l1datetext = @"Email:";
        detailVC.lnewsTitle = @"Employee News Peter Balsamo Appointed to United's Board of Directors";
    }
+    if ([[segue identifier] isEqualToString:@"newEmplySegue"])
+    {
+        NewDataViewController *detailVC = segue.destinationViewController;
+        detailVC.formController = @"Employee";
+    }
 }
 
 @end

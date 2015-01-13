@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
 #import "LeadDetailViewControler.h"
+#import "NewDataViewController.h"
 #import "MapViewController.h"
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, HomeModelProtocol>

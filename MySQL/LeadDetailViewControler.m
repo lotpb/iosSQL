@@ -292,7 +292,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-        [self performSegueWithIdentifier:@"editLeadSegue" sender:self];
+        [self performSegueWithIdentifier:@"editFormSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -336,6 +336,8 @@ return myCell;
     //dont work below Leads make a customer
     if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust
         NewDataViewController *detailVC = segue.destinationViewController;
+        if ([_formController  isEqual: @"Customer"]) {
+        detailVC.formController = @"Customer";
     //  detailVC.custNo = self.custNo;
         detailVC.leadNo = self.leadNo;
         detailVC.frm11 = self.tbl13; //first
@@ -353,10 +355,13 @@ return myCell;
         detailVC.frm28 = self.comments;
         detailVC.frm29 = self.photo;
         detailVC.frm30 = self.active;
+        }
     }
  
-    if ([segue.identifier isEqualToString:@"editLeadSegue"]) { //edit Lead
+    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead
         EditDataViewController *detailVC = segue.destinationViewController;
+        if ([_formController  isEqual: @"Leads"]) {
+        detailVC.formController = @"Leads";
         detailVC.leadNo = self.leadNo;
         detailVC.frm11 = self.tbl13; //first
         detailVC.frm12 = self.name;
@@ -378,38 +383,36 @@ return myCell;
         detailVC.frm28 = self.comments;
         detailVC.frm29 = self.photo;
         detailVC.frm30 = self.active;
-    }
-    
-    if ([segue.identifier isEqualToString:@"editCustSegue"]) {
-        EditDataViewController *detailVC = segue.destinationViewController;
-        detailVC.custNo = self.custNo;
-        detailVC.leadNo = self.leadNo;
-        detailVC.frm11 = self.tbl13; //first
-        detailVC.frm12 = self.name; //last Name
-        detailVC.frm13 = self.tbl24; //contractor
-        detailVC.frm14 = self.address;
-        detailVC.frm15 = self.city;
-        detailVC.frm16 = self.state;
-        detailVC.frm17 = self.zip;
-        detailVC.frm18 = self.date;
-   //   detailVC.frm19 = self.tbl21;  //start
-        detailVC.frm20 = self.tbl12; //phone
-        detailVC.frm21 = self.tbl22; //salesNo
-        detailVC.frm22 = self.tbl11; //jobNo
-    //  detailVC.frm23 = self.tbl23; //productNo
-        detailVC.frm24 = self.amount;
-        detailVC.frm25 = self.tbl15; //email
-        detailVC.frm26 = self.tbl14; //spouse
-        detailVC.frm27 = self.tbl25;  //quan
-        detailVC.frm28 = self.comments;
-        detailVC.frm29 = self.photo;
-        detailVC.frm30 = self.active;
-   //   detailVC.frm31 = self.photo1;
-   //   detailVC.frm32 = self.photo2;
-   //   detailVC.frm33 = self.rate; //rate
-   //   detailVC.frm34 = self.complete; //aptdate
-       
-    }
+        } else if ([_formController  isEqual: @"Customer"]) {
+            detailVC.formController = @"Customer";
+            detailVC.custNo = self.custNo;
+            detailVC.leadNo = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name; //last Name
+            detailVC.frm13 = self.tbl24; //contractor
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.date;
+            detailVC.frm19 = self.tbl21;  //start Date
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.tbl22; //salesNo
+            detailVC.frm22 = self.tbl11; //jobNo
+            detailVC.frm23 = self.tbl23; //productNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = self.tbl25;  //quan
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+       //   detailVC.frm31 = self.photo1;
+       //   detailVC.frm32 = self.photo2;
+       //   detailVC.frm33 = self.rate; //rate
+       //   detailVC.frm34 = self.complete; //aptdate
+            }
+       }
 }
 
 @end

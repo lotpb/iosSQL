@@ -73,13 +73,6 @@
     [self.searchBar resignFirstResponder];
 }
 
-/*
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self resignFirstResponder];
-} */
-
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -337,7 +330,7 @@
     {
     // Get reference to the destination view controller
     LeadDetailViewControler *detailVC = segue.destinationViewController;
-   // detailVC.selectedLocation = _selectedLocation;
+        detailVC.formController = @"Leads";
         detailVC.leadNo = _selectedLocation.leadNo; detailVC.date = _selectedLocation.date;
         detailVC.name = _selectedLocation.name; detailVC.address = _selectedLocation.address;
         detailVC.city = _selectedLocation.city; detailVC.state = _selectedLocation.state;
@@ -363,6 +356,10 @@
         detailVC.l24 = @"Advertiser"; detailVC.l25 = @"Last Updated";
         detailVC.l1datetext = @"Lead Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
+    }
+    if ([[segue identifier] isEqualToString:@"newLeadSeque"])
+    {   NewDataViewController *detailVC = segue.destinationViewController;
+        detailVC.formController = @"Leads";
     }
 }
 

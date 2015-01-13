@@ -1,8 +1,8 @@
 //
-//  EditDataViewController.h
+//  NewDataViewController.h
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/10/15.
+//  Created by Peter Balsamo on 1/1/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
@@ -10,12 +10,9 @@
 #import "JobModel.h"
 #import <Parse/Parse.h>
 
-@interface EditDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
-
+@interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
 @property (strong, nonatomic) NSString *formController;
-@property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
-//@property (strong, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *active;
 @property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *first;
@@ -57,7 +54,9 @@
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
 
+//@property (weak, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *photo;
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
 

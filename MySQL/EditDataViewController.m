@@ -22,7 +22,7 @@
 @end
 
 @implementation EditDataViewController
-@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
+@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, comment;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -149,9 +149,21 @@
         else self.photo.text = self.frm29;
     
         self.active.text = self.frm30;
+    
+    if ([_formController isEqual: @"Customer"]) {
+        self.company.placeholder = @"Contractor";
+        self.adNo.placeholder = @"ProductNo";
+        self.callback.placeholder = @"Quan"; }
+  /*  if [vc3 parentViewController] {
+        self.company.placeholder = @"Contractor";
+        self.adNo.placeholder = @"ProductNo";
+        self.callback.placeholder = @"Quan";
+    }*/
+   
 
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
+   // [self textFieldDidEndEditing:self.jobNo];
     self.jobNo.inputView = [self customPicker:2];
     self.adNo.inputView = [self customPicker:3];
     self.city.inputView = [self customPicker:4];
@@ -338,6 +350,7 @@
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:@"lookupEditCitySegue"sender:self];
 }
+
 #pragma mark - Lookup Job needed
 -(IBAction)updateJob:(id)sender{
     [self performSegueWithIdentifier:@"lookupEditJobSegue"sender:self];
@@ -496,10 +509,10 @@
     NSString *_jobNo = self.jobNo.text;
     NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
-    NSString *_time = self.time;
+//    NSString *_time = self.time;
     NSString *_photo = self.photo.text;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
+    NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
     //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
@@ -566,7 +579,11 @@
     [self clearFormData];
     
 }
-
+#pragma mark - Edit Customer
+/*
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    [self performSegueWithIdentifier:@"lookupEditJobSegue"sender:self];
+ } */
 
 
 @end

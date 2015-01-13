@@ -7,7 +7,6 @@
 //
 
 #import "VendorViewController.h"
-#import "VendorDetailController.h"
 #import "VendLocation.h"
 
 @interface VendorViewController () 
@@ -293,7 +292,8 @@
    if ([[segue identifier] isEqualToString:@"venddetailSegue"])
    {
    LeadDetailViewControler *detailVC = segue.destinationViewController;
-   //detailVC.selectedLocation = _selectedLocation;
+       detailVC.formController = @"Vendor";
+       //detailVC.selectedLocation = _selectedLocation;
        detailVC.leadNo = _selectedLocation.vendorNo;
        detailVC.date = _selectedLocation.webpage;
        detailVC.name = _selectedLocation.vendorName;
@@ -323,6 +323,11 @@
        detailVC.l1datetext = @"Web Page:";
        detailVC.lnewsTitle = @"Business News Peter Balsamo Appointed to United's Board of Directors";
    }
+    if ([[segue identifier] isEqualToString:@"newVendSeque"])
+    {
+        NewDataViewController *detailVC = segue.destinationViewController;
+        detailVC.formController = @"Vendor";
+    }
 }
 
 @end

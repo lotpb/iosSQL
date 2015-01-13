@@ -288,7 +288,7 @@ else
     if ([[segue identifier] isEqualToString:@"detailCustSegue"])
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
-       // detailVC.selectedLocation = _selectedLocation;
+        detailVC.formController = @"Customer";
        // detailVC.custNo = _selectedLocation.custNo;
         detailVC.leadNo = _selectedLocation.custNo;
         detailVC.date = _selectedLocation.date;
@@ -304,17 +304,17 @@ else
         detailVC.tbl14 = _selectedLocation.spouse;
         detailVC.tbl15 = _selectedLocation.email;
         detailVC.tbl21 = _selectedLocation.start;
-        detailVC.tbl22 = _selectedLocation.salesman;
-        detailVC.tbl23 = _selectedLocation.product;
+        detailVC.tbl22 = _selectedLocation.salesNo;
+        detailVC.tbl23 = _selectedLocation.prodNo;
         detailVC.tbl24 = _selectedLocation.contractor;
         detailVC.tbl25 = _selectedLocation.quan;
-        detailVC.salesman = _selectedLocation.salesNo;
-        detailVC.jobdescription = _selectedLocation.leadNo;
-        detailVC.advertiser = _selectedLocation.completion;
+        detailVC.rate = _selectedLocation.rate;
+       // detailVC.jobdescription = _selectedLocation.leadNo;
+       // detailVC.advertiser = _selectedLocation.completion;
         detailVC.photo = _selectedLocation.photo;
         detailVC.comments = _selectedLocation.comments;
         detailVC.active = _selectedLocation.active;
-        //rate, prodNo, photo1, photo2, time
+        //photo1, photo2, time
      
         detailVC.l11 = @"Job"; detailVC.l12 = @"Phone";
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
@@ -324,6 +324,11 @@ else
         detailVC.l1datetext = @"Sale Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }
+       if ([[segue identifier] isEqualToString:@"newCustSeque"])
+       {
+        NewDataViewController *detailVC = segue.destinationViewController;
+       detailVC.formController = @"Customer";
+       }
 }
 
 @end

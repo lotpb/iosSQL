@@ -9,6 +9,7 @@
 #import "NewDataViewController.h"
 #import "JobLocation.h"
 #import "LeadDetailViewControler.h"
+//#import "ViewController.h"
 #import "LookupCity.h"
 #import "LookupJob.h"
 
@@ -22,7 +23,7 @@
 @end
 
 @implementation NewDataViewController
-@synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, time, photo, comment;
+@synthesize leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, comment;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -151,6 +152,11 @@
         else self.photo.text = self.frm29;
     
         self.active.text = @"1"; //frm30
+    
+    if ([_formController isEqual: @"Customer"]) {
+        self.company.placeholder = @"Contractor";
+        self.adNo.placeholder = @"ProductNo";
+        self.callback.placeholder = @"Quan"; }
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
@@ -475,6 +481,18 @@
 
 #pragma mark - New Leads
 -(void)share:(id)sender {
+    if( ([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]) )
+    {
+        
+        UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                             message:@"Please fill in the details." delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil, nil];
+        [ErrorAlert show];
+        //  [ErrorAlert release];
+    }
+    else
+    {
  // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
     NSString *_date = self.date.text;
@@ -494,10 +512,10 @@
     NSString *_jobNo = self.jobNo.text;
     NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
-    NSString *_time = self.time;
+//    NSString *_time = self.time;
     NSString *_photo = self.photo.text;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_time=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _time, _photo];
+    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
     //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveLeads.php"];
@@ -515,10 +533,24 @@
   //  NSLog(@"%lu", (unsigned long)success.length);
    [self.navigationController popViewControllerAnimated:YES];
    [self clearFormData];
+    }
 }
 
 #pragma mark - New Customer
 -(void)shareCust:(id)sender {
+    if( ([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]) )
+    {
+        
+        UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                             message:@"Please fill in the details." delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil, nil];
+        [ErrorAlert show];
+        //  [ErrorAlert release];
+    }
+    else
+    {
+// Action to be called on Submit button touch
  // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active;
     NSString *_date = self.date.text;
@@ -538,11 +570,11 @@
     NSString *_jobNo = self.jobNo.text;
     NSString *_productNo = self.adNo.text;
     NSString *_comments = self.comment.text;
-    NSString *_time = self.time;
+//    NSString *_time = self.time;
     NSString *_photo = self.photo.text;
     NSString *_contractor = self.company.text;
     //completion,photo1,photo2,quan
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_time=%@&_photo=%@&_contractor=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _time, _photo,_contractor];
+    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_photo=%@&_contractor=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _photo,_contractor];
     
   //  NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -560,10 +592,15 @@
   //  NSLog(@"%lu", (unsigned long)responseString.length);
   //  NSLog(@"%lu", (unsigned long)success.length);
     [self.navigationController popViewControllerAnimated:YES];
-    
+    }
 }
 
 #pragma mark - UITextViewDelegate
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.jobNo resignFirstResponder];
+    [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
+}
 /*
  (void)checkIfComplete{
  BOOL complete = YES;
@@ -587,54 +624,6 @@
     } else {
         return YES;
     }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    // First check whether the replacement string's numeric...
-    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-    NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
-    bool isNumeric = [string isEqualToString:filtered];
-    
-    // Then if the replacement string's numeric, or if it's
-    // a backspace, or if it's a decimal point and the text
-    // field doesn't already contain a decimal point,
-    // reformat the new complete number using
-    // NSNumberFormatterDecimalStyle
-    if (isNumeric ||
-        [string isEqualToString:@""] ||
-        ([string isEqualToString:@"."] &&
-         [textField.text rangeOfString:@"."].location == NSNotFound)) {
-            
-            // Create the decimal style formatter
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            [formatter setMaximumFractionDigits:10];
-            
-            // Combine the new text with the old; then remove any
-            // commas from the textField before formatting
-            NSString *combinedText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-            NSString *numberWithoutCommas = [combinedText stringByReplacingOccurrencesOfString:@"," withString:@""];
-            NSNumber *number = [formatter numberFromString:numberWithoutCommas];
-            
-            NSString *formattedString = [formatter stringFromNumber:number];
-            
-            // If the last entry was a decimal at the end of the
-            // re-add it here because the formatter will naturally
-            // remove it.
-            if ([string isEqualToString:@"."] &&
-                range.location == textField.text.length) {
-                formattedString = [formattedString stringByAppendingString:@"."];
-            }
-            
-            textField.text = formattedString;
-            
-        }
-    
-    // Return no, because either the replacement string is not
-    // valid or it is and the textfield has already been updated
-    // accordingly
-    return NO;
 }
 
 @end
