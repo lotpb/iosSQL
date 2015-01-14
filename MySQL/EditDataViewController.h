@@ -15,7 +15,6 @@
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
-//@property (strong, nonatomic) NSString *time;
 @property (weak, nonatomic) IBOutlet UITextField *active;
 @property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *first;

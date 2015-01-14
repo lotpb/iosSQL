@@ -289,8 +289,8 @@ else
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = @"Customer";
-       // detailVC.custNo = _selectedLocation.custNo;
-        detailVC.leadNo = _selectedLocation.custNo;
+        detailVC.custNo = _selectedLocation.custNo;
+        detailVC.leadNo = _selectedLocation.leadNo;
         detailVC.date = _selectedLocation.date;
         detailVC.name = _selectedLocation.lastname;
         detailVC.address = _selectedLocation.address;

@@ -103,6 +103,7 @@
         self.zip.text = @"";
         else self.zip.text = self.frm17;
     
+    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
     if (self.date.text.length == 0) {
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
@@ -110,6 +111,7 @@
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
         self.date.text = dateString; //frm18
         self.aptDate.text = dateString; } //frm19
+    }
     
     if (self.frm20.length == 0)
         self.phone.text = @"(516)";
@@ -156,7 +158,20 @@
     if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
         self.adNo.placeholder = @"ProductNo";
-        self.callback.placeholder = @"Quan"; }
+        self.callback.placeholder = @"Quan";
+    } else if ([_formController isEqual: @"Vendor"]) {
+        self.first.placeholder = @"Manager";
+        self.last.placeholder = @"Webpage";
+        self.company.placeholder = @"Company";
+        self.date.placeholder = @"Profession";
+        self.saleNo.placeholder = @"Phone1";
+        self.jobNo.placeholder = @"phone2";
+        self.adNo.placeholder = @"phone3";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Office";
+        self.aptDate.placeholder = @"Assistant";
+        self.callback.hidden = YES;
+    }
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
@@ -194,7 +209,7 @@
 {
     [self loadFormData];
 }
-
+#pragma mark Load Form Data
 -(void)loadFormData {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if (first.text.length == 0)
@@ -427,7 +442,6 @@
         return 1;
     else if(pickerView.tag == 4)
         return 1;
-    
     return 1;
 }
 // The number of rows of data
@@ -441,7 +455,6 @@
         return adArray.count;
     else if(pickerView.tag == 4)
         return zipArray.count;
-    
     return 0;
 }
 
@@ -483,7 +496,6 @@
 -(void)share:(id)sender {
     if( ([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]) )
     {
-        
         UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
                                                              message:@"Please fill in the details." delegate:nil
                                                    cancelButtonTitle:@"OK"
@@ -493,8 +505,9 @@
     }
     else
     {
+  if ([_formController isEqual: @"Leads"]) {
  // NSString *_leadNo = self.leadNo;
-    NSString *_active = self.active;
+    NSString *_active = self.active.text;
     NSString *_date = self.date.text;
     NSString *_first = self.first.text;
     NSString *_name = self.last.text;
@@ -512,8 +525,8 @@
     NSString *_jobNo = self.jobNo.text;
     NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
-//    NSString *_time = self.time;
     NSString *_photo = self.photo.text;
+//  NSString *_time = self.time;
     
     NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
     //NSLog(@"rawStr is %@",rawStr);
@@ -531,76 +544,57 @@
     [success dataUsingEncoding:NSUTF8StringEncoding];
   //  NSLog(@"%lu", (unsigned long)responseString.length);
   //  NSLog(@"%lu", (unsigned long)success.length);
-   [self.navigationController popViewControllerAnimated:YES];
-   [self clearFormData];
     }
-}
-
-#pragma mark - New Customer
--(void)shareCust:(id)sender {
-    if( ([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]) )
-    {
+    else if ([_formController isEqual: @"Customer"]) {
+        NSString *_leadNo = self.leadNo;
+        NSString *_active = self.active.text;
+        NSString *_date = self.date.text;
+        NSString *_first = self.first.text;
+        NSString *_address = self.address.text;
+        NSString *_city = self.city.text;
+        NSString *_state = self.state.text;
+        NSString *_zip = self.zip.text;
+        NSString *_phone = self.phone.text;
+        NSString *_quan = self.callback.text;
+        NSString *_start = self.aptDate.text;
+        NSString *_email = self.email.text;
+        NSString *_amount = self.amount.text;
+        NSString *_spouse = self.spouse.text;
+        NSString *_rate = nil;
+        NSString *_salesNo = self.saleNo.text;
+        NSString *_jobNo = self.jobNo.text;
+        NSString *_productNo = self.adNo.text;
+        NSString *_comments = self.comment.text;
+        NSString *_photo = self.photo.text;
+        NSString *_photo1 = nil;
+        NSString *_photo2 = nil;
+        NSString *_contractor = self.company.text;
+        NSString *_complete = nil;
+     // NSString *_time = self.time;
         
-        UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
-                                                             message:@"Please fill in the details." delegate:nil
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil, nil];
-        [ErrorAlert show];
-        //  [ErrorAlert release];
-    }
-    else
-    {
-// Action to be called on Submit button touch
- // NSString *_leadNo = self.leadNo;
-    NSString *_active = self.active;
-    NSString *_date = self.date.text;
-    NSString *_first = self.first.text;
-    NSString *_leadNo = self.leadNo;
-    NSString *_address = self.address.text;
-    NSString *_city = self.city.text;
-    NSString *_state = self.state.text;
-    NSString *_zip = self.zip.text;
-    NSString *_phone = self.phone.text;
-    NSString *_start = self.aptDate.text;
-    NSString *_email = self.email.text;
-    NSString *_amount = self.amount.text;
-    NSString *_spouse = self.spouse.text;
-    NSString *_rate = self.callback.text;
-    NSString *_salesNo = self.saleNo.text;
-    NSString *_jobNo = self.jobNo.text;
-    NSString *_productNo = self.adNo.text;
-    NSString *_comments = self.comment.text;
-//    NSString *_time = self.time;
-    NSString *_photo = self.photo.text;
-    NSString *_contractor = self.company.text;
-    //completion,photo1,photo2,quan
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_photo=%@&_contractor=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _photo,_contractor];
-    
-  //  NSLog(@"rawStr is %@",rawStr);
-    NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:data];
-    NSURLResponse *response;
-    NSError *err;
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-    NSLog(@"%@", responseString);
-    NSString *success = @"success";
-    [success dataUsingEncoding:NSUTF8StringEncoding];
-  //  NSLog(@"%lu", (unsigned long)responseString.length);
-  //  NSLog(@"%lu", (unsigned long)success.length);
-    [self.navigationController popViewControllerAnimated:YES];
+        NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_photo=%@&_photo1=%@&_photo2=%@&_contractor=%@&_complete=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan,  _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _photo, _photo1, _photo2, _contractor, _complete];
+        
+        //  NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+        //  NSLog(@"%lu", (unsigned long)responseString.length);
+        //  NSLog(@"%lu", (unsigned long)success.length);
+       }
+        [self performSegueWithIdentifier:@"homeReturnNewSegue"sender:self];
+        [self clearFormData];
     }
 }
 
-#pragma mark - UITextViewDelegate
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self.jobNo resignFirstResponder];
-    [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
-}
 /*
  (void)checkIfComplete{
  BOOL complete = YES;

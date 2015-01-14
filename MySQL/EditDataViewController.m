@@ -154,13 +154,20 @@
         self.company.placeholder = @"Contractor";
         self.adNo.placeholder = @"ProductNo";
         self.callback.placeholder = @"Quan"; }
-  /*  if [vc3 parentViewController] {
-        self.company.placeholder = @"Contractor";
-        self.adNo.placeholder = @"ProductNo";
-        self.callback.placeholder = @"Quan";
-    }*/
+        else if ([_formController isEqual: @"Vendor"]) {
+        self.first.placeholder = @"Manager";
+        self.last.placeholder = @"Webpage";
+        self.company.placeholder = @"Company";
+        self.date.placeholder = @"Profession";
+        self.saleNo.placeholder = @"Phone1";
+        self.jobNo.placeholder = @"phone2";
+        self.adNo.placeholder = @"phone3";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Office";
+        self.aptDate.placeholder = @"Assistant";
+        self.callback.hidden = YES;
+     }
    
-
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
    // [self textFieldDidEndEditing:self.jobNo];
@@ -198,7 +205,7 @@
 {
     [self loadFormData];
 }
-
+#pragma mark Load Form Data
 -(void)loadFormData {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if (first.text.length == 0)
@@ -461,7 +468,6 @@
         return[[adArray objectAtIndex:row]valueForKey:@"Advertiser"];
     else if(pickerView.tag == 4)
         return[[zipArray objectAtIndex:row]valueForKey:@"City"];
-    
     return result;
 }
 
@@ -483,8 +489,9 @@
 
 #pragma mark - Edit Leads
 -(void)updateLeads:(id)sender {
+    if ([_formController isEqual: @"Leads"]) {
     NSString *_leadNo = self.leadNo;
-    NSString *_active = self.company.text;
+    NSString *_active = self.active.text;
  /*
     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
@@ -509,8 +516,8 @@
     NSString *_jobNo = self.jobNo.text;
     NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
-//    NSString *_time = self.time;
     NSString *_photo = self.photo.text;
+ // NSString *_time = self.time;
     
     NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
     //NSLog(@"rawStr is %@",rawStr);
@@ -526,15 +533,12 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-    [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
-    [self clearFormData];
-}
+    }
+    else if ([_formController isEqual: @"Customer"]) {
 
-#pragma mark - Edit Customer
--(void)updateCust:(id)sender {
     NSString *_custNo = self.custNo;
     NSString *_leadNo = self.leadNo;
-    NSString *_date = self.date.text;
+ // NSString *_date = self.date.text;
     NSString *_address = self.address.text;
     NSString *_city = self.city.text;
     NSString *_state = self.state.text;
@@ -542,28 +546,28 @@
     NSString *_comments = self.comment.text;
     NSString *_amount = self.amount.text;
     NSString *_phone = self.phone.text;
-//  NSString *_quan = self.quan;
+    NSString *_quan = self.callback.text;
     NSString *_email = self.email.text;
     NSString *_first = self.first.text;
     NSString *_spouse = self.spouse.text;
-    NSString *_rate = self.callback.text;
+    NSString *_rate = nil;
     NSString *_photo = self.photo.text;
-//  NSString *_photo1 = self.photo1.text;
-//  NSString *_photo2 = self.photo2.text;
+    NSString *_photo1 = nil;
+    NSString *_photo2 = nil;
     NSString *_salesNo = self.saleNo.text;
     NSString *_jobNo = self.jobNo.text;
     NSString *_start = self.date.text;
     NSString *_complete = self.aptDate.text;
     NSString *_productNo = self.adNo.text;
     NSString *_contractor = self.company.text;
-//  NSString *_active = self.active.text;
+    NSString *_active = self.active.text;
 //  NSString *_time = self.time;
                                
-    NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_date=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&", _custNo, _leadNo, _date,_address, _city, _state, _zip, _comments, _amount, _phone, _email,_first, _spouse, _rate, _photo, _salesNo, _jobNo, _start, _complete, _productNo,_contractor];
+    NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_photo1=%@&_photo2=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&_active=%@&", _custNo, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _email,_first, _spouse, _rate, _photo, _photo1, _photo2,_salesNo, _jobNo, _start, _complete, _productNo, _contractor, _active];
     
     //  NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateCustomer.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
@@ -574,16 +578,53 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-
+    }
+    else if ([_formController isEqual: @"Vendor"]) {
+        
+        NSString *_vendorNo = self.leadNo;
+        NSString *_name = self.company.text;
+        NSString *_address = self.address.text;
+        NSString *_city = self.city.text;
+        NSString *_state = self.state.text;
+        NSString *_zip = self.zip.text;
+        NSString *_phone = self.phone.text;
+        NSString *_phone1 = self.saleNo.text;
+        NSString *_phone2 = self.jobNo.text;
+        NSString *_phone3 = self.adNo.text;
+        NSString *_email = self.email.text;
+        NSString *_webpage = self.last.text;
+        NSString *_department = self.amount.text;
+        NSString *_office = self.spouse.text;
+        NSString *_manager = self.first.text;
+        NSString *_profession = self.date.text;
+        NSString *_assistant = self.aptDate.text;
+        NSString *_comments = self.comment.text;
+        NSString *_active = self.active.text;
+        NSString *_phonecmbo = nil;
+        NSString *_phonecmbo1 = nil;
+        NSString *_phonecmbo2 = nil;
+        NSString *_phonecmbo3 = nil;
+    //  NSString *_time = self.time;
+        
+        NSString *rawStr = [NSString stringWithFormat:@"_vendorNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_phone=%@&_phone1=%@&_phone2=%@&_phone3=%@&_email=%@&_webpage=%@&_department=%@&_office=%@&_manager=%@&_profession=%@&_assistant=%@&_comments=%@&_active=%@&_phonecmbo=%@&_phonecmbo1=%@&_phonecmbo2=%@&_phonecmbo3=%@&", _vendorNo, _name, _address, _city, _state, _zip, _phone, _phone1, _phone2, _phone3, _email, _webpage, _department, _office, _manager, _profession, _assistant, _comments, _active, _phonecmbo, _phonecmbo1, _phonecmbo2, _phonecmbo3];
+        
+        //  NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateVendor.php"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
     [self performSegueWithIdentifier:@"homeReturnEditSegue"sender:self];
     [self clearFormData];
-    
 }
-#pragma mark - Edit Customer
-/*
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    [self performSegueWithIdentifier:@"lookupEditJobSegue"sender:self];
- } */
 
 
 @end

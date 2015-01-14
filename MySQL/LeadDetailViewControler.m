@@ -411,8 +411,33 @@ return myCell;
        //   detailVC.frm32 = self.photo2;
        //   detailVC.frm33 = self.rate; //rate
        //   detailVC.frm34 = self.complete; //aptdate
-            }
-       }
+            
+        } else if ([_formController  isEqual: @"Vendor"]) {
+        detailVC.formController = @"Vendor";
+       // detailVC.custNo = self.custNo;
+        detailVC.leadNo = self.leadNo; //vendorNo
+        detailVC.frm11 = self.tbl24; //manager
+        detailVC.frm12 = self.date; //webpage
+        detailVC.frm13 = self.name; //vendorname
+        detailVC.frm14 = self.address;
+        detailVC.frm15 = self.city;
+        detailVC.frm16 = self.state;
+        detailVC.frm17 = self.zip;
+        detailVC.frm18 = self.tbl25; //profession
+        detailVC.frm19 = self.tbl15;  //assistant
+        detailVC.frm20 = self.tbl11; //phone
+        detailVC.frm21 = self.tbl12; //phone1
+        detailVC.frm22 = self.tbl13; //phone2
+        detailVC.frm23 = self.tbl14; // phone3
+        detailVC.frm24 = self.tbl22; //department
+        detailVC.frm25 = self.tbl21; //email
+        detailVC.frm26 = self.tbl23; //office
+        detailVC.frm27 = nil; 
+        detailVC.frm28 = self.comments;
+        detailVC.frm29 = nil;
+        detailVC.frm30 = self.active;
+    }
+}
 }
 
 @end
