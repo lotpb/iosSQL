@@ -25,6 +25,7 @@
 }
 
 @property (nonatomic, strong) id<LookupJobDelegate> delegate;
+@property (strong, nonatomic) NSString *formController;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

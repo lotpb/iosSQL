@@ -153,8 +153,8 @@
     if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
         self.adNo.placeholder = @"ProductNo";
-        self.callback.placeholder = @"Quan"; }
-        else if ([_formController isEqual: @"Vendor"]) {
+        self.callback.placeholder = @"Quan";
+    } else if ([_formController isEqual: @"Vendor"]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.company.placeholder = @"Company";
@@ -166,7 +166,22 @@
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES;
-     }
+        self.jobLookup.hidden = YES;
+    } else if ([_formController isEqual: @"Employee"]) {
+        self.first.placeholder = @"First";
+        self.last.placeholder = @"Last";
+        self.company.placeholder = @"Company";
+        self.date.placeholder = @"Country";
+        self.aptDate.placeholder = @"Middle";
+        self.phone.placeholder = @"Home Phone";
+        self.saleNo.placeholder = @"Work Phone";
+        self.jobNo.placeholder = @"Cell Phone";
+        self.adNo.placeholder = @"Social security";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Title";
+        self.callback.placeholder = @"Manager";
+        self.jobLookup.hidden = YES;
+        }
    
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
@@ -174,6 +189,15 @@
     self.jobNo.inputView = [self customPicker:2];
     self.adNo.inputView = [self customPicker:3];
     self.city.inputView = [self customPicker:4];
+    
+    //add Following button
+    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
+    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    if ( [self.active.text isEqual:@"1"] )
+    {[self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+        self.following.text = @"Following";
+    } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+        self.following.text = @"Follow";}
     
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -350,6 +374,7 @@
     if ([[segue identifier] isEqualToString:@"lookupEditJobSegue"]) {
         LookupJob *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:self];
+       //  addViewControler.formController = @"EditData";
     }
 }
 
@@ -611,6 +636,46 @@
         //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateVendor.php"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else if ([_formController isEqual: @"Employee"]) {
+        
+        NSString *_employeeNo = self.leadNo;
+        NSString *_company = self.company.text;
+        NSString *_address = self.address.text;
+        NSString *_city = self.city.text;
+        NSString *_state = self.state.text;
+        NSString *_zip = self.zip.text;
+        NSString *_homephone = self.phone.text;
+        NSString *_workphone = self.saleNo.text;
+        NSString *_cellphone = self.jobNo.text;
+        NSString *_country = self.date.text;
+        NSString *_email = self.email.text;
+        NSString *_last = self.last.text;
+        NSString *_department = self.amount.text;
+        NSString *_middle = self.aptDate.text;
+        NSString *_first = self.first.text;
+        NSString *_manager = self.callback.text;
+        NSString *_social = self.adNo.text;
+        NSString *_comments = self.comment.text;
+        NSString *_active = self.active.text;
+        NSString *_employtitle = self.spouse.text;
+    //  NSString *_time = self.time;
+        
+        NSString *rawStr = [NSString stringWithFormat:@"_employeeNo=%@&&_company=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&", _employeeNo, _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle];
+        
+        //  NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateEmployee.php"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];

@@ -315,6 +315,7 @@
        detailVC.leadNo = _selectedLocation.employeeNo;
        detailVC.date = _selectedLocation.email;
        detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",_selectedLocation.first,_selectedLocation.lastname, _selectedLocation.company];
+       detailVC.custNo = _selectedLocation.lastname;
        detailVC.address = _selectedLocation.street;
        detailVC.city = _selectedLocation.city;
        detailVC.state = _selectedLocation.state;

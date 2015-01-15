@@ -56,6 +56,10 @@
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
 
+@property (weak, nonatomic) IBOutlet UILabel *following;
+@property (weak, nonatomic) IBOutlet UIButton *activebutton;
+@property (weak, nonatomic) IBOutlet UIButton *cityLookup;
+@property (weak, nonatomic) IBOutlet UIButton *jobLookup;
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;

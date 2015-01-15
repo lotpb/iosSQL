@@ -11,6 +11,8 @@
 #import <Parse/Parse.h>
 
 @interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
+
+//may be a problem with employee lastname may be under custNo
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) IBOutlet UITextField *active;
@@ -54,9 +56,12 @@
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
 
-//@property (weak, nonatomic) NSString *time;
-@property (weak, nonatomic) IBOutlet UITextField *photo;
+@property (weak, nonatomic) IBOutlet UILabel *following;
+@property (weak, nonatomic) IBOutlet UIButton *activebutton;
+@property (weak, nonatomic) IBOutlet UIButton *cityLookup;
+@property (weak, nonatomic) IBOutlet UIButton *jobLookup;
 
+@property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
 

@@ -436,7 +436,31 @@ return myCell;
         detailVC.frm28 = self.comments;
         detailVC.frm29 = nil;
         detailVC.frm30 = self.active;
-    }
+        } else if ([_formController  isEqual: @"Employee"]) {
+            detailVC.formController = @"Employee";
+            // detailVC.custNo = self.custNo;
+            detailVC.leadNo = self.leadNo; //employeeNo
+            detailVC.frm11 = self.salesman; //first
+            detailVC.frm12 = self.custNo; //lastname
+            detailVC.frm13 = self.advertiser; //company
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.tbl25; //country
+            detailVC.frm19 = self.tbl15;  //middle
+            detailVC.frm20 = self.tbl11; //homephone
+            detailVC.frm21 = self.tbl12; //workphone
+            detailVC.frm22 = self.tbl13; //cellphone
+            detailVC.frm23 = self.tbl14; //social
+            detailVC.frm24 = self.tbl22; //department
+            detailVC.frm25 = self.tbl21; //email
+            detailVC.frm26 = self.tbl23; //title
+            detailVC.frm27 = self.tbl24; //manager
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = nil; //assistant
+            detailVC.frm30 = self.active;
+        }
 }
 }
 

@@ -171,7 +171,30 @@
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES;
+        self.jobLookup.hidden = YES;
+    } else if ([_formController isEqual: @"Employee"]) {
+        self.first.placeholder = @"First";
+        self.last.placeholder = @"Last";
+        self.company.placeholder = @"Company";
+        self.date.placeholder = @"Country";
+        self.aptDate.placeholder = @"Middle";
+        self.saleNo.placeholder = @"Work Phone";
+        self.jobNo.placeholder = @"Cell Phone";
+        self.adNo.placeholder = @"Social security";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Title";
+        self.callback.placeholder = @"Manager";
+        self.jobLookup.hidden = YES;
     }
+    
+    //add Following button
+    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
+    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    if ( [self.active.text isEqual:@"1"] )
+    {[self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+        self.following.text = @"Following";
+    } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+        self.following.text = @"Follow";}
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
@@ -590,6 +613,89 @@
         //  NSLog(@"%lu", (unsigned long)responseString.length);
         //  NSLog(@"%lu", (unsigned long)success.length);
        }
+    else if ([_formController isEqual: @"Vendor"]) {
+        
+      //NSString *_vendorNo = self.leadNo;
+        NSString *_name = self.company.text;
+        NSString *_address = self.address.text;
+        NSString *_city = self.city.text;
+        NSString *_state = self.state.text;
+        NSString *_zip = self.zip.text;
+        NSString *_phone = self.phone.text;
+        NSString *_phone1 = self.saleNo.text;
+        NSString *_phone2 = self.jobNo.text;
+        NSString *_phone3 = self.adNo.text;
+        NSString *_email = self.email.text;
+        NSString *_webpage = self.last.text;
+        NSString *_department = self.amount.text;
+        NSString *_office = self.spouse.text;
+        NSString *_manager = self.first.text;
+        NSString *_profession = self.date.text;
+        NSString *_assistant = self.aptDate.text;
+        NSString *_comments = self.comment.text;
+        NSString *_active = self.active.text;
+        NSString *_phonecmbo = nil;
+        NSString *_phonecmbo1 = nil;
+        NSString *_phonecmbo2 = nil;
+        NSString *_phonecmbo3 = nil;
+      //NSString *_time = self.time;
+        
+        NSString *rawStr = [NSString stringWithFormat:@"_name=%@&&_address=%@&_city=%@&_state=%@&_zip=%@&_phone=%@&_phone1=%@&_phone2=%@&_phone3=%@&_email=%@&_webpage=%@&_department=%@&_office=%@&_manager=%@&_profession=%@&_assistant=%@&_comments=%@&_active=%@&_phonecmbo=%@&_phonecmbo1=%@&_phonecmbo2=%@&_phonecmbo3=%@&", _name, _address, _city, _state, _zip, _phone, _phone1, _phone2, _phone3, _email, _webpage, _department, _office, _manager, _profession, _assistant, _comments, _active, _phonecmbo, _phonecmbo1, _phonecmbo2, _phonecmbo3];
+        
+        //  NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveVendor.php"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else if ([_formController isEqual: @"Employee"]) {
+        
+    //  NSString *_employeeNo = self.leadNo;
+        NSString *_company = self.company.text;
+        NSString *_address = self.address.text;
+        NSString *_city = self.city.text;
+        NSString *_state = self.state.text;
+        NSString *_zip = self.zip.text;
+        NSString *_homephone = self.phone.text;
+        NSString *_workphone = self.saleNo.text;
+        NSString *_cellphone = self.jobNo.text;
+        NSString *_country = self.date.text;
+        NSString *_email = self.email.text;
+        NSString *_last = self.last.text;
+        NSString *_department = self.amount.text;
+        NSString *_middle = self.aptDate.text;
+        NSString *_first = self.first.text;
+        NSString *_manager = self.callback.text;
+        NSString *_social = self.adNo.text;
+        NSString *_comments = self.comment.text;
+        NSString *_active = self.active.text;
+        NSString *_employtitle = self.spouse.text;
+    //  NSString *_time = self.time;
+        
+        NSString *rawStr = [NSString stringWithFormat:@"_company=%@&&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&", _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle];
+        
+        //  NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveEmployee.php"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
         [self performSegueWithIdentifier:@"homeReturnNewSegue"sender:self];
         [self clearFormData];
     }
