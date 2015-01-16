@@ -7,19 +7,11 @@
 //
 
 #import "NewDataViewController.h"
-#import "JobLocation.h"
-#import "LeadDetailViewControler.h"
-//#import "ViewController.h"
-#import "LookupCity.h"
-#import "LookupJob.h"
 
 @interface NewDataViewController () <LookupCityDelegate, LookupJobDelegate>
 {
-   JobModel *_JobModel; NSMutableArray *_feedItemsJ;
-   JobLocation *itemJ;
-   NSMutableArray *salesArray, *adArray, *zipArray, *productArray;
+   NSMutableArray *salesArray, *callbackArray;
 }
-
 @end
 
 @implementation NewDataViewController
@@ -27,10 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _feedItemsJ = [[NSMutableArray alloc] init];
-    _JobModel = [[JobModel alloc] init];
-    _JobModel.delegate = self; [_JobModel downloadItems];
    
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
      query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -42,35 +30,12 @@
         salesArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
     
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
-     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query1 selectKeys:@[@"AdNo"]];
-    [query1 selectKeys:@[@"Advertiser"]];
-    [query1 orderByDescending:@"Advertiser"];
-    [query1 whereKey:@"Active" containsString:@"Active"];
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
+    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query1 selectKeys:@[@"Callback"]];
+    [query1 orderByDescending:@"Callback"];
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adArray = [[NSMutableArray alloc]initWithArray:objects];
-    }];
-    
-    PFQuery *query2 = [PFQuery queryWithClassName:@"Zip"];
-     query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query2 selectKeys:@[@"ZipNo"]];
-    [query2 selectKeys:@[@"City"]];
-    [query2 selectKeys:@[@"State"]];
-    [query2 selectKeys:@[@"zipCode"]];
-    [query2 orderByDescending:@"City"];
-    [query2 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        zipArray = [[NSMutableArray alloc]initWithArray:objects];
-    }];
-    
-    PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query3 selectKeys:@[@"ProductNo"]];
-    [query3 selectKeys:@[@"Products"]];
-    [query3 orderByDescending:@"Products"];
-    [query3 whereKey:@"Active" containsString:@"Active"];
-    [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        productArray = [[NSMutableArray alloc]initWithArray:objects];
+        callbackArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
 
         self.leadNo = self.leadNo;
@@ -170,8 +135,9 @@
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
-        self.callback.hidden = YES;
-        self.jobLookup.hidden = YES;
+        self.callback.hidden = YES;//Field
+        self.jobLookup.hidden = YES; //Button
+        self.productLookup.hidden = YES; //Button
     } else if ([_formController isEqual: @"Employee"]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
@@ -184,23 +150,25 @@
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
-        self.jobLookup.hidden = YES;
+        self.jobLookup.hidden = YES; //button
+        self.productLookup.hidden = YES; //Button
     }
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
     UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
-    if ( [self.active.text isEqual:@"1"] )
-    {[self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
-        self.following.text = @"Following";
-    } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-        self.following.text = @"Follow";}
+    if ( [self.active.text isEqual:@"1"] ) {
+         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+          self.following.text = @"Following";
+        } else {
+         [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+          self.following.text = @"Follow";
+          }
     
     self.aptDate.inputView = [self datePicker];
     self.saleNo.inputView = [self customPicker:1];
-    self.jobNo.inputView = [self customPicker:2];
-    self.adNo.inputView = [self customPicker:3];
-    self.city.inputView = [self customPicker:4];
+    if ([_formController isEqual: @"Leads"])
+        self.callback.inputView = [self customPicker:2];
     
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -353,6 +321,20 @@
 
 }
 
+#pragma mark - Button
+-(IBAction)like:(id)sender{
+    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
+    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    if([self.active.text isEqualToString: @"0"]) {
+        self.following.text = @"Following";
+        self.active.text = @"1";
+       [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+       }else{
+        self.following.text = @"Follow";
+        self.active.text = @"0";
+       [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];}
+}
+
 #pragma mark - LookupCity Data
 - (void)cityFromController:(NSString *)passedData{
     self.city.text = passedData;
@@ -370,15 +352,26 @@
     self.jobNo.text = passedData;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{   if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
-    LookupCity *addViewControler = [segue destinationViewController];
-    [addViewControler setDelegate:self];
+- (void)productFromController:(NSString *)passedData{
+    self.adNo.text = passedData;
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
+        LookupCity *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:self];
+         addViewControler.formController = self.formController;
+       }
     if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
         LookupJob *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:self];
-    }
+         addViewControler.formController = self.formController;
+       }
+    if ([[segue identifier] isEqualToString:@"lookupProductSegue"]) {
+        LookupProduct *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:self];
+         addViewControler.formController = self.formController;
+       }
 }
 
 #pragma mark Lookup City needed
@@ -388,6 +381,11 @@
 #pragma mark Lookup Job needed
 -(IBAction)updateJob:(id)sender{
     [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
+}
+
+#pragma mark - Lookup Product needed
+-(IBAction)updateProduct:(id)sender{
+    [self performSegueWithIdentifier:@"lookupProductSegue"sender:self];
 }
 
 #pragma mark - View Picker
@@ -448,22 +446,12 @@
     self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
-#pragma mark - PickerView Componant
--(void)itemsDownloaded:(NSMutableArray *)items
-{
-    _feedItemsJ = items;
-}
-
 // The number of columns of data
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     if (pickerView.tag == 1)
         return 1;
     else if(pickerView.tag == 2)
-        return 1;
-    else if(pickerView.tag == 3)
-        return 1;
-    else if(pickerView.tag == 4)
         return 1;
     return 1;
 }
@@ -473,11 +461,7 @@
     if (pickerView.tag == 1)
         return salesArray.count;
     else if(pickerView.tag == 2)
-        return _feedItemsJ.count;
-    else if(pickerView.tag == 3)
-        return adArray.count;
-    else if(pickerView.tag == 4)
-        return zipArray.count;
+        return callbackArray.count;
     return 0;
 }
 
@@ -488,14 +472,8 @@
     
     if (pickerView.tag == 1)
         return[[salesArray objectAtIndex:row]valueForKey:@"Salesman"];
-    else if(pickerView.tag == 2) {
-        itemJ = _feedItemsJ[row];
-        return itemJ.jobdescription; }
-    else if(pickerView.tag == 3)
-        return[[adArray objectAtIndex:row]valueForKey:@"Advertiser"];
-    else if(pickerView.tag == 4)
-        return[[zipArray objectAtIndex:row]valueForKey:@"City"];
-    
+    else if(pickerView.tag == 2)
+        return[[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
     return result;
 }
 
@@ -503,16 +481,8 @@
 {
     if (pickerView.tag == 1)
         self.saleNo.text = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
-    else if(pickerView.tag == 2) {
-        itemJ = _feedItemsJ[row];
-        self.jobNo.text = itemJ.jobNo; }
-    else if(pickerView.tag == 3)
-        self.adNo.text = [[adArray objectAtIndex:row]valueForKey:@"AdNo"];
-    else if(pickerView.tag == 4) {
-        self.city.text = [[zipArray objectAtIndex:row]valueForKey:@"City"];
-        self.state.text = [[zipArray objectAtIndex:row]valueForKey:@"State"];
-        self.zip.text = [[zipArray objectAtIndex:row]valueForKey:@"zipCode"];
-    }
+    else if(pickerView.tag == 2)
+        self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
 }
 
 #pragma mark - New Leads

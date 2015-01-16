@@ -1,58 +1,76 @@
 //
-//  LookupJob.m
+//  LookupProduct.m
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/6/15.
+//  Created by Peter Balsamo on 1/15/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
-//
+// this ViewController handles Products and Advertisers
 
-#import "LookupJob.h"
+#import "LookupProduct.h"
 #import <Parse/Parse.h>
 
-@interface LookupJob ()
+@interface LookupProduct ()
 {
     UIRefreshControl *refreshControl;
-    NSMutableArray *jobArray;
-    NSString *jobName;
+    NSMutableArray *adproductArray;
+    NSString *adproductName;
 }
-@property (strong, nonatomic) NSString *tjo22;
+@property (strong, nonatomic) NSString *tpr22;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
-@implementation LookupJob
+@implementation LookupProduct
 @synthesize searchBar;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title =  @"Job lookup";
+    if ([_formController isEqual: @"Customer"])
+    self.title =  @"Product lookup";
+    else self.title =  @"Advertising lookup"; 
     self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
-    [self.searchBar becomeFirstResponder];
+   [self.searchBar becomeFirstResponder];
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    jobArray = [[NSMutableArray alloc] init];
+    adproductArray = [[NSMutableArray alloc] init];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"Description"]];
-    [query selectKeys:@[@"JobNo"]];
-     [query orderByDescending:@"Description"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if ([_formController isEqual: @"Customer"]) {
+     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
+     query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     [query3 selectKeys:@[@"ProductNo"]];
+     [query3 selectKeys:@[@"Products"]];
+     [query3 orderByDescending:@"Products"];
+     [query3 whereKey:@"Active" containsString:@"Active"];
+     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+         if (!error) {
+             for (PFObject *object in objects) {
+                 [adproductArray addObject:object];
+                 [self.listTableView reloadData]; }
+         } else {
+             NSLog(@"Error: %@ %@", error, [error userInfo]); }
+     }];
+    } else {  //leads
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
+    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query1 selectKeys:@[@"AdNo"]];
+    [query1 selectKeys:@[@"Advertiser"]];
+    [query1 orderByDescending:@"Advertiser"];
+    [query1 whereKey:@"Active" containsString:@"Active"];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [jobArray addObject:object];
+                [adproductArray addObject:object];
                 [self.listTableView reloadData]; }
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]); }
-    }];
+    }]; }
     
-    filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
+    filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
     
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
@@ -64,10 +82,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.searchBar.clipsToBounds = YES;
+     self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
-    //   self.edgesForExtendedLayout = UIRectEdgeTop;
-    //   self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -109,7 +125,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        return jobArray.count;
+        return adproductArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -121,28 +137,28 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     if (!isFilltered) {
-        jobName = [[jobArray objectAtIndex:indexPath.row] objectForKey:@"Description"];
+        if ([_formController isEqual: @"Customer"]) {
+        adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Products"];
+        } else
+        adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
     } else {
-        jobName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Description"];
+        adproductName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Products"];
     }
     
-    myCell.textLabel.text = jobName;
+    myCell.textLabel.text = adproductName;
     myCell.detailTextLabel.text = nil;//item.city;
-    //  myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-    //  self.searchBar.hidden = NO;
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     self.searchBar.text=@"";
-    // self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
+   [self.searchBar resignFirstResponder];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -153,9 +169,9 @@
     } else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        for(PFObject *str in jobArray)
+        for(PFObject *str in adproductArray)
         {
-            NSRange stringRange = [[str objectForKey:@"Description"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+           NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             if(stringRange.location != NSNotFound) {
                 [filteredString addObject:str];
             }
@@ -168,9 +184,15 @@
     
     NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     if (!isFilltered) {
-        [self.delegate jobFromController:self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+        if ([_formController isEqual: @"Customer"]) {
+        [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
+    } else
+        [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"AdNo"]];
     } else {
-        [self.delegate jobFromController:self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+     if ([_formController isEqual: @"Customer"]) {
+        [self.delegate productFromController:self.tpr22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
+    } else
+        [self.delegate productFromController:self.tpr22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"AdNo"]];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -179,9 +201,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!isFilltered)
-    [jobArray objectAtIndex:indexPath.row];
+        [adproductArray objectAtIndex:indexPath.row];
     else
-    [filteredString objectAtIndex:indexPath.row];
+        [filteredString objectAtIndex:indexPath.row];
     
     [self passDataBack];
 }

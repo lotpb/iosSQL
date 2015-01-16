@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JobModel.h"
 #import <Parse/Parse.h>
+#import "LeadDetailViewControler.h"
+#import "LookupCity.h"
+#import "LookupJob.h"
+#import "LookupProduct.h"
 
-@interface EditDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
+@interface EditDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *custNo;
@@ -56,10 +59,13 @@
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
 
+
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 @property (weak, nonatomic) IBOutlet UIButton *cityLookup;
 @property (weak, nonatomic) IBOutlet UIButton *jobLookup;
+@property (weak, nonatomic) IBOutlet UIButton *productLookup;
+
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;

@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JobModel.h"
 #import <Parse/Parse.h>
+#import "LeadDetailViewControler.h"
+#import "LookupCity.h"
+#import "LookupJob.h"
+#import "LookupProduct.h"
 
-@interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, JobModelProtocol>
+@interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
 //may be a problem with employee lastname may be under custNo
 @property (strong, nonatomic) NSString *formController;
@@ -31,8 +34,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *spouse;
 @property (weak, nonatomic) IBOutlet UITextField *callback;
 @property (weak, nonatomic) IBOutlet UITextField *saleNo;
+@property (weak, nonatomic) IBOutlet UITextField *salesman;
 @property (weak, nonatomic) IBOutlet UITextField *jobNo;
+@property (weak, nonatomic) IBOutlet UITextField *jobName;
 @property (weak, nonatomic) IBOutlet UITextField *adNo;
+@property (weak, nonatomic) IBOutlet UITextField *adName;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
 
 @property (strong, nonatomic) NSString *frm11;
@@ -60,6 +66,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 @property (weak, nonatomic) IBOutlet UIButton *cityLookup;
 @property (weak, nonatomic) IBOutlet UIButton *jobLookup;
+@property (weak, nonatomic) IBOutlet UIButton *productLookup;
 
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;

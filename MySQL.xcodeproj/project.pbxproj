@@ -125,6 +125,7 @@
 		AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8091A33446B00A47D4A /* Parse.framework */; };
 		AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8831A2133F5005D556C /* EmployeeViewController.m */; };
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
+		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
 		AFF782041A41B6760098692C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AFF782031A41B6760098692C /* Settings.bundle */; };
 		AFFEA0701A31E8BA00165318 /* AdLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA06F1A31E8BA00165318 /* AdLocation.m */; };
 		AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA0721A31E8DE00165318 /* AdModel.m */; };
@@ -318,6 +319,8 @@
 		AFF3B8831A2133F5005D556C /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
 		AFF3B8851A2135B6005D556C /* EmployeeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeLocation.h; sourceTree = "<group>"; };
 		AFF3B8861A2135B6005D556C /* EmployeeLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeLocation.m; sourceTree = "<group>"; };
+		AFF5F4881A68921900687BC3 /* LookupProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookupProduct.h; sourceTree = "<group>"; };
+		AFF5F4891A68921900687BC3 /* LookupProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupProduct.m; sourceTree = "<group>"; };
 		AFF782031A41B6760098692C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		AFFEA06E1A31E8BA00165318 /* AdLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdLocation.h; sourceTree = "<group>"; };
 		AFFEA06F1A31E8BA00165318 /* AdLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdLocation.m; sourceTree = "<group>"; };
@@ -528,6 +531,8 @@
 				AF5F8EE01A61C4290063B6DA /* LookupCity.m */,
 				AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */,
 				AF909E8E1A61C2F0008D6F14 /* LookupJob.m */,
+				AFF5F4881A68921900687BC3 /* LookupProduct.h */,
+				AFF5F4891A68921900687BC3 /* LookupProduct.m */,
 			);
 			name = NewData;
 			sourceTree = "<group>";
@@ -984,6 +989,7 @@
 				AFAA0FD81A0E93A600205EE9 /* AddressViewController.m in Sources */,
 				AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */,
 				AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */,
+				AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */,
 				AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */,
 				AF65081119EB158300CEF44D /* MainViewController.m in Sources */,
 				AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */,

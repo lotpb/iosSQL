@@ -1,8 +1,8 @@
 //
-//  LookupJob.h
+//  LookupProduct.h
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/6/15.
+//  Created by Peter Balsamo on 1/15/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
@@ -10,21 +10,20 @@
 #import "NewDataViewController.h"
 #import "EditDataViewController.h"
 
-@protocol LookupJobDelegate <NSObject>
+@protocol LookupProductDelegate <NSObject>
 
 @required
-- (void)jobFromController:(NSString *)passedData;
+- (void)productFromController:(NSString *)passedData;
 
 @end
-
-@interface LookupJob : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface LookupProduct : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;
 }
 
-@property (strong, nonatomic) id<LookupJobDelegate> delegate;
+@property (strong, nonatomic) id<LookupProductDelegate> delegate;
 @property (strong, nonatomic) NSString *formController;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

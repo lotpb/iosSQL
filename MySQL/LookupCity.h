@@ -24,8 +24,8 @@
     NSMutableArray *filteredString;
     BOOL isFilltered;
 }
-
-@property (nonatomic, strong) id<LookupCityDelegate> delegate;
+@property (strong, nonatomic) id<LookupCityDelegate> delegate;
+@property (strong, nonatomic) NSString *formController;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
