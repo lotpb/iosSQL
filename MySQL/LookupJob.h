@@ -14,6 +14,7 @@
 
 @required
 - (void)jobFromController:(NSString *)passedData;
+- (void)jobNameFromController:(NSString *)passedData;
 
 @end
 

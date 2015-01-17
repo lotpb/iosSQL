@@ -1634,6 +1634,7 @@
                     <connections>
                         <outlet property="active" destination="if2-j2-Mhq" id="ukJ-ok-IrY"/>
                         <outlet property="activebutton" destination="Gvh-tI-eip" id="bCR-dX-mjx"/>
+                        <outlet property="adName" destination="BFU-Ec-a3g" id="J0T-mb-Ihb"/>
                         <outlet property="adNo" destination="BFU-Ec-a3g" id="lmh-mo-0o2"/>
                         <outlet property="address" destination="iAI-P2-xFn" id="hf9-oD-BfP"/>
                         <outlet property="amount" destination="NZS-b5-6Kw" id="2qP-bi-zwi"/>
@@ -1648,12 +1649,14 @@
                         <outlet property="first" destination="soe-hX-ZyH" id="0LL-rK-xZE"/>
                         <outlet property="following" destination="pfu-Pt-LXb" id="l2w-Ku-gkv"/>
                         <outlet property="jobLookup" destination="lX6-v4-fE3" id="aBD-4B-icZ"/>
+                        <outlet property="jobName" destination="4uo-Xr-Qbm" id="5VA-kO-hF9"/>
                         <outlet property="jobNo" destination="4uo-Xr-Qbm" id="kkk-y5-JFW"/>
                         <outlet property="last" destination="88z-rj-FG2" id="1gg-fh-6fn"/>
                         <outlet property="phone" destination="11x-3g-DYl" id="GTn-jh-wdg"/>
                         <outlet property="productLookup" destination="dwA-fT-dHA" id="dYI-0O-Sh1"/>
                         <outlet property="profileImageView" destination="vyc-IU-59l" id="E1y-bD-4kE"/>
                         <outlet property="saleNo" destination="gCf-NQ-wwi" id="1wm-GO-XsQ"/>
+                        <outlet property="salesman" destination="gCf-NQ-wwi" id="QdK-b3-9nG"/>
                         <outlet property="spouse" destination="wQd-16-HvR" id="iTA-PQ-A5z"/>
                         <outlet property="state" destination="WVf-YL-dvk" id="kMH-sq-IZL"/>
                         <outlet property="zip" destination="cfS-p2-PO4" id="BQt-hA-oOV"/>
@@ -6381,7 +6384,7 @@
                     <connections>
                         <outlet property="active" destination="Nhs-nU-TkB" id="BPs-3A-JvY"/>
                         <outlet property="activebutton" destination="Sjx-tA-ueM" id="Kzu-UE-jCT"/>
-                        <outlet property="adNo" destination="GQa-0d-P3u" id="5F4-Fk-8oe"/>
+                        <outlet property="adName" destination="GQa-0d-P3u" id="j6w-W5-Zor"/>
                         <outlet property="address" destination="G6L-tw-xGi" id="FTh-IT-ZWa"/>
                         <outlet property="amount" destination="cTm-GN-2AZ" id="tUA-kK-Wk5"/>
                         <outlet property="aptDate" destination="QO6-89-orZ" id="qqh-YZ-fxh"/>
@@ -6395,12 +6398,12 @@
                         <outlet property="first" destination="SRV-Db-bml" id="fUl-NY-I5I"/>
                         <outlet property="following" destination="LJs-dV-0Ja" id="Bd0-Ru-mKw"/>
                         <outlet property="jobLookup" destination="d4C-KC-tmk" id="gfh-sn-3XO"/>
-                        <outlet property="jobNo" destination="lFe-Gj-MZD" id="Y7t-af-2GN"/>
+                        <outlet property="jobName" destination="lFe-Gj-MZD" id="bYg-nI-pBq"/>
                         <outlet property="last" destination="JeS-KF-w0Q" id="WrG-TQ-rKg"/>
                         <outlet property="phone" destination="PuE-xR-wb3" id="k9A-VO-t81"/>
                         <outlet property="productLookup" destination="OrX-8b-IdU" id="kyJ-B6-zQN"/>
                         <outlet property="profileImageView" destination="009-HB-v23" id="M1N-Qd-faX"/>
-                        <outlet property="saleNo" destination="lAG-X8-2Wm" id="vyY-Oo-JrT"/>
+                        <outlet property="salesman" destination="lAG-X8-2Wm" id="UCA-Ee-mc7"/>
                         <outlet property="spouse" destination="TnK-ee-c7n" id="QCt-p1-AGF"/>
                         <outlet property="state" destination="Hoi-nb-0kL" id="dgk-Ue-tYi"/>
                         <outlet property="zip" destination="MEg-IH-bhB" id="5wH-c5-ufo"/>
@@ -6441,12 +6444,12 @@
         <segue reference="jwQ-k2-eY1"/>
         <segue reference="MEa-hs-crl"/>
         <segue reference="6GQ-e7-fhm"/>
-        <segue reference="Vww-ua-WBq"/>
-        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="Gtt-qV-HI9"/>
         <segue reference="8fI-fo-TTU"/>
-        <segue reference="61u-Tr-PtW"/>
-        <segue reference="dip-5A-Lje"/>
-        <segue reference="xOD-Ja-G1n"/>
+        <segue reference="i7H-oC-EPR"/>
+        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="DrB-wj-X59"/>
+        <segue reference="cFB-fG-LzW"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

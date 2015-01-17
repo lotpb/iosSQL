@@ -16,6 +16,7 @@
     NSString *adproductName;
 }
 @property (strong, nonatomic) NSString *tpr22;
+@property (strong, nonatomic) NSString *tpn22;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -90,7 +91,7 @@
 {
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
-    //  self.navigationController.navigationBar.translucent = NO;
+  // self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -146,7 +147,7 @@
     }
     
     myCell.textLabel.text = adproductName;
-    myCell.detailTextLabel.text = nil;//item.city;
+   // myCell.detailTextLabel.text = nil;//item.city;
     
     return myCell;
 }
@@ -163,18 +164,16 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if(searchText.length == 0)
-    {
+    if(searchText.length == 0) {
         isFilltered = NO;
-    } else {
+      } else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in adproductArray)
         {
-           NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if(stringRange.location != NSNotFound) {
-                [filteredString addObject:str];
-            }
+        NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if(stringRange.location != NSNotFound) {
+          [filteredString addObject:str]; }
         }
     }
     [self.tableView reloadData];
@@ -186,13 +185,18 @@
     if (!isFilltered) {
         if ([_formController isEqual: @"Customer"]) {
         [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
-    } else
+        [self.delegate productNameFromController:self.tpn22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"Products"]];
+       } else {
         [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"AdNo"]];
-    } else {
+        [self.delegate productNameFromController:self.tpn22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"Advertiser"]]; }
+       } else {
      if ([_formController isEqual: @"Customer"]) {
         [self.delegate productFromController:self.tpr22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
-    } else
+        [self.delegate productNameFromController:self.tpn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Products"]];
+       } else {
         [self.delegate productFromController:self.tpr22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"AdNo"]];
+        [self.delegate productNameFromController:self.tpn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Advertiser"]];
+       }
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

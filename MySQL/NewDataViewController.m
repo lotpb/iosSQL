@@ -83,16 +83,16 @@
         else self.phone.text = self.frm20;
     
     if  ( [self.frm21 isEqual:[NSNull null]] )
-        self.saleNo.text = @"";
-        else self.saleNo.text = self.frm21;
+        self.saleNo = @"";
+        else self.saleNo = self.frm21;
     
     if  ( [self.frm22 isEqual:[NSNull null]] )
-        self.jobNo.text = @"";
-        else self.jobNo.text = self.frm22;
+        self.jobNo = @"";
+        else self.jobNo = self.frm22;
     
     if ( [self.frm23 isEqual:[NSNull null]] )
-        self.adNo.text = @"";
-        else self.adNo.text = self.frm23;
+        self.adNo = @"";
+        else self.adNo = self.frm23;
 
     if  ( [self.frm24 isEqual:[NSNull null]] )
            self.amount.text = @"";
@@ -122,16 +122,16 @@
     
     if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
-        self.adNo.placeholder = @"ProductNo";
+        self.adName.placeholder = @"ProductNo";
         self.callback.placeholder = @"Quan";
     } else if ([_formController isEqual: @"Vendor"]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.company.placeholder = @"Company";
         self.date.placeholder = @"Profession";
-        self.saleNo.placeholder = @"Phone1";
-        self.jobNo.placeholder = @"phone2";
-        self.adNo.placeholder = @"phone3";
+        self.salesman.placeholder = @"Phone1";
+        self.jobName.placeholder = @"phone2";
+        self.adName.placeholder = @"phone3";
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
@@ -144,9 +144,9 @@
         self.company.placeholder = @"Company";
         self.date.placeholder = @"Country";
         self.aptDate.placeholder = @"Middle";
-        self.saleNo.placeholder = @"Work Phone";
-        self.jobNo.placeholder = @"Cell Phone";
-        self.adNo.placeholder = @"Social security";
+        self.salesman.placeholder = @"Work Phone";
+        self.jobName.placeholder = @"Cell Phone";
+        self.adName.placeholder = @"Social security";
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
@@ -166,7 +166,7 @@
           }
     
     self.aptDate.inputView = [self datePicker];
-    self.saleNo.inputView = [self customPicker:1];
+    self.salesman.inputView = [self customPicker:1];
     if ([_formController isEqual: @"Leads"])
         self.callback.inputView = [self customPicker:2];
     
@@ -195,11 +195,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
 {
     [self loadFormData];
 }
+
 #pragma mark Load Form Data
 -(void)loadFormData {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -221,12 +223,12 @@
         self.amount.text = [prefs objectForKey:@"amount"];
     if (spouse.text.length == 0)
         self.spouse.text = [prefs objectForKey:@"spouse"];
-    if (adNo.text.length == 0)
-        self.adNo.text = [prefs objectForKey:@"adNo"];
-    if (saleNo.text.length == 0)
-        self.saleNo.text = [prefs objectForKey:@"salesNo"];
-    if (jobNo.text.length == 0)
-        self.jobNo.text = [prefs objectForKey:@"jobNo"];
+    if (_adName.text.length == 0)
+        self.adName.text = [prefs objectForKey:@"adNo"];
+    if (_salesman.text.length == 0)
+        self.salesman.text = [prefs objectForKey:@"salesNo"];
+    if (_jobName.text.length == 0)
+        self.jobName.text = [prefs objectForKey:@"jobNo"];
     if (comment.text.length == 0)
         self.comment.text = [prefs objectForKey:@"comment"];
     if (phone.text.length == 0)
@@ -293,11 +295,11 @@
     if(self.spouse.text.length > 0) {
        NSString *spouseString = self.spouse.text;
         [prefs setObject:spouseString forKey:@"spouse"];}
-    if(self.saleNo.text.length > 0) {
-       NSString *saleNoString = self.saleNo.text;
+    if(self.salesman.text.length > 0) {
+       NSString *saleNoString = self.salesman.text;
         [prefs setObject:saleNoString forKey:@"salesNo"];}
-    if(self.jobNo.text.length > 0) {
-       NSString *jobNoString = self.jobNo.text;
+    if(self.jobName.text.length > 0) {
+       NSString *jobNoString = self.jobName.text;
         [prefs setObject:jobNoString forKey:@"jobNo"];}
     if(self.comment.text.length > 0) {
        NSString *commentString = self.comment.text;
@@ -308,8 +310,8 @@
     if(self.leadNo.length > 0) {
        NSString *leadNoString = self.leadNo;
         [prefs setObject:leadNoString forKey:@"leadNo"];}
-    if(self.adNo.text.length > 0){
-       NSString *adNoString = self.adNo.text;
+    if(self.adName.text.length > 0){
+       NSString *adNoString = self.adName.text;
         [prefs setObject:adNoString forKey:@"adNo"];}
     if(self.callback.text.length > 0){
        NSString *callbackString = self.callback.text;
@@ -349,11 +351,19 @@
 }
 
 - (void)jobFromController:(NSString *)passedData{
-    self.jobNo.text = passedData;
+    self.jobNo = passedData;
+}
+
+- (void)jobNameFromController:(NSString *)passedData{
+    self.jobName.text = passedData;
 }
 
 - (void)productFromController:(NSString *)passedData{
-    self.adNo.text = passedData;
+    self.adNo = passedData;
+}
+
+- (void)productNameFromController:(NSString *)passedData{
+    self.adName.text = passedData;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -479,8 +489,9 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (pickerView.tag == 1)
-        self.saleNo.text = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
+    if (pickerView.tag == 1) {
+        self.saleNo = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
+        self.salesman.text = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
     else if(pickerView.tag == 2)
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
 }
@@ -514,9 +525,9 @@
     NSString *_amount = self.amount.text;
     NSString *_spouse = self.spouse.text;
     NSString *_callback = self.callback.text;
-    NSString *_salesNo = self.saleNo.text;
-    NSString *_jobNo = self.jobNo.text;
-    NSString *_adNo = self.adNo.text;
+    NSString *_salesNo = self.saleNo;
+    NSString *_jobNo = self.jobNo;
+    NSString *_adNo = self.adNo;
     NSString *_comments = self.comment.text;
     NSString *_photo = self.photo.text;
 //  NSString *_time = self.time;
@@ -554,9 +565,9 @@
         NSString *_amount = self.amount.text;
         NSString *_spouse = self.spouse.text;
         NSString *_rate = nil;
-        NSString *_salesNo = self.saleNo.text;
-        NSString *_jobNo = self.jobNo.text;
-        NSString *_productNo = self.adNo.text;
+        NSString *_salesNo = self.saleNo;
+        NSString *_jobNo = self.jobNo;
+        NSString *_productNo = self.adNo;
         NSString *_comments = self.comment.text;
         NSString *_photo = self.photo.text;
         NSString *_photo1 = nil;
@@ -592,9 +603,9 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_phone = self.phone.text;
-        NSString *_phone1 = self.saleNo.text;
-        NSString *_phone2 = self.jobNo.text;
-        NSString *_phone3 = self.adNo.text;
+        NSString *_phone1 = self.saleNo;
+        NSString *_phone2 = self.jobNo;
+        NSString *_phone3 = self.adNo;
         NSString *_email = self.email.text;
         NSString *_webpage = self.last.text;
         NSString *_department = self.amount.text;
@@ -635,8 +646,8 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_homephone = self.phone.text;
-        NSString *_workphone = self.saleNo.text;
-        NSString *_cellphone = self.jobNo.text;
+        NSString *_workphone = self.saleNo;
+        NSString *_cellphone = self.jobNo;
         NSString *_country = self.date.text;
         NSString *_email = self.email.text;
         NSString *_last = self.last.text;
@@ -644,7 +655,7 @@
         NSString *_middle = self.aptDate.text;
         NSString *_first = self.first.text;
         NSString *_manager = self.callback.text;
-        NSString *_social = self.adNo.text;
+        NSString *_social = self.adNo;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active.text;
         NSString *_employtitle = self.spouse.text;
@@ -685,15 +696,15 @@
  
  self.btnSave.enabled = complete;
  } */
-
+/*
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
-    } else {
+      } else {
         return YES;
-    }
-}
+      }
+} */
 
 @end

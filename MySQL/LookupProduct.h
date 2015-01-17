@@ -14,6 +14,7 @@
 
 @required
 - (void)productFromController:(NSString *)passedData;
+- (void)productNameFromController:(NSString *)passedData;
 
 @end
 @interface LookupProduct : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>

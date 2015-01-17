@@ -34,11 +34,9 @@ NSString *cityName;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
    [self.searchBar becomeFirstResponder];
-  //self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
     zipArray = [[NSMutableArray alloc] init];
     
@@ -72,8 +70,6 @@ NSString *cityName;
 
      self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
-//   self.edgesForExtendedLayout = UIRectEdgeTop;
-//   self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -128,43 +124,38 @@ NSString *cityName;
     }
     if (!isFilltered) {
         cityName = [[zipArray objectAtIndex:indexPath.row] objectForKey:@"City"];
-    } else {
-        cityName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
-    }
+      } else {
+        cityName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"]; }
     
     myCell.textLabel.text = cityName;
-    myCell.detailTextLabel.text = nil;//item.city;
-  //myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+   // myCell.detailTextLabel.text = nil;//item.city;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-  // self.searchBar.hidden = NO;
+
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
      self.searchBar.text=@"";
-   //self.searchBar.hidden = YES;
     [self.searchBar resignFirstResponder];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if(searchText.length == 0)
-    {
+    if(searchText.length == 0) {
         isFilltered = NO;
     } else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in zipArray)
         {
-            NSRange stringRange = [[str objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if(stringRange.location != NSNotFound) {
-                [filteredString addObject:str];
-            }
+        NSRange stringRange = [[str objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if(stringRange.location != NSNotFound) {
+        [filteredString addObject:str]; }
         }
     }
 [self.tableView reloadData];
@@ -180,8 +171,7 @@ NSString *cityName;
      } else {
      [self.delegate cityFromController:self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"]];
      [self.delegate stateFromController:self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"]];
-     [self.delegate zipFromController:self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"]];
-        }
+     [self.delegate zipFromController:self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"]]; }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -190,10 +180,10 @@ NSString *cityName;
     
     if (!isFilltered)
         [zipArray objectAtIndex:indexPath.row];
-    else
+        else
         [filteredString objectAtIndex:indexPath.row];
     
-    [self passDataBack];
+        [self passDataBack];
 }
 
 @end

@@ -33,9 +33,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *amount;
 @property (weak, nonatomic) IBOutlet UITextField *spouse;
 @property (weak, nonatomic) IBOutlet UITextField *callback;
-@property (weak, nonatomic) IBOutlet UITextField *saleNo;
-@property (weak, nonatomic) IBOutlet UITextField *jobNo;
-@property (weak, nonatomic) IBOutlet UITextField *adNo;
+@property (weak, nonatomic) IBOutlet NSString *saleNo;
+@property (weak, nonatomic) IBOutlet UITextField *salesman;
+@property (weak, nonatomic) IBOutlet NSString *jobNo;
+@property (weak, nonatomic) IBOutlet UITextField *jobName;
+@property (weak, nonatomic) IBOutlet NSString *adNo;
+@property (weak, nonatomic) IBOutlet UITextField *adName;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
 
 @property (strong, nonatomic) NSString *frm11;

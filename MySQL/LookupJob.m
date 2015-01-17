@@ -16,6 +16,7 @@
     NSString *jobName;
 }
 @property (strong, nonatomic) NSString *tjo22;
+@property (strong, nonatomic) NSString *tjn22;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -34,7 +35,6 @@
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
     jobArray = [[NSMutableArray alloc] init];
     
@@ -64,17 +64,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.searchBar.clipsToBounds = YES;
+     self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
-    //   self.edgesForExtendedLayout = UIRectEdgeTop;
-    //   self.navigationController.navigationBar.translucent = YES;
+   //self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
-    //  self.navigationController.navigationBar.translucent = NO;
+  // self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,27 +126,25 @@
     }
     
     myCell.textLabel.text = jobName;
-    myCell.detailTextLabel.text = nil;//item.city;
-    //  myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+   // myCell.detailTextLabel.text = nil;//item.city;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-    //  self.searchBar.hidden = NO;
+
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    self.searchBar.text=@"";
-    // self.searchBar.hidden = YES;
+     self.searchBar.text=@"";
     [self.searchBar resignFirstResponder];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if(searchText.length == 0)
+  if(searchText.length == 0)
     {
         isFilltered = NO;
     } else {
@@ -155,11 +152,10 @@
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in jobArray)
         {
-            NSRange stringRange = [[str objectForKey:@"Description"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if(stringRange.location != NSNotFound) {
-                [filteredString addObject:str];
-            }
-        }
+    NSRange stringRange = [[str objectForKey:@"Description"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+    if(stringRange.location != NSNotFound) {
+                [filteredString addObject:str]; }
+    }
     }
     [self.tableView reloadData];
 }
@@ -169,8 +165,10 @@
     NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     if (!isFilltered) {
         [self.delegate jobFromController:self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+        [self.delegate jobNameFromController:self.tjn22 =[[jobArray objectAtIndex:indexPath.row]objectForKey:@"Description"]];
     } else {
         [self.delegate jobFromController:self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
+        [self.delegate jobFromController:self.tjn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Description"]];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
