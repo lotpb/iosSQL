@@ -7,9 +7,7 @@
 //
 
 #import "LeadDetailViewControler.h"
-#import "CustomTableViewCell.h"
-#import "NewDataViewController.h"
-#import "EditDataViewController.h"
+#import <Parse/Parse.h>
 
 @interface LeadDetailViewControler ()
 
@@ -18,6 +16,7 @@
 @implementation LeadDetailViewControler
 {
     NSArray *tableData, *tableData2, *tableData3, *tableData4;
+    NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
@@ -36,13 +35,53 @@
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    
-    NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1;
-    
+
 #pragma mark Bar Button
     UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
     NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+        
+        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+         query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query11 selectKeys:@[@"Advertiser"]];
+        [query11 whereKey:@"AdNo" equalTo:self.tbl24];
+        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object) {
+                NSLog(@"The getFirstObject request failed.");
+            } else {
+                self.advertiser = [object objectForKey:@"Advertiser"];
+                NSLog(@"adStr is %@",self.advertiser);
+            }
+        }];
+        
+        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+         query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query21 selectKeys:@[@"Description"]];
+        [query21 whereKey:@"JobNo" equalTo:self.tbl23];
+        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object) {
+                NSLog(@"The getFirstObject request failed.");
+            } else {
+               self.jobdescription = [object objectForKey:@"Description"];
+                NSLog(@"jobStr is %@",jobdescription);
+            }
+        }];
+        
+        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+         query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query31 selectKeys:@[@"Salesman"]];
+        [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
+        [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object) {
+                NSLog(@"The getFirstObject request failed.");
+            } else {
+                self.salesman = [object objectForKey:@"Salesman"];
+                 NSLog(@"salesStr is %@",self.salesman);
+            }
+        }];
+}
     
     if ( ( ![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0 ) ) {self.name = self.name;
     } else { self.name = @""; }
@@ -70,7 +109,7 @@ if ( ( ![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ) ) {
     
 if ( ( ![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ) ) {t12 = self.tbl12;
 } else { t12 = @"None"; }
-    
+
 if ( ( ![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ) ) {t13 = self.tbl13;
 } else { t13 = @"None"; }
     
@@ -83,15 +122,36 @@ if ( ( ![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ) ) {
 if ( ( ![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ) ) {t21 = self.tbl21;
 } else { t21 = @"None"; }
     
-if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) ) {t22 = self.tbl22;
-} else { t22 = @"None"; }
+/*
+if ([_formController isEqual: @"Leads"]) {
+    if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
+            {t22 = self.salesman;
+    } else { t22 = @"None"; }
     
-if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) ) {t23 = self.tbl23;
-} else { t23 = @"None"; }
+    if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) )
+            {t23 = self.jobdescription;
+    } else { t23 = @"None"; }
     
-if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) ) {t24 = self.tbl24;
-} else { t24 = @"None"; }
+    if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
+            {t24 = self.advertiser;
+    } else { t24 = @"None"; }
+  } else{ */
+
     
+    if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
+            {t22 = self.tbl22;
+    } else { t22 = @"None"; }
+   
+    if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) )
+            {t23 = self.tbl23;
+    } else { t23 = @"None"; } 
+    
+    if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
+            {t24 = self.tbl24;
+    } else { t24 = @"None"; }
+//}
+
+ 
 if ( ( ![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ) ) {t25 = self.tbl25;
     } else { t25 = @"None"; }
     
@@ -111,15 +171,15 @@ self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
 self.labelamount.text = amount;
 self.comments = news1;
 self.photo = p1;
+
+    ///below must be on bottom from above
+    tableData = [NSArray arrayWithObjects:t11, t12, t13, t14, t15, nil];
     
-///below must be on bottom from above
-tableData = [NSArray arrayWithObjects:t11, t12, t13, t14, t15, nil];
+    tableData2 = [NSArray arrayWithObjects:t21, t22, t23, t24, t25, nil];
     
-tableData2 = [NSArray arrayWithObjects:t21, t22, t23, t24, t25, nil];
+    tableData4 = [NSArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, nil];
     
-tableData4 = [NSArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, nil];
-    
-tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, nil];
+    tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, nil];
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
@@ -129,7 +189,7 @@ tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, s
               self.following.text = @"Following";
     } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
               self.following.text = @"Follow";}
-    //add Switch button
+    // Switch button
     if ( [t11 isEqual:@"Sold"] ) {
              [self.mySwitch setOn:YES];
     } else { [self.mySwitch setOn:NO]; }
@@ -141,6 +201,14 @@ tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, s
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+/*
+    self.advertiser = [adArray valueForKey:@"Advertiser"];
+    self.jobdescription = [jobArray valueForKey:@"Description"];
+    self.salesman = [salesArray valueForKey:@"Salesman"];
+    NSLog(@"rawStr is %@",advertiser);
+    self.tbl23 = self.jobdescription;
+    NSLog(@"rawStr is %@",self.tbl23);
+ */   
     [self.listTableView reloadData]; [self.listTableView2 reloadData];
     [self.newsTableView reloadData];
 }
@@ -389,7 +457,7 @@ return myCell;
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name; //last Name
-            detailVC.frm13 = self.tbl24; //contractor
+            detailVC.frm13 = self.tbl11; //contractor
             detailVC.frm14 = self.address;
             detailVC.frm15 = self.city;
             detailVC.frm16 = self.state;
@@ -398,8 +466,8 @@ return myCell;
             detailVC.frm19 = self.tbl21;  //start Date
             detailVC.frm20 = self.tbl12; //phone
             detailVC.frm21 = self.tbl22; //salesNo
-            detailVC.frm22 = self.tbl11; //jobNo
-            detailVC.frm23 = self.tbl23; //productNo
+            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm23 = self.tbl24; //productNo
             detailVC.frm24 = self.amount;
             detailVC.frm25 = self.tbl15; //email
             detailVC.frm26 = self.tbl14; //spouse
@@ -414,7 +482,6 @@ return myCell;
             
         } else if ([_formController  isEqual: @"Vendor"]) {
         detailVC.formController = @"Vendor";
-       // detailVC.custNo = self.custNo;
         detailVC.leadNo = self.leadNo; //vendorNo
         detailVC.frm11 = self.tbl24; //manager
         detailVC.frm12 = self.date; //webpage
@@ -450,9 +517,9 @@ return myCell;
             detailVC.frm18 = self.tbl25; //country
             detailVC.frm19 = self.tbl15;  //middle
             detailVC.frm20 = self.tbl11; //homephone
-            detailVC.frm21 = self.tbl12; //workphone
-            detailVC.frm22 = self.tbl13; //cellphone
-            detailVC.frm23 = self.tbl14; //social
+            detailVC.frm21 = nil; //workphone
+            detailVC.frm22 = nil; //cellphone
+            detailVC.frm23 = nil; //social
             detailVC.frm24 = self.tbl22; //department
             detailVC.frm25 = self.tbl21; //email
             detailVC.frm26 = self.tbl23; //title
@@ -460,6 +527,10 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = nil; //assistant
             detailVC.frm30 = self.active;
+            detailVC.salesman.text = self.self.tbl12;
+            detailVC.jobName.text = self.tbl13;
+            detailVC.adName.text = self.tbl14;
+            
         }
 }
 }

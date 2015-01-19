@@ -159,20 +159,25 @@
         infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.numberOfLines = 0;
         [wallImageView addSubview:infoLabel];
-        /*
-            NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:0]; //[wallObject objectForKey:@"createdAt"];
-            NSString *ago = [date timeAgoSinceNow];
-            NSLog(@"Output is: \"%@\"", ago); */
-            
-        //Add the info label (User and creation date)
+         /*
+         Add the info label (User and creation date)
          NSDate *creationDate = wallObject.createdAt;
          NSDateFormatter *df = [[NSDateFormatter alloc] init];
-         [df setDateFormat:KEY_DATEFORMAT];
+         [df setDateFormat:KEY_DATEFORMAT]; */
+            
+        NSDate *creationDate = wallObject.createdAt;
+        NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+         dateFormater.timeZone = [NSTimeZone localTimeZone];;
+        [dateFormater setDateFormat:KEY_DATEFORMAT];
+        NSDate *datetime1 = creationDate;
+        NSDate *datetime2 = [NSDate date];
+        double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+        NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
         //Add the comment
         UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, wallImageView.frame.size.width, 12)];
         //commentLabel.text = [NSString stringWithFormat:@"Uploaded by: %@, %@", [wallObject objectForKey:@"NewsDetail"], [df stringFromDate:creationDate]];
-        commentLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], [df stringFromDate:creationDate]];
+        commentLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
         commentLabel.font = [UIFont fontWithName:KEY_FONT size:10];
         commentLabel.textColor = [UIColor lightGrayColor];
         commentLabel.backgroundColor = [UIColor clearColor];

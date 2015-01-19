@@ -83,16 +83,16 @@
         else self.phone.text = self.frm20;
     
     if  ( [self.frm21 isEqual:[NSNull null]] )
-        self.saleNo = @"";
-        else self.saleNo = self.frm21;
+        self.salesman.text = @"";
+        else self.salesman.text = self.frm21;
     
     if  ( [self.frm22 isEqual:[NSNull null]] )
-        self.jobNo = @"";
-        else self.jobNo = self.frm22;
+        self.jobName.text = @"";
+        else self.jobName.text = self.frm22;
     
     if ( [self.frm23 isEqual:[NSNull null]] )
-        self.adNo = @"";
-        else self.adNo = self.frm23;
+        self.adName.text = @"";
+        else self.adName.text = self.frm23;
 
     if  ( [self.frm24 isEqual:[NSNull null]] )
            self.amount.text = @"";
@@ -127,7 +127,6 @@
     } else if ([_formController isEqual: @"Vendor"]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
-        self.company.placeholder = @"Company";
         self.date.placeholder = @"Profession";
         self.salesman.placeholder = @"Phone1";
         self.jobName.placeholder = @"phone2";
@@ -136,12 +135,9 @@
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES;//Field
-        self.jobLookup.hidden = YES; //Button
-        self.productLookup.hidden = YES; //Button
     } else if ([_formController isEqual: @"Employee"]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
-        self.company.placeholder = @"Company";
         self.date.placeholder = @"Country";
         self.aptDate.placeholder = @"Middle";
         self.salesman.placeholder = @"Work Phone";
@@ -150,8 +146,14 @@
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
-        self.jobLookup.hidden = YES; //button
+    }
+    
+    if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ) {
+        self.jobLookup.hidden = YES; //Button
         self.productLookup.hidden = YES; //Button
+        self.saleNo.hidden = YES; //Field
+        self.jobNo.hidden = YES; //Field
+        self.adNo.hidden = YES; //Field
     }
     
     //add Following button
@@ -351,7 +353,7 @@
 }
 
 - (void)jobFromController:(NSString *)passedData{
-    self.jobNo = passedData;
+    self.jobNo.text = passedData;
 }
 
 - (void)jobNameFromController:(NSString *)passedData{
@@ -359,7 +361,7 @@
 }
 
 - (void)productFromController:(NSString *)passedData{
-    self.adNo = passedData;
+    self.adNo.text = passedData;
 }
 
 - (void)productNameFromController:(NSString *)passedData{
@@ -490,7 +492,7 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView.tag == 1) {
-        self.saleNo = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
+        self.saleNo.text = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
         self.salesman.text = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
     else if(pickerView.tag == 2)
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
@@ -525,9 +527,9 @@
     NSString *_amount = self.amount.text;
     NSString *_spouse = self.spouse.text;
     NSString *_callback = self.callback.text;
-    NSString *_salesNo = self.saleNo;
-    NSString *_jobNo = self.jobNo;
-    NSString *_adNo = self.adNo;
+    NSString *_salesNo = self.saleNo.text;
+    NSString *_jobNo = self.jobNo.text;
+    NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
     NSString *_photo = self.photo.text;
 //  NSString *_time = self.time;
@@ -565,9 +567,9 @@
         NSString *_amount = self.amount.text;
         NSString *_spouse = self.spouse.text;
         NSString *_rate = nil;
-        NSString *_salesNo = self.saleNo;
-        NSString *_jobNo = self.jobNo;
-        NSString *_productNo = self.adNo;
+        NSString *_salesNo = self.saleNo.text;
+        NSString *_jobNo = self.jobNo.text;
+        NSString *_productNo = self.adNo.text;
         NSString *_comments = self.comment.text;
         NSString *_photo = self.photo.text;
         NSString *_photo1 = nil;
@@ -578,7 +580,7 @@
         
         NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_photo=%@&_photo1=%@&_photo2=%@&_contractor=%@&_complete=%@&", _date, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan,  _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _photo, _photo1, _photo2, _contractor, _complete];
         
-        //  NSLog(@"rawStr is %@",rawStr);
+        //NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -603,9 +605,9 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_phone = self.phone.text;
-        NSString *_phone1 = self.saleNo;
-        NSString *_phone2 = self.jobNo;
-        NSString *_phone3 = self.adNo;
+        NSString *_phone1 = self.salesman.text;
+        NSString *_phone2 = self.jobName.text;
+        NSString *_phone3 = self.adName.text;
         NSString *_email = self.email.text;
         NSString *_webpage = self.last.text;
         NSString *_department = self.amount.text;
@@ -646,8 +648,8 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_homephone = self.phone.text;
-        NSString *_workphone = self.saleNo;
-        NSString *_cellphone = self.jobNo;
+        NSString *_workphone = self.salesman.text;
+        NSString *_cellphone = self.jobName.text;
         NSString *_country = self.date.text;
         NSString *_email = self.email.text;
         NSString *_last = self.last.text;
@@ -655,7 +657,7 @@
         NSString *_middle = self.aptDate.text;
         NSString *_first = self.first.text;
         NSString *_manager = self.callback.text;
-        NSString *_social = self.adNo;
+        NSString *_social = self.adName.text;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active.text;
         NSString *_employtitle = self.spouse.text;

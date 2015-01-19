@@ -11,17 +11,81 @@
 @interface EditDataViewController () <LookupCityDelegate, LookupJobDelegate>
 {
     NSMutableArray *salesArray, *callbackArray;
+    NSString *adDescription, *jobDescription;
 }
 @end
 
 @implementation EditDataViewController
-@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, comment;
+@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, comment, salesman, jobName, adName;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if ([_formController isEqual: @"Leads"]) {
+        
+    PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+    //query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query11 selectKeys:@[@"Advertiser"]];
+    [query11 whereKey:@"AdNo" equalTo:self.frm23];
+    [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+           self.adName.text = [object objectForKey:@"Advertiser"];
+        }
+     }];
+        
+        PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
+        query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query1 selectKeys:@[@"Callback"]];
+        [query1 orderByDescending:@"Callback"];
+        [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            callbackArray = [[NSMutableArray alloc]initWithArray:objects];
+        }];
+        
+    } else if ([_formController isEqual: @"Customer"]) {
+        
+    PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
+    //query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query3 selectKeys:@[@"Products"]];
+    [query3 whereKey:@"ProductNo" containsString:self.frm23];
+    [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.adName.text = [object objectForKey:@"Products"];
+        }
+    }];
+}
+    
+if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+    
+    PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+   // query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query21 selectKeys:@[@"Description"]];
+    [query21 whereKey:@"JobNo" equalTo:self.frm22];
+    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.jobName.text = [object objectForKey:@"Description"];
+        }
+    }];
+ 
+    PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+   // query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query31 selectKeys:@[@"Salesman"]];
+    [query31 whereKey:@"SalesNo" equalTo:self.frm21];
+    [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.salesman.text = [object objectForKey:@"Salesman"];
+        }
+    }];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+   // query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"SalesNo"];
@@ -29,16 +93,9 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         salesArray = [[NSMutableArray alloc]initWithArray:objects];
     }];
-   
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query1 selectKeys:@[@"Callback"]];
-    [query1 orderByDescending:@"Callback"];
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        callbackArray = [[NSMutableArray alloc]initWithArray:objects];
-    }];
+}
           self.leadNo = self.leadNo;
-    
+
     if ( [self.frm11 isEqual:[NSNull null]] )
           self.first.text = @"";
      else self.first.text = self.frm11;
@@ -67,7 +124,7 @@
           self.zip.text = @"";
      else self.zip.text = self.frm17;
     
-        self.date.text = self.frm18;
+          self.date.text = self.frm18;
     
     if ( [self.frm19 isEqual:[NSNull null]] )
           self.aptDate.text = @"";
@@ -76,18 +133,34 @@
     if (self.frm20.length == 0)
         self.phone.text = @"";
    else self.phone.text = self.frm20;
- 
-    if ( [self.frm21 isEqual:[NSNull null]] )
-          self.saleNo = @"";
-     else self.saleNo = self.frm21;
     
-    if ( [self.frm22 isEqual:[NSNull null]] )
-          self.jobNo = @"";
-     else self.jobNo = self.frm22;
-
-    if ( [self.frm23 isEqual:[NSNull null]] )
-          self.adNo = @"";
-     else self.adNo = self.frm23;
+    if (([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ){
+        if ( [self.frm21 isEqual:[NSNull null]] )
+              self.salesman.text = @"";
+         else self.salesman.text = self.frm21;
+        
+        if ( [self.frm22 isEqual:[NSNull null]] )
+             self.jobName.text = @"";
+        else self.jobName.text = self.frm22;
+        
+        if ( [self.frm23 isEqual:[NSNull null]] )
+              self.adName.text = @"";
+         else self.adName.text = self.frm23;
+        
+         } else {
+ 
+        if ( [self.frm21 isEqual:[NSNull null]] )
+              self.saleNo.text = @"";
+         else self.saleNo.text = self.frm21;
+        
+        if ( [self.frm22 isEqual:[NSNull null]] )
+              self.jobNo.text = @"";
+        else self.jobNo.text = self.frm22;
+             
+        if ( [self.frm23 isEqual:[NSNull null]] )
+              self.adNo.text = @"";
+         else self.adNo.text = self.frm23;
+    }
     
     if ( [self.frm24 isEqual:[NSNull null]] )
           self.amount.text = @"";
@@ -115,14 +188,13 @@
     
           self.active.text = self.frm30;
     
-    if ([_formController isEqual: @"Customer"]) {
+if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
         self.adName.placeholder = @"ProductNo";
         self.callback.placeholder = @"Quan";
-    } else if ([_formController isEqual: @"Vendor"]) {
+  } else if ([_formController isEqual: @"Vendor"]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
-        self.company.placeholder = @"Company";
         self.date.placeholder = @"Profession";
         self.salesman.placeholder = @"Phone1";
         self.jobName.placeholder = @"phone2";
@@ -131,12 +203,9 @@
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES; //Field
-        self.jobLookup.hidden = YES; //button
-        self.productLookup.hidden = YES; //Button
-    } else if ([_formController isEqual: @"Employee"]) {
+  } else if ([_formController isEqual: @"Employee"]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
-        self.company.placeholder = @"Company";
         self.date.placeholder = @"Country";
         self.aptDate.placeholder = @"Middle";
         self.phone.placeholder = @"Home Phone";
@@ -146,12 +215,21 @@
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
+  }
+  
+if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ) {
         self.jobLookup.hidden = YES; //Button
         self.productLookup.hidden = YES; //Button
-        }
-   
+        self.saleNo.hidden = YES; //Field
+        self.jobNo.hidden = YES; //Field
+        self.adNo.hidden = YES; //Field
+  }
+
+if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
     self.aptDate.inputView = [self datePicker];
     self.salesman.inputView = [self customPicker:1];
+}
+    
     if ([_formController isEqual: @"Leads"])
     self.callback.inputView = [self customPicker:2];
     
@@ -196,6 +274,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self loadFormData];
+   // self.adName.text = [adArray valueForKey:@"Advertiser"];
+  //  self.jobName.text = [jobArray valueForKey:@"Description"];
+    //self.salesman.text = [salesArray valueForKey:@"Salesman"]; 
+  //  NSLog(@"rawStr is %@",[jobArray valueForKey:@"Description"]);
+//NSLog(@"rawStr is %@",[adArray valueForKey:@"Advertiser"]);
 }
 #pragma mark Load Form Data
 -(void)loadFormData {
@@ -218,12 +301,18 @@
         self.amount.text = [prefs objectForKey:@"amount"];
     if (spouse.text.length == 0)
         self.spouse.text = [prefs objectForKey:@"spouse"];
-    if (_adName.text.length == 0)
-        self.adName.text = [prefs objectForKey:@"adNo"];
-    if (_salesman.text.length == 0)
-        self.salesman.text = [prefs objectForKey:@"saleNo"];
-    if (_jobName.text.length == 0)
-        self.jobName.text = [prefs objectForKey:@"jobNo"];
+    if (salesman.text.length == 0)
+        self.salesman.text = [prefs objectForKey:@"salesman"];
+    if (jobName.text.length == 0)
+        self.jobName.text = [prefs objectForKey:@"jobName"];
+    if (adName.text.length == 0)
+        self.adName.text = [prefs objectForKey:@"adName"];
+    if (saleNo.text.length == 0)
+        self.saleNo.text = [prefs objectForKey:@"saleNo"];
+    if (jobNo.text.length == 0)
+        self.jobNo.text = [prefs objectForKey:@"jobNo"];
+    if (adNo.text.length == 0)
+        self.adNo.text = [prefs objectForKey:@"adNo"];
     if (comment.text.length == 0)
         self.comment.text = [prefs objectForKey:@"comment"];
     if (phone.text.length == 0)
@@ -248,12 +337,15 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"amount"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"spouse"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"salesNo"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"saleNo"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"jobNo"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"adNo"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"salesman"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"jobName"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"adName"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"comment"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"phone"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"leadNo"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"adNo"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"callback"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"company"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -291,11 +383,23 @@
         NSString *spouseString = self.spouse.text;
         [prefs setObject:spouseString forKey:@"spouse"];}
     if(self.salesman.text.length > 0) {
-        NSString *saleNoString = self.salesman.text;
+        NSString *salesmanString = self.salesman.text;
+        [prefs setObject:salesmanString forKey:@"salesman"];}
+    if(self.saleNo.text.length > 0) {
+        NSString *saleNoString = self.saleNo.text;
         [prefs setObject:saleNoString forKey:@"saleNo"];}
     if(self.jobName.text.length > 0) {
-        NSString *jobNoString = self.jobName.text;
+        NSString *jobNameString = self.jobName.text;
+        [prefs setObject:jobNameString forKey:@"jobName"];}
+    if(self.jobNo.text.length > 0) {
+        NSString *jobNoString = self.jobNo.text;
         [prefs setObject:jobNoString forKey:@"jobNo"];}
+    if(self.adName.text.length > 0){
+        NSString *adNameString = self.adName.text;
+        [prefs setObject:adNameString forKey:@"adName"];}
+    if(self.adNo.text.length > 0){
+        NSString *adNoString = self.adNo.text;
+        [prefs setObject:adNoString forKey:@"adNo"];}
     if(self.comment.text.length > 0) {
         NSString *commentString = self.comment.text;
         [prefs setObject:commentString forKey:@"comment"];}
@@ -305,9 +409,6 @@
     if(self.leadNo.length > 0) {
         NSString *leadNoString = self.leadNo;
         [prefs setObject:leadNoString forKey:@"leadNo"];}
-    if(self.adName.text.length > 0){
-        NSString *adNoString = self.adName.text;
-        [prefs setObject:adNoString forKey:@"adNo"];}
     if(self.callback.text.length > 0){
         NSString *callbackString = self.callback.text;
         [prefs setObject:callbackString forKey:@"callback"];}
@@ -346,7 +447,7 @@
 }
 
 - (void)jobFromController:(NSString *)passedData{
-    self.jobNo = passedData;
+    self.jobNo.text = passedData;
 }
 
 - (void)jobNameFromController:(NSString *)passedData{
@@ -354,7 +455,7 @@
 }
 
 - (void)productFromController:(NSString *)passedData{
-    self.adNo = passedData;
+    self.adNo.text = passedData;
 }
 
 - (void)productNameFromController:(NSString *)passedData{
@@ -483,7 +584,7 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView.tag == 1) {
-        self.saleNo = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
+        self.saleNo.text = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
         self.salesman.text = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
     else if(pickerView.tag == 2)
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
@@ -514,15 +615,15 @@
     NSString *_amount = self.amount.text;
     NSString *_spouse = self.spouse.text;
     NSString *_callback = self.callback.text;
-    NSString *_salesNo = self.saleNo;
-    NSString *_jobNo = self.jobNo;
-    NSString *_adNo = self.adNo;
+    NSString *_salesNo = self.saleNo.text;
+    NSString *_jobNo = self.jobNo.text;
+    NSString *_adNo = self.adNo.text;
     NSString *_comments = self.comment.text;
     NSString *_photo = self.photo.text;
  // NSString *_time = self.time;
     
     NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
-    //NSLog(@"rawStr is %@",rawStr);
+    NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -555,18 +656,18 @@
     NSString *_photo = self.photo.text;
     NSString *_photo1 = nil;
     NSString *_photo2 = nil;
-    NSString *_salesNo = self.saleNo;
-    NSString *_jobNo = self.jobNo;
+    NSString *_salesNo = self.saleNo.text;
+    NSString *_jobNo = self.jobNo.text;
     NSString *_start = self.date.text;
     NSString *_complete = self.aptDate.text;
-    NSString *_productNo = self.adNo;
+    NSString *_productNo = self.adNo.text;
     NSString *_contractor = self.company.text;
     NSString *_active = self.active.text;
 //  NSString *_time = self.time;
                                
     NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_photo1=%@&_photo2=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&_active=%@&", _custNo, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _email,_first, _spouse, _rate, _photo, _photo1, _photo2,_salesNo, _jobNo, _start, _complete, _productNo, _contractor, _active];
     
-    //  NSLog(@"rawStr is %@",rawStr);
+  //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateCustomer.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -589,9 +690,9 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_phone = self.phone.text;
-        NSString *_phone1 = self.saleNo;
-        NSString *_phone2 = self.jobNo;
-        NSString *_phone3 = self.adNo;
+        NSString *_phone1 = self.saleNo.text;
+        NSString *_phone2 = self.jobNo.text;
+        NSString *_phone3 = self.adNo.text;
         NSString *_email = self.email.text;
         NSString *_webpage = self.last.text;
         NSString *_department = self.amount.text;
@@ -632,8 +733,8 @@
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_homephone = self.phone.text;
-        NSString *_workphone = self.saleNo;
-        NSString *_cellphone = self.jobNo;
+        NSString *_workphone = self.saleNo.text;
+        NSString *_cellphone = self.jobNo.text;
         NSString *_country = self.date.text;
         NSString *_email = self.email.text;
         NSString *_last = self.last.text;
@@ -641,7 +742,7 @@
         NSString *_middle = self.aptDate.text;
         NSString *_first = self.first.text;
         NSString *_manager = self.callback.text;
-        NSString *_social = self.adNo;
+        NSString *_social = self.adNo.text;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active.text;
         NSString *_employtitle = self.spouse.text;

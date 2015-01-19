@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "HomeModel.h"
-#import "Location.h"
-#import "ViewController.h"
 #import "MapViewController.h"
+#import "CustomTableViewCell.h"
+#import "NewDataViewController.h"
+#import "EditDataViewController.h"
 
 @interface LeadDetailViewControler : UIViewController
 
@@ -47,7 +47,19 @@
 @property (strong, nonatomic) NSString *tbl23;
 @property (strong, nonatomic) NSString *tbl24;
 @property (strong, nonatomic) NSString *tbl25;
+/*
+@property (strong, nonatomic) NSString *t11;
+@property (strong, nonatomic) NSString *t12;
+@property (strong, nonatomic) NSString *t13;
+@property (strong, nonatomic) NSString *t14;
+@property (strong, nonatomic) NSString *t15;
 
+@property (strong, nonatomic) NSString *t21;
+@property (strong, nonatomic) NSString *t22;
+@property (strong, nonatomic) NSString *t23;
+@property (strong, nonatomic) NSString *t24;
+@property (strong, nonatomic) NSString *t25;
+*/
 @property (strong, nonatomic) NSString *l11;
 @property (strong, nonatomic) NSString *l12;
 @property (strong, nonatomic) NSString *l13;
@@ -80,7 +92,7 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *mySwitch;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
-@property (weak, nonatomic) Location *selectedLocation;
+//@property (weak, nonatomic) Location *selectedLocation;
 
 // not in use below
 @property (strong, nonatomic) NSString *salesman;

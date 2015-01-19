@@ -144,7 +144,7 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-  if(searchText.length == 0)
+if(searchText.length == 0)
     {
         isFilltered = NO;
     } else {

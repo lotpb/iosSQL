@@ -112,37 +112,56 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        UIAlertController * view=   [UIAlertController
+                                     alertControllerWithTitle:@"Delete the selected lead?"
+                                     message:@"OK, delete it"
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
         
-        [_feedItems removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:UITableViewRowAnimationLeft];
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 Location *item;
+                                 item = [_feedItems objectAtIndex:indexPath.row];
+                                 NSString *deletestring = item.leadNo;
+                                 NSString *_leadNo = deletestring;
+                                 NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&", _leadNo];
+                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                 
+                                 NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteLeads.php"];
+                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                                 
+                                 [request setHTTPMethod:@"POST"];
+                                 [request setHTTPBody:data];
+                                 NSURLResponse *response;
+                                 NSError *err;
+                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                                 NSLog(@"%@", responseString);
+                                 NSString *success = @"success";
+                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                 [_feedItems removeObjectAtIndex:indexPath.row];
+                                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 //Do some thing here
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                     
+                                 }];
+        
+        
+        [view addAction:ok];
+        [view addAction:cancel];
+        [self presentViewController:view animated:YES completion:nil];
         [self.tableView reloadData];
-        
-        NSString *recordIDToDelete = _feedItems[indexPath.row];
-        NSString *_msgNo = recordIDToDelete;
-        NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&", _msgNo];
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteLead.php"];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
-       [request setHTTPMethod:@"POST"];
-       [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSLog(@"%lu", (unsigned long)responseString.length);
-        NSLog(@"%lu", (unsigned long)success.length);
-        
-        [self.tableView reloadData];
-    // [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
     }
 }
 
@@ -341,9 +360,9 @@
         detailVC.tbl22 = _selectedLocation.salesNo; detailVC.tbl23 = _selectedLocation.jobNo;
         detailVC.tbl24 = _selectedLocation.adNo; detailVC.tbl25 = _selectedLocation.time;
          
-        detailVC.salesman = _selectedLocation.salesman;
-        detailVC.jobdescription = _selectedLocation.jobdescription;
-        detailVC.advertiser = _selectedLocation.advertiser;
+       // detailVC.salesman = _selectedLocation.salesman;
+       // detailVC.jobdescription = _selectedLocation.jobdescription;
+       // detailVC.advertiser = _selectedLocation.advertiser;
         
         detailVC.photo = _selectedLocation.photo;
         detailVC.comments = _selectedLocation.comments;

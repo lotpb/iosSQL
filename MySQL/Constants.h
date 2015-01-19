@@ -15,7 +15,7 @@
 #define KEY_IMAGE @"imageFile"
 #define KEY_CREATION_DATE @"createdAt"
 #define KEY_FONT @"ArialMT"
-#define KEY_DATEFORMAT @"yyyy-MM-dd 'at' HH:mm"
+#define KEY_DATEFORMAT @"yyyy-MM-dd 'at' HH:mm" //news
 #define KEY_USER @"username"  // BogNew
 #define NY_LATITUDE 40.714353  //  MapController.h
 #define NY_LONGTITUDE -74.005973
@@ -24,6 +24,5 @@
 //#define KEY_GEOLOC @"location"
 //#define WALL_OBJECT @"WallImageObject"
 //#define KEY_COMMENT @"comment"
-
 
 @end

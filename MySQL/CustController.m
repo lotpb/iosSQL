@@ -99,16 +99,57 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_feedItems removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:UITableViewRowAnimationLeft];
+
+        UIAlertController * view=   [UIAlertController
+                                     alertControllerWithTitle:@"Delete the selected customer?"
+                                     message:@"OK, delete it"
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 CustLocation *item;
+                                 item = [_feedItems objectAtIndex:indexPath.row];
+                                 NSString *deletestring = item.custNo;
+                                 NSString *_custNo = deletestring;
+                                 NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&", _custNo];
+                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                 
+                                 NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteCustomer.php"];
+                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                                 
+                                 [request setHTTPMethod:@"POST"];
+                                 [request setHTTPBody:data];
+                                 NSURLResponse *response;
+                                 NSError *err;
+                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                                 NSLog(@"%@", responseString);
+                                 NSString *success = @"success";
+                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                 [_feedItems removeObjectAtIndex:indexPath.row];
+                                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 //Do some thing here
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                     
+                                 }];
+        
+        
+        [view addAction:ok];
+        [view addAction:cancel];
+        [self presentViewController:view animated:YES completion:nil];
         [self.tableView reloadData];
-        /*
-         NSError *error = nil;
-         if (![tableView save:&error]) {
-         NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-         return;
-         } */
     }
 }
 
@@ -298,15 +339,15 @@ else
         detailVC.state = _selectedLocation.state;
         detailVC.zip = _selectedLocation.zip;
         detailVC.amount = _selectedLocation.amount;
-        detailVC.tbl11 = _selectedLocation.jobNo;
+        detailVC.tbl11 = _selectedLocation.contractor;
         detailVC.tbl12 = _selectedLocation.phone;
         detailVC.tbl13 = _selectedLocation.first;
         detailVC.tbl14 = _selectedLocation.spouse;
         detailVC.tbl15 = _selectedLocation.email;
         detailVC.tbl21 = _selectedLocation.start;
         detailVC.tbl22 = _selectedLocation.salesNo;
-        detailVC.tbl23 = _selectedLocation.prodNo;
-        detailVC.tbl24 = _selectedLocation.contractor;
+        detailVC.tbl23 = _selectedLocation.jobNo;
+        detailVC.tbl24 = _selectedLocation.prodNo;
         detailVC.tbl25 = _selectedLocation.quan;
         detailVC.rate = _selectedLocation.rate;
        // detailVC.jobdescription = _selectedLocation.leadNo;
@@ -316,11 +357,11 @@ else
         detailVC.active = _selectedLocation.active;
         //photo1, photo2, time
      
-        detailVC.l11 = @"Job"; detailVC.l12 = @"Phone";
+        detailVC.l11 = @"Contractor"; detailVC.l12 = @"Phone";
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
         detailVC.l15 = @"Email"; detailVC.l21 = @"Start date";
-        detailVC.l22 = @"Salesman"; detailVC.l23 = @"Product";
-        detailVC.l24 = @"Contractor"; detailVC.l25 = @"Quan";
+        detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
+        detailVC.l24 = @"Product"; detailVC.l25 = @"Quan";
         detailVC.l1datetext = @"Sale Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }

@@ -103,42 +103,58 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_feedItems removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:UITableViewRowAnimationLeft];
-     //   [self.tableView reloadData];
         
-      //  for(BlogLocation* string in _feedItems)
-      //  {
-        NSString *deletestring = _selectedLocation.msgNo;
-      //  NSString *recordIDToDelete = deletestring;
-            
-     //   NSMutableString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&",[recordIDToDelete objectForKey:msgNo]];
-        NSString *_msgNo = deletestring; //_selectedLocation.msgNo;
-        NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&", _msgNo];
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        UIAlertController * view=   [UIAlertController
+                                     alertControllerWithTitle:@"Delete the selected message?"
+                                     message:@"OK, delete it"
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
         
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteBlog.php"];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 BlogLocation *item;
+                                 item = [_feedItems objectAtIndex:indexPath.row];
+                                 NSString *deletestring = item.msgNo;
+                                 // NSLog(@"rawStr is %@",deletestring);
+                                 NSString *_msgNo = deletestring;
+                                 NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&", _msgNo];
+                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                 
+                                 NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteBlog.php"];
+                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                                 
+                                 [request setHTTPMethod:@"POST"];
+                                 [request setHTTPBody:data];
+                                 NSURLResponse *response;
+                                 NSError *err;
+                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                                 NSLog(@"%@", responseString);
+                                 NSString *success = @"success";
+                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                 [_feedItems removeObjectAtIndex:indexPath.row];
+                                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 //Do some thing here
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                     
+                                 }];
         
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
         
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSLog(@"%lu", (unsigned long)responseString.length);
-        NSLog(@"%lu", (unsigned long)success.length);
-        
+        [view addAction:ok];
+        [view addAction:cancel];
+        [self presentViewController:view animated:YES completion:nil];
         [self.tableView reloadData];
-        //[self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
-       // }
     }
 }
 

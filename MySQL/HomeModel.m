@@ -81,9 +81,9 @@
         newLocation.callback = jsonElement[@"Call Back"];
         newLocation.time = jsonElement[@"Time"];
         newLocation.photo = jsonElement[@"Photo"];
-        newLocation.salesman = jsonElement[@"Salesman"];
-        newLocation.jobdescription = jsonElement[@"Description"];
-        newLocation.advertiser = jsonElement[@"Advertiser"];
+//        newLocation.salesman = jsonElement[@"Salesman"];
+//        newLocation.jobdescription = jsonElement[@"Description"];
+//        newLocation.advertiser = jsonElement[@"Advertiser"];
         
         // Add this question to the locations array
         [_locations addObject:newLocation];
