@@ -25,7 +25,7 @@
         
     PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
     //query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query11 selectKeys:@[@"Advertiser"]];
+   // [query11 selectKeys:@[@"Advertiser"]];
     [query11 whereKey:@"AdNo" equalTo:self.frm23];
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -47,7 +47,7 @@
         
     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
     //query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query3 selectKeys:@[@"Products"]];
+   // [query3 selectKeys:@[@"Products"]];
     [query3 whereKey:@"ProductNo" containsString:self.frm23];
     [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -62,7 +62,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
    // query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query21 selectKeys:@[@"Description"]];
+   // [query21 selectKeys:@[@"Description"]];
     [query21 whereKey:@"JobNo" equalTo:self.frm22];
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -74,7 +74,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
  
     PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
    // query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query31 selectKeys:@[@"Salesman"]];
+   // [query31 selectKeys:@[@"Salesman"]];
     [query31 whereKey:@"SalesNo" equalTo:self.frm21];
     [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -466,7 +466,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     if ([[segue identifier] isEqualToString:@"lookupEditCitySegue"]) {
         LookupCity *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:self];
-        addViewControler.formController = self.formController;
+         addViewControler.formController = self.formController;
         }
     if ([[segue identifier] isEqualToString:@"lookupEditJobSegue"]) {
         LookupJob *addViewControler = [segue destinationViewController];
@@ -475,7 +475,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         }
     if ([[segue identifier] isEqualToString:@"lookupEditProductSegue"]) {
         LookupProduct *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:self];
+        [addViewControler setDelegate:(id)self];
          addViewControler.formController = self.formController;
         }
 }
@@ -528,6 +528,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
 {
     [self.view endEditing:YES];
 }
+
 #pragma mark Date Picker
 - (UIView *)datePicker {
    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
@@ -690,9 +691,9 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_phone = self.phone.text;
-        NSString *_phone1 = self.saleNo.text;
-        NSString *_phone2 = self.jobNo.text;
-        NSString *_phone3 = self.adNo.text;
+        NSString *_phone1 = self.salesman.text;
+        NSString *_phone2 = self.jobName.text;
+        NSString *_phone3 = self.adName.text;
         NSString *_email = self.email.text;
         NSString *_webpage = self.last.text;
         NSString *_department = self.amount.text;
@@ -733,8 +734,8 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         NSString *_state = self.state.text;
         NSString *_zip = self.zip.text;
         NSString *_homephone = self.phone.text;
-        NSString *_workphone = self.saleNo.text;
-        NSString *_cellphone = self.jobNo.text;
+        NSString *_workphone = self.salesman.text;
+        NSString *_cellphone = self.jobName.text;
         NSString *_country = self.date.text;
         NSString *_email = self.email.text;
         NSString *_last = self.last.text;
@@ -742,7 +743,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         NSString *_middle = self.aptDate.text;
         NSString *_first = self.first.text;
         NSString *_manager = self.callback.text;
-        NSString *_social = self.adNo.text;
+        NSString *_social = self.adName.text;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active.text;
         NSString *_employtitle = self.spouse.text;

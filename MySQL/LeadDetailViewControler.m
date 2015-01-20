@@ -16,7 +16,7 @@
 @implementation LeadDetailViewControler
 {
     NSArray *tableData, *tableData2, *tableData3, *tableData4;
-    NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1;
+    NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1, *p12;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
@@ -42,101 +42,111 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
-        
-        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-         query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query11 selectKeys:@[@"Advertiser"]];
-        [query11 whereKey:@"AdNo" equalTo:self.tbl24];
-        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else {
-                self.advertiser = [object objectForKey:@"Advertiser"];
-                NSLog(@"adStr is %@",self.advertiser);
-            }
-        }];
-        
-        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-         query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query21 selectKeys:@[@"Description"]];
-        [query21 whereKey:@"JobNo" equalTo:self.tbl23];
-        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else {
-               self.jobdescription = [object objectForKey:@"Description"];
-                NSLog(@"jobStr is %@",jobdescription);
-            }
-        }];
-        
-        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-         query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query31 selectKeys:@[@"Salesman"]];
-        [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
-        [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else {
-                self.salesman = [object objectForKey:@"Salesman"];
-                 NSLog(@"salesStr is %@",self.salesman);
-            }
-        }];
+    
+    PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+    [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
+  //   query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.salesman = [object objectForKey:@"Salesman"];
+            NSLog(@"salesStr is %@",self.salesman);
+        }
+    }];
+    
+    PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+    [query21 whereKey:@"JobNo" equalTo:self.tbl23];
+   //  query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.jobdescription = [object objectForKey:@"Description"];
+            NSLog(@"jobStr is %@",jobdescription);
+        }
+    }];
+    
+    PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+    [query11 whereKey:@"AdNo" equalTo:self.tbl24];
+ //   query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else {
+            self.advertiser = [object objectForKey:@"Advertiser"];
+            NSLog(@"adStr is %@",self.advertiser);
+        }
+    }];
 }
     
-    if ( ( ![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0 ) ) {self.name = self.name;
+    if ( ( ![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0 ) )
+            {self.name = self.name;
     } else { self.name = @""; }
     
-    if ( ( ![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0 ) ) {self.address = self.address;
+    if ( ( ![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0 ) )
+            {self.address = self.address;
     } else { self.address = @"Address"; }
     
-    if ( ( ![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ) ) {self.city = self.city;
+    if ( ( ![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ) )
+            {self.city = self.city;
     } else { self.city = @"City"; }
     
-    if ( ( ![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ) ) {self.state = self.state;
+    if ( ( ![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ) )
+            {self.state = self.state;
     } else { self.state = @"State"; }
     
-    if ( ( ![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ) ) {self.zip = self.zip;
+    if ( ( ![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ) )
+            {self.zip = self.zip;
     } else { self.zip = @"Zip"; }
     
-    if ( ( ![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ) ) {self.amount = self.amount;
+    if ( ( ![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ) )
+            {self.amount = self.amount;
     } else { self.amount = @"None"; }
     
-    if ( ( ![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ) ) {self.date = self.date;
+    if ( ( ![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ) )
+            {self.date = self.date;
     } else { self.date = @"None"; }
     
-if ( ( ![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ) ) {t11 = self.tbl11;
-} else { t11 = @"None"; }
+    if ( ( ![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ) )
+            {t11 = self.tbl11;
+    } else { t11 = @"None"; }
     
-if ( ( ![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ) ) {t12 = self.tbl12;
-} else { t12 = @"None"; }
+    if ( ( ![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ) )
+            {t12 = self.tbl12;
+    } else { t12 = @"None"; }
 
-if ( ( ![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ) ) {t13 = self.tbl13;
-} else { t13 = @"None"; }
+    if ( ( ![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ) )
+            {t13 = self.tbl13;
+    } else { t13 = @"None"; }
     
-if ( ( ![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ) ) {t14 = self.tbl14;
-} else { t14 = @"None"; }
+    if ( ( ![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ) )
+            {t14 = self.tbl14;
+    } else { t14 = @"None"; }
     
-if ( ( ![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ) ) {t15 = self.tbl15;
-} else { t15 = @"None"; }
+    if ( ( ![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ) )
+            {t15 = self.tbl15;
+    } else { t15 = @"None"; }
     
-if ( ( ![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ) ) {t21 = self.tbl21;
-} else { t21 = @"None"; }
+   if ( ( ![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ) )
+            {t21 = self.tbl21;
+    } else { t21 = @"None"; }
     
-/*
 if ([_formController isEqual: @"Leads"]) {
+    
     if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
-            {t22 = self.salesman;
+            {t22 = @"Peter";
     } else { t22 = @"None"; }
     
     if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) )
-            {t23 = self.jobdescription;
+            {t23 = @"Peter";
     } else { t23 = @"None"; }
     
     if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
-            {t24 = self.advertiser;
+            {t24 = @"Peter";
     } else { t24 = @"None"; }
-  } else{ */
-
+    
+  } else {
     
     if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
             {t22 = self.tbl22;
@@ -149,17 +159,19 @@ if ([_formController isEqual: @"Leads"]) {
     if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
             {t24 = self.tbl24;
     } else { t24 = @"None"; }
-//}
+}
 
- 
-if ( ( ![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ) ) {t25 = self.tbl25;
+   if ( ( ![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ) )
+            {t25 = self.tbl25;
     } else { t25 = @"None"; }
     
-if ( ( ![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ) ) {news1 = self.comments;
-} else { news1 = @"No Comments"; }
+   if ( ( ![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ) )
+            {news1 = self.comments;
+    } else { news1 = @"No Comments"; }
     
-if ( ( ![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ) ) {p1 = self.photo;
-} else { p1 = @"None"; }
+   if ( ( ![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ) )
+           {p1 = self.photo;
+   } else { p1 = @"None"; }
     
 self.title = self.name;
 self.labelNo.text = leadNo;
@@ -426,7 +438,7 @@ return myCell;
         }
     }
  
-    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead
+    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead 
         EditDataViewController *detailVC = segue.destinationViewController;
         if ([_formController  isEqual: @"Leads"]) {
         detailVC.formController = @"Leads";
@@ -451,6 +463,7 @@ return myCell;
         detailVC.frm28 = self.comments;
         detailVC.frm29 = self.photo;
         detailVC.frm30 = self.active;
+            
         } else if ([_formController  isEqual: @"Customer"]) {
             detailVC.formController = @"Customer";
             detailVC.custNo = self.custNo;
@@ -503,6 +516,7 @@ return myCell;
         detailVC.frm28 = self.comments;
         detailVC.frm29 = nil;
         detailVC.frm30 = self.active;
+            
         } else if ([_formController  isEqual: @"Employee"]) {
             detailVC.formController = @"Employee";
             // detailVC.custNo = self.custNo;
@@ -517,9 +531,9 @@ return myCell;
             detailVC.frm18 = self.tbl25; //country
             detailVC.frm19 = self.tbl15;  //middle
             detailVC.frm20 = self.tbl11; //homephone
-            detailVC.frm21 = nil; //workphone
-            detailVC.frm22 = nil; //cellphone
-            detailVC.frm23 = nil; //social
+            detailVC.frm21 = self.tbl12; //workphone
+            detailVC.frm22 = self.tbl13; //cellphone
+            detailVC.frm23 = self.tbl14; //social
             detailVC.frm24 = self.tbl22; //department
             detailVC.frm25 = self.tbl21; //email
             detailVC.frm26 = self.tbl23; //title
@@ -527,10 +541,6 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = nil; //assistant
             detailVC.frm30 = self.active;
-            detailVC.salesman.text = self.self.tbl12;
-            detailVC.jobName.text = self.tbl13;
-            detailVC.adName.text = self.tbl14;
-            
         }
 }
 }

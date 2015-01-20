@@ -123,6 +123,7 @@
 		AFDFAB8A1A1398CF00022336 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDFAB891A1398CF00022336 /* VendorViewController.m */; };
 		AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8071A33445E00A47D4A /* Bolts.framework */; };
 		AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8091A33446B00A47D4A /* Parse.framework */; };
+		AFEBCF471A6DAA2100C28C51 /* NewData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEBCF461A6DAA2100C28C51 /* NewData.m */; };
 		AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8831A2133F5005D556C /* EmployeeViewController.m */; };
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
 		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
@@ -315,6 +316,8 @@
 		AFDFAB891A1398CF00022336 /* VendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorViewController.m; sourceTree = "<group>"; };
 		AFE7A8071A33445E00A47D4A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AFE7A8091A33446B00A47D4A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		AFEBCF451A6DAA2100C28C51 /* NewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewData.h; sourceTree = "<group>"; };
+		AFEBCF461A6DAA2100C28C51 /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewData.m; sourceTree = "<group>"; };
 		AFF3B8821A2133F5005D556C /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
 		AFF3B8831A2133F5005D556C /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
 		AFF3B8851A2135B6005D556C /* EmployeeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeLocation.h; sourceTree = "<group>"; };
@@ -717,6 +720,8 @@
 		AFBC9E8319D9CEDE0050E67A /* MySQL */ = {
 			isa = PBXGroup;
 			children = (
+				AFEBCF451A6DAA2100C28C51 /* NewData.h */,
+				AFEBCF461A6DAA2100C28C51 /* NewData.m */,
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
@@ -1010,6 +1015,7 @@
 				AF7B25721A05829600F7C058 /* CustController.m in Sources */,
 				AFDFAB8A1A1398CF00022336 /* VendorViewController.m in Sources */,
 				AFFEA07F1A31F4A500165318 /* JobModel.m in Sources */,
+				AFEBCF471A6DAA2100C28C51 /* NewData.m in Sources */,
 				AFFEA0911A32273800165318 /* JobLocation.m in Sources */,
 				AF99267C1A4C6B0C00429EC8 /* CollectionViewController.m in Sources */,
 				AFFEA0821A32095400165318 /* ProductViewController.m in Sources */,
