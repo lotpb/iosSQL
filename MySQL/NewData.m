@@ -21,12 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
- //   self.listTableView.dataSource = self;
- //   self.listTableView.delegate = self;
- //   self.listTableView.editing = YES;
- //   self.listTableView.allowsSelectionDuringEditing = YES;
-   
-    [self.listTableView reloadData];
+    self.listTableView.dataSource = self;
+    self.listTableView.delegate = self;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -60,67 +56,9 @@
           self.company.text = @"";
      else self.company.text = self.frm13;
     
-    if  ( [self.frm14 isEqual:[NSNull null]] )
-           self.address.text = @"";
-      else self.address.text = self.frm14;
-    
-    if  ( [self.frm15 isEqual:[NSNull null]] )
-           self.city.text = @"";
-      else self.city.text = self.frm15;
-    
-    if  ( [self.frm16 isEqual:[NSNull null]] )
-           self.state.text = @"";
-      else self.state.text = self.frm16;
-    
     if  ( [self.frm17 isEqual:[NSNull null]] )
            self.zip.text = @"";
       else self.zip.text = self.frm17;
-    
-    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
-        if (self.date.text.length == 0) {
-            NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-            gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-            gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-            NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-            self.date.text = dateString; //frm18
-            self.aptDate.text = dateString; } //frm19
-    }
-    
-     if (self.frm20.length == 0)
-         self.phone.text = @"(516)";
-    else self.phone.text = self.frm20;
-    
-    if  ( [self.frm21 isEqual:[NSNull null]] )
-           self.salesman.text = @"";
-      else self.salesman.text = self.frm21;
-    
-    if  ( [self.frm22 isEqual:[NSNull null]] )
-           self.jobName.text = @"";
-      else self.jobName.text = self.frm22;
-    
-    if ( [self.frm23 isEqual:[NSNull null]] )
-          self.adName.text = @"";
-     else self.adName.text = self.frm23;
-    
-    if  ( [self.frm24 isEqual:[NSNull null]] )
-           self.amount.text = @"";
-      else self.amount.text = self.frm24;
-    
-    if  ( [self.frm25 isEqual:[NSNull null]] )
-           self.email.text = @"";
-      else self.email.text = self.frm25;
-    
-    if  ( [self.frm26 isEqual:[NSNull null]] )
-           self.spouse.text = @"";
-      else self.spouse.text = self.frm26;
-    
-    if ( [self.frm27 isEqual:[NSNull null]] )
-          self.callback.text = @"";
-     else self.callback.text = self.frm27;
-    
-    if  ( [self.frm28 isEqual:[NSNull null]] )
-           self.comment.text = @"";
-      else self.comment.text = self.frm28;
     
     if  ( [self.frm29 isEqual:[NSNull null]] )
            self.photo.text = @"";
@@ -155,14 +93,14 @@
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
     }
-    
+  /*
     if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ) {
         self.jobLookup.hidden = YES; //Button
         self.productLookup.hidden = YES; //Button
-        self.saleNo.hidden = YES; //Field
-        self.jobNo.hidden = YES; //Field
-        self.adNo.hidden = YES; //Field
-    }
+   //     self.saleNo.hidden = YES; //Field
+   //     self.jobNo.hidden = YES; //Field
+   //     self.adNo.hidden = YES; //Field
+    } */
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
@@ -174,11 +112,10 @@
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
           self.following.text = @"Follow";
     }
-    
+  
     self.aptDate.inputView = [self datePicker];
-    self.salesman.inputView = [self customPicker:1];
-    if ([_formController isEqual: @"Leads"])
-        self.callback.inputView = [self customPicker:2];
+  //  self.salesman.inputView = [self customPicker:1];
+
     
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -192,14 +129,13 @@
     
     [[UITextView appearance] setTintColor:[UIColor grayColor]];
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.title =  @"New Data";
     [self.first becomeFirstResponder];
-    [self.listTableView setEditing:YES animated:YES];
+   // [self.listTableView setEditing:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -210,7 +146,7 @@
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self loadFormData];
+ //   [self loadFormData];
 }
 
 #pragma mark Load Form Data
@@ -332,7 +268,7 @@
         [prefs setObject:companyString forKey:@"company"];}
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-}
+} 
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
@@ -501,215 +437,224 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView.tag == 1) {
-        self.saleNo.text = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
-        self.salesman.text = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
+        self.saleNo = [[salesArray objectAtIndex:row]valueForKey:@"SalesNo"];
+        self.salesman = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
     else if(pickerView.tag == 2)
-        self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return UITableViewCellEditingStyleNone;
+        self.callback = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
 }
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {   // Return the number of sections.
-    return 13;
+    return 1;
 }
 
 #pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
-    return 1;
+    return 13;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
-    static NSString *CellIdentifier1 = @"1BasicCell";
-    static NSString *CellIdentifier2 = @"2BasicCell";
-    static NSString *CellIdentifier3 = @"3BasicCell";
-    static NSString *CellIdentifier4 = @"4BasicCell";
-    static NSString *CellIdentifier5 = @"5BasicCell";
-    static NSString *CellIdentifier6 = @"6BasicCell";
-    static NSString *CellIdentifier7 = @"7BasicCell";
-    static NSString *CellIdentifier8 = @"8BasicCell";
-    static NSString *CellIdentifier9 = @"9BasicCell";
-    static NSString *CellIdentifier10 = @"10BasicCell";
-    static NSString *CellIdentifier11 = @"11BasicCell";
-    static NSString *CellIdentifier12 = @"12BasicCell";
     
-    if (indexPath.section == 0){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
-        
-        // Get references to labels of cell
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (myCell == nil) {
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    
+    UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
+    UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(120, 7, 225, 30)];
+    UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 225, 30)];
+    
+    if (indexPath.row == 0){
         myCell.textLabel.text = @"Address";
-        myCell.detailTextLabel.text = self.address.text;
+        self.address = textframe;
+       [self.address setFont:textFont];
+        self.address.placeholder = @"Address";
+        self.address.autocorrectionType = UITextAutocorrectionTypeNo;
+       [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if  ( [self.frm14 isEqual:[NSNull null]] )
+               self.address.text = @"";
+          else self.address.text = self.frm14;
+        [myCell.contentView addSubview:self.address];
         
-        return myCell;
-        
-    } else if (indexPath.section == 1){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1]; }
-        
-        // Get references to labels of cell
+    } else if (indexPath.row == 1){
         myCell.textLabel.text = @"City";
-        myCell.detailTextLabel.text = self.city.text;
-        
-        return myCell;
+        self.city = textframe;
+       [self.city setFont:textFont];
+        self.city.placeholder = @"City";
+        self.city.autocorrectionType = UITextAutocorrectionTypeNo;
+       [self.city setClearButtonMode:UITextFieldViewModeWhileEditing];
+         myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if  ( [self.frm15 isEqual:[NSNull null]] )
+               self.city.text = @"";
+          else self.city.text = self.frm15;
+        [myCell.contentView addSubview:self.city];
     }
-    if (indexPath.section == 2){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2]; }
-        
-        // Get references to labels of cell
+    if (indexPath.row == 2){
         myCell.textLabel.text = @"State";
-        myCell.detailTextLabel.text = self.state.text;
+        self.state = textframe;
+       [self.state setFont:textFont];
+        self.state.placeholder = @"State";
+        self.state.autocorrectionType = UITextAutocorrectionTypeNo;
+       [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if  ( [self.frm16 isEqual:[NSNull null]] )
+               self.state.text = @"";
+          else self.state.text = self.frm16;
+        [myCell.contentView addSubview:self.state];
         
-        return myCell;
-        
-    } else if (indexPath.section == 3){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier3];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier3]; }
-        
-        // Get references to labels of cell
+    } else if (indexPath.row == 3){
         myCell.textLabel.text = @"Date";
-        myCell.detailTextLabel.text = self.date.text;
+        self.date = textframe;
+       [self.date setFont:textFont];
+        self.date.placeholder = @"Date";
+        self.date.autocorrectionType = UITextAutocorrectionTypeNo;
+       [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
         
-        return myCell;
+    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
+         if (self.date.text.length == 0) {
+         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+         gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
+         self.date.text = dateString;  }
+         }
+        [myCell.contentView addSubview:self.date];
     }
     
-    if (indexPath.section == 4){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier4];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier4]; }
-        
-        // Get references to labels of cell
+    if (indexPath.row == 4){
         myCell.textLabel.text = @"Phone";
-        myCell.detailTextLabel.text = self.phone.text;
+        self.phone = textframe;
+        [self.phone setFont:textFont];
+        self.phone.placeholder = @"Phone";
+        self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if (self.frm20.length == 0)
+            self.phone.text = @"(516)";
+       else self.phone.text = self.frm20;
+        [myCell.contentView addSubview:self.phone];
         
-        return myCell;
-        
-    } else if (indexPath.section == 5){
-        
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier5];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier5]; }
-        
-        // Get references to labels of cell
+    } else if (indexPath.row == 5){
         myCell.textLabel.text = @"Salesman";
-        myCell.detailTextLabel.text = self.salesman.text;
-        
-        return myCell;
+        self.salesman = textframe;
+        [self.salesman setFont:textFont];
+        self.salesman.tag = 1;
+        self.salesman.placeholder = @"Salesman";
+        self.salesman.inputView = [self customPicker:1];
+        self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
+        myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if ( [self.frm21 isEqual:[NSNull null]] )
+              self.salesman.text = @"";
+         else self.salesman.text = self.frm21;
+        [myCell.contentView addSubview:self.salesman];
     }
-    if (indexPath.section == 6){
+    if (indexPath.row == 6){
+        myCell.textLabel.text = @"Jobs";
+        self.jobName = textframe;
+        [self.jobName setFont:textFont];
+        self.jobName.placeholder = @"Jobs";
+        self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
+         myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if ( [self.frm22 isEqual:[NSNull null]] )
+              self.jobName.text = @"";
+         else self.jobName.text = self.frm22;
+        [myCell.contentView addSubview:self.jobName];
         
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier6];
+    } else if (indexPath.row == 7){
+         myCell.textLabel.text = @"Advertiser";
+         self.adName = textframe;
+        [self.adName setFont:textFont];
+         self.adName.placeholder = @"Advertiser";
+         self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
+         myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if ( [self.frm23 isEqual:[NSNull null]] )
+              self.adName.text = @"";
+         else self.adName.text = self.frm23;
+        [myCell.contentView addSubview:self.adName];
         
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier6]; }
+    } else if(indexPath.row == 8){
+        myCell.textLabel.text = @"Amount";
+        self.amount = textframe;
+        [self.amount setFont:textFont];
+        self.amount.placeholder = @"Amount";
+        self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ( [self.frm24 isEqual:[NSNull null]] )
+              self.amount.text = @"";
+         else self.amount.text = self.frm24;
+        [myCell.contentView addSubview:self.amount];
         
-        // Get references to labels of cell
-        myCell.textLabel.text = @"Job";
-        myCell.detailTextLabel.text = self.jobName.text;
+    } else if (indexPath.row == 9){
+        myCell.textLabel.text = @"Email";
+        self.email = textframe;
+        [self.email setFont:textFont];
+        self.email.placeholder = @"Email";
+        self.email.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ( [self.frm25 isEqual:[NSNull null]] )
+              self.email.text = @"";
+         else self.email.text = self.frm25;
+        [myCell.contentView addSubview:self.email];
         
-        return myCell;
+    } else if(indexPath.row == 10){
+        myCell.textLabel.text = @"Spouse";
+        self.spouse = textframe;
+        [self.spouse setFont:textFont];
+        self.spouse.placeholder = @"Spouse";
+        self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ( [self.frm26 isEqual:[NSNull null]] )
+              self.spouse.text = @"";
+         else self.spouse.text = self.frm26;
+        [myCell.contentView addSubview:self.spouse];
         
-    } else if (indexPath.section == 7){
+    } else if (indexPath.row == 11){
+        myCell.textLabel.text = @"Call Back";
+        self.callback = textframe;
+        [self.callback setFont:textFont];
+        self.callback.placeholder = @"Call Back";
+        self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.callback setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ( [self.frm27 isEqual:[NSNull null]] )
+              self.callback.text = @"";
+         else self.callback.text = self.frm27;
+        if ([_formController isEqual: @"Leads"])
+            self.callback.inputView = [self customPicker:2];
+        [myCell.contentView addSubview:self.callback];
         
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier7];
-        
-        if (myCell == nil) {
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier7]; }
-        
-        // Get references to labels of cell
-        myCell.textLabel.text = @"Advertiser";
-        myCell.detailTextLabel.text = self.adName.text;
-        
-        return myCell;
-    } else if(indexPath.section == 8){
+    } else if (indexPath.row == 12){
+       
+        myCell.textLabel.text = @"Comments";
+        self.comment = textviewframe;
+        [self.comment setFont:textFont];
+        self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
+        if ( [self.frm28 isEqual:[NSNull null]] )
+              self.comment.text = @"";
+         else self.comment.text = self.frm28;
+        [myCell.contentView addSubview:self.comment];
+
+    }
+    self.address.delegate = self;
+    self.city.delegate = self;
+    self.state.delegate = self;
+    self.date.delegate = self;
+    self.phone.delegate = self;
+    self.salesman.delegate = self;
+    self.jobName.delegate = self;
+    self.adName.delegate = self;
+    self.amount.delegate = self;
+    self.email.delegate = self;
+    self.spouse.delegate = self;
+    self.callback.delegate = self;
     
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier8];
-    
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier8]; }
-    
-    // Get references to labels of cell
-    myCell.textLabel.text = @"Amount";
-    myCell.detailTextLabel.text = self.amount.text;
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return myCell;
-} else if (indexPath.section == 9){
-    
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier9];
-    
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier9]; }
-    
-    // Get references to labels of cell
-    myCell.textLabel.text = @"email";
-    myCell.detailTextLabel.text = self.email.text;
-    
-    return myCell;
-} else if(indexPath.section == 10){
-    
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier10];
-    
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier10]; }
-    
-    // Get references to labels of cell
-    myCell.textLabel.text = @"Spouse";
-    myCell.detailTextLabel.text = self.spouse.text;
-    
-    return myCell;
-} else if (indexPath.section == 11){
-    
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier11];
-    
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier11]; }
-    
-    // Get references to labels of cell
-    myCell.textLabel.text = @"Call Back";
-    myCell.detailTextLabel.text = self.callback.text;
-    
-    return myCell;
-} else if (indexPath.section == 12){
-    
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier12];
-    
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier12]; }
-    
-    // Get references to labels of cell
-    myCell.textLabel.text = @"Comments";
-    myCell.detailTextLabel.text = self.comment.text;
-    
-    return myCell;
-}
-return nil;
 }
 
 

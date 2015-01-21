@@ -8,6 +8,7 @@
 
 #import "LeadDetailViewControler.h"
 #import <Parse/Parse.h>
+#import "NewData.h"
 
 @interface LeadDetailViewControler ()
 
@@ -372,7 +373,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-        [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+        [self performSegueWithIdentifier:@"testing" sender:self]; //editFormSegue
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -406,6 +407,34 @@ return myCell;
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"testing"]) {
+        NewData *detailVC = segue.destinationViewController;
+        if ([_formController  isEqual: @"Leads"]) {
+            detailVC.formController = @"Leads";
+            detailVC.leadNo = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name;
+            detailVC.frm13 = nil;
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.date;
+            detailVC.frm19 = self.tbl21; //aptdate
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.tbl22; //salesNo
+            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm23 = self.tbl24; //adNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = self.tbl11; //callback
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+    }
+    }
+    
    if ([segue.identifier isEqualToString:@"mapdetailSegue"]) {
     MapViewController *detailVC = segue.destinationViewController;
        detailVC.mapaddress = self.address;
@@ -546,3 +575,4 @@ return myCell;
 }
 
 @end
+
