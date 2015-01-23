@@ -373,7 +373,11 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-        [self performSegueWithIdentifier:@"testing" sender:self]; //editFormSegue
+     if ([_formController  isEqual: @"Leads"]) {
+        [self performSegueWithIdentifier:@"testing" sender:self];
+     }else {
+      [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+     }//editFormSegue
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -432,6 +436,9 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = self.photo;
             detailVC.frm30 = self.active;
+            detailVC.salesman.text = self.salesman;
+            detailVC.jobName.text = self.jobdescription;
+            detailVC.adName.text = self.advertiser;
     }
     }
     
