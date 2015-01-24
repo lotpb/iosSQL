@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C99d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C106a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -375,7 +375,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5r-8w-O1k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1423.5" y="-217.5"/>
+            <point key="canvasLocation" x="1325" y="-653"/>
         </scene>
         <!--Message-->
         <scene sceneID="zBL-n6-Ma0">
@@ -644,7 +644,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R10-AN-gNG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1326" y="453"/>
+            <point key="canvasLocation" x="1284" y="217"/>
         </scene>
         <!--New Form-->
         <scene sceneID="JGo-mg-U4T">
@@ -896,28 +896,28 @@
                                             </mask>
                                             <mask key="constraints">
                                                 <exclude reference="l7I-MM-dUR"/>
-                                                <exclude reference="Jkv-eg-fjZ"/>
-                                                <exclude reference="N23-c3-toy"/>
-                                                <exclude reference="0L6-pa-QHB"/>
-                                                <exclude reference="MHY-B8-lLN"/>
-                                                <exclude reference="VZa-yU-ant"/>
-                                                <exclude reference="eBP-Sq-hQV"/>
-                                                <exclude reference="I8L-Pk-ESp"/>
-                                                <exclude reference="ITe-0T-ehr"/>
-                                                <exclude reference="cOu-nQ-Wfb"/>
-                                                <exclude reference="7fC-Pz-YYu"/>
-                                                <exclude reference="Ici-BF-fsE"/>
-                                                <exclude reference="bLA-xD-vn7"/>
-                                                <exclude reference="wdU-VG-a3K"/>
-                                                <exclude reference="per-T9-imL"/>
-                                                <exclude reference="zfL-wF-IDj"/>
+                                                <exclude reference="65O-eb-rpJ"/>
+                                                <exclude reference="ioF-p4-jsf"/>
+                                                <exclude reference="nsC-3H-Bzl"/>
                                                 <exclude reference="2jw-lt-FcN"/>
                                                 <exclude reference="6YN-JY-OC5"/>
                                                 <exclude reference="824-BO-Yyc"/>
                                                 <exclude reference="8Gr-gk-JAW"/>
-                                                <exclude reference="65O-eb-rpJ"/>
-                                                <exclude reference="ioF-p4-jsf"/>
-                                                <exclude reference="nsC-3H-Bzl"/>
+                                                <exclude reference="per-T9-imL"/>
+                                                <exclude reference="zfL-wF-IDj"/>
+                                                <exclude reference="0L6-pa-QHB"/>
+                                                <exclude reference="MHY-B8-lLN"/>
+                                                <exclude reference="7fC-Pz-YYu"/>
+                                                <exclude reference="Ici-BF-fsE"/>
+                                                <exclude reference="bLA-xD-vn7"/>
+                                                <exclude reference="wdU-VG-a3K"/>
+                                                <exclude reference="I8L-Pk-ESp"/>
+                                                <exclude reference="ITe-0T-ehr"/>
+                                                <exclude reference="cOu-nQ-Wfb"/>
+                                                <exclude reference="VZa-yU-ant"/>
+                                                <exclude reference="eBP-Sq-hQV"/>
+                                                <exclude reference="Jkv-eg-fjZ"/>
+                                                <exclude reference="N23-c3-toy"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -933,28 +933,28 @@
                                             </mask>
                                             <mask key="constraints">
                                                 <include reference="l7I-MM-dUR"/>
-                                                <include reference="Jkv-eg-fjZ"/>
-                                                <include reference="N23-c3-toy"/>
-                                                <include reference="0L6-pa-QHB"/>
-                                                <include reference="MHY-B8-lLN"/>
-                                                <include reference="VZa-yU-ant"/>
-                                                <include reference="eBP-Sq-hQV"/>
-                                                <include reference="I8L-Pk-ESp"/>
-                                                <include reference="ITe-0T-ehr"/>
-                                                <include reference="cOu-nQ-Wfb"/>
-                                                <include reference="7fC-Pz-YYu"/>
-                                                <include reference="Ici-BF-fsE"/>
-                                                <include reference="bLA-xD-vn7"/>
-                                                <include reference="wdU-VG-a3K"/>
-                                                <include reference="per-T9-imL"/>
-                                                <include reference="zfL-wF-IDj"/>
+                                                <include reference="65O-eb-rpJ"/>
+                                                <include reference="ioF-p4-jsf"/>
+                                                <include reference="nsC-3H-Bzl"/>
                                                 <include reference="2jw-lt-FcN"/>
                                                 <include reference="6YN-JY-OC5"/>
                                                 <include reference="824-BO-Yyc"/>
                                                 <include reference="8Gr-gk-JAW"/>
-                                                <include reference="65O-eb-rpJ"/>
-                                                <include reference="ioF-p4-jsf"/>
-                                                <include reference="nsC-3H-Bzl"/>
+                                                <include reference="per-T9-imL"/>
+                                                <include reference="zfL-wF-IDj"/>
+                                                <include reference="0L6-pa-QHB"/>
+                                                <include reference="MHY-B8-lLN"/>
+                                                <include reference="7fC-Pz-YYu"/>
+                                                <include reference="Ici-BF-fsE"/>
+                                                <include reference="bLA-xD-vn7"/>
+                                                <include reference="wdU-VG-a3K"/>
+                                                <include reference="I8L-Pk-ESp"/>
+                                                <include reference="ITe-0T-ehr"/>
+                                                <include reference="cOu-nQ-Wfb"/>
+                                                <include reference="VZa-yU-ant"/>
+                                                <include reference="eBP-Sq-hQV"/>
+                                                <include reference="Jkv-eg-fjZ"/>
+                                                <include reference="N23-c3-toy"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -1054,11 +1054,12 @@
                         <segue destination="PZP-pH-JCK" kind="show" identifier="lookupcitySegue" id="382-1V-m5k"/>
                         <segue destination="gEC-Mc-bJO" kind="show" identifier="lookupjobSegue" id="Dbq-7P-K8C"/>
                         <segue destination="sIy-Si-fi8" kind="show" identifier="lookupproductSegue" id="JT1-3I-mwZ"/>
+                        <segue destination="pjZ-XI-nKK" kind="show" identifier="homeReturnEditSegue" id="0eb-rn-EhJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lzO-u4-yvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1986" y="453"/>
+            <point key="canvasLocation" x="1986" y="7"/>
         </scene>
         <!--lookupCity-->
         <scene sceneID="lkQ-WA-6w8">
@@ -1161,7 +1162,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3609" y="1071.75"/>
+            <point key="canvasLocation" x="2781" y="165"/>
         </scene>
         <!--lookupJob-->
         <scene sceneID="qLQ-MC-NNW">
@@ -1260,7 +1261,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3562.5" y="393.75"/>
+            <point key="canvasLocation" x="2643" y="-756"/>
         </scene>
         <!--lookupProduct-->
         <scene sceneID="KEJ-fq-xYG">
@@ -1359,7 +1360,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="4249.5" y="399.75"/>
+            <point key="canvasLocation" x="3425" y="147"/>
         </scene>
         <!--New Data View Controller-->
         <scene sceneID="6xQ-H1-wTp">
@@ -2469,7 +2470,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEh-6I-zYI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73.5" y="-874.5"/>
+            <point key="canvasLocation" x="59" y="-669"/>
         </scene>
         <!--Lead Detail Controller-->
         <scene sceneID="oRB-Fm-7fi">
@@ -3338,8 +3339,7 @@
                         <outlet property="photoImage" destination="k9c-3N-k5z" id="Uzr-Q1-b2A"/>
                         <segue destination="UdA-2X-Te0" kind="show" identifier="mapdetailSegue" id="HrX-o9-EKY"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newcustSegue" id="zQR-YQ-xF4"/>
-                        <segue destination="nrM-VH-pTi" kind="show" identifier="editFormSegue" id="PQe-xJ-h4h"/>
-                        <segue destination="vkG-5V-SZx" kind="show" identifier="testing" id="2yy-Hh-VA2"/>
+                        <segue destination="vkG-5V-SZx" kind="show" identifier="editFormSegue" id="2yy-Hh-VA2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RCd-M8-PnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4116,7 +4116,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="766.5" y="-874.5"/>
+            <point key="canvasLocation" x="690" y="-653"/>
         </scene>
         <!--Upload-->
         <scene sceneID="0oq-ST-uQi">
@@ -4249,7 +4249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io1-xW-K9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1423.5" y="-874.5"/>
+            <point key="canvasLocation" x="1367" y="-1501"/>
         </scene>
         <!--Sidebar View Controller-->
         <scene sceneID="aHG-mj-enl">
@@ -6921,15 +6921,11 @@
                         <outlet property="spouse" destination="TnK-ee-c7n" id="QCt-p1-AGF"/>
                         <outlet property="state" destination="Hoi-nb-0kL" id="dgk-Ue-tYi"/>
                         <outlet property="zip" destination="MEg-IH-bhB" id="5wH-c5-ufo"/>
-                        <segue destination="PZP-pH-JCK" kind="show" identifier="lookupEditCitySegue" id="DrB-wj-X59"/>
-                        <segue destination="gEC-Mc-bJO" kind="show" identifier="lookupEditJobSegue" id="Gtt-qV-HI9"/>
-                        <segue destination="pjZ-XI-nKK" kind="show" identifier="homeReturnEditSegue" id="i7H-oC-EPR"/>
-                        <segue destination="sIy-Si-fi8" kind="show" identifier="lookupEditProductSegue" id="cFB-fG-LzW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X4e-dJ-yDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2754" y="393.75"/>
+            <point key="canvasLocation" x="3635" y="-962"/>
         </scene>
     </scenes>
     <resources>
@@ -6955,15 +6951,15 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="382-1V-m5k"/>
+        <segue reference="6GQ-e7-fhm"/>
+        <segue reference="MEa-hs-crl"/>
+        <segue reference="jwQ-k2-eY1"/>
+        <segue reference="0eb-rn-EhJ"/>
         <segue reference="4KL-RL-dt5"/>
-        <segue reference="i7H-oC-EPR"/>
         <segue reference="zQR-YQ-xF4"/>
         <segue reference="JT1-3I-mwZ"/>
+        <segue reference="382-1V-m5k"/>
         <segue reference="Dbq-7P-K8C"/>
-        <segue reference="jwQ-k2-eY1"/>
-        <segue reference="MEa-hs-crl"/>
-        <segue reference="6GQ-e7-fhm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

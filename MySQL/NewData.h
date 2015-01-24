@@ -17,6 +17,7 @@
 
 //may be a problem with employee lastname may be under custNo
 @property (strong, nonatomic) NSString *formController;
+@property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) NSString *active;
 @property (strong, nonatomic) UITextField  *date;
