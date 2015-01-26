@@ -10,7 +10,6 @@
 #import "Constants.h"
 
 @interface BlogNewViewController ()
-//@property (weak, nonatomic) IBOutlet UILabel *selectedDate;
 
 @end
 
@@ -48,11 +47,10 @@
         self.subject.text = self.textcontentsubject;
         self.postby = self.textcontentpostby;
         self.rating = self.textcontentrating;
-        self.Share.hidden = YES; }
+        self.Share.hidden = YES;
+      }
        [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
- /*
-#pragma mark - DatePicker
-   [self.myDatePicker addTarget:self action:@selector(datePickerChanged:) forControlEvents:UIControlEventValueChanged]; */
+    self.myDatePicker.hidden = YES;
     
   [[UITextView appearance] setTintColor:[UIColor grayColor]];
 }
@@ -70,47 +68,54 @@
 #pragma mark - TableView 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {   // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 #pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
-    static NSString *CellIdentifier1 = @"detailCell";
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-     if (indexPath.section == 0){
-         
-      UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
-         
-    // Get references to labels of cell
+
+ //   UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(10, 7, 175, 30)];
+ //   UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
+    
+     if (indexPath.row == 0){
+
        myCell.textLabel.text = self.postby;
        myCell.detailTextLabel.text = self.rating;
-       
-    return myCell;
          
-     } else if (indexPath.section == 1){
-             
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
-             
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1]; }
-             
-             // Get references to labels of cell
-        myCell.textLabel.text = self.msgDate;
-        myCell.detailTextLabel.text = @"Date";
-             
-    return myCell;
+     } else if (indexPath.row == 1){
+         
+         myCell.textLabel.text = self.msgDate;
+         myCell.detailTextLabel.text = @"Date";
+
+   /*      self.msgDate = textframe;
+        [self.msgDate setFont:textFont];
+         self.msgDate.tag = 8;
+         self.msgDate.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.msgDate setClearButtonMode:UITextFieldViewModeWhileEditing];
+         if (self.msgDate.text.length == 0) {
+             NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+             gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+             gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+             NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
+             self.msgDate.text = dateString; }
+         
+         [myCell.contentView addSubview:self.msgDate];
+             self.msgDate.inputView = [self datePicker:8]; */
 }
-return nil;
+return myCell;
+//return nil;
 }
 
 #pragma mark - Button
@@ -118,18 +123,34 @@ return nil;
     if([self.rating isEqualToString: @"4"]) {
        [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
         self.rating = @"5";
-    }else{
+      } else {
        [self.Like setTitle: @"Like" forState: UIControlStateNormal];
         self.rating = @"4"; }
        [self.listTableView reloadData];
 }
 /*
-- (void)datePickerChanged:(UIDatePicker *)datePicker {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm"];
-    NSString *strDate = [dateFormatter stringFromDate:datePicker.date];
-    self.msgDate.text = strDate;
+#pragma mark Date Picker
+- (UIView *)datePicker:(NSUInteger)tag{
+    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
+    pickerView.backgroundColor = [UIColor lightGrayColor];
+    
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+    datePicker.tag = tag;
+    [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
+    datePicker.timeZone = [NSTimeZone localTimeZone];
+    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [pickerView addSubview:datePicker];
+    
+    return pickerView;
 } */
+
+-(void)onDatePickerValueChanged:(UIDatePicker *)myDatePicker
+{
+    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+    gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    self.msgDate = [gmtDateFormatter stringFromDate:myDatePicker.date];
+}
 
 #pragma mark - Button New Database
 -(IBAction)Reply:(id)sender{
@@ -142,28 +163,23 @@ return nil;
     
     NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&_msgDate=%@&_subject=%@&_rating=%@&_postby=%@&",
                         _msgNo, _msgDate, _subject, _rating, _postby];
-    
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateBlog.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
     NSURLResponse *response;
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    
     NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
     NSLog(@"%@", responseString);
-    
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
     
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
     
-    [self performSegueWithIdentifier:@"homeReturnSegue"sender:self];
+   [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Button Update Database
@@ -178,27 +194,22 @@ return nil;
     NSString *rawStr = [NSString stringWithFormat:@"_msgDate=%@&&_subject=%@&_rating=%@&_postby=%@&",_msgDate, _subject, _rating, _postby];
     
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveBlog.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
     NSURLResponse *response;
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    
     NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
     NSLog(@"%@", responseString);
-    
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
     
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
     
-    [self performSegueWithIdentifier:@"homeReturnSegue"sender:self];
-    //[self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+    [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 @end

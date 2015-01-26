@@ -30,9 +30,8 @@
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
             NSLog(@"The getFirstObject request failed.");
-        } else {
+        } else
            self.adName.text = [object objectForKey:@"Advertiser"];
-        }
      }];
         
         PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
@@ -50,11 +49,10 @@
    // [query3 selectKeys:@[@"Products"]];
     [query3 whereKey:@"ProductNo" containsString:self.frm23];
     [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+         else
             self.adName.text = [object objectForKey:@"Products"];
-        }
     }];
 }
     
@@ -65,11 +63,10 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
    // [query21 selectKeys:@[@"Description"]];
     [query21 whereKey:@"JobNo" equalTo:self.frm22];
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+         else
             self.jobName.text = [object objectForKey:@"Description"];
-        }
     }];
  
     PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
@@ -77,9 +74,9 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
    // [query31 selectKeys:@[@"Salesman"]];
     [query31 whereKey:@"SalesNo" equalTo:self.frm21];
     [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+         else {
             self.salesman.text = [object objectForKey:@"Salesman"];
         }
     }];
@@ -124,11 +121,11 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
           self.zip.text = @"";
      else self.zip.text = self.frm17;
     
-          self.date.text = self.frm18;
+         self.date.text = self.frm18;
     
-    if ( [self.frm19 isEqual:[NSNull null]] )
-          self.aptDate.text = @"";
-     else self.aptDate.text = self.frm19;
+    if ([self.frm19 isEqual:[NSNull null]])
+         self.aptDate.text = @"";
+    else self.aptDate.text = self.frm19;
     
     if (self.frm20.length == 0)
         self.phone.text = @"";
@@ -229,7 +226,6 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     self.aptDate.inputView = [self datePicker];
     self.salesman.inputView = [self customPicker:1];
 }
-    
     if ([_formController isEqual: @"Leads"])
     self.callback.inputView = [self customPicker:2];
     
@@ -242,7 +238,6 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         } else {
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
           self.following.text = @"Follow";
-         // self.active.text = @"0";
         }
   
 #pragma mark Form Circle Image

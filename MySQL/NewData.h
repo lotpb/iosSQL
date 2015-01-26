@@ -12,6 +12,7 @@
 #import "LookupCity.h"
 #import "LookupJob.h"
 #import "LookupProduct.h"
+#import "LookupSalesman.h"
 
 @interface NewData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
 
@@ -19,7 +20,7 @@
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
-@property (weak, nonatomic) NSString *active;
+@property (strong, nonatomic) NSString *active;
 @property (strong, nonatomic) UITextField  *date;
 @property (strong, nonatomic) IBOutlet UITextField *first;
 @property (strong, nonatomic) IBOutlet UITextField *last;
@@ -63,6 +64,7 @@
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
 
+@property (weak, nonatomic) IBOutlet UIButton *clearBTN;
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 //@property (weak, nonatomic) IBOutlet UIButton *cityLookup;

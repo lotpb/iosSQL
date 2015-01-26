@@ -39,17 +39,17 @@
     jobArray = [[NSMutableArray alloc] init];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"Description"]];
+     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query selectKeys:@[@"JobNo"]];
-     [query orderByDescending:@"Description"];
+    [query selectKeys:@[@"Description"]];
+    [query orderByDescending:@"Description"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {
                 [jobArray addObject:object];
                 [self.listTableView reloadData]; }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]); }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]); 
     }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
@@ -66,14 +66,12 @@
     
      self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
-   //self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
-  // self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,7 +79,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 #pragma mark TableView Delete Button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,7 +98,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
     }
-}
+} */
 
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -116,17 +114,15 @@
     static NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (myCell == nil) {
+    if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    if (!isFilltered) {
+    
+    if (!isFilltered)
         jobName = [[jobArray objectAtIndex:indexPath.row] objectForKey:@"Description"];
-    } else {
+     else
         jobName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Description"];
-    }
     
     myCell.textLabel.text = jobName;
-   // myCell.detailTextLabel.text = nil;//item.city;
     
     return myCell;
 }
@@ -145,9 +141,8 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 if(searchText.length == 0)
-    {
         isFilltered = NO;
-    } else {
+     else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in jobArray)
@@ -166,9 +161,9 @@ if(searchText.length == 0)
     if (!isFilltered) {
         [self.delegate jobFromController:self.tjo22 = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
         [self.delegate jobNameFromController:self.tjn22 =[[jobArray objectAtIndex:indexPath.row]objectForKey:@"Description"]];
-    } else {
+      } else {
         [self.delegate jobFromController:self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
-        [self.delegate jobFromController:self.tjn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Description"]];
+        [self.delegate jobNameFromController:self.tjn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Description"]];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -109,20 +109,19 @@
             
             [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
-                if (succeeded){
+                if (succeeded)
                     //Go back to the wall
                     [self.navigationController popViewControllerAnimated:YES];
-                }
                 else{
                     NSString *errorString = [[error userInfo] objectForKey:@"error"];
                     [self showErrorView:errorString];
-                }
+                    }
             }];
         }
-        else{
+        else {
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
-        }
+             }
         
         [loadingSpinner stopAnimating];
         [loadingSpinner removeFromSuperview];

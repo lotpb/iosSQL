@@ -172,15 +172,14 @@
     static NSString *CellIdentifier = @"blogCell";
     CustomTableViewCell *myCell = (CustomTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-    if (myCell == nil) {
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     BlogLocation *item;
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-    } else {
+     else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
     /*
     NSString *dateStr = item.msgDate;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -208,10 +207,10 @@
     label2.tag = 103;
     
     if ([item.rating isEqual: @"4"])
-    { label2.hidden = YES; }
-    else { label2.hidden = NO; };
-    [myCell.contentView addSubview:label2];
+          label2.hidden = YES;
+    else  label2.hidden = NO;
     
+    [myCell.contentView addSubview:label2];
     return myCell;
 }
 
@@ -304,33 +303,29 @@
             if (self.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
     }

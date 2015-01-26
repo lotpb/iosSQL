@@ -110,7 +110,6 @@
    
     if (myCell == nil) {
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
         myCell.accessoryType = UITableViewCellAccessoryNone;
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }

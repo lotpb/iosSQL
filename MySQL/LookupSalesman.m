@@ -1,74 +1,73 @@
 //
-//  LookupCity.m
+//  LookupSalesman.m
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/7/15.
+//  Created by Peter Balsamo on 1/25/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "LookupCity.h"
+#import "LookupSalesman.h"
 #import <Parse/Parse.h>
 
-@interface LookupCity ()
+@interface LookupSalesman ()
 {
-UIRefreshControl *refreshControl;
-NSMutableArray *zipArray;
-NSString *cityName;
+    UIRefreshControl *refreshControl;
+    NSMutableArray *salesArray;
+    NSString *salesName;
 }
-@property (strong, nonatomic) NSString *tci14;
-@property (strong, nonatomic) NSString *tst15;
-@property (strong, nonatomic) NSString *tzi21;
+@property (strong, nonatomic) NSString *tsa22;
+@property (strong, nonatomic) NSString *tsn22;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
-@implementation LookupCity
+@implementation LookupSalesman
 @synthesize searchBar;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title =  @"City lookup";
+    self.title =  @"Salesman lookup";
     self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchBar.delegate = self;
-   [self.searchBar becomeFirstResponder];
+    [self.searchBar becomeFirstResponder];
     self.searchBar.barTintColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
     
-    zipArray = [[NSMutableArray alloc] init];
+    salesArray = [[NSMutableArray alloc] init];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"ZipNo"]];
-    [query selectKeys:@[@"City"]];
-    [query selectKeys:@[@"State"]];
-    [query selectKeys:@[@"zipCode"]];
-    [query orderByAscending:@"City"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"SalesNo"]];
+    [query selectKeys:@[@"Salesman"]];
+    [query orderByDescending:@"Salesman"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {
-                [zipArray addObject:object];
+                [salesArray addObject:object];
                 [self.listTableView reloadData]; }
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
     }];
     
-    filteredString= [[NSMutableArray alloc] initWithArray:zipArray];
+    filteredString= [[NSMutableArray alloc] initWithArray:salesArray];
     
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-     self.searchBar.clipsToBounds = YES;
+    
+    self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
+    //self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -99,7 +98,7 @@ NSString *cityName;
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
- 
+        
     }
 } */
 
@@ -109,7 +108,7 @@ NSString *cityName;
     if (isFilltered)
         return filteredString.count;
     else
-        return zipArray.count;
+        return salesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,57 +116,59 @@ NSString *cityName;
     static NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (myCell == nil) {
+    if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    if (!isFilltered)
-        cityName = [[zipArray objectAtIndex:indexPath.row] objectForKey:@"City"];
-       else
-        cityName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
     
-    myCell.textLabel.text = cityName;
+    if (!isFilltered)
+        salesName = [[salesArray objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+     else
+        salesName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+    
+    
+    myCell.textLabel.text = salesName;
     
     return myCell;
 }
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
+    
     [self.searchBar becomeFirstResponder];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-     self.searchBar.text=@"";
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    self.searchBar.text=@"";
     [self.searchBar resignFirstResponder];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if(searchText.length == 0)
+    
         isFilltered = NO;
      else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        for(PFObject *str in zipArray)
+        for(PFObject *str in salesArray)
         {
-        NSRange stringRange = [[str objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if(stringRange.location != NSNotFound) {
-        [filteredString addObject:str]; }
+            NSRange stringRange = [[str objectForKey:@"Salesman"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if(stringRange.location != NSNotFound) {
+                [filteredString addObject:str]; }
         }
     }
-[self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)passDataBack {
-   
+    
     NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-     if (!isFilltered) {
-     [self.delegate cityFromController:self.tci14 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"City"]];
-     [self.delegate stateFromController:self.tst15 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"State"]];
-     [self.delegate zipFromController:self.tzi21 =[[zipArray objectAtIndex:indexPath.row]objectForKey:@"zipCode"]];
-     } else {
-     [self.delegate cityFromController:self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"]];
-     [self.delegate stateFromController:self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"]];
-     [self.delegate zipFromController:self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"]]; }
+    if (!isFilltered) {
+        [self.delegate salesFromController:self.tsa22 = [[salesArray objectAtIndex:indexPath.row]objectForKey:@"SalesNo"]];
+        [self.delegate salesNameFromController:self.tsn22 = [[salesArray objectAtIndex:indexPath.row]objectForKey:@"Salesman"]];
+    } else {
+        [self.delegate salesFromController:self.tsa22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"SalesNo"]];
+        [self.delegate salesNameFromController:self.tsn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Salesman"]];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -175,11 +176,11 @@ NSString *cityName;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!isFilltered)
-        [zipArray objectAtIndex:indexPath.row];
-        else
+        [salesArray objectAtIndex:indexPath.row];
+    else
         [filteredString objectAtIndex:indexPath.row];
     
-        [self passDataBack];
+    [self passDataBack];
 }
 
 @end

@@ -174,15 +174,14 @@
     myCell.layer.cornerRadius = 5;
     myCell.layer.masksToBounds = YES;
 
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     VendLocation *item;
-    if (!isFilltered) {
+    if (!isFilltered)
       item = _feedItems[indexPath.row];
-  } else {
+      else
       item = [filteredString objectAtIndex:indexPath.row];
-    }
 
     myCell.textLabel.text = item.vendorName;
     myCell.detailTextLabel.text = item.vendorNo;
@@ -282,33 +281,29 @@
             if (self.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.vendorName rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.department rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
     }

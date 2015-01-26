@@ -30,6 +30,5 @@
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *myDatePicker;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-//@property (weak, nonatomic) BlogLocation *selectedLocation;
 
 @end

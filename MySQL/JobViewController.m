@@ -102,14 +102,10 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
     
-    [super setEditing:editing
-             animated:animated];
-    
-    [self.listTableView setEditing:editing
-                          animated:animated];
+    [super setEditing:editing animated:animated];
+    [self.listTableView setEditing:editing animated:animated];
     
 }
 
@@ -131,9 +127,8 @@
 
 #pragma mark  TableView Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (isFilltered) {
+    if (isFilltered)
         return [filteredString  count];
-    }
     return _feedItems.count;
 }
 
@@ -145,15 +140,15 @@
     myCell.layer.cornerRadius = 5;
     myCell.layer.masksToBounds = YES;
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     JobLocation *item;
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-  } else {
+    else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
+    
         myCell.textLabel.text = item.jobdescription;
         myCell.detailTextLabel.text = item.jobNo;
         UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];

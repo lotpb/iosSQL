@@ -101,30 +101,31 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EmployeeLocation *item;
- 
     static NSString *CellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-    } else {
+     else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
     
     NSString *firstItem = item.first; NSString *lastnameItem = item.lastname;
     NSString *companyItem = item.company;
     
-    if ( ( ![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ) ) {firstItem = item.first;
-    } else { firstItem = @""; }
+    if ( ( ![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ) )
+           firstItem = item.first;
+     else  firstItem = @"";
     
-    if ( ( ![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ) ) {lastnameItem = item.lastname;
-    } else { lastnameItem = @""; }
+    if ( ( ![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ) )
+           lastnameItem = item.lastname;
+     else  lastnameItem = @"";
     
-    if ( ( ![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ) ) {companyItem = item.company;
-    } else { companyItem = @""; }
+    if ( ( ![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ) )
+           companyItem = item.company;
+     else  companyItem = @"";
     
     myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
     myCell.detailTextLabel.text = item.city;
@@ -143,14 +144,10 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
     
-    [super setEditing:editing
-             animated:animated];
-    
-    [self.listTableView setEditing:editing
-                          animated:animated];
+    [super setEditing:editing animated:animated];
+    [self.listTableView setEditing:editing animated:animated];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -191,7 +188,6 @@
                                  [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
                                  //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
@@ -199,10 +195,7 @@
                                  handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
-                                     
                                  }];
-        
-        
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
@@ -300,33 +293,29 @@
             if (self.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.homephone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
     }
@@ -337,7 +326,6 @@
 {   // Set selected location to var
     _selectedLocation = _feedItems[indexPath.row];
     
-    // Manually call segue to detail view controller
      [self performSegueWithIdentifier:@"employdetailSegue" sender:self];
 }
 

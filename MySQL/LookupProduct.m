@@ -41,7 +41,7 @@
     
     if ([_formController isEqual: @"Customer"]) {
      PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-     query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+      query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
      [query3 selectKeys:@[@"ProductNo"]];
      [query3 selectKeys:@[@"Products"]];
      [query3 orderByDescending:@"Products"];
@@ -51,8 +51,8 @@
              for (PFObject *object in objects) {
                  [adproductArray addObject:object];
                  [self.listTableView reloadData]; }
-         } else {
-             NSLog(@"Error: %@ %@", error, [error userInfo]); }
+         } else
+             NSLog(@"Error: %@ %@", error, [error userInfo]);
      }];
     } else {  //leads
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
@@ -67,8 +67,8 @@
             for (PFObject *object in objects) {
                 [adproductArray addObject:object];
                 [self.listTableView reloadData]; }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]); }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
     }]; }
     
     filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
@@ -77,12 +77,10 @@
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
      self.searchBar.clipsToBounds = YES;
     [self.searchBar becomeFirstResponder];
 }
@@ -91,15 +89,13 @@
 {
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
-  // self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
+/*
 #pragma mark TableView Delete Button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,7 +114,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
     }
-}
+} */
 
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -134,20 +130,21 @@
     static NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (myCell == nil) {
+    if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+
     if (!isFilltered) {
-        if ([_formController isEqual: @"Customer"]) {
+        if ([_formController isEqual: @"Customer"])
         adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Products"];
-        } else
+        else
         adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
-    } else {
+      } else
+        if ([_formController isEqual: @"Customer"])
         adproductName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Products"];
-    }
+        else
+        adproductName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
     
     myCell.textLabel.text = adproductName;
-   // myCell.detailTextLabel.text = nil;//item.city;
     
     return myCell;
 }
@@ -164,9 +161,9 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if(searchText.length == 0) {
+    if(searchText.length == 0)
         isFilltered = NO;
-      } else {
+       else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in adproductArray)

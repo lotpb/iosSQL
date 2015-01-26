@@ -156,8 +156,6 @@
                                      [view dismissViewControllerAnimated:YES completion:nil];
                                      
                                  }];
-        
-        
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
@@ -276,9 +274,9 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if(searchText.length == 0)
-    {
+
         isFilltered = NO;
-    } else {
+     else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         
@@ -287,41 +285,36 @@
             if (self.searchBar.selectedScopeButtonIndex == 0)
             {
                NSRange stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-              if(stringRange.location != NSNotFound) {
+              if(stringRange.location != NSNotFound)
                 [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 4)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
      }
@@ -332,15 +325,10 @@
     
     if (!isFilltered)
          _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
-       //_selectedLocation = _feedItems[indexPath.row];
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-     //[self.searchBar resignFirstResponder];
        [self performSegueWithIdentifier:@"detailSegue" sender:self];
-    
-    // [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"LeadDetailController"] animated:YES];
-    // [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -348,7 +336,7 @@
     if ([[segue identifier] isEqualToString:@"detailSegue"])
     {
     // Get reference to the destination view controller
-    LeadDetailViewControler *detailVC = segue.destinationViewController;
+        LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = @"Leads";
         detailVC.leadNo = _selectedLocation.leadNo; detailVC.date = _selectedLocation.date;
         detailVC.name = _selectedLocation.name; detailVC.address = _selectedLocation.address;

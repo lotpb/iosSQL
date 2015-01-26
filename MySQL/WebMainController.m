@@ -47,24 +47,23 @@
     
     UISegmentedControl* segControl = (UISegmentedControl*)sender;
     NSURL *url ;
-    if (segControl.selectedSegmentIndex == 0) {
+    if (segControl.selectedSegmentIndex == 0)
         url = [[NSURL alloc] initWithString:@"http://www.cnn.com"];
-    }
-    if (segControl.selectedSegmentIndex == 1) {
+    
+    if (segControl.selectedSegmentIndex == 1)
         url = [[NSURL alloc] initWithString:@"http://www.Drudgereport.com"];
-    }
-    if (segControl.selectedSegmentIndex == 2) {
+    
+    if (segControl.selectedSegmentIndex == 2)
         url = [[NSURL alloc] initWithString:@"http://www.cnet.com"];
-    }
-    if (segControl.selectedSegmentIndex == 3) {
+    
+    if (segControl.selectedSegmentIndex == 3)
         url = [[NSURL alloc] initWithString:@"http://www.theblaze.com"];
-    }
-    if (segControl.selectedSegmentIndex == 4) {
+    
+    if (segControl.selectedSegmentIndex == 4)
         url = [[NSURL alloc] initWithString:@"http://finance.yahoo.com/mb/GTATQ/"];
-    }
-    if (segControl.selectedSegmentIndex == 5) {
+    
+    if (segControl.selectedSegmentIndex == 5)
         url = [[NSURL alloc] initWithString:@"http://stocktwits.com/symbol/FB"];
-    }
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
      self.webView.scalesPageToFit = YES;
@@ -130,6 +129,5 @@
                              error.localizedDescription];
     [self.webView loadHTMLString:errorString baseURL:nil];
     }
-
 
 @end

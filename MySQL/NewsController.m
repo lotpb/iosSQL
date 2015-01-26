@@ -108,14 +108,11 @@
             //Everything was correct, put the new objects and load the wall
             self.imageFilesArray = nil;
             self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
-            
             [self loadWallViews];
-            
         } else {
             //Remove the activity indicator
             [self.activityIndicator stopAnimating];
             [self.activityIndicator removeFromSuperview];
-            
             //Show the error
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
@@ -240,7 +237,6 @@
 #pragma mark Error Alert
 
 -(void)showErrorView:(NSString *)errorMsg{
-    
     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMsg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [errorAlertView show];
 }

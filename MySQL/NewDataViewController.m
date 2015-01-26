@@ -679,7 +679,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-        [self performSegueWithIdentifier:@"homeReturnNewSegue"sender:self];
+        [[self navigationController]popToRootViewControllerAnimated:YES];
         [self clearFormData];
     }
 }

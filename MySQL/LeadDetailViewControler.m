@@ -48,131 +48,129 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
   //   query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+        else {
             self.salesman = [object objectForKey:@"Salesman"];
-            NSLog(@"salesStr is %@",self.salesman);
-        }
+           // NSLog(@"salesStr is %@",self.salesman);
+             }
     }];
     
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
     [query21 whereKey:@"JobNo" equalTo:self.tbl23];
    //  query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+        else {
             self.jobdescription = [object objectForKey:@"Description"];
-            NSLog(@"jobStr is %@",jobdescription);
-        }
+          //  NSLog(@"jobStr is %@",jobdescription);
+             }
     }];
     
     PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
     [query11 whereKey:@"AdNo" equalTo:self.tbl24];
  //   query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
+        if (!object)
             NSLog(@"The getFirstObject request failed.");
-        } else {
+        else {
             self.advertiser = [object objectForKey:@"Advertiser"];
-            NSLog(@"adStr is %@",self.advertiser);
-        }
+          //  NSLog(@"adStr is %@",self.advertiser);
+             }
     }];
 }
+    if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
+           self.name = self.name;
+      else self.name = @"";
     
-    if ( ( ![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0 ) )
-            {self.name = self.name;
-    } else { self.name = @""; }
+    if ((![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0))
+           self.address = self.address;
+      else self.address = @"Address";
     
-    if ( ( ![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0 ) )
-            {self.address = self.address;
-    } else { self.address = @"Address"; }
+    if ((![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ))
+           self.city = self.city;
+      else self.city = @"City";
     
-    if ( ( ![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ) )
-            {self.city = self.city;
-    } else { self.city = @"City"; }
+    if ((![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ))
+           self.state = self.state;
+      else self.state = @"State";
     
-    if ( ( ![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ) )
-            {self.state = self.state;
-    } else { self.state = @"State"; }
+    if ((![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ))
+           self.zip = self.zip;
+      else self.zip = @"Zip";
     
-    if ( ( ![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ) )
-            {self.zip = self.zip;
-    } else { self.zip = @"Zip"; }
+     if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
+            self.amount = self.amount;
+       else self.amount = @"None";
     
-    if ( ( ![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ) )
-            {self.amount = self.amount;
-    } else { self.amount = @"None"; }
+    if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
+           self.date = self.date;
+      else self.date = @"None";
     
-    if ( ( ![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ) )
-            {self.date = self.date;
-    } else { self.date = @"None"; }
+    if ((![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ))
+          t11 = self.tbl11;
+     else t11 = @"None";
     
-    if ( ( ![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ) )
-            {t11 = self.tbl11;
-    } else { t11 = @"None"; }
-    
-    if ( ( ![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ) )
-            {t12 = self.tbl12;
-    } else { t12 = @"None"; }
+    if ((![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ))
+          t12 = self.tbl12;
+     else t12 = @"None";
 
-    if ( ( ![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ) )
-            {t13 = self.tbl13;
-    } else { t13 = @"None"; }
+    if ((![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ))
+          t13 = self.tbl13;
+     else t13 = @"None";
     
-    if ( ( ![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ) )
-            {t14 = self.tbl14;
-    } else { t14 = @"None"; }
+    if ((![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ))
+          t14 = self.tbl14;
+     else t14 = @"None";
     
-    if ( ( ![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ) )
-            {t15 = self.tbl15;
-    } else { t15 = @"None"; }
+    if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ))
+          t15 = self.tbl15;
+     else t15 = @"None";
     
-   if ( ( ![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ) )
-            {t21 = self.tbl21;
-    } else { t21 = @"None"; }
+   if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
+          t21 = self.tbl21;
+     else t21 = @"None";
     
 if ([_formController isEqual: @"Leads"]) {
     
-    if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
-            {t22 = @"Peter";
-    } else { t22 = @"None"; }
+    if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
+          t22 = @"Peter";
+     else t22 = @"None";
     
-    if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) )
-            {t23 = @"Peter";
-    } else { t23 = @"None"; }
+    if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
+          t23 = @"Peter";
+     else t23 = @"None";
     
-    if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
-            {t24 = @"Peter";
-    } else { t24 = @"None"; }
+    if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
+          t24 = @"Peter";
+     else t24 = @"None";
     
   } else {
-    
-    if ( ( ![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ) )
+      
+    if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
             {t22 = self.tbl22;
     } else { t22 = @"None"; }
    
-    if ( ( ![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ) )
-            {t23 = self.tbl23;
-    } else { t23 = @"None"; } 
+    if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
+          t23 = self.tbl23;
+     else t23 = @"None";
     
-    if ( ( ![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ) )
-            {t24 = self.tbl24;
-    } else { t24 = @"None"; }
+    if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
+          t24 = self.tbl24;
+     else t24 = @"None";
 }
-
-   if ( ( ![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ) )
-            {t25 = self.tbl25;
-    } else { t25 = @"None"; }
+   if ((![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ))
+          t25 = self.tbl25;
+     else t25 = @"None";
     
-   if ( ( ![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ) )
-            {news1 = self.comments;
-    } else { news1 = @"No Comments"; }
+   if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
+          news1 = self.comments;
+     else news1 = @"No Comments";
     
-   if ( ( ![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ) )
-           {p1 = self.photo;
-   } else { p1 = @"None"; }
+   if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
+         p1 = self.photo;
+    else p1 = @"None";
     
 self.title = self.name;
 self.labelNo.text = leadNo;
@@ -197,15 +195,15 @@ self.photo = p1;
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
     UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
-    if ( [self.active isEqual:@"1"] )
-    {[self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
-              self.following.text = @"Following";
+    if ( [self.active isEqual:@"1"] ) {
+         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+          self.following.text = @"Following";
     } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
               self.following.text = @"Follow";}
     // Switch button
-    if ( [t11 isEqual:@"Sold"] ) {
+     if ( [t11 isEqual:@"Sold"] )
              [self.mySwitch setOn:YES];
-    } else { [self.mySwitch setOn:NO]; }
+       else  [self.mySwitch setOn:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -258,8 +256,8 @@ self.photo = p1;
     static NSString *CellIdentifier = @"NewCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
     myCell.textLabel.font = [UIFont systemFontOfSize:8.0];
@@ -275,8 +273,8 @@ self.photo = p1;
     static NSString *CellIdentifier2 = @"NewCell2";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
     myCell.textLabel.font = [UIFont systemFontOfSize:8.0];
@@ -297,8 +295,8 @@ self.photo = p1;
     static NSString *CellIdentifier1 = @"detailCell";
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
     
-    if (myCell == nil) {
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1]; }
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;
@@ -440,7 +438,7 @@ return myCell;
     }
  
     if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead 
-        EditDataViewController *detailVC = segue.destinationViewController;
+        NewData *detailVC = segue.destinationViewController;
         if ([_formController  isEqual: @"Leads"]) {
             detailVC.formController = @"Leads";
             detailVC.leadNo = self.leadNo;
@@ -464,9 +462,9 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = self.photo;
             detailVC.frm30 = self.active;
-            detailVC.salesman.text = self.salesman;
-            detailVC.jobName.text = self.jobdescription;
-            detailVC.adName.text = self.advertiser;
+            detailVC.saleNo = self.tbl22;
+            detailVC.jobNo = self.tbl23;
+            detailVC.adNo = self.tbl24;
             /*
         detailVC.formController = @"Leads";
         detailVC.leadNo = self.leadNo;

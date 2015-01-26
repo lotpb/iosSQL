@@ -102,15 +102,10 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
     
-    [super setEditing:editing
-             animated:animated];
-    
-    [self.listTableView setEditing:editing
-                          animated:animated];
-    
+    [super setEditing:editing animated:animated];
+    [self.listTableView setEditing:editing animated:animated];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -131,9 +126,9 @@
 
 #pragma mark  TableView Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (isFilltered) {
+    if (isFilltered)
         return [filteredString  count];
-    }
+    
     return _feedItems.count;
 }
 
@@ -145,15 +140,15 @@
     myCell.layer.cornerRadius = 5;
     myCell.layer.masksToBounds = YES;
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     ProductLocation *item;
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-    } else {
+     else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
+    
         myCell.textLabel.text = item.products;
         myCell.detailTextLabel.text = item.productNo;
         UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
@@ -251,25 +246,22 @@
             if (self.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.products rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.productNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
     }
