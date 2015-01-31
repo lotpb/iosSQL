@@ -84,7 +84,6 @@
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
 
  //   UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(10, 7, 175, 30)];
  //   UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];

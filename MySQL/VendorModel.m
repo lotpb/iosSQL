@@ -80,6 +80,7 @@
         newLocation.assistant = jsonElement[@"Assistant"];
         newLocation.comments = jsonElement[@"Comments"];
         newLocation.active = jsonElement[@"Active"];
+        newLocation.time = jsonElement[@"Time"];
         
         // Add this question to the locations array
         [_locations addObject:newLocation];

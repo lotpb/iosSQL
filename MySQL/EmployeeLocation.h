@@ -31,4 +31,5 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *comments;
 @property (nonatomic, strong) NSString *active;
+@property (nonatomic, strong) NSString *time;
 @end

@@ -116,7 +116,8 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     // finished loading, hide the activity indicator in the status bar
     UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
-    self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+   // below made title on TabBar
+   // self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

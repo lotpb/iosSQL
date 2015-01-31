@@ -37,6 +37,6 @@
 @property (nonatomic, strong) NSString *first;
 @property (nonatomic, strong) NSString *spouse;
 @property (nonatomic, strong) NSString *lastname;
-@property (nonatomic, strong) NSString *salesman;
-@property (nonatomic, strong) NSString *product;
+@property (nonatomic, strong) NSString *time;
+//@property (nonatomic, strong) NSString *product;
 @end

@@ -156,16 +156,11 @@
         infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.numberOfLines = 0;
         [wallImageView addSubview:infoLabel];
-         /*
-         Add the info label (User and creation date)
-         NSDate *creationDate = wallObject.createdAt;
-         NSDateFormatter *df = [[NSDateFormatter alloc] init];
-         [df setDateFormat:KEY_DATEFORMAT]; */
             
         NSDate *creationDate = wallObject.createdAt;
-        NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-         dateFormater.timeZone = [NSTimeZone localTimeZone];;
-        [dateFormater setDateFormat:KEY_DATEFORMAT];
+      //  NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+     //   dateFormater.timeZone = [NSTimeZone localTimeZone];;
+     //   [dateFormater setDateFormat:KEY_DATEFORMAT];
         NSDate *datetime1 = creationDate;
         NSDate *datetime2 = [NSDate date];
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);

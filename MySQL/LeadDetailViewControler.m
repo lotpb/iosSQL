@@ -17,7 +17,7 @@
 @implementation LeadDetailViewControler
 {
     NSArray *tableData, *tableData2, *tableData3, *tableData4;
-    NSString *t12, *t11, *t13, *t14, *t15, *t21, *t22, *t23, *t24, *t25, *news1, *p1, *p12;
+    NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *news1, *p1, *p12;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
@@ -41,7 +41,7 @@
     UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
     NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
+ /*
 if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
     
     PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
@@ -79,7 +79,8 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
           //  NSLog(@"adStr is %@",self.advertiser);
              }
     }];
-}
+} */
+    
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
            self.name = self.name;
       else self.name = @"";
@@ -100,13 +101,21 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
            self.zip = self.zip;
       else self.zip = @"Zip";
     
-     if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
+    if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
             self.amount = self.amount;
        else self.amount = @"None";
     
     if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
-           self.date = self.date;
-      else self.date = @"None";
+            self.date = self.date;
+       else self.date = @"None";
+    
+    if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
+        news1 = self.comments;
+    else news1 = @"No Comments";
+    
+    if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
+        p1 = self.photo;
+    else p1 = @"None";
     
     if ((![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ))
           t11 = self.tbl11;
@@ -128,10 +137,14 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
           t15 = self.tbl15;
      else t15 = @"None";
     
+    if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 ))
+          t16 = self.tbl16;
+     else t16 = @"None";
+    
    if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
           t21 = self.tbl21;
      else t21 = @"None";
-    
+/*
 if ([_formController isEqual: @"Leads"]) {
     
     if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
@@ -146,11 +159,11 @@ if ([_formController isEqual: @"Leads"]) {
           t24 = @"Peter";
      else t24 = @"None";
     
-  } else {
+  } else { */
       
     if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
-            {t22 = self.tbl22;
-    } else { t22 = @"None"; }
+          t22 = self.tbl22;
+     else t22 = @"None";
    
     if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
           t23 = self.tbl23;
@@ -159,18 +172,14 @@ if ([_formController isEqual: @"Leads"]) {
     if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
           t24 = self.tbl24;
      else t24 = @"None";
-}
+//}
    if ((![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ))
           t25 = self.tbl25;
      else t25 = @"None";
     
-   if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
-          news1 = self.comments;
-     else news1 = @"No Comments";
-    
-   if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
-         p1 = self.photo;
-    else p1 = @"None";
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
+          t26 = self.tbl26;
+     else t26 = @"None";
     
 self.title = self.name;
 self.labelNo.text = leadNo;
@@ -181,16 +190,16 @@ self.labeladdress.text = address;
 self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
 self.labelamount.text = amount;
 self.comments = news1;
-self.photo = p1;
+//self.photo = p1;
 
     ///below must be on bottom from above
-    tableData = [NSArray arrayWithObjects:t11, t12, t13, t14, t15, nil];
+    tableData = [NSArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
     
-    tableData2 = [NSArray arrayWithObjects:t21, t22, t23, t24, t25, nil];
+    tableData2 = [NSArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
     
-    tableData4 = [NSArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, nil];
+    tableData4 = [NSArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
     
-    tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, nil];
+    tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
@@ -200,10 +209,11 @@ self.photo = p1;
           self.following.text = @"Following";
     } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
               self.following.text = @"Follow";}
+    
     // Switch button
      if ( [t11 isEqual:@"Sold"] )
-             [self.mySwitch setOn:YES];
-       else  [self.mySwitch setOn:NO];
+            [self.mySwitch setOn:YES];
+       else [self.mySwitch setOn:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -292,6 +302,15 @@ self.photo = p1;
 }
     else if ([tableView isEqual:self.newsTableView]) {
         
+        NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+        [dateFormater setDateFormat:@"yyyy-MM-dd"];
+        dateFormater.timeZone = [NSTimeZone localTimeZone];
+        NSDate *creationDate = [dateFormater dateFromString:self.date];
+        NSDate *datetime1 = creationDate;
+        NSDate *datetime2 = [NSDate date];
+        double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+        NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+        
     static NSString *CellIdentifier1 = @"detailCell";
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
     
@@ -303,11 +322,14 @@ self.photo = p1;
     myCell.leadtitleLabel.numberOfLines = 0;
     myCell.leadtitleLabel.font = [UIFont systemFontOfSize:12.0];
    [myCell.leadtitleLabel setTextColor:[UIColor darkGrayColor]];
-    myCell.leadsubtitleLabel.text = @"Yahoo Finance 2 hrs ago";
+        
+    myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
     myCell.leadsubtitleLabel.font = [UIFont systemFontOfSize:8.0];
    [myCell.leadsubtitleLabel setTextColor:[UIColor grayColor]];
+        
     myCell.leadreadmore.text = @"Read more";
     myCell.leadreadmore.font = [UIFont systemFontOfSize:8.0];
+        
     myCell.leadnews.text = comments;
     myCell.leadnews.numberOfLines = 0;
     myCell.leadnews.font = [UIFont boldSystemFontOfSize:8.0];
@@ -413,33 +435,41 @@ return myCell;
        detailVC.mapzip = self.zip;
    }
     //dont work below Leads make a customer
-    if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust
+    if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust from Lead
         NewDataViewController *detailVC = segue.destinationViewController;
-        if ([_formController  isEqual: @"Customer"]) {
-        detailVC.formController = @"Customer";
-    //  detailVC.custNo = self.custNo;
-        detailVC.leadNo = self.leadNo;
-        detailVC.frm11 = self.tbl13; //first
-        detailVC.frm12 = self.name;
-        detailVC.frm14 = self.address;
-        detailVC.frm15 = self.city;
-        detailVC.frm16 = self.state;
-        detailVC.frm17 = self.zip;
-        detailVC.frm20 = self.tbl12; //phone
-        detailVC.frm25 = self.tbl15; //email
-        detailVC.frm24 = self.amount;
-        detailVC.frm26 = self.tbl14; //spouse
-        detailVC.frm21 = self.tbl22; //salesNo
-        detailVC.frm22 = self.tbl23; //jobNo
-        detailVC.frm28 = self.comments;
-        detailVC.frm29 = self.photo;
-        detailVC.frm30 = self.active;
+        if ([_formController isEqual: @"Leads"]) {
+            detailVC.formController = @"Customer";
+            //  detailVC.custNo = self.custNo;
+            detailVC.leadNo = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name;
+            detailVC.frm13 = nil;
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = nil; //date
+            detailVC.frm19 = nil; //aptdate
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.tbl22; //salesNo
+            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm23 = nil; //adNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = nil; //callback
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+            detailVC.saleNoDetail = self.tbl22;
+            detailVC.jobNoDetail = self.tbl23;
+            //detailVC.adNo.text = nil;
         }
     }
- 
-    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead 
+    
+    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead
         NewData *detailVC = segue.destinationViewController;
-        if ([_formController  isEqual: @"Leads"]) {
+        if ([_formController isEqual: @"Leads"]) {
             detailVC.formController = @"Leads";
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
@@ -465,29 +495,6 @@ return myCell;
             detailVC.saleNo = self.tbl22;
             detailVC.jobNo = self.tbl23;
             detailVC.adNo = self.tbl24;
-            /*
-        detailVC.formController = @"Leads";
-        detailVC.leadNo = self.leadNo;
-        detailVC.frm11 = self.tbl13; //first
-        detailVC.frm12 = self.name;
-        detailVC.frm13 = nil;
-        detailVC.frm14 = self.address;
-        detailVC.frm15 = self.city;
-        detailVC.frm16 = self.state;
-        detailVC.frm17 = self.zip;
-        detailVC.frm18 = self.date;
-        detailVC.frm19 = self.tbl21; //aptdate
-        detailVC.frm20 = self.tbl12; //phone
-        detailVC.frm21 = self.tbl22; //salesNo
-        detailVC.frm22 = self.tbl23; //jobNo
-        detailVC.frm23 = self.tbl24; //adNo
-        detailVC.frm24 = self.amount;
-        detailVC.frm25 = self.tbl15; //email
-        detailVC.frm26 = self.tbl14; //spouse
-        detailVC.frm27 = self.tbl11; //callback
-        detailVC.frm28 = self.comments;
-        detailVC.frm29 = self.photo;
-        detailVC.frm30 = self.active; */
             
         } else if ([_formController  isEqual: @"Customer"]) {
             detailVC.formController = @"Customer";
@@ -513,38 +520,40 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = self.photo;
             detailVC.frm30 = self.active;
-       //   detailVC.frm31 = self.photo1;
-       //   detailVC.frm32 = self.photo2;
-       //   detailVC.frm33 = self.rate; //rate
-       //   detailVC.frm34 = self.complete; //aptdate
+            detailVC.saleNo = self.tbl22;
+            detailVC.jobNo = self.tbl23;
+            detailVC.adNo = self.tbl24;
+            //   detailVC.frm31 = self.photo1;
+            //   detailVC.frm32 = self.photo2;
+            //   detailVC.frm33 = self.rate; //rate
+            //   detailVC.frm34 = self.complete; //aptdate
             
         } else if ([_formController  isEqual: @"Vendor"]) {
-        detailVC.formController = @"Vendor";
-        detailVC.leadNo = self.leadNo; //vendorNo
-        detailVC.frm11 = self.tbl24; //manager
-        detailVC.frm12 = self.date; //webpage
-        detailVC.frm13 = self.name; //vendorname
-        detailVC.frm14 = self.address;
-        detailVC.frm15 = self.city;
-        detailVC.frm16 = self.state;
-        detailVC.frm17 = self.zip;
-        detailVC.frm18 = self.tbl25; //profession
-        detailVC.frm19 = self.tbl15;  //assistant
-        detailVC.frm20 = self.tbl11; //phone
-        detailVC.frm21 = self.tbl12; //phone1
-        detailVC.frm22 = self.tbl13; //phone2
-        detailVC.frm23 = self.tbl14; // phone3
-        detailVC.frm24 = self.tbl22; //department
-        detailVC.frm25 = self.tbl21; //email
-        detailVC.frm26 = self.tbl23; //office
-        detailVC.frm27 = nil; 
-        detailVC.frm28 = self.comments;
-        detailVC.frm29 = nil;
-        detailVC.frm30 = self.active;
+            detailVC.formController = @"Vendor";
+            detailVC.leadNo = self.leadNo; //vendorNo
+            detailVC.frm11 = self.tbl24; //manager
+            detailVC.frm12 = self.date; //webpage
+            detailVC.frm13 = self.name; //vendorname
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.tbl25; //profession
+            detailVC.frm19 = self.tbl15;  //assistant
+            detailVC.frm20 = self.tbl11; //phone
+            detailVC.frm21 = self.tbl12; //phone1
+            detailVC.frm22 = self.tbl13; //phone2
+            detailVC.frm23 = self.tbl14; // phone3
+            detailVC.frm24 = self.tbl22; //department
+            detailVC.frm25 = self.tbl21; //email
+            detailVC.frm26 = self.tbl23; //office
+            detailVC.frm27 = nil;
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = nil;
+            detailVC.frm30 = self.active;
             
         } else if ([_formController  isEqual: @"Employee"]) {
             detailVC.formController = @"Employee";
-            // detailVC.custNo = self.custNo;
             detailVC.leadNo = self.leadNo; //employeeNo
             detailVC.frm11 = self.salesman; //first
             detailVC.frm12 = self.custNo; //lastname
@@ -567,7 +576,7 @@ return myCell;
             detailVC.frm29 = nil; //assistant
             detailVC.frm30 = self.active;
         }
-}
+    }
 }
 
 @end

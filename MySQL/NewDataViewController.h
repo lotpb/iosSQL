@@ -68,6 +68,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *jobLookup;
 @property (weak, nonatomic) IBOutlet UIButton *productLookup;
 
+@property (strong, nonatomic) NSString *saleNoDetail;
+@property (strong, nonatomic) NSString *jobNoDetail;
+
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;

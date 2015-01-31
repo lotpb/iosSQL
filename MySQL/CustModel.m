@@ -86,8 +86,8 @@
         newLocation.first = jsonElement[@"First"];
         newLocation.spouse = jsonElement[@"Spouse"];
         newLocation.lastname = jsonElement[@"Last Name"];
-        newLocation.salesman = jsonElement[@"Salesman"];
-        newLocation.product = jsonElement[@"Product"];
+        newLocation.time = jsonElement[@"Time"];
+ //       newLocation.product = jsonElement[@"Product"];
         // Add this question to the locations array
         [_locations addObject:newLocation];
     }

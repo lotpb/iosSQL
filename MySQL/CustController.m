@@ -349,19 +349,21 @@ else
         detailVC.tbl23 = _selectedLocation.jobNo;
         detailVC.tbl24 = _selectedLocation.prodNo;
         detailVC.tbl25 = _selectedLocation.quan;
-        detailVC.rate = _selectedLocation.rate;
+        //detailVC.rate = _selectedLocation.rate;
+        detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.rate;
        // detailVC.jobdescription = _selectedLocation.leadNo;
        // detailVC.advertiser = _selectedLocation.completion;
         detailVC.photo = _selectedLocation.photo;
         detailVC.comments = _selectedLocation.comments;
         detailVC.active = _selectedLocation.active;
-        //photo1, photo2, time
+        //photo1, photo2
      
         detailVC.l11 = @"Contractor"; detailVC.l12 = @"Phone";
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
         detailVC.l15 = @"Email"; detailVC.l21 = @"Start date";
         detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
         detailVC.l24 = @"Product"; detailVC.l25 = @"Quan";
+        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Rate";
         detailVC.l1datetext = @"Sale Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }

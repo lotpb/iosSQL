@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *assistant;
 @property (nonatomic, strong) NSString *comments;
 @property (nonatomic, strong) NSString *active;
+@property (nonatomic, strong) NSString *time;
 
 @end
 

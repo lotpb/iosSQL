@@ -347,12 +347,14 @@
        detailVC.tbl25 = _selectedLocation.profession;
        detailVC.comments = _selectedLocation.comments;
        detailVC.active = _selectedLocation.active;
+       detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.webpage;
        
        detailVC.l11 = @"Phone"; detailVC.l12 = @"Phone1";
        detailVC.l13 = @"Phone2"; detailVC.l14 = @"Phone3";
        detailVC.l15 = @"Assistant"; detailVC.l21 = @"Email";
        detailVC.l22 = @"Department"; detailVC.l23 = @"Office";
        detailVC.l24 = @"Manager"; detailVC.l25 = @"Profession";
+       detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Web Page";
        detailVC.l1datetext = @"Web Page:";
        detailVC.lnewsTitle = @"Business News Peter Balsamo Appointed to United's Board of Directors";
    }

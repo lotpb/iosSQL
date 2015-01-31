@@ -11,8 +11,6 @@
 
 @interface Location : NSObject
 
-//@property (nonatomic, strong) NSString *latitude;
-//@property (nonatomic, strong) NSString *longitude;
 @property (nonatomic, strong) NSString *leadNo;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *address;
@@ -32,10 +30,10 @@
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *photo;
 @property (nonatomic, strong) NSString *salesNo;
-//@property (nonatomic, strong) NSString *salesman;
 @property (nonatomic, strong) NSString *jobNo;
-//@property (nonatomic, strong) NSString *jobdescription;
 @property (nonatomic, strong) NSString *adNo;
+//@property (nonatomic, strong) NSString *salesman;
+//@property (nonatomic, strong) NSString *jobdescription;
 //@property (nonatomic, strong) NSString *advertiser;
 
 @end

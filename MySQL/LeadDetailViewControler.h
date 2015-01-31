@@ -7,18 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapViewController.h"
 #import "CustomTableViewCell.h"
 #import "NewDataViewController.h"
 #import "EditDataViewController.h"
+//#import "Constants.h"
+#import "MapViewController.h"
 
 @interface LeadDetailViewControler : UIViewController
 
 @property (strong, nonatomic) NSString *formController;
 //need to share strings below give need common name
 @property (strong, nonatomic) NSString *custNo;
-@property (strong, nonatomic) NSString *rate;
-
 @property (strong, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) IBOutlet UILabel *labelNo;
 @property (strong, nonatomic) NSString *name;
@@ -41,12 +40,14 @@
 @property (strong, nonatomic) NSString *tbl13;
 @property (strong, nonatomic) NSString *tbl14;
 @property (strong, nonatomic) NSString *tbl15;
+@property (strong, nonatomic) NSString *tbl16;
 
 @property (strong, nonatomic) NSString *tbl21;
 @property (strong, nonatomic) NSString *tbl22;
 @property (strong, nonatomic) NSString *tbl23;
 @property (strong, nonatomic) NSString *tbl24;
 @property (strong, nonatomic) NSString *tbl25;
+@property (strong, nonatomic) NSString *tbl26;
 /*
 @property (strong, nonatomic) NSString *t11;
 @property (strong, nonatomic) NSString *t12;
@@ -65,13 +66,15 @@
 @property (strong, nonatomic) NSString *l13;
 @property (strong, nonatomic) NSString *l14;
 @property (strong, nonatomic) NSString *l15;
+@property (strong, nonatomic) NSString *l16;
 @property (strong, nonatomic) NSString *l21;
 @property (strong, nonatomic) NSString *l22;
 @property (strong, nonatomic) NSString *l23;
 @property (strong, nonatomic) NSString *l24;
 @property (strong, nonatomic) NSString *l25;
+@property (strong, nonatomic) NSString *l26;
 @property (strong, nonatomic) NSString *lnewsTitle;
-
+//@property (strong, nonatomic) NSString *rate;
 @property (strong, nonatomic) NSString *state;
 @property (strong, nonatomic) NSString *zip;
 @property (strong, nonatomic) NSString *photo;

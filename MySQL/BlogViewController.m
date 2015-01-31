@@ -26,8 +26,8 @@
     [super viewDidLoad];
 
     self.title =  @"Blog";
-    self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
+    self.listTableView.estimatedRowHeight = 44.0;
     self.searchBar.delegate = self;
     self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];
@@ -170,16 +170,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"blogCell";
-    CustomTableViewCell *myCell = (CustomTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-    if (myCell == nil)
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     BlogLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-     else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
+
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     /*
     NSString *dateStr = item.msgDate;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

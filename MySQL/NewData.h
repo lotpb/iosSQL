@@ -35,6 +35,7 @@
 @property (strong, nonatomic) UITextField *amount;
 @property (strong, nonatomic) UITextField *spouse;
 @property (strong, nonatomic) UITextField *callback;
+@property (strong, nonatomic) UITextField *rate;
 @property (strong, nonatomic) NSString *saleNo;
 @property (strong, nonatomic) UITextField *salesman;
 @property (strong, nonatomic) NSString *jobNo;
@@ -63,6 +64,7 @@
 @property (strong, nonatomic) NSString *frm28;
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
+//@property (strong, nonatomic) NSString *frm31; //rate
 
 @property (weak, nonatomic) IBOutlet UIButton *clearBTN;
 @property (weak, nonatomic) IBOutlet UILabel *following;
