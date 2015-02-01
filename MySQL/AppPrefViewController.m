@@ -163,7 +163,7 @@ NSString* const kParseKey	     	    = @"parseKey";
             self.nameColor = [UIColor orangeColor];
             break;
         default:
-            NSAssert(NO, @"Got an unexpected value %@ for %@", @(textColor), kNameColorKey);
+            NSAssert(NO, @"Got an unexpected value %@ for %@", @(textColor), kFontColorKey);
     }
     
     [self.tableView reloadData];

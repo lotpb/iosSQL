@@ -267,7 +267,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
 }
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
-{
+{   [super viewDidAppear:animated];
     [self loadFormData];
    // self.adName.text = [adArray valueForKey:@"Advertiser"];
   //  self.jobName.text = [jobArray valueForKey:@"Description"];

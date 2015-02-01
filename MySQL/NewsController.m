@@ -7,8 +7,6 @@
 //
 
 #import "NewsController.h"
-#import <Parse/Parse.h>
-#import "Constants.h"
 
 @interface NewsController ()
 

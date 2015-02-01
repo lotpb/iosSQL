@@ -50,19 +50,19 @@
     if (segControl.selectedSegmentIndex == 0)
         url = [[NSURL alloc] initWithString:@"http://www.cnn.com"];
     
-    if (segControl.selectedSegmentIndex == 1)
+    else if (segControl.selectedSegmentIndex == 1)
         url = [[NSURL alloc] initWithString:@"http://www.Drudgereport.com"];
     
-    if (segControl.selectedSegmentIndex == 2)
+    else if (segControl.selectedSegmentIndex == 2)
         url = [[NSURL alloc] initWithString:@"http://www.cnet.com"];
     
-    if (segControl.selectedSegmentIndex == 3)
+    else if (segControl.selectedSegmentIndex == 3)
         url = [[NSURL alloc] initWithString:@"http://www.theblaze.com"];
     
-    if (segControl.selectedSegmentIndex == 4)
+    else if (segControl.selectedSegmentIndex == 4)
         url = [[NSURL alloc] initWithString:@"http://finance.yahoo.com/mb/GTATQ/"];
     
-    if (segControl.selectedSegmentIndex == 5)
+    else if (segControl.selectedSegmentIndex == 5)
         url = [[NSURL alloc] initWithString:@"http://stocktwits.com/symbol/FB"];
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -90,10 +90,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.webView.delegate = self;	// setup the delegate as the web view is shown
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self.webView stopLoading]; // in case the web view is still loading its content
      self.webView.delegate = nil;	// disconnect the delegate as the webview is hidden
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; // turn off the twirly

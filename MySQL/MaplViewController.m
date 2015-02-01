@@ -49,7 +49,7 @@
     [self.mapView setScrollEnabled:YES];}
 
 - (void)viewDidAppear:(BOOL)animated
-{
+{   [super viewDidAppear:animated];
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [self.locationManager startUpdatingLocation];

@@ -16,6 +16,7 @@
 		AF2856661A256B5000A6F42A /* MapController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2856651A256B5000A6F42A /* MapController.m */; };
 		AF28566A1A256BBB00A6F42A /* EmployeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2856691A256BBB00A6F42A /* EmployeeModel.m */; };
 		AF2B5AF51A137D5A00CABD1B /* VendorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2B5AF41A137D5A00CABD1B /* VendorModel.m */; };
+		AF35E3A31A7E6831004064DD /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF35E3A21A7E6831004064DD /* ParseUI.framework */; };
 		AF366EB31A55A15800976387 /* IMG_1133.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF366E841A55A15800976387 /* IMG_1133.jpg */; };
 		AF366EB41A55A15800976387 /* IMG_1133New.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF366E851A55A15800976387 /* IMG_1133New.jpg */; };
 		AF366EB51A55A15800976387 /* Star.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF366E861A55A15800976387 /* Star.jpg */; };
@@ -102,7 +103,6 @@
 		AFA352FC19FC70F200840AA3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352FB19FC70F200840AA3 /* SystemConfiguration.framework */; };
 		AFA71F0C1A61927900FBEDEE /* EditDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA71F0B1A61927900FBEDEE /* EditDataViewController.m */; };
 		AFA7CC8D1A3F8C5700128607 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */; };
-		AFA7CC921A3FD2B300128607 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA7CC911A3FD2B300128607 /* ParseUI.framework */; };
 		AFA99E1E1A49E79700231173 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA99E1D1A49E79700231173 /* NotificationController.m */; };
 		AFAA0FD51A0E931E00205EE9 /* MasterAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FD41A0E931E00205EE9 /* MasterAddressViewController.m */; };
 		AFAA0FD81A0E93A600205EE9 /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FD71A0E93A600205EE9 /* AddressViewController.m */; };
@@ -170,6 +170,7 @@
 		AF2881E71A5DA29E00644802 /* LookupCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookupCity.h; sourceTree = "<group>"; };
 		AF2B5AF31A137D5A00CABD1B /* VendorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorModel.h; sourceTree = "<group>"; };
 		AF2B5AF41A137D5A00CABD1B /* VendorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorModel.m; sourceTree = "<group>"; };
+		AF35E3A21A7E6831004064DD /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		AF366E841A55A15800976387 /* IMG_1133.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_1133.jpg; path = images/IMG_1133.jpg; sourceTree = "<group>"; };
 		AF366E851A55A15800976387 /* IMG_1133New.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_1133New.jpg; path = images/IMG_1133New.jpg; sourceTree = "<group>"; };
 		AF366E861A55A15800976387 /* Star.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Star.jpg; path = images/Star.jpg; sourceTree = "<group>"; };
@@ -276,7 +277,6 @@
 		AFA71F0B1A61927900FBEDEE /* EditDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDataViewController.m; sourceTree = "<group>"; };
 		AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookupJob.h; sourceTree = "<group>"; };
 		AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		AFA7CC911A3FD2B300128607 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = "../../../Downloads/parse-library-1/ParseUI.framework"; sourceTree = "<group>"; };
 		AFA99E1C1A49E79700231173 /* NotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
 		AFA99E1D1A49E79700231173 /* NotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
 		AFAA0FD31A0E931E00205EE9 /* MasterAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterAddressViewController.h; sourceTree = "<group>"; };
@@ -353,12 +353,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFA7CC921A3FD2B300128607 /* ParseUI.framework in Frameworks */,
 				AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */,
 				AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */,
 				AFA352EA19FC700800840AA3 /* AudioToolbox.framework in Frameworks */,
 				AFC604B61A12C4570094538A /* MessageUI.framework in Frameworks */,
 				AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */,
+				AF35E3A31A7E6831004064DD /* ParseUI.framework in Frameworks */,
 				AFA352FC19FC70F200840AA3 /* SystemConfiguration.framework in Frameworks */,
 				AFA352F819FC70D500840AA3 /* Security.framework in Frameworks */,
 				AFA352F619FC70CA00840AA3 /* QuartzCore.framework in Frameworks */,
@@ -655,7 +655,7 @@
 		AFA352FD19FC711E00840AA3 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				AFA7CC911A3FD2B300128607 /* ParseUI.framework */,
+				AF35E3A21A7E6831004064DD /* ParseUI.framework */,
 				AFE7A8091A33446B00A47D4A /* Parse.framework */,
 				AFE7A8071A33445E00A47D4A /* Bolts.framework */,
 				AFA352E919FC700800840AA3 /* AudioToolbox.framework */,

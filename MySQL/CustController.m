@@ -349,10 +349,8 @@ else
         detailVC.tbl23 = _selectedLocation.jobNo;
         detailVC.tbl24 = _selectedLocation.prodNo;
         detailVC.tbl25 = _selectedLocation.quan;
-        //detailVC.rate = _selectedLocation.rate;
         detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.rate;
-       // detailVC.jobdescription = _selectedLocation.leadNo;
-       // detailVC.advertiser = _selectedLocation.completion;
+        detailVC.complete = _selectedLocation.completion;
         detailVC.photo = _selectedLocation.photo;
         detailVC.comments = _selectedLocation.comments;
         detailVC.active = _selectedLocation.active;
@@ -370,7 +368,7 @@ else
        if ([[segue identifier] isEqualToString:@"newCustSeque"])
        {
         NewDataViewController *detailVC = segue.destinationViewController;
-       detailVC.formController = @"Customer";
+        detailVC.formController = @"Customer";
        }
 }
 

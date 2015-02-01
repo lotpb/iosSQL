@@ -50,7 +50,7 @@
         self.Share.hidden = YES;
       }
        [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    self.myDatePicker.hidden = YES;
+        self.myDatePicker.hidden = YES;
     
   [[UITextView appearance] setTintColor:[UIColor grayColor]];
 }

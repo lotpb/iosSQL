@@ -74,7 +74,7 @@
 @property (strong, nonatomic) NSString *l25;
 @property (strong, nonatomic) NSString *l26;
 @property (strong, nonatomic) NSString *lnewsTitle;
-//@property (strong, nonatomic) NSString *rate;
+@property (strong, nonatomic) NSString *complete;
 @property (strong, nonatomic) NSString *state;
 @property (strong, nonatomic) NSString *zip;
 @property (strong, nonatomic) NSString *photo;

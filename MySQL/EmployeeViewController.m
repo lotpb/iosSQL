@@ -11,7 +11,9 @@
 
 @interface EmployeeViewController ()
 {
-    EmployeeModel *_EmployeeModel; NSMutableArray *_feedItems; EmployeeLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    EmployeeModel *_EmployeeModel; NSMutableArray *_feedItems; EmployeeLocation *_selectedLocation;
+    UIRefreshControl *refreshControl;
+    NSString *firstItem, *lastnameItem, *companyItem;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
@@ -102,30 +104,28 @@
 {
     EmployeeLocation *item;
     static NSString *CellIdentifier = @"BasicCell";
+    
+    if (!isFilltered)
+        item = _feedItems[indexPath.row];
+    else
+        item = [filteredString objectAtIndex:indexPath.row];
+    
+    if ((![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ))
+         firstItem = item.first;
+    else firstItem = @"";
+    
+    if ((![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ))
+         lastnameItem = item.lastname;
+    else lastnameItem = @"";
+    
+    if ((![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ))
+         companyItem = item.company;
+    else companyItem = @"";
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-     else
-        item = [filteredString objectAtIndex:indexPath.row];
-    
-    NSString *firstItem = item.first; NSString *lastnameItem = item.lastname;
-    NSString *companyItem = item.company;
-    
-    if ( ( ![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ) )
-           firstItem = item.first;
-     else  firstItem = @"";
-    
-    if ( ( ![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ) )
-           lastnameItem = item.lastname;
-     else  lastnameItem = @"";
-    
-    if ( ( ![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ) )
-           companyItem = item.company;
-     else  companyItem = @"";
     
     myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
     myCell.detailTextLabel.text = item.city;
@@ -145,7 +145,6 @@
 }
 
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated{
-    
     [super setEditing:editing animated:animated];
     [self.listTableView setEditing:editing animated:animated];
 }

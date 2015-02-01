@@ -32,6 +32,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+        
+        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+        [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
+        //   query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else {
+                self.salesman = [object objectForKey:@"Salesman"];
+                // self.salesman = [[object objectForKey:@"Salesman"] objectAtIndex:0];
+                NSLog(@"salesStr is %@",self.salesman);
+            }
+        }];
+        
+        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+        [query21 whereKey:@"JobNo" equalTo:self.tbl23];
+        //  query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else {
+                self.jobdescription = [object objectForKey:@"Description"];
+                //  NSLog(@"jobStr is %@",jobdescription);
+            }
+        }];
+        
+        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+        [query11 whereKey:@"AdNo" equalTo:self.tbl24];
+        //   query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else {
+                self.advertiser = [object objectForKey:@"Advertiser"];
+                //  NSLog(@"adStr is %@",self.advertiser);
+            }
+        }];
+    }
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
@@ -41,45 +80,8 @@
     UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
     NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
- /*
-if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
-    
-    PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-    [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
-  //   query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object)
-            NSLog(@"The getFirstObject request failed.");
-        else {
-            self.salesman = [object objectForKey:@"Salesman"];
-           // NSLog(@"salesStr is %@",self.salesman);
-             }
-    }];
-    
-    PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-    [query21 whereKey:@"JobNo" equalTo:self.tbl23];
-   //  query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object)
-            NSLog(@"The getFirstObject request failed.");
-        else {
-            self.jobdescription = [object objectForKey:@"Description"];
-          //  NSLog(@"jobStr is %@",jobdescription);
-             }
-    }];
-    
-    PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-    [query11 whereKey:@"AdNo" equalTo:self.tbl24];
- //   query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object)
-            NSLog(@"The getFirstObject request failed.");
-        else {
-            self.advertiser = [object objectForKey:@"Advertiser"];
-          //  NSLog(@"adStr is %@",self.advertiser);
-             }
-    }];
-} */
+ 
+
     
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
            self.name = self.name;
@@ -148,7 +150,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
 if ([_formController isEqual: @"Leads"]) {
     
     if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
-          t22 = @"Peter";
+          t22 = self.salesman;
      else t22 = @"None";
     
     if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
@@ -508,7 +510,7 @@ return myCell;
             detailVC.frm16 = self.state;
             detailVC.frm17 = self.zip;
             detailVC.frm18 = self.date;
-            detailVC.frm19 = self.tbl21;  //start Date
+            detailVC.frm19 = self.tbl26;  //rate
             detailVC.frm20 = self.tbl12; //phone
             detailVC.frm21 = self.tbl22; //salesNo
             detailVC.frm22 = self.tbl23; //jobNo
@@ -520,13 +522,13 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = self.photo;
             detailVC.frm30 = self.active;
+            detailVC.frm31 = self.tbl21; //start date
+            detailVC.frm32 = self.complete;
             detailVC.saleNo = self.tbl22;
             detailVC.jobNo = self.tbl23;
             detailVC.adNo = self.tbl24;
-            //   detailVC.frm31 = self.photo1;
-            //   detailVC.frm32 = self.photo2;
-            //   detailVC.frm33 = self.rate; //rate
-            //   detailVC.frm34 = self.complete; //aptdate
+            //   detailVC.frm33 = self.photo1;
+            //   detailVC.frm34 = self.photo2;
             
         } else if ([_formController  isEqual: @"Vendor"]) {
             detailVC.formController = @"Vendor";

@@ -170,9 +170,6 @@
 {   
     static NSString *CellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    myCell.layer.cornerRadius = 5;
-    myCell.layer.masksToBounds = YES;
 
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];

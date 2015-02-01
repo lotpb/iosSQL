@@ -19,10 +19,10 @@
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *leadNo;
 @property (weak, nonatomic) IBOutlet UITextField *active;
-@property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *first;
 @property (weak, nonatomic) IBOutlet UITextField *last;
 @property (weak, nonatomic) IBOutlet UITextField *company;
+@property (weak, nonatomic) IBOutlet UITextField *date;
 @property (weak, nonatomic) IBOutlet UITextField *address;
 @property (weak, nonatomic) IBOutlet UITextField *city;
 @property (weak, nonatomic) IBOutlet UITextField *state;
@@ -33,13 +33,18 @@
 @property (weak, nonatomic) IBOutlet UITextField *amount;
 @property (weak, nonatomic) IBOutlet UITextField *spouse;
 @property (weak, nonatomic) IBOutlet UITextField *callback;
-@property (weak, nonatomic) IBOutlet UITextField *saleNo;
 @property (weak, nonatomic) IBOutlet UITextField *salesman;
-@property (weak, nonatomic) IBOutlet UITextField *jobNo;
 @property (weak, nonatomic) IBOutlet UITextField *jobName;
-@property (weak, nonatomic) IBOutlet UITextField *adNo;
 @property (weak, nonatomic) IBOutlet UITextField *adName;
 @property (weak, nonatomic) IBOutlet UITextView *comment;
+
+@property (strong, nonatomic) UITextField *rate; //cust
+@property (strong, nonatomic) UITextField *start; // cust
+@property (strong, nonatomic) UITextField *complete; //cust
+
+@property (weak, nonatomic) IBOutlet UITextField *saleNo;
+@property (weak, nonatomic) IBOutlet UITextField *jobNo;
+@property (weak, nonatomic) IBOutlet UITextField *adNo;
 
 @property (strong, nonatomic) NSString *frm11;
 @property (strong, nonatomic) NSString *frm12;
@@ -61,6 +66,8 @@
 @property (strong, nonatomic) NSString *frm28;
 @property (strong, nonatomic) NSString *frm29;
 @property (strong, nonatomic) NSString *frm30;
+@property (strong, nonatomic) NSString *frm31; //start
+@property (strong, nonatomic) NSString *frm32; //completion date
 
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;

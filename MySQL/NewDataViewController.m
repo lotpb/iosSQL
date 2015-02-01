@@ -10,7 +10,7 @@
 
 @interface NewDataViewController () <LookupCityDelegate, LookupJobDelegate>
 {
-   NSMutableArray *salesArray, *callbackArray;
+   NSMutableArray *salesArray, *callbackArray, *contractorArray;
 }
 @end
 
@@ -31,31 +31,18 @@
         }];
     }
     
-     if ([_formController isEqual: @"Customer"]) {
-         
-          PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-          query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-          [query21 whereKey:@"JobNo" equalTo:self.frm22];
-          [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-          if (!object) {
-          NSLog(@"The getFirstObject request failed.");
-          } else
-          self.jobName.text = [object objectForKey:@"Description"];
-          }];
-          
-          PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-          query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-          [query31 whereKey:@"SalesNo" equalTo:self.frm21];
-          [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-          if (!object) {
-          NSLog(@"The getFirstObject request failed.");
-          } else
-          self.salesman.text = [object objectForKey:@"Salesman"];
-          }];
-     }
-    
+    if ([_formController isEqual: @"Customer"]) {
+        
+        PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
+         query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query13 selectKeys:@[@"Contractor"]];
+        [query13 orderByDescending:@"Contractor"];
+        [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            contractorArray = [[NSMutableArray alloc]initWithArray:objects];
+        }];
+    }
+
     if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
-  
         
         PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -222,7 +209,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     self.title =  @"New Data";
+     self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
     [self.first becomeFirstResponder];
 }
 
@@ -233,7 +220,7 @@
 
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
-{
+{   [super viewDidAppear:animated];
     [self loadFormData];
 }
 
