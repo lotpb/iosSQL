@@ -7,8 +7,6 @@
 //
 
 #import "LeadDetailViewControler.h"
-#import <Parse/Parse.h>
-#import "NewData.h"
 
 @interface LeadDetailViewControler ()
 
@@ -16,6 +14,7 @@
 
 @implementation LeadDetailViewControler
 {
+    NSMutableArray *adArray, *salesArray, *jobArray;
     NSArray *tableData, *tableData2, *tableData3, *tableData4;
     NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *news1, *p1, *p12;
 }
@@ -32,45 +31,67 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+  /*
     if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
         
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+        query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+         [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
+        [query31 selectKeys:@[@"SalesNo"]];
+        [query31 selectKeys:@[@"Salesman"]];
+        [query31 orderByDescending:@"Salesman"];
+        [query31 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            salesArray = [[NSMutableArray alloc]initWithArray:objects];
+            if (!error) {
+                for (PFObject *object in objects) {
+                    // self.salesman = [object objectForKey:@"Salesman"];
+                    [salesArray addObject:object];
+                    [self.listTableView reloadData]; }
+            } else
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }];
+    } */
+    
+        /*
+        
+        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
         [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
-        //   query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
         [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+     salesArray = [[NSMutableArray alloc]initWithArray:objects];
             if (!object)
                 NSLog(@"The getFirstObject request failed.");
-            else {
+            else
                 self.salesman = [object objectForKey:@"Salesman"];
-                // self.salesman = [[object objectForKey:@"Salesman"] objectAtIndex:0];
-                NSLog(@"salesStr is %@",self.salesman);
-            }
+
         }];
         
         PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
         [query21 whereKey:@"JobNo" equalTo:self.tbl23];
-        //  query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
         [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            jobArray = [[NSMutableArray alloc]initWithArray:object];
             if (!object)
                 NSLog(@"The getFirstObject request failed.");
-            else {
+            else
                 self.jobdescription = [object objectForKey:@"Description"];
-                //  NSLog(@"jobStr is %@",jobdescription);
-            }
+            
         }];
         
+    if ([_formController isEqual: @"Leads"]) {
         PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
         [query11 whereKey:@"AdNo" equalTo:self.tbl24];
-        //   query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
         [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            adArray = [[NSMutableArray alloc]initWithArray:object];
             if (!object)
                 NSLog(@"The getFirstObject request failed.");
-            else {
+            else
                 self.advertiser = [object objectForKey:@"Advertiser"];
                 //  NSLog(@"adStr is %@",self.advertiser);
-            }
         }];
     }
+} */
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
@@ -81,8 +102,6 @@
     NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
  
-
-    
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
            self.name = self.name;
       else self.name = @"";
@@ -146,22 +165,22 @@
    if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
           t21 = self.tbl21;
      else t21 = @"None";
-/*
-if ([_formController isEqual: @"Leads"]) {
+
+if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
     
     if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
           t22 = self.salesman;
      else t22 = @"None";
     
     if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
-          t23 = @"Peter";
+          t23 = self.jobdescription;
      else t23 = @"None";
-    
+
     if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
-          t24 = @"Peter";
-     else t24 = @"None";
+          t24 = self.advertiser;
+        else t24 = @"None";
     
-  } else { */
+  } else {
       
     if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
           t22 = self.tbl22;
@@ -174,7 +193,7 @@ if ([_formController isEqual: @"Leads"]) {
     if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
           t24 = self.tbl24;
      else t24 = @"None";
-//}
+}
    if ((![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ))
           t25 = self.tbl25;
      else t25 = @"None";
@@ -224,14 +243,6 @@ self.comments = news1;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-/*
-    self.advertiser = [adArray valueForKey:@"Advertiser"];
-    self.jobdescription = [jobArray valueForKey:@"Description"];
-    self.salesman = [salesArray valueForKey:@"Salesman"];
-    NSLog(@"rawStr is %@",advertiser);
-    self.tbl23 = self.jobdescription;
-    NSLog(@"rawStr is %@",self.tbl23);
- */   
     [self.listTableView reloadData]; [self.listTableView2 reloadData];
     [self.newsTableView reloadData];
 }
@@ -379,15 +390,14 @@ return myCell;
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* new = [UIAlertAction
-                         actionWithTitle:@"New"
+                         actionWithTitle:@"New Customer"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-        [self performSegueWithIdentifier:@"newcustSegue" sender:self];
+    [self performSegueWithIdentifier:@"newcustSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-    
     
     UIAlertAction* edit = [UIAlertAction
                          actionWithTitle:@"Edit"
@@ -395,7 +405,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-      [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -442,7 +452,7 @@ return myCell;
         if ([_formController isEqual: @"Leads"]) {
             detailVC.formController = @"Customer";
             //  detailVC.custNo = self.custNo;
-            detailVC.leadNo = self.leadNo;
+            detailVC.frm31 = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name;
             detailVC.frm13 = nil;

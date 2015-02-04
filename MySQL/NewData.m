@@ -25,6 +25,7 @@
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = 44.0;
+   // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   //  self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
     if ([_formController isEqual: @"Leads"]) {
@@ -167,6 +168,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+/*
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.listTableView reloadData];
+} */
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
@@ -305,7 +311,7 @@
     // Return the number of feed items (initially 0)
     if ([_formController isEqual: @"Customer"])
     return 16;
-    else return 14;
+return 14;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -319,16 +325,6 @@
    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    /*
-     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
-     if ((self.date.text.length == 0) && (self.aptDate.text.length == 0)){
-     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-     gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-     NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-     self.date.text = dateString;
-     self.aptDate.text = dateString;}
-     } */
     
     if (indexPath.row == 0){
        
@@ -341,7 +337,6 @@
         self.date.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
 
-        
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             self.date.inputView = [self datePicker:0];
         
@@ -391,7 +386,6 @@
         else self.state.text = self.frm16;
         [self.state setFont:textFont];
         self.state.placeholder = @"State";
-        //  [self.state sizeToFit];
         self.state.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
          myCell.textLabel.text = @"State";
@@ -404,7 +398,7 @@
         else self.zip.text = self.frm17;
         [self.zip setFont:textFont];
         self.zip.placeholder = @"Zip";
-        //    [self.zip sizeToFit];
+
         self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.zip setClearButtonMode:UITextFieldViewModeWhileEditing];
 
@@ -416,7 +410,7 @@
             self.aptDate.text = @"";
         else self.aptDate.text = self.frm19;
         [self.aptDate setFont:textFont];
-        //  [self.aptDate sizeToFit];
+
         self.aptDate.tag = 4;
         self.aptDate.placeholder = @"Apt Date";
         myCell.textLabel.text = @"Apt Date";
@@ -445,7 +439,7 @@
         self.phone = textframe;
         [self.phone setFont:textFont];
         self.phone.placeholder = @"Phone";
-        //   [self.phone sizeToFit];
+
         self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (self.frm20.length == 0)
@@ -457,7 +451,7 @@
         self.salesman = textframe;
         [self.salesman setFont:textFont];
         self.salesman.tag = 6;
-        //[self.salesman sizeToFit];
+
         self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([_formController isEqual: @"Vendor"]) {
@@ -542,7 +536,7 @@
         self.email = textframe;
         [self.email setFont:textFont];
         self.email.placeholder = @"Email";
-        //  [self.email sizeToFit];
+
         self.email.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm25 isEqual:[NSNull null]])
@@ -554,7 +548,7 @@
         self.spouse = textframe;
         [self.spouse setFont:textFont];
         self.spouse.placeholder = @"Spouse";
-        //   [self.spouse sizeToFit];
+
         self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([_formController isEqual: @"Vendor"]) {
@@ -634,6 +628,7 @@
       //  if ([_formController isEqual: @"Customer"])
             self.complete.inputView = [self datePicker:15];
          myCell.textLabel.text = @"Completion Date";
+        myCell.clipsToBounds = YES;
         [myCell.contentView addSubview:self.complete];
 
     }
@@ -736,7 +731,7 @@
          NSString *dateString = [gmtDateFormatter stringFromDate:self.date.text];
          // self.date.text = dateString; */
         
-        //NSString *_date = dateString;
+        NSString *_date = self.date.text;
         NSString *_first = self.first.text;
         NSString *_name = self.last.text;
         NSString *_address = self.address.text;
@@ -772,7 +767,7 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
     else if ([_formController isEqual: @"Customer"]) {
-        // NSString *_date = self.date.text;
+        //NSString *_date = self.date.text;
         NSString *_custNo = self.custNo;
         NSString *_leadNo = self.leadNo;
         NSString *_address = self.address.text;
@@ -899,7 +894,6 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
     [[self navigationController]popToRootViewControllerAnimated:YES];
- //   [self clearFormData];
 }
 
 

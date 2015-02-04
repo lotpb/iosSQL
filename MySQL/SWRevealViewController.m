@@ -502,7 +502,6 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
     }
 }
 
-
 #pragma mark - StatusBar
 
 - (UIViewController *)childViewControllerForStatusBarStyle

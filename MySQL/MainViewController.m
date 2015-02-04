@@ -72,11 +72,9 @@ return [tableData count];
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
     if (!isFilltered)
         return 175.0;
-        else
-        return 0.0;
+        else return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

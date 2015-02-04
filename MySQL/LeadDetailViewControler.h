@@ -10,6 +10,8 @@
 #import "CustomTableViewCell.h"
 #import "NewDataViewController.h"
 #import "EditDataViewController.h"
+#import <Parse/Parse.h>
+#import "NewData.h"
 //#import "Constants.h"
 #import "MapViewController.h"
 

@@ -44,11 +44,11 @@
 // Peter Balsamo added this logiIn Controller
     
     NSString *storyboardIdentifier;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
         storyboardIdentifier = @"loginViewController";
-    } else {
+     else
         storyboardIdentifier = @"mainViewController";
-    }
+    
     UIViewController *rootViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:storyboardIdentifier];
     [[self window] setRootViewController:rootViewController]; 
 
@@ -134,10 +134,10 @@
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
     
-    if ([identifier isEqualToString:@"ACCEPT_IDENTIFIER"]) {
+    if ([identifier isEqualToString:@"ACCEPT_IDENTIFIER"])
         // handle it
         NSLog(@"Invite accepted! Handle that somehow...");
-    }
+    
     
     // Call this when you're finished
     completionHandler();
