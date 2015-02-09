@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "VendorModel.h"
 #import "VendorDetailController.h"
-#import "NewDataViewController.h"
+#import "NewData.h"
 #import "LeadDetailViewControler.h"
 
 @interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, VendorModelProtocol>
@@ -20,6 +20,5 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -96,7 +96,7 @@
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.tableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
+    [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = [UIColor clearColor];
     refreshControl.tintColor = [UIColor whiteColor];
@@ -141,7 +141,7 @@
 
 #pragma mark Table Refresh Control
 -(void)reloadDatas {
-    [self.tableView reloadData];
+    [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
 
@@ -208,7 +208,7 @@
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
-        [self.tableView reloadData];
+        [self.listTableView reloadData];
     }
 }
 
@@ -452,7 +452,7 @@
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }
     if ([[segue identifier] isEqualToString:@"newLeadSeque"]) {
-        NewDataViewController *detailVC = segue.destinationViewController;
+        NewData *detailVC = segue.destinationViewController;
         detailVC.formController = @"Leads"; }
 }
 

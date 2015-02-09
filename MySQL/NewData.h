@@ -2,7 +2,7 @@
 //  NewData.h
 //  MySQL
 //
-//  Created by Peter Balsamo on 1/19/15.
+//  Created by Peter Balsamo on 1/1/15.
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
@@ -12,41 +12,40 @@
 #import "LookupCity.h"
 #import "LookupJob.h"
 #import "LookupProduct.h"
-#import "LookupSalesman.h"
 #import "Constants.h"
 
-@interface NewData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
+@interface NewData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
+//may be a problem with employee lastname may be under custNo
 @property (strong, nonatomic) NSString *formController;
-@property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
-@property (strong, nonatomic) NSString *active;
+@property (weak, nonatomic) IBOutlet UITextField *active;
 @property (weak, nonatomic) IBOutlet UITextField *first;
 @property (weak, nonatomic) IBOutlet UITextField *last;
 @property (weak, nonatomic) IBOutlet UITextField *company;
+@property (weak, nonatomic) IBOutlet UITextField *date;
+@property (weak, nonatomic) IBOutlet UITextField *address;
+@property (weak, nonatomic) IBOutlet UITextField *city;
+@property (weak, nonatomic) IBOutlet UITextField *state;
+@property (weak, nonatomic) IBOutlet UITextField *zip;
+@property (weak, nonatomic) IBOutlet UITextField *phone;
+@property (weak, nonatomic) IBOutlet UITextField *aptDate;
+@property (weak, nonatomic) IBOutlet UITextField *email;
+@property (weak, nonatomic) IBOutlet UITextField *amount;
+@property (weak, nonatomic) IBOutlet UITextField *spouse;
+@property (weak, nonatomic) IBOutlet UITextField *callback;
+@property (weak, nonatomic) IBOutlet UITextField *salesman;
+@property (weak, nonatomic) IBOutlet UITextField *jobName;
+@property (weak, nonatomic) IBOutlet UITextField *adName;
+@property (weak, nonatomic) IBOutlet UITextView *comment;
 
-@property (strong, nonatomic) UITextField  *date;
-@property (strong, nonatomic) UITextField *address;
-@property (strong, nonatomic) UITextField *city;
-@property (strong, nonatomic) UITextField *state;
-@property (strong, nonatomic) UITextField *zip;
-@property (strong, nonatomic) UITextField *aptDate;
-@property (strong, nonatomic) UITextField *phone;
-@property (strong, nonatomic) UITextField *salesman;
-@property (strong, nonatomic) UITextField *jobName;
-@property (strong, nonatomic) UITextField *adName;
-@property (strong, nonatomic) UITextField *amount;
-@property (strong, nonatomic) UITextField *email;
-@property (strong, nonatomic) UITextField *spouse;
-@property (strong, nonatomic) UITextField *callback;
-@property (strong, nonatomic) UITextView *comment;
+@property (strong, nonatomic) UITextField *rate; //cust
 @property (strong, nonatomic) UITextField *start; // cust
 @property (strong, nonatomic) UITextField *complete; //cust
 
-@property (strong, nonatomic) NSString *rate; //cust
-@property (strong, nonatomic) NSString *saleNo;
-@property (strong, nonatomic) NSString *jobNo;
-@property (strong, nonatomic) NSString *adNo;
+@property (weak, nonatomic) IBOutlet UITextField *saleNo;
+@property (weak, nonatomic) IBOutlet UITextField *jobNo;
+@property (weak, nonatomic) IBOutlet UITextField *adNo;
 
 @property (strong, nonatomic) NSString *frm11;
 @property (strong, nonatomic) NSString *frm12;
@@ -71,14 +70,17 @@
 @property (strong, nonatomic) NSString *frm31; //start
 @property (strong, nonatomic) NSString *frm32; //completion date
 
-@property (weak, nonatomic) IBOutlet UIButton *clearBTN;
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
+@property (weak, nonatomic) IBOutlet UIButton *cityLookup;
+@property (weak, nonatomic) IBOutlet UIButton *jobLookup;
+@property (weak, nonatomic) IBOutlet UIButton *productLookup;
+
+@property (strong, nonatomic) NSString *saleNoDetail;
+@property (strong, nonatomic) NSString *jobNoDetail;
 
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
-
-@property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
 @end

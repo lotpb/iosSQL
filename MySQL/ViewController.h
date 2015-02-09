@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "HomeModel.h"
 #import "LeadDetailViewControler.h"
-#import "NewDataViewController.h"
+#import "NewData.h"
 #import "MapViewController.h"
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, HomeModelProtocol>
@@ -20,7 +20,6 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 

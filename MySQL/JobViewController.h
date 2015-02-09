@@ -16,5 +16,5 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewDataViewController.h"
-#import "EditDataViewController.h"
+#import "NewData.h"
+#import "EditData.h"
 
 @protocol LookupProductDelegate <NSObject>
 
@@ -27,6 +27,5 @@
 @property (strong, nonatomic) id<LookupProductDelegate> delegate;
 @property (strong, nonatomic) NSString *formController;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

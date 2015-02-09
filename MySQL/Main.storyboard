@@ -61,7 +61,6 @@
                         <outlet property="listTableView" destination="8qC-O5-Mdy" id="RXa-8a-5iX"/>
                         <outlet property="searchBar" destination="SOl-Ee-R3J" id="ew6-7Y-6f4"/>
                         <outlet property="searchDisplayController" destination="zjH-Ii-rje" id="Az1-iE-JKi"/>
-                        <outlet property="tableView" destination="8qC-O5-Mdy" id="c3k-Rx-cPc"/>
                         <segue destination="7T0-2h-dH4" kind="show" identifier="detailSegue" id="4KL-RL-dt5"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newLeadSeque" id="JGM-Q4-zwX"/>
                     </connections>
@@ -609,12 +608,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R10-AN-gNG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1284" y="217"/>
+            <point key="canvasLocation" x="1325" y="217"/>
         </scene>
         <!--New Form-->
         <scene sceneID="JGo-mg-U4T">
             <objects>
-                <viewController title="New Form" id="vkG-5V-SZx" customClass="NewData" sceneMemberID="viewController">
+                <viewController title="New Form" id="vkG-5V-SZx" customClass="EditData" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8Cw-1j-qEU"/>
                         <viewControllerLayoutGuide type="bottom" id="ufC-16-iYD"/>
@@ -950,14 +949,14 @@
                                         <exclude reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="0mC-TK-Kh2"/>
-                                        <exclude reference="Ida-Bz-9W7"/>
-                                        <exclude reference="YJO-pE-WC9"/>
-                                        <exclude reference="u0s-vX-TfK"/>
                                         <exclude reference="8G9-Ut-Cjm"/>
                                         <exclude reference="doe-0Q-VwV"/>
                                         <exclude reference="hmk-XV-vci"/>
                                         <exclude reference="nGF-ji-Xy9"/>
+                                        <exclude reference="0mC-TK-Kh2"/>
+                                        <exclude reference="Ida-Bz-9W7"/>
+                                        <exclude reference="YJO-pE-WC9"/>
+                                        <exclude reference="u0s-vX-TfK"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -966,14 +965,14 @@
                                         <include reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="0mC-TK-Kh2"/>
-                                        <include reference="Ida-Bz-9W7"/>
-                                        <include reference="YJO-pE-WC9"/>
-                                        <include reference="u0s-vX-TfK"/>
                                         <include reference="8G9-Ut-Cjm"/>
                                         <include reference="doe-0Q-VwV"/>
                                         <include reference="hmk-XV-vci"/>
                                         <include reference="nGF-ji-Xy9"/>
+                                        <include reference="0mC-TK-Kh2"/>
+                                        <include reference="Ida-Bz-9W7"/>
+                                        <include reference="YJO-pE-WC9"/>
+                                        <include reference="u0s-vX-TfK"/>
                                     </mask>
                                 </variation>
                             </scrollView>
@@ -1026,7 +1025,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lzO-u4-yvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2011.5" y="217.5"/>
+            <point key="canvasLocation" x="1986" y="211"/>
         </scene>
         <!--lookupCity-->
         <scene sceneID="lkQ-WA-6w8">
@@ -1115,7 +1114,6 @@
                         <outlet property="listTableView" destination="6vx-i2-iwV" id="TrJ-Nf-KfV"/>
                         <outlet property="searchBar" destination="Y9G-mb-UeI" id="iTS-YH-Fs7"/>
                         <outlet property="searchDisplayController" destination="Gpi-0U-sQs" id="4Fw-lr-T05"/>
-                        <outlet property="tableView" destination="6vx-i2-iwV" id="VVj-GH-gIl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uXh-e7-XXW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1203,7 +1201,6 @@
                         <outlet property="listTableView" destination="9n8-Zl-1UL" id="USz-K1-NWE"/>
                         <outlet property="searchBar" destination="dW3-Ht-Q1o" id="9Of-2J-jxK"/>
                         <outlet property="searchDisplayController" destination="Ped-vA-6cl" id="NBO-Z0-Yoo"/>
-                        <outlet property="tableView" destination="9n8-Zl-1UL" id="lan-cM-XMq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L5D-0F-Mgq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1302,7 +1299,6 @@
                         <outlet property="listTableView" destination="EUH-eC-yrp" id="ZLp-mf-Ufp"/>
                         <outlet property="searchBar" destination="Tuc-4u-D52" id="vgE-Tg-glT"/>
                         <outlet property="searchDisplayController" destination="KKT-Bw-bCL" id="IFp-rK-m6D"/>
-                        <outlet property="tableView" destination="EUH-eC-yrp" id="2W8-hX-VYB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rvr-ID-Azk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1401,7 +1397,6 @@
                         <outlet property="listTableView" destination="37E-bT-a7i" id="2ca-7x-aQY"/>
                         <outlet property="searchBar" destination="MRC-aM-42E" id="C3x-AW-Tx5"/>
                         <outlet property="searchDisplayController" destination="acn-AI-VFR" id="vDG-7q-rXU"/>
-                        <outlet property="tableView" destination="37E-bT-a7i" id="Hqs-AB-vxW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qfx-eb-m1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1417,10 +1412,10 @@
             </objects>
             <point key="canvasLocation" x="3448.5" y="217.5"/>
         </scene>
-        <!--New Data View Controller-->
+        <!--New Data-->
         <scene sceneID="6xQ-H1-wTp">
             <objects>
-                <viewController id="xTM-Le-5MW" customClass="NewDataViewController" sceneMemberID="viewController">
+                <viewController title="New Data" id="xTM-Le-5MW" customClass="NewData" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3JB-9b-TyM"/>
                         <viewControllerLayoutGuide type="bottom" id="jZQ-Pg-NIg"/>
@@ -4913,7 +4908,6 @@
                         <outlet property="listTableView" destination="wiX-5G-avX" id="V8q-Mp-2RQ"/>
                         <outlet property="searchBar" destination="I5M-0V-olt" id="LhJ-yv-cEZ"/>
                         <outlet property="searchDisplayController" destination="xUz-ng-wZa" id="34L-O8-Dos"/>
-                        <outlet property="tableView" destination="wiX-5G-avX" id="S24-tb-MhZ"/>
                         <segue destination="Ukk-fm-E6W" kind="show" identifier="NewBlogSegue" id="wDP-4Y-cdF"/>
                         <segue destination="rJp-jh-YvY" kind="show" identifier="blogviewSegue" id="I3q-7y-gcY"/>
                     </connections>
@@ -5106,7 +5100,6 @@
                         <outlet property="listTableView" destination="ahO-jB-BaI" id="LVI-2c-wr1"/>
                         <outlet property="searchBar" destination="Te1-nr-J4e" id="EAP-5D-D81"/>
                         <outlet property="searchDisplayController" destination="zjH-Ii-rje" id="FhA-T2-ANT"/>
-                        <outlet property="tableView" destination="ahO-jB-BaI" id="Ncc-Gn-ULJ"/>
                         <segue destination="7T0-2h-dH4" kind="show" identifier="detailCustSegue" id="e2A-fc-Mn4"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newCustSeque" id="8CE-Ce-Bwc"/>
                     </connections>
@@ -5625,7 +5618,6 @@
                         <outlet property="listTableView" destination="66W-gL-dPt" id="Mz7-hx-G74"/>
                         <outlet property="searchBar" destination="Xe2-FX-dYs" id="I6y-KH-HpN"/>
                         <outlet property="searchDisplayController" destination="s6U-Ee-mg2" id="79F-BL-NHr"/>
-                        <outlet property="tableView" destination="66W-gL-dPt" id="B2C-i6-MF4"/>
                         <segue destination="7T0-2h-dH4" kind="show" identifier="venddetailSegue" id="6uJ-0s-NFa"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newVendSeque" id="MSe-EU-M35"/>
                     </connections>
@@ -5698,7 +5690,6 @@
                         <outlet property="listTableView" destination="ueh-fR-GIF" id="wjq-4q-6kf"/>
                         <outlet property="searchBar" destination="2hO-OM-RvW" id="4Xf-Tt-rMn"/>
                         <outlet property="searchDisplayController" destination="zjH-Ii-rje" id="E0m-VD-7gZ"/>
-                        <outlet property="tableView" destination="ueh-fR-GIF" id="CSg-vZ-tWy"/>
                         <segue destination="7T0-2h-dH4" kind="show" identifier="employdetailSegue" id="8fI-fo-TTU"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newEmplySegue" id="dJO-lH-SK0"/>
                     </connections>
@@ -5927,7 +5918,6 @@
                         <outlet property="listTableView" destination="Uez-jY-4kf" id="2Sw-sL-fTx"/>
                         <outlet property="searchBar" destination="y8g-Pn-Dhh" id="nGt-yF-VXM"/>
                         <outlet property="searchDisplayController" destination="s6U-Ee-mg2" id="5s0-x1-0Pv"/>
-                        <outlet property="tableView" destination="Uez-jY-4kf" id="Vv8-F0-6f1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7b-Gh-Yln" sceneMemberID="firstResponder"/>
@@ -6002,7 +5992,6 @@
                         <outlet property="listTableView" destination="uXF-gt-i9W" id="axY-GJ-mHi"/>
                         <outlet property="searchBar" destination="AtG-cc-cyN" id="mqK-cj-zGd"/>
                         <outlet property="searchDisplayController" destination="s6U-Ee-mg2" id="47k-Hq-QIj"/>
-                        <outlet property="tableView" destination="uXF-gt-i9W" id="iVe-gS-7NX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Epf-W7-BB4" sceneMemberID="firstResponder"/>
@@ -6077,7 +6066,6 @@
                         <outlet property="listTableView" destination="v1A-dy-160" id="yZa-sk-s85"/>
                         <outlet property="searchBar" destination="STK-QS-J6o" id="Jyv-qO-r4M"/>
                         <outlet property="searchDisplayController" destination="s6U-Ee-mg2" id="t96-82-hRp"/>
-                        <outlet property="tableView" destination="v1A-dy-160" id="QmK-ag-QXp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="feF-8E-9r7" sceneMemberID="firstResponder"/>
@@ -6152,7 +6140,6 @@
                         <outlet property="listTableView" destination="kGb-2e-ez6" id="ehv-7F-yJQ"/>
                         <outlet property="searchBar" destination="vGC-fP-DcR" id="l7U-uZ-iyr"/>
                         <outlet property="searchDisplayController" destination="s6U-Ee-mg2" id="POf-ZR-vgb"/>
-                        <outlet property="tableView" destination="kGb-2e-ez6" id="f5I-0E-yud"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tuc-tV-OuY" sceneMemberID="firstResponder"/>
@@ -6986,11 +6973,11 @@
         <segue reference="jwQ-k2-eY1"/>
         <segue reference="MEa-hs-crl"/>
         <segue reference="6GQ-e7-fhm"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="e2A-fc-Mn4"/>
+        <segue reference="8CE-Ce-Bwc"/>
         <segue reference="Dbq-7P-K8C"/>
-        <segue reference="JT1-3I-mwZ"/>
         <segue reference="382-1V-m5k"/>
+        <segue reference="JT1-3I-mwZ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

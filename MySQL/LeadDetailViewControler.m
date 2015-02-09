@@ -448,7 +448,7 @@ return myCell;
    }
     //dont work below Leads make a customer
     if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust from Lead
-        NewDataViewController *detailVC = segue.destinationViewController;
+        NewData *detailVC = segue.destinationViewController;
         if ([_formController isEqual: @"Leads"]) {
             detailVC.formController = @"Customer";
             //  detailVC.custNo = self.custNo;
@@ -480,7 +480,7 @@ return myCell;
     }
     
     if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead
-        NewData *detailVC = segue.destinationViewController;
+        EditData *detailVC = segue.destinationViewController;
         if ([_formController isEqual: @"Leads"]) {
             detailVC.formController = @"Leads";
             detailVC.leadNo = self.leadNo;

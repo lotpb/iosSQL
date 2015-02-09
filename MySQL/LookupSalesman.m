@@ -34,7 +34,7 @@
     self.searchBar.delegate = self;
     [self.searchBar becomeFirstResponder];
     self.searchBar.barTintColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = self.searchBar;
+    self.listTableView.tableHeaderView = self.searchBar;
     self.definesPresentationContext = YES;
     
     salesArray = [[NSMutableArray alloc] init];
@@ -156,7 +156,7 @@
                 [filteredString addObject:str]; }
         }
     }
-    [self.tableView reloadData];
+    [self.listTableView reloadData];
 }
 
 - (void)passDataBack {

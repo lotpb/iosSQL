@@ -55,7 +55,7 @@
     
 #pragma mark  Table Refresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.tableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
+    [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = [UIColor grayColor];
     refreshControl.tintColor = [UIColor whiteColor];
@@ -91,7 +91,7 @@
 
 #pragma mark Table Refresh Control
 -(void)reloadDatas {
-    [self.tableView reloadData];
+    [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
 
@@ -115,7 +115,7 @@
         [_feedItems removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath]
                          withRowAnimation:UITableViewRowAnimationLeft];
-        [self.tableView reloadData];
+        [self.listTableView reloadData];
         /*
          NSError *error = nil;
          if (![tableView save:&error]) {

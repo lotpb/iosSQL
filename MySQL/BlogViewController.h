@@ -23,7 +23,6 @@
 @property (strong, nonatomic) UILabel *blogmsgDateLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UILabel *Like;
 @end
 

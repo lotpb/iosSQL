@@ -72,7 +72,7 @@
 		AF3F388419EB566000CB785F /* BlogLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F388319EB566000CB785F /* BlogLocation.m */; };
 		AF3F388719EB595D00CB785F /* BlogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F388619EB595D00CB785F /* BlogViewController.m */; };
 		AF4D46B71A55F3B6005984AD /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4D46B61A55F3B6005984AD /* calendar.png */; };
-		AF4D46BA1A5634FB005984AD /* NewDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4D46B91A5634FB005984AD /* NewDataViewController.m */; };
+		AF4D46BA1A5634FB005984AD /* NewData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4D46B91A5634FB005984AD /* NewData.m */; };
 		AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF558C6D19DACE25004D30D7 /* MaplViewController.m */; };
 		AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF558C6F19DAD06A004D30D7 /* MapKit.framework */; };
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
@@ -124,7 +124,7 @@
 		AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE1DA5C1A751BB50022025C /* LookupSalesman.m */; };
 		AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8071A33445E00A47D4A /* Bolts.framework */; };
 		AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8091A33446B00A47D4A /* Parse.framework */; };
-		AFEBCF471A6DAA2100C28C51 /* NewData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEBCF461A6DAA2100C28C51 /* NewData.m */; };
+		AFEBCF471A6DAA2100C28C51 /* EditData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEBCF461A6DAA2100C28C51 /* EditData.m */; };
 		AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8831A2133F5005D556C /* EmployeeViewController.m */; };
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
 		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
@@ -228,8 +228,8 @@
 		AF3F388519EB595D00CB785F /* BlogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlogViewController.h; sourceTree = "<group>"; };
 		AF3F388619EB595D00CB785F /* BlogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlogViewController.m; sourceTree = "<group>"; };
 		AF4D46B61A55F3B6005984AD /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = calendar.png; path = images/calendar.png; sourceTree = "<group>"; };
-		AF4D46B81A5634FB005984AD /* NewDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDataViewController.h; sourceTree = "<group>"; };
-		AF4D46B91A5634FB005984AD /* NewDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDataViewController.m; sourceTree = "<group>"; };
+		AF4D46B81A5634FB005984AD /* NewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewData.h; sourceTree = "<group>"; };
+		AF4D46B91A5634FB005984AD /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewData.m; sourceTree = "<group>"; };
 		AF558C6C19DACE25004D30D7 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AF558C6D19DACE25004D30D7 /* MaplViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaplViewController.m; sourceTree = "<group>"; };
 		AF558C6F19DAD06A004D30D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -319,8 +319,8 @@
 		AFE1DA5C1A751BB50022025C /* LookupSalesman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupSalesman.m; sourceTree = "<group>"; };
 		AFE7A8071A33445E00A47D4A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AFE7A8091A33446B00A47D4A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		AFEBCF451A6DAA2100C28C51 /* NewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewData.h; sourceTree = "<group>"; };
-		AFEBCF461A6DAA2100C28C51 /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewData.m; sourceTree = "<group>"; };
+		AFEBCF451A6DAA2100C28C51 /* EditData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditData.h; sourceTree = "<group>"; };
+		AFEBCF461A6DAA2100C28C51 /* EditData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditData.m; sourceTree = "<group>"; };
 		AFF3B8821A2133F5005D556C /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
 		AFF3B8831A2133F5005D556C /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
 		AFF3B8851A2135B6005D556C /* EmployeeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeLocation.h; sourceTree = "<group>"; };
@@ -529,12 +529,10 @@
 		AF4E626C1A5CBABA007A56D0 /* NewData */ = {
 			isa = PBXGroup;
 			children = (
-				AFEBCF451A6DAA2100C28C51 /* NewData.h */,
-				AFEBCF461A6DAA2100C28C51 /* NewData.m */,
-				AF4D46B81A5634FB005984AD /* NewDataViewController.h */,
-				AF4D46B91A5634FB005984AD /* NewDataViewController.m */,
-				AFA71F0A1A61927900FBEDEE /* EditDataViewController.h */,
-				AFA71F0B1A61927900FBEDEE /* EditDataViewController.m */,
+				AFEBCF451A6DAA2100C28C51 /* EditData.h */,
+				AFEBCF461A6DAA2100C28C51 /* EditData.m */,
+				AF4D46B81A5634FB005984AD /* NewData.h */,
+				AF4D46B91A5634FB005984AD /* NewData.m */,
 				AF2881E71A5DA29E00644802 /* LookupCity.h */,
 				AF5F8EE01A61C4290063B6DA /* LookupCity.m */,
 				AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */,
@@ -550,6 +548,8 @@
 		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				AFA71F0A1A61927900FBEDEE /* EditDataViewController.h */,
+				AFA71F0B1A61927900FBEDEE /* EditDataViewController.m */,
 				AF99267A1A4C6B0C00429EC8 /* CollectionViewController.h */,
 				AF99267B1A4C6B0C00429EC8 /* CollectionViewController.m */,
 			);
@@ -1005,7 +1005,7 @@
 				AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */,
 				AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */,
 				AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */,
-				AF4D46BA1A5634FB005984AD /* NewDataViewController.m in Sources */,
+				AF4D46BA1A5634FB005984AD /* NewData.m in Sources */,
 				AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */,
 				AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */,
 				AFFEA0791A31ED5200165318 /* ProductModel.m in Sources */,
@@ -1020,7 +1020,7 @@
 				AF7B25721A05829600F7C058 /* CustController.m in Sources */,
 				AFDFAB8A1A1398CF00022336 /* VendorViewController.m in Sources */,
 				AFFEA07F1A31F4A500165318 /* JobModel.m in Sources */,
-				AFEBCF471A6DAA2100C28C51 /* NewData.m in Sources */,
+				AFEBCF471A6DAA2100C28C51 /* EditData.m in Sources */,
 				AFFEA0911A32273800165318 /* JobLocation.m in Sources */,
 				AF99267C1A4C6B0C00429EC8 /* CollectionViewController.m in Sources */,
 				AFFEA0821A32095400165318 /* ProductViewController.m in Sources */,

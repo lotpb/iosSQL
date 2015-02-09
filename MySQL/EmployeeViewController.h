@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EmployeeModel.h"
 #import "EmployeeDetailController.h"
-#import "NewDataViewController.h"
+#import "NewData.h"
 #import "LeadDetailViewControler.h"
 
 @interface EmployeeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, EmployeeModelProtocol>
@@ -19,5 +19,5 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end

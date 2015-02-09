@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustModel.h"
 #import "LeadDetailViewControler.h"
-#import "NewDataViewController.h"
+#import "NewData.h"
 #import "MapViewController.h"
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CustModelProtocol>
@@ -19,6 +19,5 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

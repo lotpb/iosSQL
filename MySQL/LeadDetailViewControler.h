@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomTableViewCell.h"
-#import "NewDataViewController.h"
-#import "EditDataViewController.h"
 #import <Parse/Parse.h>
+#import "EditData.h"
 #import "NewData.h"
-//#import "Constants.h"
 #import "MapViewController.h"
+//#import "Constants.h"
+//#import "EditDataViewController.h"
+
 
 @interface LeadDetailViewControler : UIViewController
 

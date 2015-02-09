@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewDataViewController.h"
-#import "EditDataViewController.h"
+#import "NewData.h"
+#import "EditData.h"
 
 @protocol LookupJobDelegate <NSObject>
 
@@ -28,6 +28,5 @@
 @property (strong, nonatomic) id<LookupJobDelegate> delegate;
 @property (strong, nonatomic) NSString *formController;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
