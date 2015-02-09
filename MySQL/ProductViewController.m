@@ -128,7 +128,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
-    
     return _feedItems.count;
 }
 
@@ -161,7 +160,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
         return 55.0;
-    else
+        else
         return 0.0;
 }
 
@@ -212,7 +211,7 @@
     
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
-    else
+        else
         [view setBackgroundColor:[UIColor blackColor]];
     
     return view;

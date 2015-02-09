@@ -155,7 +155,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
         return 55.0;
-    else
+        else
         return 0.0;
 }
 

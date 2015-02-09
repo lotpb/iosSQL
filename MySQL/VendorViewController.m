@@ -30,10 +30,8 @@
     self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"department"];
     self.definesPresentationContext = YES;
     
-    _feedItems = [[NSMutableArray alloc] init];
-    _VendorModel = [[VendorModel alloc] init];
-    _VendorModel.delegate = self;
-    [_VendorModel downloadItems];
+    _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
+    _VendorModel.delegate = self; [_VendorModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     

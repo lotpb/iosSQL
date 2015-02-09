@@ -54,7 +54,7 @@
             salesArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
     }
-    if  ( [self.frm31 isEqual:[NSNull null]] )
+    if  ( [self.frm31 isEqual:[NSNull null]])
          self.leadNo = @"";
     else self.leadNo = self.frm31;
     
@@ -62,38 +62,38 @@
         self.jobNo.text = self.jobNoDetail;
         self.saleNo.text = self.saleNoDetail; }
     
-    if  ( [self.frm11 isEqual:[NSNull null]] )
+    if ([self.frm11 isEqual:[NSNull null]])
         self.first.text = @"";
         else self.first.text = self.frm11;
     
-    if  ( [self.frm12 isEqual:[NSNull null]] )
+    if ([self.frm12 isEqual:[NSNull null]])
         self.last.text = @"";
         else self.last.text = self.frm12;
     
-    if ( [self.frm13 isEqual:[NSNull null]] )
+    if ([self.frm13 isEqual:[NSNull null]])
         self.company.text = @"";
         else self.company.text = self.frm13;
     
-    if  ( [self.frm14 isEqual:[NSNull null]] )
+    if ([self.frm14 isEqual:[NSNull null]])
         self.address.text = @"";
         else self.address.text = self.frm14;
     
-    if  ( [self.frm15 isEqual:[NSNull null]] )
+    if ([self.frm15 isEqual:[NSNull null]])
         self.city.text = @"";
         else self.city.text = self.frm15;
     
-    if  ( [self.frm16 isEqual:[NSNull null]] )
+    if ([self.frm16 isEqual:[NSNull null]])
         self.state.text = @"";
         else self.state.text = self.frm16;
     
-    if  ( [self.frm17 isEqual:[NSNull null]] )
+    if ([self.frm17 isEqual:[NSNull null]])
         self.zip.text = @"";
         else self.zip.text = self.frm17;
     
     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = @"yyyy-MM-dd";
+        gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
       if ([_formController isEqual: @"Leads"]) {
             self.date.text = dateString; //frm18
@@ -105,40 +105,40 @@
         self.phone.text = @"(516)";
         else self.phone.text = self.frm20;
     
-    if  ( [self.frm21 isEqual:[NSNull null]] )
+    if ([self.frm21 isEqual:[NSNull null]])
         self.salesman.text = @"";
         else self.salesman.text = self.frm21;
     
-    if  ( [self.frm22 isEqual:[NSNull null]] )
-        self.jobName.text = @"";
-        else self.jobName.text = self.frm22;
+    if ([self.frm22 isEqual:[NSNull null]])
+         self.jobName.text = @"";
+         else self.jobName.text = self.frm22;
     
-    if ( [self.frm23 isEqual:[NSNull null]] )
-        self.adName.text = @"";
-        else self.adName.text = self.frm23;
+    if ([self.frm23 isEqual:[NSNull null]])
+         self.adName.text = @"";
+         else self.adName.text = self.frm23;
 
-    if  ( [self.frm24 isEqual:[NSNull null]] )
-           self.amount.text = @"";
-        else self.amount.text = self.frm24;
+    if ([self.frm24 isEqual:[NSNull null]])
+         self.amount.text = @"";
+         else self.amount.text = self.frm24;
     
-    if  ( [self.frm25 isEqual:[NSNull null]] )
-        self.email.text = @"";
-        else self.email.text = self.frm25;
+    if ([self.frm25 isEqual:[NSNull null]])
+         self.email.text = @"";
+         else self.email.text = self.frm25;
     
-    if  ( [self.frm26 isEqual:[NSNull null]] )
-           self.spouse.text = @"";
-        else self.spouse.text = self.frm26;
+    if ([self.frm26 isEqual:[NSNull null]])
+         self.spouse.text = @"";
+         else self.spouse.text = self.frm26;
     
-    if ( [self.frm27 isEqual:[NSNull null]] )
-        self.callback.text = @"";
-       else self.callback.text = self.frm27;
+    if ([self.frm27 isEqual:[NSNull null]])
+         self.callback.text = @"";
+         else self.callback.text = self.frm27;
     
-    if  ( [self.frm28 isEqual:[NSNull null]] )
-           self.comment.text = @"";
-        else self.comment.text = self.frm28;
+    if ([self.frm28 isEqual:[NSNull null]])
+         self.comment.text = @"";
+         else self.comment.text = self.frm28;
     
-    if  ( [self.frm29 isEqual:[NSNull null]] )
-           self.photo.text = @"";
+    if ([self.frm29 isEqual:[NSNull null]])
+         self.photo.text = @"";
         else self.photo.text = self.frm29;
     
         self.active.text = @"1"; //frm30
@@ -178,7 +178,7 @@
         self.saleNo.hidden = YES; //Field
         self.jobNo.hidden = YES; //Field
         self.adNo.hidden = YES; //Field
-    }
+    } else self.salesman.inputView = [self customPicker:1];
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
@@ -188,14 +188,12 @@
           self.following.text = @"Following";
         } else {
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-          self.following.text = @"Follow";
-          }
+          self.following.text = @"Follow"; }
     
-    self.aptDate.inputView = [self datePicker];
-    self.salesman.inputView = [self customPicker:1];
-    if ([_formController isEqual: @"Leads"])
+    if ([_formController isEqual: @"Leads"]) {
         self.callback.inputView = [self customPicker:2];
-    
+        self.aptDate.inputView = [self datePicker]; }
+
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
@@ -414,6 +412,7 @@
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
 }
+
 #pragma mark Lookup Job needed
 -(IBAction)updateJob:(id)sender{
     [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
@@ -427,20 +426,12 @@
 #pragma mark - View Picker
 - (UIView *)customPicker:(NSUInteger)tag {
     
-    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
+    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 200)];
     pickerView.backgroundColor = [UIColor orangeColor];
     
-    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-    picker.tag = tag;
-    picker.dataSource = self;
-    picker.delegate = self;
-    picker.showsSelectionIndicator = YES;
-    //picker.Select(index, 0, true);
-    //[picker selectRow:10 inComponent:0 animated:YES];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
     toolbar.barStyle = UIBarStyleBlackOpaque;
     toolbar.translucent = NO;
-    //toolbar.tintColor = nil;
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -448,17 +439,25 @@
     [barItems addObject:flexSpace];
     [barItems addObject:doneBtn];
     [toolbar setItems:barItems animated:YES];
-    [picker addSubview:toolbar];
-    [pickerView addSubview:picker];
-    [picker reloadAllComponents];
     
+    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
+    picker.tag = tag;
+    picker.dataSource = self;
+    picker.delegate = self;
+    picker.showsSelectionIndicator = YES;
+    //[picker selectRow:10 inComponent:0 animated:YES];
+    [pickerView addSubview:picker];
+    [pickerView addSubview:toolbar];
+    
+    [picker reloadAllComponents];
     return pickerView;
 }
-// Picker done button not working
+
 -(void)doneClicked:(UIBarButtonItem*)button
 {
     [self.view endEditing:YES];
 }
+
 #pragma mark Date Picker
 - (UIView *)datePicker {
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
@@ -466,7 +465,7 @@
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
     datePicker.tag = 5;
-    [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
     datePicker.timeZone = [NSTimeZone localTimeZone];
     [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     [pickerView addSubview:datePicker];
@@ -478,7 +477,7 @@
 {
     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = @"yyyy-MM-dd";
+    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
     self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
@@ -533,8 +532,7 @@
         [ErrorAlert show];
         //  [ErrorAlert release];
     }
-    else
-    { 
+    else {
     
   if ([_formController isEqual: @"Leads"]) {
  // NSString *_leadNo = self.leadNo;
@@ -708,30 +706,5 @@
         [self clearFormData];
     }
 }
-
-/*
- (void)checkIfComplete{
- BOOL complete = YES;
- for(int i = 0; i < self.mandatoryFields.count; i++){
- UITextField *tempTextField = self.mandatoryFields[i];
- 
- if(tempTextField.text.length == 0){
- complete = NO;
- break;
- }
- }
- 
- self.btnSave.enabled = complete;
- } */
-/*
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-      } else {
-        return YES;
-      }
-} */
 
 @end

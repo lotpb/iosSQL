@@ -10,7 +10,7 @@
 
 @interface NewData () <LookupCityDelegate, LookupJobDelegate>
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
 
 @end
@@ -26,12 +26,12 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = 44.0;
    // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  //  self.listTableView.tableHeaderView = view; //makes header move with tablecell
+ //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
     if ([_formController isEqual: @"Leads"]) {
         
         PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-        // query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+         query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
         [query11 whereKey:@"AdNo" equalTo:self.frm23];
         [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             if (!object) {
@@ -66,6 +66,14 @@
         [query13 orderByDescending:@"Contractor"];
         [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             contractorArray = [[NSMutableArray alloc]initWithArray:objects];
+        }];
+        
+        PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
+        query14.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        [query14 selectKeys:@[@"rating"]];
+        [query14 orderByDescending:@"rating"];
+        [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            rateArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
         
     }
@@ -168,11 +176,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    [self.listTableView reloadData];
-} */
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
@@ -191,34 +194,34 @@
 #pragma mark - View Picker
 - (UIView *)customPicker:(NSUInteger)tag {
     
-    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
+    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
     pickerView.backgroundColor = [UIColor orangeColor];
     
-    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-    picker.tag = tag;
-    picker.dataSource = self;
-    picker.delegate = self;
-    picker.showsSelectionIndicator = YES;
-    //picker.Select(index, 0, true);
-    //[picker selectRow:10 inComponent:0 animated:YES];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
     toolbar.barStyle = UIBarStyleBlackOpaque;
     toolbar.translucent = NO;
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked:)];
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked)];
     [barItems addObject:flexSpace];
     [barItems addObject:doneBtn];
     [toolbar setItems:barItems animated:YES];
-    [picker addSubview:toolbar];
-    [pickerView addSubview:picker];
-    [picker reloadAllComponents];
     
+    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
+    picker.tag = tag;
+    picker.dataSource = self;
+    picker.delegate = self;
+    picker.showsSelectionIndicator = YES;
+   // [picker selectRow:3 inComponent:0 animated:YES];
+    [pickerView addSubview:picker];
+    [pickerView addSubview:toolbar];
+    
+    [picker reloadAllComponents];
     return pickerView;
 }
-// Picker done button not working
--(void)doneClicked:(UIBarButtonItem*)button
+
+-(void)doneClicked
 {
     [self.view endEditing:YES];
 }
@@ -230,7 +233,7 @@
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
     datePicker.tag = tag;
-    [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
     datePicker.timeZone = [NSTimeZone localTimeZone];
     [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     [pickerView addSubview:datePicker];
@@ -242,7 +245,7 @@
 {
     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = @"yyyy-MM-dd";
+    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
     if (datePicker.tag == 0)
           self.date.text = [gmtDateFormatter stringFromDate:datePicker.date];
      else if (datePicker.tag == 4)
@@ -262,6 +265,8 @@
         return 1;
     else if(pickerView.tag == 3)
         return 1;
+    else if(pickerView.tag == 24)
+        return 1;
     return 1;
 }
 // The number of rows of data
@@ -273,6 +278,8 @@
         return callbackArray.count;
      else if(pickerView.tag == 3)
         return contractorArray.count;
+     else if(pickerView.tag == 24)
+         return rateArray.count;
     return 0;
 }
 
@@ -286,6 +293,8 @@
         return[[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
     else if(pickerView.tag == 3)
         return[[contractorArray objectAtIndex:row]valueForKey:@"Contractor"];
+    else if(pickerView.tag == 24)
+        return[[rateArray objectAtIndex:row]valueForKey:@"rating"];
     return result;
 }
 
@@ -298,7 +307,10 @@
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
     else if(pickerView.tag == 3)
         self.company.text = [[contractorArray objectAtIndex:row]valueForKey:@"Contractor"];
+    else if(pickerView.tag == 24)
+        self.aptDate.text = [[rateArray objectAtIndex:row]valueForKey:@"rating"];
 }
+
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -309,7 +321,7 @@
 #pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
-    if ([_formController isEqual: @"Customer"])
+    if ([_formController isEqual:@"Customer"])
     return 16;
 return 14;
 }
@@ -327,7 +339,6 @@ return 14;
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     if (indexPath.row == 0){
-       
         self.date = textframe;
         if ([self.frm18 isEqual:[NSNull null]])
             self.date.text = @"";
@@ -348,10 +359,8 @@ return 14;
             self.date.placeholder = @"Country";
             myCell.textLabel.text = @"Country"; }
         else self.date.placeholder = @"Date";
-        
-        [myCell.contentView addSubview:self.date];
+           [myCell.contentView addSubview:self.date];
 
-        
     } else if (indexPath.row == 1){
         self.address = textframe;
         if ([self.frm14 isEqual:[NSNull null]])
@@ -391,7 +400,7 @@ return 14;
          myCell.textLabel.text = @"State";
         [myCell.contentView addSubview:self.state];
         
-        UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 150, 30)];
+        UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
         if ( [self.frm17 isEqual:[NSNull null]] )
             self.zip.text = @"";
@@ -423,6 +432,7 @@ return 14;
         
         if ([_formController isEqual: @"Customer"]) {
             self.aptDate.placeholder = @"Rate";
+            self.aptDate.tag = 24;
             myCell.textLabel.text = @"Rate"; }
         
         else if ([_formController isEqual: @"Vendor"]) {
@@ -432,7 +442,7 @@ return 14;
         else if ([_formController isEqual: @"Employee"]) {
             self.aptDate.placeholder = @"Middle";
             myCell.textLabel.text = @"Middle"; }
-        [myCell.contentView addSubview:self.aptDate];
+           [myCell.contentView addSubview:self.aptDate];
         
     } else if (indexPath.row == 5){
         myCell.textLabel.text = @"Phone";
@@ -473,7 +483,6 @@ return 14;
     } else if (indexPath.row == 7){
         self.jobName = textframe;
         [self.jobName setFont:textFont];
-        // [self.jobName sizeToFit];
         self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.jobName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
@@ -495,7 +504,6 @@ return 14;
         self.adName = textframe;
         [self.adName setFont:textFont];
         self.adName.placeholder = @"Advertiser";
-        // [self.adName sizeToFit];
         self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
@@ -520,7 +528,6 @@ return 14;
         self.amount = textframe;
         [self.amount setFont:textFont];
         self.amount.placeholder = @"Amount";
-        //   [self.amount sizeToFit];
         self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (([_formController isEqual: @"Vendor"]) || ([_formController isEqual: @"Employee"])) {
@@ -566,7 +573,6 @@ return 14;
     } else if (indexPath.row == 12){
         self.callback = textframe;
         [self.callback setFont:textFont];
-        //    [self.callback sizeToFit];
         self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.callback setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm27 isEqual:[NSNull null]])
@@ -628,7 +634,7 @@ return 14;
       //  if ([_formController isEqual: @"Customer"])
             self.complete.inputView = [self datePicker:15];
          myCell.textLabel.text = @"Completion Date";
-        myCell.clipsToBounds = YES;
+         myCell.clipsToBounds = YES;
         [myCell.contentView addSubview:self.complete];
 
     }
@@ -646,6 +652,33 @@ return 14;
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
+(NSInteger)section{
+    NSString *headerTitle;
+    if (section==0) {
+        headerTitle = @"Info";
+    }
+    else{
+        headerTitle = @"Section 2 Header";
+        
+    }
+    return headerTitle;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
+(NSInteger)section{
+    NSString *footerTitle;
+    if (section==0) {
+        footerTitle = @"MySQL";
+    }
+    else{
+        footerTitle = @"Section 2 Footer";
+        
+    }
+    return footerTitle;
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -751,7 +784,7 @@ return 14;
         NSString *_photo = self.photo.text;
         // NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
+        NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
         NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];

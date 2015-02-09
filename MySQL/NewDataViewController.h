@@ -12,6 +12,7 @@
 #import "LookupCity.h"
 #import "LookupJob.h"
 #import "LookupProduct.h"
+#import "Constants.h"
 
 @interface NewDataViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 

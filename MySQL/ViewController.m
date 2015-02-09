@@ -36,6 +36,7 @@
     self.searchBar.showsScopeBar = YES;
     self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
     self.definesPresentationContext = YES;
+  //self.listTableView.tableHeaderView = self.searchBar;
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -224,15 +225,14 @@
     static NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier]; 
     
     Location *item;
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-    } else {
+        else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
 
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
@@ -406,8 +406,8 @@
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (!isFilltered) {
-        _selectedLocation = [_feedItems objectAtIndex:indexPath.row]; }
+    if (!isFilltered)
+        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
@@ -451,10 +451,9 @@
         detailVC.l1datetext = @"Lead Date:";
         detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
     }
-    if ([[segue identifier] isEqualToString:@"newLeadSeque"])
-    {   NewDataViewController *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Leads";
-    }
+    if ([[segue identifier] isEqualToString:@"newLeadSeque"]) {
+        NewDataViewController *detailVC = segue.destinationViewController;
+        detailVC.formController = @"Leads"; }
 }
 
 @end

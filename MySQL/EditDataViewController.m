@@ -265,16 +265,13 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
 {   [super viewDidAppear:animated];
     [self loadFormData];
-   // self.adName.text = [adArray valueForKey:@"Advertiser"];
-  //  self.jobName.text = [jobArray valueForKey:@"Description"];
-    //self.salesman.text = [salesArray valueForKey:@"Salesman"]; 
-  //  NSLog(@"rawStr is %@",[jobArray valueForKey:@"Description"]);
-//NSLog(@"rawStr is %@",[adArray valueForKey:@"Advertiser"]);
 }
+
 #pragma mark Load Form Data
 -(void)loadFormData {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -518,7 +515,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     
     return pickerView;
 }
-// Picker done button not working
+
 -(void)doneClicked:(UIBarButtonItem*)button
 {
     [self.view endEditing:YES];

@@ -137,7 +137,7 @@
     AdLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-     else
+        else
         item = [filteredString objectAtIndex:indexPath.row];
     
         myCell.textLabel.text = item.Advertiser;
@@ -152,7 +152,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
         return 55.0;
-    else
+        else
         return 0.0;
 }
 
@@ -203,7 +203,7 @@
     
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
-    else
+        else
         [view setBackgroundColor:[UIColor blackColor]];
     
     return view;
@@ -225,11 +225,8 @@
     if(searchText.length == 0)
     {
         isFilltered = NO;
-       //[filteredString removeAllObjects];
-      // [filteredString addObjectsFromArray:_feedItems];
     } else {
         isFilltered = YES;
-       //[filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
         
         for(AdLocation *string in _feedItems)

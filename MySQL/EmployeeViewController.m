@@ -96,7 +96,7 @@
 {  
     if (isFilltered)
         return filteredString.count;
-    else
+        else
         return _feedItems.count;
 }
 
@@ -107,7 +107,7 @@
     
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-    else
+        else
         item = [filteredString objectAtIndex:indexPath.row];
     
     if ((![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ))
@@ -206,7 +206,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (!isFilltered)
         return 55.0;
-    else
+        else
         return 0.0;
 }
 
@@ -257,7 +257,7 @@
     
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
-    else
+        else
         [view setBackgroundColor:[UIColor blackColor]];
     
     return view;

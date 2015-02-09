@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14D72i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -434,9 +434,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
-                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -464,9 +461,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -900,9 +894,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="710" id="jWh-CZ-2dq">
-                                                <variation key="heightClass=regular-widthClass=compact" constant="710"/>
-                                            </constraint>
+                                            <constraint firstAttribute="height" constant="900" id="wI1-Hy-Hci"/>
                                         </constraints>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="Rke-fV-CTW" style="IBUITableViewCellStyleDefault" id="mxR-eD-VyX">
@@ -926,12 +918,12 @@
                                         </prototypes>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="jWh-CZ-2dq"/>
+                                                <exclude reference="wI1-Hy-Hci"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
                                             <mask key="constraints">
-                                                <include reference="jWh-CZ-2dq"/>
+                                                <include reference="wI1-Hy-Hci"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -942,16 +934,12 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="HYT-2D-dFP" firstAttribute="leading" secondItem="2GK-RN-q34" secondAttribute="leading" id="0mC-TK-Kh2"/>
-                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="trailing" secondItem="HYT-2D-dFP" secondAttribute="trailing" id="GYO-O6-Rpa"/>
+                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="leading" secondItem="HYT-2D-dFP" secondAttribute="leading" id="8G9-Ut-Cjm"/>
                                     <constraint firstAttribute="trailing" secondItem="HYT-2D-dFP" secondAttribute="trailing" id="Ida-Bz-9W7"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Yq-Oy-459" secondAttribute="bottom" id="QTZ-cA-LB5">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="1"/>
-                                    </constraint>
                                     <constraint firstItem="HYT-2D-dFP" firstAttribute="centerX" secondItem="2GK-RN-q34" secondAttribute="centerX" id="YJO-pE-WC9"/>
-                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="top" secondItem="HYT-2D-dFP" secondAttribute="bottom" constant="1" id="j5J-u9-XSS">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="1"/>
-                                    </constraint>
-                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="leading" secondItem="HYT-2D-dFP" secondAttribute="leading" id="ouu-NN-eRR"/>
+                                    <constraint firstAttribute="bottom" secondItem="0Yq-Oy-459" secondAttribute="bottom" constant="-148" id="doe-0Q-VwV"/>
+                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="top" secondItem="HYT-2D-dFP" secondAttribute="bottom" constant="1" id="hmk-XV-vci"/>
+                                    <constraint firstItem="0Yq-Oy-459" firstAttribute="trailing" secondItem="HYT-2D-dFP" secondAttribute="trailing" id="nGF-ji-Xy9"/>
                                     <constraint firstItem="HYT-2D-dFP" firstAttribute="top" secondItem="2GK-RN-q34" secondAttribute="top" id="u0s-vX-TfK">
                                         <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                     </constraint>
@@ -962,14 +950,14 @@
                                         <exclude reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="GYO-O6-Rpa"/>
-                                        <exclude reference="QTZ-cA-LB5"/>
-                                        <exclude reference="j5J-u9-XSS"/>
-                                        <exclude reference="ouu-NN-eRR"/>
                                         <exclude reference="0mC-TK-Kh2"/>
                                         <exclude reference="Ida-Bz-9W7"/>
                                         <exclude reference="YJO-pE-WC9"/>
                                         <exclude reference="u0s-vX-TfK"/>
+                                        <exclude reference="8G9-Ut-Cjm"/>
+                                        <exclude reference="doe-0Q-VwV"/>
+                                        <exclude reference="hmk-XV-vci"/>
+                                        <exclude reference="nGF-ji-Xy9"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -978,14 +966,14 @@
                                         <include reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="GYO-O6-Rpa"/>
-                                        <include reference="QTZ-cA-LB5"/>
-                                        <include reference="j5J-u9-XSS"/>
-                                        <include reference="ouu-NN-eRR"/>
                                         <include reference="0mC-TK-Kh2"/>
                                         <include reference="Ida-Bz-9W7"/>
                                         <include reference="YJO-pE-WC9"/>
                                         <include reference="u0s-vX-TfK"/>
+                                        <include reference="8G9-Ut-Cjm"/>
+                                        <include reference="doe-0Q-VwV"/>
+                                        <include reference="hmk-XV-vci"/>
+                                        <include reference="nGF-ji-Xy9"/>
                                     </mask>
                                 </variation>
                             </scrollView>
@@ -5878,7 +5866,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCG-NR-TJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1540.5" y="878.25"/>
+            <point key="canvasLocation" x="-1540.5" y="904.5"/>
         </scene>
         <!--Product Info-->
         <scene sceneID="3rz-8B-oqJ">
@@ -6995,14 +6983,14 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6GQ-e7-fhm"/>
-        <segue reference="MEa-hs-crl"/>
         <segue reference="jwQ-k2-eY1"/>
+        <segue reference="MEa-hs-crl"/>
+        <segue reference="6GQ-e7-fhm"/>
         <segue reference="4KL-RL-dt5"/>
         <segue reference="zQR-YQ-xF4"/>
-        <segue reference="dip-5A-Lje"/>
-        <segue reference="Vww-ua-WBq"/>
-        <segue reference="xOD-Ja-G1n"/>
+        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="382-1V-m5k"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

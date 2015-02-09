@@ -213,15 +213,14 @@
     static NSString *CellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-    if (myCell == nil) {
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; }
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     CustLocation *item;
-    if (!isFilltered) {
+    if (!isFilltered)
         item = _feedItems[indexPath.row];
-    } else {
+        else
         item = [filteredString objectAtIndex:indexPath.row];
-    }
     
         myCell.textLabel.text = item.lastname;
         myCell.detailTextLabel.text = item.city;
