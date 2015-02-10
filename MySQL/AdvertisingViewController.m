@@ -89,8 +89,7 @@
 }
 
 #pragma mark  Table Delete Button
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return UITableViewCellEditingStyleDelete;
 }

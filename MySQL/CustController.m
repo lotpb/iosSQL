@@ -363,9 +363,9 @@
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {     if (!isFilltered)
-    _selectedLocation = _feedItems[indexPath.row];
-else
-    _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+     _selectedLocation = _feedItems[indexPath.row];
+      else
+     _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detailCustSegue" sender:self];
 }

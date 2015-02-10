@@ -8,7 +8,7 @@
 
 #import "NewData.h"
 
-@interface NewData () <LookupCityDelegate, LookupJobDelegate>
+@interface NewData () //<LookupCityDelegate, LookupJobDelegate>
 {
    NSMutableArray *salesArray, *callbackArray, *contractorArray;
 }
@@ -54,6 +54,12 @@
             salesArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
     }
+    
+    self.saleNo.hidden = YES; //Field
+    self.jobNo.hidden = YES; //Field
+    self.adNo.hidden = YES; //Field
+    self.active.hidden = YES; //Field
+    
     if  ( [self.frm31 isEqual:[NSNull null]])
          self.leadNo = @"";
     else self.leadNo = self.frm31;
@@ -91,6 +97,7 @@
         else self.zip.text = self.frm17;
     
     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
+        self.company.hidden = YES;
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
         gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
@@ -143,15 +150,20 @@
     
         self.active.text = @"1"; //frm30
     
+    if ([_formController isEqual: @"Leads"]) {
+        self.callback.inputView = [self customPicker:2];
+        self.aptDate.inputView = [self datePicker];}
+    
     if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
         self.aptDate.placeholder = @"Rate";
         self.adName.placeholder = @"ProductNo";
-        self.callback.placeholder = @"Quan";
+        self.callback.placeholder = @"# Windows";
+        
     } else if ([_formController isEqual: @"Vendor"]) {
-        self.first.placeholder = @"Manager";
+        self.first.placeholder = @"Profession";
         self.last.placeholder = @"Webpage";
-        self.date.placeholder = @"Profession";
+        self.date.placeholder = @"Manager";
         self.salesman.placeholder = @"Phone1";
         self.jobName.placeholder = @"phone2";
         self.adName.placeholder = @"phone3";
@@ -159,7 +171,9 @@
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES;//Field
+        
     } else if ([_formController isEqual: @"Employee"]) {
+        self.company.placeholder = @"Subcontractor";
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
         self.date.placeholder = @"Country";
@@ -189,16 +203,13 @@
         } else {
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
           self.following.text = @"Follow"; }
-    
-    if ([_formController isEqual: @"Leads"]) {
-        self.callback.inputView = [self customPicker:2];
-        self.aptDate.inputView = [self datePicker]; }
 
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.profileImageView.clipsToBounds = YES;
+    
 #pragma mark BarButtons
     UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(share:)];
     NSArray *actionButtonItems = @[saveItem];
@@ -391,14 +402,15 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
     if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
         LookupCity *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:self];
+        [addViewControler setDelegate:(id)self];
          addViewControler.formController = self.formController;
        }
     if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
         LookupJob *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:self];
+        [addViewControler setDelegate:(id)self];
          addViewControler.formController = self.formController;
        }
     if ([[segue identifier] isEqualToString:@"lookupProductSegue"]) {
@@ -521,9 +533,9 @@
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
 }
 
-#pragma mark - New Leads
+#pragma mark - New Data
 -(void)share:(id)sender {
-    if( ([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]) )
+    if (([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]))
     {
         UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
                                                              message:@"Please fill in the details." delegate:nil
@@ -531,8 +543,7 @@
                                                    otherButtonTitles:nil, nil];
         [ErrorAlert show];
         //  [ErrorAlert release];
-    }
-    else {
+    } else {
     
   if ([_formController isEqual: @"Leads"]) {
  // NSString *_leadNo = self.leadNo;
@@ -635,8 +646,8 @@
         NSString *_webpage = self.last.text;
         NSString *_department = self.amount.text;
         NSString *_office = self.spouse.text;
-        NSString *_manager = self.first.text;
-        NSString *_profession = self.date.text;
+        NSString *_manager = self.date.text;
+        NSString *_profession = self.first.text;
         NSString *_assistant = self.aptDate.text;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active.text;

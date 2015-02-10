@@ -8,7 +8,7 @@
 
 #import "EditData.h"
 
-@interface EditData () <LookupCityDelegate, LookupJobDelegate>
+@interface EditData () //<LookupCityDelegate, LookupJobDelegate>
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
@@ -78,7 +78,7 @@
         
     }
     
-    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
         
         PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
          query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -113,31 +113,34 @@
           self.leadNo = self.leadNo;
           self.clearBTN.hidden = YES;
     
-    if ( [self.frm11 isEqual:[NSNull null]] )
-           self.first.text = @"";
-      else self.first.text = self.frm11;
+     if ([self.frm11 isEqual:[NSNull null]])
+          self.first.text = @"";
+     else self.first.text = self.frm11;
     
-    if ( [self.frm12 isEqual:[NSNull null]] )
-           self.last.text = @"";
-      else self.last.text = self.frm12;
+     if ([self.frm12 isEqual:[NSNull null]])
+          self.last.text = @"";
+     else self.last.text = self.frm12;
     
-    if ( [self.frm13 isEqual:[NSNull null]] )
-          self.company.text = @"";
-     else self.company.text = self.frm13;
+    if ([self.frm13 isEqual:[NSNull null]])
+         self.company.text = @"";
+    else self.company.text = self.frm13;
     
-    if ( [self.frm29 isEqual:[NSNull null]] )
-           self.photo.text = @"";
-      else self.photo.text = self.frm29;
+    if ([self.frm29 isEqual:[NSNull null]])
+         self.photo.text = @"";
+    else self.photo.text = self.frm29;
     
     if ([_formController isEqual: @"Leads"])
         self.company.hidden = YES;
+    
     if ([_formController isEqual: @"Customer"]) {
         self.company.placeholder = @"Contractor";
         self.company.inputView = [self customPicker:3];
+        
     } else if ([_formController isEqual: @"Vendor"]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.callback.hidden = YES;//Field
+        
     } else if ([_formController isEqual: @"Employee"]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
@@ -157,6 +160,7 @@
     self.profileImageView.layer.borderWidth = 3.0f;
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.profileImageView.clipsToBounds = YES;
+    
 #pragma mark BarButtons
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
     NSArray *actionButtonItems = @[editItem];
@@ -184,11 +188,11 @@
    if ([self.active isEqual:@"1"] ) {
         self.following.text = @"Follow";
         self.active = @"0";
-        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+       [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
       } else {
         self.following.text = @"Following";
         self.active = @"1";
-        [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
+       [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
 }
 
 #pragma mark - View Picker
@@ -311,7 +315,6 @@
         self.aptDate.text = [[rateArray objectAtIndex:row]valueForKey:@"rating"];
 }
 
-
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {   // Return the number of sections.
@@ -338,14 +341,15 @@ return 14;
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
+        
         self.date = textframe;
         if ([self.frm18 isEqual:[NSNull null]])
-            self.date.text = @"";
+             self.date.text = @"";
         else self.date.text = self.frm18;
         [self.date setFont:textFont];
-        self.date.tag = 0;
-        self.date.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.date.tag = 0;
+         self.date.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
 
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
@@ -362,13 +366,14 @@ return 14;
            [myCell.contentView addSubview:self.date];
 
     } else if (indexPath.row == 1){
+        
         self.address = textframe;
         if ([self.frm14 isEqual:[NSNull null]])
              self.address.text = @"";
         else self.address.text = self.frm14;
-         self.address.autocorrectionType = UITextAutocorrectionTypeNo;
+          self.address.autocorrectionType = UITextAutocorrectionTypeNo;
          [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
-         self.address.placeholder = @"Address";
+          self.address.placeholder = @"Address";
          [self.address setFont:textFont];
          myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
@@ -377,7 +382,7 @@ return 14;
        
         self.city = textframe;
         if ([self.frm15 isEqual:[NSNull null]])
-            self.city.text = @"";
+             self.city.text = @"";
         else self.city.text = self.frm15;
         self.city.placeholder = @"City";
         self.city.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -391,7 +396,7 @@ return 14;
         
         self.state = textframe;
         if ([self.frm16 isEqual:[NSNull null]])
-            self.state.text = @"";
+             self.state.text = @"";
         else self.state.text = self.frm16;
         [self.state setFont:textFont];
         self.state.placeholder = @"State";
@@ -402,30 +407,27 @@ return 14;
         
         UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
-        if ( [self.frm17 isEqual:[NSNull null]] )
-            self.zip.text = @"";
+        if ([self.frm17 isEqual:[NSNull null]])
+             self.zip.text = @"";
         else self.zip.text = self.frm17;
         [self.zip setFont:textFont];
-        self.zip.placeholder = @"Zip";
-
-        self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.zip.placeholder = @"Zip";
+         self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.zip setClearButtonMode:UITextFieldViewModeWhileEditing];
-
         [myCell.contentView addSubview:self.zip];
         
     } else if (indexPath.row == 4){
+        
         self.aptDate = textframe;
         if ([self.frm19 isEqual:[NSNull null]])
-            self.aptDate.text = @"";
+             self.aptDate.text = @"";
         else self.aptDate.text = self.frm19;
         [self.aptDate setFont:textFont];
-
         self.aptDate.tag = 4;
         self.aptDate.placeholder = @"Apt Date";
-        myCell.textLabel.text = @"Apt Date";
-
         self.aptDate.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.aptDate setClearButtonMode:UITextFieldViewModeWhileEditing];
+        myCell.textLabel.text = @"Apt Date";
         
         if ([_formController isEqual: @"Leads"])
             self.aptDate.inputView = [self datePicker:4];
@@ -433,6 +435,7 @@ return 14;
         if ([_formController isEqual: @"Customer"]) {
             self.aptDate.placeholder = @"Rate";
             self.aptDate.tag = 24;
+            self.aptDate.inputView = [self customPicker:24];
             myCell.textLabel.text = @"Rate"; }
         
         else if ([_formController isEqual: @"Vendor"]) {
@@ -442,201 +445,219 @@ return 14;
         else if ([_formController isEqual: @"Employee"]) {
             self.aptDate.placeholder = @"Middle";
             myCell.textLabel.text = @"Middle"; }
+        
            [myCell.contentView addSubview:self.aptDate];
         
     } else if (indexPath.row == 5){
-        myCell.textLabel.text = @"Phone";
-        self.phone = textframe;
+        
+         self.phone = textframe;
         [self.phone setFont:textFont];
-        self.phone.placeholder = @"Phone";
-
-        self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.phone.placeholder = @"Phone";
+         self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (self.frm20.length == 0)
             self.phone.text = @"(516)";
-        else self.phone.text = self.frm20;
+       else self.phone.text = self.frm20;
+         myCell.textLabel.text = @"Phone";
         [myCell.contentView addSubview:self.phone];
         
     } else if (indexPath.row == 6){
-        self.salesman = textframe;
+        
+         self.salesman = textframe;
         [self.salesman setFont:textFont];
-        self.salesman.tag = 6;
-
-        self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.salesman.tag = 6;
+         self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
+        
         if ([_formController isEqual: @"Vendor"]) {
             self.salesman.placeholder = @"Phone 1";
             myCell.textLabel.text = @"Phone 1"; }
+        
         else if ([_formController isEqual: @"Employee"]) {
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone"; }
         else { self.salesman.placeholder = @"Salesman";
             myCell.textLabel.text = @"Salesman"; }
+        
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if ([self.frm21 isEqual:[NSNull null]])
-            self.salesman.text = @"";
+             self.salesman.text = @"";
         else self.salesman.text = self.frm21;
         [myCell.contentView addSubview:self.salesman];
         self.salesman.inputView = [self customPicker:6];
         
     } else if (indexPath.row == 7){
-        self.jobName = textframe;
+         self.jobName = textframe;
         [self.jobName setFont:textFont];
-        self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.jobName setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ([self.frm22 isEqual:[NSNull null]])
+             self.jobName.text = @"";
+        else self.jobName.text = self.frm22;
+        
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        
         if ([_formController isEqual: @"Vendor"]) {
             self.jobName.placeholder = @"Phone 2";
             myCell.textLabel.text = @"Phone 2"; }
+        
         else if ([_formController isEqual: @"Employee"]) {
             self.jobName.placeholder = @"Cell Phone";
             myCell.textLabel.text = @"Cell Phone"; }
         else {self.jobName.placeholder = @"Job";
             myCell.textLabel.text = @"Job"; }
-        if ([self.frm22 isEqual:[NSNull null]])
-            self.jobName.text = @"";
-        else self.jobName.text = self.frm22;
+      
         [myCell.contentView addSubview:self.jobName];
         
     } else if (indexPath.row == 8){
-        self.adName = textframe;
+         self.adName = textframe;
         [self.adName setFont:textFont];
-        self.adName.placeholder = @"Advertiser";
-        self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.adName.placeholder = @"Advertiser";
+         self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ([self.frm23 isEqual:[NSNull null]])
+             self.adName.text = @"";
+        else self.adName.text = self.frm23;
+        
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        
         if ([_formController isEqual: @"Vendor"]) {
             self.adName.placeholder = @"Phone 3";
             myCell.textLabel.text = @"phone 3"; }
+        
         else if ([_formController isEqual: @"Employee"]) {
             self.adName.placeholder = @"Social Security";
-            myCell.textLabel.text = @"Social Security"; }
+             myCell.textLabel.text = @"Social Security"; }
+        
         else if ([_formController isEqual: @"Customer"]) {
             self.adName.placeholder = @"Product";
-            myCell.textLabel.text = @"Product"; }
+             myCell.textLabel.text = @"Product"; }
         else myCell.textLabel.text = @"Advertiser";
-        if ([self.frm23 isEqual:[NSNull null]])
-            self.adName.text = @"";
-        else self.adName.text = self.frm23;
+  
         [myCell.contentView addSubview:self.adName];
         
     } else if(indexPath.row == 9){
-        myCell.textLabel.text = @"Amount";
-        self.amount = textframe;
+        
+         self.amount = textframe;
         [self.amount setFont:textFont];
-        self.amount.placeholder = @"Amount";
-        self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.amount.placeholder = @"Amount";
+         self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
-        if (([_formController isEqual: @"Vendor"]) || ([_formController isEqual: @"Employee"])) {
-            self.amount.placeholder = @"Department";
-            myCell.textLabel.text = @"Department"; }
         if ([self.frm24 isEqual:[NSNull null]])
-            self.amount.text = @"";
+             self.amount.text = @"";
         else self.amount.text = self.frm24;
+            myCell.textLabel.text = @"Amount";
+        
+        if (([_formController isEqual: @"Vendor"]) || ([_formController isEqual: @"Employee"])) {
+             self.amount.placeholder = @"Department";
+             myCell.textLabel.text = @"Department"; }
+
         [myCell.contentView addSubview:self.amount];
         
     } else if (indexPath.row == 10){
-        myCell.textLabel.text = @"Email";
-        self.email = textframe;
+        
+         self.email = textframe;
         [self.email setFont:textFont];
-        self.email.placeholder = @"Email";
-
-        self.email.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
+         self.email.placeholder = @"Email";
         if ([self.frm25 isEqual:[NSNull null]])
-            self.email.text = @"";
+             self.email.text = @"";
         else self.email.text = self.frm25;
+         self.email.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
+         myCell.textLabel.text = @"Email";
         [myCell.contentView addSubview:self.email];
         
     } else if(indexPath.row == 11){
-        self.spouse = textframe;
+         self.spouse = textframe;
         [self.spouse setFont:textFont];
-        self.spouse.placeholder = @"Spouse";
-
-        self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.spouse.placeholder = @"Spouse";
+         self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
+        if ([self.frm26 isEqual:[NSNull null]])
+             self.spouse.text = @"";
+        else self.spouse.text = self.frm26;
+        
         if ([_formController isEqual: @"Vendor"]) {
             self.spouse.placeholder = @"Office";
             myCell.textLabel.text = @"Office"; }
+        
         else if ([_formController isEqual: @"Employee"]) {
-            self.spouse.placeholder = @"Title";
-            myCell.textLabel.text = @"Title"; }
+             self.spouse.placeholder = @"Title";
+             myCell.textLabel.text = @"Title"; }
         else myCell.textLabel.text = @"Spouse";
-        if ([self.frm26 isEqual:[NSNull null]])
-            self.spouse.text = @"";
-        else self.spouse.text = self.frm26;
+
         [myCell.contentView addSubview:self.spouse];
         
     } else if (indexPath.row == 12){
-        self.callback = textframe;
+         self.callback = textframe;
         [self.callback setFont:textFont];
-        self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.callback setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm27 isEqual:[NSNull null]])
-            self.callback.text = @"";
+             self.callback.text = @"";
         else self.callback.text = self.frm27;
-        if ([_formController isEqual: @"Customer"]){
+        
+        if ([_formController isEqual: @"Customer"]) {
             self.callback.placeholder = @"Quan";
             myCell.textLabel.text = @"# Windows"; }
+        
         if ([_formController isEqual: @"Vendor"]) {
             self.callback.placeholder = @"";
             myCell.textLabel.text = @""; }
+        
         else if ([_formController isEqual: @"Employee"]) {
             self.callback.placeholder = @"Manager";
             myCell.textLabel.text = @"Manager"; }
+        
         else if ([_formController isEqual: @"Leads"]) {
             self.callback.placeholder = @"Call Back";
             myCell.textLabel.text = @"Call Back";
             self.callback.inputView = [self customPicker:12]; }
-        [myCell.contentView addSubview:self.callback];
+           [myCell.contentView addSubview:self.callback];
         
     } else if (indexPath.row == 13){
-        self.comment = textviewframe;
+         self.comment = textviewframe;
         [self.comment setFont:textFont];
-        //[self.comment sizeToFit];
-        //[self.comment layoutIfNeeded];
-        self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
         if ([self.frm28 isEqual:[NSNull null]])
-            self.comment.text = @"";
+             self.comment.text = @"";
         else self.comment.text = self.frm28;
-        myCell.textLabel.text = @"Comments";
-        // self.comment.numberOfLines = 0;
+         myCell.textLabel.text = @"Comments";
         [myCell.contentView addSubview:self.comment];
         
     } else if(indexPath.row == 14){
-        self.start = textframe;
+         self.start = textframe;
         [self.start setFont:textFont];
-        self.start.tag = 14;
-        self.start.placeholder = @"Start Date";
-        self.start.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.start.tag = 14;
+         self.start.placeholder = @"Start Date";
+         self.start.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.start setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm31 isEqual:[NSNull null]])
-            self.start.text = @"";
+             self.start.text = @"";
         else self.start.text = self.frm31;
       //  if ([_formController isEqual: @"Customer"])
-            self.start.inputView = [self datePicker:14];
+             self.start.inputView = [self datePicker:14];
          myCell.textLabel.text = @"Start Date";
         [myCell.contentView addSubview:self.start];
  
     } else if(indexPath.row == 15){
-        self.complete = textframe;
+         self.complete = textframe;
         [self.complete setFont:textFont];
-        self.complete.tag = 15;
-        self.complete.placeholder = @"Completion Date";
-        self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
+         self.complete.tag = 15;
+         self.complete.placeholder = @"Completion Date";
+         self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.complete setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm32 isEqual:[NSNull null]])
              self.complete.text = @"";
         else self.complete.text = self.frm32;
       //  if ([_formController isEqual: @"Customer"])
-            self.complete.inputView = [self datePicker:15];
+             self.complete.inputView = [self datePicker:15];
          myCell.textLabel.text = @"Completion Date";
-         myCell.clipsToBounds = YES;
         [myCell.contentView addSubview:self.complete];
-
+      // myCell.clipsToBounds = YES;
     }
     
     self.date.delegate = self; self.address.delegate = self;
@@ -659,10 +680,8 @@ return 14;
     NSString *headerTitle;
     if (section==0) {
         headerTitle = @"Info";
-    }
-    else{
+    } else {
         headerTitle = @"Section 2 Header";
-        
     }
     return headerTitle;
 }
@@ -671,14 +690,11 @@ return 14;
     NSString *footerTitle;
     if (section==0) {
         footerTitle = @"MySQL";
-    }
-    else{
+    } else {
         footerTitle = @"Section 2 Footer";
-        
     }
     return footerTitle;
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -729,10 +745,11 @@ return 14;
     self.salesman.text = passedData;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([[segue identifier] isEqualToString:@"lookupcitySegue"]) {
         LookupCity *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:self];
+        [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
     if ([[segue identifier] isEqualToString:@"lookupsalesmanSegue"]) {
@@ -742,7 +759,7 @@ return 14;
     }
     if ([[segue identifier] isEqualToString:@"lookupjobSegue"]) {
         LookupJob *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:self];
+        [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
     if ([[segue identifier] isEqualToString:@"lookupproductSegue"]) {
@@ -752,7 +769,7 @@ return 14;
     }
 }
 
-#pragma mark - Edit Leads
+#pragma mark - Edit Data
 -(void)updateLeads:(id)sender {
     if ([_formController isEqual: @"Leads"]) {
         NSString *_leadNo = self.leadNo;

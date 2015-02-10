@@ -96,8 +96,7 @@
 }
 
 #pragma mark  Table Delete Button
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return UITableViewCellEditingStyleDelete;
 }
@@ -122,7 +121,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return filteredString.count;
-    return _feedItems.count;
+return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -231,7 +230,7 @@
         isFilltered = NO;
        // [filteredString removeAllObjects];
        // [filteredString addObjectsFromArray:_feedItems];
-    } else {
+      } else {
         isFilltered = YES;
      //  [filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];

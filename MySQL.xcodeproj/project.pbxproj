@@ -1139,7 +1139,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MySQL",
-					"/Users/peterbalsamo/Downloads/parse-library-1",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1155,7 +1154,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MySQL",
-					"/Users/peterbalsamo/Downloads/parse-library-1",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

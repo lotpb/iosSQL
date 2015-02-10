@@ -22,11 +22,11 @@
 
 - (void)viewDidLoad
 {
-   [super viewDidLoad];
-    self.title = NSLocalizedString(@"Main Menu", nil);
-    self.searchBar.hidden = YES;
-    self.listTableView.backgroundColor = [UIColor clearColor];
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
+    [super viewDidLoad];
+     self.title = NSLocalizedString(@"Main Menu", nil);
+     self.searchBar.hidden = YES;
+     self.listTableView.backgroundColor = [UIColor clearColor];
+if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     }

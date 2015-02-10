@@ -228,8 +228,9 @@ self.comments = news1;
     if ( [self.active isEqual:@"1"] ) {
          [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
           self.following.text = @"Following";
-    } else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-              self.following.text = @"Follow";}
+    } else {
+         [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+          self.following.text = @"Follow";}
     
     // Switch button
      if ( [t11 isEqual:@"Sold"] )
@@ -421,7 +422,6 @@ return myCell;
     [view addAction:edit];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
-    
 }
 
 #pragma mark - social Buttons
@@ -444,9 +444,8 @@ return myCell;
        detailVC.mapaddress = self.address;
        detailVC.mapcity = self.city;
        detailVC.mapstate = self.state;
-       detailVC.mapzip = self.zip;
-   }
-    //dont work below Leads make a customer
+       detailVC.mapzip = self.zip; }
+   
     if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust from Lead
         NewData *detailVC = segue.destinationViewController;
         if ([_formController isEqual: @"Leads"]) {
