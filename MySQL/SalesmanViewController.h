@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SalesModel.h"
+#import "NewDataDetail.h"
 
 @interface SalesmanViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SalesModelProtocol>
 {

@@ -48,7 +48,7 @@
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark  Bar Button
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
@@ -80,6 +80,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - BarButton NewData
+-(void)newData {
+    [self performSegueWithIdentifier:@"productDetailSegue"sender:self];
 }
 
 #pragma mark - Table
@@ -268,18 +273,20 @@
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{   // Set selected location to var
-  //  _selectedLocation = _feedItems[indexPath.row];
-  //  [self performSegueWithIdentifier:@"proddetailSegue" sender:self];
+{
+    _selectedLocation = _feedItems[indexPath.row];
+    [self performSegueWithIdentifier:@"productDetailSegue" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"proddetailSegue"])
-    { /*
-        // Get reference to the destination view controller
-        VendorDetailController *detailVC = segue.destinationViewController;
-        detailVC.selectedLocation = _selectedLocation; */
+    if ([[segue identifier] isEqualToString:@"productDetailSegue"])
+    {
+        NewDataDetail *detailVC = segue.destinationViewController;
+        detailVC.formController = @"Products";
+        detailVC.frm11= _selectedLocation.active;
+        detailVC.frm12 = _selectedLocation.productNo;
+        detailVC.frm13 = _selectedLocation.products;
     }
 }
 

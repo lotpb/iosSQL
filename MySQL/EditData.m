@@ -344,76 +344,78 @@ return 14;
     if (indexPath.row == 0) {
         
         self.date = textframe;
+       [self.date setFont:textFont];
         if ([self.frm18 isEqual:[NSNull null]])
              self.date.text = @"";
         else self.date.text = self.frm18;
-        [self.date setFont:textFont];
          self.date.tag = 0;
          self.date.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
 
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             self.date.inputView = [self datePicker:0];
+            myCell.textLabel.text = @"Date";
         
-         myCell.textLabel.text = @"Date";
         if ([_formController isEqual: @"Vendor"]) {
             self.date.placeholder = @"Profession";
             myCell.textLabel.text = @"Profession"; }
+        
         else if ([_formController isEqual: @"Employee"]) {
             self.date.placeholder = @"Country";
             myCell.textLabel.text = @"Country"; }
+        
         else self.date.placeholder = @"Date";
            [myCell.contentView addSubview:self.date];
 
     } else if (indexPath.row == 1){
         
         self.address = textframe;
+       [self.address setFont:textFont];
         if ([self.frm14 isEqual:[NSNull null]])
              self.address.text = @"";
         else self.address.text = self.frm14;
           self.address.autocorrectionType = UITextAutocorrectionTypeNo;
          [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
           self.address.placeholder = @"Address";
-         [self.address setFont:textFont];
          myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
         
     } else if (indexPath.row == 2){
        
         self.city = textframe;
+       [self.city setFont:textFont];
         if ([self.frm15 isEqual:[NSNull null]])
              self.city.text = @"";
         else self.city.text = self.frm15;
-        self.city.placeholder = @"City";
         self.city.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.city setClearButtonMode:UITextFieldViewModeWhileEditing];
-        [self.city setFont:textFont];
-        myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        myCell.textLabel.text = @"City";
+         myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+         self.city.placeholder = @"City";
+         myCell.textLabel.text = @"City";
         [myCell.contentView addSubview:self.city];
         
     } else if (indexPath.row == 3){
         
         self.state = textframe;
+       [self.state setFont:textFont];
         if ([self.frm16 isEqual:[NSNull null]])
              self.state.text = @"";
         else self.state.text = self.frm16;
-        [self.state setFont:textFont];
-        self.state.placeholder = @"State";
         self.state.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
+         self.state.placeholder = @"State";
          myCell.textLabel.text = @"State";
         [myCell.contentView addSubview:self.state];
         
         UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
+       [self.zip setFont:textFont];
         if ([self.frm17 isEqual:[NSNull null]])
              self.zip.text = @"";
         else self.zip.text = self.frm17;
-        [self.zip setFont:textFont];
-         self.zip.placeholder = @"Zip";
          self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.zip setClearButtonMode:UITextFieldViewModeWhileEditing];
+         self.zip.placeholder = @"Zip";
         [myCell.contentView addSubview:self.zip];
         
     } else if (indexPath.row == 4){
@@ -432,7 +434,7 @@ return 14;
         if ([_formController isEqual: @"Leads"])
             self.aptDate.inputView = [self datePicker:4];
         
-        if ([_formController isEqual: @"Customer"]) {
+        else if ([_formController isEqual: @"Customer"]) {
             self.aptDate.placeholder = @"Rate";
             self.aptDate.tag = 24;
             self.aptDate.inputView = [self customPicker:24];
@@ -476,16 +478,16 @@ return 14;
         else if ([_formController isEqual: @"Employee"]) {
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone"; }
-        else { self.salesman.placeholder = @"Salesman";
-            myCell.textLabel.text = @"Salesman"; }
         
         if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if ([self.frm21 isEqual:[NSNull null]])
              self.salesman.text = @"";
         else self.salesman.text = self.frm21;
-        [myCell.contentView addSubview:self.salesman];
-        self.salesman.inputView = [self customPicker:6];
+             self.salesman.placeholder = @"Salesman";
+             myCell.textLabel.text = @"Salesman";
+            [myCell.contentView addSubview:self.salesman];
+             self.salesman.inputView = [self customPicker:6];
         
     } else if (indexPath.row == 7){
          self.jobName = textframe;
@@ -505,8 +507,9 @@ return 14;
         
         else if ([_formController isEqual: @"Employee"]) {
             self.jobName.placeholder = @"Cell Phone";
-            myCell.textLabel.text = @"Cell Phone"; }
-        else {self.jobName.placeholder = @"Job";
+            myCell.textLabel.text = @"Cell Phone";
+          } else {
+            self.jobName.placeholder = @"Job";
             myCell.textLabel.text = @"Job"; }
       
         [myCell.contentView addSubview:self.jobName];
@@ -529,11 +532,11 @@ return 14;
             myCell.textLabel.text = @"phone 3"; }
         
         else if ([_formController isEqual: @"Employee"]) {
-            self.adName.placeholder = @"Social Security";
+             self.adName.placeholder = @"Social Security";
              myCell.textLabel.text = @"Social Security"; }
         
         else if ([_formController isEqual: @"Customer"]) {
-            self.adName.placeholder = @"Product";
+             self.adName.placeholder = @"Product";
              myCell.textLabel.text = @"Product"; }
         else myCell.textLabel.text = @"Advertiser";
   
@@ -587,7 +590,7 @@ return 14;
         else if ([_formController isEqual: @"Employee"]) {
              self.spouse.placeholder = @"Title";
              myCell.textLabel.text = @"Title"; }
-        else myCell.textLabel.text = @"Spouse";
+             else myCell.textLabel.text = @"Spouse";
 
         [myCell.contentView addSubview:self.spouse];
         
@@ -604,7 +607,7 @@ return 14;
             self.callback.placeholder = @"Quan";
             myCell.textLabel.text = @"# Windows"; }
         
-        if ([_formController isEqual: @"Vendor"]) {
+        else if ([_formController isEqual: @"Vendor"]) {
             self.callback.placeholder = @"";
             myCell.textLabel.text = @""; }
         

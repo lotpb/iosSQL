@@ -124,6 +124,7 @@
 		AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE1DA5C1A751BB50022025C /* LookupSalesman.m */; };
 		AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8071A33445E00A47D4A /* Bolts.framework */; };
 		AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFE7A8091A33446B00A47D4A /* Parse.framework */; };
+		AFE9268A1A8AB7AA00FE7043 /* NewDataDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */; };
 		AFEBCF471A6DAA2100C28C51 /* EditData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEBCF461A6DAA2100C28C51 /* EditData.m */; };
 		AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8831A2133F5005D556C /* EmployeeViewController.m */; };
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
@@ -319,6 +320,8 @@
 		AFE1DA5C1A751BB50022025C /* LookupSalesman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupSalesman.m; sourceTree = "<group>"; };
 		AFE7A8071A33445E00A47D4A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AFE7A8091A33446B00A47D4A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		AFE926881A8AB7AA00FE7043 /* NewDataDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDataDetail.h; sourceTree = "<group>"; };
+		AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDataDetail.m; sourceTree = "<group>"; };
 		AFEBCF451A6DAA2100C28C51 /* EditData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditData.h; sourceTree = "<group>"; };
 		AFEBCF461A6DAA2100C28C51 /* EditData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditData.m; sourceTree = "<group>"; };
 		AFF3B8821A2133F5005D556C /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
@@ -529,10 +532,12 @@
 		AF4E626C1A5CBABA007A56D0 /* NewData */ = {
 			isa = PBXGroup;
 			children = (
-				AFEBCF451A6DAA2100C28C51 /* EditData.h */,
-				AFEBCF461A6DAA2100C28C51 /* EditData.m */,
+				AFE926881A8AB7AA00FE7043 /* NewDataDetail.h */,
+				AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */,
 				AF4D46B81A5634FB005984AD /* NewData.h */,
 				AF4D46B91A5634FB005984AD /* NewData.m */,
+				AFEBCF451A6DAA2100C28C51 /* EditData.h */,
+				AFEBCF461A6DAA2100C28C51 /* EditData.m */,
 				AF2881E71A5DA29E00644802 /* LookupCity.h */,
 				AF5F8EE01A61C4290063B6DA /* LookupCity.m */,
 				AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */,
@@ -1009,6 +1014,7 @@
 				AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */,
 				AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */,
 				AFFEA0791A31ED5200165318 /* ProductModel.m in Sources */,
+				AFE9268A1A8AB7AA00FE7043 /* NewDataDetail.m in Sources */,
 				AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */,
 				AF9926B31A4CFD1100429EC8 /* CollectionDetailController.m in Sources */,
 				AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */,

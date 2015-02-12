@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AdModel.h"
+#import "NewDataDetail.h"
 
 @interface AdvertisingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, AdModelProtocol>
 {

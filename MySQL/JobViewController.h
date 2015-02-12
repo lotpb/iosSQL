@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JobModel.h"
+#import "NewDataDetail.h"
 
 @interface JobViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, JobModelProtocol>
 {

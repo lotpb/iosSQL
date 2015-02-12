@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ProductModel.h"
+#import "NewDataDetail.h"
 
 @interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ProductModelProtocol>
 {
