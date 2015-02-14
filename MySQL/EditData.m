@@ -401,6 +401,7 @@ return 14;
         if ([self.frm16 isEqual:[NSNull null]])
              self.state.text = @"";
         else self.state.text = self.frm16;
+        self.state.adjustsFontSizeToFitWidth = YES;
         self.state.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
          self.state.placeholder = @"State";
@@ -468,6 +469,7 @@ return 14;
          self.salesman = textframe;
         [self.salesman setFont:textFont];
          self.salesman.tag = 6;
+          self.salesman.adjustsFontSizeToFitWidth = YES;
          self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
         
@@ -570,6 +572,8 @@ return 14;
         else self.email.text = self.frm25;
          self.email.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
+        self.email.keyboardType = UIKeyboardTypeEmailAddress;
+        self.email.returnKeyType = UIReturnKeyNext;
          myCell.textLabel.text = @"Email";
         [myCell.contentView addSubview:self.email];
         
@@ -850,7 +854,7 @@ return 14;
         NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_photo1=%@&_photo2=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&_active=%@&", _custNo, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _email,_first, _spouse, _rate, _photo, _photo1, _photo2,_salesNo, _jobNo, _start, _complete, _productNo, _contractor, _active];
         
         //NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *data = [rawStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateCustomer.php"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];

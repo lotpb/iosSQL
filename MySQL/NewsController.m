@@ -44,7 +44,8 @@
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-    self.title = NSLocalizedString(@"News", nil);
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLNEWS.png"]];
+    //self.title = NSLocalizedString(@"News", nil);
     self.searchBar.delegate = self;
     self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];

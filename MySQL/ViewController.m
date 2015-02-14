@@ -25,7 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav"]];
     self.title =  @"Leads";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
@@ -224,9 +223,11 @@
 {
     static NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    CGRect frame1=CGRectMake(tableView.frame.size.width -90, 0, 75, 27);
+ 
     if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier]; 
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
     Location *item;
     if (!isFilltered)
@@ -236,8 +237,19 @@
 
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
-    UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
-    [myCell.imageView setImage:myImage];
+  //  UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
+   // [myCell.imageView setImage:myImage];
+      //problem below with iphone 5 width
+   
+    UILabel *label2=[[UILabel alloc]init];
+    label2.frame=frame1;
+    label2.text=  item.date;
+    label2.font = [UIFont boldSystemFontOfSize:12.0];
+    label2.textAlignment = NSTextAlignmentCenter;
+    [label2 setTextColor:[UIColor whiteColor]];
+    [label2 setBackgroundColor:[UIColor redColor]];
+     label2.tag = 103;
+    [myCell.contentView addSubview:label2];
     
     return myCell;
 }

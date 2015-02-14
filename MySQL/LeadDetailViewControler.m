@@ -15,7 +15,7 @@
 @implementation LeadDetailViewControler
 {
     NSMutableArray *adArray, *salesArray, *jobArray;
-    NSArray *tableData, *tableData2, *tableData3, *tableData4;
+    NSMutableArray *tableData, *tableData2, *tableData3, *tableData4;
     NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *news1, *p1, *p12;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
@@ -44,8 +44,8 @@
             salesArray = [[NSMutableArray alloc]initWithArray:objects];
             if (!error) {
                 for (PFObject *object in objects) {
-                    // self.salesman = [object objectForKey:@"Salesman"];
-                    [salesArray addObject:object];
+                     self.salesman = [object objectForKey:@"Salesman"];
+                   // [salesArray addObject:object];
                     [self.listTableView reloadData]; }
             } else
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -214,13 +214,13 @@ self.comments = news1;
 //self.photo = p1;
 
     ///below must be on bottom from above
-    tableData = [NSArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
+    tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
     
-    tableData2 = [NSArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
+    tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
     
-    tableData4 = [NSArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
+    tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
     
-    tableData3 = [NSArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
+    tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];

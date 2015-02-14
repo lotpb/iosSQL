@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
+		AF1FAA4D1A90094D007AB7C5 /* mySQLBLOG.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1FAA4C1A90094D007AB7C5 /* mySQLBLOG.png */; };
+		AF1FAA4F1A90098C007AB7C5 /* mySQLNEWS.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1FAA4E1A90098C007AB7C5 /* mySQLNEWS.png */; };
+		AF1FAA511A900A3B007AB7C5 /* mySQLHOME.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1FAA501A900A3B007AB7C5 /* mySQLHOME.png */; };
 		AF23C4EE1A3B8B9A005FBDB6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */; };
 		AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF761A360BA300FFE5F0 /* SalesmanViewController.m */; };
 		AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF791A360BFB00FFE5F0 /* SalesLocation.m */; };
@@ -156,6 +159,9 @@
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
+		AF1FAA4C1A90094D007AB7C5 /* mySQLBLOG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mySQLBLOG.png; sourceTree = "<group>"; };
+		AF1FAA4E1A90098C007AB7C5 /* mySQLNEWS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mySQLNEWS.png; sourceTree = "<group>"; };
+		AF1FAA501A900A3B007AB7C5 /* mySQLHOME.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mySQLHOME.png; sourceTree = "<group>"; };
 		AF23C4EC1A3B8B9A005FBDB6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AF26EF751A360BA300FFE5F0 /* SalesmanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesmanViewController.h; sourceTree = "<group>"; };
@@ -414,6 +420,9 @@
 				AF366E851A55A15800976387 /* IMG_1133New.jpg */,
 				AF366E861A55A15800976387 /* Star.jpg */,
 				AF366E871A55A15800976387 /* Star2.jpg */,
+				AF1FAA4C1A90094D007AB7C5 /* mySQLBLOG.png */,
+				AF1FAA4E1A90098C007AB7C5 /* mySQLNEWS.png */,
+				AF1FAA501A900A3B007AB7C5 /* mySQLHOME.png */,
 				AF366EE11A55B9A500976387 /* user_male-128.png */,
 				AF366E881A55A15800976387 /* tag_photo.jpg */,
 				AF366E891A55A15800976387 /* wishlist_photo.jpg */,
@@ -923,10 +932,12 @@
 				AF366EDF1A55A15800976387 /* Yahoo!.png in Resources */,
 				AF366EDA1A55A15800976387 /* tag.png in Resources */,
 				AF366EE01A55A15800976387 /* YouTube.png in Resources */,
+				AF1FAA4D1A90094D007AB7C5 /* mySQLBLOG.png in Resources */,
 				AF366EB91A55A15800976387 /* Apple.png in Resources */,
 				AF366EB51A55A15800976387 /* Star.jpg in Resources */,
 				AF366EC41A55A15800976387 /* header_banner.png in Resources */,
 				AF366EC11A55A15800976387 /* Facebook.png in Resources */,
+				AF1FAA511A900A3B007AB7C5 /* mySQLHOME.png in Resources */,
 				AF3B2CB519ECBF1B00604562 /* Main.storyboard in Resources */,
 				AF366EBF1A55A15800976387 /* comments.png in Resources */,
 				AF366EE21A55B9A500976387 /* user_male-128.png in Resources */,
@@ -937,6 +948,7 @@
 				AF366EBD1A55A15800976387 /* cloud-50.png in Resources */,
 				AF366EC71A55A15800976387 /* home-50.png in Resources */,
 				AF366ECA1A55A15800976387 /* iosStaNAr.png in Resources */,
+				AF1FAA4F1A90098C007AB7C5 /* mySQLNEWS.png in Resources */,
 				AF366EB81A55A15800976387 /* wishlist_photo.jpg in Resources */,
 				AF366EF31A55CA9B00976387 /* Recents@2x.png in Resources */,
 				AF4D46B71A55F3B6005984AD /* calendar.png in Resources */,

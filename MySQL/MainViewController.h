@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITabBarControllerDelegate, UISearchBarDelegate>
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate>
 {
-    NSMutableArray *tableData;
-    NSMutableArray *filteredString;
+    NSMutableArray *tableData, *filteredString;
     BOOL isFilltered;
 }
+
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 

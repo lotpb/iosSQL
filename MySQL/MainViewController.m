@@ -19,13 +19,23 @@
 @end
 
 @implementation MainViewController
+@synthesize searchBar;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLHOME.png"]];
      self.title = NSLocalizedString(@"Main Menu", nil);
-     self.searchBar.hidden = YES;
+     self.listTableView.delegate = self;
+     self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
+     self.searchBar.delegate = self;
+     self.searchBar.returnKeyType = UIReturnKeySearch;
+     self.searchBar.hidden = YES;
+     self.searchBar.barTintColor = [UIColor clearColor];
+     self.definesPresentationContext = YES;
+     //self.listTableView.tableHeaderView = self.searchBar;
+   
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
@@ -54,6 +64,17 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
     refreshControl.attributedTitle = refreshString;
     [refreshView addSubview:refreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.searchBar resignFirstResponder];
+}
+
+-(void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - TableView
@@ -157,13 +178,17 @@ return [tableData count];
 
 #pragma mark - Search
 - (void)searchButton:(id)sender{
-    [self.searchBar becomeFirstResponder];
+    
      self.searchBar.hidden = NO;
+    [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-     self.searchBar.hidden = YES;
-    [self.listTableView reloadData];
+    
+    self.searchBar.text=@"";
+    self.searchBar.hidden = YES;
+    [self.searchBar resignFirstResponder];
+   // [self.listTableView reloadData];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
