@@ -10,16 +10,19 @@
 #import "MainViewController.h"
 #import "SWRevealViewController.h"
 
+#import "SearchResultsViewController.h"
+
 @interface MainViewController ()
 {
    UIRefreshControl *refreshControl;
 }
+@property (nonatomic, strong) UISearchController *searchController;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation MainViewController
-@synthesize searchBar;
+//@synthesize searchBar;
 
 - (void)viewDidLoad
 {
@@ -29,12 +32,16 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
+
+    
+  
+    /*
      self.searchBar.delegate = self;
      self.searchBar.returnKeyType = UIReturnKeySearch;
      self.searchBar.hidden = YES;
      self.searchBar.barTintColor = [UIColor clearColor];
      self.definesPresentationContext = YES;
-     //self.listTableView.tableHeaderView = self.searchBar;
+     //self.listTableView.tableHeaderView = self.searchBar; */
    
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
@@ -42,7 +49,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
 
     tableData = [[NSMutableArray alloc]initWithObjects:@"Lead", @"Customer", @"Vendor", @"Employee", @"Advertising", @"Product", @"Job", @"Salesman", @"Blog", nil];
-    
+ 
 #pragma mark bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
@@ -66,10 +73,23 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshView addSubview:refreshControl];
 }
 
+- (void)searchButton:(UIBarButtonItem *)sender {
+    // Create the search results view controller and use it for the UISearchController.
+    SearchResultsViewController *searchResultsController = [self.storyboard instantiateViewControllerWithIdentifier:SearchResultsViewControllerStoryboardIdentifier];
+    
+    // Create the search controller and make it perform the results updating.
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.searchResultsUpdater = searchResultsController;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    // Present the view controller.
+    [self presentViewController:self.searchController animated:YES completion:nil];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.searchBar resignFirstResponder];
+ //   [self.searchBar resignFirstResponder];
 }
 
 -(void)didReceiveMemoryWarning {
@@ -177,6 +197,7 @@ return [tableData count];
 }
 
 #pragma mark - Search
+/*
 - (void)searchButton:(id)sender{
     
      self.searchBar.hidden = NO;
@@ -206,7 +227,7 @@ return [tableData count];
         }
     }
     [self.listTableView reloadData];
-}
+} */
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

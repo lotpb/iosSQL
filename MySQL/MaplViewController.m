@@ -96,24 +96,6 @@
     }
 }
 
-/*
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-}
-- (NSString *)deviceLocation {
-    return [NSString stringWithFormat:@"latitude: %f longitude: %f", self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude];
-}
-- (NSString *)deviceLat {
-    return [NSString stringWithFormat:@"%f", self.locationManager.location.coordinate.latitude];
-}
-- (NSString *)deviceLon {
-    return [NSString stringWithFormat:@"%f", self.locationManager.location.coordinate.longitude];
-}
-- (NSString *)deviceAlt {
-    return [NSString stringWithFormat:@"%f", self.locationManager.location.altitude];
-} */
 
 - (IBAction)mapTypeChanged:(id)sender {
     

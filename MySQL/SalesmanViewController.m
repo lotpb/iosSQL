@@ -147,7 +147,7 @@ return _feedItems.count;
         item = [filteredString objectAtIndex:indexPath.row];
     
         myCell.textLabel.text = item.salesman;
-        myCell.detailTextLabel.text = item.salesNo;
+       // myCell.detailTextLabel.text = item.salesNo;
         //Retreive an image
         UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
         [myCell.imageView setImage:myImage];
@@ -279,6 +279,7 @@ return _feedItems.count;
     {
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = @"Salesman";
+       // detailVC.formStatus = @"Edit";
         detailVC.frm11= _selectedLocation.active;
         detailVC.frm12 = _selectedLocation.salesNo;
         detailVC.frm13 = _selectedLocation.salesman;

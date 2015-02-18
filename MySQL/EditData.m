@@ -12,6 +12,7 @@
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
+@property (nonatomic, weak) UIStepper *defaultStepper;
 
 @end
 
@@ -329,12 +330,30 @@
 return 14;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat result = 44.0;
+    
+   switch ([indexPath row])
+    {
+        case 13:
+        {
+            result = 100;
+            break;
+        }
+    }
+    return result;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
     UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
-    UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(130, 7, 225, 30)];
+    UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(130, 7, 225, 95)];
+  //  UIStepper *stepper = [[UIStepper alloc] initWithFrame:CGRectMake(65, 7, 100, 10)];
+    // UIStepper *steperCode;
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
    
@@ -609,7 +628,13 @@ return 14;
         
         if ([_formController isEqual: @"Customer"]) {
             self.callback.placeholder = @"Quan";
-            myCell.textLabel.text = @"# Windows"; }
+            myCell.textLabel.text = @"# Windows";
+            UIStepper *stepper = [[UIStepper alloc]initWithFrame:CGRectMake(206, 8, 94, 27)];
+            [stepper setMinimumValue:0];
+            [myCell addSubview:stepper];
+          //  [myCell.contentView addSubview:stepper];
+ 
+        }
         
         else if ([_formController isEqual: @"Vendor"]) {
             self.callback.placeholder = @"";
@@ -809,7 +834,8 @@ return 14;
         // NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
-        NSLog(@"rawStr is %@",rawStr);
+        
+      //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -854,7 +880,7 @@ return 14;
         NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_photo1=%@&_photo2=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&_active=%@&", _custNo, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _email,_first, _spouse, _rate, _photo, _photo1, _photo2,_salesNo, _jobNo, _start, _complete, _productNo, _contractor, _active];
         
         //NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateCustomer.php"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
@@ -937,8 +963,8 @@ return 14;
         NSString *rawStr = [NSString stringWithFormat:@"_employeeNo=%@&&_company=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&", _employeeNo, _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle];
         
         //NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateEmployee.php"];
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -950,6 +976,7 @@ return 14;
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
+    
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 

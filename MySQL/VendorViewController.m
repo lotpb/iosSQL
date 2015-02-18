@@ -41,7 +41,7 @@
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem,addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
+ /*
 #pragma mark  Table Refresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
@@ -57,7 +57,7 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
     
     [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
-    [refreshView addSubview:refreshControl];
+    [refreshView addSubview:refreshControl]; */
 }
 
 - (void)viewWillDisappear:(BOOL)animated

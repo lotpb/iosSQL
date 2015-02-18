@@ -1151,6 +1151,81 @@
             </objects>
             <point key="canvasLocation" x="-1137" y="2733.75"/>
         </scene>
+        <!--Search Results View Controller-->
+        <scene sceneID="CRJ-bN-xqd">
+            <objects>
+                <viewController storyboardIdentifier="SearchResultsViewControllerStoryboardIdentifier" id="W9F-Uu-Adl" customClass="SearchResultsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Q1Q-sk-dum"/>
+                        <viewControllerLayoutGuide type="bottom" id="fkU-WW-eAM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dd7-cw-hJD">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="L9O-0x-1sT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultsCell" textLabel="fLY-ut-PMe" style="IBUITableViewCellStyleDefault" id="e5Y-7N-qsC">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e5Y-7N-qsC" id="u0D-Bc-dzn">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Search results cell" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fLY-ut-PMe">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="W9F-Uu-Adl" id="ZQk-NE-2Wu"/>
+                                    <outlet property="delegate" destination="W9F-Uu-Adl" id="tN4-33-TAY"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="L9O-0x-1sT" firstAttribute="top" secondItem="Dd7-cw-hJD" secondAttribute="top" id="RHw-Gc-Zqq"/>
+                            <constraint firstItem="L9O-0x-1sT" firstAttribute="leading" secondItem="Dd7-cw-hJD" secondAttribute="leading" id="YBB-F0-wZC"/>
+                            <constraint firstAttribute="trailing" secondItem="L9O-0x-1sT" secondAttribute="trailing" id="xFi-5m-9YS"/>
+                            <constraint firstItem="L9O-0x-1sT" firstAttribute="bottom" secondItem="fkU-WW-eAM" secondAttribute="top" id="zY2-ze-fu1"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="L9O-0x-1sT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="RHw-Gc-Zqq"/>
+                                <exclude reference="YBB-F0-wZC"/>
+                                <exclude reference="xFi-5m-9YS"/>
+                                <exclude reference="zY2-ze-fu1"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="L9O-0x-1sT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="RHw-Gc-Zqq"/>
+                                <include reference="YBB-F0-wZC"/>
+                                <include reference="xFi-5m-9YS"/>
+                                <include reference="zY2-ze-fu1"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rdI-Jc-9JN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-375" y="2730.75"/>
+        </scene>
         <!--lookupCity-->
         <scene sceneID="lkQ-WA-6w8">
             <objects>
@@ -5064,14 +5139,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8fx-GH-Tey">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableFooterView" contentMode="redraw" barStyle="black" translucent="NO" id="qdn-jt-qZC">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="pjZ-XI-nKK" id="cXt-b3-4TD"/>
-                                    </connections>
-                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="mainCell" textLabel="CbK-0a-9tR" style="IBUITableViewCellStyleDefault" id="72i-x3-iPR">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -5142,8 +5209,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="listTableView" destination="8fx-GH-Tey" id="PUJ-dz-FF9"/>
-                        <outlet property="searchBar" destination="qdn-jt-qZC" id="xEx-0J-KGd"/>
-                        <outlet property="searchDisplayController" destination="BBv-MC-ZRk" id="u2s-5j-cI1"/>
                         <outlet property="sidebarButton" destination="4yy-ge-UBZ" id="w4D-lu-vfy"/>
                         <segue destination="vXZ-lx-hvc" kind="show" identifier="leadDetailSegue" id="QQZ-Pa-xjD"/>
                         <segue destination="rLo-z8-4uc" kind="show" identifier="blogSegue" id="Nyg-nQ-ht6"/>
@@ -5157,15 +5222,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6R8-U4-dcd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="BBv-MC-ZRk">
-                    <connections>
-                        <outlet property="delegate" destination="pjZ-XI-nKK" id="Jpq-1E-SZQ"/>
-                        <outlet property="searchBar" destination="qdn-jt-qZC" id="OXJ-TO-1OK"/>
-                        <outlet property="searchContentsController" destination="pjZ-XI-nKK" id="joc-zi-EKn"/>
-                        <outlet property="searchResultsDataSource" destination="pjZ-XI-nKK" id="4xF-9p-rSh"/>
-                        <outlet property="searchResultsDelegate" destination="pjZ-XI-nKK" id="kqU-0V-gRf"/>
-                    </connections>
-                </searchDisplayController>
+                <searchDisplayController id="BBv-MC-ZRk"/>
             </objects>
             <point key="canvasLocation" x="561" y="1155.75"/>
         </scene>
@@ -6004,7 +6061,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="z1x-QV-EMK" detailTextLabel="2qp-74-eh9" rowHeight="55" style="IBUITableViewCellStyleValue1" id="xnu-FY-Hpq">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="z1x-QV-EMK" rowHeight="55" style="IBUITableViewCellStyleDefault" id="xnu-FY-Hpq">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xnu-FY-Hpq" id="M1A-Fk-96m">
@@ -6018,14 +6075,8 @@
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             </variation>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2qp-74-eh9">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             </variation>
                                         </label>
                                     </subviews>
@@ -6079,7 +6130,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="O0X-Dt-813" detailTextLabel="7Un-BE-ChV" rowHeight="55" style="IBUITableViewCellStyleValue1" id="2ip-E1-afd">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="O0X-Dt-813" rowHeight="55" style="IBUITableViewCellStyleDefault" id="2ip-E1-afd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2ip-E1-afd" id="YKs-3Q-40x">
@@ -6093,14 +6144,8 @@
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             </variation>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Un-BE-ChV">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             </variation>
                                         </label>
                                     </subviews>
@@ -6154,7 +6199,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="WpX-zM-ob4" detailTextLabel="JfL-SG-eBD" rowHeight="44" style="IBUITableViewCellStyleValue1" id="OJd-v0-flA">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="WpX-zM-ob4" rowHeight="44" style="IBUITableViewCellStyleDefault" id="OJd-v0-flA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OJd-v0-flA" id="lmM-lN-4lQ">
@@ -6168,14 +6213,8 @@
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             </variation>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JfL-SG-eBD">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             </variation>
                                         </label>
                                     </subviews>
@@ -6229,7 +6268,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="Yhn-bw-Bhk" detailTextLabel="Nu1-nj-MFV" rowHeight="44" style="IBUITableViewCellStyleValue1" id="zjb-5C-pXy">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="Yhn-bw-Bhk" rowHeight="44" style="IBUITableViewCellStyleDefault" id="zjb-5C-pXy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zjb-5C-pXy" id="ENf-9q-Zf5">
@@ -6243,14 +6282,8 @@
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             </variation>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nu1-nj-MFV">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             </variation>
                                         </label>
                                     </subviews>
@@ -7104,13 +7137,13 @@
     <inferredMetricsTieBreakers>
         <segue reference="jwQ-k2-eY1"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="JGM-Q4-zwX"/>
-        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="6GQ-e7-fhm"/>
+        <segue reference="6uJ-0s-NFa"/>
+        <segue reference="MSe-EU-M35"/>
         <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
+        <segue reference="Dbq-7P-K8C"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="6GQ-e7-fhm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

@@ -100,7 +100,6 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
      query.cachePolicy = kPFCachePolicyCacheThenNetwork; //added
     [query orderByDescending:KEY_CREATION_DATE];
-  //[query where:@"name" containsString:@"Purina"] /added
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (!error) {
@@ -218,15 +217,6 @@
     [self.activityIndicator stopAnimating];
     [self.activityIndicator removeFromSuperview];
 }
-
-#pragma mark IB Actions
-/*
--(IBAction)logoutPressed:(id)sender
-{
-    //TODO
-    //If logout succesful:
-    [self.navigationController popViewControllerAnimated:YES];
-} */
 
 #pragma mark Error Alert
 

@@ -170,6 +170,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"blogCell";
+    
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
+    UIFont *textFont = [UIFont boldSystemFontOfSize:9.0];
+    
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     BlogLocation *item;
@@ -195,23 +199,20 @@
     myCell.blogmsgDateLabel.text = item.msgDate; //dateStr;
     myCell.blog2ImageView.image = [UIImage imageNamed:@"DemoCellImage"];
     
-    // (x, y, width, height)
-    CGRect frame1=CGRectMake(10,145, 30, 11);
-    UILabel *label2=[[UILabel alloc]init];
-    label2.frame=frame1;
-    label2.text=  @"Like";
-    label2.font = [UIFont boldSystemFontOfSize:9.0];
+    label2.text = @"Like";
+    label2.font = textFont;
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
     [label2 setBackgroundColor:[UIColor redColor]];
-    label2.tag = 103;
-    
-    if ([item.rating isEqual: @"4"])
-          label2.hidden = YES;
-    else  label2.hidden = NO;
-    
+   // label2.tag = 103;
     [myCell.contentView addSubview:label2];
+    
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([item.rating isEqual: @"4"])
+         label2.hidden = YES;
+    else label2.hidden = NO;
     return myCell;
+    
 }
 
 #pragma mark Tableheader

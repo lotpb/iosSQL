@@ -79,19 +79,14 @@
         }];
     } */
     
-    self.salesNo.text = nil;
+    //self.salesNo.text = nil;
+    //self.active.text = nil;
+
+
+   // if (![self.formStatus isEqual:@"Edit"])
+   //      self.frm11 = @"Active";
+   // else self.active.text = self.frm11;
     
-    if ([self.frm11 isEqual:[NSNull null]])
-         self.salesNo.text = @"";
-    else self.salesNo.text = self.frm11;
-    
-    if ([self.frm12 isEqual:[NSNull null]])
-         self.salesman.text = @"";
-    else self.salesman.text = self.frm12;
-    
-    if ([self.frm13 isEqual:[NSNull null]])
-         self.active.text = @"";
-    else self.active.text = self.frm13;
   
     /*
 #pragma mark Form Circle Image
@@ -154,7 +149,7 @@
     static NSString *CellIdentifier = @"BasicCell";
     UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
-            UIImageView *profileImageView = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
+    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -164,16 +159,22 @@
     if (indexPath.row == 0) {
  
         if ([self.frm11 isEqual:@"Active"] ) {
-            profileImageView.image = [UIImage imageNamed:@"iosStar.png"];
+            self.active.text = self.frm11;
+            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
             myCell.textLabel.text = @"Active";
           } else {
-            profileImageView.image = [UIImage imageNamed:@"iosStarNA.png"];
+            self.active.text = @"";
+            activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
             myCell.textLabel.text = @"Inactive"; }
-        
-       // profileImageView.layer.cornerRadius = 30.0;
-       // profileImageView.layer.masksToBounds = YES;
-         profileImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [myCell.contentView addSubview:profileImageView];
+      /*
+        if (![self.formStatus isEqual:@"Edit"] ) {
+            self.active.text = @"Active";
+            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+            myCell.textLabel.text = @"Active";
+        }  */
+
+         activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        [myCell.contentView addSubview:activeImage];
         
     } else if (indexPath.row == 1){
         
@@ -220,15 +221,15 @@
             myCell.textLabel.text = @"SalesNo"; }
         
         else if ([_formController isEqual: @"Products"]) {
-            self.salesman.placeholder = @"ProductNo";
+            self.salesNo.placeholder = @"ProductNo";
             myCell.textLabel.text = @"ProductNo";}
         
         else if ([_formController isEqual: @"Advertising"]) {
-            self.salesman.placeholder = @"AdNo";
+            self.salesNo.placeholder = @"AdNo";
             myCell.textLabel.text = @"AdNo";}
         
         else if ([_formController isEqual: @"Jobs"]) {
-            self.salesman.placeholder = @"JobNo";
+            self.salesNo.placeholder = @"JobNo";
             myCell.textLabel.text = @"JobNo";}
         
         [myCell.contentView addSubview:self.salesNo];

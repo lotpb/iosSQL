@@ -14,7 +14,7 @@
     NSMutableArray *salesArray, *jobArray, *prodArray;
     CustModel *_CustModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-
+@property (nonatomic, weak) IBOutlet UIStepper *defaultStepper;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -211,9 +211,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    CGRect frame1=CGRectMake(tableView.frame.size.width -90, 0, 75, 27);
 
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -228,10 +229,7 @@
         myCell.detailTextLabel.text = item.city;
       //  UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
       // [myCell.imageView setImage:myImage];
-    //problem below with iphone 5 width
-   
-    UILabel *label2=[[UILabel alloc]init];
-    label2.frame=frame1;
+
     label2.text=  item.date;
     label2.font = [UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
@@ -307,14 +305,14 @@
 #pragma mark - SearchBar
 - (void)searchButton:(id)sender {
     
-    self.searchBar.hidden = NO;
+     self.searchBar.hidden = NO;
     [self.searchBar becomeFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
-    self.searchBar.text=@"";
-    self.searchBar.hidden = YES;
+     self.searchBar.text=@"";
+     self.searchBar.hidden = YES;
     [self.searchBar resignFirstResponder];
     
 }

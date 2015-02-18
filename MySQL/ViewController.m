@@ -16,6 +16,7 @@
     UIRefreshControl *refreshControl;
 }
 @property (strong, nonatomic) NSString *tsa22;
+//@property (nonatomic, strong) UISearchController *searchController;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -25,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.title =  @"Leads";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
@@ -34,8 +36,12 @@
     self.searchBar.barTintColor = [UIColor clearColor];
     self.searchBar.showsScopeBar = YES;
     self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
+  //  self.searchBar.hidesNavigationBarDuringPresentation = false;
     self.definesPresentationContext = YES;
-  //self.listTableView.tableHeaderView = self.searchBar;
+   //  self.searchController.displaysSearchBarInNavigationBar = YES;
+     //self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    //[self.navigationController.navigationBar addSubview:searchBar];
+     //self.listTableView.tableHeaderView = self.searchBar;
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -94,6 +100,7 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark TableRefresh
+
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
@@ -222,9 +229,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"BasicCell";
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    CGRect frame1=CGRectMake(tableView.frame.size.width -90, 0, 75, 27);
  
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -240,9 +248,7 @@
   //  UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
    // [myCell.imageView setImage:myImage];
       //problem below with iphone 5 width
-   
-    UILabel *label2=[[UILabel alloc]init];
-    label2.frame=frame1;
+
     label2.text=  item.date;
     label2.font = [UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;

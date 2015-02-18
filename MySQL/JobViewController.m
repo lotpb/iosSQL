@@ -154,7 +154,7 @@
         item = [filteredString objectAtIndex:indexPath.row];
     
         myCell.textLabel.text = item.jobdescription;
-        myCell.detailTextLabel.text = item.jobNo;
+       // myCell.detailTextLabel.text = item.jobNo;
         UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
         [myCell.imageView setImage:myImage];
     
