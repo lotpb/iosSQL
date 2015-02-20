@@ -14,7 +14,7 @@
     NSMutableArray *salesArray, *jobArray, *prodArray;
     CustModel *_CustModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-@property (nonatomic, weak) IBOutlet UIStepper *defaultStepper;
+//@property (nonatomic, weak) IBOutlet UIStepper *defaultStepper;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 

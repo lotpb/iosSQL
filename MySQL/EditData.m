@@ -218,6 +218,7 @@
     picker.dataSource = self;
     picker.delegate = self;
     picker.showsSelectionIndicator = YES;
+    //[self.pickerView selectRow:3 inComponent:0 animated:NO];
    // [picker selectRow:3 inComponent:0 animated:YES];
     [pickerView addSubview:picker];
     [pickerView addSubview:toolbar];
@@ -344,7 +345,6 @@ return 14;
     }
     return result;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -32,9 +32,6 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
-
-    
-  
     /*
      self.searchBar.delegate = self;
      self.searchBar.returnKeyType = UIReturnKeySearch;
@@ -81,15 +78,21 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.searchController.searchResultsUpdater = searchResultsController;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
-    
-    // Present the view controller.
+
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
- //   [self.searchBar resignFirstResponder];
+ // [self.searchBar resignFirstResponder];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+  //  self.listTableView.contentOffset = CGPointMake(0.0f, 0.0f);
+  //  self.listTableView.scrollEnabled = YES;
+
 }
 
 -(void)didReceiveMemoryWarning {

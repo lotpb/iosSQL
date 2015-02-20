@@ -9,6 +9,24 @@
 /* Begin PBXBuildFile section */
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
+		AF2301921A96BC6F0035D6BB /* amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301801A96BC6F0035D6BB /* amex.png */; };
+		AF2301931A96BC6F0035D6BB /* amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301811A96BC6F0035D6BB /* amex@2x.png */; };
+		AF2301941A96BC6F0035D6BB /* cvc-amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301821A96BC6F0035D6BB /* cvc-amex.png */; };
+		AF2301951A96BC6F0035D6BB /* cvc-amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301831A96BC6F0035D6BB /* cvc-amex@2x.png */; };
+		AF2301961A96BC6F0035D6BB /* cvc.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301841A96BC6F0035D6BB /* cvc.png */; };
+		AF2301971A96BC6F0035D6BB /* cvc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301851A96BC6F0035D6BB /* cvc@2x.png */; };
+		AF2301981A96BC6F0035D6BB /* diners.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301861A96BC6F0035D6BB /* diners.png */; };
+		AF2301991A96BC6F0035D6BB /* diners@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301871A96BC6F0035D6BB /* diners@2x.png */; };
+		AF23019A1A96BC6F0035D6BB /* discover.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301881A96BC6F0035D6BB /* discover.png */; };
+		AF23019B1A96BC6F0035D6BB /* discover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301891A96BC6F0035D6BB /* discover@2x.png */; };
+		AF23019C1A96BC6F0035D6BB /* jcb.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018A1A96BC6F0035D6BB /* jcb.png */; };
+		AF23019D1A96BC6F0035D6BB /* jcb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018B1A96BC6F0035D6BB /* jcb@2x.png */; };
+		AF23019E1A96BC6F0035D6BB /* mastercard.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018C1A96BC6F0035D6BB /* mastercard.png */; };
+		AF23019F1A96BC6F0035D6BB /* mastercard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018D1A96BC6F0035D6BB /* mastercard@2x.png */; };
+		AF2301A01A96BC6F0035D6BB /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018E1A96BC6F0035D6BB /* placeholder.png */; };
+		AF2301A11A96BC6F0035D6BB /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF23018F1A96BC6F0035D6BB /* placeholder@2x.png */; };
+		AF2301A21A96BC6F0035D6BB /* visa.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301901A96BC6F0035D6BB /* visa.png */; };
+		AF2301A31A96BC6F0035D6BB /* visa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301911A96BC6F0035D6BB /* visa@2x.png */; };
 		AF23C4EE1A3B8B9A005FBDB6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */; };
 		AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF761A360BA300FFE5F0 /* SalesmanViewController.m */; };
 		AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF791A360BFB00FFE5F0 /* SalesLocation.m */; };
@@ -162,6 +180,24 @@
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
+		AF2301801A96BC6F0035D6BB /* amex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = amex.png; sourceTree = "<group>"; };
+		AF2301811A96BC6F0035D6BB /* amex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "amex@2x.png"; sourceTree = "<group>"; };
+		AF2301821A96BC6F0035D6BB /* cvc-amex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cvc-amex.png"; sourceTree = "<group>"; };
+		AF2301831A96BC6F0035D6BB /* cvc-amex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cvc-amex@2x.png"; sourceTree = "<group>"; };
+		AF2301841A96BC6F0035D6BB /* cvc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cvc.png; sourceTree = "<group>"; };
+		AF2301851A96BC6F0035D6BB /* cvc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cvc@2x.png"; sourceTree = "<group>"; };
+		AF2301861A96BC6F0035D6BB /* diners.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diners.png; sourceTree = "<group>"; };
+		AF2301871A96BC6F0035D6BB /* diners@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diners@2x.png"; sourceTree = "<group>"; };
+		AF2301881A96BC6F0035D6BB /* discover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = discover.png; sourceTree = "<group>"; };
+		AF2301891A96BC6F0035D6BB /* discover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "discover@2x.png"; sourceTree = "<group>"; };
+		AF23018A1A96BC6F0035D6BB /* jcb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jcb.png; sourceTree = "<group>"; };
+		AF23018B1A96BC6F0035D6BB /* jcb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jcb@2x.png"; sourceTree = "<group>"; };
+		AF23018C1A96BC6F0035D6BB /* mastercard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mastercard.png; sourceTree = "<group>"; };
+		AF23018D1A96BC6F0035D6BB /* mastercard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mastercard@2x.png"; sourceTree = "<group>"; };
+		AF23018E1A96BC6F0035D6BB /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		AF23018F1A96BC6F0035D6BB /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
+		AF2301901A96BC6F0035D6BB /* visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visa.png; sourceTree = "<group>"; };
+		AF2301911A96BC6F0035D6BB /* visa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visa@2x.png"; sourceTree = "<group>"; };
 		AF23C4EC1A3B8B9A005FBDB6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AF26EF751A360BA300FFE5F0 /* SalesmanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesmanViewController.h; sourceTree = "<group>"; };
@@ -399,6 +435,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF23017F1A96BC4E0035D6BB /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				AF2301801A96BC6F0035D6BB /* amex.png */,
+				AF2301811A96BC6F0035D6BB /* amex@2x.png */,
+				AF2301821A96BC6F0035D6BB /* cvc-amex.png */,
+				AF2301831A96BC6F0035D6BB /* cvc-amex@2x.png */,
+				AF2301841A96BC6F0035D6BB /* cvc.png */,
+				AF2301851A96BC6F0035D6BB /* cvc@2x.png */,
+				AF2301861A96BC6F0035D6BB /* diners.png */,
+				AF2301871A96BC6F0035D6BB /* diners@2x.png */,
+				AF2301881A96BC6F0035D6BB /* discover.png */,
+				AF2301891A96BC6F0035D6BB /* discover@2x.png */,
+				AF23018A1A96BC6F0035D6BB /* jcb.png */,
+				AF23018B1A96BC6F0035D6BB /* jcb@2x.png */,
+				AF23018C1A96BC6F0035D6BB /* mastercard.png */,
+				AF23018D1A96BC6F0035D6BB /* mastercard@2x.png */,
+				AF23018E1A96BC6F0035D6BB /* placeholder.png */,
+				AF23018F1A96BC6F0035D6BB /* placeholder@2x.png */,
+				AF2301901A96BC6F0035D6BB /* visa.png */,
+				AF2301911A96BC6F0035D6BB /* visa@2x.png */,
+			);
+			name = Cards;
+			sourceTree = "<group>";
+		};
 		AF2B09101A08387F00E2DF5B /* Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,6 +483,7 @@
 		AF2BACC51A0D527E000995A5 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AF23017F1A96BC4E0035D6BB /* Cards */,
 				AF366EF51A55CBC300976387 /* Social Button */,
 				AF366EF41A55CB2E00976387 /* Sidebar */,
 				AF366EE31A55CA7A00976387 /* Tab bar */,
@@ -933,12 +995,14 @@
 				AF366EF21A55CA9B00976387 /* Recents.png in Resources */,
 				AF366ED71A55A15800976387 /* pic_frame.png in Resources */,
 				AF366EB71A55A15800976387 /* tag_photo.jpg in Resources */,
+				AF2301A31A96BC6F0035D6BB /* visa@2x.png in Resources */,
 				AF366ED51A55A15800976387 /* photo-frame.png in Resources */,
 				AF366ECF1A55A15800976387 /* menu.png in Resources */,
 				AF366EC51A55A15800976387 /* home copy.png in Resources */,
 				AF366EB41A55A15800976387 /* IMG_1133New.jpg in Resources */,
 				AF366EC81A55A15800976387 /* home30.png in Resources */,
 				AF366EDB1A55A15800976387 /* Tumblr.png in Resources */,
+				AF23019A1A96BC6F0035D6BB /* discover.png in Resources */,
 				AF366EC01A55A15800976387 /* display30copy.png in Resources */,
 				AF366EDD1A55A15800976387 /* Twitter.png in Resources */,
 				AF366ED81A55A15800976387 /* profile-rabbit-toy.png in Resources */,
@@ -946,13 +1010,22 @@
 				AF366EDF1A55A15800976387 /* Yahoo!.png in Resources */,
 				AF366EDA1A55A15800976387 /* tag.png in Resources */,
 				AF366EE01A55A15800976387 /* YouTube.png in Resources */,
+				AF2301921A96BC6F0035D6BB /* amex.png in Resources */,
 				AF366EB91A55A15800976387 /* Apple.png in Resources */,
+				AF23019B1A96BC6F0035D6BB /* discover@2x.png in Resources */,
+				AF23019D1A96BC6F0035D6BB /* jcb@2x.png in Resources */,
 				AF366EB51A55A15800976387 /* Star.jpg in Resources */,
+				AF2301A11A96BC6F0035D6BB /* placeholder@2x.png in Resources */,
+				AF23019E1A96BC6F0035D6BB /* mastercard.png in Resources */,
 				AFBDBF411A90F54D00DD4C66 /* user_male-128.png in Resources */,
 				AF366EC41A55A15800976387 /* header_banner.png in Resources */,
+				AF2301A21A96BC6F0035D6BB /* visa.png in Resources */,
 				AFBDBF3F1A90F54200DD4C66 /* mySQLNEWS.png in Resources */,
+				AF2301951A96BC6F0035D6BB /* cvc-amex@2x.png in Resources */,
 				AF366EC11A55A15800976387 /* Facebook.png in Resources */,
+				AF2301A01A96BC6F0035D6BB /* placeholder.png in Resources */,
 				AF3B2CB519ECBF1B00604562 /* Main.storyboard in Resources */,
+				AF23019C1A96BC6F0035D6BB /* jcb.png in Resources */,
 				AF366EBF1A55A15800976387 /* comments.png in Resources */,
 				AF366ED41A55A15800976387 /* photo-frame-2.png in Resources */,
 				AF366ECC1A55A15800976387 /* iosStarNA.png in Resources */,
@@ -963,11 +1036,14 @@
 				AF366ECA1A55A15800976387 /* iosStaNAr.png in Resources */,
 				AF366EB81A55A15800976387 /* wishlist_photo.jpg in Resources */,
 				AF366EF31A55CA9B00976387 /* Recents@2x.png in Resources */,
+				AF2301971A96BC6F0035D6BB /* cvc@2x.png in Resources */,
 				AF4D46B71A55F3B6005984AD /* calendar.png in Resources */,
+				AF2301941A96BC6F0035D6BB /* cvc-amex.png in Resources */,
 				AF366EC31A55A15800976387 /* footer_banner.png in Resources */,
 				AF366ED01A55A15800976387 /* menu@2x.png in Resources */,
 				AF366EC91A55A15800976387 /* home30sel.png in Resources */,
 				AF366ED11A55A15800976387 /* nav_bg.png in Resources */,
+				AF2301981A96BC6F0035D6BB /* diners.png in Resources */,
 				AF366EBE1A55A15800976387 /* cloud30copy.png in Resources */,
 				AF366EC61A55A15800976387 /* home_filled-50.png in Resources */,
 				AFBDBF3D1A90F54200DD4C66 /* mySQLBLOG.png in Resources */,
@@ -980,12 +1056,16 @@
 				AF366ED21A55A15800976387 /* news.png in Resources */,
 				AF366ECB1A55A15800976387 /* iosStar.png in Resources */,
 				AF366ED31A55A15800976387 /* note30copy.png in Resources */,
+				AF23019F1A96BC6F0035D6BB /* mastercard@2x.png in Resources */,
 				AFA7CC8D1A3F8C5700128607 /* LaunchScreen.xib in Resources */,
 				AF366EC21A55A15800976387 /* Flickr.png in Resources */,
 				AF366ED91A55A15800976387 /* RSS.png in Resources */,
 				AFF782041A41B6760098692C /* Settings.bundle in Resources */,
+				AF2301961A96BC6F0035D6BB /* cvc.png in Resources */,
+				AF2301931A96BC6F0035D6BB /* amex@2x.png in Resources */,
 				AF366ED61A55A15800976387 /* photo.png in Resources */,
 				AFBC9E9219D9CEDF0050E67A /* Images.xcassets in Resources */,
+				AF2301991A96BC6F0035D6BB /* diners@2x.png in Resources */,
 				AF366EB31A55A15800976387 /* IMG_1133.jpg in Resources */,
 				AF366EDC1A55A15800976387 /* Twitter copy.png in Resources */,
 			);
