@@ -104,7 +104,7 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor clearColor];
+    refreshControl.backgroundColor = [UIColor blackColor];
     refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
     NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];

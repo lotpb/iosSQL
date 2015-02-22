@@ -32,6 +32,12 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
+
+    
+    
+    
+    
+    
     /*
      self.searchBar.delegate = self;
      self.searchBar.returnKeyType = UIReturnKeySearch;
@@ -69,6 +75,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     refreshControl.attributedTitle = refreshString;
     [refreshView addSubview:refreshControl];
 }
+
+
 
 - (void)searchButton:(UIBarButtonItem *)sender {
     // Create the search results view controller and use it for the UISearchController.

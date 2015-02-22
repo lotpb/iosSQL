@@ -406,22 +406,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFEAB02A1A90F2C9000A1B95 /* libsqlite3.0.dylib in Frameworks */,
 				AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */,
+				AF35E3A31A7E6831004064DD /* ParseUI.framework in Frameworks */,
+				AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */,
 				AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */,
 				AFA352EA19FC700800840AA3 /* AudioToolbox.framework in Frameworks */,
 				AFC604B61A12C4570094538A /* MessageUI.framework in Frameworks */,
 				AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */,
-				AF35E3A31A7E6831004064DD /* ParseUI.framework in Frameworks */,
 				AFA352FC19FC70F200840AA3 /* SystemConfiguration.framework in Frameworks */,
 				AFA352F819FC70D500840AA3 /* Security.framework in Frameworks */,
 				AFA352F619FC70CA00840AA3 /* QuartzCore.framework in Frameworks */,
-				AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */,
 				AFA352F419FC70BA00840AA3 /* MobileCoreServices.framework in Frameworks */,
-				AFA352F219FC70AF00840AA3 /* libz.dylib in Frameworks */,
 				AFA352F019FC703400840AA3 /* CoreLocation.framework in Frameworks */,
 				AFA352EE19FC702500840AA3 /* CoreGraphics.framework in Frameworks */,
 				AFA352EC19FC701600840AA3 /* CFNetwork.framework in Frameworks */,
+				AFEAB02A1A90F2C9000A1B95 /* libsqlite3.0.dylib in Frameworks */,
+				AFA352F219FC70AF00840AA3 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +644,7 @@
 		AF5554641A1402BA00EE0D1D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				AFCB325E19F40B390087D3EF /* BlogNewViewController.h */,
 				AFDFAB881A1398CF00022336 /* VendorViewController.h */,
 				AFDFAB891A1398CF00022336 /* VendorViewController.m */,
 			);
@@ -683,7 +684,6 @@
 				AF3F388619EB595D00CB785F /* BlogViewController.m */,
 				AFDE52B519F9E26B00220656 /* BlogEditDetailView.h */,
 				AFDE52B619F9E26B00220656 /* BlogEditDetailView.m */,
-				AFCB325E19F40B390087D3EF /* BlogNewViewController.h */,
 				AFCB325F19F40B390087D3EF /* BlogNewViewController.m */,
 			);
 			name = Blog;

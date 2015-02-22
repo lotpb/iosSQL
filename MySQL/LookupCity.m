@@ -30,8 +30,8 @@ NSString *cityName;
     [super viewDidLoad];
     
     self.title =  @"City lookup";
-    self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.searchBar.delegate = self;
    [self.searchBar becomeFirstResponder];
     self.searchBar.barTintColor = [UIColor clearColor];

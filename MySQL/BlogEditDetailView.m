@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 44.0;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.hidden = NO;
     
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];

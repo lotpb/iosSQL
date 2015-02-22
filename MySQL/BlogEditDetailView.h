@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BlogLocation.h"
 #import "BlogViewController.h"
+#import "Constants.h"
 
 @interface BlogEditDetailView : UIViewController
 

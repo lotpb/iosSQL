@@ -23,7 +23,7 @@
     self.listTableView.dataSource = self;
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 44.0;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
@@ -138,9 +138,6 @@
 
 #pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
- //   if ([_formController isEqual:@"Salesman"])
- //       return 3;
     return 3;
 }
 
@@ -234,15 +231,28 @@
         
         [myCell.contentView addSubview:self.salesNo];
         
-    } else if (indexPath.row == 3){
-        
-        
     }
 
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
+//-------------------------------------------------
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return ROW_HEIGHT;
+}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+        // Scroll the table to the bottom if the table view's current offset is beyond the maximum
+        // allowable offset sot that it does not leave too much white space at the bottom.
+        NSInteger numRows = [self tableView:tableView numberOfRowsInSection:2];
+        CGFloat maxOffset = numRows * ROW_HEIGHT - self.view.frame.size.height + 36.0f;
+        
+        if (self.listTableView.contentOffset.y > maxOffset) {
+            [self.listTableView setContentOffset:CGPointMake(0.0f, maxOffset) animated:YES];
+        }
+}
+//---------------------------------------------------
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{

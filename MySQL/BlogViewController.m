@@ -27,7 +27,7 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLBLOG.png"]];
     self.title =  @"Blog";
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 44.0;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.searchBar.delegate = self;
     self.searchBar.hidden = YES;
     self.searchBar.barTintColor = [UIColor clearColor];

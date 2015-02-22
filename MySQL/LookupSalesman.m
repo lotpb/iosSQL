@@ -29,8 +29,8 @@
     [super viewDidLoad];
     
     self.title =  @"Salesman lookup";
-    self.listTableView.estimatedRowHeight = 64.0;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.searchBar.delegate = self;
     [self.searchBar becomeFirstResponder];
     self.searchBar.barTintColor = [UIColor clearColor];
@@ -123,7 +123,6 @@
         salesName = [[salesArray objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
      else
         salesName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
-    
     
     myCell.textLabel.text = salesName;
     

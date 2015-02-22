@@ -11,6 +11,7 @@
 //#import "BlogLocation.h"
 #import "BlogEditDetailView.h"
 #import "BlogNewViewController.h"
+#import "Constants.h"
 
 @interface BlogViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, BlogModelProtocol>
 {

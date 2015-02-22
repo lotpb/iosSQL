@@ -8,6 +8,10 @@
 
 #import "EditData.h"
 
+#define TEXT_FIELD_TAG_OFFSET 1000
+#define NUM_TEXT_FIELD 5
+
+
 @interface EditData () //<LookupCityDelegate, LookupJobDelegate>
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
@@ -25,9 +29,15 @@
     self.listTableView.dataSource = self;
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 44.0;
+    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
    // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
  //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
+    
+    // Any tap on the view would dismiss the keyboard.
+    UITapGestureRecognizer *tapGestureRecognizer =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
     
     if ([_formController isEqual: @"Leads"]) {
         
@@ -182,6 +192,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dismissKeyboard {
+    // To dismiss the keyboard, we simply ask all fields to resign its focus.
+    for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
+        [[self.view viewWithTag:i] resignFirstResponder];
+    }
+}
+
 #pragma mark - Button
 -(IBAction)like:(id)sender{
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
@@ -333,7 +350,7 @@ return 14;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat result = 44.0;
+    CGFloat result = ROW_HEIGHT;
     
    switch ([indexPath row])
     {
@@ -352,8 +369,6 @@ return 14;
     UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
     UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(130, 7, 225, 95)];
-  //  UIStepper *stepper = [[UIStepper alloc] initWithFrame:CGRectMake(65, 7, 100, 10)];
-    // UIStepper *steperCode;
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
    
@@ -629,11 +644,17 @@ return 14;
         if ([_formController isEqual: @"Customer"]) {
             self.callback.placeholder = @"Quan";
             myCell.textLabel.text = @"# Windows";
-            UIStepper *stepper = [[UIStepper alloc]initWithFrame:CGRectMake(206, 8, 94, 27)];
-            [stepper setMinimumValue:0];
-            [myCell addSubview:stepper];
-          //  [myCell.contentView addSubview:stepper];
- 
+            [self.callback setClearButtonMode:UITextFieldViewModeNever];
+          
+            UIStepper *stepper = [[UIStepper alloc] init];
+             stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            [stepper setTintColor:[UIColor grayColor]];
+             stepper.value = [self.callback.text doubleValue];
+             stepper.stepValue = 1;
+            UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+            [wrapper addSubview:stepper];
+            myCell.accessoryView = stepper;
+            [stepper addTarget:self action:@selector(chanegestep:) forControlEvents:UIControlEventValueChanged];
         }
         
         else if ([_formController isEqual: @"Vendor"]) {
@@ -706,25 +727,33 @@ return 14;
     return myCell;
 }
 
+ - (void) chanegestep:(UIStepper *)sender
+{
+     double va = [sender value];
+    [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
+}
+/*
+- (void)scrollViewToScreenTop:(UITextField *)textField {
+    // The super view of a text field is the contentView of a cell.
+    // The super vie of the contentView is the cell itself.
+    UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
+    [self.listTableView scrollToRowAtIndexPath:[self.listTableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+} */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{
     NSString *headerTitle;
-    if (section==0) {
+    if (section==0)
         headerTitle = @"Info";
-    } else {
-        headerTitle = @"Section 2 Header";
-    }
+  
     return headerTitle;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
 (NSInteger)section{
     NSString *footerTitle;
-    if (section==0) {
+    if (section==0)
         footerTitle = @"MySQL";
-    } else {
-        footerTitle = @"Section 2 Footer";
-    }
+ 
     return footerTitle;
 }
 

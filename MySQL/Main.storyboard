@@ -437,6 +437,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
+                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -464,6 +467,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -1160,6 +1166,7 @@
                         <viewControllerLayoutGuide type="bottom" id="fkU-WW-eAM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Dd7-cw-hJD">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="L9O-0x-1sT">
@@ -7140,10 +7147,10 @@
         <segue reference="6GQ-e7-fhm"/>
         <segue reference="6uJ-0s-NFa"/>
         <segue reference="MSe-EU-M35"/>
-        <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="Dbq-7P-K8C"/>
-        <segue reference="46l-tX-X1A"/>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="RkH-L9-G0j"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
