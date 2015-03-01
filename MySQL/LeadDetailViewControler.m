@@ -284,10 +284,10 @@ self.comments = news1;
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
-    myCell.textLabel.font = [UIFont systemFontOfSize:8.0];
+    myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8];//[UIFont systemFontOfSize:8.0];
    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
     myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
-    myCell.detailTextLabel.font = [UIFont boldSystemFontOfSize:8.0];
+    myCell.detailTextLabel.font = [UIFont fontWithName:KEY_TITLEFONT size:8];//[UIFont boldSystemFontOfSize:8.0];
    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
         
     return myCell;
@@ -299,12 +299,13 @@ self.comments = news1;
         
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
+        
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
-    myCell.textLabel.font = [UIFont systemFontOfSize:8.0];
+    myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8];//[UIFont systemFontOfSize:8.0];
    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
     myCell.detailTextLabel.text = [tableData2 objectAtIndex:indexPath.row];
-    myCell.detailTextLabel.font = [UIFont boldSystemFontOfSize:8.0];
+    myCell.detailTextLabel.font = [UIFont fontWithName:KEY_TITLEFONT size:8];//[UIFont boldSystemFontOfSize:8.0];
    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
 
         //draw red vertical line
@@ -330,6 +331,7 @@ self.comments = news1;
     
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+        
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;

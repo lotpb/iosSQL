@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BlogViewController.h"
 #import "BlogModel.h"
+#import "Constants.h"
 
 @interface BlogNewViewController : UIViewController <UITextViewDelegate>
 
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) NSString *textcontentpostby;
 @property (strong, nonatomic) NSString *textcontentsubject;
 @property (strong, nonatomic) NSString *textcontentrating;
+
+@property (strong, nonatomic) UIImageView *activeImage;
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *myDatePicker;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

@@ -644,7 +644,6 @@
 		AF5554641A1402BA00EE0D1D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				AFCB325E19F40B390087D3EF /* BlogNewViewController.h */,
 				AFDFAB881A1398CF00022336 /* VendorViewController.h */,
 				AFDFAB891A1398CF00022336 /* VendorViewController.m */,
 			);
@@ -684,6 +683,7 @@
 				AF3F388619EB595D00CB785F /* BlogViewController.m */,
 				AFDE52B519F9E26B00220656 /* BlogEditDetailView.h */,
 				AFDE52B619F9E26B00220656 /* BlogEditDetailView.m */,
+				AFCB325E19F40B390087D3EF /* BlogNewViewController.h */,
 				AFCB325F19F40B390087D3EF /* BlogNewViewController.m */,
 			);
 			name = Blog;

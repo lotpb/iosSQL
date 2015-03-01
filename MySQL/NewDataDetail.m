@@ -144,8 +144,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
-    UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
+    UIFont *textFont = [UIFont fontWithName:KEY_TABLEFONT size:14];//[UIFont systemFontOfSize:14.0];
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -154,6 +154,13 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     if (indexPath.row == 0) {
+        
+        UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+        if ( [self.frm11 isEqual:@"Active"] )
+            [theSwitch setOn:YES];
+        else [theSwitch setOn:NO];
+        [myCell addSubview:theSwitch];
+        myCell.accessoryView = theSwitch;
  
         if ([self.frm11 isEqual:@"Active"] ) {
             self.active.text = self.frm11;
@@ -199,7 +206,7 @@
         else if ([_formController isEqual: @"Jobs"]) {
             self.salesman.placeholder = @"Description";
             myCell.textLabel.text = @"Description";}
-        
+        // myCell.accessoryView = self.salesman;
         [myCell.contentView addSubview:self.salesman];
         
     } else if (indexPath.row == 2){

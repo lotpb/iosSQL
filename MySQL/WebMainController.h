@@ -7,11 +7,12 @@
 //
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 
 @interface WebMainController : UIViewController <WKScriptMessageHandler>
 
-//- (IBAction)actionButton:(id)sender;
 @property (strong, nonatomic) WKWebView *webView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segControl;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forwardButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *stop;

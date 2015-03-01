@@ -7,10 +7,8 @@
 //
 
 #import "BlogNewViewController.h"
-#import "Constants.h"
 
 @interface BlogNewViewController ()
-
 @end
 
 @implementation BlogNewViewController
@@ -80,50 +78,53 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
+    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
+   // UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:8.0];
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-
- //   UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(10, 7, 175, 30)];
- //   UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
     
-     if (indexPath.row == 0){
+    if (indexPath.row == 0){
+       // UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:11];
+        
+        if ([self.rating isEqual:@"5"] ) {
+            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+            [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+            } else {
+            activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
+            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            }
+        
+        activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        [myCell.contentView addSubview:activeImage];
 
-       myCell.textLabel.text = self.postby;
-       myCell.detailTextLabel.text = self.rating;
-         
-     } else if (indexPath.row == 1){
-         
-         myCell.textLabel.text = self.msgDate;
-         myCell.detailTextLabel.text = @"Date";
-
-   /*      self.msgDate = textframe;
-        [self.msgDate setFont:textFont];
-         self.msgDate.tag = 8;
-         self.msgDate.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.msgDate setClearButtonMode:UITextFieldViewModeWhileEditing];
-         if (self.msgDate.text.length == 0) {
-             NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-             gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-             gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-             NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-             self.msgDate.text = dateString; }
-         
-         [myCell.contentView addSubview:self.msgDate];
-             self.msgDate.inputView = [self datePicker:8]; */
-}
+        myCell.textLabel.text = self.postby;
+        myCell.detailTextLabel.text = @"";
+       // myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8.0];
+        //myCell.detailTextLabel.font = subFont;
+        
+    } else if (indexPath.row == 1){
+        //UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:11];//
+        myCell.textLabel.text = self.msgDate;
+        myCell.detailTextLabel.text = @"Date";
+      //  myCell.textLabel.font = subFont;
+      //  myCell.detailTextLabel.font = subFont;
+    }
+    
 return myCell;
-//return nil;
 }
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
     if([self.rating isEqualToString: @"4"]) {
        [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+        self.activeImage.image = [UIImage imageNamed:@"iosStar.png"];
         self.rating = @"5";
       } else {
        [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+        self.activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
         self.rating = @"4"; }
        [self.listTableView reloadData];
 }

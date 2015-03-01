@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate> //, UISearchBarDelegate>
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate> //NSFetchedResultsControllerDelegate
 {
     NSMutableArray *tableData, *filteredString;
     BOOL isFilltered;
@@ -17,5 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+
+//@property (strong, nonatomic) ResultsTableViewController *searchResultsController;
 
 @end

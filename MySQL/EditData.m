@@ -17,7 +17,6 @@
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
 @property (nonatomic, weak) UIStepper *defaultStepper;
-
 @end
 
 @implementation EditData
@@ -121,6 +120,9 @@
             salesArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
     }
+    
+    UIFont *textFont = [UIFont fontWithName:KEY_TABLEFONT size:14];
+    
           self.leadNo = self.leadNo;
           self.clearBTN.hidden = YES;
     
@@ -135,6 +137,10 @@
     if ([self.frm13 isEqual:[NSNull null]])
          self.company.text = @"";
     else self.company.text = self.frm13;
+    
+    [self.first setFont:textFont];
+    [self.last setFont:textFont];
+    [self.company setFont:textFont];
     
     if ([self.frm29 isEqual:[NSNull null]])
          self.photo.text = @"";
@@ -366,7 +372,7 @@ return 14;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BasicCell";
-    UIFont *textFont = [UIFont fontWithName:@"Helvetica" size:14.0];
+    UIFont *textFont = [UIFont fontWithName:KEY_TABLEFONT size:14];//[UIFont systemFontOfSize:14.0];
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
     UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(130, 7, 225, 95)];
     
@@ -408,9 +414,9 @@ return 14;
         if ([self.frm14 isEqual:[NSNull null]])
              self.address.text = @"";
         else self.address.text = self.frm14;
-          self.address.autocorrectionType = UITextAutocorrectionTypeNo;
-         [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
-          self.address.placeholder = @"Address";
+             self.address.autocorrectionType = UITextAutocorrectionTypeNo;
+            [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
+             self.address.placeholder = @"Address";
          myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
         

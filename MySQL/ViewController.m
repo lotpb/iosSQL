@@ -243,6 +243,8 @@
         else
         item = [filteredString objectAtIndex:indexPath.row];
 
+    [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
   //  UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
@@ -250,7 +252,7 @@
       //problem below with iphone 5 width
 
     label2.text=  item.date;
-    label2.font = [UIFont boldSystemFontOfSize:12.0];
+    [label2 setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];//[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
     [label2 setBackgroundColor:[UIColor redColor]];

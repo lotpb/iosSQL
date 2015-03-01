@@ -30,6 +30,7 @@
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -106,6 +107,7 @@
 {
     // Retrieve cell
     static NSString *CellIdentifier = @"BasicCell";
+    
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
    
     if (myCell == nil) {
@@ -113,6 +115,10 @@
         myCell.accessoryType = UITableViewCellAccessoryNone;
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+    [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
+    [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
     // Get references to labels of cell
     myCell.titleLabel.text = self.selectedLocation.postby;

@@ -32,11 +32,6 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
-
-    
-    
-    
-    
     
     /*
      self.searchBar.delegate = self;
@@ -74,20 +69,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
     refreshControl.attributedTitle = refreshString;
     [refreshView addSubview:refreshControl];
-}
-
-
-
-- (void)searchButton:(UIBarButtonItem *)sender {
-    // Create the search results view controller and use it for the UISearchController.
-    SearchResultsViewController *searchResultsController = [self.storyboard instantiateViewControllerWithIdentifier:SearchResultsViewControllerStoryboardIdentifier];
-    
-    // Create the search controller and make it perform the results updating.
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-    self.searchController.searchResultsUpdater = searchResultsController;
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-
-    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -208,6 +189,20 @@ return [tableData count];
 }
 
 #pragma mark - Search
+- (void)searchButton:(id)sender {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.delegate = self;
+    //self.searchController.searchBar.scopeButtonTitles = @[@"Posts", @"Users", @"Subreddits"];
+   // self.searchController.searchResultsDataSource = self;
+   // self.searchController.searchResultsDelegate = self;
+    [self presentViewController:self.searchController animated:YES completion:nil];
+}
+
 /*
 - (void)searchButton:(id)sender{
     

@@ -19,13 +19,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-- (IBAction)actionButton:(id)sender {
-    [UIApplication.sharedApplication openURL:self.webView.request.URL];
-} */
 
 - (void)viewDidLoad {
    [super viewDidLoad];
+    //SegmentControl Names
+    NSArray *names = [[NSArray alloc] initWithObjects:KEY_WEBNAME0, KEY_WEBNAME1, KEY_WEBNAME2, KEY_WEBNAME3, KEY_WEBNAME4, KEY_WEBNAME5, nil];
+    [names enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL *stop) {
+        [self.segControl setTitle:title forSegmentAtIndex:idx];
+    }];
     
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc]
                                              init];
@@ -38,7 +39,7 @@
     configuration.userContentController = controller;
     
     // This is the URL to be loaded into the WKWebView.
-    NSURL *jsbin = [NSURL URLWithString:@"http://www.cnn.com"];
+    NSURL *jsbin = [NSURL URLWithString:KEY_WEBPAGE0];
     
     // Initialize the WKWebView with the current frame and the configuration
     // setup above
@@ -67,46 +68,28 @@
         [_webView evaluateJavaScript:exec completionHandler:nil];
     }
 }
-/*
-- (IBAction)loadHtmlAction:(id)sender
-{
-    
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
-    NSLog(@"%@",url);
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    
-    
-}
-
-- (IBAction)loadDataAction:(id)sender
-{
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"sampleWord" withExtension:@"docx"];
-    NSLog(@"%@",url);
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    
-} */
 
 - (IBAction)WebTypeChanged:(id)sender {
     
     UISegmentedControl* segControl = (UISegmentedControl*)sender;
     NSURL *url ;
     if (segControl.selectedSegmentIndex == 0)
-        url = [[NSURL alloc] initWithString:@"http://www.cnn.com"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE0];
     
     else if (segControl.selectedSegmentIndex == 1)
-        url = [[NSURL alloc] initWithString:@"http://www.Drudgereport.com"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE1];
     
     else if (segControl.selectedSegmentIndex == 2)
-        url = [[NSURL alloc] initWithString:@"http://www.cnet.com"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE2];
     
     else if (segControl.selectedSegmentIndex == 3)
-        url = [[NSURL alloc] initWithString:@"http://www.theblaze.com"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE3];
     
     else if (segControl.selectedSegmentIndex == 4)
-        url = [[NSURL alloc] initWithString:@"http://finance.yahoo.com/mb/GTATQ/"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE4];
     
     else if (segControl.selectedSegmentIndex == 5)
-        url = [[NSURL alloc] initWithString:@"http://stocktwits.com/symbol/FB"];
+        url = [[NSURL alloc] initWithString:KEY_WEBPAGE5];
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [self.webView loadRequest:request];
@@ -135,32 +118,5 @@
     // we support rotation in this view controller
     return YES;
 }
-/*
-#pragma mark - UIWebViewDelegate
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    // starting the load, show the activity indicator (twirly) in the status bar
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
-    self.backButton.enabled = self.webView.canGoBack;
-    self.forwardButton.enabled = self.webView.canGoForward;
-    self.stop.enabled = self.webView.loading;
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    // finished loading, hide the activity indicator in the status bar
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
-   // below made title on TabBar
-   // self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    // load error, hide the activity indicator in the status bar
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    // report the error inside the webview
-    NSString* errorString = [NSString stringWithFormat:
-                             @"<html><center><font size=+5 color='red'>An error occurred:<br>%@</font></center></html>",
-                             error.localizedDescription];
-    [self.webView loadHTMLString:errorString baseURL:nil];
-    } */
 
 @end

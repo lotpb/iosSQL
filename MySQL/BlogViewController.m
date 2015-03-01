@@ -170,20 +170,34 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"blogCell";
+
+    UIFont *dateFont = [UIFont fontWithName:KEY_TABLEFONT size:10];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
-    UIFont *textFont = [UIFont boldSystemFontOfSize:9.0];
+    UIFont *likeFont = [UIFont boldSystemFontOfSize:9.0];
+    
+    //CustomTableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+
+    if (myCell == nil)
+   /* {
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
+        myCell = [nibArray objectAtIndex:0];
+    } */
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     BlogLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-
-    if (myCell == nil)
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    //not working below
+    if ([item.rating isEqualToString:@"4"])
+        label2.hidden = YES;
+    else label2.hidden = NO;
+    
     /*
     NSString *dateStr = item.msgDate;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -193,6 +207,9 @@
     [dateFormat setDateStyle:NSDateFormatterMediumStyle];
     [dateFormat setTimeStyle:NSDateFormatterNoStyle];
     dateStr = [dateFormat stringFromDate:date]; */
+    [myCell.blogtitleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
+    [myCell.blogsubtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.blogmsgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
     myCell.blogtitleLabel.text = item.postby;
     myCell.blogsubtitleLabel.text = item.subject;
@@ -200,19 +217,15 @@
     myCell.blog2ImageView.image = [UIImage imageNamed:@"DemoCellImage"];
     
     label2.text = @"Like";
-    label2.font = textFont;
+    label2.font = likeFont;
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
     [label2 setBackgroundColor:[UIColor redColor]];
    // label2.tag = 103;
     [myCell.contentView addSubview:label2];
-    
+
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if ([item.rating isEqual: @"4"])
-         label2.hidden = YES;
-    else label2.hidden = NO;
     return myCell;
-    
 }
 
 #pragma mark Tableheader
