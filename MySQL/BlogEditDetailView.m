@@ -116,8 +116,8 @@
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
-    [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 1)];
+    [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
     [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
     // Get references to labels of cell

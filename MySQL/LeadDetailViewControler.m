@@ -283,12 +283,12 @@ self.comments = news1;
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
-    myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
-    myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8];//[UIFont systemFontOfSize:8.0];
-   [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
-    myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
-    myCell.detailTextLabel.font = [UIFont fontWithName:KEY_TITLEFONT size:8];//[UIFont boldSystemFontOfSize:8.0];
-   [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
+     myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
+    [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE - 6)];
+    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
+     myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
+    [myCell.detailTextLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 6)];
+    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
         
     return myCell;
 }
@@ -301,12 +301,12 @@ self.comments = news1;
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
-    myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
-    myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8];//[UIFont systemFontOfSize:8.0];
-   [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
-    myCell.detailTextLabel.text = [tableData2 objectAtIndex:indexPath.row];
-    myCell.detailTextLabel.font = [UIFont fontWithName:KEY_TITLEFONT size:8];//[UIFont boldSystemFontOfSize:8.0];
-   [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
+     myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
+    [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE - 6)];
+    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
+     myCell.detailTextLabel.text = [tableData2 objectAtIndex:indexPath.row];
+    [myCell.detailTextLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 6)];
+    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
 
         //draw red vertical line
     UIView *vertLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, myCell.frame.size.height)];
@@ -318,7 +318,7 @@ self.comments = news1;
     else if ([tableView isEqual:self.newsTableView]) {
         
         NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-        [dateFormater setDateFormat:@"yyyy-MM-dd"];
+        [dateFormater setDateFormat:KEY_DATESQLFORMAT];
         dateFormater.timeZone = [NSTimeZone localTimeZone];
         NSDate *creationDate = [dateFormater dateFromString:self.date];
         NSDate *datetime1 = creationDate;

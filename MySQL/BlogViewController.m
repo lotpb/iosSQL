@@ -13,13 +13,12 @@
 {
     BlogModel *_BlogModel; NSMutableArray *_feedItems; BlogLocation *_selectedLocation;
     UIRefreshControl *refreshControl;
-   // NSString *msgNo; //added
 }
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
+
 @end
 
 @implementation BlogViewController
-@synthesize searchBar;
 
 - (void)viewDidLoad
 {
@@ -28,13 +27,6 @@
     self.title =  @"Blog";
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    self.searchBar.delegate = self;
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
-    self.definesPresentationContext = YES;
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
   
     _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
     _BlogModel.delegate = self; [_BlogModel downloadItems];
@@ -43,7 +35,7 @@
     
 #pragma mark Bar Button
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(foundView:)];
-     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
@@ -170,8 +162,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"blogCell";
-
-    UIFont *dateFont = [UIFont fontWithName:KEY_TABLEFONT size:10];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
     UIFont *likeFont = [UIFont boldSystemFontOfSize:9.0];
@@ -198,15 +188,6 @@
         label2.hidden = YES;
     else label2.hidden = NO;
     
-    /*
-    NSString *dateStr = item.msgDate;
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd+hh:mm:ss"];
-    NSDate *date = [dateFormat dateFromString:dateStr];
-    // Convert date object to desired output format
-    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormat setTimeStyle:NSDateFormatterNoStyle];
-    dateStr = [dateFormat stringFromDate:date]; */
     [myCell.blogtitleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
     [myCell.blogsubtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     [myCell.blogmsgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
@@ -290,14 +271,36 @@
 }
 
 #pragma mark - Search
-- (void)searchButton:(id)sender{
-     self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];}
+- (void)searchButton:(id)sender {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    //self.navigationItem.titleView = self.searchController.searchBar;
+    // self.listTableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
+    [self presentViewController:self.searchController animated:YES completion:nil];
+}
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-     self.searchBar.text=@"";
-     self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
+ - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+ {
+ [self updateSearchResultsForSearchController:self.searchController];
+ } 
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
+    if (!searchController.active) {
+        return;
+    }
+    
+    //NSString *searchText = searchController.searchBar.text;
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -314,28 +317,28 @@
         
         for(BlogLocation* string in _feedItems)
         {
-            if (self.searchBar.selectedScopeButtonIndex == 0)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 1)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 2)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 3)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)

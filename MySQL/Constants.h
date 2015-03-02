@@ -14,19 +14,21 @@
 #define KEY_IMAGE @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_FONT @"ArialMT" //news
-#define KEY_TABLEFONT @"HelveticaNeue"
-#define KEY_TITLEFONT @"HelveticaNeue-Medium"
-#define KEY_TITLEBOLDFONT @"HelveticaNeue-Bold"
-// For text, messages, etc
-#define DEFAULT_FONTSIZE    15
-#define DEFAULT_FONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]
-#define DEFAULT_BOLDFONT(s) [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
-// For table cells
+
+     // For text, messages, etc
+//#define DEFAULT_FONTSIZE    14
+//#define DEFAULT_FONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]
+//#define DEFAULT_BOLDFONT(s) [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+
+     // For table cells
 #define CELL_FONTSIZE    14
 #define CELL_FONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_MEDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
 #define CELL_BOLDFONT(s) [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+
 #define KEY_DATESQLFORMAT @"yyyy-MM-dd" //new dataView
-#define KEY_DATEFORMAT @"yyyy-MM-dd 'at' HH:mm" //news
+#define KEY_DATETIME @"yyyy-MM-dd HH:mm:ss" //news
+#define KEY_DATEREFRESH @"MMM d, h:mm a"
 #define KEY_USER @"username"  // BogNew
 #define NY_LATITUDE 40.714353  //  MapController.h
 #define NY_LONGTITUDE -74.005973

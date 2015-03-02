@@ -223,7 +223,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
-    [self.first becomeFirstResponder];
+     if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) )
+    [self.company becomeFirstResponder];
+   else [self.first becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -476,9 +478,9 @@
     pickerView.backgroundColor = [UIColor lightGrayColor];
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-    datePicker.tag = 5;
+     datePicker.tag = 5;
     [datePicker setDatePickerMode:UIDatePickerModeDate];
-    datePicker.timeZone = [NSTimeZone localTimeZone];
+     datePicker.timeZone = [NSTimeZone localTimeZone];
     [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     [pickerView addSubview:datePicker];
     

@@ -145,7 +145,6 @@
 {
     static NSString *CellIdentifier = @"BasicCell";
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
-    UIFont *textFont = [UIFont fontWithName:KEY_TABLEFONT size:14];//[UIFont systemFontOfSize:14.0];
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -157,10 +156,10 @@
         
         UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
         if ( [self.frm11 isEqual:@"Active"] )
-            [theSwitch setOn:YES];
+             [theSwitch setOn:YES];
         else [theSwitch setOn:NO];
         [myCell addSubview:theSwitch];
-        myCell.accessoryView = theSwitch;
+         myCell.accessoryView = theSwitch;
  
         if ([self.frm11 isEqual:@"Active"] ) {
             self.active.text = self.frm11;
@@ -183,7 +182,7 @@
     } else if (indexPath.row == 1){
         
          self.salesman = textframe;
-        [self.salesman setFont:textFont];
+        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm13 isEqual:[NSNull null]])
              self.salesman.text = @"";
         else self.salesman.text = self.frm13;
@@ -212,7 +211,7 @@
     } else if (indexPath.row == 2){
         
          self.salesNo = textframe;
-        [self.salesNo setFont:textFont];
+        [self.salesNo setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm12 isEqual:[NSNull null]])
              self.salesNo.text = @"";
         else self.salesNo.text = self.frm12;
@@ -264,7 +263,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{
     NSString *headerTitle;
-    if (section==0) {
+    if (section == 0) {
         headerTitle = @"Info";
     } else {
         headerTitle = @"Section 2 Header";
@@ -274,7 +273,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
 (NSInteger)section{
     NSString *footerTitle;
-    if (section==0) {
+    if (section == 0) {
         footerTitle = @"MySQL! :)";
     } else {
         footerTitle = @"Section 2 Footer";

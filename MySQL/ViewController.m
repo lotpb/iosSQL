@@ -113,7 +113,7 @@
     static NSDateFormatter *formatter = nil;
     if (formatter == nil)
     { NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [ formatter setDateFormat:@"MMM d, h:mm a"];
+    [ formatter setDateFormat:KEY_DATEREFRESH];
       NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
       refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
     }

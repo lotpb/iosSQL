@@ -18,11 +18,9 @@
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
-//@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation MainViewController
-//@synthesize searchBar;
 
 - (void)viewDidLoad
 {
@@ -32,6 +30,7 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
+   
     
     /*
      self.searchBar.delegate = self;
@@ -191,31 +190,37 @@ return [tableData count];
 #pragma mark - Search
 - (void)searchButton:(id)sender {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchResultsUpdater = self;
-    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.definesPresentationContext = YES;
     self.searchController.searchBar.delegate = self;
-    //self.searchController.searchBar.scopeButtonTitles = @[@"Posts", @"Users", @"Subreddits"];
-   // self.searchController.searchResultsDataSource = self;
-   // self.searchController.searchResultsDelegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+   [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor redColor];
+     //self.listTableView.contentInset = UIEdgeInsetsMake(110, 0, 0, 0);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.navigationController.translucent = true;
+    //self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    //self.navigationItem.titleView = self.searchController.searchBar;
+   // self.listTableView.tableHeaderView = self.searchController.searchBar;
+   // self.searchController.searchBar.scopeButtonTitles = @[@"Posts", @"Users", @"Subreddits"];
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
-
 /*
-- (void)searchButton:(id)sender{
-    
-     self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];
-}
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self updateSearchResultsForSearchController:self.searchController];
+} */
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
+    if (!searchController.active) {
+        return;
+    }
     
-    self.searchBar.text=@"";
-    self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
-   // [self.listTableView reloadData];
+     //NSString *searchText = searchController.searchBar.text;
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -233,7 +238,7 @@ return [tableData count];
         }
     }
     [self.listTableView reloadData];
-} */
+}
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

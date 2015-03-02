@@ -33,7 +33,7 @@
     if (self.textcontentsubject.length == 0) {
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        gmtDateFormatter.dateFormat = KEY_DATETIME;
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
         self.msgDate = dateString;
         self.rating = @"4";
@@ -79,7 +79,6 @@
 {
     static NSString *CellIdentifier = @"BasicCell";
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
-   // UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:8.0];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -87,7 +86,6 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
     
     if (indexPath.row == 0){
-       // UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:11];
         
         if ([self.rating isEqual:@"5"] ) {
             activeImage.image = [UIImage imageNamed:@"iosStar.png"];
@@ -96,23 +94,19 @@
             activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
             }
-        
-        activeImage.contentMode = UIViewContentModeScaleAspectFit;
+         activeImage.contentMode = UIViewContentModeScaleAspectFit;
         [myCell.contentView addSubview:activeImage];
-
-        myCell.textLabel.text = self.postby;
-        myCell.detailTextLabel.text = @"";
-       // myCell.textLabel.font = [UIFont fontWithName:KEY_TABLEFONT size:8.0];
-        //myCell.detailTextLabel.font = subFont;
+        
+        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+         myCell.textLabel.text = self.postby;
+         myCell.detailTextLabel.text = @"";
         
     } else if (indexPath.row == 1){
-        //UIFont *subFont = [UIFont fontWithName:KEY_TABLEFONT size:11];//
-        myCell.textLabel.text = self.msgDate;
-        myCell.detailTextLabel.text = @"Date";
-      //  myCell.textLabel.font = subFont;
-      //  myCell.detailTextLabel.font = subFont;
-    }
-    
+        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+         myCell.textLabel.text = self.msgDate;
+         myCell.detailTextLabel.text = @"Date";
+        }
 return myCell;
 }
 
@@ -128,27 +122,12 @@ return myCell;
         self.rating = @"4"; }
        [self.listTableView reloadData];
 }
-/*
-#pragma mark Date Picker
-- (UIView *)datePicker:(NSUInteger)tag{
-    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
-    pickerView.backgroundColor = [UIColor lightGrayColor];
-    
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-    datePicker.tag = tag;
-    [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
-    datePicker.timeZone = [NSTimeZone localTimeZone];
-    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [pickerView addSubview:datePicker];
-    
-    return pickerView;
-} */
 
 -(void)onDatePickerValueChanged:(UIDatePicker *)myDatePicker
 {
     NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
     gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    gmtDateFormatter.dateFormat = KEY_DATETIME;
     self.msgDate = [gmtDateFormatter stringFromDate:myDatePicker.date];
 }
 

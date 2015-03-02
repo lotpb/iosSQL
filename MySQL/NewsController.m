@@ -156,9 +156,6 @@
         [wallImageView addSubview:infoLabel];
             
         NSDate *creationDate = wallObject.createdAt;
-      //  NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-     //   dateFormater.timeZone = [NSTimeZone localTimeZone];;
-     //   [dateFormater setDateFormat:KEY_DATEFORMAT];
         NSDate *datetime1 = creationDate;
         NSDate *datetime2 = [NSDate date];
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);

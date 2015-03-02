@@ -13,7 +13,7 @@
 #import "BlogNewViewController.h"
 #import "Constants.h"
 
-@interface BlogViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, BlogModelProtocol>
+@interface BlogViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, BlogModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;
