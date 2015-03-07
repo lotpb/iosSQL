@@ -14,8 +14,8 @@
     NSMutableArray *salesArray, *jobArray, *prodArray;
     CustModel *_CustModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
-//@property (nonatomic, weak) IBOutlet UIStepper *defaultStepper;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
+
 @end
 
 @implementation CustController
@@ -26,12 +26,6 @@
     self.title =  @"Customer";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    self.searchBar.delegate = self;
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date", @"active"];
-    self.definesPresentationContext = YES;
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"Product"];
     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -306,21 +300,36 @@
 
 #pragma mark - SearchBar
 - (void)searchButton:(id)sender {
-    
-     self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date", @"active"];
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    
-     self.searchBar.text=@"";
-     self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
-    
-}
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (!searchController.active){
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        return;
+    }
+    
+    NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
     {
         isFilltered = NO;
@@ -330,7 +339,7 @@
         
         for(CustLocation* string in _feedItems)
         {
-            if (self.searchBar.selectedScopeButtonIndex == 0)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
@@ -338,7 +347,7 @@
                 }
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 1)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
@@ -346,7 +355,7 @@
                 }
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 2)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
@@ -354,7 +363,7 @@
                 }
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 3)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
@@ -362,7 +371,7 @@
                 }
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 4)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 4)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound) {
@@ -371,7 +380,10 @@
             }
         }
     }
+    
+    [self.listTableView reloadData];
 }
+
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

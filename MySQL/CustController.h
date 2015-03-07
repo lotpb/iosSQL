@@ -12,7 +12,7 @@
 #import "NewData.h"
 #import "MapViewController.h"
 
-@interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CustModelProtocol>
+@interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, CustModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

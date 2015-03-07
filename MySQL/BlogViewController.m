@@ -183,7 +183,7 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    //not working below
+    //not working properly below
     if ([item.rating isEqualToString:@"4"])
         label2.hidden = YES;
     else label2.hidden = NO;
@@ -286,35 +286,24 @@
     //self.navigationItem.titleView = self.searchController.searchBar;
     // self.listTableView.tableHeaderView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
  - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
  {
  [self updateSearchResultsForSearchController:self.searchController];
- } 
+ }
 
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
-    if (!searchController.active) {
-        return;
-    }
-    
-    //NSString *searchText = searchController.searchBar.text;
-}
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
-    {
         isFilltered = NO;
-       //[filteredString removeAllObjects];
-      // [filteredString addObjectsFromArray:_feedItems];
-    } else {
+    else {
         isFilltered = YES;
-       //[filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
-        
         for(BlogLocation* string in _feedItems)
         {
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
@@ -346,6 +335,8 @@
             }
         }
     }
+
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Segue

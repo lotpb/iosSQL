@@ -10,7 +10,7 @@
 #import "JobModel.h"
 #import "NewDataDetail.h"
 
-@interface JobViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, JobModelProtocol>
+@interface JobViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, JobModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

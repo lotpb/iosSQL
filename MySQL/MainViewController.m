@@ -184,6 +184,11 @@ return [tableData count];
        else
        myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
     
+    if(self.searchController.searchBar.text.length > 0) {
+        
+        myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
     return myCell;
 }
 
@@ -194,12 +199,13 @@ return [tableData count];
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     self.searchController.searchBar.tintColor = [UIColor redColor];
-     //self.listTableView.contentInset = UIEdgeInsetsMake(110, 0, 0, 0);
+    self.searchController.hidesBottomBarWhenPushed = YES;
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
     //self.navigationController.translucent = true;
     //self.searchController.searchBar.barTintColor = [UIColor clearColor];
@@ -208,19 +214,14 @@ return [tableData count];
    // self.searchController.searchBar.scopeButtonTitles = @[@"Posts", @"Users", @"Subreddits"];
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
-/*
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
-{
-    [self updateSearchResultsForSearchController:self.searchController];
-} */
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
     if (!searchController.active) {
+         self.listTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         return;
     }
-    
-     //NSString *searchText = searchController.searchBar.text;
+
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

@@ -10,7 +10,7 @@
 #import "ProductModel.h"
 #import "NewDataDetail.h"
 
-@interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ProductModelProtocol>
+@interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ProductModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

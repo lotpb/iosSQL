@@ -12,7 +12,7 @@
 #import "NewData.h"
 #import "LeadDetailViewControler.h"
 
-@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, VendorModelProtocol>
+@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, VendorModelProtocol>
 {
    // NSMutableArray *_feedItems;
  NSMutableArray *filteredString;

@@ -10,7 +10,7 @@
 #import "AdModel.h"
 #import "NewDataDetail.h"
 
-@interface AdvertisingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, AdModelProtocol>
+@interface AdvertisingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, AdModelProtocol>
 {
     // NSMutableArray *_feedItems;
     NSMutableArray *filteredString;

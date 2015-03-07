@@ -15,7 +15,7 @@
     AdModel *_AdModel; NSMutableArray *_feedItems; AdLocation *_selectedLocation; UIRefreshControl *refreshControl;
     NSMutableArray *adCount;
 }
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation AdvertisingViewController
@@ -25,11 +25,6 @@
 {
     [super viewDidLoad];
     self.title =  @"Advertising";
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"advertisement",@"adNo",@"active"];
-    self.definesPresentationContext = YES;
     
     _feedItems = [[NSMutableArray alloc] init];
     _AdModel = [[AdModel alloc] init];
@@ -214,18 +209,37 @@
 }
 
 #pragma mark - Search
-- (void)searchButton:(id)sender{
-     self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-     self.searchBar.text=@"";
-     self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
+- (void)searchButton:(id)sender {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.searchController.searchBar.scopeButtonTitles = @[@"advertisement",@"adNo",@"active"];
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (!searchController.active){
+        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        return;
+    }
+    
+    NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
     {
         isFilltered = NO;
@@ -235,21 +249,21 @@
         
         for(AdLocation *string in _feedItems)
         {
-            if (self.searchBar.selectedScopeButtonIndex == 0)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.Advertiser rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 1)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.AdNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 2)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
@@ -257,6 +271,7 @@
             }
         }
     }
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Segue

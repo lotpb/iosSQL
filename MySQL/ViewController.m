@@ -16,12 +16,11 @@
     UIRefreshControl *refreshControl;
 }
 @property (strong, nonatomic) NSString *tsa22;
-//@property (nonatomic, strong) UISearchController *searchController;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
+
 @end
 
 @implementation ViewController
-@synthesize searchBar;
 
 - (void)viewDidLoad
 {
@@ -30,18 +29,6 @@
     self.title =  @"Leads";
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    self.searchBar.delegate = self;
-    self.searchBar.returnKeyType = UIReturnKeySearch;
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
-  //  self.searchBar.hidesNavigationBarDuringPresentation = false;
-    self.definesPresentationContext = YES;
-   //  self.searchController.displaysSearchBarInNavigationBar = YES;
-     //self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
-    //[self.navigationController.navigationBar addSubview:searchBar];
-     //self.listTableView.tableHeaderView = self.searchBar;
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
     query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -125,7 +112,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.searchBar resignFirstResponder];
+  //  [self.searchBar resignFirstResponder];
 }
 
 -(void)didReceiveMemoryWarning {
@@ -326,66 +313,82 @@
 
 #pragma mark - search
 - (void)searchButton:(id)sender {
-    
-    self.searchBar.hidden = NO;
-   [self.searchBar becomeFirstResponder];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-  
-     self.searchBar.text=@"";
-     self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
-
-}
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
-    if(searchText.length == 0)
+    [self updateSearchResultsForSearchController:self.searchController];
+}
 
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (!searchController.active){
+        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        return;
+    }
+    
+    NSString *searchText = searchController.searchBar.text;
+    if(searchText.length == 0)
+        
         isFilltered = NO;
-     else {
+    else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         
         for(Location* string in _feedItems)
-        {   
-            if (self.searchBar.selectedScopeButtonIndex == 0)
+        {
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
-               NSRange stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-              if(stringRange.location != NSNotFound)
-                [filteredString addObject:string];
+                NSRange stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                if(stringRange.location != NSNotFound)
+                    [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 1)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 2)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 3)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
             
-            if (self.searchBar.selectedScopeButtonIndex == 4)
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 4)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
             }
         }
-     }
+    }
+   [self.listTableView reloadData];  
 }
 
 - (void)passDataBack {

@@ -12,7 +12,7 @@
 #import "NewData.h"
 #import "LeadDetailViewControler.h"
 
-@interface EmployeeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, EmployeeModelProtocol>
+@interface EmployeeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, EmployeeModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

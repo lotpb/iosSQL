@@ -10,7 +10,7 @@
 #import "SalesModel.h"
 #import "NewDataDetail.h"
 
-@interface SalesmanViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SalesModelProtocol>
+@interface SalesmanViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, SalesModelProtocol>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;
