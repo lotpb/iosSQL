@@ -17,7 +17,7 @@
 - (void)salesNameFromController:(NSString *)passedData;
 
 @end
-@interface LookupSalesman : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface LookupSalesman : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 
 {
     NSMutableArray *filteredString;

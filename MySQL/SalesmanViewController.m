@@ -25,12 +25,6 @@
 {
     [super viewDidLoad];
     self.title =  @"Salesman";
- /*   self.searchBar.delegate = self;
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"salesman",@"salesNo",@"active"];
-    self.definesPresentationContext = YES; */
     
     _feedItems = [[NSMutableArray alloc] init];
     _SalesModel = [[SalesModel alloc] init];
@@ -143,7 +137,7 @@ return _feedItems.count;
     SalesLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-     else
+        else
         item = [filteredString objectAtIndex:indexPath.row];
     
         myCell.textLabel.text = item.salesman;
@@ -232,6 +226,7 @@ return _feedItems.count;
     self.searchController.searchBar.scopeButtonTitles = @[@"salesman",@"salesNo",@"active"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
@@ -248,14 +243,11 @@ return _feedItems.count;
     }
     
     NSString *searchText = searchController.searchBar.text;
-    if(searchText.length == 0)
-    {
+     if(searchText.length == 0)
+    
         isFilltered = NO;
-        // [filteredString removeAllObjects];
-        // [filteredString addObjectsFromArray:_feedItems];
-    } else {
+        else {
         isFilltered = YES;
-        //  [filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
         
         for(SalesLocation* string in _feedItems)
@@ -282,14 +274,17 @@ return _feedItems.count;
             }
         }
     }
-    
-    [self.listTableView reloadData];
+  [self.listTableView reloadData];
 }
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{   // Set selected location to var
-    _selectedLocation = _feedItems[indexPath.row];
+{
+    if (!isFilltered)
+        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+    else
+        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+    
     [self performSegueWithIdentifier:@"salesmanDetailSegue" sender:self];
 }
 

@@ -304,7 +304,7 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
+   [self.searchController.searchBar sizeToFit];
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
@@ -313,8 +313,10 @@
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date", @"active"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self presentViewController:self.searchController animated:YES completion:nil];
+    
+   [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -331,9 +333,8 @@
     
     NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
-    {
         isFilltered = NO;
-    } else {
+        else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         
@@ -342,52 +343,47 @@
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
                 NSRange stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
                 NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
                 NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
                 NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 4)
             {
                 NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
+                if(stringRange.location != NSNotFound)
                     [filteredString addObject:string];
-                }
             }
         }
     }
-    
-    [self.listTableView reloadData];
+  [self.listTableView reloadData];
 }
 
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{     if (!isFilltered)
+{
+    if (!isFilltered)
      _selectedLocation = _feedItems[indexPath.row];
       else
      _selectedLocation = [filteredString objectAtIndex:indexPath.row];

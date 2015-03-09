@@ -78,12 +78,9 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
                              }];
-  
-    
     [view addAction:ok];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
-
 }
 
 #pragma mark - TableView
@@ -91,6 +88,7 @@
 {   // Return the number of feed items (initially 0)
     return 1;
 }
+
 //this keep contraint errors away don't remove
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -107,6 +105,7 @@
 {
     // Retrieve cell
     static NSString *CellIdentifier = @"BasicCell";
+      //  UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
    
@@ -114,7 +113,7 @@
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         myCell.accessoryType = UITableViewCellAccessoryNone;
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+        }
     
     [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 1)];
     [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
@@ -126,20 +125,22 @@
     myCell.msgDateLabel.text = self.selectedLocation.msgDate;
     myCell.blogImageView.image = [[UIImage imageNamed:@"DemoCellImage"] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
     
-     // (x, y, width, height)
-    CGRect frame1=CGRectMake(20,145, 30, 11);
-    UILabel *label2=[[UILabel alloc]init];
-    label2.frame=frame1;
-    label2.text=  @"Like";
+    if ([self.selectedLocation.rating isEqual: @"5"]) {
+     //    label2.hidden = YES;
+     //    else {
+     //    label2.hidden = NO;
+     [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+     [self.Like setBackgroundColor:[UIColor redColor]];
+     [self.Like setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+      self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    }
+ /*   label2.text=  @"Like";
     label2.font = [UIFont boldSystemFontOfSize:9.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
     [label2 setBackgroundColor:[UIColor redColor]];
     label2.tag = 103;
-    if ([self.selectedLocation.rating isEqual: @"4"])
-    { label2.hidden = YES; }
-    else { label2.hidden = NO; };
-    [myCell.contentView addSubview:label2];
+    [myCell.contentView addSubview:label2]; */
     
     return myCell;
 }

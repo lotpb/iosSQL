@@ -19,7 +19,7 @@
 
 @end
 
-@interface LookupCity : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface LookupCity : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

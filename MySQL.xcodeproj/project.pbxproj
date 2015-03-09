@@ -633,6 +633,10 @@
 		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				AF68D6BF1A921A130014106A /* SearchResultsViewController.h */,
+				AF68D6C01A921A130014106A /* SearchResultsViewController.m */,
+				AF68D6C21A926C0B0014106A /* SearchControllerBaseViewController.h */,
+				AF68D6C31A926C0B0014106A /* SearchControllerBaseViewController.m */,
 				AFA71F0A1A61927900FBEDEE /* EditDataViewController.h */,
 				AFA71F0B1A61927900FBEDEE /* EditDataViewController.m */,
 				AF99267A1A4C6B0C00429EC8 /* CollectionViewController.h */,
@@ -817,10 +821,6 @@
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
-				AF68D6BF1A921A130014106A /* SearchResultsViewController.h */,
-				AF68D6C01A921A130014106A /* SearchResultsViewController.m */,
-				AF68D6C21A926C0B0014106A /* SearchControllerBaseViewController.h */,
-				AF68D6C31A926C0B0014106A /* SearchControllerBaseViewController.m */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AFBC9E9119D9CEDF0050E67A /* Images.xcassets */,

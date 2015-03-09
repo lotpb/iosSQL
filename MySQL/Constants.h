@@ -30,6 +30,7 @@
 #define KEY_DATETIME @"yyyy-MM-dd HH:mm:ss" //news
 #define KEY_DATEREFRESH @"MMM d, h:mm a"
 #define KEY_USER @"username"  // BogNew
+#define KEY_EMAIL @"emailKey"  // BogNew
 #define NY_LATITUDE 40.714353  //  MapController.h
 #define NY_LONGTITUDE -74.005973
 #define ROW_HEIGHT 44.0f

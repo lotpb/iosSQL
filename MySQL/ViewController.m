@@ -251,7 +251,6 @@
 
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
     if (!isFilltered)
         return 55.0;
     else
@@ -317,7 +316,7 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
+   [self.searchController.searchBar sizeToFit];
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
@@ -326,8 +325,9 @@
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self presentViewController:self.searchController animated:YES completion:nil];
+   [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -426,6 +426,7 @@
     NSLog(@"Peter is %@",self.tsa22);
     }]; */
 }
+
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -435,7 +436,6 @@
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
        [self performSegueWithIdentifier:@"detailSegue" sender:self];
-   
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UILabel *rating;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *subtitleLabel;
-//@property (weak, nonatomic) IBOutlet UILabel *Like;
+@property (weak, nonatomic) IBOutlet UIButton *Like;
 @property (weak, nonatomic) IBOutlet UIButton *update;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) BlogLocation *selectedLocation;

@@ -131,7 +131,6 @@
                                  [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
                                  //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
@@ -141,8 +140,6 @@
                                      [view dismissViewControllerAnimated:YES completion:nil];
                                      
                                  }];
-        
-        
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
@@ -166,27 +163,18 @@
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
     UIFont *likeFont = [UIFont boldSystemFontOfSize:9.0];
     
-    //CustomTableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     if (myCell == nil)
-   /* {
-        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
-        myCell = [nibArray objectAtIndex:0];
-    } */
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     BlogLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-    else
+        else
         item = [filteredString objectAtIndex:indexPath.row];
-    
-    //not working properly below
-    if ([item.rating isEqualToString:@"4"])
-        label2.hidden = YES;
-    else label2.hidden = NO;
     
     [myCell.blogtitleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
     [myCell.blogsubtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
@@ -197,15 +185,19 @@
     myCell.blogmsgDateLabel.text = item.msgDate; //dateStr;
     myCell.blog2ImageView.image = [UIImage imageNamed:@"DemoCellImage"];
     
-    label2.text = @"Like";
-    label2.font = likeFont;
-    label2.textAlignment = NSTextAlignmentCenter;
+    //not working properly below
+    if ([item.rating isEqual:@"5"])
+         label2.hidden = NO;
+    else label2.hidden = YES;
+    
+     label2.text = @"Like";
+     label2.font = likeFont;
+     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
     [label2 setBackgroundColor:[UIColor redColor]];
    // label2.tag = 103;
     [myCell.contentView addSubview:label2];
-
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return myCell;
 }
 
@@ -213,7 +205,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
         return 55.0;
-    else
+        else
         return 0.0;
 }
 
@@ -264,7 +256,7 @@
     
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
-    else
+        else
         [view setBackgroundColor:[UIColor blackColor]];
     
     return view;
@@ -276,7 +268,7 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
+   [self.searchController.searchBar sizeToFit];
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
@@ -284,11 +276,12 @@
     self.searchController.searchBar.tintColor = [UIColor whiteColor];
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     //self.navigationItem.titleView = self.searchController.searchBar;
-    // self.listTableView.tableHeaderView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self presentViewController:self.searchController animated:YES completion:nil];
+    
+   [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
  - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -298,10 +291,15 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    if (!searchController.active){
+        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        return;
+    }
+    
     NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
         isFilltered = NO;
-    else {
+        else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(BlogLocation* string in _feedItems)
@@ -335,7 +333,6 @@
             }
         }
     }
-
     [self.listTableView reloadData];
 }
 
@@ -344,12 +341,14 @@
 {
     if (!isFilltered)
         _selectedLocation = _feedItems[indexPath.row];
-    else
+        else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+    
     [self performSegueWithIdentifier:@"blogviewSegue" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([[segue identifier] isEqualToString:@"blogviewSegue"])
    {
     BlogEditDetailView*detailVC = segue.destinationViewController;

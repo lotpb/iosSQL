@@ -17,11 +17,10 @@
 }
 @property (strong, nonatomic) NSString *tpr22;
 @property (strong, nonatomic) NSString *tpn22;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation LookupProduct
-@synthesize searchBar;
 
 - (void)viewDidLoad
 {
@@ -31,11 +30,23 @@
     else self.title =  @"Advertising lookup"; 
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    self.searchBar.delegate = self;
-   [self.searchBar becomeFirstResponder];
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.listTableView.tableHeaderView = self.searchBar;
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
     self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    // self.navigationItem.titleView = self.searchController.searchBar;
+    [self presentViewController:self.searchController animated:YES completion:nil];
     
     adproductArray = [[NSMutableArray alloc] init];
     
@@ -72,49 +83,23 @@
     }]; }
     
     filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
-    
+ /*
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    self.navigationItem.rightBarButtonItems = actionButtonItems; */
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-     self.searchBar.clipsToBounds = YES;
-    [self.searchBar becomeFirstResponder];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    [self resignFirstResponder];
+    [super viewDidAppear:animated];
+    [self.searchController.searchBar becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
-/*
-#pragma mark TableView Delete Button
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return UITableViewCellEditingStyleDelete;
-}
-
-- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
-    
-    [super setEditing:editing animated:animated];
-    [self.listTableView setEditing:editing animated:animated];
-}
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-    }
-} */
 
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -150,27 +135,30 @@
 }
 
 #pragma mark - Search
-- (void)searchButton:(id)sender{
-    [self.searchBar becomeFirstResponder];
-}
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    self.searchBar.text=@"";
-   [self.searchBar resignFirstResponder];
-}
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (!searchController.active){
+        self.listTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        return;
+    }
+    
+    NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
         isFilltered = NO;
-       else {
+    else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in adproductArray)
         {
-        NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if(stringRange.location != NSNotFound) {
-          [filteredString addObject:str]; }
+            NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:str];
         }
     }
     [self.listTableView reloadData];

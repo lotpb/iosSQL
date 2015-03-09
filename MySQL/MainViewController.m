@@ -31,15 +31,6 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = [UIColor clearColor];
    
-    
-    /*
-     self.searchBar.delegate = self;
-     self.searchBar.returnKeyType = UIReturnKeySearch;
-     self.searchBar.hidden = YES;
-     self.searchBar.barTintColor = [UIColor clearColor];
-     self.definesPresentationContext = YES;
-     //self.listTableView.tableHeaderView = self.searchBar; */
-   
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
@@ -206,12 +197,13 @@ return [tableData count];
     self.searchController.searchBar.tintColor = [UIColor redColor];
     self.searchController.hidesBottomBarWhenPushed = YES;
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    //self.navigationController.translucent = true;
+    
     //self.searchController.searchBar.barTintColor = [UIColor clearColor];
     //self.navigationItem.titleView = self.searchController.searchBar;
    // self.listTableView.tableHeaderView = self.searchController.searchBar;
-   // self.searchController.searchBar.scopeButtonTitles = @[@"Posts", @"Users", @"Subreddits"];
+
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
@@ -220,7 +212,7 @@ return [tableData count];
     if (!searchController.active) {
          self.listTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         return;
-    }
+       }
 
 }
 

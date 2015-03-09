@@ -223,6 +223,7 @@
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     self.searchController.searchBar.scopeButtonTitles = @[@"advertisement",@"adNo",@"active"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
@@ -277,7 +278,11 @@
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _selectedLocation = _feedItems[indexPath.row];
+    if (!isFilltered)
+        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+        else
+        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+    
     [self performSegueWithIdentifier:@"adDetailSegue" sender:self];
 }
 

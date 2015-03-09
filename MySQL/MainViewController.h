@@ -18,6 +18,4 @@
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 
-//@property (strong, nonatomic) ResultsTableViewController *searchResultsController;
-
 @end

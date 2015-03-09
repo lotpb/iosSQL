@@ -18,7 +18,7 @@
 
 @end
 
-@interface LookupJob : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface LookupJob : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 
 {
     NSMutableArray *filteredString;

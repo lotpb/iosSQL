@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h> 
+#import "Constants.h"
 
-@interface SidebarViewController : UITableViewController <MFMailComposeViewControllerDelegate> 
+
+@interface SidebarViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @end
 

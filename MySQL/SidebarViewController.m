@@ -95,8 +95,7 @@ NSArray *menuItems;
 //| ----------------------------------------------------------------------------
 
   //tried estimateheight but didnt work this logiIn
-- (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
 
@@ -117,7 +116,39 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = [menuItems objectAtIndex:indexPath.row];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString* const userNameKey = KEY_USER;
+    NSString* const EmailKey = KEY_EMAIL;
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(65, 4, 110, 14)];
+    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(65, 18, 110, 14)];
+    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(25, 1, 29, 27)];
+    
     UITableViewCell *Cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    if (indexPath.row == 0){
+ 
+        activeImage.image = [UIImage imageNamed:@"user_male-128.png"];
+        activeImage.backgroundColor = [UIColor grayColor];
+        //[activeImage setTintColor:[UIColor whiteColor]];
+        //activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        activeImage.layer.cornerRadius = activeImage.frame.size.width / 2.2;
+        activeImage.layer.borderWidth = 1.5f;
+        activeImage.layer.borderColor = [UIColor whiteColor].CGColor;
+        activeImage.clipsToBounds = YES;
+       [Cell.contentView addSubview:activeImage];
+    
+        label2.text = [defaults objectForKey:userNameKey];
+       [label2 setFont:CELL_FONT(CELL_FONTSIZE + 2)];
+        label2.textAlignment = NSTextAlignmentCenter;
+       [label2 setTextColor:[UIColor whiteColor]];
+       [Cell.contentView addSubview:label2];
+        
+        label3.text = [defaults objectForKey:EmailKey];
+       [label3 setFont:CELL_FONT(CELL_FONTSIZE - 4)];
+        label3.textAlignment = NSTextAlignmentCenter;
+       [label3 setTextColor:[UIColor lightGrayColor]];
+       [Cell.contentView addSubview:label3];
+    }
     
     return Cell;
 }

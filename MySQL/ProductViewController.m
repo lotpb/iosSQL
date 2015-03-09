@@ -221,7 +221,7 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
+   [self.searchController.searchBar sizeToFit];
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
@@ -230,8 +230,10 @@
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     self.searchController.searchBar.scopeButtonTitles = @[@"product",@"productNo",@"active"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self presentViewController:self.searchController animated:YES completion:nil];
+    
+   [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -287,7 +289,11 @@
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _selectedLocation = _feedItems[indexPath.row];
+    if (!isFilltered)
+        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+        else
+        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+
     [self performSegueWithIdentifier:@"productDetailSegue" sender:self];
 }
 
