@@ -23,6 +23,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.barTintColor = NAVBARCOLOR;
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLBLOG.png"]];
     self.title =  @"Blog";
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -43,7 +46,7 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor blackColor];
+    refreshControl.backgroundColor = NAVBARCOLOR;
     refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
     NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];
@@ -176,8 +179,8 @@
         else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    [myCell.blogtitleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)];
-    [myCell.blogsubtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.blogtitleLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)];
+    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(CELL_FONTSIZE - 2)];
     [myCell.blogmsgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
     myCell.blogtitleLabel.text = item.postby;
@@ -219,7 +222,7 @@
     //tableView.tableHeaderView = view; //makes header move with tablecell
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
-    [label setFont:[UIFont systemFontOfSize:12]];
+    [label setFont:CELL_MEDFONT(CELL_FONTSIZE) ];
     [label setTextColor:[UIColor whiteColor]];
     label.numberOfLines = 0;
     NSString *string = newString;
@@ -227,12 +230,12 @@
     [view addSubview:label];
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(12, 45, 60, 1.5)];
-    separatorLineView.backgroundColor = [UIColor redColor];// you can also put image here
+    separatorLineView.backgroundColor = [UIColor whiteColor];// you can also put image here
     [view addSubview:separatorLineView];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:[UIFont systemFontOfSize:12]];
+    [label1 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
     [label1 setTextColor:[UIColor whiteColor]];
     NSString *string1 = newString1;
     [label1 setText:string1];
@@ -244,7 +247,7 @@
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:[UIFont systemFontOfSize:12]];
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
     [label2 setTextColor:[UIColor whiteColor]];
     NSString *string2 = newString2;
     [label2 setText:string2];
@@ -255,7 +258,7 @@
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)
-        [view setBackgroundColor:[UIColor clearColor]];
+        [view setBackgroundColor:NAVBARCOLOR]; //clearcolor
         else
         [view setBackgroundColor:[UIColor blackColor]];
     

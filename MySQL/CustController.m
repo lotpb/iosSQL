@@ -255,7 +255,7 @@
     tableView.tableHeaderView = view; //makes header move with tablecell
     [view setBackgroundColor:[UIColor clearColor]];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
-    [label setFont:[UIFont systemFontOfSize:12]];
+    [label setFont:CELL_MEDFONT(CELL_FONTSIZE)];
     [label setTextColor:[UIColor whiteColor]];
     label.numberOfLines = 0;
     NSString *string = newString;
@@ -268,7 +268,7 @@
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:[UIFont systemFontOfSize:12]];
+    [label1 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
     [label1 setTextColor:[UIColor whiteColor]];
     NSString *string1 = newString1;
     [label1 setText:string1];
@@ -280,7 +280,7 @@
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:[UIFont systemFontOfSize:12]];
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
     [label2 setTextColor:[UIColor whiteColor]];
     NSString *string2 = newString2;
     [label2 setText:string2];

@@ -15,6 +15,8 @@
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_FONT @"ArialMT" //news
 
+#define NAVBARCOLOR [UIColor redColor] //blog
+
      // For text, messages, etc
 //#define DEFAULT_FONTSIZE    14
 //#define DEFAULT_FONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]
@@ -23,6 +25,8 @@
      // For table cells
 #define CELL_FONTSIZE    14
 #define CELL_FONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
+#define CELL_LIGHTFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
 #define CELL_MEDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
 #define CELL_BOLDFONT(s) [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 

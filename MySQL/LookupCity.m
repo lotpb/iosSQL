@@ -52,12 +52,14 @@ NSString *cityName;
     zipArray = [[NSMutableArray alloc] init];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"ZipNo"]];
+    [PFQuery clearAllCachedResults];
+    //[query selectKeys:@[@"ZipNo"]];
     [query selectKeys:@[@"City"]];
     [query selectKeys:@[@"State"]];
     [query selectKeys:@[@"zipCode"]];
     [query orderByAscending:@"City"];
+    [query setLimit: 1000]; //parse.com standard is 100
+     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {

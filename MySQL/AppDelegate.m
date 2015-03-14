@@ -16,15 +16,15 @@
     //color Navigation text
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]];
     //color TabBar text
-   // [[UIView appearance] setTintColor:[UIColor whiteColor]];//| ----------------------------------------------------------------------------
+   // [[UIView appearance] setTintColor:[UIColor whiteColor]];
+    
+    //| ----------------------------------------------------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
      // Peter Balsamo added this Parse
     [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
                   clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
     
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
-    }
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions]; }
 //| ----------------------------------------------------------------------------
     // Peter Balsamo added this (2) notification
 
@@ -36,9 +36,7 @@
     // Third, register those settings with our new notification category
     [self registerSettings:inviteCategory];
     // Now send ourselves a local notification
-    [self sendLocalNotification];
-        
-    }
+    [self sendLocalNotification]; }
 
 //| ----------------------------------------------------------------------------
 // Peter Balsamo added this logiIn Controller
@@ -64,10 +62,10 @@
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
     
-    application.applicationIconBadgeNumber = 0;}
+    application.applicationIconBadgeNumber = 0; }
 
 //| ----------------------------------------------------------------------------
-// Peter Balsamo added this (2) notification
+          // Peter Balsamo added this (2) notification
 - (UIMutableUserNotificationAction *)createAction {
     UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
     acceptAction.identifier = @"ACCEPT_IDENTIFIER";
@@ -159,7 +157,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
     // Peter Balsamo added this notification
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+  //  NSLog(@"%s", __PRETTY_FUNCTION__);
     application.applicationIconBadgeNumber = 0;
 }
 
@@ -167,7 +165,7 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     // Peter Balsamo added this notification
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+   // NSLog(@"%s", __PRETTY_FUNCTION__);
     application.applicationIconBadgeNumber = 0;
 }
 
