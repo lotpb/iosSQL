@@ -23,7 +23,7 @@
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-    self.title =  @"Customer";
+    self.title = NSLocalizedString(@"Customer", nil);
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     
@@ -86,17 +86,18 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor blackColor];
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
-    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];
-    //add date to refresh
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:KEY_DATEREFRESH];
-    NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
-    
-    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:KEY_DATEREFRESH];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
 }
 
@@ -106,7 +107,7 @@
 }
 
 #pragma mark - BarButton NewData
--(IBAction)newData:(id)sender{
+-(void)newData:(id)sender{
     [self performSegueWithIdentifier:@"newCustSeque"sender:self];
 }
 
@@ -227,10 +228,10 @@
       // [myCell.imageView setImage:myImage];
 
     label2.text=  item.date;
-    [label2 setFont:CELL_BOLDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:[UIColor whiteColor]];
-    [label2 setBackgroundColor:[UIColor redColor]];
+    [label2 setTextColor:DATECOLORTEXT];
+    [label2 setBackgroundColor:DATECOLORBACK];
     label2.tag = 103;
     [myCell.contentView addSubview:label2];
 
@@ -240,7 +241,7 @@
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (!isFilltered)
-        return 55.0;
+        return HEADHEIGHT;
     else
         return 0.0;
 }
@@ -248,15 +249,15 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"CUST \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
-    NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
+    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
     [view setBackgroundColor:[UIColor clearColor]];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
-    [label setFont:CELL_MEDFONT(CELL_FONTSIZE)];
-    [label setTextColor:[UIColor whiteColor]];
+    [label setFont:CELL_FONT(HEADFONTSIZE)];
+    [label setTextColor:HEADCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -268,8 +269,8 @@
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
-    [label1 setTextColor:[UIColor whiteColor]];
+    [label1 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label1 setTextColor:HEADCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -280,8 +281,8 @@
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
-    [label2 setTextColor:[UIColor whiteColor]];
+    [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label2 setTextColor:HEADCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];

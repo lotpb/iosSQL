@@ -98,9 +98,15 @@
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
 
 #pragma mark Bar Button
+    if ([_formController isEqual: @"Leads"]) {
     UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
     NSArray *actionButtonItems = @[newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    } else {
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
+    NSArray *actionButtonItems = @[editItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    }
  
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
            self.name = self.name;
@@ -284,11 +290,11 @@ self.comments = news1;
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
-    [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE - 6)];
-    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
+    [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+    [myCell.textLabel setTextColor:DETAILCOLOR];
      myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
-    [myCell.detailTextLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 6)];
-    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
+    [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+    [myCell.detailTextLabel setTextColor:DETAILTITLECOLOR];
         
     return myCell;
 }
@@ -302,15 +308,15 @@ self.comments = news1;
         
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
-    [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE - 6)];
-    [myCell.textLabel setTextColor:[UIColor darkGrayColor]];
+    [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+    [myCell.textLabel setTextColor:DETAILCOLOR];
      myCell.detailTextLabel.text = [tableData2 objectAtIndex:indexPath.row];
-    [myCell.detailTextLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 6)];
-    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];
+    [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+    [myCell.detailTextLabel setTextColor:DETAILTITLECOLOR];
 
         //draw red vertical line
     UIView *vertLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, myCell.frame.size.height)];
-    vertLine.backgroundColor = [UIColor redColor];
+    vertLine.backgroundColor = DIVIDERCOLOR;
     [myCell.contentView addSubview:vertLine];
         
     return myCell;
@@ -336,20 +342,20 @@ self.comments = news1;
     myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;
     myCell.leadtitleLabel.numberOfLines = 0;
-    myCell.leadtitleLabel.font = [UIFont systemFontOfSize:12.0];
-   [myCell.leadtitleLabel setTextColor:[UIColor darkGrayColor]];
+    myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
+   [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
         
     myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
-    myCell.leadsubtitleLabel.font = [UIFont systemFontOfSize:8.0];
-   [myCell.leadsubtitleLabel setTextColor:[UIColor grayColor]];
+    myCell.leadsubtitleLabel.font = CELL_FONT(DETAILFONTSIZE);
+   [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
         
     myCell.leadreadmore.text = @"Read more";
-    myCell.leadreadmore.font = [UIFont systemFontOfSize:8.0];
+    myCell.leadreadmore.font = CELL_FONT(DETAILFONTSIZE);
         
     myCell.leadnews.text = comments;
     myCell.leadnews.numberOfLines = 0;
-    myCell.leadnews.font = [UIFont boldSystemFontOfSize:8.0];
-   [myCell.leadnews setTextColor:[UIColor darkGrayColor]];
+    myCell.leadnews.font = CELL_MEDFONT(DETAILFONTSIZE);
+   [myCell.leadnews setTextColor:DETAILCOLOR];
         
     //Social buttons - code below
     UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(12,85, 20, 20)];
@@ -382,6 +388,10 @@ return myCell;
       NSLog(@"I have no idea what's going on...");
       return nil;
     }
+}
+
+-(void)showEdit:(id)sender {
+    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
 }
 
 #pragma mark - AlertController ios8

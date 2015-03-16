@@ -23,7 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title =  @"Jobs";
+    self.title = NSLocalizedString(@"Jobs", nil);
     
     _feedItems = [[NSMutableArray alloc] init];
     _JobModel = [[JobModel alloc] init];
@@ -50,17 +50,18 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor grayColor];
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
-    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];
-    //add date to refresh
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:KEY_DATEREFRESH];
-    NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
-    
-    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:KEY_DATEREFRESH];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
 }
 
@@ -157,7 +158,7 @@
 #pragma mark  Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-        return 55.0;
+        return HEADHEIGHT;
         else
         return 0.0;
 }
@@ -166,14 +167,14 @@
 {
     NSString *newString = [NSString stringWithFormat:@"JOB \n%lu", (unsigned long) _feedItems.count];
       NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) jobCount.count];
-    NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
+    NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
  
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
-    [label setFont:[UIFont systemFontOfSize:12]];
-    [label setTextColor:[UIColor whiteColor]];
+    [label setFont:CELL_MEDFONT(HEADFONTSIZE)];
+    [label setTextColor:HEADCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -185,8 +186,8 @@
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:[UIFont systemFontOfSize:12]];
-    [label1 setTextColor:[UIColor whiteColor]];
+    [label1 setFont:CELL_MEDFONT(HEADFONTSIZE)];
+    [label1 setTextColor:HEADCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -197,8 +198,8 @@
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:[UIFont systemFontOfSize:12]];
-    [label2 setTextColor:[UIColor whiteColor]];
+    [label2 setFont:CELL_MEDFONT(HEADFONTSIZE)];
+    [label2 setTextColor:HEADCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];

@@ -183,8 +183,8 @@
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    [[UITextView appearance] setTintColor:[UIColor grayColor]];
-    [[UITextField appearance] setTintColor:[UIColor grayColor]];
+    [[UITextView appearance] setTintColor:CURSERCOLOR];
+    [[UITextField appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -26,7 +26,7 @@
 @synthesize wallObjectsArray = _wallObjectsArray;
 @synthesize wallScroll = _wallScroll;
 @synthesize activityIndicator = _loadingSpinner;
-
+/*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,12 +34,7 @@
         
     }
     return self;
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+} */
 
 - (void)viewDidLoad
 {
@@ -65,6 +60,11 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -75,7 +75,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     //Clean the scroll view
     for (id viewToRemove in [self.wallScroll subviews]){
         if ([viewToRemove isMemberOfClass:[UIView class]])
@@ -147,13 +146,13 @@
         userImage.frame = CGRectMake(0, 65, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
         
-        UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, wallImageView.frame.size.width,55)];
-        infoLabel.text = [wallObject objectForKey:@"newsTitle"];
-        infoLabel.font = [UIFont fontWithName:KEY_FONT size:20];
-        infoLabel.textColor = [UIColor darkGrayColor];
-        infoLabel.backgroundColor = [UIColor clearColor];
-        infoLabel.numberOfLines = 0;
-        [wallImageView addSubview:infoLabel];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, wallImageView.frame.size.width,55)];
+        titleLabel.text = [wallObject objectForKey:@"newsTitle"];
+        titleLabel.font = DETAILFONT(TITLEFONTSIZE);
+        titleLabel.textColor = NEWSTITLECOLOR;
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.numberOfLines = 0;
+        [wallImageView addSubview:titleLabel];
             
         NSDate *creationDate = wallObject.createdAt;
         NSDate *datetime1 = creationDate;
@@ -161,19 +160,18 @@
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
-        //Add the comment
-        UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, wallImageView.frame.size.width, 12)];
-        //commentLabel.text = [NSString stringWithFormat:@"Uploaded by: %@, %@", [wallObject objectForKey:@"NewsDetail"], [df stringFromDate:creationDate]];
-        commentLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
-        commentLabel.font = [UIFont fontWithName:KEY_FONT size:10];
-        commentLabel.textColor = [UIColor lightGrayColor];
-        commentLabel.backgroundColor = [UIColor clearColor];
-        [wallImageView addSubview:commentLabel];
+        //Add the detail
+        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, wallImageView.frame.size.width, 12)];
+        detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
+        detailLabel.font = DETAILFONT(KEY_FONTSIZE);
+        detailLabel.textColor = NEWSDETAILCOLOR;
+        detailLabel.backgroundColor = [UIColor clearColor];
+        [wallImageView addSubview:detailLabel];
         
         UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 71 , 50, wallImageView.frame.size.width, 12)];
         readLabel.text = @"Read more";
-        readLabel.font = [UIFont fontWithName:KEY_FONT size:10];
-        readLabel.textColor = [UIColor blueColor];
+        readLabel.font = DETAILFONT(KEY_FONTSIZE);
+        readLabel.textColor = NEWSREADCOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
@@ -204,7 +202,6 @@
         [self.wallScroll addSubview:wallImageView];
         
         originY = originY + wallImageView.frame.size.width + 1;
-        
     }
     
     //Set the bounds of the scroll

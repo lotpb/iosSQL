@@ -130,7 +130,7 @@ NSArray *menuItems;
         activeImage.image = [UIImage imageNamed:@"user_male-128.png"];
         activeImage.backgroundColor = [UIColor grayColor];
         //[activeImage setTintColor:[UIColor whiteColor]];
-        //activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        activeImage.contentMode = UIViewContentModeScaleAspectFit;
         activeImage.layer.cornerRadius = activeImage.frame.size.width / 2.2;
         activeImage.layer.borderWidth = 1.5f;
         activeImage.layer.borderColor = [UIColor whiteColor].CGColor;

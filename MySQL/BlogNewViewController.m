@@ -50,12 +50,12 @@
        [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         self.myDatePicker.hidden = YES;
     
-  [[UITextView appearance] setTintColor:[UIColor grayColor]];
+  [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     self.title =  @"Share an idea";
+     self.title = NSLocalizedString(@"Share an idea", nil);
     [self.subject becomeFirstResponder];
 }
 

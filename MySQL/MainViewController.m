@@ -29,11 +29,11 @@
      self.title = NSLocalizedString(@"Main Menu", nil);
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
-     self.listTableView.backgroundColor = [UIColor clearColor];
+    // self.listTableView.backgroundColor = [UIColor clearColor];
    
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
-    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+    [self.tabBarController.tabBar setTintColor:TABTINTCOLOR];
     }
 
     tableData = [[NSMutableArray alloc]initWithObjects:@"Lead", @"Customer", @"Vendor", @"Employee", @"Advertising", @"Product", @"Job", @"Salesman", @"Blog", nil];
@@ -52,26 +52,19 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor blackColor];
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
-    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];
-    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
-    refreshControl.attributedTitle = refreshString;
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:KEY_DATEREFRESH];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
- // [self.searchBar resignFirstResponder];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-  //  self.listTableView.contentOffset = CGPointMake(0.0f, 0.0f);
-  //  self.listTableView.scrollEnabled = YES;
-
 }
 
 -(void)didReceiveMemoryWarning {
@@ -96,15 +89,15 @@ return [tableData count];
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-        return 175.0;
-        else return 0.0;
+         return 175.0;
+    else return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"FOLLOW \n%lu", (unsigned long) tableData.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
-    NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
+    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     
@@ -118,8 +111,8 @@ return [tableData count];
     [view addSubview:imageHolder];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 122, tableView.frame.size.width, 45)];
-    [label setFont:[UIFont systemFontOfSize:12]];
-    [label setTextColor:[UIColor whiteColor]];
+    [label setFont:CELL_FONT(HEADFONTSIZE)];
+    [label setTextColor:HEADCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -131,8 +124,8 @@ return [tableData count];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 122, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:[UIFont systemFontOfSize:12]];
-    [label1 setTextColor:[UIColor whiteColor]];
+    [label1 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label1 setTextColor:HEADCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -143,8 +136,8 @@ return [tableData count];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 122, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:[UIFont systemFontOfSize:12]];
-    [label2 setTextColor:[UIColor whiteColor]];
+    [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label2 setTextColor:HEADCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
@@ -175,10 +168,8 @@ return [tableData count];
        else
        myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
     
-    if(self.searchController.searchBar.text.length > 0) {
-        
+    if (self.searchController.searchBar.text.length > 0)
         myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
     
     return myCell;
 }
@@ -199,10 +190,6 @@ return [tableData count];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-    //self.searchController.searchBar.barTintColor = [UIColor clearColor];
-    //self.navigationItem.titleView = self.searchController.searchBar;
-   // self.listTableView.tableHeaderView = self.searchController.searchBar;
 
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
@@ -213,7 +200,6 @@ return [tableData count];
          self.listTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         return;
        }
-
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

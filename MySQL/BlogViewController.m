@@ -23,11 +23,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.barTintColor = NAVBARCOLOR;
+    self.navigationController.navigationBar.barTintColor = BLOGNAVCOLOR;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLBLOG.png"]];
-    self.title =  @"Blog";
+    self.title = NSLocalizedString(@"Blog", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
   
@@ -46,12 +46,16 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = NAVBARCOLOR;
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.backgroundColor = BLOGNAVCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
-    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@"Refreshing"];
-    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
-    refreshControl.attributedTitle = refreshString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:KEY_DATEREFRESH];
+    NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                forKey:NSForegroundColorAttributeName];
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+    refreshControl.attributedTitle = attributedTitle;
     [refreshView addSubview:refreshControl];
 }
 
@@ -164,7 +168,6 @@
     static NSString *CellIdentifier = @"blogCell";
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
-    UIFont *likeFont = [UIFont boldSystemFontOfSize:9.0];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
@@ -179,13 +182,13 @@
         else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    [myCell.blogtitleLabel setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)];
-    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(CELL_FONTSIZE - 2)];
-    [myCell.blogmsgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
+    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
+    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
     
     myCell.blogtitleLabel.text = item.postby;
     myCell.blogsubtitleLabel.text = item.subject;
-    myCell.blogmsgDateLabel.text = item.msgDate; //dateStr;
+    myCell.blogmsgDateLabel.text = item.msgDate;
     myCell.blog2ImageView.image = [UIImage imageNamed:@"DemoCellImage"];
     
     //not working properly below
@@ -194,11 +197,10 @@
     else label2.hidden = YES;
     
      label2.text = @"Like";
-     label2.font = likeFont;
+     label2.font = LIKEFONT(LIKEFONTSIZE);
      label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:[UIColor whiteColor]];
-    [label2 setBackgroundColor:[UIColor redColor]];
-   // label2.tag = 103;
+    [label2 setTextColor:LIKECOLORTEXT];
+    [label2 setBackgroundColor:LIKECOLORBACK];
     [myCell.contentView addSubview:label2];
     
     return myCell;
@@ -207,7 +209,7 @@
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-        return 55.0;
+        return HEADHEIGHT;
         else
         return 0.0;
 }
@@ -215,15 +217,15 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"MSG \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n4,727.35"];
-    NSString *newString2 = [NSString stringWithFormat:@"DOW \n17,776.80"];
+    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //tableView.tableHeaderView = view; //makes header move with tablecell
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
-    [label setFont:CELL_MEDFONT(CELL_FONTSIZE) ];
-    [label setTextColor:[UIColor whiteColor]];
+    [label setFont:CELL_MEDFONT(HEADFONTSIZE) ];
+    [label setTextColor:HEADCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -235,8 +237,8 @@
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
-    [label1 setTextColor:[UIColor whiteColor]];
+    [label1 setFont:CELL_MEDFONT(HEADFONTSIZE)];
+    [label1 setTextColor:HEADCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -247,8 +249,8 @@
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
-    [label2 setTextColor:[UIColor whiteColor]];
+    [label2 setFont:CELL_MEDFONT(HEADFONTSIZE)];
+    [label2 setTextColor:HEADCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
@@ -258,7 +260,7 @@
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)
-        [view setBackgroundColor:NAVBARCOLOR]; //clearcolor
+        [view setBackgroundColor:BLOGNAVCOLOR]; //clearcolor
         else
         [view setBackgroundColor:[UIColor blackColor]];
     

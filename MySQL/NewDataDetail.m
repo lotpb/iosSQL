@@ -100,8 +100,8 @@
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    [[UITextView appearance] setTintColor:[UIColor grayColor]];
-    [[UITextField appearance] setTintColor:[UIColor grayColor]];
+    [[UITextView appearance] setTintColor:CURSERCOLOR];
+    [[UITextField appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -215,9 +215,9 @@
         if ([self.frm12 isEqual:[NSNull null]])
              self.salesNo.text = @"";
         else self.salesNo.text = self.frm12;
-         self.salesNo.tag = 0;
-         self.salesNo.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.salesNo setClearButtonMode:UITextFieldViewModeWhileEditing];
+             self.salesNo.tag = 0;
+             self.salesNo.autocorrectionType = UITextAutocorrectionTypeNo;
+            [self.salesNo setClearButtonMode:UITextFieldViewModeWhileEditing];
         
         if ([_formController isEqual: @"Salesman"]) {
          self.salesNo.placeholder = @"SalesNo";
@@ -236,7 +236,6 @@
             myCell.textLabel.text = @"JobNo";}
         
         [myCell.contentView addSubview:self.salesNo];
-        
     }
 
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;

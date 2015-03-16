@@ -27,8 +27,7 @@ NSString *cityName;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title =  @"City lookup";
+    self.title = NSLocalizedString(@"City lookup", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     
@@ -70,11 +69,6 @@ NSString *cityName;
     }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:zipArray];
-/*
-#pragma mark Bar Button
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems; */
 }
 
 - (void)viewDidAppear:(BOOL)animated
