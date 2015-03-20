@@ -18,15 +18,19 @@
 #define LIKECOLORBACK     [UIColor redColor]
 
 // NEWS
+#define SCROLLBACKCOLOR [UIColor lightGrayColor]
+#define VIEWBACKCOLOR   [UIColor whiteColor]
+#define SEPARATORCOLOR   [UIColor lightGrayColor]
 #define KEY_IMAGE @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_DATETIME @"yyyy-MM-dd HH:mm:ss" //news
 #define TITLEFONTSIZE   20
-#define KEY_FONTSIZE    10
-#define DETAILFONT(s)   [UIFont fontWithName:@"ArialMT" size:s]
-#define NEWSTITLECOLOR  [UIColor darkGrayColor] //darkGrayColor
+#define KEY_FONTSIZE    11
+#define DETAILFONT(s)   [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
+#define NEWSTITLECOLOR  [UIColor blackColor] //darkGrayColor
 #define NEWSDETAILCOLOR [UIColor grayColor]
-#define NEWSREADCOLOR   [UIColor blueColor]
+#define NEWSREADCOLOR   [UIColor magentaColor]
+#define READLABEL @"News" //Read more
 
 // BLOG
 #define KEY_USER @"username"  // BogNew

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D98g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D105g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -420,9 +420,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
-                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -450,9 +447,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -2637,7 +2631,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEh-6I-zYI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="59" y="-669"/>
+            <point key="canvasLocation" x="43.5" y="-1312.5"/>
         </scene>
         <!--Lead Detail Controller-->
         <scene sceneID="oRB-Fm-7fi">
@@ -3242,36 +3236,24 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="13" width="282" height="15"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-Aj-S6R">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="28" width="266" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read more" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtL-ch-upH">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="262" y="28" width="41" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" text="News" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYd-KN-lCj">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="39" width="280" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
@@ -3541,7 +3523,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cgu-kw-60I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73.5" y="-1524"/>
+            <point key="canvasLocation" x="31.5" y="-1995"/>
         </scene>
         <!--Web Main Controller-->
         <scene sceneID="Thm-7H-VPd">
@@ -3644,7 +3626,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="paq-b2-BDL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="720" y="-1524"/>
+            <point key="canvasLocation" x="735" y="-1984.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7He-NJ-9BZ">
@@ -4188,28 +4170,6 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kv5-pP-wng">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="62y-eo-IrF">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="44"/>
-                                        </variation>
-                                        <connections>
-                                            <outlet property="delegate" destination="6ae-zf-NgQ" id="9e3-yR-5lM"/>
-                                        </connections>
-                                    </searchBar>
-                                </subviews>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="62y-eo-IrF"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="subviews">
-                                        <include reference="62y-eo-IrF"/>
-                                    </mask>
-                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4250,31 +4210,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchBar" destination="62y-eo-IrF" id="u14-LU-Jzm"/>
-                        <outlet property="searchDisplayController" destination="KX5-fI-nxo" id="9v2-Pg-rMC"/>
                         <outlet property="wallScroll" destination="Kv5-pP-wng" id="awP-LF-ttQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zbu-Ts-P3l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="7tX-T5-h8x">
-                    <connections>
-                        <outlet property="delegate" destination="6ae-zf-NgQ" id="V7C-ON-F8C"/>
-                        <outlet property="searchContentsController" destination="6ae-zf-NgQ" id="Z0q-At-PdU"/>
-                        <outlet property="searchResultsDataSource" destination="6ae-zf-NgQ" id="Jhn-kg-0Cg"/>
-                        <outlet property="searchResultsDelegate" destination="6ae-zf-NgQ" id="kSn-Ra-jOV"/>
-                    </connections>
-                </searchDisplayController>
-                <searchDisplayController id="KX5-fI-nxo">
-                    <connections>
-                        <outlet property="delegate" destination="6ae-zf-NgQ" id="Sof-JQ-f3H"/>
-                        <outlet property="searchBar" destination="62y-eo-IrF" id="jFt-Sm-zNN"/>
-                        <outlet property="searchContentsController" destination="6ae-zf-NgQ" id="sNe-ew-PII"/>
-                        <outlet property="searchResultsDataSource" destination="6ae-zf-NgQ" id="WC9-fb-sN7"/>
-                        <outlet property="searchResultsDelegate" destination="6ae-zf-NgQ" id="LeN-SI-QM2"/>
-                    </connections>
-                </searchDisplayController>
+                <searchDisplayController id="KX5-fI-nxo"/>
             </objects>
-            <point key="canvasLocation" x="690" y="-653"/>
+            <point key="canvasLocation" x="708" y="-1312.5"/>
         </scene>
         <!--Upload-->
         <scene sceneID="0oq-ST-uQi">
@@ -4407,7 +4349,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io1-xW-K9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1360.5" y="-1524"/>
+            <point key="canvasLocation" x="1375.5" y="-1312.5"/>
         </scene>
         <!--Sidebar View Controller-->
         <scene sceneID="aHG-mj-enl">
@@ -6835,13 +6777,13 @@
     <inferredMetricsTieBreakers>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="6GQ-e7-fhm"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="MSe-EU-M35"/>
+        <segue reference="wDP-4Y-cdF"/>
         <segue reference="6uJ-0s-NFa"/>
-        <segue reference="382-1V-m5k"/>
-        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="MSe-EU-M35"/>
         <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="382-1V-m5k"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

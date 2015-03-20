@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 
-@interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchBarDelegate>
+@interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *wallScroll;
 //-(IBAction)logoutPressed:(id)sender;

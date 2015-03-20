@@ -18,7 +18,7 @@
 -(void)loadWallViews;
 -(void)showErrorView:errorString;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation NewsController
@@ -26,7 +26,7 @@
 @synthesize wallObjectsArray = _wallObjectsArray;
 @synthesize wallScroll = _wallScroll;
 @synthesize activityIndicator = _loadingSpinner;
-/*
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,23 +34,15 @@
         
     }
     return self;
-} */
+}
 
 - (void)viewDidLoad
 {
    [super viewDidLoad];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLNEWS.png"]];
     //self.title = NSLocalizedString(@"News", nil);
-    self.searchBar.delegate = self;
-    self.searchBar.hidden = YES;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.showsScopeBar = YES;
-    self.searchBar.scopeButtonTitles = @[@"title",@"subtitle"];
-    self.definesPresentationContext = YES;
-    //Adds Padding to top of Tableview
-    //UIEdgeInsets inset = UIEdgeInsetsMake(5, 0, 0, 0);
-    //self.listTableView.contentInset = inset;
-
+    [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
+    
     //tableData = [NSArray arrayWithObjects:@"Big changes for Twitter, will new users follow?", @"Will retail sales reveal truth about cheap gas?", @"Vendor Info", @"Blog", nil];
     //tableData1 = [NSArray arrayWithObjects:@"Yahoo Finance 2 hrs ago", @"CNBC 2 hrs ago", @"Vendor Info", @"Blog", nil];
     // tableImage = [NSArray arrayWithObjects:@"profile-rabbit-toy.png", @"calendar_photo.jpg", @"tag_photo.jpg", @"bookmark_photo.jpg", nil];
@@ -75,6 +67,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     //Clean the scroll view
     for (id viewToRemove in [self.wallScroll subviews]){
         if ([viewToRemove isMemberOfClass:[UIView class]])
@@ -136,17 +129,18 @@
         for (PFObject *wallObject in self.imageFilesArray){
         
         //Build the view with the image and the comments
-        UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 330)]; //self.view.frame.size.height
-        //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
+        UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)]; //self.view.frame.size.height - original height 330 not 345
+            
+        [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
         UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
         
-        userImage.frame = CGRectMake(0, 65, wallImageView.frame.size.width, 225);
+        userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 230);
         [wallImageView addSubview:userImage];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, wallImageView.frame.size.width,55)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width,55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.font = DETAILFONT(TITLEFONTSIZE);
         titleLabel.textColor = NEWSTITLECOLOR;
@@ -161,16 +155,16 @@
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
         //Add the detail
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, wallImageView.frame.size.width, 12)];
+        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 52, wallImageView.frame.size.width, 12)];
         detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
         detailLabel.font = DETAILFONT(KEY_FONTSIZE);
         detailLabel.textColor = NEWSDETAILCOLOR;
         detailLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:detailLabel];
         
-        UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 71 , 50, wallImageView.frame.size.width, 12)];
-        readLabel.text = @"Read more";
-        readLabel.font = DETAILFONT(KEY_FONTSIZE);
+        UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 62 , 52, wallImageView.frame.size.width, 12)];
+        readLabel.text = READLABEL;
+        readLabel.font = DETAILFONT(KEY_FONTSIZE + 1);
         readLabel.textColor = NEWSREADCOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
@@ -194,9 +188,9 @@
         [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
         [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:yourBtn];
-     //   wallImageView = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
-        UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 343, self.view.frame.size.width, .8)];
-        separatorLineView.backgroundColor = [UIColor grayColor];// you can also put image here
+        //wallImageView = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
+        UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
+        separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
         [wallImageView addSubview:separatorLineView];
         
         [self.wallScroll addSubview:wallImageView];
@@ -220,60 +214,26 @@
 }
 
 #pragma mark - search
+#pragma mark - search
 - (void)searchButton:(id)sender {
-    
-     self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    
-     self.searchBar.text=@"";
-     self.searchBar.hidden = YES;
-    [self.searchBar resignFirstResponder];
-}
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{ /*
-    if(searchText.length == 0)
-    {
-        isFilltered = NO;
-    } else {
-        isFilltered = YES;
-        filteredString = [[NSMutableArray alloc]init];
-        
-        for(Location* string in _feedItems)
-        {
-            if (self.searchBar.selectedScopeButtonIndex == 0)
-            {
-                NSRange stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
-                    [filteredString addObject:string];
-                }
-            }
-            
-            if (self.searchBar.selectedScopeButtonIndex == 1)
-            {
-                NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
-                    [filteredString addObject:string];
-                }
-            }
-            
-            if (self.searchBar.selectedScopeButtonIndex == 2)
-            {
-                NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound) {
-                    [filteredString addObject:string];
-                }
-            }
-        }
-    } */
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    //self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.tintColor = [UIColor whiteColor];
+    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+  //  self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 #pragma mark - Airdrop
-- (void)share:(id)sender{
-    //airdrop opens webpage
+- (void)share:(id)sender {
+
     NSString * message = @"newsTitle";
     NSString * message1 = @"Newsios";
     UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];

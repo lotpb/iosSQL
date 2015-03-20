@@ -23,7 +23,6 @@
 @synthesize commentDetail = _commentDetail;
 //@synthesize username = _username;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
