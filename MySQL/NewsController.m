@@ -140,7 +140,7 @@
         userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 230);
         [wallImageView addSubview:userImage];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width,55)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.font = DETAILFONT(TITLEFONTSIZE);
         titleLabel.textColor = NEWSTITLECOLOR;
@@ -169,30 +169,33 @@
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
-        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(2,310, 20, 20)];
+        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(5,310, 20, 20)];
         [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];
         [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:faceBtn];
         
-        UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(32,310, 20, 20)];
+        UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(35,310, 20, 20)];
         [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
         [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:twitBtn];
         
-        UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(62,310, 20, 20)];
+        UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(65,310, 20, 20)];
         [tumblrBtn setImage:[UIImage imageNamed:@"Tumblr.png"] forState:UIControlStateNormal];
         [tumblrBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:tumblrBtn];
         
-        UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(92,310, 20, 20)];
+        UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(95,310, 20, 20)];
         [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
         [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:yourBtn];
-        //wallImageView = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
+       
         UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
+            
+      //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
+     //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
+            
         [wallImageView addSubview:separatorLineView];
-        
         [self.wallScroll addSubview:wallImageView];
         
         originY = originY + wallImageView.frame.size.width + 1;
@@ -227,7 +230,6 @@
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     self.searchController.searchBar.tintColor = [UIColor whiteColor];
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
-  //  self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 

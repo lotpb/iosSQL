@@ -94,32 +94,75 @@
     [refreshControl endRefreshing];
 }
 
-#pragma mark  Table Delete Button
+#pragma mark TableView Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
+- (void) setEditing:(BOOL)editing
+           animated:(BOOL)animated{
     
     [super setEditing:editing animated:animated];
+    
     [self.listTableView setEditing:editing animated:animated];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_feedItems removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:UITableViewRowAnimationLeft];
+        
+        UIAlertController * view=   [UIAlertController
+                                     alertControllerWithTitle:@"Delete the selected product?"
+                                     message:@"OK, delete it"
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 ProductLocation *item;
+                                 item = [_feedItems objectAtIndex:indexPath.row];
+                                 NSString *deletestring = item.productNo;
+                                 NSString *_productNo = deletestring;
+                                 NSString *rawStr = [NSString stringWithFormat:@"_productNo=%@&&", _productNo];
+                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                 
+                                 NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteProduct.php"];
+                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                                 
+                                 [request setHTTPMethod:@"POST"];
+                                 [request setHTTPBody:data];
+                                 NSURLResponse *response;
+                                 NSError *err;
+                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                                 NSLog(@"%@", responseString);
+                                 NSString *success = @"success";
+                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                 [_feedItems removeObjectAtIndex:indexPath.row];
+                                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 //Do some thing here
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                     
+                                 }];
+        
+        
+        [view addAction:ok];
+        [view addAction:cancel];
+        [self presentViewController:view animated:YES completion:nil];
         [self.listTableView reloadData];
-        /*
-         NSError *error = nil;
-         if (![tableView save:&error]) {
-         NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-         return;
-         } */
     }
 }
 

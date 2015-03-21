@@ -24,7 +24,7 @@
 #define KEY_IMAGE @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_DATETIME @"yyyy-MM-dd HH:mm:ss" //news
-#define TITLEFONTSIZE   20
+#define TITLEFONTSIZE   18
 #define KEY_FONTSIZE    11
 #define DETAILFONT(s)   [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
 #define NEWSTITLECOLOR  [UIColor blackColor] //darkGrayColor
