@@ -19,9 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title =  @"Map of New York";
+    self.title = NSLocalizedString(MAPTITLE, nil);
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
@@ -37,7 +37,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)showdone{
+- (void)showdone:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -12,7 +12,6 @@
 @interface BlogEditDetailView ()
 
 - (IBAction)sendNotification:(UIButton *)sender;
-
 @end
 
 @implementation BlogEditDetailView
@@ -30,6 +29,8 @@
     UIBarButtonItem *trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    //Change BarButton Font Below
  // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
 }
 

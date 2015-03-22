@@ -47,6 +47,10 @@
     //tableData1 = [NSArray arrayWithObjects:@"Yahoo Finance 2 hrs ago", @"CNBC 2 hrs ago", @"Vendor Info", @"Blog", nil];
     // tableImage = [NSArray arrayWithObjects:@"profile-rabbit-toy.png", @"calendar_photo.jpg", @"tag_photo.jpg", @"bookmark_photo.jpg", nil];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
+    [self.wallScroll addSubview:refreshControl];
+    
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
@@ -60,28 +64,33 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+ // Release any retained subviews of the main view.
     self.wallScroll = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     //Clean the scroll view
-    for (id viewToRemove in [self.wallScroll subviews]){
+    for (id viewToRemove in [self.wallScroll subviews]) {
         if ([viewToRemove isMemberOfClass:[UIView class]])
             [viewToRemove removeFromSuperview];
     }
     //Reload the wall
     [self getWallImages];
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark Scroll RefreshControl
+- (void)reloadDatas:(UIRefreshControl *)refreshControl
+{
+    [self getWallImages];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark Receive Wall Objects
@@ -107,9 +116,7 @@
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
         }
-        
     }];
-    
 }
 
 #pragma mark Wall Load
@@ -195,8 +202,12 @@
       //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
      //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
             
-        [wallImageView addSubview:separatorLineView];
-        [self.wallScroll addSubview:wallImageView];
+           // [self.wallScroll addSubview:wallImageView];
+           // [self.wallScroll addSubview:separatorLineView];
+          //  self.automaticallyAdjustsScrollViewInsets = NO;
+            
+          [wallImageView addSubview:separatorLineView];
+          [self.wallScroll addSubview:wallImageView];
         
         originY = originY + wallImageView.frame.size.width + 1;
     }

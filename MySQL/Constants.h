@@ -11,46 +11,49 @@
 @interface Constants : NSObject
 
 #define KEY_DATESQLFORMAT @"yyyy-MM-dd" //new dataView
-#define CURSERCOLOR [UIColor grayColor]
-#define LIKEFONTSIZE    9
-#define LIKEFONT(s)      [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+#define CURSERCOLOR       [UIColor grayColor]
+#define LIKEFONTSIZE      9
+#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
 
 // NEWS
-#define SCROLLBACKCOLOR [UIColor lightGrayColor]
-#define VIEWBACKCOLOR   [UIColor whiteColor]
+#define SCROLLBACKCOLOR  [UIColor lightGrayColor]
+#define VIEWBACKCOLOR    [UIColor whiteColor]
 #define SEPARATORCOLOR   [UIColor lightGrayColor]
-#define KEY_IMAGE @"imageFile" //news
+#define KEY_IMAGE         @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
-#define KEY_DATETIME @"yyyy-MM-dd HH:mm:ss" //news
-#define TITLEFONTSIZE   18
-#define KEY_FONTSIZE    11
-#define DETAILFONT(s)   [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
-#define NEWSTITLECOLOR  [UIColor blackColor] //darkGrayColor
-#define NEWSDETAILCOLOR [UIColor grayColor]
-#define NEWSREADCOLOR   [UIColor magentaColor]
-#define READLABEL @"News" //Read more
+#define KEY_DATETIME      @"yyyy-MM-dd HH:mm:ss" //news
+#define TITLEFONTSIZE     18
+#define KEY_FONTSIZE      11
+#define DETAILFONT(s)    [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
+#define NEWSTITLECOLOR   [UIColor blackColor] //darkGrayColor
+#define NEWSDETAILCOLOR  [UIColor grayColor]
+#define NEWSREADCOLOR    [UIColor magentaColor]
+#define READLABEL        @"News" //Read more
 
 // BLOG
-#define KEY_USER @"username"  // BogNew
+#define KEY_USER  @"username"  // BogNew
 #define KEY_EMAIL @"emailKey"  // BogNew
 //#define NAVBARCOLOR [UIColor blackColor]
 #define BLOGNAVCOLOR [UIColor redColor]
 #define BLOG_FONTSIZE   12
 
+//Photo Collection
+#define PHOTOHEADER @"Job Pictures #%li"  // CollectionParse
+
 //LEADDETAIL
 #define DETAILFONTSIZE   8
 #define DETAILNEWS       12
 #define DETAILTITLECOLOR [UIColor blackColor]
-#define DETAILSUBCOLOR [UIColor grayColor]
-#define DETAILCOLOR [UIColor darkGrayColor]
-#define DIVIDERCOLOR [UIColor redColor]
+#define DETAILSUBCOLOR   [UIColor grayColor]
+#define DETAILCOLOR      [UIColor darkGrayColor]
+#define DIVIDERCOLOR     [UIColor redColor]
 
 //TABLEHEADER
-//#define HEADTITLE1 @"NASDAQ \n4,727.35"
-#define HEADTITLE2 @"NASDAQ \n4,727.35"
-#define HEADTITLE3 @"DOW \n17,776.80"
+//#define HEADTITLE1  @"NASDAQ \n4,727.35"
+#define HEADTITLE2    @"NASDAQ \n4,727.35"
+#define HEADTITLE3    @"DOW \n17,776.80"
 #define HEADCOLOR     [UIColor whiteColor]
 #define HEADFONTSIZE   13
 #define HEADHEIGHT     55.0
@@ -59,8 +62,8 @@
 #define TABTINTCOLOR     [UIColor whiteColor]
 
 //REFRESH
-#define KEY_DATEREFRESH @"MMM d, h:mm a"
-#define REFRESHCOLOR [UIColor blackColor]
+#define KEY_DATEREFRESH  @"MMM d, h:mm a"
+#define REFRESHCOLOR     [UIColor blackColor]
 #define REFRESHTEXTCOLOR [UIColor whiteColor]
 
 // For TABLEVIEWCELL
@@ -75,6 +78,7 @@
 #define DATECOLORBACK     [UIColor redColor]
 
 //MAPCONTROLLER
+#define MAPTITLE  @"Map of New York"
 #define NY_LATITUDE    40.714353
 #define NY_LONGTITUDE -74.005973
 
@@ -94,8 +98,8 @@
 #define KEY_WEBPAGE5 @"http://stocktwits.com/symbol/UPL"
 
 
-//#define KEY_UPDATE @"updateAt"
-//#define KEY_GEOLOC @"location"
+//#define KEY_UPDATE  @"updateAt"
+//#define KEY_GEOLOC  @"location"
 //#define WALL_OBJECT @"WallImageObject"
 //#define KEY_COMMENT @"comment"
 

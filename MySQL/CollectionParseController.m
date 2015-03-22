@@ -119,7 +119,7 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
     
     if (kind == UICollectionElementKindSectionHeader) {
         CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-        NSString *title = [[NSString alloc]initWithFormat:@"Jobs Group #%li", indexPath.section + (unsigned long)1];
+        NSString *title = [[NSString alloc]initWithFormat:PHOTOHEADER, indexPath.section + (unsigned long)1];
         headerView.title.text = title;
         UIImage *headerImage = [UIImage imageNamed:@"header_banner.png"];
         headerView.backgroundImage.image = headerImage;

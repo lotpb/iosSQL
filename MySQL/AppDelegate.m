@@ -56,7 +56,7 @@
 }
 
 //| ----------------------------------------------------------------------------
-// Peter Balsamo added this notification
+// Peter Balsamo added this Notification
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -65,7 +65,7 @@
     application.applicationIconBadgeNumber = 0; }
 
 //| ----------------------------------------------------------------------------
-          // Peter Balsamo added this (2) notification
+          // Peter Balsamo added this (2) Notification
 - (UIMutableUserNotificationAction *)createAction {
     UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
     acceptAction.identifier = @"ACCEPT_IDENTIFIER";
@@ -174,7 +174,7 @@
 }
 
 //| ----------------------------------------------------------------------------
-// Peter Balsamo added this Settings
+// Peter Balsamo added this SETTINGS
 - (void)populateRegistrationDomain
 {
     NSURL *settingsBundleURL = [[NSBundle mainBundle] URLForResource:@"Settings" withExtension:@"bundle"];
@@ -190,7 +190,7 @@
 }
 
 //| ----------------------------------------------------------------------------
-// Peter Balsamo added this Settings
+// Peter Balsamo added this SETTINGS
 - (NSDictionary*)loadDefaultsFromSettingsPage:(NSString*)plistName inSettingsBundleAtURL:(NSURL*)settingsBundleURL
 {
     // Each page of settings is represented by a property-list file that follows

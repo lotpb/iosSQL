@@ -26,18 +26,8 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Salesman", nil);
     
-    _feedItems = [[NSMutableArray alloc] init];
-    _SalesModel = [[SalesModel alloc] init];
-    _SalesModel.delegate = self;
-    [_SalesModel downloadItems];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"Active"]];
-    [query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        salesCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
+    _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
+    _SalesModel.delegate = self; [_SalesModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -53,14 +43,14 @@
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
-    [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                    forKey:NSForegroundColorAttributeName];
+            forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
@@ -87,10 +77,11 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
+    //[self parseSalesman];
 }
 
 #pragma mark Table Refresh Control
--(void)reloadDatas {
+- (void)reloadDatas:(id)sender {
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
@@ -326,6 +317,16 @@ return _feedItems.count;
         }
     }
   [self.listTableView reloadData];
+}
+
+- (void)parseSalesman {
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Active"]];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        salesCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
 }
 
 #pragma mark - Segue

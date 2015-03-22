@@ -27,13 +27,11 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     
-    _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init]; _EmployeeModel.delegate = self;
-    [_EmployeeModel downloadItems];
+    _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init]; _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark Bar Button
-    
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem,addItem];
@@ -45,14 +43,14 @@
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
-    [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                    forKey:NSForegroundColorAttributeName];
+            forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
@@ -81,7 +79,7 @@
 }
 
 #pragma mark Table Refresh Control
--(void)reloadDatas{
+- (void)reloadDatas:(id)sender {
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }

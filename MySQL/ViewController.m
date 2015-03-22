@@ -33,53 +33,8 @@
    // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
    // self.listTableView.contentInset = inset;
     
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query1 selectKeys:@[@"AdNo"]];
-    [query1 selectKeys:@[@"Advertiser"]];
-    [query1 orderByDescending:@"Advertiser"];
-    [query1 whereKey:@"Active" containsString:@"Active"];
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [adArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
- 
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-   // [query1 whereKey:@"SalesNo" containsString:_selectedLocation.salesNo];
-    [query selectKeys:@[@"SalesNo"]];
-    [query selectKeys:@[@"Salesman"]];
-    [query orderByDescending:@"Salesman"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        salesArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [salesArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-    
-    PFQuery *query2 = [PFQuery queryWithClassName:@"Job"];
-    query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query2 selectKeys:@[@"JobNo"]];
-    [query2 selectKeys:@[@"Description"]];
-    [query2 orderByDescending:@"Description"];
-    [query2 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [jobArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
 
+ 
     _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] init];
@@ -95,14 +50,14 @@
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
-    [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                forKey:NSForegroundColorAttributeName];
+        forKey:NSForegroundColorAttributeName];
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle; }
     [refreshView addSubview:refreshControl];
@@ -120,8 +75,14 @@
 }
 
 #pragma mark - BarButton NewData
--(void)newData:(id)sender{
+-(void)newData:(id)sender {
     [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
+}
+
+#pragma mark Table Refresh Control
+- (void)reloadDatas:(id)sender {
+    [self.listTableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark - TableView
@@ -129,12 +90,9 @@
     // Set the downloaded items to the array
     _feedItems = items;
     [self.listTableView reloadData];
-}
-
-#pragma mark Table Refresh Control
--(void)reloadDatas {
-    [self.listTableView reloadData];
-    [refreshControl endRefreshing];
+    [self parseAdvertising];
+    [self parseSalesman];
+    [self parseJobs];
 }
 
 #pragma mark TableView Delete Button
@@ -426,9 +384,63 @@
     }]; */
 }
 
+#pragma mark - ParseData
+- (void)parseAdvertising {
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
+    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query1 selectKeys:@[@"AdNo"]];
+    [query1 selectKeys:@[@"Advertiser"]];
+    [query1 orderByDescending:@"Advertiser"];
+    [query1 whereKey:@"Active" containsString:@"Active"];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [adArray addObject:object];
+                [self.listTableView reloadData]; }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
+}
+
+- (void)parseSalesman {
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    // [query1 whereKey:@"SalesNo" containsString:_selectedLocation.salesNo];
+    [query selectKeys:@[@"SalesNo"]];
+    [query selectKeys:@[@"Salesman"]];
+    [query orderByDescending:@"Salesman"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        salesArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [salesArray addObject:object];
+                [self.listTableView reloadData]; }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
+}
+
+- (void)parseJobs {
+    PFQuery *query2 = [PFQuery queryWithClassName:@"Job"];
+    query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query2 selectKeys:@[@"JobNo"]];
+    [query2 selectKeys:@[@"Description"]];
+    [query2 orderByDescending:@"Description"];
+    [query2 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        jobArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [jobArray addObject:object];
+                [self.listTableView reloadData]; }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
+}
+
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     if (!isFilltered)
         _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
     else

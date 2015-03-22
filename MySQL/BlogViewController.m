@@ -48,12 +48,12 @@
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = BLOGNAVCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
-    [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:KEY_DATEREFRESH];
     NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                forKey:NSForegroundColorAttributeName];
+        forKey:NSForegroundColorAttributeName];
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
     refreshControl.attributedTitle = attributedTitle;
     [refreshView addSubview:refreshControl];
@@ -81,7 +81,7 @@
 }
 
 #pragma mark Table Refresh Control
--(void)reloadDatas {
+- (void)reloadDatas:(id)sender {
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }

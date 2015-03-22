@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLHOME.png"]];
-     self.title = NSLocalizedString(@"Main Menu", nil);
+     //self.title = NSLocalizedString(@"Main Menu", nil);
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
     // self.listTableView.backgroundColor = [UIColor clearColor];
