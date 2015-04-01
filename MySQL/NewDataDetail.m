@@ -87,14 +87,6 @@
    //      self.frm11 = @"Active";
    // else self.active.text = self.frm11;
     
-  
-    /*
-#pragma mark Form Circle Image
-    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
-    self.profileImageView.layer.borderWidth = 3.0f;
-    self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.profileImageView.clipsToBounds = YES; */
-    
 #pragma mark BarButtons
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:nil];
     NSArray *actionButtonItems = @[editItem];
@@ -284,7 +276,7 @@
 -(void)updateLeads:(id)sender {
     if ([_formController isEqual: @"Salesman"]) {
         
-       // NSString *_salesNo = self.salesNo.text;
+     // NSString *_salesNo = self.salesNo.text;
         NSString *_salesman = self.salesman.text;
         NSString *_active = self.active.text;
         

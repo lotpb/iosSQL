@@ -26,17 +26,8 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Advertising", nil);
     
-    _feedItems = [[NSMutableArray alloc] init];
-    _AdModel = [[AdModel alloc] init];
+    _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
     _AdModel.delegate = self; [_AdModel downloadItems];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"Active"]];
-    [query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -81,6 +72,7 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
+    [self parseAds];
 }
 
 #pragma mark Table Refresh Control
@@ -319,6 +311,17 @@
         }
     }
     [self.listTableView reloadData];
+}
+
+#pragma mark - Parse
+-(void)parseAds {
+    PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Active"]];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
 }
 
 #pragma mark - Segue

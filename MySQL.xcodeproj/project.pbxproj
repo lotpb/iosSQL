@@ -95,6 +95,7 @@
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
 		AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */; };
 		AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F8EE01A61C4290063B6DA /* LookupCity.m */; };
+		AF600B9E1ABF2AF00010E7D0 /* profile-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AF600B9D1ABF2AF00010E7D0 /* profile-bg.png */; };
 		AF627C151A1239EF0048668B /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF627C141A1239EF0048668B /* ProfileViewController.m */; };
 		AF6308CF1A4DE1D800D89FD8 /* CollectionParseController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6308CE1A4DE1D800D89FD8 /* CollectionParseController.m */; };
 		AF65081119EB158300CEF44D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF65081019EB158300CEF44D /* MainViewController.m */; };
@@ -280,6 +281,7 @@
 		AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		AF5EF83A1A4F015900B802E1 /* UploadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
 		AF5F8EE01A61C4290063B6DA /* LookupCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupCity.m; sourceTree = "<group>"; };
+		AF600B9D1ABF2AF00010E7D0 /* profile-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "profile-bg.png"; path = "images/profile-bg.png"; sourceTree = "<group>"; };
 		AF627C131A1239EF0048668B /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		AF627C141A1239EF0048668B /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		AF6308CD1A4DE1D800D89FD8 /* CollectionParseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionParseController.h; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				AF366E951A55A15800976387 /* header_banner.png */,
 				AF366E9B1A55A15800976387 /* iosStaNAr.png */,
 				AF366E9C1A55A15800976387 /* iosStar.png */,
+				AF600B9D1ABF2AF00010E7D0 /* profile-bg.png */,
 				AF366E9D1A55A15800976387 /* iosStarNA.png */,
 				AF366EA01A55A15800976387 /* menu.png */,
 				AF366EA11A55A15800976387 /* menu@2x.png */,
@@ -1065,6 +1068,7 @@
 				AF2301931A96BC6F0035D6BB /* amex@2x.png in Resources */,
 				AF366ED61A55A15800976387 /* photo.png in Resources */,
 				AFBC9E9219D9CEDF0050E67A /* Images.xcassets in Resources */,
+				AF600B9E1ABF2AF00010E7D0 /* profile-bg.png in Resources */,
 				AF2301991A96BC6F0035D6BB /* diners@2x.png in Resources */,
 				AF366EB31A55A15800976387 /* IMG_1133.jpg in Resources */,
 				AF366EDC1A55A15800976387 /* Twitter copy.png in Resources */,

@@ -96,6 +96,7 @@
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 
 #pragma mark Bar Button
     if ([_formController isEqual: @"Leads"]) {

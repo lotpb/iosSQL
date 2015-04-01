@@ -8,10 +8,6 @@
 
 #import "EditData.h"
 
-#define TEXT_FIELD_TAG_OFFSET 1000
-#define NUM_TEXT_FIELD 5
-
-
 @interface EditData () //<LookupCityDelegate, LookupJobDelegate>
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
@@ -29,6 +25,9 @@
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+
    // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
  //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
@@ -120,11 +119,7 @@
             salesArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
     }
-    
-  //  UIFont *textFont = [UIFont fontWithName:KEY_TABLEFONT size:14];
-    
           self.leadNo = self.leadNo;
-          self.clearBTN.hidden = YES;
     
      if ([self.frm11 isEqual:[NSNull null]])
           self.first.text = @"";
@@ -250,8 +245,7 @@
     return pickerView;
 }
 
--(void)doneClicked
-{
+-(void)doneClicked {
     [self.view endEditing:YES];
 }
 
@@ -344,26 +338,26 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {   // Return the number of sections.
     return 1;
-}
+} 
 
 #pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
     if ([_formController isEqual:@"Customer"])
     return 16;
-return 14;
+    else
+    return 14;
 }
-
+//Comment Field Height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat result = ROW_HEIGHT;
-    
-   switch ([indexPath row])
+    switch ([indexPath row])
     {
         case 13:
         {
             result = 100;
-            break;
+        break;
         }
     }
     return result;
@@ -406,7 +400,7 @@ return 14;
         else self.date.placeholder = @"Date";
            [myCell.contentView addSubview:self.date];
 
-    } else if (indexPath.row == 1){
+    } else if (indexPath.row == 1) {
         
         self.address = textframe;
        [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -419,7 +413,7 @@ return 14;
          myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
         
-    } else if (indexPath.row == 2){
+    } else if (indexPath.row == 2) {
        
         self.city = textframe;
        [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -433,7 +427,7 @@ return 14;
          myCell.textLabel.text = @"City";
         [myCell.contentView addSubview:self.city];
         
-    } else if (indexPath.row == 3){
+    } else if (indexPath.row == 3) {
         
         self.state = textframe;
        [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -458,7 +452,7 @@ return 14;
              self.zip.placeholder = @"Zip";
         [myCell.contentView addSubview:self.zip];
         
-    } else if (indexPath.row == 4){
+    } else if (indexPath.row == 4) {
         
         self.aptDate = textframe;
         if ([self.frm19 isEqual:[NSNull null]])
@@ -490,7 +484,7 @@ return 14;
         
            [myCell.contentView addSubview:self.aptDate];
         
-    } else if (indexPath.row == 5){
+    } else if (indexPath.row == 5) {
         
          self.phone = textframe;
         [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -503,7 +497,7 @@ return 14;
          myCell.textLabel.text = @"Phone";
         [myCell.contentView addSubview:self.phone];
         
-    } else if (indexPath.row == 6){
+    } else if (indexPath.row == 6) {
         
          self.salesman = textframe;
         [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -530,7 +524,7 @@ return 14;
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone"; }
         
-    } else if (indexPath.row == 7){
+    } else if (indexPath.row == 7) {
          self.jobName = textframe;
         [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
          self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -555,7 +549,7 @@ return 14;
       
         [myCell.contentView addSubview:self.jobName];
         
-    } else if (indexPath.row == 8){
+    } else if (indexPath.row == 8) {
          self.adName = textframe;
         [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
          self.adName.placeholder = @"Advertiser";
@@ -569,8 +563,8 @@ return 14;
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
         if ([_formController isEqual: @"Vendor"]) {
-            self.adName.placeholder = @"Phone 3";
-            myCell.textLabel.text = @"phone 3"; }
+             self.adName.placeholder = @"Phone 3";
+             myCell.textLabel.text = @"phone 3"; }
         
         else if ([_formController isEqual: @"Employee"]) {
              self.adName.placeholder = @"Social Security";
@@ -583,7 +577,7 @@ return 14;
   
         [myCell.contentView addSubview:self.adName];
         
-    } else if(indexPath.row == 9){
+    } else if(indexPath.row == 9) {
         
          self.amount = textframe;
         [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -601,7 +595,7 @@ return 14;
 
         [myCell.contentView addSubview:self.amount];
         
-    } else if (indexPath.row == 10){
+    } else if (indexPath.row == 10) {
         
          self.email = textframe;
         [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
@@ -616,7 +610,7 @@ return 14;
          myCell.textLabel.text = @"Email";
         [myCell.contentView addSubview:self.email];
         
-    } else if(indexPath.row == 11){
+    } else if(indexPath.row == 11) {
          self.spouse = textframe;
         [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
          self.spouse.placeholder = @"Spouse";
@@ -637,7 +631,7 @@ return 14;
 
         [myCell.contentView addSubview:self.spouse];
         
-    } else if (indexPath.row == 12){
+    } else if (indexPath.row == 12) {
          self.callback = textframe;
         [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
          self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -659,7 +653,7 @@ return 14;
             UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
             [wrapper addSubview:stepper];
             myCell.accessoryView = stepper;
-            [stepper addTarget:self action:@selector(chanegestep:) forControlEvents:UIControlEventValueChanged];
+            [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
         }
         
         else if ([_formController isEqual: @"Vendor"]) {
@@ -676,7 +670,7 @@ return 14;
             self.callback.inputView = [self customPicker:12]; }
            [myCell.contentView addSubview:self.callback];
         
-    } else if (indexPath.row == 13){
+    } else if (indexPath.row == 13) {
          self.comment = textviewframe;
         [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
          self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -686,7 +680,7 @@ return 14;
          myCell.textLabel.text = @"Comments";
         [myCell.contentView addSubview:self.comment];
         
-    } else if(indexPath.row == 14){
+    } else if(indexPath.row == 14) {
          self.start = textframe;
         [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
          self.start.tag = 14;
@@ -701,7 +695,7 @@ return 14;
          myCell.textLabel.text = @"Start Date";
         [myCell.contentView addSubview:self.start];
  
-    } else if(indexPath.row == 15){
+    } else if(indexPath.row == 15) {
          self.complete = textframe;
         [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
          self.complete.tag = 15;
@@ -732,8 +726,7 @@ return 14;
     return myCell;
 }
 
- - (void) chanegestep:(UIStepper *)sender
-{
+ - (void) changestep:(UIStepper *)sender {
      double va = [sender value];
     [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
 }
@@ -746,18 +739,19 @@ return 14;
 } */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
-(NSInteger)section{
+(NSInteger)section {
     NSString *headerTitle;
     if (section==0)
-        headerTitle = @"Info";
+        headerTitle = HEADERTITLE;
   
     return headerTitle;
 }
+
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
-(NSInteger)section{
+(NSInteger)section {
     NSString *footerTitle;
     if (section==0)
-        footerTitle = @"MySQL";
+        footerTitle = FOOTERTITLE;
  
     return footerTitle;
 }

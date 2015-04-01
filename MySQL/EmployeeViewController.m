@@ -27,7 +27,8 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     
-    _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init]; _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
+    _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
+    _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     

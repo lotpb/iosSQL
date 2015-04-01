@@ -66,13 +66,12 @@
 }
 
 #pragma mark - BarButton NewData
--(void)newData:(id)sender{
+-(void)newData:(id)sender {
     [self performSegueWithIdentifier:@"newVendSeque"sender:self];
 }
 
 #pragma mark - Table
--(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
+-(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
 }
@@ -84,8 +83,7 @@
 }
 
 #pragma mark  Table Delete Button
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return UITableViewCellEditingStyleDelete;
 }
@@ -96,7 +94,7 @@
     [self.listTableView setEditing:editing animated:animated];
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
@@ -157,8 +155,8 @@
         return _feedItems.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{   
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     static NSString *CellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
@@ -187,8 +185,7 @@
         return 0.0;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSString *newString = [NSString stringWithFormat:@"VENDOR \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -268,7 +265,7 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    if (!searchController.active){
+    if (!searchController.active) {
         self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
         return;
     }

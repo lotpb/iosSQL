@@ -14,7 +14,6 @@
 
 @interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, VendorModelProtocol>
 {
-   // NSMutableArray *_feedItems;
  NSMutableArray *filteredString;
  BOOL isFilltered;
 }

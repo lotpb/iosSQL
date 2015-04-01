@@ -28,14 +28,6 @@
     _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self; [_JobModel downloadItems];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"Description"]];
-    //[query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
-    
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark  Bar Button
@@ -84,6 +76,7 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
+    [self parseJob];
 }
 
 #pragma mark Table Refresh Control
@@ -323,6 +316,17 @@
         }
     }
     [self.listTableView reloadData];
+}
+
+#pragma mark - Parse
+-(void)parseJob {
+    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"Description"]];
+    //[query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        jobCount = [[NSMutableArray alloc]initWithArray:objects];
+    }];
 }
 
 #pragma mark - Segue

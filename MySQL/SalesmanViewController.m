@@ -77,7 +77,7 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
-    //[self parseSalesman];
+    [self parseSalesman];
 }
 
 #pragma mark Table Refresh Control
@@ -319,6 +319,7 @@ return _feedItems.count;
   [self.listTableView reloadData];
 }
 
+#pragma mark - Parse
 - (void)parseSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;

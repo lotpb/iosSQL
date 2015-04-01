@@ -52,11 +52,12 @@
     
     if ([_formController isEqual: @"Customer"]) {
      PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-      query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     [PFQuery clearAllCachedResults];
      [query3 selectKeys:@[@"ProductNo"]];
      [query3 selectKeys:@[@"Products"]];
      [query3 orderByDescending:@"Products"];
      [query3 whereKey:@"Active" containsString:@"Active"];
+      query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
      [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
          if (!error) {
              for (PFObject *object in objects) {

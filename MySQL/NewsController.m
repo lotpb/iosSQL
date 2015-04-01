@@ -144,7 +144,7 @@
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
         UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
         
-        userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 230);
+        userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];

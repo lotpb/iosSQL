@@ -30,6 +30,7 @@
     self.title = NSLocalizedString(@"Blog", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
   
     _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
     _BlogModel.delegate = self; [_BlogModel downloadItems];
@@ -260,7 +261,7 @@
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)
-        [view setBackgroundColor:BLOGNAVCOLOR]; //clearcolor
+        [view setBackgroundColor:BLOGNAVCOLOR]; //[UIColor clearColor]]
         else
         [view setBackgroundColor:[UIColor blackColor]];
     

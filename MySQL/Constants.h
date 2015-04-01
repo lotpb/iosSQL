@@ -17,6 +17,11 @@
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
 
+//MainMenu
+#define MAINNAVCOLOR   [UIColor blackColor]
+#define NAVTRANSLUCENT  YES
+#define NAVTINTCOLOR   [UIColor grayColor]
+
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
 #define VIEWBACKCOLOR    [UIColor whiteColor]
@@ -32,6 +37,12 @@
 #define NEWSREADCOLOR    [UIColor magentaColor]
 #define READLABEL        @"News" //Read more
 
+//EDITDATA
+#define HEADERTITLE @"Info"
+#define FOOTERTITLE @"MySQL"
+#define TEXT_FIELD_TAG_OFFSET 1000
+#define NUM_TEXT_FIELD 5
+
 // BLOG
 #define KEY_USER  @"username"  // BogNew
 #define KEY_EMAIL @"emailKey"  // BogNew
@@ -43,7 +54,7 @@
 #define PHOTOHEADER @"Job Pictures #%li"  // CollectionParse
 
 //LEADDETAIL
-#define DETAILFONTSIZE   8
+#define DETAILFONTSIZE   9
 #define DETAILNEWS       12
 #define DETAILTITLECOLOR [UIColor blackColor]
 #define DETAILSUBCOLOR   [UIColor grayColor]
@@ -79,8 +90,8 @@
 
 //MAPCONTROLLER
 #define MAPTITLE  @"Map of New York"
-#define NY_LATITUDE    40.714353
-#define NY_LONGTITUDE -74.005973
+#define NY_LATITUDE    42.37 //40.714353
+#define NY_LONGTITUDE -71.03//74.005973
 
 //WebMainController
 #define KEY_WEBNAME0 @"CNN"

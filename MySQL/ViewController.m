@@ -33,8 +33,6 @@
    // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
    // self.listTableView.contentInset = inset;
     
-
- 
     _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] init];
@@ -79,7 +77,7 @@
     [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
 }
 
-#pragma mark Table Refresh Control
+#pragma mark TableRefresh Control
 - (void)reloadDatas:(id)sender {
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
