@@ -71,10 +71,12 @@ NSString *cityName;
     filteredString= [[NSMutableArray alloc] initWithArray:zipArray];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-     [self.searchController.searchBar becomeFirstResponder];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+    [self.searchController.searchBar becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

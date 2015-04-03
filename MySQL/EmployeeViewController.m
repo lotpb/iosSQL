@@ -57,24 +57,29 @@
     [refreshView addSubview:refreshControl];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self resignFirstResponder];
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 #pragma mark - BarButton NewData
--(void)newData:(id)sender{
+-(void)newData:(id)sender {
     [self performSegueWithIdentifier:@"newEmplySegue"sender:self];
 }
 
 #pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
+-(void)itemsDownloaded:(NSMutableArray *)items {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
 }

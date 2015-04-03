@@ -17,6 +17,7 @@
 
 @interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
 
+//@property (weak, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;

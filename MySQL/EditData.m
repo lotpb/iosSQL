@@ -38,66 +38,18 @@
     tapGestureRecognizer.cancelsTouchesInView = NO;
     
     if ([_formController isEqual: @"Leads"]) {
-        
-        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-         query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query11 whereKey:@"AdNo" equalTo:self.frm23];
-        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else
-                self.adName.text = [object objectForKey:@"Advertiser"];
-        }];
-        
-        PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-         query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query1 selectKeys:@[@"Callback"]];
-        [query1 orderByDescending:@"Callback"];
-        [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            callbackArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
+        [self parseAd];
+        [self parseCallback];
         
     } else if ([_formController isEqual: @"Customer"]) {
-        
-        PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-         query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query3 whereKey:@"ProductNo" containsString:self.frm23];
-        [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else
-                self.adName.text = [object objectForKey:@"Products"];
-        }];
-       
-        PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-        query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query13 selectKeys:@[@"Contractor"]];
-        [query13 orderByDescending:@"Contractor"];
-        [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            contractorArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-        
-        PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
-        query14.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query14 selectKeys:@[@"rating"]];
-        [query14 orderByDescending:@"rating"];
-        [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            rateArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-        
+        [self parseProduct];
+        [self parseContractor];
+        [self parseRate];
     }
     
     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
-        
-        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-         query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query21 whereKey:@"JobNo" equalTo:self.frm22];
-        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!object) {
-                NSLog(@"The getFirstObject request failed.");
-            } else
-                self.jobName.text = [object objectForKey:@"Description"];
-        }];
+        [self parseSalesman];
+        [self parseJob];
         
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
          query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -108,17 +60,8 @@
             } else
                 self.salesman.text = [object objectForKey:@"Salesman"];
         }];
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query selectKeys:@[@"SalesNo"]];
-        [query selectKeys:@[@"Salesman"]];
-        [query orderByDescending:@"SalesNo"];
-        [query whereKey:@"Active" containsString:@"Active"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            salesArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-    }
+}
+    
           self.leadNo = self.leadNo;
     
      if ([self.frm11 isEqual:[NSNull null]])
@@ -184,6 +127,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
     [self.first becomeFirstResponder];
 }
@@ -214,7 +160,7 @@
        [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
 }
 
-#pragma mark - View Picker
+#pragma mark - ViewPicker
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
@@ -249,7 +195,7 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark Date Picker
+#pragma mark DatePicker
 - (UIView *)datePicker:(NSUInteger)tag{
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
     pickerView.backgroundColor = [UIColor lightGrayColor];
@@ -805,6 +751,86 @@
     self.salesman.text = passedData;
 }
 
+#pragma mark - Parse
+- (void)parseSalesman {
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query selectKeys:@[@"SalesNo"]];
+    [query selectKeys:@[@"Salesman"]];
+    [query orderByDescending:@"SalesNo"];
+    [query whereKey:@"Active" containsString:@"Active"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        salesArray = [[NSMutableArray alloc]initWithArray:objects];
+    }];
+}
+
+- (void)parseJob {
+    PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+    query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query21 whereKey:@"JobNo" equalTo:self.frm22];
+    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else
+            self.jobName.text = [object objectForKey:@"Description"];
+    }];
+}
+
+- (void)parseProduct {
+    PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
+    query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query3 whereKey:@"ProductNo" containsString:self.frm23];
+    [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else
+            self.adName.text = [object objectForKey:@"Products"];
+    }];
+}
+
+- (void)parseAd {
+    PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+    query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query11 whereKey:@"AdNo" equalTo:self.frm23];
+    [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            NSLog(@"The getFirstObject request failed.");
+        } else
+            self.adName.text = [object objectForKey:@"Advertiser"];
+    }];
+}
+
+- (void)parseRate {
+    PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
+    query14.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query14 selectKeys:@[@"rating"]];
+    [query14 orderByDescending:@"rating"];
+    [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        rateArray = [[NSMutableArray alloc]initWithArray:objects];
+    }];
+}
+
+- (void)parseContractor {
+    PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
+    query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query13 selectKeys:@[@"Contractor"]];
+    [query13 orderByDescending:@"Contractor"];
+    [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        contractorArray = [[NSMutableArray alloc]initWithArray:objects];
+    }];
+}
+
+- (void)parseCallback {
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
+    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query1 selectKeys:@[@"Callback"]];
+    [query1 orderByDescending:@"Callback"];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        callbackArray = [[NSMutableArray alloc]initWithArray:objects];
+    }];
+}
+
+#pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:@"lookupcitySegue"]) {
@@ -829,7 +855,7 @@
     }
 }
 
-#pragma mark - Edit Data
+#pragma mark - EditData
 -(void)updateLeads:(id)sender {
     if ([_formController isEqual: @"Leads"]) {
         NSString *_leadNo = self.leadNo;

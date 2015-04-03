@@ -98,6 +98,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
     [self.salesman becomeFirstResponder];
 }
@@ -106,6 +109,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 /*
 #pragma mark - Button
 -(IBAction)like:(id)sender{
@@ -120,7 +124,6 @@
     //    self.active = @"1";
         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
 } */
-
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

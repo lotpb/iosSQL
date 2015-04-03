@@ -91,9 +91,11 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems; */
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
     [self.searchController.searchBar becomeFirstResponder];
 }
 

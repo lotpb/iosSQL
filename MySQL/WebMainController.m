@@ -14,12 +14,6 @@
 
 @implementation WebMainController
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewDidLoad {
    [super viewDidLoad];
     //SegmentControl Names
@@ -49,6 +43,18 @@
     // Load the jsbin URL into the WKWebView and then add it as a sub-view.
     [_webView loadRequest:[NSURLRequest requestWithURL:jsbin]];
     [self.view addSubview:_webView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController

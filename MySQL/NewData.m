@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
    
     if ([_formController isEqual: @"Leads"]) {
         
@@ -60,7 +61,7 @@
     self.adNo.hidden = YES; //Field
     self.active.hidden = YES; //Field
     
-    if  ( [self.frm31 isEqual:[NSNull null]])
+    if ([self.frm31 isEqual:[NSNull null]])
          self.leadNo = @"";
     else self.leadNo = self.frm31;
     
@@ -222,10 +223,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
      if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) )
-    [self.company becomeFirstResponder];
-   else [self.first becomeFirstResponder];
+          [self.company becomeFirstResponder];
+     else [self.first becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {

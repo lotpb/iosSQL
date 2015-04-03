@@ -39,7 +39,8 @@
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLNEWS.png"]];
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLNEWS.png"]];
     //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
     
@@ -56,23 +57,21 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
 }
 
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
- // Release any retained subviews of the main view.
-    self.wallScroll = nil;
+  // Release any retained subviews of the main view.
+     self.wallScroll = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
     //Clean the scroll view
-    for (id viewToRemove in [self.wallScroll subviews]) {
+     for (id viewToRemove in [self.wallScroll subviews]) {
         if ([viewToRemove isMemberOfClass:[UIView class]])
             [viewToRemove removeFromSuperview];
     }
@@ -80,15 +79,18 @@
     [self getWallImages];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark Scroll RefreshControl
-- (void)reloadDatas:(UIRefreshControl *)refreshControl
-{
+- (void)reloadDatas:(UIRefreshControl *)refreshControl {
     [self getWallImages];
     [refreshControl endRefreshing];
 }
@@ -96,8 +98,7 @@
 #pragma mark Receive Wall Objects
 
 //Get the list of images
--(void)getWallImages
-{
+-(void)getWallImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
      query.cachePolicy = kPFCachePolicyCacheThenNetwork; //added
     [query orderByDescending:KEY_CREATION_DATE];

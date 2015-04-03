@@ -45,7 +45,7 @@
 }
 
 #pragma mark - Button
-- (void)share:(id)sender{
+- (void)share:(id)sender {
     NSString * message = self.selectedLocation.msgDate;
     NSString * message1 = self.selectedLocation.postby;
     NSString * message2 = self.selectedLocation.subject;

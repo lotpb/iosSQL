@@ -55,18 +55,25 @@
     [refreshView addSubview:refreshControl];
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - BarButton NewData
--(void)newData:(id)sender{
+-(void)newData:(id)sender {
     [self performSegueWithIdentifier:@"newCustSeque"sender:self];
 }
 
 #pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items{
+-(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
     [self parseProduct];
@@ -82,16 +89,13 @@
 
 #pragma mark TableView Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
-    
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
-    
     [self.listTableView setEditing:editing animated:animated];
 }
 
@@ -153,7 +157,7 @@
 }
 
 #pragma mark TableView Delegate Methods
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return filteredString.count;
     else

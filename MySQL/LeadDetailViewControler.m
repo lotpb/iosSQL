@@ -245,20 +245,27 @@ self.comments = news1;
        else [self.mySwitch setOn:NO];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.listTableView reloadData]; [self.listTableView2 reloadData];
     [self.newsTableView reloadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+}
+
 - (void) viewDidLayoutSubviews { //added to fix the left side margin
     [super viewDidLayoutSubviews];
     self.listTableView.layoutMargins = UIEdgeInsetsZero;
     self.listTableView2.layoutMargins = UIEdgeInsetsZero;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - map Buttons

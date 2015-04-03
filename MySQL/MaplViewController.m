@@ -48,10 +48,10 @@
     [self.mapView setZoomEnabled:YES];
     [self.mapView setScrollEnabled:YES];}
 
-- (void)viewDidAppear:(BOOL)animated
-{   [super viewDidAppear:animated];
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+     self.locationManager.distanceFilter = kCLDistanceFilterNone;
+     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [self.locationManager startUpdatingLocation];
     // NSLog(@"%@", [self deviceLocation]);
     
@@ -74,13 +74,17 @@
     [self.mapView setRegion:region animated:YES];
     [self.mapView addAnnotation:placemark];
     
-    
     } } ];
 }
 
+-(void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 // MKMapViewDelegate Methods
-- (void)mapViewWillStartLocatingUser:(MKMapView *)mapView
-{
+- (void)mapViewWillStartLocatingUser:(MKMapView *)mapView {
     // Check authorization status (with class method)
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     
@@ -119,11 +123,6 @@
     ([mp coordinate], 1500, 1500);
     [mv setRegion:region animated:YES];
     [mv selectAnnotation:mp animated:YES];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 @end
