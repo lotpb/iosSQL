@@ -22,6 +22,7 @@
 {
    [super viewDidLoad];
     self.title = NSLocalizedString(@"Vendors", nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
     _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
     _VendorModel.delegate = self; [_VendorModel downloadItems];

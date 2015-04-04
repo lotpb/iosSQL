@@ -8,7 +8,7 @@
 
 #import "EditData.h"
 
-@interface EditData () //<LookupCityDelegate, LookupJobDelegate>
+@interface EditData ()
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
@@ -31,12 +31,6 @@
    // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
  //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
-    // Any tap on the view would dismiss the keyboard.
-    UITapGestureRecognizer *tapGestureRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
-    tapGestureRecognizer.cancelsTouchesInView = NO;
-    
     if ([_formController isEqual: @"Leads"]) {
         [self parseAd];
         [self parseCallback];
@@ -48,7 +42,10 @@
     }
     
     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
+       // ParseConnection *parseConnection = [[ParseConnection alloc]init];
+      //  [parseConnection parseSalesman];
         [self parseSalesman];
+       // [parseConnection parseJob:(self.frm22)];
         [self parseJob];
         
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
@@ -61,8 +58,10 @@
                 self.salesman.text = [object objectForKey:@"Salesman"];
         }];
 }
-    
-          self.leadNo = self.leadNo;
+       [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
+       [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
+       [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
+        self.leadNo = self.leadNo;
     
      if ([self.frm11 isEqual:[NSNull null]])
           self.first.text = @"";
@@ -75,10 +74,6 @@
     if ([self.frm13 isEqual:[NSNull null]])
          self.company.text = @"";
     else self.company.text = self.frm13;
-    
-    [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
-    [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
-    [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
     
     if ([self.frm29 isEqual:[NSNull null]])
          self.photo.text = @"";
@@ -100,6 +95,7 @@
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
     }
+    
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
     UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
     if ( [self.frm30 isEqual:@"1"] ) { //active
@@ -120,6 +116,12 @@
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    // Any tap on the view would dismiss the keyboard.
+    UITapGestureRecognizer *tapGestureRecognizer =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
@@ -147,7 +149,7 @@
 }
 
 #pragma mark - Button
--(IBAction)like:(id)sender{
+-(IBAction)like:(id)sender {
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
     UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
    if ([self.active isEqual:@"1"] ) {
@@ -752,6 +754,7 @@
 }
 
 #pragma mark - Parse
+
 - (void)parseSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;

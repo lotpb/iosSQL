@@ -24,6 +24,7 @@
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Jobs", nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
     _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self; [_JobModel downloadItems];

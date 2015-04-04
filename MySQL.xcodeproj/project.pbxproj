@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
+		AF20EFB01ACF0A8C00572AD3 /* ParseConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF20EFAF1ACF0A8C00572AD3 /* ParseConnection.m */; };
 		AF2301921A96BC6F0035D6BB /* amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301801A96BC6F0035D6BB /* amex.png */; };
 		AF2301931A96BC6F0035D6BB /* amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301811A96BC6F0035D6BB /* amex@2x.png */; };
 		AF2301941A96BC6F0035D6BB /* cvc-amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301821A96BC6F0035D6BB /* cvc-amex.png */; };
@@ -181,6 +182,8 @@
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
+		AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseConnection.h; sourceTree = "<group>"; };
+		AF20EFAF1ACF0A8C00572AD3 /* ParseConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseConnection.m; sourceTree = "<group>"; };
 		AF2301801A96BC6F0035D6BB /* amex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = amex.png; sourceTree = "<group>"; };
 		AF2301811A96BC6F0035D6BB /* amex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "amex@2x.png"; sourceTree = "<group>"; };
 		AF2301821A96BC6F0035D6BB /* cvc-amex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cvc-amex.png"; sourceTree = "<group>"; };
@@ -821,6 +824,8 @@
 			isa = PBXGroup;
 			children = (
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
+				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
+				AF20EFAF1ACF0A8C00572AD3 /* ParseConnection.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
@@ -1144,6 +1149,7 @@
 				AFFEA0821A32095400165318 /* ProductViewController.m in Sources */,
 				AFA99E1E1A49E79700231173 /* NotificationController.m in Sources */,
 				AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */,
+				AF20EFB01ACF0A8C00572AD3 /* ParseConnection.m in Sources */,
 				AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */,
 				AF2856661A256B5000A6F42A /* MapController.m in Sources */,
 				AFFEA0861A32101600165318 /* AdvertisingViewController.m in Sources */,

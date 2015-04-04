@@ -14,6 +14,7 @@
 #import "LookupProduct.h"
 #import "LookupSalesman.h"
 #import "Constants.h"
+#import "ParseConnection.h"
 
 @interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
 

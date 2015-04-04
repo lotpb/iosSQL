@@ -27,6 +27,7 @@
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"Leads", nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     //self.listTableView.backgroundColor = [UIColor clearColor];

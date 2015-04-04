@@ -81,7 +81,8 @@
                 [self.listTableView reloadData]; }
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }]; }
+    }];
+}
     
     filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
  /*
@@ -99,8 +100,7 @@
     [self.searchController.searchBar becomeFirstResponder];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 

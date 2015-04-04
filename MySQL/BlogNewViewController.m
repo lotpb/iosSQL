@@ -111,7 +111,7 @@ return myCell;
 }
 
 #pragma mark - Button
--(IBAction)like:(id)sender{
+-(IBAction)like:(id)sender {
     if([self.rating isEqualToString: @"4"]) {
        [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
         self.activeImage.image = [UIImage imageNamed:@"iosStar.png"];

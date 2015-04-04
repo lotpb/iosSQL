@@ -24,6 +24,7 @@
 {
    [super viewDidLoad];
     self.title = NSLocalizedString(@"Customer", nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
 

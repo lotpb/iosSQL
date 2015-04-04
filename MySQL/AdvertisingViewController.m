@@ -25,6 +25,7 @@
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Advertising", nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
     _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
     _AdModel.delegate = self; [_AdModel downloadItems];

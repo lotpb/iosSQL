@@ -30,7 +30,7 @@
     self.title = NSLocalizedString(@"Blog", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
   
     _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
     _BlogModel.delegate = self; [_BlogModel downloadItems];

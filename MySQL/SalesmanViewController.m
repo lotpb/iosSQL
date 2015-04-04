@@ -25,7 +25,7 @@
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Salesman", nil);
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
     _SalesModel.delegate = self; [_SalesModel downloadItems];
     

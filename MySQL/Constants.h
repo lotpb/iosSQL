@@ -11,16 +11,17 @@
 @interface Constants : NSObject
 
 #define KEY_DATESQLFORMAT @"yyyy-MM-dd" //new dataView
+
+//All Storybooks
+#define MAINNAVCOLOR   [UIColor blackColor]
+#define NAVTRANSLUCENT  YES
+#define NAVTINTCOLOR   [UIColor grayColor]
+
 #define CURSERCOLOR       [UIColor grayColor]
 #define LIKEFONTSIZE      9
 #define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
-
-//MainMenu
-#define MAINNAVCOLOR   [UIColor blackColor]
-#define NAVTRANSLUCENT  YES
-#define NAVTINTCOLOR   [UIColor grayColor]
 
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
@@ -34,7 +35,7 @@
 #define DETAILFONT(s)    [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
 #define NEWSTITLECOLOR   [UIColor blackColor] //darkGrayColor
 #define NEWSDETAILCOLOR  [UIColor grayColor]
-#define NEWSREADCOLOR    [UIColor magentaColor]
+#define NEWSREADCOLOR    [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];//[UIColor magentaColor]
 #define READLABEL        @"News" //Read more
 
 //EDITDATA
