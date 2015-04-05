@@ -25,11 +25,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title = NSLocalizedString(@"Leads", nil);
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    self.listTableView.delegate = self;
-    self.listTableView.dataSource = self;
+     self.title = NSLocalizedString(@"Leads", nil);
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+     self.listTableView.delegate = self;
+     self.listTableView.dataSource = self;
     //self.listTableView.backgroundColor = [UIColor clearColor];
    // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
    // self.listTableView.contentInset = inset;
@@ -86,6 +85,7 @@
 
 #pragma mark TableRefresh Control
 - (void)reloadDatas:(id)sender {
+    [_homeModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
@@ -107,8 +107,7 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
-    
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     [self.listTableView setEditing:editing animated:animated];
 }
@@ -286,9 +285,10 @@
     self.searchController.searchBar.tintColor = [UIColor whiteColor];
     self.searchController.searchBar.barTintColor = [UIColor clearColor];
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.searchController.hidesBottomBarWhenPushed = YES;
+   // self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
@@ -300,7 +300,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+     //   self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
         return;
     }
     

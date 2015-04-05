@@ -35,7 +35,7 @@ NSString *cityName;
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
+   [self.searchController.searchBar sizeToFit];
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.definesPresentationContext = YES;

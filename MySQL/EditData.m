@@ -20,15 +20,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone;  //fix
     self.listTableView.dataSource = self;
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-
-   // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //self.automaticallyAdjustsScrollViewInsets = NO; //fix
+    //self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
  //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
     
     if ([_formController isEqual: @"Leads"]) {
@@ -42,12 +41,12 @@
     }
     
     if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
-       // ParseConnection *parseConnection = [[ParseConnection alloc]init];
-      //  [parseConnection parseSalesman];
         [self parseSalesman];
-       // [parseConnection parseJob:(self.frm22)];
         [self parseJob];
-        
+        //ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        //[parseConnection parseSalesman];
+       // [parseConnection parseJob:(self.frm22)];
+     
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
          query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
         [query31 whereKey:@"SalesNo" equalTo:self.frm21];
@@ -104,7 +103,8 @@
           self.active = @"1";}
     else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
             self.following.text = @"Follow";
-            self.active = @"0";}
+            self.active = @"0";
+         }
  
 #pragma mark Form Circle Image
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
@@ -116,12 +116,12 @@
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
+ 
     // Any tap on the view would dismiss the keyboard.
     UITapGestureRecognizer *tapGestureRecognizer =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
-    tapGestureRecognizer.cancelsTouchesInView = NO;
+    tapGestureRecognizer.cancelsTouchesInView = NO; 
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
@@ -660,6 +660,7 @@
       // myCell.clipsToBounds = YES;
     }
     
+   /*
     self.date.delegate = self; self.address.delegate = self;
     self.city.delegate = self; self.state.delegate = self;
     self.aptDate.delegate = self; self.phone.delegate = self;
@@ -668,13 +669,14 @@
     self.email.delegate = self; self.spouse.delegate = self;
     self.callback.delegate = self; self.start.delegate = self;
     self.complete.delegate = self;
-    //  self.comment.delegate = self;
+    //  self.comment.delegate = self; */
     
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
 
- - (void) changestep:(UIStepper *)sender {
+#pragma mark - Stepper
+- (void) changestep:(UIStepper *)sender {
      double va = [sender value];
     [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
 }
@@ -689,7 +691,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section {
     NSString *headerTitle;
-    if (section==0)
+    if (section == 0)
         headerTitle = HEADERTITLE;
   
     return headerTitle;
@@ -698,7 +700,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
 (NSInteger)section {
     NSString *footerTitle;
-    if (section==0)
+    if (section == 0)
         footerTitle = FOOTERTITLE;
  
     return footerTitle;

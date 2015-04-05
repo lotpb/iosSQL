@@ -10,7 +10,13 @@
 #import <Parse/Parse.h>
 //#import "EditData.h"
 
+@protocol ParseConnectionDelegate <NSObject>
+
+@end
 @interface ParseConnection : NSObject
+{
+  NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;    
+}
 
 // NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 
@@ -22,6 +28,8 @@
 - (void)parseRate;
 - (void)parseContractor;
 - (void)parseCallback;
+
+@property (strong, nonatomic) id<ParseConnectionDelegate> delegate; //added
 
 @property (strong, nonatomic) NSString *frm22;
 @property (strong, nonatomic) NSString *frm23;

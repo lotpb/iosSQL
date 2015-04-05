@@ -10,7 +10,7 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;
+  //  NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;
 }
 @end
 

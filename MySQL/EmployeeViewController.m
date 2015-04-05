@@ -23,10 +23,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Employee", nil);
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    self.listTableView.delegate = self;
-    self.listTableView.dataSource = self;
+     self.title = NSLocalizedString(@"Employee", nil);
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+     self.listTableView.delegate = self;
+     self.listTableView.dataSource = self;
     
     _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
     _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
@@ -87,6 +87,7 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
+    [_EmployeeModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
@@ -144,7 +145,7 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     [self.listTableView setEditing:editing animated:animated];
 }

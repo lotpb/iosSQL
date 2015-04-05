@@ -615,15 +615,15 @@
 			name = "Database Files";
 			sourceTree = "<group>";
 		};
-		AF4E626C1A5CBABA007A56D0 /* NewData */ = {
+		AF4E626C1A5CBABA007A56D0 /* New/Edit Data */ = {
 			isa = PBXGroup;
 			children = (
-				AFE926881A8AB7AA00FE7043 /* NewDataDetail.h */,
-				AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */,
 				AF4D46B81A5634FB005984AD /* NewData.h */,
 				AF4D46B91A5634FB005984AD /* NewData.m */,
 				AFEBCF451A6DAA2100C28C51 /* EditData.h */,
 				AFEBCF461A6DAA2100C28C51 /* EditData.m */,
+				AFE926881A8AB7AA00FE7043 /* NewDataDetail.h */,
+				AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */,
 				AF2881E71A5DA29E00644802 /* LookupCity.h */,
 				AF5F8EE01A61C4290063B6DA /* LookupCity.m */,
 				AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */,
@@ -632,8 +632,12 @@
 				AFF5F4891A68921900687BC3 /* LookupProduct.m */,
 				AFE1DA5B1A751BB50022025C /* LookupSalesman.h */,
 				AFE1DA5C1A751BB50022025C /* LookupSalesman.m */,
+				AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */,
+				AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */,
+				AF558C6C19DACE25004D30D7 /* MapViewController.h */,
+				AF558C6D19DACE25004D30D7 /* MaplViewController.m */,
 			);
-			name = NewData;
+			name = "New/Edit Data";
 			sourceTree = "<group>";
 		};
 		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
@@ -728,10 +732,6 @@
 			children = (
 				AFBC9E8B19D9CEDF0050E67A /* ViewController.h */,
 				AFBC9E8C19D9CEDF0050E67A /* ViewController.m */,
-				AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */,
-				AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */,
-				AF558C6C19DACE25004D30D7 /* MapViewController.h */,
-				AF558C6D19DACE25004D30D7 /* MaplViewController.m */,
 			);
 			name = Leads;
 			sourceTree = "<group>";
@@ -834,7 +834,7 @@
 				AFBC9E9119D9CEDF0050E67A /* Images.xcassets */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
 				AF4E626D1A5CBAED007A56D0 /* Junk */,
-				AF4E626C1A5CBABA007A56D0 /* NewData */,
+				AF4E626C1A5CBABA007A56D0 /* New/Edit Data */,
 				AFA3528019FBD43B00840AA3 /* Leads */,
 				AF6A13731A07BD0C00C3EEAC /* Customer */,
 				AF8F7E131A37E26B009D34EA /* Salesman */,

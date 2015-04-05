@@ -84,8 +84,9 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
-     [self.listTableView reloadData];
-     [refreshControl endRefreshing];
+    [_CustModel downloadItems];
+    [self.listTableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark TableView Delete

@@ -100,7 +100,7 @@
 //Get the list of images
 -(void)getWallImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork; //added
+    // query.cachePolicy = kPFCachePolicyCacheThenNetwork; //added
     [query orderByDescending:KEY_CREATION_DATE];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
@@ -136,14 +136,15 @@
     
         for (PFObject *wallObject in self.imageFilesArray){
         
-        //Build the view with the image and the comments
-        UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)]; //self.view.frame.size.height - original height 330 not 345
-            
+        //fix-self.view.frame.size.height - original height 330 not 345
+        UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
         [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-        UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+//fix changed UIImageView to PFImageView didnt work below also added Parse header
+        PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        [userImage loadInBackground]; //fix - dont work
         
         userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
@@ -228,7 +229,6 @@
     [errorAlertView show];
 }
 
-#pragma mark - search
 #pragma mark - search
 - (void)searchButton:(id)sender {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];

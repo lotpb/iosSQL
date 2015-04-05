@@ -26,6 +26,7 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Salesman", nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    
     _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
     _SalesModel.delegate = self; [_SalesModel downloadItems];
     
@@ -63,8 +64,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
-    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
 }
 
@@ -88,22 +89,20 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
+    [_SalesModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
 
 #pragma mark TableView Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
-    
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
-    
     [self.listTableView setEditing:editing animated:animated];
 }
 

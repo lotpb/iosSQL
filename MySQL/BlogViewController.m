@@ -82,6 +82,7 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
+    [_BlogModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }

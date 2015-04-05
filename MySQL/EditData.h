@@ -14,7 +14,7 @@
 #import "LookupProduct.h"
 #import "LookupSalesman.h"
 #import "Constants.h"
-#import "ParseConnection.h"
+//#import "ParseConnection.h"
 
 @interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
 
@@ -73,7 +73,7 @@
 @property (strong, nonatomic) NSString *frm31; //start
 @property (strong, nonatomic) NSString *frm32; //completion date
 
-@property (weak, nonatomic) IBOutlet UIButton *clearBTN;
+//@property (weak, nonatomic) IBOutlet UIButton *clearBTN;
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 

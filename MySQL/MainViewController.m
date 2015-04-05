@@ -25,6 +25,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     self.edgesForExtendedLayout = UIRectEdgeNone;//fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLHOME.png"]];
      //self.title = NSLocalizedString(@"Main Menu", nil);
      self.listTableView.delegate = self;
@@ -197,7 +198,7 @@ return [tableData count];
     self.searchController.hidesBottomBarWhenPushed = YES;
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
 
     [self presentViewController:self.searchController animated:YES completion:nil];
 }

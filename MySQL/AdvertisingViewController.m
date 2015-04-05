@@ -24,8 +24,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Advertising", nil);
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+     self.title = NSLocalizedString(@"Advertising", nil);
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
     _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
     _AdModel.delegate = self; [_AdModel downloadItems];
@@ -85,6 +85,7 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
+    [_AdModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
@@ -96,11 +97,8 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
-    
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
-    
     [self.listTableView setEditing:editing animated:animated];
 }
 

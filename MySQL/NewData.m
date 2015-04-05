@@ -225,7 +225,7 @@
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+  // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
      if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) )
           [self.company becomeFirstResponder];

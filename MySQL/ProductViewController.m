@@ -23,8 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Products", nil);
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+     self.title = NSLocalizedString(@"Products", nil);
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
     _feedItems = [[NSMutableArray alloc] init]; _ProductModel = [[ProductModel alloc] init];
     _ProductModel.delegate = self; [_ProductModel downloadItems];
@@ -63,8 +63,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
-    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
 }
 
@@ -88,6 +88,7 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
+    [_ProductModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
 }
@@ -99,11 +100,8 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-- (void) setEditing:(BOOL)editing
-           animated:(BOOL)animated{
-    
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
-    
     [self.listTableView setEditing:editing animated:animated];
 }
 
