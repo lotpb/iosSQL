@@ -898,14 +898,14 @@
                                         <exclude reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="0mC-TK-Kh2"/>
-                                        <exclude reference="Ida-Bz-9W7"/>
-                                        <exclude reference="YJO-pE-WC9"/>
-                                        <exclude reference="u0s-vX-TfK"/>
                                         <exclude reference="3l0-2x-cU0"/>
                                         <exclude reference="4pM-jc-efH"/>
                                         <exclude reference="MOZ-xK-j7u"/>
                                         <exclude reference="XdI-do-C3C"/>
+                                        <exclude reference="0mC-TK-Kh2"/>
+                                        <exclude reference="Ida-Bz-9W7"/>
+                                        <exclude reference="YJO-pE-WC9"/>
+                                        <exclude reference="u0s-vX-TfK"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -914,14 +914,14 @@
                                         <include reference="0Yq-Oy-459"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="0mC-TK-Kh2"/>
-                                        <include reference="Ida-Bz-9W7"/>
-                                        <include reference="YJO-pE-WC9"/>
-                                        <include reference="u0s-vX-TfK"/>
                                         <include reference="3l0-2x-cU0"/>
                                         <include reference="4pM-jc-efH"/>
                                         <include reference="MOZ-xK-j7u"/>
                                         <include reference="XdI-do-C3C"/>
+                                        <include reference="0mC-TK-Kh2"/>
+                                        <include reference="Ida-Bz-9W7"/>
+                                        <include reference="YJO-pE-WC9"/>
+                                        <include reference="u0s-vX-TfK"/>
                                     </mask>
                                 </variation>
                             </scrollView>
@@ -2986,7 +2986,7 @@
                                                                     <subviews>
                                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tzL-56-GcZ">
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
@@ -2995,11 +2995,10 @@
                                                                         </label>
                                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xjl-bW-fg6">
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="8"/>
                                                                             </variation>
                                                                         </label>
                                                                     </subviews>
@@ -6737,15 +6736,15 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="6uJ-0s-NFa"/>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
         <segue reference="46l-tX-X1A"/>
         <segue reference="wDP-4Y-cdF"/>
-        <segue reference="6uJ-0s-NFa"/>
-        <segue reference="MSe-EU-M35"/>
-        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="JT1-3I-mwZ"/>
-        <segue reference="382-1V-m5k"/>
+        <segue reference="Dbq-7P-K8C"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

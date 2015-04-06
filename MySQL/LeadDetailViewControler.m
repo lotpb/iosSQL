@@ -14,7 +14,6 @@
 
 @implementation LeadDetailViewControler
 {
-    NSMutableArray *adArray, *salesArray, *jobArray;
     NSMutableArray *tableData, *tableData2, *tableData3, *tableData4;
     NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *news1, *p1, *p12;
 }
@@ -31,67 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  /*
-    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
-        
-        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-        query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-         [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
-        [query31 selectKeys:@[@"SalesNo"]];
-        [query31 selectKeys:@[@"Salesman"]];
-        [query31 orderByDescending:@"Salesman"];
-        [query31 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            salesArray = [[NSMutableArray alloc]initWithArray:objects];
-            if (!error) {
-                for (PFObject *object in objects) {
-                     self.salesman = [object objectForKey:@"Salesman"];
-                   // [salesArray addObject:object];
-                    [self.listTableView reloadData]; }
-            } else
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }];
-    } */
-    
-        /*
-        
-        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-        [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
-        query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-     salesArray = [[NSMutableArray alloc]initWithArray:objects];
-            if (!object)
-                NSLog(@"The getFirstObject request failed.");
-            else
-                self.salesman = [object objectForKey:@"Salesman"];
-
-        }];
-        
-        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-        [query21 whereKey:@"JobNo" equalTo:self.tbl23];
-        query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            jobArray = [[NSMutableArray alloc]initWithArray:object];
-            if (!object)
-                NSLog(@"The getFirstObject request failed.");
-            else
-                self.jobdescription = [object objectForKey:@"Description"];
-            
-        }];
-        
-    if ([_formController isEqual: @"Leads"]) {
-        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-        [query11 whereKey:@"AdNo" equalTo:self.tbl24];
-        query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            adArray = [[NSMutableArray alloc]initWithArray:object];
-            if (!object)
-                NSLog(@"The getFirstObject request failed.");
-            else
-                self.advertiser = [object objectForKey:@"Advertiser"];
-                //  NSLog(@"adStr is %@",self.advertiser);
-        }];
-    }
-} */
+    [self parseData];
+    self.title = self.name;
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
@@ -108,127 +48,7 @@
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     }
- 
-    if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
-           self.name = self.name;
-      else self.name = @"";
-    
-    if ((![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0))
-           self.address = self.address;
-      else self.address = @"Address";
-    
-    if ((![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ))
-           self.city = self.city;
-      else self.city = @"City";
-    
-    if ((![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ))
-           self.state = self.state;
-      else self.state = @"State";
-    
-    if ((![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ))
-           self.zip = self.zip;
-      else self.zip = @"Zip";
-    
-    if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
-            self.amount = self.amount;
-       else self.amount = @"None";
-    
-    if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
-            self.date = self.date;
-       else self.date = @"None";
-    
-    if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
-        news1 = self.comments;
-    else news1 = @"No Comments";
-    
-    if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
-        p1 = self.photo;
-    else p1 = @"None";
-    
-    if ((![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ))
-          t11 = self.tbl11;
-     else t11 = @"None";
-    
-    if ((![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ))
-          t12 = self.tbl12;
-     else t12 = @"None";
 
-    if ((![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ))
-          t13 = self.tbl13;
-     else t13 = @"None";
-    
-    if ((![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ))
-          t14 = self.tbl14;
-     else t14 = @"None";
-    
-    if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ))
-          t15 = self.tbl15;
-     else t15 = @"None";
-    
-    if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 ))
-          t16 = self.tbl16;
-     else t16 = @"None";
-    
-   if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
-          t21 = self.tbl21;
-     else t21 = @"None";
-
-if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
-    
-    if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
-          t22 = self.salesman;
-     else t22 = @"None";
-    
-    if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
-          t23 = self.jobdescription;
-     else t23 = @"None";
-
-    if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
-          t24 = self.advertiser;
-        else t24 = @"None";
-    
-  } else {
-      
-    if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
-          t22 = self.tbl22;
-     else t22 = @"None";
-   
-    if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
-          t23 = self.tbl23;
-     else t23 = @"None";
-    
-    if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
-          t24 = self.tbl24;
-     else t24 = @"None";
-}
-   if ((![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ))
-          t25 = self.tbl25;
-     else t25 = @"None";
-    
-    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
-          t26 = self.tbl26;
-     else t26 = @"None";
-    
-self.title = self.name;
-self.labelNo.text = leadNo;
-self.labeldate.text = date;
-self.labeldatetext.text = self.l1datetext;
-self.labelname.text = name;
-self.labeladdress.text = address;
-self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
-self.labelamount.text = amount;
-self.comments = news1;
-//self.photo = p1;
-
-    ///below must be on bottom from above
-    tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
-    
-    tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
-    
-    tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
-    
-    tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
-    
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
     UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
@@ -239,14 +59,31 @@ self.comments = news1;
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
           self.following.text = @"Follow";}
     
-    // Switch button
+        // Switch button
      if ( [t11 isEqual:@"Sold"] )
             [self.mySwitch setOn:YES];
        else [self.mySwitch setOn:NO];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+#pragma mark - Fix
+- (void) viewDidLayoutSubviews { //added to fix the left side margin
+    [super viewDidLayoutSubviews];
+    self.listTableView.layoutMargins = UIEdgeInsetsZero;
+    self.listTableView2.layoutMargins = UIEdgeInsetsZero;
+}
+
+- (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
     [super viewDidAppear:animated];
+    [self passData];
+    
+    tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
+    
+    tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
+    
+    tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
+    
+    tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
+    
     [self.listTableView reloadData]; [self.listTableView2 reloadData];
     [self.newsTableView reloadData];
 }
@@ -258,19 +95,30 @@ self.comments = news1;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
 }
 
-- (void) viewDidLayoutSubviews { //added to fix the left side margin
-    [super viewDidLayoutSubviews];
-    self.listTableView.layoutMargins = UIEdgeInsetsZero;
-    self.listTableView2.layoutMargins = UIEdgeInsetsZero;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - map Buttons
+#pragma mark - Buttons
 - (IBAction)mapButton:(UIButton *)sender{
     [self performSegueWithIdentifier:@"mapdetailSegue"sender:self];
+}
+
+#pragma mark Edit Buttons
+-(void)showEdit:(id)sender {
+    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+}
+
+#pragma mark social Buttons
+- (void)share:(id)sender{
+    NSString * message = self.date;
+    NSString * message1 = self.name;
+    NSString * message2 = self.comments;
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    NSArray * shareItems = @[message, message1, message2, image];
+    
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    [self presentViewController:avc animated:YES completion:nil];
 }
 
 #pragma mark - TableView
@@ -398,10 +246,6 @@ return myCell;
     }
 }
 
--(void)showEdit:(id)sender {
-    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
-}
-
 #pragma mark - AlertController ios8
 -(void)showNew:(id)sender {
     
@@ -443,17 +287,169 @@ return myCell;
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
 }
+#pragma mark - LoadData
+- (void)passData {
 
-#pragma mark - social Buttons
-- (void)share:(id)sender{
-    NSString * message = self.date;
-    NSString * message1 = self.name;
-    NSString * message2 = self.comments;
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, message1, message2, image];
+    if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
+        self.name = self.name;
+    else self.name = @"";
     
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    [self presentViewController:avc animated:YES completion:nil];
+    if ((![self.address isEqual:[NSNull null]] ) && ( [self.address length] != 0))
+        self.address = self.address;
+    else self.address = @"Address";
+    
+    if ((![self.city isEqual:[NSNull null]] ) && ( [self.city length] != 0 ))
+        self.city = self.city;
+    else self.city = @"City";
+    
+    if ((![self.state isEqual:[NSNull null]] ) && ( [self.state length] != 0 ))
+        self.state = self.state;
+    else self.state = @"State";
+    
+    if ((![self.zip isEqual:[NSNull null]] ) && ( [self.zip length] != 0 ))
+        self.zip = self.zip;
+    else self.zip = @"Zip";
+    
+    if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
+        self.amount = self.amount;
+    else self.amount = @"None";
+    
+    if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
+        self.date = self.date;
+    else self.date = @"None";
+    
+    if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
+        news1 = self.comments;
+    else news1 = @"No Comments";
+    
+    if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
+        p1 = self.photo;
+    else p1 = @"None";
+    
+    if ((![self.tbl11 isEqual:[NSNull null]] ) && ( [self.tbl11 length] != 0 ))
+        t11 = self.tbl11;
+    else t11 = @"None";
+    
+    if ((![self.tbl12 isEqual:[NSNull null]] ) && ( [self.tbl12 length] != 0 ))
+        t12 = self.tbl12;
+    else t12 = @"None";
+    
+    if ((![self.tbl13 isEqual:[NSNull null]] ) && ( [self.tbl13 length] != 0 ))
+        t13 = self.tbl13;
+    else t13 = @"None";
+    
+    if ((![self.tbl14 isEqual:[NSNull null]] ) && ( [self.tbl14 length] != 0 ))
+        t14 = self.tbl14;
+    else t14 = @"None";
+    
+    if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 ))
+        t15 = self.tbl15;
+    else t15 = @"None";
+    
+    if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 ))
+        t16 = self.tbl16;
+    else t16 = @"None";
+    
+    if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
+        t21 = self.tbl21;
+    else t21 = @"None";
+    
+    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+        
+        if ((![self.salesman isEqual:[NSNull null]] ) && ( [self.salesman length] != 0 ))
+            t22 = self.salesman;
+        else t22 = @"None";
+        
+        if ((![self.jobdescription isEqual:[NSNull null]] ) && ( [self.jobdescription length] != 0 ))
+            t23 = self.jobdescription;
+        else t23 = @"None";
+        
+        if ((![self.advertiser isEqual:[NSNull null]] ) && ( [self.advertiser length] != 0 ))
+            t24 = self.advertiser;
+        else t24 = @"None";
+        
+    } else {
+        
+        if ((![self.tbl22 isEqual:[NSNull null]] ) && ( [self.tbl22 length] != 0 ))
+            t22 = self.tbl22;
+        else t22 = @"None";
+        
+        if ((![self.tbl23 isEqual:[NSNull null]] ) && ( [self.tbl23 length] != 0 ))
+            t23 = self.tbl23;
+        else t23 = @"None";
+        
+        if ((![self.tbl24 isEqual:[NSNull null]] ) && ( [self.tbl24 length] != 0 ))
+            t24 = self.tbl24;
+        else t24 = @"None";
+    }
+    
+    if ((![self.tbl25 isEqual:[NSNull null]] ) && ( [self.tbl25 length] != 0 ))
+        t25 = self.tbl25;
+    else t25 = @"None";
+    
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
+        t26 = self.tbl26;
+    else t26 = @"None";
+    
+    self.labelNo.text = leadNo;
+    self.labeldate.text = date;
+    self.labeldatetext.text = self.l1datetext;
+    self.labelname.text = name;
+    self.labeladdress.text = address;
+    self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
+    self.labelamount.text = amount;
+    self.comments = news1;
+    //self.photo = p1;
+}
+
+#pragma mark - Parse
+- (void)parseData {
+    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+        PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+        [query21 whereKey:@"JobNo" equalTo:self.tbl23];
+        query21.cachePolicy = kPFCACHEPOLICY;
+        [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else
+                self.jobdescription = [object objectForKey:@"Description"];
+        }];
+        
+        PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
+        [query31 whereKey:@"SalesNo" equalTo:self.tbl22];
+        query31.cachePolicy = kPFCACHEPOLICY;
+        [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else
+                self.salesman = [object objectForKey:@"Salesman"];
+            // NSLog(@"adStr is %@",self.salesman);
+        }];
+    }
+    
+    if ([_formController isEqual: @"Customer"]) {
+        PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
+        query3.cachePolicy = kPFCACHEPOLICY;
+        [query3 whereKey:@"ProductNo" containsString:self.tbl24];
+        [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else
+                self.advertiser = [object objectForKey:@"Products"];
+        }];
+    }
+    
+    if ([_formController isEqual: @"Leads"]) {
+        PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
+        [query11 whereKey:@"AdNo" equalTo:self.tbl24];
+        query11.cachePolicy = kPFCACHEPOLICY;
+        [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!object)
+                NSLog(@"The getFirstObject request failed.");
+            else
+                self.advertiser = [object objectForKey:@"Advertiser"];
+        }];
+    }
 }
 
 #pragma mark - Segue

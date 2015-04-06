@@ -84,7 +84,7 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
-    [self parseSalesman];
+  
 }
 
 #pragma mark Table Refresh Control
@@ -206,6 +206,7 @@ return _feedItems.count;
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    [self parseSalesman];
     NSString *newString = [NSString stringWithFormat:@"SALESMAN \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) salesCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -327,7 +328,7 @@ return _feedItems.count;
 #pragma mark - Parse
 - (void)parseSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query selectKeys:@[@"Active"]];
     [query whereKey:@"Active" containsString:@"Active"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

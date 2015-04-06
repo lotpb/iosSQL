@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 #import "CustomTableViewCell.h"
 #import <Parse/Parse.h>
 #import "EditData.h"
 #import "NewData.h"
 #import "MapViewController.h"
-//#import "Constants.h"
-//#import "EditDataViewController.h"
 
 
 @interface LeadDetailViewControler : UIViewController
@@ -100,7 +99,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 //@property (weak, nonatomic) Location *selectedLocation;
 
-// not in use below
 @property (strong, nonatomic) NSString *salesman;
 @property (strong, nonatomic) NSString *jobdescription;
 @property (strong, nonatomic) NSString *advertiser;

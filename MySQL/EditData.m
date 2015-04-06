@@ -48,7 +48,7 @@
        // [parseConnection parseJob:(self.frm22)];
      
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-         query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+         query31.cachePolicy = kPFCachePolicyCacheElseNetwork;
         [query31 whereKey:@"SalesNo" equalTo:self.frm21];
         [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             if (!object) {
@@ -162,6 +162,36 @@
        [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
 }
 
+#pragma mark - DatePicker
+- (UIView *)datePicker:(NSUInteger)tag{
+    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
+    pickerView.backgroundColor = [UIColor lightGrayColor];
+    
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+    datePicker.tag = tag;
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    datePicker.timeZone = [NSTimeZone localTimeZone];
+    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [pickerView addSubview:datePicker];
+    
+    return pickerView;
+}
+
+-(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
+{
+    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
+    if (datePicker.tag == 0)
+        self.date.text = [gmtDateFormatter stringFromDate:datePicker.date];
+    else if (datePicker.tag == 4)
+        self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
+    else if (datePicker.tag == 14)
+        self.start.text = [gmtDateFormatter stringFromDate:datePicker.date];
+    else if (datePicker.tag == 15)
+        self.complete.text = [gmtDateFormatter stringFromDate:datePicker.date];
+}
+
 #pragma mark - ViewPicker
 - (UIView *)customPicker:(NSUInteger)tag {
     
@@ -195,36 +225,6 @@
 
 -(void)doneClicked {
     [self.view endEditing:YES];
-}
-
-#pragma mark DatePicker
-- (UIView *)datePicker:(NSUInteger)tag{
-    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
-    pickerView.backgroundColor = [UIColor lightGrayColor];
-    
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-    datePicker.tag = tag;
-    [datePicker setDatePickerMode:UIDatePickerModeDate];
-    datePicker.timeZone = [NSTimeZone localTimeZone];
-    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [pickerView addSubview:datePicker];
-    
-    return pickerView;
-}
-
--(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
-{
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
-    if (datePicker.tag == 0)
-          self.date.text = [gmtDateFormatter stringFromDate:datePicker.date];
-     else if (datePicker.tag == 4)
-          self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
-     else if (datePicker.tag == 14)
-          self.start.text = [gmtDateFormatter stringFromDate:datePicker.date];
-     else if (datePicker.tag == 15)
-          self.complete.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
 // The number of columns of data
@@ -288,7 +288,7 @@
     return 1;
 } 
 
-#pragma mark - TableView Delegate
+#pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
     if ([_formController isEqual:@"Customer"])
@@ -675,19 +675,19 @@
     return myCell;
 }
 
-#pragma mark - Stepper
-- (void) changestep:(UIStepper *)sender {
-     double va = [sender value];
-    [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 2)
+        [self performSegueWithIdentifier:@"lookupcitySegue"sender:self];
+    if (indexPath.row == 6)
+        [self performSegueWithIdentifier:@"lookupsalesmanSegue"sender:self];
+    if (indexPath.row == 7)
+        [self performSegueWithIdentifier:@"lookupjobSegue"sender:self];
+    if (indexPath.row == 8)
+        [self performSegueWithIdentifier:@"lookupproductSegue"sender:self];
 }
-/*
-- (void)scrollViewToScreenTop:(UITextField *)textField {
-    // The super view of a text field is the contentView of a cell.
-    // The super vie of the contentView is the cell itself.
-    UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
-    [self.listTableView scrollToRowAtIndexPath:[self.listTableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-} */
 
+#pragma mark - TableView Header/Footer
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section {
     NSString *headerTitle;
@@ -706,17 +706,18 @@
     return footerTitle;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 2)
-        [self performSegueWithIdentifier:@"lookupcitySegue"sender:self];
-    if (indexPath.row == 6)
-        [self performSegueWithIdentifier:@"lookupsalesmanSegue"sender:self];
-    if (indexPath.row == 7)
-        [self performSegueWithIdentifier:@"lookupjobSegue"sender:self];
-    if (indexPath.row == 8)
-        [self performSegueWithIdentifier:@"lookupproductSegue"sender:self];
+#pragma mark - Stepper
+- (void) changestep:(UIStepper *)sender {
+    double va = [sender value];
+    [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
 }
+/*
+ - (void)scrollViewToScreenTop:(UITextField *)textField {
+ // The super view of a text field is the contentView of a cell.
+ // The super vie of the contentView is the cell itself.
+ UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
+ [self.listTableView scrollToRowAtIndexPath:[self.listTableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+ } */
 
 #pragma mark - LookupCity Data
 - (void)cityFromController:(NSString *)passedData{
@@ -759,7 +760,7 @@
 
 - (void)parseSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"SalesNo"];
@@ -771,7 +772,7 @@
 
 - (void)parseJob {
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-    query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query21.cachePolicy = kPFCACHEPOLICY;
     [query21 whereKey:@"JobNo" equalTo:self.frm22];
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -783,7 +784,7 @@
 
 - (void)parseProduct {
     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query3.cachePolicy = kPFCACHEPOLICY;
     [query3 whereKey:@"ProductNo" containsString:self.frm23];
     [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -795,7 +796,7 @@
 
 - (void)parseAd {
     PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-    query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query11.cachePolicy = kPFCACHEPOLICY;
     [query11 whereKey:@"AdNo" equalTo:self.frm23];
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -807,7 +808,7 @@
 
 - (void)parseRate {
     PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
-    query14.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query14.cachePolicy = kPFCACHEPOLICY;
     [query14 selectKeys:@[@"rating"]];
     [query14 orderByDescending:@"rating"];
     [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -817,7 +818,7 @@
 
 - (void)parseContractor {
     PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-    query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query13.cachePolicy = kPFCACHEPOLICY;
     [query13 selectKeys:@[@"Contractor"]];
     [query13 orderByDescending:@"Contractor"];
     [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -827,7 +828,7 @@
 
 - (void)parseCallback {
     PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query1.cachePolicy = kPFCACHEPOLICY;
     [query1 selectKeys:@[@"Callback"]];
     [query1 orderByDescending:@"Callback"];
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

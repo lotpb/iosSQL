@@ -24,7 +24,7 @@
     if ([_formController isEqual: @"Leads"]) {
         
         PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-        query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query1.cachePolicy = kPFCACHEPOLICY;
         [query1 selectKeys:@[@"Callback"]];
         [query1 orderByDescending:@"Callback"];
         [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -35,7 +35,7 @@
     if ([_formController isEqual: @"Customer"]) {
         
         PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-         query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
+         query13.cachePolicy = kPFCACHEPOLICY;
         [query13 selectKeys:@[@"Contractor"]];
         [query13 orderByDescending:@"Contractor"];
         [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -46,7 +46,7 @@
     if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
         
         PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query.cachePolicy = kPFCACHEPOLICY;
         [query selectKeys:@[@"SalesNo"]];
         [query selectKeys:@[@"Salesman"]];
         [query orderByDescending:@"SalesNo"];
@@ -243,7 +243,7 @@
     [self loadFormData];
 }
 
-#pragma mark Load Form Data
+#pragma mark - Load Form Data
 -(void)loadFormData {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if (first.text.length == 0)
@@ -378,7 +378,7 @@
        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];}
 }
 
-#pragma mark - LookupCity Data
+#pragma mark - LookupData
 - (void)cityFromController:(NSString *)passedData{
     self.city.text = passedData;
 }
@@ -407,25 +407,6 @@
     self.adName.text = passedData;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
-        LookupCity *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:(id)self];
-         addViewControler.formController = self.formController;
-       }
-    if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
-        LookupJob *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:(id)self];
-         addViewControler.formController = self.formController;
-       }
-    if ([[segue identifier] isEqualToString:@"lookupProductSegue"]) {
-        LookupProduct *addViewControler = [segue destinationViewController];
-        [addViewControler setDelegate:(id)self];
-         addViewControler.formController = self.formController;
-       }
-}
-
 #pragma mark Lookup City needed
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
@@ -436,9 +417,51 @@
     [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
 }
 
-#pragma mark - Lookup Product needed
+#pragma mark Lookup Product needed
 -(IBAction)updateProduct:(id)sender{
     [self performSegueWithIdentifier:@"lookupProductSegue"sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
+        LookupCity *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:(id)self];
+        addViewControler.formController = self.formController;
+    }
+    if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
+        LookupJob *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:(id)self];
+        addViewControler.formController = self.formController;
+    }
+    if ([[segue identifier] isEqualToString:@"lookupProductSegue"]) {
+        LookupProduct *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:(id)self];
+        addViewControler.formController = self.formController;
+    }
+}
+
+#pragma mark - Date Picker
+- (UIView *)datePicker {
+    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
+    pickerView.backgroundColor = [UIColor lightGrayColor];
+    
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+    datePicker.tag = 5;
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    datePicker.timeZone = [NSTimeZone localTimeZone];
+    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [pickerView addSubview:datePicker];
+    
+    return pickerView;
+}
+
+-(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
+{
+    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
+    self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
 #pragma mark - View Picker
@@ -474,29 +497,6 @@
 -(void)doneClicked:(UIBarButtonItem*)button
 {
     [self.view endEditing:YES];
-}
-
-#pragma mark Date Picker
-- (UIView *)datePicker {
-    UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
-    pickerView.backgroundColor = [UIColor lightGrayColor];
-    
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-     datePicker.tag = 5;
-    [datePicker setDatePickerMode:UIDatePickerModeDate];
-     datePicker.timeZone = [NSTimeZone localTimeZone];
-    [datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [pickerView addSubview:datePicker];
-    
-    return pickerView;
-}
-
--(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
-{
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
-    self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
 }
 
 // The number of columns of data

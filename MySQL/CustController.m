@@ -11,7 +11,6 @@
 
 @interface CustController ()
 {
-    NSMutableArray *salesArray, *jobArray, *prodArray;
     CustModel *_CustModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation; UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -73,20 +72,17 @@
     [self performSegueWithIdentifier:@"newCustSeque"sender:self];
 }
 
-#pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items {
-    _feedItems = items;
-    [self.listTableView reloadData];
-    [self parseProduct];
-    [self parseSalesman];
-    [self parseJobs];
-}
-
-#pragma mark Table Refresh Control
+#pragma mark - Refresh Control
 - (void)reloadDatas:(id)sender {
     [_CustModel downloadItems];
     [self.listTableView reloadData];
     [refreshControl endRefreshing];
+}
+
+#pragma mark - TableView
+-(void)itemsDownloaded:(NSMutableArray *)items {
+    _feedItems = items;
+    [self.listTableView reloadData];
 }
 
 #pragma mark TableView Delete
@@ -205,7 +201,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (!isFilltered)
         return HEADHEIGHT;
-    else
+        else
         return 0.0;
 }
 
@@ -343,59 +339,6 @@
   [self.listTableView reloadData];
 }
 
-#pragma mark - ParseData
-- (void)parseProduct {
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Product"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query1 selectKeys:@[@"ProductNo"]];
-    [query1 selectKeys:@[@"Products"]];
-    [query1 orderByDescending:@"Products"];
-    //[query1 whereKey:@"Active" containsString:@"Active"];
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        prodArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [prodArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-}
-
-- (void)parseSalesman {
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query selectKeys:@[@"SalesNo"]];
-    [query selectKeys:@[@"Salesman"]];
-    [query orderByDescending:@"Salesman"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        salesArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [salesArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-}
-
-- (void)parseJobs {
-    PFQuery *query2 = [PFQuery queryWithClassName:@"Job"];
-    query2.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [query2 selectKeys:@[@"JobNo"]];
-    [query2 selectKeys:@[@"Description"]];
-    [query2 orderByDescending:@"Description"];
-    [query2 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [jobArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-}
-
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -411,7 +354,7 @@
 {
     if ([[segue identifier] isEqualToString:@"detailCustSegue"])
     {
-        NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+     //   NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = @"Customer";
         detailVC.custNo = _selectedLocation.custNo;
@@ -435,10 +378,6 @@
         detailVC.tbl25 = _selectedLocation.quan;
         detailVC.tbl16 = _selectedLocation.time;
         detailVC.tbl26 = _selectedLocation.rate;
-        
-        detailVC.salesman = [[salesArray objectAtIndex:indexPath.row]objectForKey:@"Salesman"];
-        detailVC.jobdescription = [[jobArray objectAtIndex:indexPath.row]objectForKey:@"Description"];
-        detailVC.advertiser = [[prodArray objectAtIndex:indexPath.row]objectForKey:@"Products"];
         
         detailVC.complete = _selectedLocation.completion;
         detailVC.photo = _selectedLocation.photo;

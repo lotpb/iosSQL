@@ -100,7 +100,7 @@
 //Get the list of images
 -(void)getWallImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    // query.cachePolicy = kPFCachePolicyCacheThenNetwork; //added
+     query.cachePolicy = kPFCACHEPOLICY; 
     [query orderByDescending:KEY_CREATION_DATE];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
@@ -201,12 +201,13 @@
         UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
             
+      //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
       //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
      //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
             
            // [self.wallScroll addSubview:wallImageView];
            // [self.wallScroll addSubview:separatorLineView];
-          //  self.automaticallyAdjustsScrollViewInsets = NO;
+           // self.automaticallyAdjustsScrollViewInsets = NO;
             
           [wallImageView addSubview:separatorLineView];
           [self.wallScroll addSubview:wallImageView];

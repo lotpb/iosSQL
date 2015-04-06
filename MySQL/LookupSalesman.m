@@ -50,11 +50,11 @@
     salesArray = [[NSMutableArray alloc] init];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"Salesman"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {

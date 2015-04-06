@@ -83,7 +83,6 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
-    [self parseJob];
 }
 
 #pragma mark Table Refresh Control
@@ -204,8 +203,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    [self parseJob];
     NSString *newString = [NSString stringWithFormat:@"JOB \n%lu", (unsigned long) _feedItems.count];
-      NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) jobCount.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) jobCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -326,7 +326,7 @@
 #pragma mark - Parse
 -(void)parseJob {
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query selectKeys:@[@"Description"]];
     //[query whereKey:@"Active" containsString:@"Active"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

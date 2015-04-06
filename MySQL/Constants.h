@@ -23,6 +23,14 @@
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
 
+#define kPFCACHEPOLICY    kPFCachePolicyCacheElseNetwork
+//kPFCachePolicyIgnoreCache
+//kPFCachePolicyCacheOnly
+//kPFCachePolicyNetworkOnly
+//kPFCachePolicyCacheElseNetwork
+//kPFCachePolicyNetworkElseCache
+//kPFCachePolicyCacheThenNetwork
+
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
 #define VIEWBACKCOLOR    [UIColor whiteColor]

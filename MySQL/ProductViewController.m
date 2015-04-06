@@ -83,7 +83,6 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
-    [self parseAds];
 }
 
 #pragma mark Table Refresh Control
@@ -204,6 +203,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    [self parseAds];
     NSString *newString = [NSString stringWithFormat:@"PRODUCT \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) prodCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -329,7 +329,7 @@
 #pragma mark - Parse
 -(void)parseAds {
      PFQuery *query = [PFQuery queryWithClassName:@"Product"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     query.cachePolicy = kPFCACHEPOLICY;
      [query selectKeys:@[@"Active"]];
      [query whereKey:@"Active" containsString:@"Active"];
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

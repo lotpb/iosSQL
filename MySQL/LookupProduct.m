@@ -52,12 +52,12 @@
     
     if ([_formController isEqual: @"Customer"]) {
      PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-     [PFQuery clearAllCachedResults];
+     //[PFQuery clearAllCachedResults];
      [query3 selectKeys:@[@"ProductNo"]];
      [query3 selectKeys:@[@"Products"]];
      [query3 orderByDescending:@"Products"];
      [query3 whereKey:@"Active" containsString:@"Active"];
-      query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+      query3.cachePolicy = kPFCACHEPOLICY;
      [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
          if (!error) {
              for (PFObject *object in objects) {
@@ -68,7 +68,7 @@
      }];
     } else {  //leads
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query1.cachePolicy = kPFCACHEPOLICY;
     [query1 selectKeys:@[@"AdNo"]];
     [query1 selectKeys:@[@"Advertiser"]];
     [query1 orderByDescending:@"Advertiser"];

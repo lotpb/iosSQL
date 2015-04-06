@@ -387,10 +387,6 @@
        detailVC.comments = _selectedLocation.comments;
        detailVC.active = _selectedLocation.active;
        
-       detailVC.salesman = _selectedLocation.first;
-       detailVC.jobdescription = _selectedLocation.middle;
-       detailVC.advertiser = _selectedLocation.company;
-       
        detailVC.l11 = @"Home Phone"; detailVC.l12 = @"Work phone";
        detailVC.l13 = @"Mobile Phone"; detailVC.l14 = @"Social Security";
        detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";

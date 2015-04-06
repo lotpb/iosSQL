@@ -31,7 +31,7 @@
     if ([_formController isEqual: @"Salesman"]) {
      
      PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     query.cachePolicy = kPFCACHEPOLICY;
      [query selectKeys:@[@"SalesNo"]];
      [query selectKeys:@[@"Salesman"]];
      [query orderByDescending:@"SalesNo"];
@@ -44,7 +44,7 @@
      if ([_formController isEqual: @"Jobs"]) {
          
          PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-         query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+         query21.cachePolicy = kPFCACHEPOLICY;
          [query21 selectKeys:@[@"JobNo"]];
          [query21 selectKeys:@[@"Description"]];
          [query21 orderByDescending:@"Description"];
@@ -56,7 +56,7 @@
     if ([_formController isEqual: @"Advertising"]) {
         
         PFQuery *query31 = [PFQuery queryWithClassName:@"Advertising"];
-        query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query31.cachePolicy = kPFCACHEPOLICY;
         [query31 selectKeys:@[@"AdNo"]];
         [query31 selectKeys:@[@"Advertiser"]];
         [query31 orderByDescending:@"Advertiser"];
@@ -69,7 +69,7 @@
     if ([_formController isEqual: @"Products"]) {
         
         PFQuery *query41 = [PFQuery queryWithClassName:@"Product"];
-        query41.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query41.cachePolicy = kPFCACHEPOLICY;
         [query41 selectKeys:@[@"ProductNo"]];
         [query41 selectKeys:@[@"Products"]];
         [query41 orderByDescending:@"Products"];

@@ -49,11 +49,11 @@
     jobArray = [[NSMutableArray alloc] init];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query selectKeys:@[@"JobNo"]];
     [query selectKeys:@[@"Description"]];
     [query orderByDescending:@"Description"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {
