@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     self.edgesForExtendedLayout = UIRectEdgeNone; //fi
     self.listTableView.dataSource = self;
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -88,7 +88,7 @@
    // else self.active.text = self.frm11;
     
 #pragma mark BarButtons
-    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:nil];
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateData:)];
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
@@ -131,7 +131,6 @@
     return 1;
 }
 
-#pragma mark - TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
 }
@@ -236,7 +235,7 @@
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
-//-------------------------------------------------
+//-----------------Makes Form Scroll to Bottom--------------------------------
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return ROW_HEIGHT;
 }
@@ -253,7 +252,7 @@
         }
 }
 //---------------------------------------------------
-
+#pragma mark - TableView Header/Footer
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{
     NSString *headerTitle;
@@ -276,7 +275,7 @@
 }
 
 #pragma mark - Edit Data
--(void)updateLeads:(id)sender {
+-(void)updateData:(id)sender {
     if ([_formController isEqual: @"Salesman"]) {
         
      // NSString *_salesNo = self.salesNo.text;

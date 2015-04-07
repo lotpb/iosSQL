@@ -420,6 +420,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
+                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -447,6 +450,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -3459,6 +3465,7 @@
                         <outlet property="mySwitch" destination="iXX-58-753" id="FQk-Vz-kOq"/>
                         <outlet property="newsTableView" destination="FFS-gT-hef" id="cNO-tK-ItN"/>
                         <outlet property="photoImage" destination="k9c-3N-k5z" id="Uzr-Q1-b2A"/>
+                        <outlet property="scrollWall" destination="0i0-sR-n8d" id="pqA-kc-VJi"/>
                         <segue destination="UdA-2X-Te0" kind="show" identifier="mapdetailSegue" id="HrX-o9-EKY"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newcustSegue" id="zQR-YQ-xF4"/>
                         <segue destination="vkG-5V-SZx" kind="show" identifier="editFormSegue" id="2yy-Hh-VA2"/>

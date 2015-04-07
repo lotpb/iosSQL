@@ -17,6 +17,7 @@
 
 @interface LeadDetailViewControler : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;
 //need to share strings below give need common name
 @property (strong, nonatomic) NSString *custNo;

@@ -17,19 +17,28 @@
 #define NAVTRANSLUCENT  YES
 #define NAVTINTCOLOR   [UIColor grayColor]
 
+#define SEARCHBARSTYLE      UIBarStyleBlack
+#define SEARCHTINTCOLOR     [UIColor whiteColor]
+#define SEARCHBARTINTCOLOR  [UIColor clearColor]
+
 #define CURSERCOLOR       [UIColor grayColor]
 #define LIKEFONTSIZE      9
 #define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
 
-#define kPFCACHEPOLICY    kPFCachePolicyCacheElseNetwork
+#define kPFCACHEPOLICY    kPFCachePolicyNetworkElseCache
 //kPFCachePolicyIgnoreCache
 //kPFCachePolicyCacheOnly
 //kPFCachePolicyNetworkOnly
 //kPFCachePolicyCacheElseNetwork
 //kPFCachePolicyNetworkElseCache
 //kPFCachePolicyCacheThenNetwork
+
+//MAIN
+#define SEARCHTINTCOLORMAIN  [UIColor redColor]
+#define SIDEBARTINTCOLOR     [UIColor whiteColor]
+
 
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
@@ -56,10 +65,11 @@
 #define KEY_USER  @"username"  // BogNew
 #define KEY_EMAIL @"emailKey"  // BogNew
 //#define NAVBARCOLOR [UIColor blackColor]
-#define BLOGNAVCOLOR [UIColor redColor]
-#define BLOG_FONTSIZE   12
+#define BLOGNAVCOLOR        [UIColor redColor]
+#define BLOG_FONTSIZE       12
+#define SEARCHBARSTYLEBLOG  UIBarStyleDefault
 
-//Photo Collection
+//PHOTO Collection
 #define PHOTOHEADER @"Job Pictures #%li"  // CollectionParse
 
 //LEADDETAIL

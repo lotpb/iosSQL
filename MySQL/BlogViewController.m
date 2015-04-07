@@ -43,20 +43,14 @@
     NSArray *actionButtonItems = @[searchItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-#pragma mark TableRefresh
+#pragma mark RefreshControl
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
+    [self.listTableView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = BLOGNAVCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:KEY_DATEREFRESH];
-    NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-        forKey:NSForegroundColorAttributeName];
-    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-    refreshControl.attributedTitle = attributedTitle;
+    
     [refreshView addSubview:refreshControl];
 }
 
@@ -90,7 +84,18 @@
 - (void)reloadDatas:(id)sender {
     [_BlogModel downloadItems];
     [self.listTableView reloadData];
-    [refreshControl endRefreshing];
+    
+    if (refreshControl) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:KEY_DATEREFRESH];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle;
+        
+        [refreshControl endRefreshing];
+    }
 }
 
 #pragma mark TableView Delete Button
@@ -284,14 +289,14 @@
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
-    self.searchController.searchBar.tintColor = [UIColor whiteColor];
-    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.searchController.searchBar.barStyle = SEARCHBARSTYLEBLOG;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
+    self.searchController.searchBar.barTintColor = BLOGNAVCOLOR;
     //self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
    [self presentViewController:self.searchController animated:YES completion:nil];
 }

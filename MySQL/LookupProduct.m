@@ -104,7 +104,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark TableView Delegate
+#pragma mark RefreshControl 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (isFilltered)
@@ -167,8 +167,8 @@
     [self.listTableView reloadData];
 }
 
+#pragma mark - passDataBack
 - (void)passDataBack {
-    
     NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     if (!isFilltered) {
         if ([_formController isEqual: @"Customer"]) {

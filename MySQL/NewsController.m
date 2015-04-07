@@ -48,6 +48,7 @@
     //tableData1 = [NSArray arrayWithObjects:@"Yahoo Finance 2 hrs ago", @"CNBC 2 hrs ago", @"Vendor Info", @"Blog", nil];
     // tableImage = [NSArray arrayWithObjects:@"profile-rabbit-toy.png", @"calendar_photo.jpg", @"tag_photo.jpg", @"bookmark_photo.jpg", nil];
     
+  #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [self.wallScroll addSubview:refreshControl];
@@ -57,15 +58,13 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
   // Release any retained subviews of the main view.
      self.wallScroll = nil;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
@@ -96,7 +95,6 @@
 }
 
 #pragma mark Receive Wall Objects
-
 //Get the list of images
 -(void)getWallImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
@@ -240,9 +238,9 @@
     self.searchController.hidesNavigationBarDuringPresentation = YES;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
-    self.searchController.searchBar.tintColor = [UIColor whiteColor];
-    self.searchController.searchBar.barTintColor = [UIColor clearColor];
+    self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
+    self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 

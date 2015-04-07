@@ -9,6 +9,9 @@
 #import "LeadDetailViewControler.h"
 
 @interface LeadDetailViewControler ()
+{
+  UIRefreshControl *refreshControl;    
+}
 
 @end
 
@@ -63,13 +66,16 @@
      if ( [t11 isEqual:@"Sold"] )
             [self.mySwitch setOn:YES];
        else [self.mySwitch setOn:NO];
-}
-
-#pragma mark - Fix
-- (void) viewDidLayoutSubviews { //added to fix the left side margin
-    [super viewDidLayoutSubviews];
-    self.listTableView.layoutMargins = UIEdgeInsetsZero;
-    self.listTableView2.layoutMargins = UIEdgeInsetsZero;
+    
+#pragma mark TableRefresh
+    UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [self.scrollWall insertSubview:refreshView atIndex:0];
+    refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
+    
+    [refreshView addSubview:refreshControl];
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
@@ -84,8 +90,7 @@
     
     tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
     
-    [self.listTableView reloadData]; [self.listTableView2 reloadData];
-    [self.newsTableView reloadData];
+   [self reloadTable];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -97,6 +102,34 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Fix
+- (void) viewDidLayoutSubviews { //added to fix the left side margin
+    [super viewDidLayoutSubviews];
+    self.listTableView.layoutMargins = UIEdgeInsetsZero;
+    self.listTableView2.layoutMargins = UIEdgeInsetsZero;
+}
+
+#pragma mark - Refresh Control
+- (void)reloadDatas:(id)sender {
+    [self reloadTable];
+    if (refreshControl) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:KEY_DATEREFRESH];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle;
+        
+        [refreshControl endRefreshing];
+    }
+}
+
+- (void)reloadTable {
+    [self.listTableView reloadData]; [self.listTableView2 reloadData];
+    [self.newsTableView reloadData];
 }
 
 #pragma mark - Buttons
@@ -287,7 +320,7 @@ return myCell;
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
 }
-#pragma mark - LoadData
+#pragma mark - LoadFieldData
 - (void)passData {
 
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))

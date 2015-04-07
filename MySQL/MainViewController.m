@@ -39,15 +39,15 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
     tableData = [[NSMutableArray alloc]initWithObjects:@"Lead", @"Customer", @"Vendor", @"Employee", @"Advertising", @"Product", @"Job", @"Salesman", @"Blog", nil];
  
-#pragma mark bar Button
+#pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-#pragma mark sidebar
+#pragma mark Sidebar
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = [UIColor whiteColor];
+    _sidebarButton.tintColor = SIDEBARTINTCOLOR;
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -55,7 +55,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
-    [refreshControl addTarget:self action:@selector(reloadDatas) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
 
     [refreshView addSubview:refreshControl];
 }
@@ -72,33 +72,58 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - TableView
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(isFilltered)
-    return [filteredString count];
-    
-return [tableData count];
-}
 
-#pragma mark Table RefreshControl
--(void)reloadDatas {
-    static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
+#pragma mark - RefreshControl
+-(void)reloadDatas:(id)sender {
+    
+    [self.listTableView reloadData];
+    
+    if (refreshControl) {
+
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
             forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-        refreshControl.attributedTitle = attributedTitle; }
-    [self.listTableView reloadData];
+        refreshControl.attributedTitle = attributedTitle;
+
     [refreshControl endRefreshing];
+    }
+}
+
+#pragma mark - TableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if(isFilltered)
+        return [filteredString count];
+    
+    return [tableData count];
+}
+
+#pragma mark TableView Delegate
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *CellIdentifier = @"mainCell";
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    if (!isFilltered)
+       myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
+       else
+       myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
+    
+    if (self.searchController.searchBar.text.length > 0)
+        myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return myCell;
 }
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-         return 175.0;
+        return 175.0;
     else return 0.0;
 }
 
@@ -154,33 +179,13 @@ return [tableData count];
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(158, 162, 60, 1.5)];
     separatorLineView2.backgroundColor = [UIColor redColor];
     [view addSubview:separatorLineView2];
-    
+    /*
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
     else
-        [view setBackgroundColor:[UIColor blackColor]];
+        [view setBackgroundColor:[UIColor blackColor]]; */
     
     return view;
-}
-
-#pragma mark TableView Delegate
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *CellIdentifier = @"mainCell";
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    if (!isFilltered)
-       myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
-       else
-       myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
-    
-    if (self.searchController.searchBar.text.length > 0)
-        myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    return myCell;
 }
 
 #pragma mark - Search
@@ -193,8 +198,8 @@ return [tableData count];
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.definesPresentationContext = YES;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
-    self.searchController.searchBar.tintColor = [UIColor redColor];
+    self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLORMAIN;
     self.searchController.hidesBottomBarWhenPushed = YES;
     self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
