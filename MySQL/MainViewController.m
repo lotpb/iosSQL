@@ -56,8 +56,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-
     [refreshView addSubview:refreshControl];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,7 +71,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
@@ -140,8 +139,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 175)];
+    
     UIImage *image = [UIImage imageNamed:@"IMG_1133NEW.jpg"];
     imageHolder.image = image;
+    imageHolder.contentMode = UIViewContentModeScaleAspectFill;
+ // imageHolder.alpha = 0;
+//  [imageHolder setImageToBlur:image blurRadius:10 completionBlock:nil];
+   
     [view addSubview:imageHolder];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 122, tableView.frame.size.width, 45)];
@@ -201,7 +205,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLORMAIN;
     self.searchController.hidesBottomBarWhenPushed = YES;
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
 

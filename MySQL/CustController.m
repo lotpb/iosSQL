@@ -43,8 +43,8 @@
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    
     [refreshView addSubview:refreshControl];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -59,12 +59,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
--(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newCustSeque"sender:self];
-}
-
-#pragma mark - Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_CustModel downloadItems];
     [self.listTableView reloadData];
@@ -74,13 +69,17 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                    forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - BarButton NewData
+-(void)newData:(id)sender {
+    [self performSegueWithIdentifier:@"newCustSeque"sender:self];
 }
 
 #pragma mark - TableView
@@ -158,7 +157,7 @@
     }
 }
 
-#pragma mark TableView Delegate Methods
+#pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return filteredString.count;
@@ -276,7 +275,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date", @"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -291,7 +290,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -396,7 +395,7 @@
         detailVC.l24 = @"Product"; detailVC.l25 = @"Quan";
         detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Rate";
         detailVC.l1datetext = @"Sale Date:";
-        detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
+        detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
     }
        if ([[segue identifier] isEqualToString:@"newCustSeque"])
        {

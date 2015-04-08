@@ -62,19 +62,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
--(void)newData {
-    [self performSegueWithIdentifier:@"adDetailSegue"sender:self];
-}
-
-#pragma mark - Table
--(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
-
-#pragma mark Table Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_AdModel downloadItems];
     [self.listTableView reloadData];
@@ -90,6 +78,19 @@
         
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - BarButton NewData
+-(void)newData {
+    isFormStat = YES;
+    [self performSegueWithIdentifier:@"adDetailSegue"sender:self];
+}
+
+#pragma mark - Table
+-(void)itemsDownloaded:(NSMutableArray *)items
+{   // This delegate method will get called when the items are finished downloading
+    _feedItems = items;
+    [self.listTableView reloadData];
 }
 
 #pragma mark TableView Delete
@@ -269,7 +270,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"advertisement",@"adNo",@"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
@@ -283,7 +284,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -322,7 +323,7 @@
     [self.listTableView reloadData];
 }
 
-#pragma mark - Parse
+#pragma mark - Parse HeaderActive
 -(void)parseAds {
     PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
     query.cachePolicy = kPFCACHEPOLICY;
@@ -341,6 +342,7 @@
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
+    isFormStat = NO;
     [self performSegueWithIdentifier:@"adDetailSegue" sender:self];
 }
 
@@ -350,7 +352,11 @@
     {
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = @"Advertising";
-        detailVC.frm11= _selectedLocation.active;
+        if (isFormStat == YES)
+            detailVC.formStatus = @"New";
+        else
+            detailVC.formStatus = @"Edit";
+        detailVC.frm11 = _selectedLocation.active;
         detailVC.frm12 = _selectedLocation.AdNo;
         detailVC.frm13 = _selectedLocation.Advertiser;
     }

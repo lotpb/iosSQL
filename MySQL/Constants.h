@@ -12,14 +12,16 @@
 
 #define KEY_DATESQLFORMAT @"yyyy-MM-dd" //new dataView
 
-//All Storybooks
-#define MAINNAVCOLOR   [UIColor blackColor]
-#define NAVTRANSLUCENT  YES
-#define NAVTINTCOLOR   [UIColor grayColor]
+// All STORYBOOKS
 
 #define SEARCHBARSTYLE      UIBarStyleBlack
 #define SEARCHTINTCOLOR     [UIColor whiteColor]
 #define SEARCHBARTINTCOLOR  [UIColor clearColor]
+#define EDGEINSERT          44, 0, 0, 0
+// navigationController
+#define MAINNAVCOLOR   [UIColor blackColor]
+#define NAVTRANSLUCENT  YES
+#define NAVTINTCOLOR   [UIColor grayColor]
 
 #define CURSERCOLOR       [UIColor grayColor]
 #define LIKEFONTSIZE      9
@@ -35,10 +37,9 @@
 //kPFCachePolicyNetworkElseCache
 //kPFCachePolicyCacheThenNetwork
 
-//MAIN
+//MAINVIEW
 #define SEARCHTINTCOLORMAIN  [UIColor redColor]
 #define SIDEBARTINTCOLOR     [UIColor whiteColor]
-
 
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
@@ -64,8 +65,11 @@
 // BLOG
 #define KEY_USER  @"username"  // BogNew
 #define KEY_EMAIL @"emailKey"  // BogNew
-//#define NAVBARCOLOR [UIColor blackColor]
-#define BLOGNAVCOLOR        [UIColor redColor]
+//navigationController
+#define BLOGNAVBARCOLOR        [UIColor redColor]
+#define BLOGNAVBARTINTCOLOR        [UIColor whiteColor]
+#define BLOGNAVBARTRANSLUCENT       NO
+
 #define BLOG_FONTSIZE       12
 #define SEARCHBARSTYLEBLOG  UIBarStyleDefault
 
@@ -73,12 +77,17 @@
 #define PHOTOHEADER @"Job Pictures #%li"  // CollectionParse
 
 //LEADDETAIL
-#define DETAILFONTSIZE   9
-#define DETAILNEWS       12
-#define DETAILTITLECOLOR [UIColor blackColor]
-#define DETAILSUBCOLOR   [UIColor grayColor]
-#define DETAILCOLOR      [UIColor darkGrayColor]
-#define DIVIDERCOLOR     [UIColor redColor]
+#define DETAILFONTSIZE     9
+#define DETAILNEWS         12
+#define DETAILTITLECOLOR   [UIColor blackColor]
+#define DETAILSUBCOLOR     [UIColor grayColor]
+#define DETAILCOLOR        [UIColor darkGrayColor]
+#define DIVIDERCOLOR       [UIColor redColor]
+#define LEADNEWSTITLE      @"Customer News Peter Balsamo Appointed to United's Board of Directors"
+#define CUSTOMERNEWSTITLE  @"Customer News Peter Balsamo Appointed to United's Board of Directors"
+#define VENDORNEWSTITLE    @"Business News Peter Balsamo Appointed to United's Board of Directors"
+#define EMPLOYEENEWSTITLE  @"Employee News Peter Balsamo Appointed to United's Board of Directors"
+
 
 //TABLEHEADER
 //#define HEADTITLE1  @"NASDAQ \n4,727.35"

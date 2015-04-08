@@ -25,68 +25,8 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
-    
-/*
-    if ([_formController isEqual: @"Salesman"]) {
-     
-     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-     query.cachePolicy = kPFCACHEPOLICY;
-     [query selectKeys:@[@"SalesNo"]];
-     [query selectKeys:@[@"Salesman"]];
-     [query orderByDescending:@"SalesNo"];
-     [query whereKey:@"Active" containsString:@"Active"];
-     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     salesArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-    }
-    
-     if ([_formController isEqual: @"Jobs"]) {
-         
-         PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-         query21.cachePolicy = kPFCACHEPOLICY;
-         [query21 selectKeys:@[@"JobNo"]];
-         [query21 selectKeys:@[@"Description"]];
-         [query21 orderByDescending:@"Description"];
-         [query21 whereKey:@"Active" containsString:@"Active"];
-         [query21 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         jobArray = [[NSMutableArray alloc]initWithArray:objects];
-         }];
-     }
-    if ([_formController isEqual: @"Advertising"]) {
-        
-        PFQuery *query31 = [PFQuery queryWithClassName:@"Advertising"];
-        query31.cachePolicy = kPFCACHEPOLICY;
-        [query31 selectKeys:@[@"AdNo"]];
-        [query31 selectKeys:@[@"Advertiser"]];
-        [query31 orderByDescending:@"Advertiser"];
-        [query31 whereKey:@"Active" containsString:@"Active"];
-        [query31 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         adArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-    }
-    
-    if ([_formController isEqual: @"Products"]) {
-        
-        PFQuery *query41 = [PFQuery queryWithClassName:@"Product"];
-        query41.cachePolicy = kPFCACHEPOLICY;
-        [query41 selectKeys:@[@"ProductNo"]];
-        [query41 selectKeys:@[@"Products"]];
-        [query41 orderByDescending:@"Products"];
-        [query41 whereKey:@"Active" containsString:@"Active"];
-        [query41 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         prodArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-    } */
-    
-    //self.salesNo.text = nil;
-    //self.active.text = nil;
+    // self.listTableView.tableHeaderView = view; //makes header move with tablecell
 
-
-   // if (![self.formStatus isEqual:@"Edit"])
-   //      self.frm11 = @"Active";
-   // else self.active.text = self.frm11;
-    
 #pragma mark BarButtons
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateData:)];
     NSArray *actionButtonItems = @[editItem];
@@ -94,6 +34,7 @@
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -101,8 +42,14 @@
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-     self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-    [self.salesman becomeFirstResponder];
+     [self.salesman becomeFirstResponder];
+    if ([self.formStatus isEqual:@"New"]) {
+        self.frm11 = @"Active";
+        self.frm12 = @"";
+        self.frm13 = @"";
+        self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
+      } else
+        self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,20 +57,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Button
--(IBAction)like:(id)sender{
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
-    if ([self.active isEqual:@"1"] ) {
-        self.following.text = @"Follow";
-     //   self.active = @"0";
-        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+- (void)changeSwitch:(id)sender {
+    
+    if([sender isOn]) {
+        self.frm11 = @"Active";
+       // NSLog(@"Switch is ON");
     } else {
-        self.following.text = @"Following";
-    //    self.active = @"1";
-        [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal]; }
-} */
+        self.frm11 = @"";
+       // NSLog(@"Switch is OFF");
+    }
+       [self.listTableView reloadData];
+}
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -132,6 +76,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ([_formStatus isEqual:@"New"])
+    return 2;
+    else
     return 3;
 }
 
@@ -149,26 +96,23 @@
     if (indexPath.row == 0) {
         
         UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-        if ( [self.frm11 isEqual:@"Active"] )
+        
+        [theSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+        
+        if ( [self.frm11 isEqual:@"Active"] ) {
              [theSwitch setOn:YES];
-        else [theSwitch setOn:NO];
+              self.active.text = self.frm11;
+              activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+              myCell.textLabel.text = @"Active";
+            } else {
+             [theSwitch setOn:NO];
+              self.active.text = @"";
+              activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
+              myCell.textLabel.text = @"Inactive";
+             }
+        
         [myCell addSubview:theSwitch];
          myCell.accessoryView = theSwitch;
- 
-        if ([self.frm11 isEqual:@"Active"] ) {
-            self.active.text = self.frm11;
-            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
-            myCell.textLabel.text = @"Active";
-          } else {
-            self.active.text = @"";
-            activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
-            myCell.textLabel.text = @"Inactive"; }
-      /*
-        if (![self.formStatus isEqual:@"Edit"] ) {
-            self.active.text = @"Active";
-            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
-            myCell.textLabel.text = @"Active";
-        }  */
 
          activeImage.contentMode = UIViewContentModeScaleAspectFit;
         [myCell.contentView addSubview:activeImage];
@@ -274,9 +218,66 @@
     return footerTitle;
 }
 
-#pragma mark - Edit Data
+- (void)parseData {
+    /*
+     if ([_formController isEqual: @"Salesman"]) {
+     
+     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+     query.cachePolicy = kPFCACHEPOLICY;
+     [query selectKeys:@[@"SalesNo"]];
+     [query selectKeys:@[@"Salesman"]];
+     [query orderByDescending:@"SalesNo"];
+     [query whereKey:@"Active" containsString:@"Active"];
+     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+     salesArray = [[NSMutableArray alloc]initWithArray:objects];
+     }];
+     }
+     
+     if ([_formController isEqual: @"Jobs"]) {
+     
+     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
+     query21.cachePolicy = kPFCACHEPOLICY;
+     [query21 selectKeys:@[@"JobNo"]];
+     [query21 selectKeys:@[@"Description"]];
+     [query21 orderByDescending:@"Description"];
+     [query21 whereKey:@"Active" containsString:@"Active"];
+     [query21 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+     jobArray = [[NSMutableArray alloc]initWithArray:objects];
+     }];
+     }
+     if ([_formController isEqual: @"Advertising"]) {
+     
+     PFQuery *query31 = [PFQuery queryWithClassName:@"Advertising"];
+     query31.cachePolicy = kPFCACHEPOLICY;
+     [query31 selectKeys:@[@"AdNo"]];
+     [query31 selectKeys:@[@"Advertiser"]];
+     [query31 orderByDescending:@"Advertiser"];
+     [query31 whereKey:@"Active" containsString:@"Active"];
+     [query31 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+     adArray = [[NSMutableArray alloc]initWithArray:objects];
+     }];
+     }
+     
+     if ([_formController isEqual: @"Products"]) {
+     
+     PFQuery *query41 = [PFQuery queryWithClassName:@"Product"];
+     query41.cachePolicy = kPFCACHEPOLICY;
+     [query41 selectKeys:@[@"ProductNo"]];
+     [query41 selectKeys:@[@"Products"]];
+     [query41 orderByDescending:@"Products"];
+     [query41 whereKey:@"Active" containsString:@"Active"];
+     [query41 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+     prodArray = [[NSMutableArray alloc]initWithArray:objects];
+     }];
+     } */
+}
+
+#pragma mark - New Data
 -(void)updateData:(id)sender {
-    if ([_formController isEqual: @"Salesman"]) {
+    
+    if ([_formStatus isEqual:@"New"]) {
+        
+    if ([_formController isEqual:@"Salesman"]) {
         
      // NSString *_salesNo = self.salesNo.text;
         NSString *_salesman = self.salesman.text;
@@ -299,7 +300,7 @@
     }
     else if ([_formController isEqual: @"Jobs"]) {
         
-        // NSString *_jobNo = self.jobNo.text;
+     // NSString *_jobNo = self.jobNo.text;
         NSString *_description = self.salesman.text;
         NSString *_active = self.active.text;
         
@@ -320,7 +321,7 @@
     }
     else if ([_formController isEqual: @"Products"]) {
         
-        // NSString *_productNo = self.salesNo.text;
+     // NSString *_productNo = self.salesNo.text;
         NSString *_product = self.salesman.text;
         NSString *_active = self.active.text;
         
@@ -341,7 +342,7 @@
     }
     else if ([_formController isEqual: @"Advertising"]) {
         
-        // NSString *_adNo = self.salesNo.text;
+     // NSString *_adNo = self.salesNo.text;
         NSString *_advertiser = self.salesman.text;
         NSString *_active = self.active.text;
         
@@ -360,7 +361,10 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
+        
     [[self navigationController]popToRootViewControllerAnimated:YES];
+}
+    
 }
 
 @end

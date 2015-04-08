@@ -13,7 +13,7 @@
 @interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ProductModelProtocol>
 {
     NSMutableArray *filteredString;
-    BOOL isFilltered;
+    BOOL isFilltered, isFormStat;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

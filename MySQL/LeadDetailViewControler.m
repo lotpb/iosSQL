@@ -18,7 +18,7 @@
 @implementation LeadDetailViewControler
 {
     NSMutableArray *tableData, *tableData2, *tableData3, *tableData4;
-    NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *news1, *p1, *p12;
+    NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *p1, *p12;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
@@ -33,39 +33,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self parseData];
-    self.title = self.name;
+     self.title = NSLocalizedString(name, nil);
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 2.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-
+   [self parseData];
+   [self followButton];
+ 
+    if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
+           self.date = self.date;
+      else self.date = @"None";
+    
+    if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
+           self.comments = self.comments;
+      else self.comments = @"No Comments";
+    
 #pragma mark Bar Button
     if ([_formController isEqual: @"Leads"]) {
-    UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
-    NSArray *actionButtonItems = @[newItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+        
+        UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
+        NSArray *actionButtonItems = @[newItem];
+        self.navigationItem.rightBarButtonItems = actionButtonItems;
     } else {
-    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
-    NSArray *actionButtonItems = @[editItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+        UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
+        NSArray *actionButtonItems = @[editItem];
+        self.navigationItem.rightBarButtonItems = actionButtonItems;
     }
-
-    //add Following button
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
-    if ( [self.active isEqual:@"1"] ) {
-         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
-          self.following.text = @"Following";
-    } else {
-         [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-          self.following.text = @"Follow";}
-    
-        // Switch button
-     if ( [t11 isEqual:@"Sold"] )
-            [self.mySwitch setOn:YES];
-       else [self.mySwitch setOn:NO];
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -74,23 +69,13 @@
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    
     [refreshView addSubview:refreshControl];
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
     [super viewDidAppear:animated];
-    [self passData];
-    
-    tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
-    
-    tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
-    
-    tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
-    
-    tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
-    
-   [self reloadTable];
+    [self fieldData];
+    [self reloadTable];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -111,7 +96,7 @@
     self.listTableView2.layoutMargins = UIEdgeInsetsZero;
 }
 
-#pragma mark - Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [self reloadTable];
     if (refreshControl) {
@@ -133,6 +118,24 @@
 }
 
 #pragma mark - Buttons
+- (void)followButton {
+
+    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
+    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    if ( [self.active isEqual:@"1"] ) {
+        [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
+        self.following.text = @"Following";
+    } else {
+        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+        self.following.text = @"Follow";}
+    
+    // Switch button
+    if ( [t11 isEqual:@"Sold"] )
+        [self.mySwitch setOn:YES];
+    else [self.mySwitch setOn:NO];
+}
+
+#pragma mark  Map Buttons
 - (IBAction)mapButton:(UIButton *)sender{
     [self performSegueWithIdentifier:@"mapdetailSegue"sender:self];
 }
@@ -143,7 +146,8 @@
 }
 
 #pragma mark social Buttons
-- (void)share:(id)sender{
+- (void)share:(id)sender {
+    
     NSString * message = self.date;
     NSString * message1 = self.name;
     NSString * message2 = self.comments;
@@ -167,9 +171,8 @@
       return 0;
 }
 
-#pragma mark TableView Delegate Methods
+#pragma mark TableView Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if ([tableView isEqual:self.listTableView]) {
     
     static NSString *CellIdentifier = @"NewCell";
@@ -211,7 +214,7 @@
     return myCell;
 }
     else if ([tableView isEqual:self.newsTableView]) {
-        
+       //if ([_formController  isEqual: @"Vendor"]) {
         NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
         [dateFormater setDateFormat:KEY_DATESQLFORMAT];
         dateFormater.timeZone = [NSTimeZone localTimeZone];
@@ -241,7 +244,7 @@
     myCell.leadreadmore.text = @"Read more";
     myCell.leadreadmore.font = CELL_FONT(DETAILFONTSIZE);
         
-    myCell.leadnews.text = comments;
+    myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
     myCell.leadnews.font = CELL_MEDFONT(DETAILFONTSIZE);
    [myCell.leadnews setTextColor:DETAILCOLOR];
@@ -321,7 +324,7 @@ return myCell;
     [self presentViewController:view animated:YES completion:nil];
 }
 #pragma mark - LoadFieldData
-- (void)passData {
+- (void)fieldData {
 
     if ((![self.name isEqual:[NSNull null]] ) && ( [self.name length] != 0))
         self.name = self.name;
@@ -347,13 +350,13 @@ return myCell;
         self.amount = self.amount;
     else self.amount = @"None";
     
-    if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
+  /*  if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
         self.date = self.date;
     else self.date = @"None";
     
     if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
-        news1 = self.comments;
-    else news1 = @"No Comments";
+        self.comments = self.comments;
+    else self.comments = @"No Comments"; */
     
     if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
         p1 = self.photo;
@@ -423,7 +426,7 @@ return myCell;
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
-    
+  
     self.labelNo.text = leadNo;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;
@@ -431,8 +434,15 @@ return myCell;
     self.labeladdress.text = address;
     self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
     self.labelamount.text = amount;
-    self.comments = news1;
     //self.photo = p1;
+    
+    tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
+    
+    tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];
+    
+    tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
+    
+    tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
 }
 
 #pragma mark - Parse

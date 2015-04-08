@@ -67,6 +67,7 @@
 
 #pragma mark - BarButton NewData
 -(void)newData {
+    isFormStat = YES;
     [self performSegueWithIdentifier:@"jobDetailSegue"sender:self];
 }
 
@@ -164,7 +165,7 @@
     }
 }
 
-#pragma mark  TableView Delegate Methods
+#pragma mark  TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
@@ -272,7 +273,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"job",@"jobNo",@"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -287,7 +288,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -326,7 +327,7 @@
     [self.listTableView reloadData];
 }
 
-#pragma mark - Parse
+#pragma mark - Parse HeaderActive
 -(void)parseJob {
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
     query.cachePolicy = kPFCACHEPOLICY;
@@ -345,6 +346,7 @@
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
+    isFormStat = NO;
     [self performSegueWithIdentifier:@"jobDetailSegue" sender:self];
 }
 
@@ -354,7 +356,11 @@
     {
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = @"Jobs";
-        detailVC.frm11= _selectedLocation.active;
+        if (isFormStat == YES)
+            detailVC.formStatus = @"New";
+        else
+            detailVC.formStatus = @"Edit";
+        detailVC.frm11 = _selectedLocation.active;
         detailVC.frm12 = _selectedLocation.jobNo;
         detailVC.frm13 = _selectedLocation.jobdescription;
     }

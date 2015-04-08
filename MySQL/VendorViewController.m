@@ -64,18 +64,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
--(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newVendSeque"sender:self];
-}
-
-#pragma mark - Table
--(void)itemsDownloaded:(NSMutableArray *)items {
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
-
-#pragma mark TableRefresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_VendorModel downloadItems];
     [self.listTableView reloadData];
@@ -91,6 +80,17 @@
         
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - BarButton NewData
+-(void)newData:(id)sender {
+    [self performSegueWithIdentifier:@"newVendSeque"sender:self];
+}
+
+#pragma mark - Table
+-(void)itemsDownloaded:(NSMutableArray *)items {
+    _feedItems = items;
+    [self.listTableView reloadData];
 }
 
 #pragma mark  Table Delete Button
@@ -157,7 +157,7 @@
     }
 }
 
-#pragma mark  TableView Delegate Methods
+#pragma mark  TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return filteredString.count;
@@ -261,7 +261,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"department"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -276,7 +276,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active) {
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -372,7 +372,7 @@
        detailVC.l24 = @"Manager"; detailVC.l25 = @"Profession";
        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Web Page";
        detailVC.l1datetext = @"Web Page:";
-       detailVC.lnewsTitle = @"Business News Peter Balsamo Appointed to United's Board of Directors";
+       detailVC.lnewsTitle = VENDORNEWSTITLE;
    }
     if ([[segue identifier] isEqualToString:@"newVendSeque"])
     {

@@ -13,7 +13,8 @@
 @interface JobViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, JobModelProtocol>
 {
     NSMutableArray *filteredString;
-    BOOL isFilltered;
+    BOOL isFilltered, isFormStat;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

@@ -14,7 +14,7 @@
 {
     // NSMutableArray *_feedItems;
     NSMutableArray *filteredString;
-    BOOL isFilltered;
+    BOOL isFilltered, isFormStat;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

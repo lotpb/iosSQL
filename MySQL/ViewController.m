@@ -28,6 +28,7 @@
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
+     self.listTableView.pagingEnabled = YES;
     //self.listTableView.backgroundColor = [UIColor clearColor];
    // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
    // self.listTableView.contentInset = inset;
@@ -48,8 +49,8 @@
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    
     [refreshView addSubview:refreshControl];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,13 +70,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
--(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
-}
-
-#pragma mark - Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
+    
     [_homeModel downloadItems];
     [self.listTableView reloadData];
     
@@ -92,9 +89,13 @@
     }
 }
 
+#pragma mark - BarButton NewData
+-(void)newData:(id)sender {
+    [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
+}
+
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {
-    // Set the downloaded items to the array
     _feedItems = items;
     [self.listTableView reloadData];
 }
@@ -285,7 +286,7 @@
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
     self.searchController.hidesBottomBarWhenPushed = YES;
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
    [self presentViewController:self.searchController animated:YES completion:nil];
@@ -299,7 +300,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -392,7 +393,7 @@
         detailVC.l24 = @"Advertiser"; detailVC.l25 = @"Active";
         detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Photo";
         detailVC.l1datetext = @"Lead Date:";
-        detailVC.lnewsTitle = @"Customer News Peter Balsamo Appointed to United's Board of Directors";
+        detailVC.lnewsTitle = LEADNEWSTITLE;
     }
     if ([[segue identifier] isEqualToString:@"newLeadSeque"]) {
         NewData *detailVC = segue.destinationViewController;

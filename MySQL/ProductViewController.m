@@ -65,19 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
--(void)newData {
-    [self performSegueWithIdentifier:@"productDetailSegue"sender:self];
-}
-
-#pragma mark - Table
--(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
-
-#pragma mark Table Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_ProductModel downloadItems];
     [self.listTableView reloadData];
@@ -94,6 +82,20 @@
         [refreshControl endRefreshing];
     }
 }
+
+#pragma mark - BarButton NewData
+-(void)newData {
+    isFormStat = YES;
+    [self performSegueWithIdentifier:@"productDetailSegue"sender:self];
+}
+
+#pragma mark - Table
+-(void)itemsDownloaded:(NSMutableArray *)items
+{   // This delegate method will get called when the items are finished downloading
+    _feedItems = items;
+    [self.listTableView reloadData];
+}
+
 
 #pragma mark TableView Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
@@ -164,7 +166,7 @@
     }
 }
 
-#pragma mark  TableView Delegate Methods
+#pragma mark  TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
@@ -272,7 +274,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"product",@"productNo",@"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -287,7 +289,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -329,7 +331,7 @@
     [self.listTableView reloadData];
 }
 
-#pragma mark - Parse
+#pragma mark - Parse HeaderActive
 -(void)parseAds {
      PFQuery *query = [PFQuery queryWithClassName:@"Product"];
      query.cachePolicy = kPFCACHEPOLICY;
@@ -347,7 +349,8 @@
         _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
-
+    
+    isFormStat = NO;
     [self performSegueWithIdentifier:@"productDetailSegue" sender:self];
 }
 
@@ -357,7 +360,12 @@
     {
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = @"Products";
-        detailVC.frm11= _selectedLocation.active;
+        if (isFormStat == YES)
+            detailVC.formStatus = @"New";
+        else
+            detailVC.formStatus = @"Edit";
+        
+        detailVC.frm11 = _selectedLocation.active;
         detailVC.frm12 = _selectedLocation.productNo;
         detailVC.frm13 = _selectedLocation.products;
     }

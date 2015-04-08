@@ -13,7 +13,7 @@
 @interface SalesmanViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, SalesModelProtocol>
 {
     NSMutableArray *filteredString;
-    BOOL isFilltered;
+    BOOL isFilltered, isFormStat;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

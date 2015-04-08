@@ -23,9 +23,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.barTintColor = BLOGNAVCOLOR;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
+    self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
+    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLBLOG.png"]];
     self.title = NSLocalizedString(@"Blog", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -47,7 +47,7 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = BLOGNAVCOLOR;
+    refreshControl.backgroundColor = BLOGNAVBARCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     
@@ -65,22 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Bar Button
--(void)foundView:(id)sender {
-    [self performSegueWithIdentifier:@"NewBlogSegue" sender:self];
-}
-
-#pragma mark - TableView
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0;
-}
-
--(void)itemsDownloaded:(NSMutableArray *)items {
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
-
-#pragma mark Table Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_BlogModel downloadItems];
     [self.listTableView reloadData];
@@ -96,6 +81,21 @@
         
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - Bar Button
+-(void)foundView:(id)sender {
+    [self performSegueWithIdentifier:@"NewBlogSegue" sender:self];
+}
+
+#pragma mark - TableView
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80.0;
+}
+
+-(void)itemsDownloaded:(NSMutableArray *)items {
+    _feedItems = items;
+    [self.listTableView reloadData];
 }
 
 #pragma mark TableView Delete Button
@@ -272,7 +272,7 @@
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)
-        [view setBackgroundColor:BLOGNAVCOLOR]; //[UIColor clearColor]]
+        [view setBackgroundColor:BLOGNAVBARCOLOR]; //[UIColor clearColor]]
         else
         [view setBackgroundColor:[UIColor blackColor]];
     
@@ -291,10 +291,10 @@
     self.definesPresentationContext = YES;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLEBLOG;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
-    self.searchController.searchBar.barTintColor = BLOGNAVCOLOR;
+    self.searchController.searchBar.barTintColor = BLOGNAVBARCOLOR;
     //self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -309,7 +309,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     

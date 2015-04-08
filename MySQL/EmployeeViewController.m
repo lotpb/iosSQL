@@ -66,18 +66,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - BarButton NewData
--(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newEmplySegue"sender:self];
-}
-
-#pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items {   // This delegate method will get called when the items are finished downloading
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
-
-#pragma mark Table Refresh Control
+#pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_EmployeeModel downloadItems];
     [self.listTableView reloadData];
@@ -93,6 +82,17 @@
         
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - BarButton NewData
+-(void)newData:(id)sender {
+    [self performSegueWithIdentifier:@"newEmplySegue"sender:self];
+}
+
+#pragma mark - TableView
+-(void)itemsDownloaded:(NSMutableArray *)items {   // This delegate method will get called when the items are finished downloading
+    _feedItems = items;
+    [self.listTableView reloadData];
 }
 
 #pragma mark TableView Delegate Methods
@@ -281,7 +281,7 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"active"];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -296,7 +296,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
         return;
     }
     
@@ -397,7 +397,7 @@
        detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Email";
        detailVC.l1datetext = @"Email:";
-       detailVC.lnewsTitle = @"Employee News Peter Balsamo Appointed to United's Board of Directors";
+       detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
    }
     if ([[segue identifier] isEqualToString:@"newEmplySegue"])
     {

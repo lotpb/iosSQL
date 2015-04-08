@@ -88,13 +88,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark Scroll RefreshControl
+#pragma mark - RefreshControl
 - (void)reloadDatas:(UIRefreshControl *)refreshControl {
     [self getWallImages];
     [refreshControl endRefreshing];
 }
 
-#pragma mark Receive Wall Objects
+#pragma mark - Receive Wall Objects
 //Get the list of images
 -(void)getWallImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
@@ -118,7 +118,7 @@
     }];
 }
 
-#pragma mark Wall Load
+#pragma mark - Wall Load
 //Load the images on the wall
 -(void)loadWallViews
 {
