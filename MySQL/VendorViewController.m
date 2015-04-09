@@ -73,7 +73,7 @@
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
@@ -122,10 +122,10 @@
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.vendorNo;
                                  NSString *_vendorNo = deletestring;
-                                 NSString *rawStr = [NSString stringWithFormat:@"_vendorNo=%@&&", _vendorNo];
+                                 NSString *rawStr = [NSString stringWithFormat:VENDDELETENO, VENDDELETENO1];
                                  NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
                                  
-                                 NSURL *url = [NSURL URLWithString:@"http://localhost:8888/deleteVendor.php"];
+                                 NSURL *url = [NSURL URLWithString:VENDORDELETEURL];
                                  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
                                  
                                  [request setHTTPMethod:@"POST"];
@@ -202,41 +202,41 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
- 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, tableView.frame.size.width, 45)];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE1)];
     [label setFont:CELL_FONT(HEADFONTSIZE)];
-    [label setTextColor:HEADCOLOR];
+    [label setTextColor:HEADTEXTCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
     [view addSubview:label];
     
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(12, 45, 60, 1.5)];
-    separatorLineView.backgroundColor = [UIColor redColor];
+    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE1)];
+    separatorLineView.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 3, tableView.frame.size.width, 45)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE2)];
     label1.numberOfLines = 0;
     [label1 setFont:CELL_FONT(HEADFONTSIZE)];
-    [label1 setTextColor:HEADCOLOR];
+    [label1 setTextColor:HEADTEXTCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
     
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 45, 60, 1.5)];
-    separatorLineView1.backgroundColor = [UIColor greenColor];
+    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE2)];
+    separatorLineView1.backgroundColor = LINECOLOR2;
     [view addSubview:separatorLineView1];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 3, tableView.frame.size.width, 45)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
     label2.numberOfLines = 0;
     [label2 setFont:CELL_FONT(HEADFONTSIZE)];
-    [label2 setTextColor:HEADCOLOR];
+    [label2 setTextColor:HEADTEXTCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
     
-    UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(158, 45, 60, 1.5)];
-    separatorLineView2.backgroundColor = [UIColor redColor];
+    UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE3)];
+    separatorLineView2.backgroundColor = LINECOLOR3;
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)

@@ -40,7 +40,7 @@
 {
    [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLNEWS.png"]];
+     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
     

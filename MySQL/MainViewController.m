@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone;//fix
-     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mySQLHOME.png"]];
+     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MAINNAVLOGO]];
      //self.title = NSLocalizedString(@"Main Menu", nil);
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
@@ -51,7 +51,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.listTableView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
+    [self.listTableView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
@@ -81,7 +81,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
             forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
@@ -122,7 +122,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-        return 175.0;
+        return MAINHEADHEIGHT;
     else return 0.0;
 }
 
@@ -138,9 +138,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     tableView.tableHeaderView = view; //makes header move with tablecell
     
-    UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 175)];
+    UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
     
-    UIImage *image = [UIImage imageNamed:@"IMG_1133NEW.jpg"];
+    UIImage *image = [UIImage imageNamed:HEADERIMAGE];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
  // imageHolder.alpha = 0;
@@ -148,39 +148,39 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
    
     [view addSubview:imageHolder];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 122, tableView.frame.size.width, 45)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
     [label setFont:CELL_FONT(HEADFONTSIZE)];
-    [label setTextColor:HEADCOLOR];
+    [label setTextColor:HEADTEXTCOLOR];
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
     [view addSubview:label];
     
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(12, 162, 60, 1.5)];
+    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE1)];
     separatorLineView.backgroundColor = [UIColor greenColor];
     [view addSubview:separatorLineView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(85, 122, tableView.frame.size.width, 45)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
     label1.numberOfLines = 0;
     [label1 setFont:CELL_FONT(HEADFONTSIZE)];
-    [label1 setTextColor:HEADCOLOR];
+    [label1 setTextColor:HEADTEXTCOLOR];
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
     
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(85, 162, 60, 1.5)];
+    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
     separatorLineView1.backgroundColor = [UIColor redColor];
     [view addSubview:separatorLineView1];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(158, 122, tableView.frame.size.width, 45)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
     label2.numberOfLines = 0;
     [label2 setFont:CELL_FONT(HEADFONTSIZE)];
-    [label2 setTextColor:HEADCOLOR];
+    [label2 setTextColor:HEADTEXTCOLOR];
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
     
-    UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(158, 162, 60, 1.5)];
+    UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
     separatorLineView2.backgroundColor = [UIColor redColor];
     [view addSubview:separatorLineView2];
     /*

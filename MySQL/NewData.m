@@ -196,8 +196,8 @@
     } else self.salesman.inputView = [self customPicker:1];
     
     //add Following button
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if ( [self.active.text isEqual:@"1"] ) {
          [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
           self.following.text = @"Following";
@@ -366,8 +366,8 @@
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if([self.active.text isEqualToString: @"0"]) {
         self.following.text = @"Following";
         self.active.text = @"1";
@@ -574,10 +574,10 @@
     NSString *_photo = self.photo.text;
 //  NSString *_time = self.time;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_date=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
+    NSString *rawStr = [NSString stringWithFormat:SAVELEADFIELD, SAVELEADFIELD1];
     //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveLeads.php"];
+    NSURL *url = [NSURL URLWithString:SAVELEADURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
@@ -618,11 +618,11 @@
         NSString *_photo2 = nil;
      // NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_start=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_salesNo=%@&_jobNo=%@&_productNo=%@&_active=%@&_photo=%@&_photo1=%@&_photo2=%@&_contractor=%@&_complete=%@&", _leadNo, _date, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _start, _email, _first, _spouse, _rate, _salesNo, _jobNo, _productNo, _active, _photo, _photo1, _photo2, _contractor, _complete];
+        NSString *rawStr = [NSString stringWithFormat:SAVECUSTFIELD, SAVECUSTFIELD1];
         
         //NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveCustomer.php"];
+        NSURL *url = [NSURL URLWithString:SAVECUSTOMERURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -663,11 +663,11 @@
         NSString *_phonecmbo3 = nil;
       //NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_name=%@&&_address=%@&_city=%@&_state=%@&_zip=%@&_phone=%@&_phone1=%@&_phone2=%@&_phone3=%@&_email=%@&_webpage=%@&_department=%@&_office=%@&_manager=%@&_profession=%@&_assistant=%@&_comments=%@&_active=%@&_phonecmbo=%@&_phonecmbo1=%@&_phonecmbo2=%@&_phonecmbo3=%@&", _name, _address, _city, _state, _zip, _phone, _phone1, _phone2, _phone3, _email, _webpage, _department, _office, _manager, _profession, _assistant, _comments, _active, _phonecmbo, _phonecmbo1, _phonecmbo2, _phonecmbo3];
+        NSString *rawStr = [NSString stringWithFormat:SAVEVENDORFIELD, SAVEVENDORFIELD1];
         
         //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveVendor.php"];
+        NSURL *url = [NSURL URLWithString:SAVEVENDORURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -703,11 +703,11 @@
         NSString *_employtitle = self.spouse.text;
     //  NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_company=%@&&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&", _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle];
+        NSString *rawStr = [NSString stringWithFormat:SAVEEMPLOYEEFIELD, SAVEEMPLOYEEFIELD1];
         
         //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveEmployee.php"];
+        NSURL *url = [NSURL URLWithString:SAVEEMPLOYEEURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];

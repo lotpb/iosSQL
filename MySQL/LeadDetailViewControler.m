@@ -103,7 +103,7 @@
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
@@ -120,8 +120,8 @@
 #pragma mark - Buttons
 - (void)followButton {
 
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if ( [self.active isEqual:@"1"] ) {
         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
         self.following.text = @"Following";

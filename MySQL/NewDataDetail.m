@@ -102,12 +102,12 @@
         if ( [self.frm11 isEqual:@"Active"] ) {
              [theSwitch setOn:YES];
               self.active.text = self.frm11;
-              activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+              activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
               myCell.textLabel.text = @"Active";
             } else {
              [theSwitch setOn:NO];
               self.active.text = @"";
-              activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
+              activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
               myCell.textLabel.text = @"Inactive";
              }
         
@@ -218,6 +218,7 @@
     return footerTitle;
 }
 
+#pragma mark - Parse Data
 - (void)parseData {
     /*
      if ([_formController isEqual: @"Salesman"]) {
@@ -283,10 +284,10 @@
         NSString *_salesman = self.salesman.text;
         NSString *_active = self.active.text;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_salesman=%@&&_active=%@&", _salesman, _active];
+        NSString *rawStr = [NSString stringWithFormat:SAVESALEFIELD, SAVESALEFIELD1];
         NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveSalesman.php"];
+        NSURL *url = [NSURL URLWithString:SAVESALEURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -304,10 +305,10 @@
         NSString *_description = self.salesman.text;
         NSString *_active = self.active.text;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_description=%@&&_active=%@&", _description, _active];
+        NSString *rawStr = [NSString stringWithFormat:SAVEJOBFIELD, SAVEJOBFIELD1];
         NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveJob.php"];
+        NSURL *url = [NSURL URLWithString:SAVEJOBURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -325,10 +326,10 @@
         NSString *_product = self.salesman.text;
         NSString *_active = self.active.text;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_product=%@&&_active=%@&", _product, _active];
+        NSString *rawStr = [NSString stringWithFormat:SAVEPRODFIELD, SAVEPRODFIELD1];
         NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveProduct.php"];
+        NSURL *url = [NSURL URLWithString:SAVEPRODURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -346,10 +347,10 @@
         NSString *_advertiser = self.salesman.text;
         NSString *_active = self.active.text;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_advertiser=%@&&_active=%@&", _advertiser, _active];
+        NSString *rawStr = [NSString stringWithFormat:SAVEADFIELD, SAVEADFIELD1];
         NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveAdvertising.php"];
+        NSURL *url = [NSURL URLWithString:SAVEADURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];

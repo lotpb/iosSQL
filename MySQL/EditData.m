@@ -78,8 +78,8 @@
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
    if ([self.active isEqual:@"1"] ) {
         self.following.text = @"Follow";
         self.active = @"0";
@@ -91,8 +91,8 @@
 }
 
 -(void)activeButton {
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if ( [self.frm30 isEqual:@"1"] ) { //active
         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
         self.following.text = @"Following";
@@ -850,13 +850,6 @@
     if ([_formController isEqual: @"Leads"]) {
         NSString *_leadNo = self.leadNo;
         NSString *_active = self.active;
-        /*
-         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-         gmtDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-         NSString *dateString = [gmtDateFormatter stringFromDate:self.date.text];
-         // self.date.text = dateString; */
-        
         NSString *_date = self.date.text;
         NSString *_first = self.first.text;
         NSString *_name = self.last.text;
@@ -877,11 +870,10 @@
         NSString *_photo = self.photo.text;
         // NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_leadNo=%@&&_date=%@&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_aptdate=%@&_email=%@&_first=%@&_spouse=%@&_callback=%@&_salesNo=%@&_jobNo=%@&_adNo=%@&_active=%@&_photo=%@&", _leadNo, _date, _name, _address, _city, _state, _zip, _comments, _amount, _phone, _aptdate, _email, _first, _spouse, _callback, _salesNo, _jobNo, _adNo, _active, _photo];
+        NSString *rawStr = [NSString stringWithFormat:UPDATELEADFIELD, UPDATELEADFIELD1];
         
-      //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateLeads.php"];
+        NSURL *url = [NSURL URLWithString:UPDATELEADURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -921,11 +913,11 @@
         NSString *_active = self.active;
         //  NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_custNo=%@&&_leadNo=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_comments=%@&_amount=%@&_phone=%@&_quan=%@&_email=%@&_first=%@&_spouse=%@&_rate=%@&_photo=%@&_photo1=%@&_photo2=%@&_salesNo=%@&_jobNo=%@&_start=%@&_complete=%@&_productNo=%@&_contractor=%@&_active=%@&", _custNo, _leadNo, _address, _city, _state, _zip, _comments, _amount, _phone, _quan, _email,_first, _spouse, _rate, _photo, _photo1, _photo2,_salesNo, _jobNo, _start, _complete, _productNo, _contractor, _active];
+        NSString *rawStr = [NSString stringWithFormat:UPDATECUSTFIELD, UPDATECUSTFIELD1];
         
         //NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateCustomer.php"];
+        NSURL *url = [NSURL URLWithString:UPDATECUSTURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -964,11 +956,11 @@
         NSString *_phonecmbo3 = nil;
         //  NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_vendorNo=%@&&_name=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_phone=%@&_phone1=%@&_phone2=%@&_phone3=%@&_email=%@&_webpage=%@&_department=%@&_office=%@&_manager=%@&_profession=%@&_assistant=%@&_comments=%@&_active=%@&_phonecmbo=%@&_phonecmbo1=%@&_phonecmbo2=%@&_phonecmbo3=%@&", _vendorNo, _name, _address, _city, _state, _zip, _phone, _phone1, _phone2, _phone3, _email, _webpage, _department, _office, _manager, _profession, _assistant, _comments, _active, _phonecmbo, _phonecmbo1, _phonecmbo2, _phonecmbo3];
+        NSString *rawStr = [NSString stringWithFormat:UPDATEVENDORFIELD, UPDATEVENDORFIELD1];
         
         //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateVendor.php"];
+        NSURL *url = [NSURL URLWithString:UPDATEVENDORURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
@@ -1004,10 +996,10 @@
         NSString *_employtitle = self.spouse.text;
         //  NSString *_time = self.time;
         
-        NSString *rawStr = [NSString stringWithFormat:@"_employeeNo=%@&&_company=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&", _employeeNo, _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle];
+        NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];
         
         //NSLog(@"rawStr is %@",rawStr);
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateEmployee.php"];
+        NSURL *url = [NSURL URLWithString:UPDATEEMPLOYEEURL];
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];

@@ -140,10 +140,9 @@ return myCell;
     NSString *_rating = self.rating;
     NSString *_postby = self.postby;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&_msgDate=%@&_subject=%@&_rating=%@&_postby=%@&",
-                        _msgNo, _msgDate, _subject, _rating, _postby];
+    NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&_msgDate=%@&_subject=%@&_rating=%@&_postby=%@&", _msgNo, _msgDate, _subject, _rating, _postby];
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/updateBlog.php"];
+    NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];
@@ -173,7 +172,7 @@ return myCell;
     NSString *rawStr = [NSString stringWithFormat:@"_msgDate=%@&&_subject=%@&_rating=%@&_postby=%@&",_msgDate, _subject, _rating, _postby];
     
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8888/saveBlog.php"];
+    NSURL *url = [NSURL URLWithString:BLOGSAVEURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:data];

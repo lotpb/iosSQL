@@ -124,7 +124,7 @@
     myCell.titleLabel.text = self.selectedLocation.postby;
     myCell.subtitleLabel.text = self.selectedLocation.subject;
     myCell.msgDateLabel.text = self.selectedLocation.msgDate;
-    myCell.blogImageView.image = [[UIImage imageNamed:@"DemoCellImage"] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
+    myCell.blogImageView.image = [[UIImage imageNamed:BLOGTABLEIMAGE] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
     
     if ([self.selectedLocation.rating isEqual: @"5"]) {
      //    label2.hidden = YES;
