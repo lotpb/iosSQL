@@ -78,7 +78,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 
 @property (weak, nonatomic) IBOutlet UITextField *photo;
-@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

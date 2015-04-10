@@ -25,7 +25,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([_formController isEqual: @"Customer"])
+    if ([_formController isEqual:TNAME2])
     self.title = NSLocalizedString(@"Product lookup", nil);
     else self.title = NSLocalizedString(@"Advertising lookup", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -39,10 +39,10 @@
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.definesPresentationContext = YES;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
-    self.searchController.searchBar.tintColor = [UIColor whiteColor];
-    self.searchController.searchBar.barTintColor = [UIColor clearColor];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
+    self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     // self.navigationItem.titleView = self.searchController.searchBar;
@@ -50,7 +50,7 @@
     
     adproductArray = [[NSMutableArray alloc] init];
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
      PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
      //[PFQuery clearAllCachedResults];
      [query3 selectKeys:@[@"ProductNo"]];
@@ -115,19 +115,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"BasicCell";
+    static NSString *cellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 
     if (!isFilltered) {
-        if ([_formController isEqual: @"Customer"])
+        if ([_formController isEqual:TNAME2])
         adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Products"];
         else
         adproductName = [[adproductArray objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
       } else
-        if ([_formController isEqual: @"Customer"])
+        if ([_formController isEqual:TNAME2])
         adproductName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Products"];
         else
         adproductName = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
@@ -171,14 +171,14 @@
 - (void)passDataBack {
     NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     if (!isFilltered) {
-        if ([_formController isEqual: @"Customer"]) {
+        if ([_formController isEqual:TNAME2]) {
         [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
         [self.delegate productNameFromController:self.tpn22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"Products"]];
        } else {
         [self.delegate productFromController:self.tpr22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"AdNo"]];
         [self.delegate productNameFromController:self.tpn22 = [[adproductArray objectAtIndex:indexPath.row]objectForKey:@"Advertiser"]]; }
        } else {
-     if ([_formController isEqual: @"Customer"]) {
+     if ([_formController isEqual:TNAME2]) {
         [self.delegate productFromController:self.tpr22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"ProductNo"]];
         [self.delegate productNameFromController:self.tpn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Products"]];
        } else {

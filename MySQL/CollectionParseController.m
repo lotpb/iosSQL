@@ -71,7 +71,7 @@
 - (void)queryParseMethod {
     
     PFQuery *query = [PFQuery queryWithClassName:@"jobPhoto"];
-     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     query.cachePolicy = kPFCACHEPOLICY;
     [query orderByDescending:KEY_CREATION_DATE];
    // [query whereKey:@"imageGroup" equalTo:self.workseg];
     [query whereKey:@"imageGroup" containsString:self.workseg];

@@ -21,7 +21,7 @@
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
    
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         
         PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
         query1.cachePolicy = kPFCACHEPOLICY;
@@ -32,7 +32,7 @@
         }];
     }
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
         
         PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
          query13.cachePolicy = kPFCACHEPOLICY;
@@ -43,7 +43,7 @@
         }];
     }
 
-    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+    if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
         
         PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
         query.cachePolicy = kPFCACHEPOLICY;
@@ -65,7 +65,7 @@
          self.leadNo = @"";
     else self.leadNo = self.frm31;
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
         self.jobNo.text = self.jobNoDetail;
         self.saleNo.text = self.saleNoDetail; }
     
@@ -97,13 +97,13 @@
         self.zip.text = @"";
         else self.zip.text = self.frm17;
     
-    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
         self.company.hidden = YES;
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
         gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
         NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-      if ([_formController isEqual: @"Leads"]) {
+      if ([_formController isEqual:TNAME1]) {
             self.date.text = dateString; //frm18
             self.aptDate.text = dateString; } //frm19
        else self.date.text = dateString; //no date on customer aptdate
@@ -151,17 +151,17 @@
     
         self.active.text = @"1"; //frm30
     
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         self.callback.inputView = [self customPicker:2];
         self.aptDate.inputView = [self datePicker];}
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
         self.company.placeholder = @"Contractor";
         self.aptDate.placeholder = @"Rate";
         self.adName.placeholder = @"ProductNo";
         self.callback.placeholder = @"# Windows";
         
-    } else if ([_formController isEqual: @"Vendor"]) {
+    } else if ([_formController isEqual:TNAME3]) {
         self.first.placeholder = @"Profession";
         self.last.placeholder = @"Webpage";
         self.date.placeholder = @"Manager";
@@ -173,7 +173,7 @@
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES;//Field
         
-    } else if ([_formController isEqual: @"Employee"]) {
+    } else if ([_formController isEqual:TNAME4]) {
         self.company.placeholder = @"Subcontractor";
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
@@ -187,7 +187,7 @@
         self.callback.placeholder = @"Manager";
     }
     
-    if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ) {
+    if ( ([_formController isEqual:TNAME4]) || ([_formController isEqual:TNAME3]) ) {
         self.jobLookup.hidden = YES; //Button
         self.productLookup.hidden = YES; //Button
         self.saleNo.hidden = YES; //Field
@@ -227,7 +227,7 @@
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
   // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
-     if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) )
+     if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
           [self.company becomeFirstResponder];
      else [self.first becomeFirstResponder];
 }
@@ -409,32 +409,32 @@
 
 #pragma mark Lookup City needed
 -(IBAction)updateCity:(id)sender{
-    [self performSegueWithIdentifier:@"lookupCitySegue"sender:self];
+    [self performSegueWithIdentifier:LOOKCITYSEGUE sender:self];
 }
 
 #pragma mark Lookup Job needed
 -(IBAction)updateJob:(id)sender{
-    [self performSegueWithIdentifier:@"lookupJobSegue"sender:self];
+    [self performSegueWithIdentifier:LOOKJOBSEGUE sender:self];
 }
 
 #pragma mark Lookup Product needed
 -(IBAction)updateProduct:(id)sender{
-    [self performSegueWithIdentifier:@"lookupProductSegue"sender:self];
+    [self performSegueWithIdentifier:LOOKPRODSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([[segue identifier] isEqualToString:@"lookupCitySegue"]) {
+    if ([[segue identifier] isEqualToString:LOOKCITYSEGUE]) {
         LookupCity *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
-    if ([[segue identifier] isEqualToString:@"lookupJobSegue"]) {
+    if ([[segue identifier] isEqualToString:LOOKJOBSEGUE]) {
         LookupJob *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
-    if ([[segue identifier] isEqualToString:@"lookupProductSegue"]) {
+    if ([[segue identifier] isEqualToString:LOOKPRODSEGUE]) {
         LookupProduct *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
@@ -551,7 +551,7 @@
         //  [ErrorAlert release];
     } else {
     
-  if ([_formController isEqual: @"Leads"]) {
+  if ([_formController isEqual:TNAME1]) {
  // NSString *_leadNo = self.leadNo;
     NSString *_active = self.active.text;
     NSString *_date = self.date.text;
@@ -575,7 +575,7 @@
 //  NSString *_time = self.time;
     
     NSString *rawStr = [NSString stringWithFormat:SAVELEADFIELD, SAVELEADFIELD1];
-    //NSLog(@"rawStr is %@",rawStr);
+  //NSLog(@"rawStr is %@",rawStr);
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:SAVELEADURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -588,10 +588,10 @@
     NSLog(@"%@", responseString);
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
-  //  NSLog(@"%lu", (unsigned long)responseString.length);
-  //  NSLog(@"%lu", (unsigned long)success.length);
+  //NSLog(@"%lu", (unsigned long)responseString.length);
+  //NSLog(@"%lu", (unsigned long)success.length);
     }
-    else if ([_formController isEqual: @"Customer"]) {
+    else if ([_formController isEqual:TNAME2]) {
         NSString *_active = self.active.text;
         NSString *_first = self.first.text;
         NSString *_leadNo = self.leadNo;
@@ -620,7 +620,6 @@
         
         NSString *rawStr = [NSString stringWithFormat:SAVECUSTFIELD, SAVECUSTFIELD1];
         
-        //NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:SAVECUSTOMERURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -633,10 +632,8 @@
         NSLog(@"%@", responseString);
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
-        //  NSLog(@"%lu", (unsigned long)responseString.length);
-        //  NSLog(@"%lu", (unsigned long)success.length);
        }
-    else if ([_formController isEqual: @"Vendor"]) {
+    else if ([_formController isEqual:TNAME3]) {
         
       //NSString *_vendorNo = self.leadNo;
         NSString *_name = self.company.text;
@@ -665,7 +662,6 @@
         
         NSString *rawStr = [NSString stringWithFormat:SAVEVENDORFIELD, SAVEVENDORFIELD1];
         
-        //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:SAVEVENDORURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -679,7 +675,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Employee"]) {
+    else if ([_formController isEqual:TNAME4]) {
         
     //  NSString *_employeeNo = self.leadNo;
         NSString *_company = self.company.text;
@@ -705,7 +701,6 @@
         
         NSString *rawStr = [NSString stringWithFormat:SAVEEMPLOYEEFIELD, SAVEEMPLOYEEFIELD1];
         
-        //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:SAVEEMPLOYEEURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

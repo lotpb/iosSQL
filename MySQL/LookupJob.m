@@ -37,10 +37,10 @@
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.definesPresentationContext = YES;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
-    self.searchController.searchBar.tintColor = [UIColor whiteColor];
-    self.searchController.searchBar.barTintColor = [UIColor clearColor];
-    self.listTableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
+    self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     // self.navigationItem.titleView = self.searchController.searchBar;
@@ -64,11 +64,6 @@
     }];
     
     filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
-/*
-#pragma mark Bar Button
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems; */
     
 }
 
@@ -96,7 +91,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"BasicCell";
+    static NSString *cellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (myCell == nil)

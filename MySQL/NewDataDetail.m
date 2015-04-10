@@ -24,7 +24,6 @@
     self.listTableView.delegate = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    // self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     // self.listTableView.tableHeaderView = view; //makes header move with tablecell
 
 #pragma mark BarButtons
@@ -84,7 +83,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
@@ -96,25 +95,23 @@
     if (indexPath.row == 0) {
         
         UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-        
         [theSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
         
-        if ( [self.frm11 isEqual:@"Active"] ) {
+        if ([self.frm11 isEqual:@"Active"]) {
              [theSwitch setOn:YES];
-              self.active.text = self.frm11;
+              self.active = self.frm11;
               activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
               myCell.textLabel.text = @"Active";
             } else {
              [theSwitch setOn:NO];
-              self.active.text = @"";
+              self.active = @"";
               activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
               myCell.textLabel.text = @"Inactive";
-             }
+            }
         
+         activeImage.contentMode = UIViewContentModeScaleAspectFit;
         [myCell addSubview:theSwitch];
          myCell.accessoryView = theSwitch;
-
-         activeImage.contentMode = UIViewContentModeScaleAspectFit;
         [myCell.contentView addSubview:activeImage];
         
     } else if (indexPath.row == 1){
@@ -128,22 +125,22 @@
          self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
         
-         if ([_formController isEqual: @"Salesman"]) {
-         self.salesman.placeholder = @"Salesman";
+         if ([_formController isEqual:TNAME8]) {
+             self.salesman.placeholder = @"Salesman";
              myCell.textLabel.text = @"Salesman"; }
         
-        else if ([_formController isEqual: @"Products"]) {
+        else if ([_formController isEqual:TNAME6]) {
             self.salesman.placeholder = @"Product";
             myCell.textLabel.text = @"Product";}
         
-        else if ([_formController isEqual: @"Advertising"]) {
+        else if ([_formController isEqual:TNAME5]) {
             self.salesman.placeholder = @"Advertiser";
             myCell.textLabel.text = @"Advertiser";}
         
-        else if ([_formController isEqual: @"Jobs"]) {
+        else if ([_formController isEqual:TNAME7]) {
             self.salesman.placeholder = @"Description";
             myCell.textLabel.text = @"Description";}
-        // myCell.accessoryView = self.salesman;
+        
         [myCell.contentView addSubview:self.salesman];
         
     } else if (indexPath.row == 2){
@@ -157,19 +154,19 @@
              self.salesNo.autocorrectionType = UITextAutocorrectionTypeNo;
             [self.salesNo setClearButtonMode:UITextFieldViewModeWhileEditing];
         
-        if ([_formController isEqual: @"Salesman"]) {
+        if ([_formController isEqual:TNAME8]) {
          self.salesNo.placeholder = @"SalesNo";
             myCell.textLabel.text = @"SalesNo"; }
         
-        else if ([_formController isEqual: @"Products"]) {
+        else if ([_formController isEqual:TNAME6]) {
             self.salesNo.placeholder = @"ProductNo";
             myCell.textLabel.text = @"ProductNo";}
         
-        else if ([_formController isEqual: @"Advertising"]) {
+        else if ([_formController isEqual:TNAME5]) {
             self.salesNo.placeholder = @"AdNo";
             myCell.textLabel.text = @"AdNo";}
         
-        else if ([_formController isEqual: @"Jobs"]) {
+        else if ([_formController isEqual:TNAME7]) {
             self.salesNo.placeholder = @"JobNo";
             myCell.textLabel.text = @"JobNo";}
         
@@ -200,23 +197,20 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{
     NSString *headerTitle;
-    if (section == 0) {
-        headerTitle = @"Info";
-    } else {
-        headerTitle = @"Section 2 Header";
-    }
+    if (section == 0)
+        headerTitle = HEADERTITLE;
+    
     return headerTitle;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
 (NSInteger)section{
     NSString *footerTitle;
-    if (section == 0) {
-        footerTitle = @"MySQL! :)";
-    } else {
-        footerTitle = @"Section 2 Footer";
-    }
+    if (section == 0)
+        footerTitle = FOOTERTITLE;
+
     return footerTitle;
 }
+//---------------------------------------------------
 
 #pragma mark - Parse Data
 - (void)parseData {
@@ -278,11 +272,10 @@
     
     if ([_formStatus isEqual:@"New"]) {
         
-    if ([_formController isEqual:@"Salesman"]) {
+    if ([_formController isEqual:TNAME8]) {
         
-     // NSString *_salesNo = self.salesNo.text;
         NSString *_salesman = self.salesman.text;
-        NSString *_active = self.active.text;
+        NSString *_active = self.active; //@"Active";
         
         NSString *rawStr = [NSString stringWithFormat:SAVESALEFIELD, SAVESALEFIELD1];
         NSLog(@"rawStr is %@",rawStr);
@@ -299,11 +292,10 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Jobs"]) {
+    else if ([_formController isEqual:TNAME7]) {
         
-     // NSString *_jobNo = self.jobNo.text;
         NSString *_description = self.salesman.text;
-        NSString *_active = self.active.text;
+        NSString *_active = self.active;
         
         NSString *rawStr = [NSString stringWithFormat:SAVEJOBFIELD, SAVEJOBFIELD1];
         NSLog(@"rawStr is %@",rawStr);
@@ -320,11 +312,10 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Products"]) {
+    else if ([_formController isEqual:TNAME6]) {
         
-     // NSString *_productNo = self.salesNo.text;
         NSString *_product = self.salesman.text;
-        NSString *_active = self.active.text;
+        NSString *_active = self.active;
         
         NSString *rawStr = [NSString stringWithFormat:SAVEPRODFIELD, SAVEPRODFIELD1];
         NSLog(@"rawStr is %@",rawStr);
@@ -341,11 +332,10 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Advertising"]) {
+    else if ([_formController isEqual:TNAME5]) {
         
-     // NSString *_adNo = self.salesNo.text;
         NSString *_advertiser = self.salesman.text;
-        NSString *_active = self.active.text;
+        NSString *_active = self.active;
         
         NSString *rawStr = [NSString stringWithFormat:SAVEADFIELD, SAVEADFIELD1];
         NSLog(@"rawStr is %@",rawStr);
@@ -363,9 +353,94 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
         
-    [[self navigationController]popToRootViewControllerAnimated:YES];
-}
+} else if ([_formStatus isEqual:@"Edit"]) {
     
+    if ([_formController isEqual:TNAME8]) {
+        
+        NSString *_salesNo = self.salesNo.text;
+        NSString *_salesman = self.salesman.text;
+        NSString *_active = self.active;
+        
+        NSString *rawStr = [NSString stringWithFormat:EDITSALEFIELD, EDITSALEFIELD1];
+        NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:EDITSALEURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else if ([_formController isEqual:TNAME7]) {
+        
+        NSString *_jobNo = self.salesNo.text;
+        NSString *_description = self.salesman.text;
+        NSString *_active = self.active;
+        
+        NSString *rawStr = [NSString stringWithFormat:EDITJOBFIELD, EDITJOBFIELD1];
+        NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:EDITJOBURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else if ([_formController isEqual:TNAME6]) {
+        
+        NSString *_productNo = self.salesNo.text;
+        NSString *_products = self.salesman.text;
+        NSString *_active = self.active;
+        
+        NSString *rawStr = [NSString stringWithFormat:EDITPRODFIELD, EDITPRODFIELD1];
+        NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:EDITPRODURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else if ([_formController isEqual:TNAME5]) {
+        
+        NSString *_adNo = self.salesNo.text;
+        NSString *_advertiser = self.salesman.text;
+        NSString *_active = self.active;
+        
+        NSString *rawStr = [NSString stringWithFormat:EDITADFIELD, EDITADFIELD1];
+        NSLog(@"rawStr is %@",rawStr);
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:EDITADURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+       }
+}
+    [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 @end

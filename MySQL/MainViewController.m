@@ -27,22 +27,33 @@
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone;//fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MAINNAVLOGO]];
-     //self.title = NSLocalizedString(@"Main Menu", nil);
+   //self.title = NSLocalizedString(@"Main Menu", nil);
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
-    // self.listTableView.backgroundColor = [UIColor clearColor];
+     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+    /*
+    [self.listTableView flashScrollIndicators];
+    [self.listTableView setContentOffset:CGPointZero animated:NO];
+     self.automaticallyAdjustsScrollViewInsets = NO; //fix
+     self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; */
+    
+   /*  UIEdgeInsets tableViewEdgeInsets = UIEdgeInsetsMake(0, 0, [MAMHNController isPad]?0:44, 0);
+    //[self.tableView setContentInset:tableViewEdgeInsets];
+      [self.tableView setScrollIndicatorInsets:tableViewEdgeInsets]; */
    
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:TABTINTCOLOR];
     }
 
-    tableData = [[NSMutableArray alloc]initWithObjects:@"Lead", @"Customer", @"Vendor", @"Employee", @"Advertising", @"Product", @"Job", @"Salesman", @"Blog", nil];
+    tableData = [[NSMutableArray alloc]initWithObjects:TNAME1, TNAME2, TNAME3, TNAME4, TNAME5, TNAME6, TNAME7, TNAME8, TNAME9, nil];
  
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    //Change BarButton Font Below
+    // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
     
 #pragma mark Sidebar
     _sidebarButton.target = self.revealViewController;
@@ -64,7 +75,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+  // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
 }
 
 -(void)didReceiveMemoryWarning {
@@ -82,7 +93,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR
             forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
@@ -102,7 +113,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 #pragma mark TableView Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *CellIdentifier = @"mainCell";
+    static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
@@ -133,7 +144,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    
     //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
     
     tableView.tableHeaderView = view; //makes header move with tablecell
@@ -157,7 +167,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label];
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE1)];
-    separatorLineView.backgroundColor = [UIColor greenColor];
+    separatorLineView.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
@@ -169,7 +179,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    separatorLineView1.backgroundColor = [UIColor redColor];
+    separatorLineView1.backgroundColor = LINECOLOR2;
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
@@ -181,7 +191,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
-    separatorLineView2.backgroundColor = [UIColor redColor];
+    separatorLineView2.backgroundColor = LINECOLOR3;
     [view addSubview:separatorLineView2];
     /*
     if (!isFilltered)
@@ -241,32 +251,32 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *mycell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if ([mycell.textLabel.text isEqualToString:@"Lead"])
-        [self performSegueWithIdentifier:@"leadDetailSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME1])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE1 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Customer"])
-        [self performSegueWithIdentifier:@"custDetailSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME2])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE2 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Vendor"])
-        [self performSegueWithIdentifier:@"vendDetailSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME3])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE3 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Employee"])
-        [self performSegueWithIdentifier:@"employeeSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME4])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE4 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Advertising"])
-        [self performSegueWithIdentifier:@"adSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME5])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE5 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Product"])
-        [self performSegueWithIdentifier:@"prodSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME6])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE6 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Job"])
-        [self performSegueWithIdentifier:@"jobSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME7])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE7 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Salesman"])
-        [self performSegueWithIdentifier:@"saleSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME8])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE8 sender:nil];
     
-    if ([mycell.textLabel.text isEqualToString:@"Blog"])
-        [self performSegueWithIdentifier:@"blogSegue" sender:nil];
+    if ([mycell.textLabel.text isEqualToString:TNAME9])
+        [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
 }
 
 @end

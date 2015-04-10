@@ -14,14 +14,13 @@
 
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *formStatus;
-@property (strong, nonatomic) UITextField *active;
+@property (strong, nonatomic) NSString *active;
 @property (strong, nonatomic) UITextField *salesNo;
 @property (strong, nonatomic) UITextField *salesman;
 
 @property (strong, nonatomic) NSString *frm11;
 @property (strong, nonatomic) NSString *frm12;
 @property (strong, nonatomic) NSString *frm13;
-//@property (strong, nonatomic) NSString *frm14;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 

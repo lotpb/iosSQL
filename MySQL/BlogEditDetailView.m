@@ -20,18 +20,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Message", nil);
+    self.title = NSLocalizedString(BLOGEDITTITLE, nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
-    self.listTableView.hidden = NO;
+    self.view.backgroundColor = BLOGBACKCOLOR;
     
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     UIBarButtonItem *trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    //Change BarButton Font Below
- // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -58,8 +56,8 @@
 #pragma mark - ActionSheet
 -(void)showDeleteConfirmation:(id)sender {
     UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:@"Delete the selected message?"
-                                 message:@"Yes, delete it"
+                                 alertControllerWithTitle:DELMESSAGE1
+                                 message:DELMESSAGE2
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* ok = [UIAlertAction
@@ -104,8 +102,8 @@
 #pragma mark - TableView Delegate Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Retrieve cell
-    static NSString *CellIdentifier = @"BasicCell";
+    
+    static NSString *CellIdentifier = IDCELL;
       //  UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -124,18 +122,18 @@
     myCell.titleLabel.text = self.selectedLocation.postby;
     myCell.subtitleLabel.text = self.selectedLocation.subject;
     myCell.msgDateLabel.text = self.selectedLocation.msgDate;
-    myCell.blogImageView.image = [[UIImage imageNamed:BLOGTABLEIMAGE] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
+    myCell.blogImageView.image = [[UIImage imageNamed:TABLECELLIMAGE] stretchableImageWithLeftCapWidth:30 topCapHeight:30];
     
     if ([self.selectedLocation.rating isEqual: @"5"]) {
      //    label2.hidden = YES;
      //    else {
      //    label2.hidden = NO;
      [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-     [self.Like setBackgroundColor:[UIColor redColor]];
-     [self.Like setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+     [self.Like setBackgroundColor:LIKECOLORBACK];
+     [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
       self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     }
- /*   label2.text=  @"Like";
+ /* label2.text=  @"Like";
     label2.font = [UIFont boldSystemFontOfSize:9.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:[UIColor whiteColor]];
@@ -148,13 +146,13 @@
 
 #pragma mark - Button Update
 -(IBAction)update:(id)sender{
-   [self performSegueWithIdentifier:@"updateNewSeque"sender:self];
+   [self performSegueWithIdentifier:BLOGEDITSEGUE sender:self];
 }
 
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"updateNewSeque"])
+    if ([[segue identifier] isEqualToString:BLOGEDITSEGUE])
     {
         BlogNewViewController *detailVC = segue.destinationViewController;
         
@@ -171,7 +169,7 @@
 {
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-    localNotification.alertBody = @"New Blog Posted at mySQL.com";
+    localNotification.alertBody = BLOGNOTIFICATION;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;//The number to diplay on the icon badge
     localNotification.soundName = UILocalNotificationDefaultSoundName;

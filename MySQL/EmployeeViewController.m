@@ -23,10 +23,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     self.title = NSLocalizedString(@"Employee", nil);
+     self.title = NSLocalizedString(TNAME4, nil);
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
+     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
     _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
     _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
@@ -76,7 +77,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -86,7 +87,7 @@
 
 #pragma mark - BarButton NewData
 -(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newEmplySegue"sender:self];
+    [self performSegueWithIdentifier:EMPLOYNEWSEGUE sender:self];
 }
 
 #pragma mark - TableView
@@ -107,7 +108,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EmployeeLocation *item;
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     
     if (!isFilltered)
         item = _feedItems[indexPath.row];
@@ -135,7 +136,7 @@
     myCell.detailTextLabel.text = item.city;
     
     //Retreive an image
-    UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
     return myCell;
@@ -158,8 +159,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:@"Delete the selected employee?"
-                                     message:@"OK, delete it"
+                                     alertControllerWithTitle:DELMESSAGE1
+                                     message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction
@@ -280,7 +281,7 @@
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"active"];
+    self.searchController.searchBar.scopeButtonTitles = @[EMPLOYSCOPE];
     self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -353,15 +354,15 @@
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"employdetailSegue" sender:self];
+    [self performSegueWithIdentifier:EMPLOYVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([[segue identifier] isEqualToString:@"employdetailSegue"])
+   if ([[segue identifier] isEqualToString:EMPLOYVIEWSEGUE])
    {
        LeadDetailViewControler *detailVC = segue.destinationViewController;
-       detailVC.formController = @"Employee";
+       detailVC.formController = TNAME4;
     // detailVC.selectedLocation = _selectedLocation;
        if ( [_selectedLocation.first isEqual:[NSNull null]] ) { _selectedLocation.first = @""; }
        if ( [_selectedLocation.lastname isEqual:[NSNull null]] ) { _selectedLocation.lastname = @""; }
@@ -399,10 +400,10 @@
        detailVC.l1datetext = @"Email:";
        detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
    }
-    if ([[segue identifier] isEqualToString:@"newEmplySegue"])
+    if ([[segue identifier] isEqualToString:EMPLOYNEWSEGUE])
     {
         NewData *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Employee";
+        detailVC.formController = TNAME4;
     }
 }
 

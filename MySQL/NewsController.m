@@ -44,10 +44,6 @@
     //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
     
-    //tableData = [NSArray arrayWithObjects:@"Big changes for Twitter, will new users follow?", @"Will retail sales reveal truth about cheap gas?", @"Vendor Info", @"Blog", nil];
-    //tableData1 = [NSArray arrayWithObjects:@"Yahoo Finance 2 hrs ago", @"CNBC 2 hrs ago", @"Vendor Info", @"Blog", nil];
-    // tableImage = [NSArray arrayWithObjects:@"profile-rabbit-toy.png", @"calendar_photo.jpg", @"tag_photo.jpg", @"bookmark_photo.jpg", nil];
-    
   #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];

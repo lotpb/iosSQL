@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "Constants.h"
 //#import "EditData.h"
 
 @protocol ParseConnectionDelegate <NSObject>

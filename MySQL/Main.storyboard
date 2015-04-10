@@ -234,10 +234,12 @@
                                     </constraint>
                                     <constraint firstItem="c3J-Uj-gke" firstAttribute="leading" secondItem="99e-0u-Nax" secondAttribute="leading" id="kkl-H0-56Q"/>
                                     <constraint firstItem="oS8-IG-GWw" firstAttribute="leading" secondItem="99e-0u-Nax" secondAttribute="leading" id="mNG-6q-7hr"/>
-                                    <constraint firstItem="7Ic-Sb-mf6" firstAttribute="top" secondItem="e8Y-ve-d4B" secondAttribute="bottom" id="tMR-bJ-hkC"/>
+                                    <constraint firstItem="7Ic-Sb-mf6" firstAttribute="top" secondItem="e8Y-ve-d4B" secondAttribute="bottom" id="tMR-bJ-hkC">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="1"/>
+                                    </constraint>
                                     <constraint firstAttribute="trailing" secondItem="c3J-Uj-gke" secondAttribute="trailing" id="vkh-D3-jvl"/>
                                     <constraint firstItem="oS8-IG-GWw" firstAttribute="top" secondItem="e8Y-ve-d4B" secondAttribute="top" constant="-45" id="yOr-n2-0X6">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="-45"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="-44"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -2978,7 +2980,7 @@
                                                             </constraint>
                                                         </constraints>
                                                         <prototypes>
-                                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="NewCell" textLabel="tzL-56-GcZ" detailTextLabel="xjl-bW-fg6" rowHeight="30" style="IBUITableViewCellStyleValue1" id="tZj-JA-dsh">
+                                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="tzL-56-GcZ" detailTextLabel="xjl-bW-fg6" rowHeight="30" style="IBUITableViewCellStyleValue1" id="tZj-JA-dsh">
                                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tZj-JA-dsh" id="egQ-c1-jsU">
@@ -3064,7 +3066,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <prototypes>
-                                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="NewCell2" textLabel="VGy-hk-lRz" detailTextLabel="P0S-NK-CKn" rowHeight="30" style="IBUITableViewCellStyleValue1" id="u22-Zf-lUW">
+                                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="VGy-hk-lRz" detailTextLabel="P0S-NK-CKn" rowHeight="30" style="IBUITableViewCellStyleValue1" id="u22-Zf-lUW">
                                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u22-Zf-lUW" id="MQS-je-UdZ">
@@ -3186,7 +3188,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
-                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationLevel="1" indentationWidth="10" reuseIdentifier="detailCell" rowHeight="80" id="KV9-Gl-stS" customClass="CustomTableViewCell">
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationLevel="1" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="80" id="KV9-Gl-stS" customClass="CustomTableViewCell">
                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KV9-Gl-stS" id="Zrz-YK-nSU">
@@ -4704,7 +4706,7 @@
                                 <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="0.0" reuseIdentifier="blogCell" rowHeight="88" id="yBn-5L-DLn" customClass="CustomTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="0.0" reuseIdentifier="BasicCell" rowHeight="88" id="yBn-5L-DLn" customClass="CustomTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yBn-5L-DLn" id="Be9-Re-hwC">
@@ -4869,7 +4871,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="mainCell" textLabel="CbK-0a-9tR" style="IBUITableViewCellStyleDefault" id="72i-x3-iPR">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="CbK-0a-9tR" style="IBUITableViewCellStyleDefault" id="72i-x3-iPR">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="72i-x3-iPR" id="GhB-p0-MBb">
@@ -6737,15 +6739,15 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="382-1V-m5k"/>
-        <segue reference="6uJ-0s-NFa"/>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="wDP-4Y-cdF"/>
-        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="JGM-Q4-zwX"/>
+        <segue reference="4KL-RL-dt5"/>
+        <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="Dbq-7P-K8C"/>
+        <segue reference="6GQ-e7-fhm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

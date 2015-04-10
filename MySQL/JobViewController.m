@@ -23,8 +23,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Jobs", nil);
+    self.title = NSLocalizedString(TNAME7, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.listTableView.delegate = self;
+    self.listTableView.dataSource = self;
+    self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
     _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self; [_JobModel downloadItems];
@@ -68,7 +71,7 @@
 #pragma mark - BarButton NewData
 -(void)newData {
     isFormStat = YES;
-    [self performSegueWithIdentifier:@"jobDetailSegue"sender:self];
+    [self performSegueWithIdentifier:JOBVIEWSEGUE sender:self];
 }
 
 #pragma mark - Table
@@ -88,7 +91,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -113,8 +116,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:@"Delete the selected job?"
-                                     message:@"OK, delete it"
+                                     alertControllerWithTitle:DELMESSAGE1
+                                     message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction
@@ -174,7 +177,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     myCell.layer.cornerRadius = 5;
@@ -191,7 +194,7 @@
     
         myCell.textLabel.text = item.jobdescription;
        // myCell.detailTextLabel.text = item.jobNo;
-        UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
+        UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
         [myCell.imageView setImage:myImage];
     
     return myCell;
@@ -272,7 +275,7 @@
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.searchController.searchBar.scopeButtonTitles = @[@"job",@"jobNo",@"active"];
+    self.searchController.searchBar.scopeButtonTitles = @[JOBSCOPE];
     self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -347,15 +350,15 @@
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
     isFormStat = NO;
-    [self performSegueWithIdentifier:@"jobDetailSegue" sender:self];
+    [self performSegueWithIdentifier:JOBVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"jobDetailSegue"])
+    if ([[segue identifier] isEqualToString:JOBVIEWSEGUE])
     {
         NewDataDetail *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Jobs";
+        detailVC.formController = TNAME7;
         if (isFormStat == YES)
             detailVC.formStatus = @"New";
         else

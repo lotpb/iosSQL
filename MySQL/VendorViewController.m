@@ -21,8 +21,9 @@
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-    self.title = NSLocalizedString(@"Vendors", nil);
+    self.title = NSLocalizedString(TNAME3, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
     _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
     _VendorModel.delegate = self; [_VendorModel downloadItems];
@@ -74,7 +75,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -84,7 +85,7 @@
 
 #pragma mark - BarButton NewData
 -(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newVendSeque"sender:self];
+    [self performSegueWithIdentifier:VENDNEWSEGUE sender:self];
 }
 
 #pragma mark - Table
@@ -109,8 +110,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:@"Delete the selected vendor?"
-                                     message:@"OK, delete it"
+                                     alertControllerWithTitle:DELMESSAGE1
+                                     message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction
@@ -167,7 +168,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (myCell == nil)
@@ -181,7 +182,7 @@
 
     myCell.textLabel.text = item.vendorName;
     myCell.detailTextLabel.text = item.vendorNo;
-    UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
     return myCell;
@@ -260,7 +261,7 @@
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"department"];
+    self.searchController.searchBar.scopeButtonTitles = @[VENDSCOPE];
     self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -333,15 +334,15 @@
      else
      _selectedLocation = [filteredString objectAtIndex:indexPath.row];
 
-   [self performSegueWithIdentifier:@"venddetailSegue" sender:self];
+   [self performSegueWithIdentifier:VENDVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([[segue identifier] isEqualToString:@"venddetailSegue"])
+   if ([[segue identifier] isEqualToString:VENDVIEWSEGUE])
    {
    LeadDetailViewControler *detailVC = segue.destinationViewController;
-       detailVC.formController = @"Vendor";
+       detailVC.formController = TNAME3;
        //detailVC.selectedLocation = _selectedLocation;
        detailVC.leadNo = _selectedLocation.vendorNo;
        detailVC.date = _selectedLocation.webpage;
@@ -374,10 +375,10 @@
        detailVC.l1datetext = @"Web Page:";
        detailVC.lnewsTitle = VENDORNEWSTITLE;
    }
-    if ([[segue identifier] isEqualToString:@"newVendSeque"])
+    if ([[segue identifier] isEqualToString:VENDNEWSEGUE])
     {
         NewData *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Vendor";
+        detailVC.formController = TNAME3;
     }
 }
 

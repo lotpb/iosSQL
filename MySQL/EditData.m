@@ -26,11 +26,11 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-    //self.automaticallyAdjustsScrollViewInsets = NO; //fix
-    //self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
- //   self.listTableView.tableHeaderView = view; //makes header move with tablecell
+ // self.listTableView.tableHeaderView = view; //makes header move with tablecell
 
 #pragma mark Form Circle Image
+  //UIImage *profileImage = [UIImage imageNamed:@"mySQLHOME.png"];
+  //self.profileImageView = [[UIImageView alloc] initWithImage:profileImage];
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -104,7 +104,7 @@
 }
 
 #pragma mark - DatePicker
-- (UIView *)datePicker:(NSUInteger)tag{
+- (UIView *)datePicker:(NSUInteger)tag {
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
     pickerView.backgroundColor = [UIColor lightGrayColor];
     
@@ -232,7 +232,7 @@
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of feed items (initially 0)
-    if ([_formController isEqual:@"Customer"])
+    if ([_formController isEqual:TNAME2])
     return 16;
     else
     return 14;
@@ -254,7 +254,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
     UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(130, 7, 225, 95)];
     
@@ -274,15 +274,15 @@
              self.date.autocorrectionType = UITextAutocorrectionTypeNo;
             [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
 
-        if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             self.date.inputView = [self datePicker:0];
             myCell.textLabel.text = @"Date";
         
-        if ([_formController isEqual: @"Vendor"]) {
+        if ([_formController isEqual:TNAME3]) {
             self.date.placeholder = @"Profession";
             myCell.textLabel.text = @"Profession"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
             self.date.placeholder = @"Country";
             myCell.textLabel.text = @"Country"; }
         
@@ -354,20 +354,20 @@
             [self.aptDate setClearButtonMode:UITextFieldViewModeWhileEditing];
         myCell.textLabel.text = @"Apt Date";
         
-        if ([_formController isEqual: @"Leads"])
+        if ([_formController isEqual:TNAME1])
             self.aptDate.inputView = [self datePicker:4];
         
-        else if ([_formController isEqual: @"Customer"]) {
+        else if ([_formController isEqual:TNAME2]) {
             self.aptDate.placeholder = @"Rate";
             self.aptDate.tag = 24;
             self.aptDate.inputView = [self customPicker:24];
             myCell.textLabel.text = @"Rate"; }
         
-        else if ([_formController isEqual: @"Vendor"]) {
+        else if ([_formController isEqual:TNAME3]) {
             self.aptDate.placeholder = @"Assistant";
             myCell.textLabel.text = @"Assistant"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
             self.aptDate.placeholder = @"Middle";
             myCell.textLabel.text = @"Middle"; }
         
@@ -395,7 +395,7 @@
          self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
         
-        if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if ([self.frm21 isEqual:[NSNull null]])
              self.salesman.text = @"";
@@ -405,11 +405,11 @@
             [myCell.contentView addSubview:self.salesman];
              self.salesman.inputView = [self customPicker:6];
 
-        if ([_formController isEqual: @"Vendor"]) {
+        if ([_formController isEqual:TNAME3]) {
             self.salesman.placeholder = @"Phone 1";
             myCell.textLabel.text = @"Phone 1"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone"; }
         
@@ -422,14 +422,14 @@
              self.jobName.text = @"";
         else self.jobName.text = self.frm22;
         
-        if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
-        if ([_formController isEqual: @"Vendor"]) {
+        if ([_formController isEqual:TNAME3]) {
             self.jobName.placeholder = @"Phone 2";
             myCell.textLabel.text = @"Phone 2"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
             self.jobName.placeholder = @"Cell Phone";
             myCell.textLabel.text = @"Cell Phone";
           } else {
@@ -448,18 +448,18 @@
              self.adName.text = @"";
         else self.adName.text = self.frm23;
         
-        if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
-        if ([_formController isEqual: @"Vendor"]) {
+        if ([_formController isEqual:TNAME3]) {
              self.adName.placeholder = @"Phone 3";
              myCell.textLabel.text = @"phone 3"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
              self.adName.placeholder = @"Social Security";
              myCell.textLabel.text = @"Social Security"; }
         
-        else if ([_formController isEqual: @"Customer"]) {
+        else if ([_formController isEqual:TNAME2]) {
              self.adName.placeholder = @"Product";
              myCell.textLabel.text = @"Product"; }
         else myCell.textLabel.text = @"Advertiser";
@@ -478,7 +478,7 @@
         else self.amount.text = self.frm24;
             myCell.textLabel.text = @"Amount";
         
-        if (([_formController isEqual: @"Vendor"]) || ([_formController isEqual: @"Employee"])) {
+        if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
              self.amount.placeholder = @"Department";
              myCell.textLabel.text = @"Department"; }
 
@@ -509,11 +509,11 @@
              self.spouse.text = @"";
         else self.spouse.text = self.frm26;
         
-        if ([_formController isEqual: @"Vendor"]) {
+        if ([_formController isEqual:TNAME3]) {
             self.spouse.placeholder = @"Office";
             myCell.textLabel.text = @"Office"; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
              self.spouse.placeholder = @"Title";
              myCell.textLabel.text = @"Title"; }
              else myCell.textLabel.text = @"Spouse";
@@ -529,7 +529,7 @@
              self.callback.text = @"";
         else self.callback.text = self.frm27;
         
-        if ([_formController isEqual: @"Customer"]) {
+        if ([_formController isEqual:TNAME2]) {
             self.callback.placeholder = @"Quan";
             myCell.textLabel.text = @"# Windows";
             [self.callback setClearButtonMode:UITextFieldViewModeNever];
@@ -545,15 +545,15 @@
             [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
         }
         
-        else if ([_formController isEqual: @"Vendor"]) {
+        else if ([_formController isEqual:TNAME3]) {
             self.callback.placeholder = @"";
             myCell.textLabel.text = @""; }
         
-        else if ([_formController isEqual: @"Employee"]) {
+        else if ([_formController isEqual:TNAME4]) {
             self.callback.placeholder = @"Manager";
             myCell.textLabel.text = @"Manager"; }
         
-        else if ([_formController isEqual: @"Leads"]) {
+        else if ([_formController isEqual:TNAME1]) {
             self.callback.placeholder = @"Call Back";
             myCell.textLabel.text = @"Call Back";
             self.callback.inputView = [self customPicker:12]; }
@@ -619,13 +619,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 2)
-        [self performSegueWithIdentifier:@"lookupcitySegue"sender:self];
+        [self performSegueWithIdentifier:EDITLOOKCITYSEGUE sender:self];
     if (indexPath.row == 6)
-        [self performSegueWithIdentifier:@"lookupsalesmanSegue"sender:self];
+        [self performSegueWithIdentifier:EDITLOOKSALESEGUE sender:self];
     if (indexPath.row == 7)
-        [self performSegueWithIdentifier:@"lookupjobSegue"sender:self];
+        [self performSegueWithIdentifier:EDITLOOKJOBSEGUE sender:self];
     if (indexPath.row == 8)
-        [self performSegueWithIdentifier:@"lookupproductSegue"sender:self];
+        [self performSegueWithIdentifier:EDITLOOKPRODSEGUE sender:self];
 }
 
 #pragma mark - TableView Header/Footer
@@ -713,19 +713,19 @@
         self.photo.text = @"";
     else self.photo.text = self.frm29;
     
-    if ([_formController isEqual: @"Leads"])
+    if ([_formController isEqual:TNAME1])
         self.company.hidden = YES;
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
         self.company.placeholder = @"Contractor";
         self.company.inputView = [self customPicker:3];
         
-    } else if ([_formController isEqual: @"Vendor"]) {
+    } else if ([_formController isEqual:TNAME3]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.callback.hidden = YES;//Field
         
-    } else if ([_formController isEqual: @"Employee"]) {
+    } else if ([_formController isEqual:TNAME4]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
     }
@@ -733,7 +733,7 @@
 
 #pragma mark - Parse
 - (void)parseData {
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         
         PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
         query11.cachePolicy = kPFCACHEPOLICY;
@@ -753,7 +753,7 @@
             callbackArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
         
-    } else if ([_formController isEqual: @"Customer"]) {
+    } else if ([_formController isEqual:TNAME2]) {
         
         PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
         query3.cachePolicy = kPFCACHEPOLICY;
@@ -782,7 +782,7 @@
         }];
     }
     
-    if (([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"])) {
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
         
         PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
         query.cachePolicy = kPFCACHEPOLICY;
@@ -823,22 +823,22 @@
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([[segue identifier] isEqualToString:@"lookupcitySegue"]) {
+    if ([[segue identifier] isEqualToString:EDITLOOKCITYSEGUE]) {
         LookupCity *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
-    if ([[segue identifier] isEqualToString:@"lookupsalesmanSegue"]) {
+    if ([[segue identifier] isEqualToString:EDITLOOKSALESEGUE]) {
         LookupSalesman *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
-    if ([[segue identifier] isEqualToString:@"lookupjobSegue"]) {
+    if ([[segue identifier] isEqualToString:EDITLOOKJOBSEGUE]) {
         LookupJob *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
     }
-    if ([[segue identifier] isEqualToString:@"lookupproductSegue"]) {
+    if ([[segue identifier] isEqualToString:EDITLOOKPRODSEGUE]) {
         LookupProduct *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;
@@ -847,7 +847,7 @@
 
 #pragma mark - EditData
 -(void)updateLeads:(id)sender {
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         NSString *_leadNo = self.leadNo;
         NSString *_active = self.active;
         NSString *_date = self.date.text;
@@ -868,10 +868,10 @@
         NSString *_adNo = self.adNo;
         NSString *_comments = self.comment.text;
         NSString *_photo = self.photo.text;
-        // NSString *_time = self.time;
+     // NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:UPDATELEADFIELD, UPDATELEADFIELD1];
-        
+    //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:UPDATELEADURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -885,8 +885,8 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Customer"]) {
-        //NSString *_date = self.date.text;
+    else if ([_formController isEqual:TNAME2]) {
+      //NSString *_date = self.date.text;
         NSString *_custNo = self.custNo;
         NSString *_leadNo = self.leadNo;
         NSString *_address = self.address.text;
@@ -911,11 +911,10 @@
         NSString *_productNo = self.adNo;
         NSString *_contractor = self.company.text;
         NSString *_active = self.active;
-        //  NSString *_time = self.time;
+    //  NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:UPDATECUSTFIELD, UPDATECUSTFIELD1];
         
-        //NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:UPDATECUSTURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -929,7 +928,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Vendor"]) {
+    else if ([_formController isEqual:TNAME3]) {
         
         NSString *_vendorNo = self.leadNo;
         NSString *_name = self.company.text;
@@ -954,11 +953,10 @@
         NSString *_phonecmbo1 = nil;
         NSString *_phonecmbo2 = nil;
         NSString *_phonecmbo3 = nil;
-        //  NSString *_time = self.time;
+    //  NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:UPDATEVENDORFIELD, UPDATEVENDORFIELD1];
         
-        //  NSLog(@"rawStr is %@",rawStr);
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:UPDATEVENDORURL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -972,7 +970,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Employee"]) {
+    else if ([_formController isEqual:TNAME4]) {
         
         NSString *_employeeNo = self.leadNo;
         NSString *_company = self.company.text;
@@ -994,11 +992,10 @@
         NSString *_comments = self.comment.text;
         NSString *_active = self.active;
         NSString *_employtitle = self.spouse.text;
-        //  NSString *_time = self.time;
+    //  NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];
         
-        //NSLog(@"rawStr is %@",rawStr);
         NSURL *url = [NSURL URLWithString:UPDATEEMPLOYEEURL];
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

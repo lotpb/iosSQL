@@ -24,10 +24,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     self.title = NSLocalizedString(@"Leads", nil);
+     self.title = NSLocalizedString(TNAME1, nil);
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
+     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
      self.listTableView.pagingEnabled = YES;
     //self.listTableView.backgroundColor = [UIColor clearColor];
    // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
@@ -81,7 +82,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -91,7 +92,7 @@
 
 #pragma mark - BarButton NewData
 -(void)newData:(id)sender {
-    [self performSegueWithIdentifier:@"newLeadSeque"sender:self];
+    [self performSegueWithIdentifier:LEADNEWSEGUE sender:self];
 }
 
 #pragma mark - TableView
@@ -116,8 +117,8 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:@"Delete the selected lead?"
-                                     message:@"OK, delete it"
+                                     alertControllerWithTitle:DELMESSAGE1
+                                     message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction
@@ -176,7 +177,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"BasicCell";
+    static NSString *cellIdentifier = IDCELL;
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -195,7 +196,7 @@
 
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
-  //  UIImage *myImage = [UIImage imageNamed:@"DemoCellImage"];
+  //  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
    // [myCell.imageView setImage:myImage];
       //problem below with iphone 5 width
 
@@ -219,7 +220,7 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+{   //NSString *uppercase = [TNAME1 uppercaseString];
     NSString *newString = [NSString stringWithFormat:@"LEADS \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -284,7 +285,7 @@
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.searchController.searchBar.scopeButtonTitles = @[@"name",@"city",@"phone",@"date",@"active"];
+    self.searchController.searchBar.scopeButtonTitles = @[LEADSCOPE];
     self.searchController.hidesBottomBarWhenPushed = YES;
     self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -361,16 +362,16 @@
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-       [self performSegueWithIdentifier:@"detailSegue" sender:self];
+       [self performSegueWithIdentifier:LEADVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"detailSegue"])
+    if ([[segue identifier] isEqualToString:LEADVIEWSEGUE])
     {
       //  NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         LeadDetailViewControler *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Leads";
+        detailVC.formController = TNAME1;
         detailVC.leadNo = _selectedLocation.leadNo; detailVC.date = _selectedLocation.date;
         detailVC.name = _selectedLocation.name; detailVC.address = _selectedLocation.address;
         detailVC.city = _selectedLocation.city; detailVC.state = _selectedLocation.state;
@@ -395,9 +396,9 @@
         detailVC.l1datetext = @"Lead Date:";
         detailVC.lnewsTitle = LEADNEWSTITLE;
     }
-    if ([[segue identifier] isEqualToString:@"newLeadSeque"]) {
+    if ([[segue identifier] isEqualToString:LEADNEWSEGUE]) {
         NewData *detailVC = segue.destinationViewController;
-        detailVC.formController = @"Leads"; }
+        detailVC.formController = TNAME1; }
 }
 
 @end

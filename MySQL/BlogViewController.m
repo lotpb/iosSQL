@@ -27,9 +27,10 @@
     self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
-    self.title = NSLocalizedString(@"Blog", nil);
+    self.title = NSLocalizedString(TNAME9, nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
+    self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
   
     _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
@@ -75,7 +76,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -85,7 +86,7 @@
 
 #pragma mark - Bar Button
 -(void)foundView:(id)sender {
-    [self performSegueWithIdentifier:@"NewBlogSegue" sender:self];
+    [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
 #pragma mark - TableView
@@ -116,8 +117,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:@"Delete the selected message?"
-                                     message:@"OK, delete it"
+                                     alertControllerWithTitle:DELMESSAGE1
+                                     message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction
@@ -128,9 +129,9 @@
                                  BlogLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.msgNo;
-                                 // NSLog(@"rawStr is %@",deletestring);
+    
                                  NSString *_msgNo = deletestring;
-                                 NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&", _msgNo];
+                                 NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
                                  NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
                                  
                                  NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
@@ -177,7 +178,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"blogCell";
+    static NSString *CellIdentifier = IDCELL;
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
     
@@ -201,10 +202,10 @@
     myCell.blogtitleLabel.text = item.postby;
     myCell.blogsubtitleLabel.text = item.subject;
     myCell.blogmsgDateLabel.text = item.msgDate;
-    myCell.blog2ImageView.image = [UIImage imageNamed:@"DemoCellImage"];
+    myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE];
     
     //not working properly below
-    if ([item.rating isEqual:@"5"])
+    if (![item.rating isEqual:@"5"])
          label2.hidden = NO;
     else label2.hidden = YES;
     
@@ -293,10 +294,9 @@
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = BLOGNAVBARCOLOR;
     //self.navigationItem.titleView = self.searchController.searchBar;
-    self.searchController.searchBar.scopeButtonTitles = @[@"subject", @"date", @"rating", @"postby"];
+    self.searchController.searchBar.scopeButtonTitles = @[BLOGSCOPE];
     self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
    [self presentViewController:self.searchController animated:YES completion:nil];
 }
@@ -361,12 +361,12 @@
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"blogviewSegue" sender:self];
+    [self performSegueWithIdentifier:BLOGVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([[segue identifier] isEqualToString:@"blogviewSegue"])
+    if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
    {
     BlogEditDetailView*detailVC = segue.destinationViewController;
     detailVC.selectedLocation = _selectedLocation;

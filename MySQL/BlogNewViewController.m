@@ -30,6 +30,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* const userNameKey = KEY_USER;
     
+    self.view.backgroundColor = BLOGNEWBACKCOLOR;
+    self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
+    
     if (self.textcontentsubject.length == 0) {
         NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
         gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
@@ -55,7 +58,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     self.title = NSLocalizedString(@"Share an idea", nil);
+     self.title = NSLocalizedString(BLOGNEWTITLE, nil);
     [self.subject becomeFirstResponder];
 }
 
@@ -77,7 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BasicCell";
+    static NSString *CellIdentifier = IDCELL;
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -85,13 +88,13 @@
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
     
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         
         if ([self.rating isEqual:@"5"] ) {
-            activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
             [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
             } else {
-            activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
+            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
             }
          activeImage.contentMode = UIViewContentModeScaleAspectFit;
@@ -101,7 +104,7 @@
          myCell.textLabel.text = self.postby;
          myCell.detailTextLabel.text = @"";
         
-    } else if (indexPath.row == 1){
+    } else if (indexPath.row == 1) {
         [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
         [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
          myCell.textLabel.text = self.msgDate;
@@ -114,11 +117,11 @@ return myCell;
 -(IBAction)like:(id)sender {
     if([self.rating isEqualToString: @"4"]) {
        [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
-        self.activeImage.image = [UIImage imageNamed:@"iosStar.png"];
+        self.activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
         self.rating = @"5";
       } else {
        [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-        self.activeImage.image = [UIImage imageNamed:@"iosStarNA.png"];
+        self.activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
         self.rating = @"4"; }
        [self.listTableView reloadData];
 }
@@ -140,7 +143,7 @@ return myCell;
     NSString *_rating = self.rating;
     NSString *_postby = self.postby;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_msgNo=%@&&_msgDate=%@&_subject=%@&_rating=%@&_postby=%@&", _msgNo, _msgDate, _subject, _rating, _postby];
+    NSString *rawStr = [NSString stringWithFormat:BLOGUPDATEFIELD, BLOGUPDATEFIELD1];
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -169,7 +172,7 @@ return myCell;
     NSString *_rating = self.rating;
     NSString *_postby = self.postby;
     
-    NSString *rawStr = [NSString stringWithFormat:@"_msgDate=%@&&_subject=%@&_rating=%@&_postby=%@&",_msgDate, _subject, _rating, _postby];
+    NSString *rawStr = [NSString stringWithFormat:BLOGSAVEFIELD, BLOGSAVEFIELD1];
     
     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:BLOGSAVEURL];

@@ -19,7 +19,7 @@
 #pragma mark - EditData PickerView
 - (void)parseSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"SalesNo"];
@@ -31,7 +31,7 @@
 
 - (void)parseRate {
     PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
-    query14.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query14.cachePolicy = kPFCACHEPOLICY;
     [query14 selectKeys:@[@"rating"]];
     [query14 orderByDescending:@"rating"];
     [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -41,7 +41,7 @@
 
 - (void)parseContractor {
     PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-    query13.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query13.cachePolicy = kPFCACHEPOLICY;
     [query13 selectKeys:@[@"Contractor"]];
     [query13 orderByDescending:@"Contractor"];
     [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -51,7 +51,7 @@
 
 - (void)parseCallback {
     PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-    query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query1.cachePolicy = kPFCACHEPOLICY;
     [query1 selectKeys:@[@"Callback"]];
     [query1 orderByDescending:@"Callback"];
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -69,7 +69,7 @@
     [query selectKeys:@[@"zipCode"]];
     [query orderByAscending:@"City"];
     [query setLimit: 1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {
@@ -87,7 +87,7 @@
     [query selectKeys:@[@"JobNo"]];
     [query selectKeys:@[@"Description"]];
     [query orderByDescending:@"Description"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (PFObject *object in objects) {
@@ -106,7 +106,7 @@
 //- (void)parseJob:(NSString*)fm22  {
 - (void)parseJob {
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-    query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query21.cachePolicy = kPFCACHEPOLICY;
     [query21 whereKey:@"JobNo" equalTo:self.frm22];
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -118,7 +118,7 @@
 
 - (void)parseProduct {
     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query3.cachePolicy = kPFCACHEPOLICY;
     [query3 whereKey:@"ProductNo" containsString:self.frm23];
     [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -130,7 +130,7 @@
 
 - (void)parseAd {
     PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-    query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query11.cachePolicy = kPFCACHEPOLICY;
     [query11 whereKey:@"AdNo" equalTo:self.frm23];
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {

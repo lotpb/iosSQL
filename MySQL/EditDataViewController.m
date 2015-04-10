@@ -21,10 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         
     PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-    //query11.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    //query11.cachePolicy = kPFCACHEPOLICY;
    // [query11 selectKeys:@[@"Advertiser"]];
     [query11 whereKey:@"AdNo" equalTo:self.frm23];
     [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -35,7 +35,7 @@
      }];
         
         PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-        query1.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        query1.cachePolicy = kPFCACHEPOLICY;
         [query1 selectKeys:@[@"Callback"]];
         [query1 orderByDescending:@"Callback"];
         [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -45,7 +45,7 @@
     } else if ([_formController isEqual: @"Customer"]) {
         
     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    //query3.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    //query3.cachePolicy = kPFCACHEPOLICY;
    // [query3 selectKeys:@[@"Products"]];
     [query3 whereKey:@"ProductNo" containsString:self.frm23];
     [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -59,7 +59,7 @@
 if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
     
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-   // query21.cachePolicy = kPFCachePolicyCacheThenNetwork;
+   // query21.cachePolicy = kPFCACHEPOLICY;
    // [query21 selectKeys:@[@"Description"]];
     [query21 whereKey:@"JobNo" equalTo:self.frm22];
     [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -70,7 +70,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     }];
  
     PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
-   // query31.cachePolicy = kPFCachePolicyCacheThenNetwork;
+   // query31.cachePolicy = kPFCACHEPOLICY;
    // [query31 selectKeys:@[@"Salesman"]];
     [query31 whereKey:@"SalesNo" equalTo:self.frm21];
     [query31 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -82,7 +82,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     }];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-   // query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+   // query.cachePolicy = kPFCACHEPOLICY;
     [query selectKeys:@[@"SalesNo"]];
     [query selectKeys:@[@"Salesman"]];
     [query orderByDescending:@"SalesNo"];
@@ -131,7 +131,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         self.phone.text = @"";
    else self.phone.text = self.frm20;
     
-    if (([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ){
+    if (([_formController isEqual:TNAME4]) || ([_formController isEqual:TNAME3]) ){
         if ( [self.frm21 isEqual:[NSNull null]] )
               self.salesman.text = @"";
          else self.salesman.text = self.frm21;
@@ -185,11 +185,11 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     
           self.active.text = self.frm30;
     
-if ([_formController isEqual: @"Customer"]) {
+if ([_formController isEqual:TNAME2]) {
         self.company.placeholder = @"Contractor";
         self.adName.placeholder = @"ProductNo";
         self.callback.placeholder = @"Quan";
-  } else if ([_formController isEqual: @"Vendor"]) {
+  } else if ([_formController isEqual:TNAME3]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.date.placeholder = @"Profession";
@@ -200,7 +200,7 @@ if ([_formController isEqual: @"Customer"]) {
         self.spouse.placeholder = @"Office";
         self.aptDate.placeholder = @"Assistant";
         self.callback.hidden = YES; //Field
-  } else if ([_formController isEqual: @"Employee"]) {
+  } else if ([_formController isEqual:TNAME4]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
         self.date.placeholder = @"Country";
@@ -214,7 +214,7 @@ if ([_formController isEqual: @"Customer"]) {
         self.callback.placeholder = @"Manager";
   }
   
-if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Vendor"]) ) {
+if ( ([_formController isEqual:TNAME4]) || ([_formController isEqual:TNAME3]) ) {
         self.jobLookup.hidden = YES; //Button
         self.productLookup.hidden = YES; //Button
         self.saleNo.hidden = YES; //Field
@@ -222,16 +222,16 @@ if ( ([_formController isEqual: @"Employee"]) || ([_formController isEqual: @"Ve
         self.adNo.hidden = YES; //Field
   }
 
-if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
     self.aptDate.inputView = [self datePicker];
     self.salesman.inputView = [self customPicker:1];
 }
-    if ([_formController isEqual: @"Leads"])
+    if ([_formController isEqual:TNAME1])
     self.callback.inputView = [self customPicker:2];
     
     //add Following button
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if ( [self.active.text isEqual:@"1"] ) {
          [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
           self.following.text = @"Following";
@@ -413,8 +413,8 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
 
 #pragma mark - Button
 -(IBAction)like:(id)sender{
-    UIImage *buttonImage1 = [UIImage imageNamed:@"iosStar.png"];
-    UIImage *buttonImage2 = [UIImage imageNamed:@"iosStarNA.png"];
+    UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
+    UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
     if([self.active.text isEqualToString: @"0"]) {
         self.following.text = @"Following";
         self.active.text = @"1";
@@ -585,7 +585,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
 
 #pragma mark - Edit Leads
 -(void)updateLeads:(id)sender {
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
     NSString *_leadNo = self.leadNo;
     NSString *_active = self.active.text;
  /*
@@ -630,7 +630,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Customer"]) {
+    else if ([_formController isEqual:TNAME2]) {
  // NSString *_date = self.date.text;
     NSString *_custNo = self.custNo;
     NSString *_leadNo = self.leadNo;
@@ -674,7 +674,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
     NSString *success = @"success";
     [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Vendor"]) {
+    else if ([_formController isEqual:TNAME3]) {
         
         NSString *_vendorNo = self.leadNo;
         NSString *_name = self.company.text;
@@ -717,7 +717,7 @@ if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Custo
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual: @"Employee"]) {
+    else if ([_formController isEqual:TNAME4]) {
         
         NSString *_employeeNo = self.leadNo;
         NSString *_company = self.company.text;

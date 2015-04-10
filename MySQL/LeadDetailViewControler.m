@@ -51,7 +51,7 @@
       else self.comments = @"No Comments";
     
 #pragma mark Bar Button
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual: TNAME1]) {
         
         UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
         NSArray *actionButtonItems = @[newItem];
@@ -104,7 +104,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
         
@@ -136,13 +136,13 @@
 }
 
 #pragma mark  Map Buttons
-- (IBAction)mapButton:(UIButton *)sender{
-    [self performSegueWithIdentifier:@"mapdetailSegue"sender:self];
+- (IBAction)mapButton:(UIButton *)sender {
+    [self performSegueWithIdentifier:MAPSEGUE sender:self];
 }
 
 #pragma mark Edit Buttons
 -(void)showEdit:(id)sender {
-    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+    [self performSegueWithIdentifier:VIEWSEGUE sender:self];
 }
 
 #pragma mark social Buttons
@@ -175,7 +175,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.listTableView]) {
     
-    static NSString *CellIdentifier = @"NewCell";
+    static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
@@ -192,7 +192,7 @@
 }
     else if ([tableView isEqual:self.listTableView2]) {
     
-    static NSString *CellIdentifier2 = @"NewCell2";
+    static NSString *CellIdentifier2 = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         
     if (myCell == nil)
@@ -214,7 +214,7 @@
     return myCell;
 }
     else if ([tableView isEqual:self.newsTableView]) {
-       //if ([_formController  isEqual: @"Vendor"]) {
+
         NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
         [dateFormater setDateFormat:KEY_DATESQLFORMAT];
         dateFormater.timeZone = [NSTimeZone localTimeZone];
@@ -224,7 +224,7 @@
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         
-    static NSString *CellIdentifier1 = @"detailCell";
+    static NSString *CellIdentifier1 = IDCELL;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
     
     if (myCell == nil)
@@ -296,7 +296,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-    [self performSegueWithIdentifier:@"newcustSegue" sender:self];
+    [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -306,7 +306,7 @@ return myCell;
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-    [self performSegueWithIdentifier:@"editFormSegue" sender:self];
+    [self performSegueWithIdentifier:VIEWSEGUE sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -390,7 +390,7 @@ return myCell;
         t21 = self.tbl21;
     else t21 = @"None";
     
-    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+    if ( ([_formController isEqual: TNAME1]) || ([_formController isEqual: TNAME2]) ) {
         
         if ((![self.salesman isEqual:[NSNull null]] ) && ( [self.salesman length] != 0 ))
             t22 = self.salesman;
@@ -447,7 +447,7 @@ return myCell;
 
 #pragma mark - Parse
 - (void)parseData {
-    if ( ([_formController isEqual: @"Leads"]) || ([_formController isEqual: @"Customer"]) ) {
+    if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
         PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
         [query21 whereKey:@"JobNo" equalTo:self.tbl23];
         query21.cachePolicy = kPFCACHEPOLICY;
@@ -470,7 +470,7 @@ return myCell;
         }];
     }
     
-    if ([_formController isEqual: @"Customer"]) {
+    if ([_formController isEqual:TNAME2]) {
         PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
         query3.cachePolicy = kPFCACHEPOLICY;
         [query3 whereKey:@"ProductNo" containsString:self.tbl24];
@@ -482,7 +482,7 @@ return myCell;
         }];
     }
     
-    if ([_formController isEqual: @"Leads"]) {
+    if ([_formController isEqual:TNAME1]) {
         PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
         [query11 whereKey:@"AdNo" equalTo:self.tbl24];
         query11.cachePolicy = kPFCACHEPOLICY;
@@ -498,18 +498,18 @@ return myCell;
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([segue.identifier isEqualToString:@"mapdetailSegue"]) {
+   if ([segue.identifier isEqualToString:MAPSEGUE]) {
     MapViewController *detailVC = segue.destinationViewController;
        detailVC.mapaddress = self.address;
        detailVC.mapcity = self.city;
        detailVC.mapstate = self.state;
        detailVC.mapzip = self.zip; }
    
-    if ([segue.identifier isEqualToString:@"newcustSegue"]) { //new Cust from Lead
+    if ([segue.identifier isEqualToString:NEWCUSTSEGUE]) { //new Customer from Lead
         NewData *detailVC = segue.destinationViewController;
-        if ([_formController isEqual: @"Leads"]) {
-            detailVC.formController = @"Customer";
-            //  detailVC.custNo = self.custNo;
+        if ([_formController isEqual: TNAME1]) {
+            detailVC.formController = TNAME2;
+         // detailVC.custNo = self.custNo;
             detailVC.frm31 = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name;
@@ -533,14 +533,14 @@ return myCell;
             detailVC.frm30 = self.active;
             detailVC.saleNoDetail = self.tbl22;
             detailVC.jobNoDetail = self.tbl23;
-            //detailVC.adNo.text = nil;
+          //detailVC.adNo.text = nil;
         }
     }
     
-    if ([segue.identifier isEqualToString:@"editFormSegue"]) { //edit Lead
+    if ([segue.identifier isEqualToString:VIEWSEGUE]) { //edit Lead
         EditData *detailVC = segue.destinationViewController;
-        if ([_formController isEqual: @"Leads"]) {
-            detailVC.formController = @"Leads";
+        if ([_formController isEqual:TNAME1]) {
+            detailVC.formController = TNAME1;
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name;
@@ -566,8 +566,8 @@ return myCell;
             detailVC.jobNo = self.tbl23;
             detailVC.adNo = self.tbl24;
             
-        } else if ([_formController  isEqual: @"Customer"]) {
-            detailVC.formController = @"Customer";
+        } else if ([_formController  isEqual:TNAME2]) { //edit Cust
+            detailVC.formController = TNAME2;
             detailVC.custNo = self.custNo;
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
@@ -595,11 +595,11 @@ return myCell;
             detailVC.saleNo = self.tbl22;
             detailVC.jobNo = self.tbl23;
             detailVC.adNo = self.tbl24;
-            //   detailVC.frm33 = self.photo1;
-            //   detailVC.frm34 = self.photo2;
+         // detailVC.frm33 = self.photo1;
+         // detailVC.frm34 = self.photo2;
             
-        } else if ([_formController  isEqual: @"Vendor"]) {
-            detailVC.formController = @"Vendor";
+        } else if ([_formController  isEqual:TNAME3]) { //edit Vendor
+            detailVC.formController = TNAME3;
             detailVC.leadNo = self.leadNo; //vendorNo
             detailVC.frm11 = self.tbl24; //manager
             detailVC.frm12 = self.date; //webpage
@@ -622,8 +622,8 @@ return myCell;
             detailVC.frm29 = nil;
             detailVC.frm30 = self.active;
             
-        } else if ([_formController  isEqual: @"Employee"]) {
-            detailVC.formController = @"Employee";
+        } else if ([_formController  isEqual:TNAME4]) { //edit Employee
+            detailVC.formController = TNAME4;
             detailVC.leadNo = self.leadNo; //employeeNo
             detailVC.frm11 = self.salesman; //first
             detailVC.frm12 = self.custNo; //lastname
