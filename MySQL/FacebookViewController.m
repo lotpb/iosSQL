@@ -25,10 +25,7 @@
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = [UIColor whiteColor]; //[UIColor colorWithWhite:0.1f alpha:0.9f];
-    
-    // Set the gesture
-    //    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    _sidebarButton.tintColor = SIDEBARTINTCOLOR; //[UIColor colorWithWhite:0.1f alpha:0.9f];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -50,21 +47,18 @@
  SLComposeViewControllerCompletionHandler myBlock =
  ^(SLComposeViewControllerResult result){
      
- if (result == SLComposeViewControllerResultCancelled)
- {
+ if (result == SLComposeViewControllerResultCancelled) {
  NSLog(@"Cancelled");
- }
- else
- {
+ } else {
  NSLog(@"Done");
  }
  [controller dismissViewControllerAnimated:YES completion:nil];
  };
  controller.completionHandler =myBlock;
  //Adding the Text to the facebook post value from iOS
- [controller setInitialText:@"My test post"];
+ [controller setInitialText:FBMESSAGE];
  //Adding the URL to the facebook post value from iOS
- [controller addURL:[NSURL URLWithString:@"http://www.test.com"]];
+ [controller addURL:[NSURL URLWithString:FMMESSAGEURL]];
  //Adding the Text to the facebook post value from iOS
  [self presentViewController:controller animated:YES completion:nil];
  }
@@ -72,7 +66,7 @@
  -(IBAction)twitterPost:(id)sender{
  SLComposeViewController *tweetSheet = [SLComposeViewController
  composeViewControllerForServiceType:SLServiceTypeTwitter];
- [tweetSheet setInitialText:@"My test tweet"];
+ [tweetSheet setInitialText:TWEETMESSAGE];
  [self presentViewController:tweetSheet animated:YES completion:nil];
  }
 

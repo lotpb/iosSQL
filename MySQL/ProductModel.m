@@ -59,8 +59,8 @@
         NSDictionary *jsonElement = jsonArray[i];
         
         ProductLocation *newLocation = [[ProductLocation alloc] init];
-        newLocation.ProductNo = jsonElement[@"ProductNo"];
-        newLocation.Products = jsonElement[@"Products"];
+        newLocation.productNo = jsonElement[@"ProductNo"];
+        newLocation.products = jsonElement[@"Products"];
         newLocation.active = jsonElement[@"Active"];
         
         // Add this question to the locations array

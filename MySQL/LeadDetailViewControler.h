@@ -51,6 +51,7 @@
 @property (strong, nonatomic) NSString *tbl24;
 @property (strong, nonatomic) NSString *tbl25;
 @property (strong, nonatomic) NSString *tbl26;
+@property (strong, nonatomic) NSString *tbl27; //employee company
 /*
 @property (strong, nonatomic) NSString *t11;
 @property (strong, nonatomic) NSString *t12;

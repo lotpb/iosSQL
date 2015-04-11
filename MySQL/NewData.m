@@ -444,7 +444,7 @@
 #pragma mark - Date Picker
 - (UIView *)datePicker {
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
-    pickerView.backgroundColor = [UIColor lightGrayColor];
+    pickerView.backgroundColor = DATEPKCOLOR;
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
     datePicker.tag = 5;
@@ -468,11 +468,11 @@
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 200)];
-    pickerView.backgroundColor = [UIColor orangeColor];
+    pickerView.backgroundColor = PICKCOLOR;
     
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    toolbar.barStyle = UIBarStyleBlackOpaque;
-    toolbar.translucent = NO;
+    toolbar.barStyle = PICKTOOLSTYLE;
+    toolbar.translucent = PICKTOOLTRANS;
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -485,7 +485,7 @@
     picker.tag = tag;
     picker.dataSource = self;
     picker.delegate = self;
-    picker.showsSelectionIndicator = YES;
+    picker.showsSelectionIndicator = SHOWIND;
     //[picker selectRow:10 inComponent:0 animated:YES];
     [pickerView addSubview:picker];
     [pickerView addSubview:toolbar];

@@ -106,7 +106,7 @@
 #pragma mark - DatePicker
 - (UIView *)datePicker:(NSUInteger)tag {
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
-    pickerView.backgroundColor = [UIColor lightGrayColor];
+    pickerView.backgroundColor = DATEPKCOLOR;
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
     datePicker.tag = tag;
@@ -137,11 +137,11 @@
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
-    pickerView.backgroundColor = [UIColor orangeColor];
+    pickerView.backgroundColor = PICKCOLOR;
     
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    toolbar.barStyle = UIBarStyleBlackOpaque;
-    toolbar.translucent = NO;
+    toolbar.barStyle = PICKTOOLSTYLE;
+    toolbar.translucent = PICKTOOLTRANS;
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -154,7 +154,7 @@
     picker.tag = tag;
     picker.dataSource = self;
     picker.delegate = self;
-    picker.showsSelectionIndicator = YES;
+    picker.showsSelectionIndicator = SHOWIND;
     //[self.pickerView selectRow:3 inComponent:0 animated:NO];
    // [picker selectRow:3 inComponent:0 animated:YES];
     [pickerView addSubview:picker];
@@ -266,6 +266,10 @@
     if (indexPath.row == 0) {
         
         self.date = textframe;
+        self.date.borderStyle = TEXTBDSTYLE;
+        self.date.layer.borderColor = TEXTBDCOLOR;
+        self.date.layer.borderWidth = TEXTBDWIDTH;
+        self.date.layer.cornerRadius = TEXTBDRADIUS;
        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm18 isEqual:[NSNull null]])
              self.date.text = @"";
@@ -283,8 +287,8 @@
             myCell.textLabel.text = @"Profession"; }
         
         else if ([_formController isEqual:TNAME4]) {
-            self.date.placeholder = @"Country";
-            myCell.textLabel.text = @"Country"; }
+            self.date.placeholder = @"Title";
+            myCell.textLabel.text = @"Title"; }
         
         else self.date.placeholder = @"Date";
            [myCell.contentView addSubview:self.date];
@@ -514,8 +518,8 @@
             myCell.textLabel.text = @"Office"; }
         
         else if ([_formController isEqual:TNAME4]) {
-             self.spouse.placeholder = @"Title";
-             myCell.textLabel.text = @"Title"; }
+             self.spouse.placeholder = @"Country";
+             myCell.textLabel.text = @"Country"; }
              else myCell.textLabel.text = @"Spouse";
 
         [myCell.contentView addSubview:self.spouse];
@@ -719,13 +723,11 @@
     if ([_formController isEqual:TNAME2]) {
         self.company.placeholder = @"Contractor";
         self.company.inputView = [self customPicker:3];
-        
-    } else if ([_formController isEqual:TNAME3]) {
+      } else if ([_formController isEqual:TNAME3]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
         self.callback.hidden = YES;//Field
-        
-    } else if ([_formController isEqual:TNAME4]) {
+      } else if ([_formController isEqual:TNAME4]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
     }
@@ -847,7 +849,7 @@
 
 #pragma mark - EditData
 -(void)updateLeads:(id)sender {
-    if ([_formController isEqual:TNAME1]) {
+    if ([_formController isEqual:TNAME1]) { //leads
         NSString *_leadNo = self.leadNo;
         NSString *_active = self.active;
         NSString *_date = self.date.text;
@@ -885,7 +887,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual:TNAME2]) {
+    else if ([_formController isEqual:TNAME2]) { //customer
       //NSString *_date = self.date.text;
         NSString *_custNo = self.custNo;
         NSString *_leadNo = self.leadNo;
@@ -928,7 +930,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual:TNAME3]) {
+    else if ([_formController isEqual:TNAME3]) {//vendor
         
         NSString *_vendorNo = self.leadNo;
         NSString *_name = self.company.text;
@@ -970,7 +972,7 @@
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
-    else if ([_formController isEqual:TNAME4]) {
+    else if ([_formController isEqual:TNAME4]) { //employee
         
         NSString *_employeeNo = self.leadNo;
         NSString *_company = self.company.text;
@@ -981,7 +983,7 @@
         NSString *_homephone = self.phone.text;
         NSString *_workphone = self.salesman.text;
         NSString *_cellphone = self.jobName.text;
-        NSString *_country = self.date.text;
+        NSString *_country = self.spouse.text;
         NSString *_email = self.email.text;
         NSString *_last = self.last.text;
         NSString *_department = self.amount.text;
@@ -991,7 +993,7 @@
         NSString *_social = self.adName.text;
         NSString *_comments = self.comment.text;
         NSString *_active = self.active;
-        NSString *_employtitle = self.spouse.text;
+        NSString *_employtitle = self.date.text;
     //  NSString *_time = self.time;
         
         NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];

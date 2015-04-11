@@ -20,7 +20,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>392379C088402E6D2780DAA76B99E01D91C335CA</key>
-		<string>../..MySQL</string>
+		<string>../..MySQL/</string>
 		<key>E0BB6D8CF4E8DA35D3162D3889A9745BE3D37D87</key>
 		<string>../..</string>
 	</dict>
@@ -46,7 +46,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>392379C088402E6D2780DAA76B99E01D91C335CA</string>
 			<key>IDESourceControlWCCName</key>
-			<string>iosSQLMySQL</string>
+			<string>MySQL</string>
 		</dict>
 	</array>
 </dict>

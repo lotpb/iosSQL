@@ -7,8 +7,6 @@
 //
 
 #import "ProductViewController.h"
-#import "ProductLocation.h"
-#import <Parse/Parse.h>
 
 @interface ProductViewController ()
 {
@@ -269,19 +267,19 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-   [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[PRODSCOPE];
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-   [self presentViewController:self.searchController animated:YES completion:nil];
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -292,7 +290,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
         return;
     }
     

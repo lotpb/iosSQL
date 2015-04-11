@@ -30,9 +30,6 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
      self.listTableView.pagingEnabled = YES;
-    //self.listTableView.backgroundColor = [UIColor clearColor];
-   // UIEdgeInsets inset = UIEdgeInsetsMake(50, 5, 5, 5);
-   // self.listTableView.contentInset = inset;
     
     _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
     
@@ -279,15 +276,15 @@
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[LEADSCOPE];
-    self.searchController.hidesBottomBarWhenPushed = YES;
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
    [self presentViewController:self.searchController animated:YES completion:nil];
@@ -301,7 +298,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
         return;
     }
     

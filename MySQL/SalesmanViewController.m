@@ -7,8 +7,7 @@
 //
 
 #import "SalesmanViewController.h"
-#import "SalesLocation.h"
-#import <Parse/Parse.h>
+
 
 @interface SalesmanViewController ()
 {
@@ -272,16 +271,17 @@ return _feedItems.count;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
     [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[SALESCOPE];
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
@@ -293,7 +293,7 @@ return _feedItems.count;
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
         return;
     }
     

@@ -274,19 +274,19 @@
     self.searchController.searchBar.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
-   [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    [self.searchController.searchBar sizeToFit];
+    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
     self.searchController.searchBar.scopeButtonTitles = @[EMPLOYSCOPE];
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-   [self presentViewController:self.searchController animated:YES completion:nil];
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
@@ -297,7 +297,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
         return;
     }
     
@@ -370,6 +370,7 @@
        
        detailVC.leadNo = _selectedLocation.employeeNo;
        detailVC.date = _selectedLocation.email;
+      // detailVC.first = _selectedLocation.email;
        detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",_selectedLocation.first,_selectedLocation.lastname, _selectedLocation.company];
        detailVC.custNo = _selectedLocation.lastname;
        detailVC.address = _selectedLocation.street;
@@ -387,7 +388,10 @@
        detailVC.tbl23 = _selectedLocation.titleEmploy;
        detailVC.tbl24 = _selectedLocation.manager;
        detailVC.tbl25 = _selectedLocation.country;
-       detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.email;
+       detailVC.tbl16 = _selectedLocation.time;
+       detailVC.tbl26 = _selectedLocation.first;
+       detailVC.tbl27 = _selectedLocation.company;
+       //detailVC.tbl28 = _selectedLocation.company;
        detailVC.comments = _selectedLocation.comments;
        detailVC.active = _selectedLocation.active;
        
@@ -396,7 +400,7 @@
        detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";
        detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
        detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
-       detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Email";
+       detailVC.l16 = @"Last Updated"; detailVC.l26 = @"First";
        detailVC.l1datetext = @"Email:";
        detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
    }

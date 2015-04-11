@@ -36,13 +36,13 @@
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
     [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = LHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = LDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     // self.navigationItem.titleView = self.searchController.searchBar;

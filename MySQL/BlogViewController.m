@@ -203,6 +203,8 @@
     myCell.blogsubtitleLabel.text = item.subject;
     myCell.blogmsgDateLabel.text = item.msgDate;
     myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE];
+    myCell.blog2ImageView.clipsToBounds = YES;
+    myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
     
     //not working properly below
     if (![item.rating isEqual:@"5"])
@@ -287,15 +289,15 @@
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLEBLOG;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = BLOGNAVBARCOLOR;
     //self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[BLOGSCOPE];
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
    [self presentViewController:self.searchController animated:YES completion:nil];
@@ -309,7 +311,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
         return;
     }
     

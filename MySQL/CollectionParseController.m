@@ -121,7 +121,7 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
         CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
         NSString *title = [[NSString alloc]initWithFormat:PHOTOHEADER, indexPath.section + (unsigned long)1];
         headerView.title.text = title;
-        UIImage *headerImage = [UIImage imageNamed:@"header_banner.png"];
+        UIImage *headerImage = [UIImage imageNamed:PHOTOHEADERIMAGE];
         headerView.backgroundImage.image = headerImage;
         
         reusableview = headerView;
@@ -155,8 +155,8 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
             jobImageView.image = [UIImage imageWithData:data];
             
             cell.jobImageView.image = [UIImage imageWithData:data];
-            cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo-frame-2.png"]];
-            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo-frame.png"]];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:PHOTOCELLIMAGE]];
+            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:PHOTOCELLSELECTIMAGE]];
             
            [cell.loadingSpinner stopAnimating];
             cell.loadingSpinner.hidden = YES;
@@ -228,7 +228,7 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
         // Change the sharing mode to NO
         shareEnabled = NO;
         self.collectionView.allowsMultipleSelection = NO;
-        self.shareButton.title = @"Share";
+        self.shareButton.title = PHOTOBUTTONTITLE1;
         [self.shareButton setStyle:UIBarButtonItemStylePlain];
         
     } else {
@@ -236,7 +236,7 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
         // Change shareEnabled to YES and change the button text to DONE
         shareEnabled = YES;
         self.collectionView.allowsMultipleSelection = YES;
-        self.shareButton.title = @"Upload";
+        self.shareButton.title = PHOTOBUTTONTITLE2;
         [self.shareButton setStyle:UIBarButtonItemStyleDone];
     }
 }

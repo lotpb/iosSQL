@@ -122,7 +122,9 @@
     myCell.titleLabel.text = self.selectedLocation.postby;
     myCell.subtitleLabel.text = self.selectedLocation.subject;
     myCell.msgDateLabel.text = self.selectedLocation.msgDate;
-    myCell.blogImageView.image = [[UIImage imageNamed:TABLECELLIMAGE] stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    myCell.blogImageView.image = [[UIImage imageNamed:TABLECELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    myCell.blogImageView.clipsToBounds = YES;
+    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     
     if ([self.selectedLocation.rating isEqual: @"5"]) {
      //    label2.hidden = YES;

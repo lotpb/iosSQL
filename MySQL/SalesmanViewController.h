@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SalesLocation.h"
 #import "SalesModel.h"
+#import <Parse/Parse.h>
 #import "NewDataDetail.h"
 
 @interface SalesmanViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, SalesModelProtocol>

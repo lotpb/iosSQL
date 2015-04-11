@@ -36,7 +36,7 @@
      self.title = NSLocalizedString(name, nil);
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
-    self.newsTableView.estimatedRowHeight = 2.0;
+    self.newsTableView.estimatedRowHeight = 200.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.edgesForExtendedLayout = UIRectEdgeNone;
    [self parseData];
@@ -625,14 +625,14 @@ return myCell;
         } else if ([_formController  isEqual:TNAME4]) { //edit Employee
             detailVC.formController = TNAME4;
             detailVC.leadNo = self.leadNo; //employeeNo
-            detailVC.frm11 = self.salesman; //first
+            detailVC.frm11 = self.tbl26; //first
             detailVC.frm12 = self.custNo; //lastname
-            detailVC.frm13 = self.advertiser; //company
+            detailVC.frm13 = self.tbl27; //company
             detailVC.frm14 = self.address;
             detailVC.frm15 = self.city;
             detailVC.frm16 = self.state;
             detailVC.frm17 = self.zip;
-            detailVC.frm18 = self.tbl25; //country
+            detailVC.frm18 = self.tbl23; //title
             detailVC.frm19 = self.tbl15;  //middle
             detailVC.frm20 = self.tbl11; //homephone
             detailVC.frm21 = self.tbl12; //workphone
@@ -640,10 +640,10 @@ return myCell;
             detailVC.frm23 = self.tbl14; //social
             detailVC.frm24 = self.tbl22; //department
             detailVC.frm25 = self.tbl21; //email
-            detailVC.frm26 = self.tbl23; //title
+            detailVC.frm26 = self.tbl25; //country
             detailVC.frm27 = self.tbl24; //manager
             detailVC.frm28 = self.comments;
-            detailVC.frm29 = nil; //assistant
+            detailVC.frm29 = nil;
             detailVC.frm30 = self.active;
         }
     }

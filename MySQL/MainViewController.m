@@ -8,7 +8,7 @@
 //
 
 #import "MainViewController.h"
-#import "SWRevealViewController.h"
+
 
 #import "SearchResultsViewController.h"
 
@@ -31,12 +31,13 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+    
+    [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
     /*
     [self.listTableView flashScrollIndicators];
     [self.listTableView setContentOffset:CGPointZero animated:NO];
      self.automaticallyAdjustsScrollViewInsets = NO; //fix
      self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; */
-    
    /*  UIEdgeInsets tableViewEdgeInsets = UIEdgeInsetsMake(0, 0, [MAMHNController isPad]?0:44, 0);
     //[self.tableView setContentInset:tableViewEdgeInsets];
       [self.tableView setScrollIndicatorInsets:tableViewEdgeInsets]; */
@@ -56,9 +57,18 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
     
 #pragma mark Sidebar
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if (revealViewController) {
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     _sidebarButton.tintColor = SIDEBARTINTCOLOR;
+    revealViewController.rearViewRevealWidth = 275; //default 200
+    // Cannot drag and see beyond width 200
+    revealViewController.rearViewRevealOverdraw = 0;
+    revealViewController.toggleAnimationDuration = 0.2;
+    revealViewController.frontViewShadowRadius = 5;
+    [self.view addGestureRecognizer: self.revealViewController.panGestureRecognizer];
+    }
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -81,6 +91,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - Timer
+- (void)timertest:(id)sender {
+    NSLog(@"Switch is ON");
 }
 
 #pragma mark - RefreshControl
@@ -209,13 +223,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = MHIDE;
+    self.searchController.dimsBackgroundDuringPresentation = SDIM;
+    self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLORMAIN;
-    self.searchController.hidesBottomBarWhenPushed = YES;
-    self.listTableView.contentInset = UIEdgeInsetsMake(EDGEINSERT);
+    self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
+    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
 

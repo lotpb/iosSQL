@@ -32,7 +32,7 @@ NSArray *menuItems;
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor redColor];
-    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.backgroundColor = BACKGROUNDCOLOR;
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
     menuItems = @[@"title", @"home", @"settings", @"map", @"photo", @"email", @"contacts", @"social", @"notification", @"profile"];
@@ -53,8 +53,8 @@ NSArray *menuItems;
     {
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
         
-        NSString *emailTitle = @"Email Support";
-        NSString *messageBody = @"<h1>Learning iOS Programming!</h1>";
+        NSString *emailTitle = SIDEEMAILTITLE;
+        NSString *messageBody = SIDEEMAILMESSAGE;
         NSArray *toRecipents =  [NSArray arrayWithObject:[standardDefaults objectForKey:@"emailKey"]];
         
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
@@ -96,7 +96,7 @@ NSArray *menuItems;
 
   //tried estimateheight but didnt work this logiIn
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return ROW_HEIGHT;
 }
 
 #pragma mark tableview data source
@@ -127,8 +127,8 @@ NSArray *menuItems;
     
     if (indexPath.row == 0){
  
-        activeImage.image = [UIImage imageNamed:@"user_male-128.png"];
-        activeImage.backgroundColor = [UIColor grayColor];
+        activeImage.image = [UIImage imageNamed:SIDEIMAGETITLE];
+        activeImage.backgroundColor = SIDEIMAGEBACKCOLOR;
         //[activeImage setTintColor:[UIColor whiteColor]];
         activeImage.contentMode = UIViewContentModeScaleAspectFit;
         activeImage.layer.cornerRadius = activeImage.frame.size.width / 2.2;

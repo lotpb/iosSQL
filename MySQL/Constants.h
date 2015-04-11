@@ -15,30 +15,36 @@
 #define SEARCHBARSTYLE      UIBarStyleBlack
 #define SEARCHTINTCOLOR     [UIColor whiteColor]
 #define SEARCHBARTINTCOLOR  [UIColor clearColor]
-//#define DIMBACKGROUND      YES
-//#define HIDENAVBAR         YES
-//#define DEFINESPRESNT      YES
-//#define HIDEBOTTOMBAR      YES
-#define EDGEINSERT           44, 0, 0, 0
+#define SEDGEINSERT           44, 0, 0, 0
+#define SDIM                 YES //dimsBackgroundDuringPresentation
+#define SHIDE                YES //hidesNavigationBarDuringPresentation
+#define SDEFINE              YES //definesPresentationContext
+#define SHIDEBAR             YES //hidesBottomBarWhenPushed
+//----searchbar Lookup controllers--------------
+#define LDIM                 NO //dimsBackgroundDuringPresentation
+#define LHIDE                NO //hidesNavigationBarDuringPresentation
 //------navigationController-------------------------------
 #define MAINNAVCOLOR       [UIColor blackColor]
 #define NAVTRANSLUCENT     YES
 #define NAVTINTCOLOR       [UIColor grayColor]
-//------curser color-------------------------------
-#define CURSERCOLOR       [UIColor grayColor]
-//------buttons------------------------------------
-#define LIKEFONTSIZE      9
-#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
-#define LIKECOLORTEXT     [UIColor whiteColor]
-#define LIKECOLORBACK     [UIColor redColor]
-#define ACTIVEBUTTONYES   @"iosStar.png"
-#define ACTIVEBUTTONNO    @"iosStarNA.png"
 //------parse-------------------------------
 #define kPFCACHEPOLICY    kPFCachePolicyNetworkElseCache
-//kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly
-//kPFCachePolicyNetworkOnly //kPFCachePolicyCacheElseNetwork
-//kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
-//------tableheader-------------------------------
+//kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly//kPFCachePolicyNetworkOnly
+//kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
+//------tableviewcell-------------------------------
+#define IDCELL            @"BasicCell"
+#define TABLECELLIMAGE    @"DemoCellImage"
+#define BACKGROUNDCOLOR   [UIColor blackColor]
+#define ROW_HEIGHT        44.0f
+#define CELL_FONTSIZE     14
+#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
+#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
+#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
+#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+#define DATECOLORTEXT     [UIColor whiteColor]
+#define DATECOLORBACK     [UIColor redColor]
+//------tableHeader-------------------------------
 //#define HEADTITLE1    @"NASDAQ \n4,727.35"
 #define HEADTITLE2      @"NASDAQ \n4,727.35"
 #define HEADTITLE3      @"DOW \n17,776.80"
@@ -54,40 +60,46 @@
 #define LINECOLOR1     [UIColor greenColor]
 #define LINECOLOR2     [UIColor redColor]
 #define LINECOLOR3     [UIColor redColor]
-//------tabbar text-------------------------------
+//------tabBar Controller-------------------------------
 #define TABTINTCOLOR     [UIColor whiteColor]
 //------refreshcontrol-------------------------------
 #define KEY_DATEREFRESH  @"MMM d, h:mm a"
 #define UPDATETEXT       @"Last update: %@"
 #define REFRESHCOLOR     [UIColor blackColor]
 #define REFRESHTEXTCOLOR [UIColor whiteColor]
-//------tableviewcell-------------------------------
-#define IDCELL            @"BasicCell"
-#define TABLECELLIMAGE    @"DemoCellImage"
-#define BACKGROUNDCOLOR   [UIColor blackColor]
-#define ROW_HEIGHT        44.0f
-#define CELL_FONTSIZE     14
-#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
-#define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
-#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
-#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
-#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
-#define DATECOLORTEXT     [UIColor whiteColor]
-#define DATECOLORBACK     [UIColor redColor]
 //------navigationLogoimage-------------------------------
 #define MAINNAVLOGO           @"mySQLHOME.png"
 #define BLOGNAVLOGO           @"mySQLBLOG.png"
 #define NEWSNAVLOGO           @"mySQLNEWS.png"
+//------curser color-------------------------------
+#define CURSERCOLOR        [UIColor grayColor]
+//------buttons------------------------------------
+#define LIKEFONTSIZE      9
+#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+#define LIKECOLORTEXT     [UIColor whiteColor]
+#define LIKECOLORBACK     [UIColor redColor]
+#define ACTIVEBUTTONYES   @"iosStar.png"
+#define ACTIVEBUTTONNO    @"iosStarNA.png"
 //------dates-------------------------------
-#define KEY_DATESQLFORMAT @"yyyy-MM-dd" //new DataView
+#define KEY_DATESQLFORMAT     @"yyyy-MM-dd" //NewDataView, LeadDetail
+//------timer-------------------------------
+#define MTIMER           1800.0 //MainController
+#define MTIMERREP        YES  //repeats
+//------textview border-------------------------------
+#define TEXTBDSTYLE     UITextBorderStyleRoundedRect //borderStyle
+#define TEXTBDCOLOR     [UIColor colorWithRed:151.0/255.0f green:193.0/255.0f blue:252.0/255.0f alpha:1.0f].CGColor  //layer.borderColor
+#define TEXTBDWIDTH     2.0f //layer.borderWidth
+#define TEXTBDRADIUS    7.0f //layer.cornerRadius
 //------deletetable-------------------------------
-#define DELMESSAGE1 @"Delete the selected record?"
-#define DELMESSAGE2 @"OK, delete it"
+#define DELMESSAGE1           @"Delete the selected record?"
+#define DELMESSAGE2           @"OK, delete it"
 //-----------------------END-------------------------------
 
 // MAINVIEW
 //------searchbar-------------------------------
 #define SEARCHTINTCOLORMAIN  [UIColor redColor]
+#define MHIDE                 NO //hidesNavigationBarDuringPresentation
+//------sidebar revealViewController-------------------------------
 #define SIDEBARTINTCOLOR     [UIColor whiteColor]
 //------tableheader-------------------------------
 #define MAINHEADHEIGHT     175.0
@@ -108,6 +120,12 @@
 #define TNAME7             @"Job"
 #define TNAME8             @"Salesman"
 #define TNAME9             @"Blog"
+//------pickerview-------------------------------
+#define PICKCOLOR         [UIColor whiteColor]     //backgroundColor
+#define PICKTOOLSTYLE     UIBarStyleBlackOpaque    //toolbar.barStyle
+#define PICKTOOLTRANS     NO                       //toolbar.translucent
+#define SHOWIND           YES                      //showsSelectionIndicator
+#define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
 //------segue-------------------------------
 #define MAINVIEWSEGUE1   @"leadDetailSegue"
 #define MAINVIEWSEGUE2   @"custDetailSegue"
@@ -196,31 +214,32 @@
 #define DETAILSUBCOLOR     [UIColor grayColor]
 #define DETAILCOLOR        [UIColor darkGrayColor]
 #define DIVIDERCOLOR       [UIColor redColor]
-#define LEADNEWSTITLE      @"Customer News Peter Balsamo Appointed to United's Board of Directors"
-#define CUSTOMERNEWSTITLE  @"Customer News Peter Balsamo Appointed to United's Board of Directors"
-#define VENDORNEWSTITLE    @"Business News Peter Balsamo Appointed to United's Board of Directors"
-#define EMPLOYEENEWSTITLE  @"Employee News Peter Balsamo Appointed to United's Board of Directors"
+#define LEADNEWSTITLE      @"Customer News Company to expand to a new web advertising directive starting this week."
+#define CUSTOMERNEWSTITLE  @"Customer News Check out or new line of fabulous windows and siding."
+#define VENDORNEWSTITLE    @"Business News Peter Balsamo Appointed to United's Board of Directors."
+#define EMPLOYEENEWSTITLE  @"Employee News Health benifits will be cancelled immediately and will not be ineffect starting today."
 //------segue-------------------------------
-#define VIEWSEGUE       @"editFormSegue"
-#define NEWCUSTSEGUE    @"newcustSegue"
-#define MAPSEGUE        @"mapdetailSegue"
+#define VIEWSEGUE          @"editFormSegue"
+#define NEWCUSTSEGUE       @"newcustSegue"
+#define MAPSEGUE           @"mapdetailSegue"
 //-----------------------END-------------------------------
 
 // BLOG
-#define BLOGDELETENO     @"_msgNo=%@&&"
-#define BLOGDELETENO1    _msgNo
-#define BLOGDELETEURL    @"http://localhost:8888/deleteBlog.php"
-#define BLOGLINECOLOR1   [UIColor whiteColor]
-#define BLOGSCOPE        @"subject", @"date", @"rating", @"postby"
+#define BLOGIMGRADIUS      5
+#define BLOGDELETENO       @"_msgNo=%@&&"
+#define BLOGDELETENO1      _msgNo
+#define BLOGDELETEURL      @"http://localhost:8888/deleteBlog.php"
+#define BLOGLINECOLOR1     [UIColor whiteColor]
+#define BLOGSCOPE          @"subject", @"date", @"rating", @"postby"
 //------navigationController-------------------------------
 #define BLOGNAVBARCOLOR        [UIColor redColor]
 #define BLOGNAVBARTINTCOLOR    [UIColor whiteColor]
 #define BLOGNAVBARTRANSLUCENT   NO
-#define BLOG_FONTSIZE         12
-#define SEARCHBARSTYLEBLOG    UIBarStyleDefault
-//------segue-------------------------------
-#define BLOGVIEWSEGUE   @"blogviewSegue"
-#define BLOGNEWSEGUE    @"NewBlogSegue"
+#define BLOG_FONTSIZE          12
+#define SEARCHBARSTYLEBLOG     UIBarStyleDefault
+//--------------segue-------------------------------
+#define BLOGVIEWSEGUE      @"blogviewSegue"
+#define BLOGNEWSEGUE       @"NewBlogSegue"
 
 //-----------------------END-------------------------------
 
@@ -228,8 +247,8 @@
 #define BLOGEDITTITLE      @"Message"
 #define BLOGNOTIFICATION   @"New Message Posted on Blog.com"
 #define BLOGBACKCOLOR      [UIColor lightGrayColor]
-//------segue-------------------------------
-#define BLOGEDITSEGUE   @"updateNewSeque"
+//-------------segue-------------------------------
+#define BLOGEDITSEGUE      @"updateNewSeque"
 //-----------------------END-------------------------------
 
 // BLOGNEW
@@ -237,6 +256,7 @@
 #define KEY_EMAIL         @"emailKey"
 #define BLOGNEWBACKCOLOR  [UIColor darkGrayColor]
 #define BLOGNEWTITLE      @"Share an idea"
+
 #define BLOGUPDATEFIELD   @"_msgNo=%@&&_msgDate=%@&_subject=%@&_rating=%@&_postby=%@&"
 #define BLOGUPDATEFIELD1  _msgNo, _msgDate, _subject, _rating, _postby
 #define BLOGUPDATEURL     @"http://localhost:8888/updateBlog.php"
@@ -258,8 +278,8 @@
 #define DETAILFONT(s)    [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
 #define NEWSTITLECOLOR   [UIColor blackColor] //darkGrayColor
 #define NEWSDETAILCOLOR  [UIColor grayColor]
-#define NEWSREADCOLOR    [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
 #define READLABEL        @"News" //Read more
+#define NEWSREADCOLOR    [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]
 //-----------------------END-------------------------------
 
 // WEBCONTROLLER
@@ -269,7 +289,6 @@
 #define KEY_WEBNAME3 @"Blaze"
 #define KEY_WEBNAME4 @"Yahoo"
 #define KEY_WEBNAME5 @"Twits"
-
 #define KEY_WEBPAGE0 @"http://www.cnn.com"
 #define KEY_WEBPAGE1 @"http://www.Drudgereport.com"
 #define KEY_WEBPAGE2 @"http://www.cnet.com"
@@ -278,20 +297,49 @@
 #define KEY_WEBPAGE5 @"http://stocktwits.com/symbol/UPL"
 //-----------------------END-------------------------------
 
+// NOTIFICATION
+#define NOTIDATE    @"MM-dd-yyy hh:mm"
+#define NOTMESSAGE  @"You have a notification.Please check"
+#define BADGENO     1
+#define NSOUND      != 0 //allowsSound
+#define NBADGE      != 0 //allowsBadge
+#define NALERT      != 0 //allowsAlert
+//-----------------------END-------------------------------
+
+// FACEBOOKVIEW - SOCIAL
+#define FBMESSAGE       @"Good day everyone"
+#define FMMESSAGEURL    @"http://www.test.com"
+#define TWEETMESSAGE    @"Happy tweeting everyone"
+//-----------------------END-------------------------------
+
+// SIDEBAR CONTROLLER
+#define SIDEIMAGETITLE      @"user_male-128.png"
+#define SIDEIMAGEBACKCOLOR  [UIColor grayColor]
+#define SIDEEMAILTITLE      @"Email Support"
+#define SIDEEMAILMESSAGE    @"<h1>Learning iOS Programming!</h1>"
+//-----------------------END-------------------------------
+
 // PHOTO COLLECTION
-#define PHOTOHEADER       @"Job Pictures #%li"  // CollectionParse
+#define PHOTOHEADER           @"Job Pictures #%li"  // CollectionParse
+#define PHOTOHEADERIMAGE      @"header_banner.png"
+#define PHOTOCELLIMAGE        @"photo-frame-2.png" // cell.backgroundView
+#define PHOTOCELLSELECTIMAGE  @"photo-frame.png"  //cell.selectedBackgroundView
+#define PHOTOBUTTONTITLE1     @"Share"
+#define PHOTOBUTTONTITLE2     @"Upload"
+
 //-----------------------END-------------------------------
 
 // MAPCONTROLLER
 #define MAPTITLE           @"Map of Boston"
 #define NY_LATITUDE        42.37 //40.714353
-#define NY_LONGTITUDE     -71.03//74.005973
+#define NY_LONGTITUDE     -71.03 //74.005973
 //-----------------------END-------------------------------
 
 //LOOKUP NEWDATA SEGUE
 #define LOOKCITYSEGUE   @"lookupCitySegue"
 #define LOOKJOBSEGUE    @"lookupJobSegue"
 #define LOOKPRODSEGUE   @"lookupProductSegue"
+//-----------------------END-------------------------------
 
 //LOOKUP EDITDATA SEGUE
 #define EDITLOOKCITYSEGUE   @"lookupcitySegue"
@@ -303,8 +351,8 @@
 // EDITDATA
 #define HEADERTITLE @"Info"
 #define FOOTERTITLE @"MySQL! :)"
-#define TEXT_FIELD_TAG_OFFSET 1000
-#define NUM_TEXT_FIELD 5
+#define TEXT_FIELD_TAG_OFFSET 1000  //dismissKeyboard
+#define NUM_TEXT_FIELD 5            //dismissKeyboard
 
 #define UPDATEEMPLOYEEFIELD @"_employeeNo=%@&&_company=%@&_address=%@&_city=%@&_state=%@&_zip=%@&_homephone=%@&_workphone=%@&_cellphone=%@&_country=%@&_email=%@&_last=%@&_department=%@&_middle=%@&_first=%@&_manager=%@&_social=%@&_comments=%@&_active=%@&_employtitle=%@&"
 #define UPDATEEMPLOYEEFIELD1 _employeeNo, _company, _address, _city, _state, _zip, _homephone, _workphone, _cellphone, _country, _email, _last, _department, _middle, _first, _manager, _social, _comments, _active, _employtitle
@@ -374,9 +422,7 @@
 #define EDITADFIELD @"_adNo=%@&&_advertiser=%@&_active=%@&"
 #define EDITADFIELD1 _adNo, _advertiser, _active
 #define EDITADURL @"http://localhost:8888/updateAdvertising.php"
-
 //-----------------------END-------------------------------
-
 
 //#define KEY_UPDATE  @"updateAt"
 //#define KEY_GEOLOC  @"location"

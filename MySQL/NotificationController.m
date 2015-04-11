@@ -35,22 +35,23 @@ bool allowsAlert;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    /*
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = [UIColor colorWithWhite:0.1f alpha:0.9f];
-    
-   // [[UINavigationBar appearance] setTintColor:[UIColor grayColor]];
+    _sidebarButton.tintColor = SIDEBARTINTCOLOR;
+    //_sidebarButton.tintColor = [UIColor colorWithWhite:0.1f alpha:0.9f];
+   // [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; */
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;
-  [[UITextField appearance] setTintColor:[UIColor orangeColor]];
+    
+    [[UITextField appearance] setTintColor:[UIColor orangeColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.title =  @"Notification";
+    self.title = NSLocalizedString(@"Notification", nil);
     [self.customMessage becomeFirstResponder];
 }
 
@@ -84,7 +85,7 @@ bool allowsAlert;
         if (allowNotif)
         {
             notification.fireDate = _datePicker.date;
-           // notification.alertBody = @"You have a notification.Please check";
+            notification.alertBody = NOTMESSAGE;
             notification.timeZone = [NSTimeZone defaultTimeZone];
             switch (_frequencySegmentedControl.selectedSegmentIndex) {
                 case 0:
@@ -107,7 +108,7 @@ bool allowsAlert;
         }
         if (allowsBadge)
         {
-            notification.applicationIconBadgeNumber = 1;
+            notification.applicationIconBadgeNumber = BADGENO;
         }
         if (allowsSound)
         {
@@ -122,7 +123,7 @@ bool allowsAlert;
     
     // we're creating a string of the date so we can log the time the notif is supposed to fire
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"MM-dd-yyy hh:mm"];
+    [formatter setDateFormat:NOTIDATE];
     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
     NSString *notifDate = [formatter stringFromDate:_datePicker.date];
     NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate);
@@ -134,9 +135,9 @@ bool allowsAlert;
     // get the current notification settings
     UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     allowNotif = (currentSettings.types != UIUserNotificationTypeNone);
-    allowsSound = (currentSettings.types & UIUserNotificationTypeSound) != 0;
-    allowsBadge = (currentSettings.types & UIUserNotificationTypeBadge) != 0;
-    allowsAlert = (currentSettings.types & UIUserNotificationTypeAlert) != 0;
+    allowsSound = (currentSettings.types & UIUserNotificationTypeSound) NSOUND;
+    allowsBadge = (currentSettings.types & UIUserNotificationTypeBadge) NBADGE;
+    allowsAlert = (currentSettings.types & UIUserNotificationTypeAlert) NALERT;
 }
 
 @end

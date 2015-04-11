@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import "Constants.h"
 //#import <FacebookSDK/FacebookSDK.h>
 
 @interface FacebookViewController : UIViewController //<FBLoginViewDelegate>
