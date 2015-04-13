@@ -51,16 +51,10 @@
       else self.comments = @"No Comments";
     
 #pragma mark Bar Button
-    if ([_formController isEqual: TNAME1]) {
-        
         UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
-        NSArray *actionButtonItems = @[newItem];
+           UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
+        NSArray *actionButtonItems = @[editItem, newItem];
         self.navigationItem.rightBarButtonItems = actionButtonItems;
-    } else {
-        UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
-        NSArray *actionButtonItems = @[editItem];
-        self.navigationItem.rightBarButtonItems = actionButtonItems;
-    }
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -289,24 +283,33 @@ return myCell;
                                  alertControllerWithTitle:@"Confirm"
                                  message:@"Enter data entry"
                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* addr = [UIAlertAction
+                          actionWithTitle:@"Add to Contact"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //Do some thing here
+    [self performSegueWithIdentifier:CONTACTSEGUE sender:self];
+                              [view dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    UIAlertAction* cal = [UIAlertAction
+                          actionWithTitle:@"Add to Calender"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //Do some thing here
+    [self performSegueWithIdentifier:CALENDSEGUE sender:self];
+                              [view dismissViewControllerAnimated:YES completion:nil];
+                          }];
     
     UIAlertAction* new = [UIAlertAction
-                         actionWithTitle:@"New Customer"
+                         actionWithTitle:@"Add to Customer"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
     [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
-                             [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    
-    UIAlertAction* edit = [UIAlertAction
-                         actionWithTitle:@"Edit"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             //Do some thing here
-    [self performSegueWithIdentifier:VIEWSEGUE sender:self];
                              [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     
@@ -317,9 +320,10 @@ return myCell;
                              {
                             [view dismissViewControllerAnimated:YES completion:nil];
                             }];
-    
+                              
+    [view addAction:addr];
+    [view addAction:cal];
     [view addAction:new];
-    [view addAction:edit];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
 }
@@ -504,7 +508,11 @@ return myCell;
        detailVC.mapcity = self.city;
        detailVC.mapstate = self.state;
        detailVC.mapzip = self.zip; }
-   
+   /*
+    if ([segue.identifier isEqualToString:CALENDSEGUE]) {
+        CalenderEdit *detailVC = segue.destinationViewController;
+        detailVC.calname = self.name; } */
+ 
     if ([segue.identifier isEqualToString:NEWCUSTSEGUE]) { //new Customer from Lead
         NewData *detailVC = segue.destinationViewController;
         if ([_formController isEqual: TNAME1]) {

@@ -32,16 +32,13 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
-    /*
-    [self.listTableView flashScrollIndicators];
-    [self.listTableView setContentOffset:CGPointZero animated:NO];
-     self.automaticallyAdjustsScrollViewInsets = NO; //fix
-     self.listTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; */
-   /*  UIEdgeInsets tableViewEdgeInsets = UIEdgeInsetsMake(0, 0, [MAMHNController isPad]?0:44, 0);
-    //[self.tableView setContentInset:tableViewEdgeInsets];
-      [self.tableView setScrollIndicatorInsets:tableViewEdgeInsets]; */
-   
+    //| -----------------------notification Key---------------------------
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"verseKey"]) {
+        [self sendLocalNotification];
+    }
+    
+  //  [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
+    //| -----------------------------end----------------------------------
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:TABTINTCOLOR];
@@ -92,10 +89,20 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - Timer
-- (void)timertest:(id)sender {
-    NSLog(@"Switch is ON");
-}
+
+#pragma mark - Notification
+ - (void)sendLocalNotification {
+ UILocalNotification *notification = [[UILocalNotification alloc] init];
+ notification.alertBody = MNOTIFTEXT;
+ notification.category = MNOTIFCATEGORY;
+ notification.alertAction = NSLocalizedString(MAINNOTIFACTION, nil);
+ notification.alertTitle = NSLocalizedString(MAINNOTIFTITLE, nil);
+ // The notification will arrive in 5 seconds
+ notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+ notification.soundName = UILocalNotificationDefaultSoundName;
+ notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
+ [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+ } 
 
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
@@ -175,6 +182,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
     [label setFont:CELL_FONT(HEADFONTSIZE)];
     [label setTextColor:HEADTEXTCOLOR];
+    label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -188,6 +197,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     label1.numberOfLines = 0;
     [label1 setFont:CELL_FONT(HEADFONTSIZE)];
     [label1 setTextColor:HEADTEXTCOLOR];
+    label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -200,6 +211,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     label2.numberOfLines = 0;
     [label2 setFont:CELL_FONT(HEADFONTSIZE)];
     [label2 setTextColor:HEADTEXTCOLOR];
+    label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];

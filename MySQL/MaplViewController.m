@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 
 @interface MapViewController ()
-
+@property (nonatomic, strong) MKCircle *circleOverlay;
 @end
 
 @implementation MapViewController
@@ -26,55 +26,57 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-/*
-    // Add a user tracking button to the toolbar
-    MKUserTrackingBarButtonItem *trackingItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
-    [self.toolbar setItems:@[trackingItem]]; */
     
     self.mapView.delegate = self;
+    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    self.mapView.showsUserLocation = YES;
+    [self.mapView setZoomEnabled:YES];
+    [self.mapView setScrollEnabled:YES];
+    [self.mapView setRotateEnabled:YES];
+    
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    self.locationManager.distanceFilter = 500; // meters
     
     // Check for iOS 8
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
-    
-    self.mapView.showsUserLocation = YES;
     [self.locationManager startUpdatingLocation];
     
-    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-    
-    [self.mapView setZoomEnabled:YES];
-    [self.mapView setScrollEnabled:YES];}
+  /*   // Add a user tracking button to the toolbar
+     MKUserTrackingBarButtonItem *trackingItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
+     [self.toolbar setItems:@[trackingItem]]; */
+
+}
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-     self.locationManager.distanceFilter = kCLDistanceFilterNone;
-     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingLocation];
-    // NSLog(@"%@", [self deviceLocation]);
     
-     NSString *location =
-    [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
+    [super viewDidAppear:animated];
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager startUpdatingLocation];
+    
+    NSString *location = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder geocodeAddressString:location
-    completionHandler:^(NSArray* placemarks, NSError* error){
-    if (placemarks && placemarks.count > 0) {
-    CLPlacemark *topResult = [placemarks objectAtIndex:0];
-    MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
-                         
-    MKCoordinateRegion region = self.mapView.region;
-                         
-    region.center = [(CLCircularRegion *)placemark.region center];
-    region.span.longitudeDelta /= 1500.0;
-    region.span.latitudeDelta /= 1500.0;
-    region = [self.mapView regionThatFits:region];
-    [self.mapView setRegion:region animated:YES];
-    [self.mapView addAnnotation:placemark];
-    
-    } } ];
+                 completionHandler:^(NSArray* placemarks, NSError* error){
+                     
+                     if (placemarks && placemarks.count > 0) {
+                         CLPlacemark *topResult = [placemarks objectAtIndex:0];
+                         MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
+                         MKCoordinateRegion region = self.mapView.region;
+                         region.center = [(CLCircularRegion *)placemark.region center];
+                         region.span.longitudeDelta /= 1500.0;
+                         region.span.latitudeDelta /= 1500.0;
+                         region = [self.mapView regionThatFits:region];
+                         [self.mapView setRegion:region animated:YES];
+                         [self.mapView addAnnotation:placemark];
+                     }
+                 }
+     ];
 }
 
 -(void)didReceiveMemoryWarning {
@@ -82,8 +84,48 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - SegmentedControl
+- (IBAction)mapTypeChanged:(id)sender {
+    
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 0) {
+        self.mapView.mapType = MKMapTypeStandard;
+    }
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 1) {
+        self.mapView.mapType = MKMapTypeHybrid;
+    }
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 2) {
+        self.mapView.mapType = MKMapTypeSatellite;
+    }
+}
+/*
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations {
+    // If it's a relatively recent event, turn off updates to save power.
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (fabs(howRecent) < 15.0) {
+        // If the event is recent, do something with it.
+        NSLog(@"latitude %+.6f, longitude %+.6f\n",
+              location.coordinate.latitude,
+              location.coordinate.longitude);
+    }
+} */
 
-// MKMapViewDelegate Methods
+#pragma mark - Annotation
+// When a map annotation point is added, zoom to it (1500 range)
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+    MKAnnotationView *annotationView = [views objectAtIndex:0];
+    id <MKAnnotation> mp = [annotationView annotation];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
+    ([mp coordinate], 1500, 1500);
+    [mv setRegion:region animated:YES];
+    [mv selectAnnotation:mp animated:YES];
+}
+
+#pragma mark - Location Authorized Crap
+
 - (void)mapViewWillStartLocatingUser:(MKMapView *)mapView {
     // Check authorization status (with class method)
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
@@ -100,29 +142,36 @@
     }
 }
 
-
-- (IBAction)mapTypeChanged:(id)sender {
+- (void)requestAlwaysAuthorization
+{
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     
-    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 0) {
-        self.mapView.mapType = MKMapTypeStandard;
+    // If the status is denied or only granted for when in use, display an alert
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied) {
+        NSString *title;
+        title = (status == kCLAuthorizationStatusDenied) ? @"Location services are off" : @"Background location is not enabled";
+        NSString *message = @"To use background location you must turn on 'Always' in the Location Services Settings";
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Settings", nil];
+        [alertView show];
     }
-    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 1) {
-        self.mapView.mapType = MKMapTypeHybrid;
-    }
-    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 2) {
-        self.mapView.mapType = MKMapTypeSatellite;
+    // The user has not enabled any location services. Request background authorization.
+    else if (status == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestAlwaysAuthorization];
     }
 }
 
-// When a map annotation point is added, zoom to it (1500 range)
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    MKAnnotationView *annotationView = [views objectAtIndex:0];
-    id <MKAnnotation> mp = [annotationView annotation];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
-    ([mp coordinate], 1500, 1500);
-    [mv setRegion:region animated:YES];
-    [mv selectAnnotation:mp animated:YES];
+    if (buttonIndex == 1) {
+        // Send the user to the Settings for this app
+        NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:settingsURL];
+    }
 }
 
 @end

@@ -8,39 +8,23 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-//#import "MyTableController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //color Navigation text
-    [[UINavigationBar appearance] setTintColor:[UIColor grayColor]];
-    //color TabBar text
-   // [[UIView appearance] setTintColor:[UIColor whiteColor]];
+  
+    [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
+ // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
     
-    //| ----------------------------------------------------------------------------
+//| ------------------------parse Key--------------------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
-     // Peter Balsamo added this Parse
+ 
     [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
                   clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
     
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions]; }
-//| ----------------------------------------------------------------------------
-    // Peter Balsamo added this (2) notification
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"verseKey"]) {
-        // First, create an action
-    UIMutableUserNotificationAction *acceptAction = [self createAction];
-    // Second, create a category and tie those actions to it (only the one action for now)
-    UIMutableUserNotificationCategory *inviteCategory = [self createCategory:@[acceptAction]];
-    // Third, register those settings with our new notification category
-    [self registerSettings:inviteCategory];
-    // Now send ourselves a local notification
-    [self sendLocalNotification]; }
-
-//| ----------------------------------------------------------------------------
-// Peter Balsamo added this logiIn Controller
-    
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    }
+//| -----------------------loginController Key----------------------------------
     NSString *storyboardIdentifier;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
         storyboardIdentifier = @"loginViewController";
@@ -48,24 +32,32 @@
         storyboardIdentifier = @"mainViewController";
     
     UIViewController *rootViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:storyboardIdentifier];
-    [[self window] setRootViewController:rootViewController]; 
+    [[self window] setRootViewController:rootViewController];
 
-    [self populateRegistrationDomain];
+//| -----------------------register Notification----------------------------------
+    // First, create an action
+    UIMutableUserNotificationAction *acceptAction = [self createAction];
+    
+    // Second, create a category and tie those actions to it (only the one action for now)
+    UIMutableUserNotificationCategory *inviteCategory = [self createCategory:@[acceptAction]];
+    
+        [self registerSettings:inviteCategory];
+    
+//| -----------------------register Settings----------------------------------
+        [self populateRegistrationDomain];
     
     return YES;
 }
 
-//| ----------------------------------------------------------------------------
-// Peter Balsamo added this Notification
+//| -----------------------notification-------------------------------------
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
     
-    application.applicationIconBadgeNumber = 0; }
+    application.applicationIconBadgeNumber = 1;
+}
 
-//| ----------------------------------------------------------------------------
-          // Peter Balsamo added this (2) Notification
 - (UIMutableUserNotificationAction *)createAction {
     UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
     acceptAction.identifier = @"ACCEPT_IDENTIFIER";
@@ -91,10 +83,9 @@
     // On the lock screen, only the first two will be shown
     // If you want to specify which two actions get used on the lockscreen, use UIUserNotificationActionContextMinimal
     [inviteCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
-  //  [inviteCategory setActions:@[acceptAction, maybeAction, declineAction] forContext:UIUserNotificationActionContextDefault];
     
     // These would get set on the lock screen specifically
-    // [inviteCategory setActions:@[declineAction, acceptAction] forContext:UIUserNotificationActionContextMinimal];
+ //    [inviteCategory setActions:@[declineAction, acceptAction] forContext:UIUserNotificationActionContextMinimal];
     
     return inviteCategory;
 }
@@ -106,18 +97,6 @@
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-}
-
-- (void)sendLocalNotification {
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Tell jesus you love him and need him!";
-    notification.category = @"INVITE_CATEGORY";
-    
-    // The notification will arrive in 5 seconds, leave the app or lock your device to see
-    // it since we aren't doing anything to handle notifications that arrive while the app is open
-    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
@@ -136,12 +115,11 @@
         // handle it
         NSLog(@"Invite accepted! Handle that somehow...");
     
-    
     // Call this when you're finished
     completionHandler();
 }
 
-//| ----------------------------------------------------------------------------
+//| -----------------------END------------------------------------------
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -156,25 +134,23 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
-    // Peter Balsamo added this notification
   //  NSLog(@"%s", __PRETTY_FUNCTION__);
-    application.applicationIconBadgeNumber = 0;
+    application.applicationIconBadgeNumber = 1;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    // Peter Balsamo added this notification
    // NSLog(@"%s", __PRETTY_FUNCTION__);
-    application.applicationIconBadgeNumber = 0;
+    application.applicationIconBadgeNumber = 1;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//| ----------------------------------------------------------------------------
-// Peter Balsamo added this SETTINGS
+//| -------------------register SETTINGS------------------------------------------------
+
 - (void)populateRegistrationDomain
 {
     NSURL *settingsBundleURL = [[NSBundle mainBundle] URLForResource:@"Settings" withExtension:@"bundle"];
@@ -189,8 +165,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-//| ----------------------------------------------------------------------------
-// Peter Balsamo added this SETTINGS
+//| -------------------SETTINGS---------------------------------------------------------
+
 - (NSDictionary*)loadDefaultsFromSettingsPage:(NSString*)plistName inSettingsBundleAtURL:(NSURL*)settingsBundleURL
 {
     // Each page of settings is represented by a property-list file that follows

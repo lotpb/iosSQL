@@ -49,7 +49,7 @@
 
 #pragma mark - Private method implementation
 
--(void)showAddressBook{
+-(void)showAddressBook {
     _addressBookController = [[ABPeoplePickerNavigationController alloc] init];
     [_addressBookController setPeoplePickerDelegate:self];
     [self presentViewController:_addressBookController animated:YES completion:nil];

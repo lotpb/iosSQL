@@ -20,7 +20,7 @@
 #define SHIDE                YES //hidesNavigationBarDuringPresentation
 #define SDEFINE              YES //definesPresentationContext
 #define SHIDEBAR             YES //hidesBottomBarWhenPushed
-//----searchbar Lookup controllers--------------
+//--------searchbar LookupControllers--------------
 #define LDIM                 NO //dimsBackgroundDuringPresentation
 #define LHIDE                NO //hidesNavigationBarDuringPresentation
 //------navigationController-------------------------------
@@ -62,7 +62,7 @@
 #define LINECOLOR3     [UIColor redColor]
 //------tabBar Controller-------------------------------
 #define TABTINTCOLOR     [UIColor whiteColor]
-//------refreshcontrol-------------------------------
+//------refreshControl-------------------------------
 #define KEY_DATEREFRESH  @"MMM d, h:mm a"
 #define UPDATETEXT       @"Last update: %@"
 #define REFRESHCOLOR     [UIColor blackColor]
@@ -83,8 +83,8 @@
 //------dates-------------------------------
 #define KEY_DATESQLFORMAT     @"yyyy-MM-dd" //NewDataView, LeadDetail
 //------timer-------------------------------
-#define MTIMER           1800.0 //MainController
-#define MTIMERREP        YES  //repeats
+//#define MTIMER           5.0 //MainController
+//#define MTIMERREP        NO  //repeats
 //------textview border-------------------------------
 #define TEXTBDSTYLE     UITextBorderStyleRoundedRect //borderStyle
 #define TEXTBDCOLOR     [UIColor colorWithRed:151.0/255.0f green:193.0/255.0f blue:252.0/255.0f alpha:1.0f].CGColor  //layer.borderColor
@@ -96,6 +96,11 @@
 //-----------------------END-------------------------------
 
 // MAINVIEW
+//------notification-------------------------------
+#define MNOTIFTEXT         @"Tell jesus you love him and need him!"
+#define MNOTIFCATEGORY     @"INVITE_CATEGORY"
+#define MAINNOTIFACTION    @"View Details"
+#define MAINNOTIFTITLE     @"Item Due"
 //------searchbar-------------------------------
 #define SEARCHTINTCOLORMAIN  [UIColor redColor]
 #define MHIDE                 NO //hidesNavigationBarDuringPresentation
@@ -222,6 +227,8 @@
 #define VIEWSEGUE          @"editFormSegue"
 #define NEWCUSTSEGUE       @"newcustSegue"
 #define MAPSEGUE           @"mapdetailSegue"
+#define CALENDSEGUE        @"calenderSegue"
+#define CONTACTSEGUE        @"contactSegue"
 //-----------------------END-------------------------------
 
 // BLOG
@@ -245,8 +252,12 @@
 
 // BLOGEDIT
 #define BLOGEDITTITLE      @"Message"
-#define BLOGNOTIFICATION   @"New Message Posted on Blog.com"
 #define BLOGBACKCOLOR      [UIColor lightGrayColor]
+//------notification-------------------------------
+#define BLOGNOTIFICATION   @"New Message Posted on Blog.com"
+#define BNOTIFCATEGORY     @"INVITE_CATEGORY"
+#define BNOTIFACTION       @"View Details"
+#define BNOTIFTITLE        @"Alert! Breaking News"
 //-------------segue-------------------------------
 #define BLOGEDITSEGUE      @"updateNewSeque"
 //-----------------------END-------------------------------
@@ -297,9 +308,9 @@
 #define KEY_WEBPAGE5 @"http://stocktwits.com/symbol/UPL"
 //-----------------------END-------------------------------
 
-// NOTIFICATION
+// NOTIFICATION CONTROLLER
 #define NOTIDATE    @"MM-dd-yyy hh:mm"
-#define NOTMESSAGE  @"You have a notification.Please check"
+#define NOTMESSAGE  @"You have a notification. Please check"
 #define BADGENO     1
 #define NSOUND      != 0 //allowsSound
 #define NBADGE      != 0 //allowsBadge

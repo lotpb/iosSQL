@@ -23,11 +23,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
-    self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
-    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
+
     self.title = NSLocalizedString(TNAME9, nil);
+    self.listTableView.delegate = self;
+    self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
@@ -37,6 +36,11 @@
     _BlogModel.delegate = self; [_BlogModel downloadItems];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
+    
+    self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
+    self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
+    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
     
 #pragma mark Bar Button
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(foundView:)];
@@ -241,6 +245,8 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE1)];
     [label setFont:CELL_MEDFONT(HEADFONTSIZE) ];
     [label setTextColor:HEADTEXTCOLOR];
+    label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label.numberOfLines = 0;
     NSString *string = newString;
     [label setText:string];
@@ -254,6 +260,8 @@
     label1.numberOfLines = 0;
     [label1 setFont:CELL_MEDFONT(HEADFONTSIZE)];
     [label1 setTextColor:HEADTEXTCOLOR];
+    label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -266,6 +274,8 @@
     label2.numberOfLines = 0;
     [label2 setFont:CELL_MEDFONT(HEADFONTSIZE)];
     [label2 setTextColor:HEADTEXTCOLOR];
+    label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];

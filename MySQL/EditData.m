@@ -707,7 +707,12 @@
     
     if ([self.frm12 isEqual:[NSNull null]])
         self.last.text = @"";
-    else self.last.text = self.frm12;
+        else {
+        self.last.text = self.frm12;
+        self.last.borderStyle = TEXTBDSTYLE;
+        self.last.layer.borderColor = TEXTBDCOLOR;
+        self.last.layer.borderWidth = TEXTBDWIDTH;
+        self.last.layer.cornerRadius = TEXTBDRADIUS;}
     
     if ([self.frm13 isEqual:[NSNull null]])
         self.company.text = @"";

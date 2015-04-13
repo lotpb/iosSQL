@@ -30,10 +30,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
+	<key>NSLocationAlwaysUsageDescrition</key>
+	<string>To Find out your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To Find out your location</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

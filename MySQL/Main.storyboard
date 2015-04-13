@@ -422,9 +422,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
-                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -452,9 +449,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -628,7 +622,7 @@
                                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="178" id="8Cx-fd-Czt">
-                                                        <variation key="heightClass=regular-widthClass=compact" constant="237"/>
+                                                        <variation key="heightClass=regular-widthClass=compact" constant="232"/>
                                                     </constraint>
                                                     <constraint firstAttribute="height" constant="30" id="IsG-uN-HTi"/>
                                                 </constraints>
@@ -2430,7 +2424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5z-BC-u8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3076.5" y="435"/>
+            <point key="canvasLocation" x="-4518" y="448.5"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="uxk-LJ-6Mg">
@@ -2538,7 +2532,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C7A-Vk-dGh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2308.5" y="439.5"/>
+            <point key="canvasLocation" x="-3772.5" y="454.5"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="TWz-Xq-N6Q">
@@ -3471,11 +3465,13 @@
                         <segue destination="UdA-2X-Te0" kind="show" identifier="mapdetailSegue" id="HrX-o9-EKY"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newcustSegue" id="zQR-YQ-xF4"/>
                         <segue destination="vkG-5V-SZx" kind="show" identifier="editFormSegue" id="2yy-Hh-VA2"/>
+                        <segue destination="O2s-nx-sN0" kind="showDetail" identifier="calenderSegue" id="YL2-bg-fIc"/>
+                        <segue destination="bGy-wm-wEM" kind="showDetail" identifier="contactSegue" id="mbk-ev-Wgx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RCd-M8-PnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1986" y="1155.75"/>
+            <point key="canvasLocation" x="2038.5" y="1161.75"/>
         </scene>
         <!--Web-->
         <scene sceneID="zwQ-e1-kHA">
@@ -3613,7 +3609,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jPm-yg-jJX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1816.5" y="-3237.75"/>
+            <point key="canvasLocation" x="-1807.5" y="-3233.25"/>
         </scene>
         <!--Settings-->
         <scene sceneID="g1L-mb-IIp">
@@ -3732,7 +3728,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b3e-fB-wpQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1530" y="217.5"/>
+            <point key="canvasLocation" x="-1504.5" y="306"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="d9d-h9-6xA">
@@ -4628,14 +4624,14 @@
                                     <segue destination="IKQ-7M-Fxw" kind="show" id="poV-Lc-1XS"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="profile" id="pkB-Tl-VLa">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="calender" id="pkB-Tl-VLa">
                                 <rect key="frame" x="0.0" y="330" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pkB-Tl-VLa" id="9tk-8h-5j0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0Q-0z-AkF">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Calender" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0Q-0z-AkF">
                                             <rect key="frame" x="75" y="11" width="139" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="139" id="6n3-hi-MKm"/>
@@ -4661,7 +4657,43 @@
                                     <constraint firstItem="xkO-j3-7av" firstAttribute="leading" secondItem="pkB-Tl-VLa" secondAttribute="leading" constant="20" id="bLa-nP-K4q"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="8LG-fU-1Ni" kind="show" id="wTT-c6-fj2"/>
+                                    <segue destination="O2s-nx-sN0" kind="show" identifier="" id="lKf-fs-Wiv"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="profile" id="JJ0-sn-YGP">
+                                <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JJ0-sn-YGP" id="jaH-n4-6xB">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBX-RA-GBl">
+                                            <rect key="frame" x="75" y="11" width="139" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="139" id="962-fl-i79"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tag.png" translatesAutoresizingMaskIntoConstraints="NO" id="eIO-b6-d4L">
+                                            <rect key="frame" x="20" y="3" width="38" height="38"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="38" id="8Mw-jF-ohc"/>
+                                                <constraint firstAttribute="width" constant="38" id="wSo-dg-gYT"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.1964285714" green="0.1964285714" blue="0.1964285714" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="gBX-RA-GBl" firstAttribute="leading" secondItem="JJ0-sn-YGP" secondAttribute="leading" constant="75" id="1pN-ZZ-nwU"/>
+                                    <constraint firstItem="gBX-RA-GBl" firstAttribute="centerY" secondItem="eIO-b6-d4L" secondAttribute="centerY" id="JRZ-56-y07"/>
+                                    <constraint firstItem="eIO-b6-d4L" firstAttribute="leading" secondItem="JJ0-sn-YGP" secondAttribute="leading" constant="20" id="b6L-Tu-zDX"/>
+                                    <constraint firstItem="gBX-RA-GBl" firstAttribute="centerY" secondItem="JJ0-sn-YGP" secondAttribute="centerY" id="mPP-vQ-EtP"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="8LG-fU-1Ni" kind="show" id="yrp-IM-TQY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -5725,7 +5757,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCG-NR-TJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1540.5" y="904.5"/>
+            <point key="canvasLocation" x="-1486.5" y="1161.75"/>
         </scene>
         <!--Product Info-->
         <scene sceneID="3rz-8B-oqJ">
@@ -6722,6 +6754,69 @@
             </objects>
             <point key="canvasLocation" x="1986" y="-653.25"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="oIw-vr-DNb">
+            <objects>
+                <navigationController id="O2s-nx-sN0" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="eqe-rE-qhn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="0ab-sZ-rMm" kind="relationship" relationship="rootViewController" id="cab-MG-6dc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WuE-OY-ZFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2431.5" y="454.5"/>
+        </scene>
+        <!--Calender-->
+        <scene sceneID="Yg7-Da-HbN">
+            <objects>
+                <tableViewController storyboardIdentifier="rootViewController" title="Calender" id="0ab-sZ-rMm" customClass="CalenderEdit" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3eY-xI-zF2">
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="eventCell" textLabel="mzR-8B-pV2" style="IBUITableViewCellStyleDefault" id="KfN-mg-gC5">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KfN-mg-gC5" id="RAe-rg-ajb">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mzR-8B-pV2">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="0ab-sZ-rMm" id="fHB-xG-IXJ"/>
+                            <outlet property="delegate" destination="0ab-sZ-rMm" id="3XV-0p-Dfc"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Events List" id="f8u-jH-enm">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="E7r-SR-mgt">
+                            <connections>
+                                <action selector="addEvent:" destination="0ab-sZ-rMm" id="d1n-Bz-gK4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addButton" destination="E7r-SR-mgt" id="5Kb-HQ-5qt"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qtw-z2-c7O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3085.5" y="454.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="DemoCellImage2" width="65" height="65"/>
@@ -6747,13 +6842,15 @@
     <inferredMetricsTieBreakers>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="46l-tX-X1A"/>
-        <segue reference="JGM-Q4-zwX"/>
         <segue reference="4KL-RL-dt5"/>
+        <segue reference="mbk-ev-Wgx"/>
+        <segue reference="YL2-bg-fIc"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="Dbq-7P-K8C"/>
         <segue reference="6GQ-e7-fhm"/>
+        <segue reference="46l-tX-X1A"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

@@ -170,11 +170,14 @@
 - (IBAction)sendNotification:(UIButton *)sender
 {
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     localNotification.alertBody = BLOGNOTIFICATION;
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;//The number to diplay on the icon badge
+    localNotification.category = BNOTIFCATEGORY;
+    localNotification.alertAction = NSLocalizedString(BNOTIFACTION, nil);
+    localNotification.alertTitle = NSLocalizedString(BNOTIFTITLE, nil);
     localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 

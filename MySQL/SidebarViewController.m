@@ -35,7 +35,7 @@ NSArray *menuItems;
     self.tableView.backgroundColor = BACKGROUNDCOLOR;
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    menuItems = @[@"title", @"home", @"settings", @"map", @"photo", @"email", @"contacts", @"social", @"notification", @"profile"];
+    menuItems = @[@"title", @"home", @"settings", @"map", @"photo", @"email", @"contacts", @"social", @"notification", @"calender", @"profile"];
 }
 
 - (void)didReceiveMemoryWarning
