@@ -254,9 +254,9 @@
 #define BLOGEDITTITLE      @"Message"
 #define BLOGBACKCOLOR      [UIColor lightGrayColor]
 //------notification-------------------------------
-#define BLOGNOTIFICATION   @"New Message Posted on Blog.com"
+#define BLOGNOTIFICATION   @"You have entered the region you are monitoring"
 #define BNOTIFCATEGORY     @"INVITE_CATEGORY"
-#define BNOTIFACTION       @"View Details"
+#define BNOTIFACTION       @"Details"
 #define BNOTIFTITLE        @"Alert! Breaking News"
 //-------------segue-------------------------------
 #define BLOGEDITSEGUE      @"updateNewSeque"
@@ -310,8 +310,8 @@
 
 // NOTIFICATION CONTROLLER
 #define NOTIDATE    @"MM-dd-yyy hh:mm"
-#define NOTMESSAGE  @"You have a notification. Please check"
-#define BADGENO     1
+//#define NOTMESSAGE  @"You have a notification. Please check"
+#define BADGENO     + 1
 #define NSOUND      != 0 //allowsSound
 #define NBADGE      != 0 //allowsBadge
 #define NALERT      != 0 //allowsAlert

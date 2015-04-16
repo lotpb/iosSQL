@@ -16,7 +16,13 @@
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
  // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
     
-//| ------------------------parse Key--------------------------------------------
+   /*
+    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotification) {
+        application.applicationIconBadgeNumber = 0;
+    } */
+    
+//| ------------------------parse Key---------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
  
     [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
@@ -24,7 +30,7 @@
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     }
-//| -----------------------loginController Key----------------------------------
+//| -----------------------loginController Key------------------------
     NSString *storyboardIdentifier;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
         storyboardIdentifier = @"loginViewController";
@@ -34,7 +40,8 @@
     UIViewController *rootViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:storyboardIdentifier];
     [[self window] setRootViewController:rootViewController];
 
-//| -----------------------register Notification----------------------------------
+//| --------------register Notification Actions-----------------
+    
     // First, create an action
     UIMutableUserNotificationAction *acceptAction = [self createAction];
     
@@ -43,57 +50,21 @@
     
         [self registerSettings:inviteCategory];
     
-//| -----------------------register Settings----------------------------------
+//| -----------------------register Settings---------------------------
         [self populateRegistrationDomain];
     
     return YES;
 }
+//| --------------------------END--------------------------------------
 
-//| -----------------------notification-------------------------------------
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
-    
-    application.applicationIconBadgeNumber = 1;
-}
-
-- (UIMutableUserNotificationAction *)createAction {
-    UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
-    acceptAction.identifier = @"ACCEPT_IDENTIFIER";
-    acceptAction.title = @"Accept";
-    
-    // Given seconds, not minutes, to run in the background
-    acceptAction.activationMode = UIUserNotificationActivationModeBackground;
-    
-    // If YES the actions is red
-    acceptAction.destructive = YES;
-    
-    // If YES requires passcode, but does not unlock the device
-    acceptAction.authenticationRequired = NO;
-    
-    return acceptAction;
-}
-
-- (UIMutableUserNotificationCategory *)createCategory:(NSArray *)actions {
-    UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
-    inviteCategory.identifier = @"INVITE_CATEGORY";
-    
-    // You can define up to 4 actions in the 'default' context
-    // On the lock screen, only the first two will be shown
-    // If you want to specify which two actions get used on the lockscreen, use UIUserNotificationActionContextMinimal
-    [inviteCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
-    
-    // These would get set on the lock screen specifically
- //    [inviteCategory setActions:@[declineAction, acceptAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    return inviteCategory;
-}
-
+#pragma mark - Notification
+#pragma mark Register
 - (void)registerSettings:(UIMutableUserNotificationCategory *)category {
+    
     UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
     
     NSSet *categories = [NSSet setWithObjects:category, nil];
+    
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
@@ -101,7 +72,7 @@
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     
-    // Get the notifications types that have been allowed, do whatever with them
+// Get the notifications types that have been allowed, do whatever with them
     UIUserNotificationType allowedTypes = [notificationSettings types];
     NSLog(@"Registered for notification types: %lu",(unsigned long)allowedTypes);
     
@@ -109,16 +80,74 @@
     // UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
 }
 
+#pragma mark Notification didReceiveLocalNotification
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
+    
+    application.applicationIconBadgeNumber = 0;
+}
+
+//| -----------------------notification Actions-----------------------------
+#pragma mark Notification Action
+- (UIMutableUserNotificationAction *)createAction {
+    
+    UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
+    acceptAction.identifier = @"ACCEPT_IDENTIFIER";
+    acceptAction.title = @"Accept";
+    acceptAction.activationMode = UIUserNotificationActivationModeBackground;
+    acceptAction.destructive = YES;  // If YES the actions is red
+    acceptAction.authenticationRequired = NO;
+ /*
+    UIMutableUserNotificationAction* deleteAction = [[UIMutableUserNotificationAction alloc] init];
+    [deleteAction setIdentifier:@"delete_action_id"];
+    [deleteAction setTitle:@"Delete"];
+    [deleteAction setDestructive:YES];
+   
+    UIMutableUserNotificationAction* replyAction = [[UIMutableUserNotificationAction alloc] init];
+    [replyAction setIdentifier:@"reply_action_id"];
+    [replyAction setTitle:@"Reply"];
+    [replyAction setActivationMode:UIUserNotificationActivationModeForeground];
+    [replyAction setDestructive:NO];
+    
+    UIMutableUserNotificationCategory* deleteReplyCategory = [[UIMutableUserNotificationCategory alloc] init];
+    [deleteReplyCategory setIdentifier:@"custom_category_id"];
+    [deleteReplyCategory setActions:@[replyAction, deleteAction] forContext:UIUserNotificationActionContextDefault]; */
+    
+    return acceptAction;
+}
+
+- (UIMutableUserNotificationCategory *)createCategory:(NSArray *)actions {
+    
+    UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
+    inviteCategory.identifier = @"INVITE_CATEGORY";
+    
+    [inviteCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
+    
+    // Add the actions to the category and set the action context
+ //   [inviteCategory setActions:@[acceptAction, maybeAction, declineAction] forContext:UIUserNotificationActionContextDefault];
+    
+    // Set the actions to present in a minimal context
+  //  [inviteCategory setActions:@[acceptAction, declineAction]forContext:UIUserNotificationActionContextMinimal];
+    
+    return inviteCategory;
+}
+
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
     
     if ([identifier isEqualToString:@"ACCEPT_IDENTIFIER"])
-        // handle it
+    {
         NSLog(@"Invite accepted! Handle that somehow...");
+    }
+    else if([identifier isEqualToString:@"INVITE_CATEGORY"])
+    {
+        NSLog(@"Reply was pressed");
+    }
     
     // Call this when you're finished
     completionHandler();
 }
-
 //| -----------------------END------------------------------------------
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -135,22 +164,22 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
   //  NSLog(@"%s", __PRETTY_FUNCTION__);
-    application.applicationIconBadgeNumber = 1;
+    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
    // NSLog(@"%s", __PRETTY_FUNCTION__);
-    application.applicationIconBadgeNumber = 1;
+    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//| -------------------register SETTINGS------------------------------------------------
-
+//| -------------------register SETTINGS--------------------------------
+#pragma mark - Settings
 - (void)populateRegistrationDomain
 {
     NSURL *settingsBundleURL = [[NSBundle mainBundle] URLForResource:@"Settings" withExtension:@"bundle"];
@@ -165,7 +194,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-//| -------------------SETTINGS---------------------------------------------------------
+//| -------------------SETTINGS---------------------------------------
 
 - (NSDictionary*)loadDefaultsFromSettingsPage:(NSString*)plistName inSettingsBundleAtURL:(NSURL*)settingsBundleURL
 {

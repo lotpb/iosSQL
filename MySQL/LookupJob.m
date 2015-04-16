@@ -7,7 +7,6 @@
 //
 
 #import "LookupJob.h"
-#import <Parse/Parse.h>
 
 @interface LookupJob ()
 {
@@ -46,22 +45,9 @@
     // self.navigationItem.titleView = self.searchController.searchBar;
     [self presentViewController:self.searchController animated:YES completion:nil];
     
-    jobArray = [[NSMutableArray alloc] init];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    //[PFQuery clearAllCachedResults];
-    [query selectKeys:@[@"JobNo"]];
-    [query selectKeys:@[@"Description"]];
-    [query orderByDescending:@"Description"];
-     query.cachePolicy = kPFCACHEPOLICY;
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            for (PFObject *object in objects) {
-                [jobArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]); 
-    }];
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+   [parseConnection parseLookupJob];
     
     filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
     
@@ -78,6 +64,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseLookupJobloaded:(NSMutableArray *)jobItem {
+    jobArray = jobItem;
 }
 
 #pragma mark - TableView 

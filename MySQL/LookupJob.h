@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseConnection.h"
 #import "NewData.h"
 #import "EditData.h"
 

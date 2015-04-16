@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "AddressViewController.h"
 
 @interface MasterAddressViewController : UITableViewController <ABPeoplePickerNavigationControllerDelegate>
 

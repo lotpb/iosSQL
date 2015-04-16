@@ -10,11 +10,13 @@
 
 @interface ParseConnection ()
 {
-  //  NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;
+    NSMutableArray *adproductArray, *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;
 }
 @end
 
 @implementation ParseConnection
+
+//-----------------EditData pickerview parse data----------------------------------
 
 #pragma mark - EditData PickerView
 - (void)parseSalesman {
@@ -26,6 +28,9 @@
     [query whereKey:@"Active" containsString:@"Active"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         salesArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseSalesmanloaded:salesArray];
+        }
     }];
 }
 
@@ -36,6 +41,9 @@
     [query14 orderByDescending:@"rating"];
     [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         rateArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseRateloaded:rateArray];
+        }
     }];
 }
 
@@ -46,6 +54,9 @@
     [query13 orderByDescending:@"Contractor"];
     [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         contractorArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseContractorloaded:contractorArray];
+        }
     }];
 }
 
@@ -56,11 +67,16 @@
     [query1 orderByDescending:@"Callback"];
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         callbackArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseCallbackloaded:callbackArray];
+        }
     }];
 }
 
+//-----------------lookup parse data----------------------------------
+
 #pragma mark - Lookup Form
-- (void)parseZip { //lookup city
+- (void)parseLookupZip { //lookup city
     PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
     [PFQuery clearAllCachedResults];
     //[query selectKeys:@[@"ZipNo"]];
@@ -71,13 +87,17 @@
     [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        zipArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupZiploaded:zipArray];
+        }
+/*
         if (!error) {
             for (PFObject *object in objects) {
                 [zipArray addObject:object];
-              //  [self.listTableView reloadData];
             }
         } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            NSLog(@"Error: %@ %@", error, [error userInfo]); */
     }];
 }
 
@@ -89,21 +109,61 @@
     [query orderByDescending:@"Description"];
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            for (PFObject *object in objects) {
-                [jobArray addObject:object];
-              //  [self.listTableView reloadData];
-            }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        jobArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupJobloaded:jobArray];
+        }
     }];
 }
 
 - (void)parseLookupProduct { //lookup product
+    PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
+    //[PFQuery clearAllCachedResults];
+    [query3 selectKeys:@[@"ProductNo"]];
+    [query3 selectKeys:@[@"Products"]];
+    [query3 orderByDescending:@"Products"];
+    //[query3 whereKey:@"Active" containsString:@"Active"];
+     query3.cachePolicy = kPFCACHEPOLICY;
+    [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupProductloaded:adproductArray];
+        }
+    }];
 }
 
+- (void)parseLookupAd { //lookup Advertiser
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
+     //[PFQuery clearAllCachedResults];
+    query1.cachePolicy = kPFCACHEPOLICY;
+    [query1 selectKeys:@[@"AdNo"]];
+    [query1 selectKeys:@[@"Advertiser"]];
+    [query1 orderByDescending:@"Advertiser"];
+   // [query1 whereKey:@"Active" containsString:@"Active"];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupProductloaded:adproductArray];
+        }
+    }];
+}
+/*
+- (void)parseLookupSalesman { //lookup Salesman
+    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+    //[PFQuery clearAllCachedResults];
+    [query selectKeys:@[@"SalesNo"]];
+    [query selectKeys:@[@"Salesman"]];
+    [query orderByDescending:@"Salesman"];
+     query.cachePolicy = kPFCACHEPOLICY;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        salesArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupSalesmanloaded:salesArray];
+        }
+    }];
+} */
 
-//- (void)parseJob:(NSString*)fm22  {
+/*
 - (void)parseJob {
     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
     query21.cachePolicy = kPFCACHEPOLICY;
@@ -126,6 +186,7 @@
         } else
             self.adName.text = [object objectForKey:@"Products"];
     }];
+   
 }
 
 - (void)parseAd {
@@ -138,7 +199,7 @@
         } else
             self.adName.text = [object objectForKey:@"Advertiser"];
     }];
-}
+} */
 
 
 @end

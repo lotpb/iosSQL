@@ -9,33 +9,40 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 #import "Constants.h"
-//#import "EditData.h"
 
-@protocol ParseConnectionDelegate <NSObject>
+@protocol ParseConnectionProtocal <NSObject>
+
+@required
+
+- (void)parseSalesmanloaded:(NSMutableArray *)salesItem;
+- (void)parseRateloaded:(NSMutableArray *)rateItem;
+- (void)parseContractorloaded:(NSMutableArray *)contractItem;
+- (void)parseCallbackloaded:(NSMutableArray *)callbackItem;
+- (void)parseLookupZiploaded:(NSMutableArray *)zipItem;
+- (void)parseLookupJobloaded:(NSMutableArray *)jobItem;
+- (void)parseLookupProductloaded:(NSMutableArray *)prodItem;
+- (void)parseLookupAdloaded:(NSMutableArray *)adItem;
+//- (void)parseLookupSalesmanloaded:(NSMutableArray *)saleItem;
 
 @end
-@interface ParseConnection : NSObject
-{
-  NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray;    
-}
 
-// NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
+@interface ParseConnection : NSObject
+
+@property (weak, nonatomic) id<ParseConnectionProtocal> delegate;
 
 - (void)parseSalesman;
-//- (void)parseJob:(NSString*)fm22;
-- (void)parseJob;
-- (void)parseProduct;
-- (void)parseAd;
 - (void)parseRate;
 - (void)parseContractor;
 - (void)parseCallback;
-
-@property (strong, nonatomic) id<ParseConnectionDelegate> delegate; //added
+- (void)parseLookupZip;
+- (void)parseLookupJob;
+- (void)parseLookupProduct;
+- (void)parseLookupAd;
+//- (void)parseLookupSalesman;
 
 @property (strong, nonatomic) NSString *frm22;
 @property (strong, nonatomic) NSString *frm23;
 @property (strong, nonatomic) UITextField *jobName;
 @property (strong, nonatomic) UITextField *adName;
-
 
 @end

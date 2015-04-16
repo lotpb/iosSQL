@@ -7,7 +7,6 @@
 //
 
 #import "LookupCity.h"
-#import <Parse/Parse.h>
 
 @interface LookupCity ()
 {
@@ -48,25 +47,9 @@ NSString *cityName;
     // self.navigationItem.titleView = self.searchController.searchBar;
     [self presentViewController:self.searchController animated:YES completion:nil];
     
-    zipArray = [[NSMutableArray alloc] init];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
-   // [PFQuery clearAllCachedResults];
-    //[query selectKeys:@[@"ZipNo"]];
-    [query selectKeys:@[@"City"]];
-    [query selectKeys:@[@"State"]];
-    [query selectKeys:@[@"zipCode"]];
-    [query orderByAscending:@"City"];
-    [query setLimit: 1000]; //parse.com standard is 100
-     query.cachePolicy = kPFCACHEPOLICY;
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            for (PFObject *object in objects) {
-                [zipArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseLookupZip];
     
     filteredString= [[NSMutableArray alloc] initWithArray:zipArray];
 }
@@ -82,6 +65,11 @@ NSString *cityName;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseLookupZiploaded:(NSMutableArray *)zipItem {
+    zipArray = zipItem;
 }
 
 #pragma mark - TableView 

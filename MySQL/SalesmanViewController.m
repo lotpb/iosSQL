@@ -213,6 +213,7 @@ return _feedItems.count;
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     [self parseSalesman];
+    //[self.listTableView reloadData];
     NSString *newString = [NSString stringWithFormat:@"SALESMAN \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) salesCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -341,6 +342,7 @@ return _feedItems.count;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         salesCount = [[NSMutableArray alloc]initWithArray:objects];
     }];
+    //[self.listTableView reloadData];
 }
 
 #pragma mark - Segue

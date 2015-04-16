@@ -7,7 +7,6 @@
 //
 
 #import "LookupSalesman.h"
-#import <Parse/Parse.h>
 
 @interface LookupSalesman ()
 {
@@ -47,22 +46,9 @@
     // self.navigationItem.titleView = self.searchController.searchBar;
     [self presentViewController:self.searchController animated:YES completion:nil];
     
-    salesArray = [[NSMutableArray alloc] init];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    //[PFQuery clearAllCachedResults];
-    [query selectKeys:@[@"SalesNo"]];
-    [query selectKeys:@[@"Salesman"]];
-    [query orderByDescending:@"Salesman"];
-     query.cachePolicy = kPFCACHEPOLICY;
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            for (PFObject *object in objects) {
-                [salesArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseSalesman];
     
     filteredString= [[NSMutableArray alloc] initWithArray:salesArray];
  /*
@@ -83,6 +69,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate 
+- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
+    salesArray = salesItem;
 }
 
 #pragma mark - TableView 

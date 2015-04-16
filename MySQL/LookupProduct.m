@@ -7,7 +7,6 @@
 // this ViewController handles Products and Advertisers
 
 #import "LookupProduct.h"
-#import <Parse/Parse.h>
 
 @interface LookupProduct ()
 {
@@ -50,7 +49,13 @@
     
     adproductArray = [[NSMutableArray alloc] init];
     
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    //[parseConnection parseLookupProduct];
+    
     if ([_formController isEqual:TNAME2]) {
+        [parseConnection parseLookupProduct];
+        /*
      PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
      //[PFQuery clearAllCachedResults];
      [query3 selectKeys:@[@"ProductNo"]];
@@ -65,8 +70,10 @@
                  [self.listTableView reloadData]; }
          } else
              NSLog(@"Error: %@ %@", error, [error userInfo]);
-     }];
+     }]; */
     } else {  //leads
+        [parseConnection parseLookupAd];
+        /*
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
     query1.cachePolicy = kPFCACHEPOLICY;
     [query1 selectKeys:@[@"AdNo"]];
@@ -81,7 +88,7 @@
                 [self.listTableView reloadData]; }
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
+    }]; */
 }
     
     filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
@@ -104,7 +111,16 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark RefreshControl 
+#pragma mark - ParseDelegate
+- (void)parseLookupProductloaded:(NSMutableArray *)prodItem {
+    adproductArray = prodItem;
+}
+
+- (void)parseLookupAdloaded:(NSMutableArray *)adItem {
+    adproductArray = adItem;
+}
+
+#pragma mark - Tableview
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (isFilltered)

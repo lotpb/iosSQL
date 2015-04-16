@@ -10,6 +10,7 @@
 #import "SWRevealViewController.h"
 
 @interface NotificationController ()
+
 @property (weak, nonatomic) IBOutlet UITextField *customMessage;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frequencySegmentedControl;
@@ -35,15 +36,8 @@ bool allowsAlert;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    /*
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = SIDEBARTINTCOLOR;
-    //_sidebarButton.tintColor = [UIColor colorWithWhite:0.1f alpha:0.9f];
-   // [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; */
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
     [[UITextField appearance] setTintColor:[UIColor orangeColor]];
@@ -67,16 +61,18 @@ bool allowsAlert;
     return NO;
 }
 
-- (void)showdone{
+- (void)showdone:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)saveNotif:(id)sender
-{
+- (IBAction)saveNotification:(id)sender {
+    /*
     // New for iOS 8 - Register the notifications
     UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+     
     UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+     
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings]; */
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     [self setNotificationTypesAllowed];
@@ -85,8 +81,8 @@ bool allowsAlert;
         if (allowNotif)
         {
             notification.fireDate = _datePicker.date;
-            notification.alertBody = NOTMESSAGE;
             notification.timeZone = [NSTimeZone defaultTimeZone];
+            
             switch (_frequencySegmentedControl.selectedSegmentIndex) {
                 case 0:
                     notification.repeatInterval = NSCalendarUnitDay;
@@ -104,21 +100,28 @@ bool allowsAlert;
         }
         if (allowsAlert)
         {
-            notification.alertBody = _customMessage.text;;
+            notification.alertBody = _customMessage.text;
+            notification.category = MNOTIFCATEGORY; //INVITE_CATEGORY
+            notification.alertAction = NSLocalizedString(MAINNOTIFACTION, nil);
+            notification.alertTitle = NSLocalizedString(MAINNOTIFTITLE, nil);
         }
         if (allowsBadge)
         {
-            notification.applicationIconBadgeNumber = BADGENO;
+            notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] BADGENO;
         }
         if (allowsSound)
         {
             notification.soundName = UILocalNotificationDefaultSoundName;
         }
-        
-        // this will schedule the notification to fire at the fire date
+
+              // this will schedule the notification to fire at the fire date
         [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-        // this will fire the notification right away, it will still also fire at the date we set
+              // this will fire the notification right away, it will still also fire at the date we set
         [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    //-----------------------------added---------------------------------
+        _customMessage.text = @"";
+  //---------------------------------------------------------------------
+
     }
     
     // we're creating a string of the date so we can log the time the notif is supposed to fire

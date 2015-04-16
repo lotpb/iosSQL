@@ -8,7 +8,7 @@
 
 #import "NewData.h"
 
-@interface NewData () //<LookupCityDelegate, LookupJobDelegate>
+@interface NewData ()
 {
    NSMutableArray *salesArray, *callbackArray, *contractorArray;
 }
@@ -20,20 +20,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
    
     if ([_formController isEqual:TNAME1]) {
-        
-        PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-        query1.cachePolicy = kPFCACHEPOLICY;
-        [query1 selectKeys:@[@"Callback"]];
-        [query1 orderByDescending:@"Callback"];
-        [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            callbackArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-    }
-    
-    if ([_formController isEqual:TNAME2]) {
-        
+        [parseConnection parseCallback];
+       }
+    /*
+    if ([_formController isEqual:TNAME2]) { //need to add contractor to form
+         [parseConnection parseContractor];
+     
         PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
          query13.cachePolicy = kPFCACHEPOLICY;
         [query13 selectKeys:@[@"Contractor"]];
@@ -41,20 +38,11 @@
         [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             contractorArray = [[NSMutableArray alloc]initWithArray:objects];
         }];
-    }
+       } */
 
     if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-        query.cachePolicy = kPFCACHEPOLICY;
-        [query selectKeys:@[@"SalesNo"]];
-        [query selectKeys:@[@"Salesman"]];
-        [query orderByDescending:@"SalesNo"];
-        [query whereKey:@"Active" containsString:@"Active"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            salesArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-    }
+         [parseConnection parseSalesman];
+       }
     
     self.saleNo.hidden = YES; //Field
     self.jobNo.hidden = YES; //Field
@@ -241,6 +229,19 @@
 - (void)viewDidAppear:(BOOL)animated
 {   [super viewDidAppear:animated];
     [self loadFormData];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
+    salesArray = salesItem;
+}
+
+- (void)parseContractorloaded:(NSMutableArray *)contractItem {
+    contractorArray = contractItem;
+}
+
+- (void)parseCallbackloaded:(NSMutableArray *)callbackItem {
+    callbackArray = callbackItem;
 }
 
 #pragma mark - Load Form Data

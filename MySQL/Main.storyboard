@@ -422,6 +422,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="18" y="45" width="280" height="15"/>
+                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -449,6 +452,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="242" y="14" width="52" height="19"/>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -2302,7 +2308,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <action selector="saveNotif:" destination="y78-Mw-3ln" eventType="touchUpInside" id="lyj-tL-war"/>
+                                            <action selector="saveNotification:" destination="y78-Mw-3ln" eventType="touchUpInside" id="KPy-E0-L0o"/>
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KSh-1f-dkZ">
@@ -2420,6 +2426,7 @@
                     <connections>
                         <outlet property="customMessage" destination="ewf-a6-DcL" id="fNV-K8-tLh"/>
                         <outlet property="datePicker" destination="z1h-YS-p4W" id="Nsn-Zc-rCa"/>
+                        <outlet property="frequencySegmentedControl" destination="KSh-1f-dkZ" id="otu-NX-RZY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5z-BC-u8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3466,7 +3473,6 @@
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newcustSegue" id="zQR-YQ-xF4"/>
                         <segue destination="vkG-5V-SZx" kind="show" identifier="editFormSegue" id="2yy-Hh-VA2"/>
                         <segue destination="O2s-nx-sN0" kind="showDetail" identifier="calenderSegue" id="YL2-bg-fIc"/>
-                        <segue destination="bGy-wm-wEM" kind="showDetail" identifier="contactSegue" id="mbk-ev-Wgx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RCd-M8-PnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6840,17 +6846,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="4KL-RL-dt5"/>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="mbk-ev-Wgx"/>
+        <segue reference="46l-tX-X1A"/>
+        <segue reference="6GQ-e7-fhm"/>
         <segue reference="YL2-bg-fIc"/>
-        <segue reference="zQR-YQ-xF4"/>
         <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="Dbq-7P-K8C"/>
-        <segue reference="6GQ-e7-fhm"/>
-        <segue reference="46l-tX-X1A"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

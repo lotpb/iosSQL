@@ -49,10 +49,25 @@
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
+
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
+         [parseConnection parseSalesman];
+    }
+    if ([_formController isEqual:TNAME1]) {
+        [parseConnection parseCallback];
+    }
+    else if ([_formController isEqual:TNAME2]) {
+        [parseConnection parseRate];
+        [parseConnection parseContractor];
+    }
     
     [self passFieldData];
     [self parseData];
     [self activeButton];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -69,6 +84,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - ParseDelegate
+- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
+    salesArray = salesItem;
+}
+
+- (void)parseRateloaded:(NSMutableArray *)rateItem {
+    rateArray = rateItem;
+}
+
+- (void)parseContractorloaded:(NSMutableArray *)contractItem {
+    contractorArray = contractItem;
+}
+
+- (void)parseCallbackloaded:(NSMutableArray *)callbackItem {
+    callbackArray = callbackItem;
+}
+
+#pragma mark - Keyboard
 - (void)dismissKeyboard {
     // To dismiss the keyboard, we simply ask all fields to resign its focus.
     for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
@@ -237,6 +270,7 @@
     else
     return 14;
 }
+
 //Comment Field Height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -246,7 +280,7 @@
         case 13:
         {
             result = 100;
-        break;
+            break;
         }
     }
     return result;
@@ -266,10 +300,10 @@
     if (indexPath.row == 0) {
         
         self.date = textframe;
-        self.date.borderStyle = TEXTBDSTYLE;
-        self.date.layer.borderColor = TEXTBDCOLOR;
-        self.date.layer.borderWidth = TEXTBDWIDTH;
-        self.date.layer.cornerRadius = TEXTBDRADIUS;
+        //self.date.borderStyle = TEXTBDSTYLE;
+        //self.date.layer.borderColor = TEXTBDCOLOR;
+        //self.date.layer.borderWidth = TEXTBDWIDTH;
+        //self.date.layer.cornerRadius = TEXTBDRADIUS;
        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm18 isEqual:[NSNull null]])
              self.date.text = @"";
@@ -443,35 +477,35 @@
         [myCell.contentView addSubview:self.jobName];
         
     } else if (indexPath.row == 8) {
-         self.adName = textframe;
+        self.adName = textframe;
         [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
-         self.adName.placeholder = @"Advertiser";
-         self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.adName.placeholder = @"Advertiser";
+        self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm23 isEqual:[NSNull null]])
-             self.adName.text = @"";
+            self.adName.text = @"";
         else self.adName.text = self.frm23;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
         if ([_formController isEqual:TNAME3]) {
-             self.adName.placeholder = @"Phone 3";
-             myCell.textLabel.text = @"phone 3"; }
+            self.adName.placeholder = @"Phone 3";
+            myCell.textLabel.text = @"phone 3"; }
         
         else if ([_formController isEqual:TNAME4]) {
-             self.adName.placeholder = @"Social Security";
-             myCell.textLabel.text = @"Social Security"; }
+            self.adName.placeholder = @"Social Security";
+            myCell.textLabel.text = @"Social Security"; }
         
         else if ([_formController isEqual:TNAME2]) {
-             self.adName.placeholder = @"Product";
-             myCell.textLabel.text = @"Product"; }
+            self.adName.placeholder = @"Product";
+            myCell.textLabel.text = @"Product"; }
         else myCell.textLabel.text = @"Advertiser";
-  
+        
         [myCell.contentView addSubview:self.adName];
         
     } else if(indexPath.row == 9) {
-        
+    
          self.amount = textframe;
         [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
          self.amount.placeholder = @"Amount";
@@ -533,35 +567,35 @@
              self.callback.text = @"";
         else self.callback.text = self.frm27;
         
-        if ([_formController isEqual:TNAME2]) {
-            self.callback.placeholder = @"Quan";
-            myCell.textLabel.text = @"# Windows";
-            [self.callback setClearButtonMode:UITextFieldViewModeNever];
-          
-            UIStepper *stepper = [[UIStepper alloc] init];
-             stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-            [stepper setTintColor:[UIColor grayColor]];
-             stepper.value = [self.callback.text doubleValue];
-             stepper.stepValue = 1;
-            UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
-            [wrapper addSubview:stepper];
-            myCell.accessoryView = stepper;
-            [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
-        }
+    if ([_formController isEqual:TNAME2]) {
+        self.callback.placeholder = @"Quan";
+        myCell.textLabel.text = @"# Windows";
+        [self.callback setClearButtonMode:UITextFieldViewModeNever];
         
-        else if ([_formController isEqual:TNAME3]) {
-            self.callback.placeholder = @"";
-            myCell.textLabel.text = @""; }
+        UIStepper *stepper = [[UIStepper alloc] init];
+        stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [stepper setTintColor:[UIColor grayColor]];
+        stepper.value = [self.callback.text doubleValue];
+        stepper.stepValue = 1;
+        UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+        [wrapper addSubview:stepper];
+        myCell.accessoryView = stepper;
+        [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
+    }
         
-        else if ([_formController isEqual:TNAME4]) {
-            self.callback.placeholder = @"Manager";
-            myCell.textLabel.text = @"Manager"; }
+    else if ([_formController isEqual:TNAME3]) {
+        self.callback.placeholder = @"";
+        myCell.textLabel.text = @""; }
         
-        else if ([_formController isEqual:TNAME1]) {
-            self.callback.placeholder = @"Call Back";
-            myCell.textLabel.text = @"Call Back";
-            self.callback.inputView = [self customPicker:12]; }
-           [myCell.contentView addSubview:self.callback];
+    else if ([_formController isEqual:TNAME4]) {
+        self.callback.placeholder = @"Manager";
+        myCell.textLabel.text = @"Manager"; }
+        
+    else if ([_formController isEqual:TNAME1]) {
+        self.callback.placeholder = @"Call Back";
+        myCell.textLabel.text = @"Call Back";
+        self.callback.inputView = [self customPicker:12]; }
+        [myCell.contentView addSubview:self.callback];
         
     } else if (indexPath.row == 13) {
          self.comment = textviewframe;
@@ -752,14 +786,6 @@
                 self.adName.text = [object objectForKey:@"Advertiser"];
         }];
         
-        PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
-        query1.cachePolicy = kPFCACHEPOLICY;
-        [query1 selectKeys:@[@"Callback"]];
-        [query1 orderByDescending:@"Callback"];
-        [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            callbackArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-        
     } else if ([_formController isEqual:TNAME2]) {
         
         PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
@@ -771,35 +797,9 @@
             } else
                 self.adName.text = [object objectForKey:@"Products"];
         }];
-        
-        PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-        query13.cachePolicy = kPFCACHEPOLICY;
-        [query13 selectKeys:@[@"Contractor"]];
-        [query13 orderByDescending:@"Contractor"];
-        [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            contractorArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
-        
-        PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
-        query14.cachePolicy = kPFCACHEPOLICY;
-        [query14 selectKeys:@[@"rating"]];
-        [query14 orderByDescending:@"rating"];
-        [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            rateArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
     }
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-        query.cachePolicy = kPFCACHEPOLICY;
-        [query selectKeys:@[@"SalesNo"]];
-        [query selectKeys:@[@"Salesman"]];
-        [query orderByDescending:@"SalesNo"];
-        [query whereKey:@"Active" containsString:@"Active"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            salesArray = [[NSMutableArray alloc]initWithArray:objects];
-        }];
         
         PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
         query21.cachePolicy = kPFCACHEPOLICY;
@@ -810,10 +810,6 @@
             } else
                 self.jobName.text = [object objectForKey:@"Description"];
         }];
-        
-        // ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        //[parseConnection parseSalesman];
-        // [parseConnection parseJob:(self.frm22)];
         
         PFQuery *query31 = [PFQuery queryWithClassName:@"Salesman"];
         query31.cachePolicy = kPFCachePolicyCacheElseNetwork;
