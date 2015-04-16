@@ -8,11 +8,10 @@
 
 #import "JobViewController.h"
 
-
 @interface JobViewController ()
 {
     JobModel *_JobModel; NSMutableArray *_feedItems; JobLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *jobCount;
+    NSMutableArray *headCount;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -30,6 +29,10 @@
     
     _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
     _JobModel.delegate = self; [_JobModel downloadItems];
+    
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseHeadJob];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -65,6 +68,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem {
+    headCount = jobheadItem;
 }
 
 #pragma mark - BarButton NewData
@@ -209,9 +217,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    [self parseJob];
+  //  [self parseJob];
     NSString *newString = [NSString stringWithFormat:@"JOB \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) jobCount.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -328,7 +336,7 @@
     }
     [self.listTableView reloadData];
 }
-
+/*
 #pragma mark - Parse HeaderActive
 -(void)parseJob {
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
@@ -336,9 +344,9 @@
     [query selectKeys:@[@"Description"]];
     //[query whereKey:@"Active" containsString:@"Active"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobCount = [[NSMutableArray alloc]initWithArray:objects];
+        headCount = [[NSMutableArray alloc]initWithArray:objects];
     }];
-}
+} */
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

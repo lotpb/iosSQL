@@ -7,7 +7,6 @@
 //
 
 #import "CustController.h"
-#import "CustLocation.h"
 
 @interface CustController ()
 {

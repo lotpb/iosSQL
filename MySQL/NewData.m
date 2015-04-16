@@ -44,144 +44,7 @@
          [parseConnection parseSalesman];
        }
     
-    self.saleNo.hidden = YES; //Field
-    self.jobNo.hidden = YES; //Field
-    self.adNo.hidden = YES; //Field
-    self.active.hidden = YES; //Field
-    
-    if ([self.frm31 isEqual:[NSNull null]])
-         self.leadNo = @"";
-    else self.leadNo = self.frm31;
-    
-    if ([_formController isEqual:TNAME2]) {
-        self.jobNo.text = self.jobNoDetail;
-        self.saleNo.text = self.saleNoDetail; }
-    
-    if ([self.frm11 isEqual:[NSNull null]])
-        self.first.text = @"";
-        else self.first.text = self.frm11;
-    
-    if ([self.frm12 isEqual:[NSNull null]])
-        self.last.text = @"";
-        else self.last.text = self.frm12;
-    
-    if ([self.frm13 isEqual:[NSNull null]])
-        self.company.text = @"";
-        else self.company.text = self.frm13;
-    
-    if ([self.frm14 isEqual:[NSNull null]])
-        self.address.text = @"";
-        else self.address.text = self.frm14;
-    
-    if ([self.frm15 isEqual:[NSNull null]])
-        self.city.text = @"";
-        else self.city.text = self.frm15;
-    
-    if ([self.frm16 isEqual:[NSNull null]])
-        self.state.text = @"";
-        else self.state.text = self.frm16;
-    
-    if ([self.frm17 isEqual:[NSNull null]])
-        self.zip.text = @"";
-        else self.zip.text = self.frm17;
-    
-    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-        self.company.hidden = YES;
-        NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-        gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
-        NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
-      if ([_formController isEqual:TNAME1]) {
-            self.date.text = dateString; //frm18
-            self.aptDate.text = dateString; } //frm19
-       else self.date.text = dateString; //no date on customer aptdate
-    }
-    
-    if (self.frm20.length == 0)
-        self.phone.text = @"(516)";
-        else self.phone.text = self.frm20;
-    
-    if ([self.frm21 isEqual:[NSNull null]])
-        self.salesman.text = @"";
-        else self.salesman.text = self.frm21;
-    
-    if ([self.frm22 isEqual:[NSNull null]])
-         self.jobName.text = @"";
-         else self.jobName.text = self.frm22;
-    
-    if ([self.frm23 isEqual:[NSNull null]])
-         self.adName.text = @"";
-         else self.adName.text = self.frm23;
-
-    if ([self.frm24 isEqual:[NSNull null]])
-         self.amount.text = @"";
-         else self.amount.text = self.frm24;
-    
-    if ([self.frm25 isEqual:[NSNull null]])
-         self.email.text = @"";
-         else self.email.text = self.frm25;
-    
-    if ([self.frm26 isEqual:[NSNull null]])
-         self.spouse.text = @"";
-         else self.spouse.text = self.frm26;
-    
-    if ([self.frm27 isEqual:[NSNull null]])
-         self.callback.text = @"";
-         else self.callback.text = self.frm27;
-    
-    if ([self.frm28 isEqual:[NSNull null]])
-         self.comment.text = @"";
-         else self.comment.text = self.frm28;
-    
-    if ([self.frm29 isEqual:[NSNull null]])
-         self.photo.text = @"";
-        else self.photo.text = self.frm29;
-    
-        self.active.text = @"1"; //frm30
-    
-    if ([_formController isEqual:TNAME1]) {
-        self.callback.inputView = [self customPicker:2];
-        self.aptDate.inputView = [self datePicker];}
-    
-    if ([_formController isEqual:TNAME2]) {
-        self.company.placeholder = @"Contractor";
-        self.aptDate.placeholder = @"Rate";
-        self.adName.placeholder = @"ProductNo";
-        self.callback.placeholder = @"# Windows";
-        
-    } else if ([_formController isEqual:TNAME3]) {
-        self.first.placeholder = @"Profession";
-        self.last.placeholder = @"Webpage";
-        self.date.placeholder = @"Manager";
-        self.salesman.placeholder = @"Phone1";
-        self.jobName.placeholder = @"phone2";
-        self.adName.placeholder = @"phone3";
-        self.amount.placeholder = @"Department";
-        self.spouse.placeholder = @"Office";
-        self.aptDate.placeholder = @"Assistant";
-        self.callback.hidden = YES;//Field
-        
-    } else if ([_formController isEqual:TNAME4]) {
-        self.company.placeholder = @"Subcontractor";
-        self.first.placeholder = @"First";
-        self.last.placeholder = @"Last";
-        self.date.placeholder = @"Country";
-        self.aptDate.placeholder = @"Middle";
-        self.salesman.placeholder = @"Work Phone";
-        self.jobName.placeholder = @"Cell Phone";
-        self.adName.placeholder = @"Social security";
-        self.amount.placeholder = @"Department";
-        self.spouse.placeholder = @"Title";
-        self.callback.placeholder = @"Manager";
-    }
-    
-    if ( ([_formController isEqual:TNAME4]) || ([_formController isEqual:TNAME3]) ) {
-        self.jobLookup.hidden = YES; //Button
-        self.productLookup.hidden = YES; //Button
-        self.saleNo.hidden = YES; //Field
-        self.jobNo.hidden = YES; //Field
-        self.adNo.hidden = YES; //Field
-    } else self.salesman.inputView = [self customPicker:1];
+    [self passFieldData];
     
     //add Following button
     UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
@@ -242,6 +105,148 @@
 
 - (void)parseCallbackloaded:(NSMutableArray *)callbackItem {
     callbackArray = callbackItem;
+}
+
+#pragma mark - LoadFieldData
+- (void)passFieldData {
+    self.saleNo.hidden = YES; //Field
+    self.jobNo.hidden = YES; //Field
+    self.adNo.hidden = YES; //Field
+    self.active.hidden = YES; //Field
+    
+    if ([self.frm31 isEqual:[NSNull null]])
+        self.leadNo = @"";
+    else self.leadNo = self.frm31;
+    
+    if ([_formController isEqual:TNAME2]) {
+        self.jobNo.text = self.jobNoDetail;
+        self.saleNo.text = self.saleNoDetail; }
+    
+    if ([self.frm11 isEqual:[NSNull null]])
+        self.first.text = @"";
+    else self.first.text = self.frm11;
+    
+    if ([self.frm12 isEqual:[NSNull null]])
+        self.last.text = @"";
+    else self.last.text = self.frm12;
+    
+    if ([self.frm13 isEqual:[NSNull null]])
+        self.company.text = @"";
+    else self.company.text = self.frm13;
+    
+    if ([self.frm14 isEqual:[NSNull null]])
+        self.address.text = @"";
+    else self.address.text = self.frm14;
+    
+    if ([self.frm15 isEqual:[NSNull null]])
+        self.city.text = @"";
+    else self.city.text = self.frm15;
+    
+    if ([self.frm16 isEqual:[NSNull null]])
+        self.state.text = @"";
+    else self.state.text = self.frm16;
+    
+    if ([self.frm17 isEqual:[NSNull null]])
+        self.zip.text = @"";
+    else self.zip.text = self.frm17;
+    
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
+        self.company.hidden = YES;
+        NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
+        gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
+        gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
+        NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
+        if ([_formController isEqual:TNAME1]) {
+            self.date.text = dateString; //frm18
+            self.aptDate.text = dateString; } //frm19
+        else self.date.text = dateString; //no date on customer aptdate
+    }
+    
+    if (self.frm20.length == 0)
+        self.phone.text = @"(516)";
+    else self.phone.text = self.frm20;
+    
+    if ([self.frm21 isEqual:[NSNull null]])
+        self.salesman.text = @"";
+    else self.salesman.text = self.frm21;
+    
+    if ([self.frm22 isEqual:[NSNull null]])
+        self.jobName.text = @"";
+    else self.jobName.text = self.frm22;
+    
+    if ([self.frm23 isEqual:[NSNull null]])
+        self.adName.text = @"";
+    else self.adName.text = self.frm23;
+    
+    if ([self.frm24 isEqual:[NSNull null]])
+        self.amount.text = @"";
+    else self.amount.text = self.frm24;
+    
+    if ([self.frm25 isEqual:[NSNull null]])
+        self.email.text = @"";
+    else self.email.text = self.frm25;
+    
+    if ([self.frm26 isEqual:[NSNull null]])
+        self.spouse.text = @"";
+    else self.spouse.text = self.frm26;
+    
+    if ([self.frm27 isEqual:[NSNull null]])
+        self.callback.text = @"";
+    else self.callback.text = self.frm27;
+    
+    if ([self.frm28 isEqual:[NSNull null]])
+        self.comment.text = @"";
+    else self.comment.text = self.frm28;
+    
+    if ([self.frm29 isEqual:[NSNull null]])
+        self.photo.text = @"";
+    else self.photo.text = self.frm29;
+    
+    self.active.text = @"1"; //frm30
+    
+    if ([_formController isEqual:TNAME1]) {
+        self.callback.inputView = [self customPicker:2];
+        self.aptDate.inputView = [self datePicker];}
+    
+    if ([_formController isEqual:TNAME2]) {
+        self.company.placeholder = @"Contractor";
+        self.aptDate.placeholder = @"Rate";
+        self.adName.placeholder = @"ProductNo";
+        self.callback.placeholder = @"# Windows";
+        
+    } else if ([_formController isEqual:TNAME3]) {
+        self.first.placeholder = @"Profession";
+        self.last.placeholder = @"Webpage";
+        self.date.placeholder = @"Manager";
+        self.salesman.placeholder = @"Phone1";
+        self.jobName.placeholder = @"phone2";
+        self.adName.placeholder = @"phone3";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Office";
+        self.aptDate.placeholder = @"Assistant";
+        self.callback.hidden = YES;//Field
+        
+    } else if ([_formController isEqual:TNAME4]) {
+        self.company.placeholder = @"Subcontractor";
+        self.first.placeholder = @"First";
+        self.last.placeholder = @"Last";
+        self.date.placeholder = @"Country";
+        self.aptDate.placeholder = @"Middle";
+        self.salesman.placeholder = @"Work Phone";
+        self.jobName.placeholder = @"Cell Phone";
+        self.adName.placeholder = @"Social security";
+        self.amount.placeholder = @"Department";
+        self.spouse.placeholder = @"Title";
+        self.callback.placeholder = @"Manager";
+    }
+    
+    if ( ([_formController isEqual:TNAME4]) || ([_formController isEqual:TNAME3]) ) {
+        self.jobLookup.hidden = YES; //Button
+        self.productLookup.hidden = YES; //Button
+        self.saleNo.hidden = YES; //Field
+        self.jobNo.hidden = YES; //Field
+        self.adNo.hidden = YES; //Field
+    } else self.salesman.inputView = [self customPicker:1];
 }
 
 #pragma mark - Load Form Data

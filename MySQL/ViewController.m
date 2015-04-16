@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "Location.h"
 
 @interface ViewController ()
 {
@@ -193,8 +192,9 @@
 
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
-  //  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-   // [myCell.imageView setImage:myImage];
+    
+ // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+ // [myCell.imageView setImage:myImage];
       //problem below with iphone 5 width
 
     label2.text=  item.date;

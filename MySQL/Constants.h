@@ -31,6 +31,7 @@
 #define kPFCACHEPOLICY    kPFCachePolicyNetworkElseCache
 //kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly//kPFCachePolicyNetworkOnly
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
+#define QACTIVE            @"Active" //Query Active
 //------tableviewcell-------------------------------
 #define IDCELL            @"BasicCell"
 #define TABLECELLIMAGE    @"DemoCellImage"
@@ -97,7 +98,7 @@
 
 // MAINVIEW
 //------notification-------------------------------
-#define MNOTIFTEXT         @"Tell jesus you love him and need him!"
+#define MNOTIFTEXT         @"Lord give me wisdom, ask for wisdom and it will be given!"
 #define MNOTIFCATEGORY     @"INVITE_CATEGORY"
 #define MAINNOTIFACTION    @"View Details"
 #define MAINNOTIFTITLE     @"Item Due"

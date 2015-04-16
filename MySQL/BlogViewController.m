@@ -7,7 +7,6 @@
 //
 
 #import "BlogViewController.h"
-#import "CustomTableViewCell.h"
 
 @interface BlogViewController ()
 {

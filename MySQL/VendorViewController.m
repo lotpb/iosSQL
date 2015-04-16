@@ -7,7 +7,6 @@
 //
 
 #import "VendorViewController.h"
-#import "VendLocation.h"
 
 @interface VendorViewController () 
 {

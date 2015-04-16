@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EmployeeLocation.h"
 #import "EmployeeModel.h"
 #import "EmployeeDetailController.h"
 #import "NewData.h"

@@ -8,12 +8,11 @@
 
 #import "SalesmanViewController.h"
 
-
 @interface SalesmanViewController ()
 {
     SalesModel *_SalesModel; NSMutableArray *_feedItems; SalesLocation *_selectedLocation; UIRefreshControl *refreshControl;
     
-    NSMutableArray *salesCount;
+    NSMutableArray *headCount;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -31,6 +30,10 @@
     
     _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
     _SalesModel.delegate = self; [_SalesModel downloadItems];
+    
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseHeadSalesman];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -66,6 +69,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem {
+    headCount = salesheadItem;
 }
 
 #pragma mark - RefreshControl
@@ -212,10 +220,10 @@ return _feedItems.count;
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    [self parseSalesman];
+    //[self parseSalesman];
     //[self.listTableView reloadData];
     NSString *newString = [NSString stringWithFormat:@"SALESMAN \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) salesCount.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -331,18 +339,6 @@ return _feedItems.count;
         }
     }
   [self.listTableView reloadData];
-}
-
-#pragma mark - Parse HeaderActive
-- (void)parseSalesman {
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query selectKeys:@[@"Active"]];
-    [query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        salesCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
-    //[self.listTableView reloadData];
 }
 
 #pragma mark - Segue

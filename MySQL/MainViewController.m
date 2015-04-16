@@ -8,9 +8,7 @@
 //
 
 #import "MainViewController.h"
-
-
-#import "SearchResultsViewController.h"
+//#import "SearchResultsViewController.h"
 
 @interface MainViewController ()
 {
@@ -75,7 +73,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

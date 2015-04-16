@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
-#import <Parse/Parse.h>
+//#import <Parse/Parse.h>
 #import "ParseConnection.h"
 #import "LeadDetailViewControler.h"
 #import "LookupCity.h"

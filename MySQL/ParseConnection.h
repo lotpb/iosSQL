@@ -22,7 +22,10 @@
 - (void)parseLookupJobloaded:(NSMutableArray *)jobItem;
 - (void)parseLookupProductloaded:(NSMutableArray *)prodItem;
 - (void)parseLookupAdloaded:(NSMutableArray *)adItem;
-//- (void)parseLookupSalesmanloaded:(NSMutableArray *)saleItem;
+- (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem;
+- (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem;
+- (void)parseHeadAdloaded:(NSMutableArray *)adheadItem;
+- (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem;
 
 @end
 
@@ -38,7 +41,10 @@
 - (void)parseLookupJob;
 - (void)parseLookupProduct;
 - (void)parseLookupAd;
-//- (void)parseLookupSalesman;
+- (void)parseHeadSalesman;
+- (void)parseHeadJob;
+- (void)parseHeadAd;
+- (void)parseHeadProduct;
 
 @property (strong, nonatomic) NSString *frm22;
 @property (strong, nonatomic) NSString *frm23;

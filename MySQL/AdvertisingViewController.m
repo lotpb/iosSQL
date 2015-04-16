@@ -8,11 +8,10 @@
 
 #import "AdvertisingViewController.h"
 
-
 @interface AdvertisingViewController ()
 {
     AdModel *_AdModel; NSMutableArray *_feedItems; AdLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *adCount;
+    NSMutableArray *headCount;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -31,6 +30,10 @@
     
     _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
     _AdModel.delegate = self; [_AdModel downloadItems];
+    
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseHeadAd];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -62,6 +65,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadAdloaded:(NSMutableArray *)adheadItem {
+    headCount = adheadItem;
 }
 
 #pragma mark - RefreshControl
@@ -189,7 +197,8 @@
         item = [filteredString objectAtIndex:indexPath.row];
     
         myCell.textLabel.text = item.Advertiser;
-       // myCell.detailTextLabel.text = item.AdNo;
+     // myCell.detailTextLabel.text = item.AdNo;
+    
         UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
         [myCell.imageView setImage:myImage];
     
@@ -206,9 +215,8 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    [self parseAds];
     NSString *newString = [NSString stringWithFormat:@"ADS \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) adCount.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -324,17 +332,6 @@
         }
     }
     [self.listTableView reloadData];
-}
-
-#pragma mark - Parse HeaderActive
--(void)parseAds {
-    PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query selectKeys:@[@"Active"]];
-    [query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
 }
 
 #pragma mark - Segue

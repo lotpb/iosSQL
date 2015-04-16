@@ -11,7 +11,7 @@
 @interface ProductViewController ()
 {
     ProductModel *_ProductModel; NSMutableArray *_feedItems; ProductLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *prodCount;
+    NSMutableArray *headCount;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -29,6 +29,10 @@
     
     _feedItems = [[NSMutableArray alloc] init]; _ProductModel = [[ProductModel alloc] init];
     _ProductModel.delegate = self; [_ProductModel downloadItems];
+    
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self;
+    [parseConnection parseHeadProduct];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -64,6 +68,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem {
+    headCount = prodheadItem;
 }
 
 #pragma mark - RefreshControl
@@ -209,9 +218,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    [self parseAds];
+   // [self parseAds];
     NSString *newString = [NSString stringWithFormat:@"PRODUCT \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) prodCount.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -331,7 +340,7 @@
     }
     [self.listTableView reloadData];
 }
-
+/*
 #pragma mark - Parse HeaderActive
 -(void)parseAds {
      PFQuery *query = [PFQuery queryWithClassName:@"Product"];
@@ -341,7 +350,7 @@
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
      prodCount = [[NSMutableArray alloc]initWithArray:objects];
      }];
-}
+} */
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

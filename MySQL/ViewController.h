@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
+//#import <Parse/Parse.h>
+#import "Location.h"
 #import "HomeModel.h"
 #import "LeadDetailViewControler.h"
 #import "NewData.h"

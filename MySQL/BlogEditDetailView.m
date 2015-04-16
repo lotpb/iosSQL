@@ -7,7 +7,6 @@
 //
 
 #import "BlogEditDetailView.h"
-#import "CustomTableViewCell.h"
 
 @interface BlogEditDetailView ()
 

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustLocation.h"
 #import "CustModel.h"
 #import "LeadDetailViewControler.h"
 #import "NewData.h"

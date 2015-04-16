@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VendLocation.h"
 #import "VendorModel.h"
 #import "VendorDetailController.h"
 #import "NewData.h"
