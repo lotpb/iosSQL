@@ -27,11 +27,11 @@ typedef NS_ENUM(NSUInteger, TextColor) {
 NSString* const kFontKey	        	= @"fontKey";
 NSString* const kFontSizeKey		   	= @"fontsizeKey";
 NSString* const kFontColorKey	       	= @"nameColorKey";
-//NSString* const kiCloudKey	    	   	= @"icloudKey";
 NSString* const kLoginKey	    	   	= @"loginKey";
 NSString* const kRegKey	            	= @"registered";
 //NSString* const kLatitudeKey	   	   	= @"latitudeKey";
-//NSString* const kLongtitudeKey	   	   	= @"longtitudeKey";
+//NSString* const kLongtitudeKey	   	= @"longtitudeKey";
+//NSString* const kiCloudKey	    	= @"icloudKey";
 
 //EditProfile.plist
 NSString* const kFirstNameKey			= @"firstNameKey";
@@ -44,7 +44,7 @@ NSString* const kPasswordKey		    = @"password";
 //Notification.plist
 NSString* const kVerseKey		    	= @"verseKey";
 NSString* const kParseKey	     	    = @"parseKey";
-//NSString* const kProductNewsKey	    	= @"productNewsKey";
+//NSString* const kProductNewsKey	    = @"productNewsKey";
 
 @interface AppPrefViewController ()
 
@@ -54,6 +54,10 @@ NSString* const kParseKey	     	    = @"parseKey";
 @property (strong) NSString *Font;
 @property (strong) NSString *FontSize;
 @property (strong) UIColor *nameColor;
+@property (strong) NSString *email;
+@property (strong) NSString *password;
+@property (strong) NSString *website;
+@property (strong) NSString *username;
 
 @end
 
@@ -149,6 +153,10 @@ NSString* const kParseKey	     	    = @"parseKey";
     self.lastName = [standardDefaults objectForKey:kLastNameKey];
     self.Font = [standardDefaults objectForKey:kFontKey];
     self.FontSize = [standardDefaults objectForKey:kFontSizeKey];
+    self.email = [standardDefaults objectForKey:kEmailKey];
+    self.password = [standardDefaults objectForKey:kPasswordKey];
+    self.website = [standardDefaults objectForKey:kWebSiteKey];
+    self.username = [standardDefaults objectForKey:kUserNameKey];
     // The value for the 'Text Color' setting is stored as an integer between
     // one and three inclusive.  Convert the integer into a UIColor object.
     TextColor textColor = [standardDefaults integerForKey:kFontColorKey];
@@ -173,7 +181,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 7;
 }
 
 
@@ -183,6 +191,16 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (section == 0) {
         return 1;
     } else if (section == 1) {
+        return 1;
+    } else if (section == 2) {
+        return 1;
+    } else if (section == 3) {
+        return 1;
+    } else if (section == 4) {
+        return 1;
+    } else if (section == 5) {
+        return 1;
+    } else if (section == 6) {
         return 1;
     }
     return 0;
@@ -195,17 +213,56 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (indexPath.section == 0){
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NameCell"];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+    cell.textLabel.text = @"First/Last";
     cell.textLabel.textColor = self.nameColor;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
     cell.detailTextLabel.textColor = self.nameColor;
     
     return cell;
-}
-    else if (indexPath.section == 1) {
+    } else if (indexPath.section == 1) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
         
-        cell.textLabel.text = self.Font;
+        cell.textLabel.text = @"User Name";
+        cell.detailTextLabel.text = self.username;
+        
+        return cell;
+    }
+    else if (indexPath.section == 2) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        
+        cell.textLabel.text = @"Email";
+        cell.detailTextLabel.text = self.email;
+        
+        return cell;
+    }
+    else if (indexPath.section == 3) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        
+        cell.textLabel.text = @"Font";
         cell.detailTextLabel.text = self.Font;
+        
+        return cell;
+    }
+    else if (indexPath.section == 4) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        
+        cell.textLabel.text = @"Font Size";
+        cell.detailTextLabel.text = self.FontSize;
+        
+        return cell;
+    }
+    else if (indexPath.section == 5) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        
+        cell.textLabel.text = @"Password";
+        cell.detailTextLabel.text = self.password;
+        
+        return cell;
+    } if (indexPath.section == 6) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        
+        cell.textLabel.text = @"Website";
+        cell.detailTextLabel.text = self.website;
         
         return cell;
     }

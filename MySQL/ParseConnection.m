@@ -10,13 +10,13 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *adproductArray, *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *headCount;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount;
 }
 @end
 
 @implementation ParseConnection
 
-//-----------------EditData pickerview parse data----------------------------------
+//-----------------Pickerview Parse data--------------------
 
 #pragma mark - EditData PickerView
 - (void)parseSalesman {
@@ -73,7 +73,7 @@
     }];
 }
 
-//-----------------lookup parse data----------------------------------
+//-----------------Lookup Parse Data----------------------------------
 
 #pragma mark - Lookup Form
 - (void)parseLookupZip { //lookup city
@@ -108,7 +108,7 @@
     [query selectKeys:@[@"JobNo"]];
     [query selectKeys:@[@"Description"]];
     [query orderByDescending:@"Description"];
-    [query whereKey:@"Active" containsString:QACTIVE];
+    //[query whereKey:@"Active" containsString:QACTIVE];
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         jobArray = [[NSMutableArray alloc]initWithArray:objects];
@@ -124,7 +124,7 @@
     [query3 selectKeys:@[@"ProductNo"]];
     [query3 selectKeys:@[@"Products"]];
     [query3 orderByDescending:@"Products"];
-    [query3 whereKey:@"Active" containsString:QACTIVE];
+    //[query3 whereKey:@"Active" containsString:QACTIVE];
      query3.cachePolicy = kPFCACHEPOLICY;
     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         adproductArray = [[NSMutableArray alloc]initWithArray:objects];
@@ -140,7 +140,7 @@
     [query1 selectKeys:@[@"AdNo"]];
     [query1 selectKeys:@[@"Advertiser"]];
     [query1 orderByDescending:@"Advertiser"];
-    [query1 whereKey:@"Active" containsString:QACTIVE];
+    //[query1 whereKey:@"Active" containsString:QACTIVE];
      query1.cachePolicy = kPFCACHEPOLICY;
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         adproductArray = [[NSMutableArray alloc]initWithArray:objects];
@@ -150,7 +150,7 @@
     }];
 }
 
-//-----------------TableHeader data----------------------------------
+//-----------------TableHeader Data----------------------------------
 
 - (void)parseHeadSalesman {
     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
@@ -163,7 +163,6 @@
             [self.delegate parseHeadSalesmanloaded:headCount];
         }
     }];
-    
 }
 
 - (void)parseHeadJob {

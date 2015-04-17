@@ -243,7 +243,7 @@
 #pragma mark - Airdrop
 - (void)share:(id)sender {
 
-    NSString * message = @"newsTitle";
+    NSString * message = @"Breaking News";
     NSString * message1 = @"Newsios";
     UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
     NSArray * shareItems = @[message, message1, image];

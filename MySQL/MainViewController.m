@@ -36,6 +36,7 @@
     }
     
   //  [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
+    
     //| -----------------------------end----------------------------------
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
@@ -171,7 +172,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIImage *image = [UIImage imageNamed:HEADERIMAGE];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
- // imageHolder.alpha = 0;
+//  imageHolder.alpha = 0.5; //0
 //  [imageHolder setImageToBlur:image blurRadius:10 completionBlock:nil];
    
     [view addSubview:imageHolder];
