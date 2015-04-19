@@ -8,11 +8,13 @@
 //
 
 #import "MainViewController.h"
+#import <AVFoundation/AVAudioPlayer.h>
 //#import "SearchResultsViewController.h"
 
 @interface MainViewController ()
 {
    UIRefreshControl *refreshControl;
+   AVAudioPlayer *_audioPlayer;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -29,6 +31,10 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"soundKey"]) {
+        [self playSound1];
+    }
     
     //| -----------------------notification Key---------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"verseKey"]) {
@@ -42,7 +48,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:TABTINTCOLOR];
     }
-
+    
     tableData = [[NSMutableArray alloc]initWithObjects:TNAME1, TNAME2, TNAME3, TNAME4, TNAME5, TNAME6, TNAME7, TNAME8, TNAME9, nil];
  
 #pragma mark Bar Button
@@ -88,6 +94,20 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     // Dispose of any resources that can be recreated.
 }
 
+//#pragma message ("To Do: Meassage test - highlight but no error")
+
+#pragma mark - AudioPlayer
+-(void)playSound1 {
+  
+    // Construct URL to sound file
+    NSString *path = [NSString stringWithFormat:SOUNDFILE, [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundUrl = [NSURL fileURLWithPath:path];
+    
+    // Create audio player object and initialize with URL to sound
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+      [_audioPlayer play];
+}
+
 #pragma mark - Notification
  - (void)sendLocalNotification {
  UILocalNotification *notification = [[UILocalNotification alloc] init];
@@ -108,6 +128,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [self.listTableView reloadData];
     
     if (refreshControl) {
+        
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
@@ -115,7 +138,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR
             forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-        refreshControl.attributedTitle = attributedTitle;
+            refreshControl.attributedTitle = attributedTitle; }
 
     [refreshControl endRefreshing];
     }
@@ -173,7 +196,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
 //  imageHolder.alpha = 0.5; //0
-//  [imageHolder setImageToBlur:image blurRadius:10 completionBlock:nil];
+// [imageHolder setImageToBlur:image blurRadius:10 completionBlock:nil];
    
     [view addSubview:imageHolder];
     
@@ -218,6 +241,16 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
     separatorLineView2.backgroundColor = LINECOLOR3;
     [view addSubview:separatorLineView2];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(openStats:)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"Statistics" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    button.frame = CGRectMake(tableView.frame.size.width -90, 115, 90, 37);
+    [self.view addSubview:button];
+    
     /*
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
@@ -225,6 +258,11 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         [view setBackgroundColor:[UIColor blackColor]]; */
     
     return view;
+}
+
+-(void)openStats:(id)sender {
+     [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
+    
 }
 
 #pragma mark - Search

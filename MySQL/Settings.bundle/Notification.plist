@@ -7,12 +7,12 @@
 		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>News from MySql</string>
 			<key>Key</key>
-			<string>productNewsKey</string>
+			<string>verseKey</string>
 			<key>DefaultValue</key>
 			<false/>
+			<key>Title</key>
+			<string>Verse of the Day</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -23,20 +23,10 @@
 		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Key</key>
-			<string>verseKey</string>
-			<key>DefaultValue</key>
-			<false/>
 			<key>Title</key>
-			<string>Verse of the Day</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Parse Data</string>
+			<string>News from MySql</string>
 			<key>Key</key>
-			<string>parseKey</string>
+			<string>productNewsKey</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>

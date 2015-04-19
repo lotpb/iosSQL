@@ -34,14 +34,18 @@
     self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
     
     if (self.textcontentsubject.length == 0) {
-        NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-        gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = KEY_DATETIME;
-        NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
+        
+        static NSDateFormatter *dateFormatter = nil;
+        if (dateFormatter == nil) {
+            
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.timeZone = [NSTimeZone localTimeZone];
+        dateFormatter.dateFormat = KEY_DATETIME;
+        NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
         self.msgDate = dateString;
         self.rating = @"4";
         self.postby = [defaults objectForKey:userNameKey];
-        self.Reply.hidden = YES;
+            self.Reply.hidden = YES; }
       } else {
         self.msgNo = self.textcontentmsgNo;
         self.msgDate = self.textcontentdate;
@@ -128,14 +132,45 @@ return myCell;
 
 -(void)onDatePickerValueChanged:(UIDatePicker *)myDatePicker
 {
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = KEY_DATETIME;
-    self.msgDate = [gmtDateFormatter stringFromDate:myDatePicker.date];
+    static NSDateFormatter *dateFormatter = nil;
+    if (dateFormatter == nil) {
+        
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone localTimeZone];
+    dateFormatter.dateFormat = KEY_DATETIME;
+        self.msgDate = [dateFormatter stringFromDate:myDatePicker.date]; }
 }
 
 #pragma mark - Button New Database
--(IBAction)Reply:(id)sender{
+-(IBAction)Reply:(id)sender{ //update
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        [self.listTableView reloadData];
+     
+        NSString *tempString = self.rating;
+        NSNumber *numValue = @([tempString intValue]);
+        // NSNull *null = [NSNull null];
+        //NSDate *date = [NSDate date];
+        
+        PFObject *updateblog = [PFObject objectWithClassName:@"Blog"];
+        [updateblog setObject:self.msgNo forKey:@"objectId"];
+        [updateblog setObject:self.msgNo forKey:@"MsgNo"];
+        [updateblog setObject:self.msgDate forKey:@"MsgDate"];
+     // [updateblog setObject:[NSDate date] forKey:@"createdAt"];
+        [updateblog setObject:self.postby forKey:@"PostBy"];
+        [updateblog setObject:numValue forKey:@"Rating"];
+        [updateblog setObject:self.subject.text forKey:@"Subject"];
+        [updateblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        }];
+        
+    } else {
     // [self displayActivityIndicator];
     NSString *_msgNo = self.msgNo;
     NSString *_msgDate = self.msgDate;
@@ -159,13 +194,40 @@ return myCell;
     
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
-    
+    }
    [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Button Update Database
--(IBAction)Share:(id)sender {
- 
+-(IBAction)Share:(id)sender { //save
+    
+     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        [self.listTableView reloadData];
+       
+         NSString *tempString = self.rating;
+         NSNumber *numValue = @([tempString intValue]);
+        // NSNull *null = [NSNull null];
+        //NSDate *date = [NSDate date];
+         
+         PFObject *saveblog = [PFObject objectWithClassName:@"Blog"];
+        //  [saveblog setObject:self.msgNo forKey:@"MsgNo"];
+          [saveblog setObject:self.msgDate forKey:@"MsgDate"];
+        //  [saveblog setObject:[NSDate date] forKey:@"MsgDate1"];
+          [saveblog setObject:self.postby forKey:@"PostBy"];
+          [saveblog setObject:numValue forKey:@"Rating"];
+          [saveblog setObject:self.subject.text forKey:@"Subject"];
+          [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+             if (succeeded) {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                 [alert show];
+             } else {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                 [alert show];
+             }
+         }];
+         
+     } else {
+         
     [self.listTableView reloadData];
     NSString *_msgDate = self.msgDate;
     NSString *_subject = self.subject.text;
@@ -189,7 +251,7 @@ return myCell;
     
     NSLog(@"%lu", (unsigned long)responseString.length);
     NSLog(@"%lu", (unsigned long)success.length);
-    
+     }
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 

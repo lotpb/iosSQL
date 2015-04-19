@@ -79,12 +79,15 @@
     
     if (refreshControl) {
         
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-        refreshControl.attributedTitle = attributedTitle;
+            refreshControl.attributedTitle = attributedTitle;  }
         
         [refreshControl endRefreshing];
     }

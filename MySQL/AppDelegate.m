@@ -61,15 +61,17 @@
 #pragma mark Register
 - (void)registerSettings:(UIMutableUserNotificationCategory *)category {
     
-    UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+    UIUserNotificationType types = (UIUserNotificationTypeAlert |
+                                    UIUserNotificationTypeBadge |
+                                    UIUserNotificationTypeSound);
     
     NSSet *categories = [NSSet setWithObjects:category, nil];
-    
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
 }
 
+/*
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     
 // Get the notifications types that have been allowed, do whatever with them
@@ -78,7 +80,7 @@
     
     // You can get this setting anywhere in your app by using this:
     // UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-}
+} */
 
 #pragma mark Notification didReceiveLocalNotification
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
@@ -144,8 +146,7 @@
     {
         NSLog(@"Reply was pressed");
     }
-    
-    // Call this when you're finished
+
     completionHandler();
 }
 //| -----------------------END------------------------------------------

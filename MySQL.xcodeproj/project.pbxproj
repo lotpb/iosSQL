@@ -104,6 +104,7 @@
 		AF7B25781A0584AC00F7C058 /* CustModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25771A0584AC00F7C058 /* CustModel.m */; };
 		AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81F3981A06E4B40036FEDF /* WebMainController.m */; };
 		AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F919FC70E300840AA3 /* StoreKit.framework */; };
+		AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsViewController.m */; };
 		AF909E8F1A61C2F0008D6F14 /* LookupJob.m in Sources */ = {isa = PBXBuildFile; fileRef = AF909E8E1A61C2F0008D6F14 /* LookupJob.m */; };
 		AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */; };
 		AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9926AF1A4CF79300429EC8 /* JobViewCell.m */; };
@@ -147,6 +148,8 @@
 		AFE9268A1A8AB7AA00FE7043 /* NewDataDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */; };
 		AFEAB02A1A90F2C9000A1B95 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEAB0291A90F2C9000A1B95 /* libsqlite3.0.dylib */; };
 		AFEBCF471A6DAA2100C28C51 /* EditData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEBCF461A6DAA2100C28C51 /* EditData.m */; };
+		AFF135B51AE1C5270045CE2C /* drum01.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFF135B41AE1C5270045CE2C /* drum01.mp3 */; };
+		AFF135B71AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFF135B61AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 */; };
 		AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8831A2133F5005D556C /* EmployeeViewController.m */; };
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
 		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
@@ -316,6 +319,8 @@
 		AF7B25771A0584AC00F7C058 /* CustModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustModel.m; sourceTree = "<group>"; };
 		AF81F3971A06E4B40036FEDF /* WebMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebMainController.h; sourceTree = "<group>"; };
 		AF81F3981A06E4B40036FEDF /* WebMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMainController.m; sourceTree = "<group>"; };
+		AF8B684A1AE442810025A2FD /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
+		AF8B684B1AE442810025A2FD /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
 		AF909E8E1A61C2F0008D6F14 /* LookupJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupJob.m; sourceTree = "<group>"; };
 		AF99267D1A4C768B00429EC8 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
@@ -388,6 +393,8 @@
 		AFEAB0291A90F2C9000A1B95 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		AFEBCF451A6DAA2100C28C51 /* EditData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditData.h; sourceTree = "<group>"; };
 		AFEBCF461A6DAA2100C28C51 /* EditData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditData.m; sourceTree = "<group>"; };
+		AFF135B41AE1C5270045CE2C /* drum01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = drum01.mp3; path = "../../../Downloads/Sound Demo/Sound Demo/drum01.mp3"; sourceTree = "<group>"; };
+		AFF135B61AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "03 A Whiter Shade Of Pale.mp3"; sourceTree = "<group>"; };
 		AFF3B8821A2133F5005D556C /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
 		AFF3B8831A2133F5005D556C /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
 		AFF3B8851A2135B6005D556C /* EmployeeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeLocation.h; sourceTree = "<group>"; };
@@ -850,6 +857,8 @@
 				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
 				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
+				AF8B684A1AE442810025A2FD /* StatisticsViewController.h */,
+				AF8B684B1AE442810025A2FD /* StatisticsViewController.m */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
@@ -882,6 +891,7 @@
 		AFBC9E8419D9CEDE0050E67A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AFF135B31AE1C5000045CE2C /* Sounds */,
 				AFA352E119FBE8D400840AA3 /* Library */,
 				AF2BACC51A0D527E000995A5 /* images */,
 				AFBC9E8519D9CEDE0050E67A /* Info.plist */,
@@ -905,6 +915,15 @@
 				AFBC9E9F19D9CEDF0050E67A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AFF135B31AE1C5000045CE2C /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				AFF135B61AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 */,
+				AFF135B41AE1C5270045CE2C /* drum01.mp3 */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		AFF3B88B1A214403005D556C /* Employee */ = {
@@ -1048,6 +1067,7 @@
 				AF366EDF1A55A15800976387 /* Yahoo!.png in Resources */,
 				AF366EDA1A55A15800976387 /* tag.png in Resources */,
 				AF366EE01A55A15800976387 /* YouTube.png in Resources */,
+				AFF135B71AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 in Resources */,
 				AF366EB91A55A15800976387 /* Apple.png in Resources */,
 				AF1D77231ADC50090096E183 /* mastercard@2x.png in Resources */,
 				AF366EB51A55A15800976387 /* Star.jpg in Resources */,
@@ -1088,6 +1108,7 @@
 				AF366ED31A55A15800976387 /* note30copy.png in Resources */,
 				AFA7CC8D1A3F8C5700128607 /* LaunchScreen.xib in Resources */,
 				AF366EC21A55A15800976387 /* Flickr.png in Resources */,
+				AFF135B51AE1C5270045CE2C /* drum01.mp3 in Resources */,
 				AF366ED91A55A15800976387 /* RSS.png in Resources */,
 				AFF782041A41B6760098692C /* Settings.bundle in Resources */,
 				AF366ED61A55A15800976387 /* photo.png in Resources */,
@@ -1144,6 +1165,7 @@
 				AF79A4251ADB6A6C003907FD /* CalenderEdit.m in Sources */,
 				AF65081119EB158300CEF44D /* MainViewController.m in Sources */,
 				AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */,
+				AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */,
 				AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */,
 				AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */,
 				AF4D46BA1A5634FB005984AD /* NewData.m in Sources */,

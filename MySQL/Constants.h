@@ -10,6 +10,49 @@
 
 @interface Constants : NSObject
 
+/**Navigation - Go back - POP view controller **/
+#define GOBACK [self.navigationController popViewControllerAnimated:YES]
+
+// Device Info
+#define IS_IPAD     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) /** BOOL: Detect if device is an iPad **/
+
+#define IS_IPHONE   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) /** BOOL: Detect if device is an iPhone or iPod **/
+
+#define IS_IPHONE5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE /** BOOL: Detect if device is an iPhone5 or not **/
+
+/** BOOL: IS_RETINA **/
+#define IS_RETINA_DEVICE ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2)
+
+// Return "YES" or "NO" string based on boolean value
+#define NSStringFromBool(b) (b ? @"YES" : @"NO")
+
+// Colors
+#define UA_RGBA(r,g,b,a)    [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define UA_RGB(r,g,b)       UA_RGBA(r, g, b, 1.0f)
+
+#define DATE_COMPONENTS         NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit /** Return date component**/
+#define TIME_COMPONENTS         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit /** Return time component**/
+
+
+#define USER_DEFAULTS           [NSUserDefaults standardUserDefaults]
+#define NOTIFICATION_CENTER     [NSNotificationCenter defaultCenter]
+#define SHARED_APPLICATION      [UIApplication sharedApplication]
+
+#define DATE_FORMAT_DD_MM_YYYY              @"dd-MM-yyyy"               //e.g. 24-07-1990
+#define DATE_FORMAT_MM_DD_YYYY              @"MM-dd-yyyy"               //e.g. 07-24-1990
+#define DATE_FORMAT_YYYY_MM_DD              @"yyyy-MM-dd"               //e.g. 1990-07-24
+#define DATE_FORMAT_DD_MM_YYYY_HH_MM_12H    @"dd-MM-yyyy hh:mm a"       //e.g. 24-07-1990 05:20 AM
+#define DATE_FORMAT_MMM_DD_YYYY             @"MMM dd, yyyy"             //e.g. Jul 24, 1990
+#define DATE_FORMAT_MMMM_DD                 @"MMMM dd"                  //e.g. July 24
+#define DATE_FORMAT_MMMM                    @"MMMM"                     //e.g. July, November
+#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_SS    @"MMM dd, yyyy hh:mm:ss a"  //e.g. Jul 24, 2014 05:20:50 AM
+#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_12H   @"MMM dd, yyyy hh:mm a"     //e.g. Jul 24, 2014 05:20 AM
+#define DATE_FORMAT_HH_MM_SS                @"HH:mm:ss"                 //e.g. 05:20:50 AM
+#define DATE_FORMAT_E                       @"E"                        //e.g. Tue
+#define DATE_FORMAT_EEEE                    @"EEEE"                     //e.g. Tuesday
+#define DATE_FORMAT_QQQ                     @"QQQ"                      //e.g. Q1,Q2,Q3,Q4
+#define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
+
 // All STORYBOOKS
 //------searchbar-------------------------------
 #define SEARCHBARSTYLE      UIBarStyleBlack
@@ -38,7 +81,7 @@
 #define BACKGROUNDCOLOR   [UIColor blackColor]
 #define ROW_HEIGHT        44.0f
 #define CELL_FONTSIZE     14
-#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
 #define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
@@ -97,6 +140,7 @@
 //-----------------------END-------------------------------
 
 // MAINVIEW
+#define SOUNDFILE     @"%@/03 A Whiter Shade Of Pale.mp3"
 //------notification-------------------------------
 #define MNOTIFTEXT         @"Lord give me wisdom, ask for wisdom and it will be given!"
 #define MNOTIFCATEGORY     @"INVITE_CATEGORY"
@@ -214,6 +258,7 @@
 //-----------------------END-------------------------------
 
 // LEADDETAIL
+//extern int DETAILFONTSIZE = 9;
 #define DETAILFONTSIZE     9
 #define DETAILNEWS         12
 #define DETAILTITLECOLOR   [UIColor blackColor]

@@ -14,13 +14,13 @@
 @interface CalenderEdit () <EKEventEditViewDelegate>
 
 // EKEventStore instance associated with the current Calendar application
-@property (nonatomic, strong) EKEventStore *eventStore;
+@property (strong, nonatomic) EKEventStore *eventStore;
 
 // Default calendar associated with the above event store
-@property (nonatomic, strong) EKCalendar *defaultCalendar;
+@property (strong, nonatomic) EKCalendar *defaultCalendar;
 
 // Array of all events happening within the next 24 hours
-@property (nonatomic, strong) NSMutableArray *eventsList;
+@property (strong, nonatomic) NSMutableArray *eventsList;
 
 // Used to add events to Calendar
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addButton;

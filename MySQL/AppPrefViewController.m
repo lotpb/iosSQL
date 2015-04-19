@@ -29,9 +29,10 @@ NSString* const kFontSizeKey		   	= @"fontsizeKey";
 NSString* const kFontColorKey	       	= @"nameColorKey";
 NSString* const kLoginKey	    	   	= @"loginKey";
 NSString* const kRegKey	            	= @"registered";
-//NSString* const kLatitudeKey	   	   	= @"latitudeKey";
-//NSString* const kLongtitudeKey	   	= @"longtitudeKey";
+NSString* const kLatitudeKey	   	   	= @"latitudeKey";
+NSString* const kLongtitudeKey	    	= @"longtitudeKey";
 //NSString* const kiCloudKey	    	= @"icloudKey";
+NSString* const kSoundKey	        	= @"soundKey";
 
 //EditProfile.plist
 NSString* const kFirstNameKey			= @"firstNameKey";
@@ -58,6 +59,8 @@ NSString* const kParseKey	     	    = @"parseKey";
 @property (strong) NSString *password;
 @property (strong) NSString *website;
 @property (strong) NSString *username;
+@property (strong) NSString *latitude;
+@property (strong) NSString *longtitude;
 
 @end
 
@@ -157,6 +160,8 @@ NSString* const kParseKey	     	    = @"parseKey";
     self.password = [standardDefaults objectForKey:kPasswordKey];
     self.website = [standardDefaults objectForKey:kWebSiteKey];
     self.username = [standardDefaults objectForKey:kUserNameKey];
+    self.latitude = [standardDefaults objectForKey:kLatitudeKey];
+    self.longtitude = [standardDefaults objectForKey:kLongtitudeKey];
     // The value for the 'Text Color' setting is stored as an integer between
     // one and three inclusive.  Convert the integer into a UIColor object.
     TextColor textColor = [standardDefaults integerForKey:kFontColorKey];
@@ -181,7 +186,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7;
+    return 3;
 }
 
 
@@ -189,19 +194,11 @@ NSString* const kParseKey	     	    = @"parseKey";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 1;
+        return 5;
     } else if (section == 1) {
-        return 1;
+        return 2;
     } else if (section == 2) {
-        return 1;
-    } else if (section == 3) {
-        return 1;
-    } else if (section == 4) {
-        return 1;
-    } else if (section == 5) {
-        return 1;
-    } else if (section == 6) {
-        return 1;
+        return 2;
     }
     return 0;
 }
@@ -211,62 +208,83 @@ NSString* const kParseKey	     	    = @"parseKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0){
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NameCell"];
-    
-    cell.textLabel.text = @"First/Last";
-    cell.textLabel.textColor = self.nameColor;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
-    cell.detailTextLabel.textColor = self.nameColor;
-    
-    return cell;
+        
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"First/Last";
+            cell.textLabel.textColor = self.nameColor;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+            cell.detailTextLabel.textColor = self.nameColor;
+            
+            return cell;
+        } else if (indexPath.row == 1) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"Email";
+            cell.detailTextLabel.text = self.email;
+            
+            return cell;
+        } else if (indexPath.row == 2) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"Website";
+            cell.detailTextLabel.text = self.website;
+            
+            return cell;
+        } else if (indexPath.row == 3) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"User Name";
+            cell.detailTextLabel.text = self.username;
+            
+            return cell;
+        } else if (indexPath.row  == 4) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"Password";
+            cell.detailTextLabel.text = self.password;
+            
+            return cell;
+        }
+        
     } else if (indexPath.section == 1) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
         
-        cell.textLabel.text = @"User Name";
-        cell.detailTextLabel.text = self.username;
-        
-        return cell;
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"Font";
+            cell.detailTextLabel.text = self.Font;
+            
+            return cell;
+        } else if (indexPath.row == 1) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+            
+            cell.textLabel.text = @"Font Size";
+            cell.detailTextLabel.text = self.FontSize;
+            
+            return cell;
+        }
+    } else if (indexPath.section == 2) {
+            
+        if (indexPath.row == 0) {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+                
+                cell.textLabel.text = @"Latitude";
+                cell.detailTextLabel.text = self.latitude;
+                
+                return cell;
+        } else if (indexPath.row == 1) {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+                
+                cell.textLabel.text = @"Longtitude";
+                cell.detailTextLabel.text = self.longtitude;
+                
+                return cell;
+        }
     }
-    else if (indexPath.section == 2) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-        
-        cell.textLabel.text = @"Email";
-        cell.detailTextLabel.text = self.email;
-        
-        return cell;
-    }
-    else if (indexPath.section == 3) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-        
-        cell.textLabel.text = @"Font";
-        cell.detailTextLabel.text = self.Font;
-        
-        return cell;
-    }
-    else if (indexPath.section == 4) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-        
-        cell.textLabel.text = @"Font Size";
-        cell.detailTextLabel.text = self.FontSize;
-        
-        return cell;
-    }
-    else if (indexPath.section == 5) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-        
-        cell.textLabel.text = @"Password";
-        cell.detailTextLabel.text = self.password;
-        
-        return cell;
-    } if (indexPath.section == 6) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-        
-        cell.textLabel.text = @"Website";
-        cell.detailTextLabel.text = self.website;
-        
-        return cell;
-    }
-return nil;
-    }
+    
+    return nil;
+}
 
 @end

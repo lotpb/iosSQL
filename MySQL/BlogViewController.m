@@ -10,8 +10,9 @@
 
 @interface BlogViewController ()
 {
-    BlogModel *_BlogModel; NSMutableArray *_feedItems; BlogLocation *_selectedLocation;
+    BlogModel *_BlogModel; BlogLocation *_selectedLocation;
     UIRefreshControl *refreshControl;
+    NSMutableArray *_feedItems, *BlogArray;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -22,7 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
     self.title = NSLocalizedString(TNAME9, nil);
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
@@ -30,16 +32,17 @@
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-  
-    _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
-    _BlogModel.delegate = self; [_BlogModel downloadItems];
+   
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    parseConnection.delegate = (id)self; [parseConnection parseBlog];
+    } //else {
+     _BlogModel = [[BlogModel alloc] init];
+     _BlogModel.delegate = self; [_BlogModel downloadItems];
+   // }
     
+    _feedItems = [[NSMutableArray alloc] init];
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
-    
-    self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
-    self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
-    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
     
 #pragma mark Bar Button
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(foundView:)];
@@ -69,6 +72,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
+    self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
+    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
+    [super viewWillAppear:animated];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseBlogloaded:(NSMutableArray *)blogItem {
+     BlogArray = blogItem;
+    [self.listTableView reloadData];
+}
+
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_BlogModel downloadItems];
@@ -76,12 +92,15 @@
     
     if (refreshControl) {
         
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+        
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-        refreshControl.attributedTitle = attributedTitle;
+            refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
     }
@@ -187,36 +206,44 @@
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     BlogLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
     
     [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
     [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
     [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
+  
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        
+        myCell.blogtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+        myCell.blogsubtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+        myCell.blogmsgDateLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+    } else {
+        myCell.blogtitleLabel.text = item.postby;
+        myCell.blogsubtitleLabel.text = item.subject;
+        myCell.blogmsgDateLabel.text = item.msgDate;
+        }
     
-    myCell.blogtitleLabel.text = item.postby;
-    myCell.blogsubtitleLabel.text = item.subject;
-    myCell.blogmsgDateLabel.text = item.msgDate;
     myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE];
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
     
     //not working properly below
     if (![item.rating isEqual:@"5"])
-         label2.hidden = NO;
+        label2.hidden = NO;
     else label2.hidden = YES;
     
-     label2.text = @"Like";
-     label2.font = LIKEFONT(LIKEFONTSIZE);
-     label2.textAlignment = NSTextAlignmentCenter;
+    label2.text = @"Like";
+    label2.font = LIKEFONT(LIKEFONTSIZE);
+    label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:LIKECOLORTEXT];
     [label2 setBackgroundColor:LIKECOLORBACK];
     [myCell.contentView addSubview:label2];
@@ -368,7 +395,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!isFilltered)
-        _selectedLocation = _feedItems[indexPath.row];
+          _selectedLocation = _feedItems[indexPath.row];
+       // _selectedLocation =[BlogArray objectAtIndex:indexPath.row];
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     

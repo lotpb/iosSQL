@@ -18,8 +18,8 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollection;
-- (IBAction)shareButtonTouched:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) NSString *workseg;
+- (IBAction)shareButtonTouched:(id)sender;
 
 @end

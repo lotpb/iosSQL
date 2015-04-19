@@ -152,14 +152,18 @@
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
         self.company.hidden = YES;
-        NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-        gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-        gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
-        NSString *dateString = [gmtDateFormatter stringFromDate:[NSDate date]];
+        
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.timeZone = [NSTimeZone localTimeZone];
+            formatter.dateFormat = KEY_DATESQLFORMAT;
+        NSString *dateString = [formatter stringFromDate:[NSDate date]];
         if ([_formController isEqual:TNAME1]) {
             self.date.text = dateString; //frm18
             self.aptDate.text = dateString; } //frm19
-        else self.date.text = dateString; //no date on customer aptdate
+            else self.date.text = dateString; }//no date on customer aptdate
     }
     
     if (self.frm20.length == 0)
@@ -464,10 +468,13 @@
 
 -(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
 {
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
-    self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    formatter.dateFormat = KEY_DATESQLFORMAT;
+    self.aptDate.text = [formatter stringFromDate:datePicker.date]; }
 }
 
 #pragma mark - View Picker

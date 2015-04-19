@@ -125,11 +125,15 @@ bool allowsAlert;
     }
     
     // we're creating a string of the date so we can log the time the notif is supposed to fire
+    
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:NOTIDATE];
     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
     NSString *notifDate = [formatter stringFromDate:_datePicker.date];
-    NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate);
+        NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate); }
 }
 
 - (void)setNotificationTypesAllowed

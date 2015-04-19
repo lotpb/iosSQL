@@ -10,7 +10,7 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *BlogArray;
 }
 @end
 
@@ -201,6 +201,33 @@
         if (self.delegate) {
             [self.delegate parseHeadProductloaded:headCount];
         }
+    }];
+}
+//-----------------Blog Table Data----------------------------------
+#pragma mark - Blog Form
+- (void)parseBlog {
+    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+    [PFQuery clearAllCachedResults];
+    [query selectKeys:@[@"MsgNo"]];
+    [query selectKeys:@[@"objectId"]];
+    [query selectKeys:@[@"MsgDate"]];
+    [query selectKeys:@[@"PostBy"]];
+    [query selectKeys:@[@"Rating"]];
+    [query selectKeys:@[@"Subject"]];
+    [query orderByDescending:@"MsgNo"];
+    [query setLimit: 1000]; //parse.com standard is 100
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        BlogArray = [[NSMutableArray alloc]initWithArray:objects];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [BlogArray addObject:object];
+                if (self.delegate) {
+                    [self.delegate parseBlogloaded:BlogArray];
+                }
+            }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
     }];
 }
 

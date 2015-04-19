@@ -26,6 +26,7 @@
 - (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem;
 - (void)parseHeadAdloaded:(NSMutableArray *)adheadItem;
 - (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem;
+- (void)parseBlogloaded:(NSMutableArray *)blogItem;
 
 @end
 
@@ -45,6 +46,7 @@
 - (void)parseHeadJob;
 - (void)parseHeadAd;
 - (void)parseHeadProduct;
+- (void)parseBlog;
 
 @property (strong, nonatomic) NSString *frm22;
 @property (strong, nonatomic) NSString *frm23;

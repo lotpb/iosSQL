@@ -12,7 +12,7 @@
 
 /// A nil / empty filter string means show all results. Otherwise, show
 /// only results containing the filter.
-@property (nonatomic, copy) NSString *filterString;
+@property (copy, nonatomic) NSString *filterString;
 
-@property (readonly, copy) NSArray *visibleResults;
+@property (copy, readonly) NSArray *visibleResults;
 @end

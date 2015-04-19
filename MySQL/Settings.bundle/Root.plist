@@ -7,12 +7,6 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Title</key>
-			<string>ACCOUNT</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
@@ -27,6 +21,36 @@
 			<string>Notification Settings</string>
 			<key>File</key>
 			<string>Notification</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Parse Data</string>
+			<key>Key</key>
+			<string>parseKey</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Parse Blog</string>
+			<key>Key</key>
+			<string>parseblogKey</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Sync With iCloud</string>
+			<key>Key</key>
+			<string>icloudKey</string>
+			<key>DefaultValue</key>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -122,9 +146,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Sync With iCloud</string>
+			<string>Sound</string>
 			<key>Key</key>
-			<string>icloudKey</string>
+			<string>soundKey</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>

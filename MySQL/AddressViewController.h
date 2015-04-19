@@ -11,11 +11,11 @@
 
 @interface AddressViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, MFMessageComposeViewControllerDelegate>
 
-@property (nonatomic, strong) NSDictionary *dictContactDetails;
+@property (strong, nonatomic ) NSDictionary *dictContactDetails;
 
-@property (nonatomic, weak) IBOutlet UILabel *lblContactName;
-@property (nonatomic, weak) IBOutlet UIImageView *imgContactImage;
-@property (nonatomic, weak) IBOutlet UITableView *tblContactDetails;
+@property (weak, nonatomic) IBOutlet UILabel *lblContactName;
+@property (weak, nonatomic) IBOutlet UIImageView *imgContactImage;
+@property (weak, nonatomic) IBOutlet UITableView *tblContactDetails;
 
 -(IBAction)makeCall:(id)sender;
 -(IBAction)sendSMS:(id)sender;

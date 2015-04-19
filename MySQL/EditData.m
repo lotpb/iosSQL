@@ -153,17 +153,20 @@
 
 -(void)onDatePickerValueChanged:(UIDatePicker *)datePicker
 {
-    NSDateFormatter *gmtDateFormatter = [[NSDateFormatter alloc] init];
-    gmtDateFormatter.timeZone = [NSTimeZone localTimeZone];
-    gmtDateFormatter.dateFormat = KEY_DATESQLFORMAT;
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    formatter.dateFormat = KEY_DATESQLFORMAT;
     if (datePicker.tag == 0)
-        self.date.text = [gmtDateFormatter stringFromDate:datePicker.date];
+        self.date.text = [formatter stringFromDate:datePicker.date];
     else if (datePicker.tag == 4)
-        self.aptDate.text = [gmtDateFormatter stringFromDate:datePicker.date];
+        self.aptDate.text = [formatter stringFromDate:datePicker.date];
     else if (datePicker.tag == 14)
-        self.start.text = [gmtDateFormatter stringFromDate:datePicker.date];
+        self.start.text = [formatter stringFromDate:datePicker.date];
     else if (datePicker.tag == 15)
-        self.complete.text = [gmtDateFormatter stringFromDate:datePicker.date];
+        self.complete.text = [formatter stringFromDate:datePicker.date]; }
 }
 
 #pragma mark - ViewPicker

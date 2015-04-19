@@ -95,12 +95,15 @@
     [self reloadTable];
     if (refreshControl) {
         
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+        
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:KEY_DATEREFRESH];
         NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-        refreshControl.attributedTitle = attributedTitle;
+            refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
     }
@@ -208,21 +211,13 @@
     return myCell;
 }
     else if ([tableView isEqual:self.newsTableView]) {
-
-        NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-        [dateFormater setDateFormat:KEY_DATESQLFORMAT];
-        dateFormater.timeZone = [NSTimeZone localTimeZone];
-        NSDate *creationDate = [dateFormater dateFromString:self.date];
-        NSDate *datetime1 = creationDate;
-        NSDate *datetime2 = [NSDate date];
-        double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
-        NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         
     static NSString *CellIdentifier1 = IDCELL;
-    CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
+            CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
     
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+
         
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
@@ -231,10 +226,22 @@
     myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
    [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
         
+        static NSDateFormatter *dateFormater = nil;
+        if (dateFormater == nil) {
+            
+            NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+            [dateFormater setDateFormat:KEY_DATESQLFORMAT];
+            dateFormater.timeZone = [NSTimeZone localTimeZone];
+            NSDate *creationDate = [dateFormater dateFromString:self.date];
+            NSDate *datetime1 = creationDate;
+            NSDate *datetime2 = [NSDate date];
+            double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+            NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+        
     myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
     myCell.leadsubtitleLabel.font = CELL_FONT(DETAILFONTSIZE);
    [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
-        
+   }
     myCell.leadreadmore.text = @"Read more";
     myCell.leadreadmore.font = CELL_FONT(DETAILFONTSIZE);
         
@@ -242,7 +249,7 @@
     myCell.leadnews.numberOfLines = 0;
     myCell.leadnews.font = CELL_MEDFONT(DETAILFONTSIZE);
    [myCell.leadnews setTextColor:DETAILCOLOR];
-        
+    
     //Social buttons - code below
     UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(12,85, 20, 20)];
     [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];
@@ -268,6 +275,7 @@
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, .7)];
     separatorLineView.backgroundColor = [UIColor grayColor];// you can also put image here
     [myCell.contentView addSubview:separatorLineView];
+
 
 return myCell;
     } else {

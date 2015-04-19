@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BlogModel.h"
 //#import "BlogLocation.h"
+#import "ParseConnection.h"
 #import "CustomTableViewCell.h"
 #import "BlogEditDetailView.h"
 #import "BlogNewViewController.h"
