@@ -126,6 +126,8 @@
 		AFAA0FDF1A10634600205EE9 /* FacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FDE1A10634600205EE9 /* FacebookViewController.m */; };
 		AFAAE68B1A06C44A000C2423 /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAE68A1A06C44A000C2423 /* NewsController.m */; };
 		AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */; };
+		AFB581061AE5AFFA00DDD9B6 /* parseBlogLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */; };
+		AFB581091AE5C46C00DDD9B6 /* DataLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB581081AE5C46C00DDD9B6 /* DataLocation.m */; };
 		AFBC9E8719D9CEDE0050E67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8619D9CEDE0050E67A /* main.m */; };
 		AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */; };
 		AFBC9E8D19D9CEDF0050E67A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8C19D9CEDF0050E67A /* ViewController.m */; };
@@ -355,6 +357,10 @@
 		AFACE9A41A0D04300066C042 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		AFAE5FC51A138998005D4245 /* BlogLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlogLocation.h; sourceTree = "<group>"; };
+		AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseBlogLocation.h; sourceTree = "<group>"; };
+		AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseBlogLocation.m; sourceTree = "<group>"; };
+		AFB581071AE5C46C00DDD9B6 /* DataLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataLocation.h; sourceTree = "<group>"; };
+		AFB581081AE5C46C00DDD9B6 /* DataLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataLocation.m; sourceTree = "<group>"; };
 		AFB91FBA1A4A592B00737D1F /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		AFBC9E8119D9CEDE0050E67A /* MySQL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySQL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFBC9E8519D9CEDE0050E67A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -607,6 +613,8 @@
 		AF3F387E19EB558600CB785F /* Database Files */ = {
 			isa = PBXGroup;
 			children = (
+				AFB581071AE5C46C00DDD9B6 /* DataLocation.h */,
+				AFB581081AE5C46C00DDD9B6 /* DataLocation.m */,
 				AF26EF781A360BFB00FFE5F0 /* SalesLocation.h */,
 				AF26EF791A360BFB00FFE5F0 /* SalesLocation.m */,
 				AF26EF7B1A360C0F00FFE5F0 /* SalesModel.h */,
@@ -627,6 +635,8 @@
 				AFF3B8861A2135B6005D556C /* EmployeeLocation.m */,
 				AF2856681A256B9E00A6F42A /* EmployeeModel.h */,
 				AF2856691A256BBB00A6F42A /* EmployeeModel.m */,
+				AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */,
+				AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */,
 				AFAE5FC51A138998005D4245 /* BlogLocation.h */,
 				AF3F388319EB566000CB785F /* BlogLocation.m */,
 				AF3F387F19EB562600CB785F /* BlogModel.h */,
@@ -1157,6 +1167,7 @@
 				AF68D6C11A921A130014106A /* SearchResultsViewController.m in Sources */,
 				AF28566A1A256BBB00A6F42A /* EmployeeModel.m in Sources */,
 				AFAA0FD81A0E93A600205EE9 /* AddressViewController.m in Sources */,
+				AFB581061AE5AFFA00DDD9B6 /* parseBlogLocation.m in Sources */,
 				AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */,
 				AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */,
 				AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */,
@@ -1197,6 +1208,7 @@
 				AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */,
 				AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,
+				AFB581091AE5C46C00DDD9B6 /* DataLocation.m in Sources */,
 				AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

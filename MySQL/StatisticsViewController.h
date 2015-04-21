@@ -12,11 +12,11 @@
 
 @interface StatisticsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 {
-    NSMutableArray *tableData, *filteredString;
+    NSMutableArray *tableData, *tableData1, *filteredString;
     BOOL isFilltered;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic)  UILabel *label2;
 
 @end

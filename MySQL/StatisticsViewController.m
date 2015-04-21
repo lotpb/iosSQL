@@ -14,10 +14,10 @@
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
-
 @end
 
 @implementation StatisticsViewController
+@synthesize label2;
 
 - (void)viewDidLoad
 {
@@ -28,7 +28,9 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    tableData = [[NSMutableArray alloc]initWithObjects:TNAME1, TNAME2, TNAME3, TNAME4, TNAME5, TNAME6, TNAME7, TNAME8, TNAME9, nil];
+    tableData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, SNAME7, SNAME8, SNAME9, nil];
+    
+    tableData1 = [[NSMutableArray alloc]initWithObjects:SNAME11, SNAME22, SNAME33, SNAME44, SNAME55, SNAME66, SNAME77, SNAME88, SNAME99, nil];
     
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
@@ -98,14 +100,16 @@
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (!isFilltered)
+    if (!isFilltered) {
         myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
-    else
+        myCell.detailTextLabel.text = [tableData1 objectAtIndex:indexPath.row];
+    } else
         myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
     
     if (self.searchController.searchBar.text.length > 0)
         myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
 
@@ -120,7 +124,7 @@
 {
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$81,694";
+    NSString *newString2 = @"$81,295";
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     
@@ -140,7 +144,7 @@
     [label setTextColor:HEADTEXTCOLOR];
     //label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     //label.shadowOffset = CGSizeMake(0.0f, 0.5f);
-    label.numberOfLines = 0;
+     label.textAlignment = NSTextAlignmentCenter;
     NSString *string = newString;
     [label setText:string];
     [view addSubview:label];
@@ -148,12 +152,12 @@
     NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);
- //   [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
+    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
     segmentedControl.selectedSegmentIndex = 1;
     [view addSubview:segmentedControl];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -25, 75, 50, 45)];
-    label1.numberOfLines = 0;
+     label1.textAlignment = NSTextAlignmentCenter;
     [label1 setFont:[UIFont fontWithName:@"Avenir-Black" size:16]];
     [label1 setTextColor:[UIColor greenColor]];
     //label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
@@ -166,17 +170,32 @@
     separatorLineView1.backgroundColor = [UIColor whiteColor];
     [view addSubview:separatorLineView1];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -60, 115, 120, 45)];
-    label2.numberOfLines = 0;
-    [label2 setFont:[UIFont fontWithName:@"Avenir-Black" size:30]];
-    [label2 setTextColor:HEADTEXTCOLOR];
-    //label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    //label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
+    UILabel *textframe = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -70, 115, 140, 45)];
+     self.label2 = textframe;
+     self.label2.textAlignment = NSTextAlignmentCenter;
+    [self.label2 setFont:[UIFont fontWithName:@"Avenir-Black" size:30]];
+    [self.label2 setTextColor:HEADTEXTCOLOR];
+    //self.label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
+    //self.label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
-    [label2 setText:string2];
-    [view addSubview:label2];
+    [self.label2 setText:string2];
+    [view addSubview:self.label2];
     
     return view;
+}
+
+#pragma mark - SegmentedControl
+- (void)segmentAction:(UISegmentedControl *)segment {
+    
+    if (segment.selectedSegmentIndex == 0) {
+        [self.label2 setText:@"$23,399"];
+    }
+    if (segment.selectedSegmentIndex == 1) {
+        self.label2.text = @"$81,295";
+    }
+    if (segment.selectedSegmentIndex == 2) {
+        self.label2.text = @"$199,392";
+    }
 }
 
 #pragma mark - Search

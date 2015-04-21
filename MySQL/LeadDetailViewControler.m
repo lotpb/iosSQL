@@ -170,6 +170,7 @@
 
 #pragma mark TableView Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if ([tableView isEqual:self.listTableView]) {
     
     static NSString *CellIdentifier = IDCELL;
@@ -291,13 +292,14 @@ return myCell;
                                  alertControllerWithTitle:@"Confirm"
                                  message:@"Enter data entry"
                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    
     UIAlertAction* addr = [UIAlertAction
                           actionWithTitle:@"Add to Contact"
                           style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
                               //Do some thing here
-    [self setContact:sender];
+                               [self setContact:sender];
                          }];
     
     UIAlertAction* cal = [UIAlertAction
@@ -306,21 +308,22 @@ return myCell;
                           handler:^(UIAlertAction * action)
                           {
                               //Do some thing here
-    [self performSegueWithIdentifier:CALENDSEGUE sender:self];
+                              [self performSegueWithIdentifier:CALENDSEGUE sender:self];
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
-    if ([_formController isEqual:TNAME1]) {
+    
+                          if ([_formController isEqual:TNAME1]) {
     UIAlertAction* new = [UIAlertAction
                          actionWithTitle:@"Add to Customer"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
                              //Do some thing here
-    [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
-                             [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-         [view addAction:new];
-    }
+                         [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
+                         [view dismissViewControllerAnimated:YES completion:nil];
+                         }];
+                         [view addAction:new];
+                         }
     
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"

@@ -77,7 +77,7 @@
 #define QACTIVE            @"Active" //Query Active
 //------tableviewcell-------------------------------
 #define IDCELL            @"BasicCell"
-#define TABLECELLIMAGE    @"DemoCellImage"
+#define TABLECELLIMAGE    @"IMG_1378"
 #define BACKGROUNDCOLOR   [UIColor blackColor]
 #define ROW_HEIGHT        44.0f
 #define CELL_FONTSIZE     14
@@ -187,6 +187,27 @@
 #define MAINVIEWSEGUE8   @"saleSegue"
 #define MAINVIEWSEGUE9   @"blogSegue"
 //-----------------------END-------------------------------
+
+//STATISTIC
+#define SNAME1             @"Leads today"
+#define SNAME2             @"Leads tommorrow"
+#define SNAME3             @"Appointments today"
+#define SNAME4             @"Customers today"
+#define SNAME5             @"Average sale"
+#define SNAME6             @"Appointments tommorrow"
+#define SNAME7             @"Average Lead"
+#define SNAME8             @"Leads to process"
+#define SNAME9             @"Windows sold"
+#define SNAME11             @"5"
+#define SNAME22             @"10"
+#define SNAME33             @"4"
+#define SNAME44             @"2"
+#define SNAME55             @"$800.00"
+#define SNAME66             @"5"
+#define SNAME77             @"$1200.00"
+#define SNAME88             @"15"
+#define SNAME99             @"987"
+
 
 // LEAD
 #define LEADDELETENO       @"_leadNo=%@&&"

@@ -87,6 +87,10 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+            ParseConnection *parseConnection = [[ParseConnection alloc]init];
+            parseConnection.delegate = (id)self; [parseConnection parseBlog];
+        }
     [_BlogModel downloadItems];
     [self.listTableView reloadData];
     
@@ -202,7 +206,7 @@
 {
     static NSString *CellIdentifier = IDCELL;
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 30, 11)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(25, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
@@ -232,9 +236,10 @@
         myCell.blogmsgDateLabel.text = item.msgDate;
         }
     
-    myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE];
+    myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE]; // stretchableImageWithLeftCapWidth:30 topCapHeight:30];
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
+    //myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFill;
     
     //not working properly below
     if (![item.rating isEqual:@"5"])
@@ -396,7 +401,7 @@
 {
     if (!isFilltered)
           _selectedLocation = _feedItems[indexPath.row];
-       // _selectedLocation =[BlogArray objectAtIndex:indexPath.row];
+       // _selectedLocation = BlogArray[indexPath.row];//[BlogArray objectAtIndex:indexPath.row];
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     

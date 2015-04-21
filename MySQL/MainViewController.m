@@ -248,14 +248,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Statistics" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-    button.frame = CGRectMake(tableView.frame.size.width -90, 115, 90, 37);
+     button.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
     [self.view addSubview:button];
-    
-    /*
-    if (!isFilltered)
-        [view setBackgroundColor:[UIColor clearColor]];
-    else
-        [view setBackgroundColor:[UIColor blackColor]]; */
     
     return view;
 }

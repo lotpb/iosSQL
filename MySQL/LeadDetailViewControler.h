@@ -17,7 +17,6 @@
 #import <AddressBookUI/AddressBookUI.h>
 //#import "CalenderEdit.h"
 
-
 @interface LeadDetailViewControler : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
@@ -55,19 +54,7 @@
 @property (strong, nonatomic) NSString *tbl25;
 @property (strong, nonatomic) NSString *tbl26;
 @property (strong, nonatomic) NSString *tbl27; //employee company
-/*
-@property (strong, nonatomic) NSString *t11;
-@property (strong, nonatomic) NSString *t12;
-@property (strong, nonatomic) NSString *t13;
-@property (strong, nonatomic) NSString *t14;
-@property (strong, nonatomic) NSString *t15;
 
-@property (strong, nonatomic) NSString *t21;
-@property (strong, nonatomic) NSString *t22;
-@property (strong, nonatomic) NSString *t23;
-@property (strong, nonatomic) NSString *t24;
-@property (strong, nonatomic) NSString *t25;
-*/
 @property (strong, nonatomic) NSString *l11;
 @property (strong, nonatomic) NSString *l12;
 @property (strong, nonatomic) NSString *l13;

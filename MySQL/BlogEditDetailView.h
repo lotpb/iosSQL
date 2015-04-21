@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BlogLocation.h"
+#import "DataLocation.h"
 #import "CustomTableViewCell.h"
 #import "BlogViewController.h"
 #import "Constants.h"
