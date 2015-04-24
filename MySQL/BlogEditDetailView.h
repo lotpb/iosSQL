@@ -7,20 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DataLocation.h"
+#import "Constants.h"
 #import "CustomTableViewCell.h"
 #import "BlogViewController.h"
-#import "Constants.h"
 
 @interface BlogEditDetailView : UIViewController
 
-@property (strong, nonatomic) UILabel *msgNo;
-@property (strong, nonatomic) UILabel *postby;
-@property (strong, nonatomic) UITextField *msgDate;
-@property (strong, nonatomic) UILabel *subject;
-@property (strong, nonatomic) UILabel *rating;
-@property (strong, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UILabel *subtitleLabel;
+@property (strong, nonatomic) NSString *msgNo;
+@property (strong, nonatomic) NSString *postby;
+@property (strong, nonatomic) NSString *subject;
+@property (strong, nonatomic) NSString *msgDate;
+@property (strong, nonatomic) NSString *rating;
+
 @property (weak, nonatomic) IBOutlet UIButton *Like;
 @property (weak, nonatomic) IBOutlet UIButton *update;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

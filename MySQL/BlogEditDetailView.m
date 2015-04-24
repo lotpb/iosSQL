@@ -14,7 +14,7 @@
 @end
 
 @implementation BlogEditDetailView
-@synthesize msgDate, postby, subject, rating, msgNo;
+//@synthesize msgDate, postby, subject, rating, msgNo;
 
 - (void)viewDidLoad
 {
@@ -117,13 +117,23 @@
     [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
     [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
-    // Get references to labels of cell
-    myCell.titleLabel.text = self.selectedLocation.postby;
-    myCell.subtitleLabel.text = self.selectedLocation.subject;
-    myCell.msgDateLabel.text = self.selectedLocation.msgDate;
-    myCell.blogImageView.image = [[UIImage imageNamed:TABLECELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        
+        myCell.titleLabel.text = self.postby;
+        myCell.subtitleLabel.text = self.subject;
+        myCell.msgDateLabel.text = self.msgDate;
+        
+    } else {
+        
+        myCell.titleLabel.text = self.selectedLocation.postby;
+        myCell.subtitleLabel.text = self.selectedLocation.subject;
+        myCell.msgDateLabel.text = self.selectedLocation.msgDate;
+    }
+    
+    myCell.blogImageView.image = [[UIImage imageNamed:BLOGCELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
     myCell.blogImageView.clipsToBounds = YES;
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
     
     if ([self.selectedLocation.rating isEqual: @"5"]) {
      //    label2.hidden = YES;
@@ -157,11 +167,20 @@
     {
         BlogNewViewController *detailVC = segue.destinationViewController;
         
-        detailVC.textcontentmsgNo = self.selectedLocation.msgNo;
-        detailVC.textcontentdate = self.selectedLocation.msgDate;
-        detailVC.textcontentsubject = self.selectedLocation.subject;
-        detailVC.textcontentpostby = self.selectedLocation.postby;
-        detailVC.textcontentrating = self.selectedLocation.rating;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+            
+            detailVC.textcontentmsgNo = self.msgNo;
+            detailVC.textcontentdate = self.msgDate;
+            detailVC.textcontentsubject = self.subject;
+            detailVC.textcontentpostby = self.postby;
+            detailVC.textcontentrating = self.rating;
+        } else {
+            detailVC.textcontentmsgNo = self.selectedLocation.msgNo;
+            detailVC.textcontentdate = self.selectedLocation.msgDate;
+            detailVC.textcontentsubject = self.selectedLocation.subject;
+            detailVC.textcontentpostby = self.selectedLocation.postby;
+            detailVC.textcontentrating = self.selectedLocation.rating;
+        }
     }
 }
 

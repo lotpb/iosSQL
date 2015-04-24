@@ -19,7 +19,7 @@
 
 - (void)downloadItems
 {
-    // Download the json file localhost/iosLeads.php  gtvinyl.com/service.php
+    // Download the json file
     
     NSURL *jsonFileUrl = [NSURL URLWithString:@"http://localhost:8888/iosBlog.php"];
     

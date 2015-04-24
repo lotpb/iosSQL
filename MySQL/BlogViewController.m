@@ -206,7 +206,7 @@
 {
     static NSString *CellIdentifier = IDCELL;
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(25, 145, 30, 11)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
@@ -224,27 +224,32 @@
     [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
     [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
     [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
-  
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
         
         myCell.blogtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
         myCell.blogsubtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
         myCell.blogmsgDateLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+        
+        //not working properly below
+        if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
+            label2.hidden = NO;
+        else label2.hidden = YES;
     } else {
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
-        }
+        
+        //not working properly below
+        if (![item.rating isEqual:@"5"])
+            label2.hidden = NO;
+        else label2.hidden = YES;
+    }
     
-    myCell.blog2ImageView.image = [UIImage imageNamed:TABLECELLIMAGE]; // stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    //myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    //not working properly below
-    if (![item.rating isEqual:@"5"])
-        label2.hidden = NO;
-    else label2.hidden = YES;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
     
     label2.text = @"Like";
     label2.font = LIKEFONT(LIKEFONTSIZE);
@@ -400,8 +405,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!isFilltered)
-          _selectedLocation = _feedItems[indexPath.row];
-       // _selectedLocation = BlogArray[indexPath.row];//[BlogArray objectAtIndex:indexPath.row];
+        _selectedLocation = _feedItems[indexPath.row];
         else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
@@ -411,10 +415,23 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
-   {
-    BlogEditDetailView*detailVC = segue.destinationViewController;
-    detailVC.selectedLocation = _selectedLocation;
-   }
+    {
+        BlogEditDetailView*detailVC = segue.destinationViewController;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+            
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+           // detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
+            detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"objectId"];
+            detailVC.postby = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+            detailVC.subject = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            detailVC.msgDate = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            detailVC.rating = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"];
+        }
+        else
+            detailVC.selectedLocation = _selectedLocation;
+        
+    }
 }
 
 @end

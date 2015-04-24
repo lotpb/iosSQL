@@ -462,6 +462,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF213BC11AE7D35600F344B9 /* UserImage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserImage;
+			sourceTree = "<group>";
+		};
 		AF23017F1A96BC4E0035D6BB /* Cards */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +517,7 @@
 		AF2BACC51A0D527E000995A5 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AF213BC11AE7D35600F344B9 /* UserImage */,
 				AF23017F1A96BC4E0035D6BB /* Cards */,
 				AF366EF51A55CBC300976387 /* Social Button */,
 				AF366EF41A55CB2E00976387 /* Sidebar */,
@@ -822,10 +830,10 @@
 		AFAA0FDC1A0E9FF800205EE9 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				AFA99E1C1A49E79700231173 /* NotificationController.h */,
-				AFA99E1D1A49E79700231173 /* NotificationController.m */,
 				AF9926831A4C796B00429EC8 /* Photo Collection */,
 				AFAA0FDB1A0E9A1200205EE9 /* Address */,
+				AFA99E1C1A49E79700231173 /* NotificationController.h */,
+				AFA99E1D1A49E79700231173 /* NotificationController.m */,
 				AF2856671A256B6D00A6F42A /* MapController.h */,
 				AF2856651A256B5000A6F42A /* MapController.m */,
 				AF79A4231ADB6A6C003907FD /* CalenderEdit.h */,
@@ -1320,6 +1328,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1335,6 +1344,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

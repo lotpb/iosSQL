@@ -77,7 +77,7 @@
 #define QACTIVE            @"Active" //Query Active
 //------tableviewcell-------------------------------
 #define IDCELL            @"BasicCell"
-#define TABLECELLIMAGE    @"IMG_1378"
+#define TABLECELLIMAGE    @"DemoCellImage"
 #define BACKGROUNDCOLOR   [UIColor blackColor]
 #define ROW_HEIGHT        44.0f
 #define CELL_FONTSIZE     14
@@ -299,6 +299,7 @@
 //-----------------------END-------------------------------
 
 // BLOG
+#define BLOGCELLIMAGE    @"IMG_1378"
 #define BLOGIMGRADIUS      5
 #define BLOGDELETENO       @"_msgNo=%@&&"
 #define BLOGDELETENO1      _msgNo
