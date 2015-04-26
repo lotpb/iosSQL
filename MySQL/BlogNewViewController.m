@@ -47,6 +47,7 @@
         self.postby = [defaults objectForKey:userNameKey];
             self.Reply.hidden = YES; }
       } else {
+        self.objectId = self.textcontentobjectId;
         self.msgNo = self.textcontentmsgNo;
         self.msgDate = self.textcontentdate;
         self.subject.text = self.textcontentsubject;
@@ -90,35 +91,36 @@
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     if (indexPath.row == 0) {
         
         if ([self.rating isEqual:@"5"] ) {
             activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
             [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
-            } else {
+        } else {
             activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-            }
-         activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        }
+        activeImage.contentMode = UIViewContentModeScaleAspectFit;
         [myCell.contentView addSubview:activeImage];
         
         [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-         myCell.textLabel.text = self.postby;
-         myCell.detailTextLabel.text = @"";
+        myCell.textLabel.text = self.postby;
+        myCell.detailTextLabel.text = @"";
         
     } else if (indexPath.row == 1) {
         [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
         [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-         myCell.textLabel.text = self.msgDate;
-         myCell.detailTextLabel.text = @"Date";
-        }
-return myCell;
+        myCell.textLabel.text = self.msgDate;
+        myCell.detailTextLabel.text = @"Date";
+    }
+    return myCell;
 }
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {
+    
     if([self.rating isEqualToString: @"4"]) {
        [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
         self.activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
@@ -144,24 +146,20 @@ return myCell;
 #pragma mark - Button New Database
 -(IBAction)Reply:(id)sender{ //update
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {  //updateBlog
         [self.listTableView reloadData];
-     
-        NSString *tempString = self.rating;
-        NSNumber *numValue = @([tempString intValue]);
-        // NSNull *null = [NSNull null];
-        //NSDate *date = [NSDate date];
         
-        PFObject *updateblog = [PFObject objectWithClassName:@"Blog"];
-        [updateblog setObject:self.msgNo forKey:@"objectId"];
-        [updateblog setObject:self.msgNo forKey:@"MsgNo"];
-        [updateblog setObject:self.msgDate forKey:@"MsgDate"];
-     // [updateblog setObject:[NSDate date] forKey:@"createdAt"];
-        [updateblog setObject:self.postby forKey:@"PostBy"];
-        [updateblog setObject:numValue forKey:@"Rating"];
-        [updateblog setObject:self.subject.text forKey:@"Subject"];
-        [updateblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+        [query whereKey:@"objectId" equalTo:self.objectId];
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
+            if (!error) {
+                [updateblog setObject:self.msgDate forKey:@"MsgDate"];
+                //  [updateblog setObject:[NSNumber numberWithInt:self.msgNo] forKey:@"MsgNo"];
+                //[updateblog setObject:self.msgNo forKey:@"MsgNo"];
+                [updateblog setObject:self.postby forKey:@"PostBy"];
+                [updateblog setObject:self.rating forKey:@"Rating"];
+                [updateblog setObject:self.subject.text forKey:@"Subject"];
+                [updateblog saveInBackground];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
             } else {
@@ -171,87 +169,84 @@ return myCell;
         }];
         
     } else {
-    // [self displayActivityIndicator];
-    NSString *_msgNo = self.msgNo;
-    NSString *_msgDate = self.msgDate;
-    NSString *_subject = self.subject.text;
-    NSString *_rating = self.rating;
-    NSString *_postby = self.postby;
-    
-    NSString *rawStr = [NSString stringWithFormat:BLOGUPDATEFIELD, BLOGUPDATEFIELD1];
-    NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:data];
-    NSURLResponse *response;
-    NSError *err;
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-    NSLog(@"%@", responseString);
-    NSString *success = @"success";
-    [success dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSLog(@"%lu", (unsigned long)responseString.length);
-    NSLog(@"%lu", (unsigned long)success.length);
+        
+        NSString *_msgNo = self.msgNo;
+        NSString *_msgDate = self.msgDate;
+        NSString *_subject = self.subject.text;
+        NSString *_rating = self.rating;
+        NSString *_postby = self.postby;
+        
+        NSString *rawStr = [NSString stringWithFormat:BLOGUPDATEFIELD, BLOGUPDATEFIELD1];
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+    //  NSLog(@"%lu", (unsigned long)responseString.length);
+    //  NSLog(@"%lu", (unsigned long)success.length);
     }
-   [[self navigationController]popToRootViewControllerAnimated:YES];
+    [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Button Update Database
 -(IBAction)Share:(id)sender { //save
     
-     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) { //saveBlog
         [self.listTableView reloadData];
-       
+        /*
          NSString *tempString = self.rating;
          NSNumber *numValue = @([tempString intValue]);
-        // NSNull *null = [NSNull null];
-        //NSDate *date = [NSDate date];
-         
-         PFObject *saveblog = [PFObject objectWithClassName:@"Blog"];
-        //  [saveblog setObject:self.msgNo forKey:@"MsgNo"];
-          [saveblog setObject:self.msgDate forKey:@"MsgDate"];
-        //  [saveblog setObject:[NSDate date] forKey:@"MsgDate1"];
-          [saveblog setObject:self.postby forKey:@"PostBy"];
-          [saveblog setObject:numValue forKey:@"Rating"];
-          [saveblog setObject:self.subject.text forKey:@"Subject"];
-          [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             if (succeeded) {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                 [alert show];
-             } else {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                 [alert show];
-             }
-         }];
-         
-     } else {
-         
-    [self.listTableView reloadData];
-    NSString *_msgDate = self.msgDate;
-    NSString *_subject = self.subject.text;
-    NSString *_rating = self.rating;
-    NSString *_postby = self.postby;
-    
-    NSString *rawStr = [NSString stringWithFormat:BLOGSAVEFIELD, BLOGSAVEFIELD1];
-    
-    NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:BLOGSAVEURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:data];
-    NSURLResponse *response;
-    NSError *err;
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-    NSLog(@"%@", responseString);
-    NSString *success = @"success";
-    [success dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSLog(@"%lu", (unsigned long)responseString.length);
-    NSLog(@"%lu", (unsigned long)success.length);
-     }
+         NSNull *null = [NSNull null];
+         NSDate *date = [NSDate date]; */
+        
+        PFObject *saveblog = [PFObject objectWithClassName:@"Blog"];
+     // [saveblog setObject:NULL forKey:@"MsgNo"];
+        [saveblog setObject:self.msgDate forKey:@"MsgDate"];
+        [saveblog setObject:self.postby forKey:@"PostBy"];
+        [saveblog setObject:self.rating forKey:@"Rating"];
+        [saveblog setObject:self.subject.text forKey:@"Subject"];
+        [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        }];
+        
+    } else {
+        
+        [self.listTableView reloadData];
+        NSString *_msgDate = self.msgDate;
+        NSString *_subject = self.subject.text;
+        NSString *_rating = self.rating;
+        NSString *_postby = self.postby;
+        
+        NSString *rawStr = [NSString stringWithFormat:BLOGSAVEFIELD, BLOGSAVEFIELD1];
+        
+        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:BLOGSAVEURL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:data];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+        NSLog(@"%@", responseString);
+        NSString *success = @"success";
+        [success dataUsingEncoding:NSUTF8StringEncoding];
+     // NSLog(@"%lu", (unsigned long)responseString.length);
+    //  NSLog(@"%lu", (unsigned long)success.length);
+    }
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 

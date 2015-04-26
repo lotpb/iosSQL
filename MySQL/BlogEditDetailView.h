@@ -13,6 +13,7 @@
 
 @interface BlogEditDetailView : UIViewController
 
+@property (strong, nonatomic) NSString *objectId;
 @property (strong, nonatomic) NSString *msgNo;
 @property (strong, nonatomic) NSString *postby;
 @property (strong, nonatomic) NSString *subject;

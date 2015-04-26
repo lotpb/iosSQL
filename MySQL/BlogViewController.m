@@ -79,12 +79,6 @@
     [super viewWillAppear:animated];
 }
 
-#pragma mark - ParseDelegate
-- (void)parseBlogloaded:(NSMutableArray *)blogItem {
-     BlogArray = blogItem;
-    [self.listTableView reloadData];
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
@@ -113,6 +107,12 @@
 #pragma mark - Bar Button
 -(void)foundView:(id)sender {
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseBlogloaded:(NSMutableArray *)blogItem {
+    BlogArray = blogItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - TableView
@@ -147,11 +147,25 @@
                                      message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"OK"
-                             style:UIAlertActionStyleDefault
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+                                     
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+                                     [query whereKey:@"objectId" equalTo:[[BlogArray objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
+                                 
                                  BlogLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.msgNo;
@@ -163,10 +177,8 @@
                                  NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
                                  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
                                  
-                                 [request setHTTPMethod:@"POST"];
-                                 [request setHTTPBody:data];
-                                 NSURLResponse *response;
-                                 NSError *err;
+                                 [request setHTTPMethod:@"POST"]; [request setHTTPBody:data];
+                                 NSURLResponse *response; NSError *err;
                                  NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
                                  NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
                                  NSLog(@"%@", responseString);
@@ -174,14 +186,14 @@
                                  [success dataUsingEncoding:NSUTF8StringEncoding];
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 [self.navigationController popViewControllerAnimated:YES];
                                  //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                }
                              }];
-        UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:@"Cancel"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
+                             
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
                                      
@@ -199,7 +211,11 @@
       if (isFilltered)
       return filteredString.count;
       else
-      return _feedItems.count;
+  //  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+  //      return BlogArray.count;
+  //      else
+        return _feedItems.count;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -406,7 +422,7 @@
 {
     if (!isFilltered)
         _selectedLocation = _feedItems[indexPath.row];
-        else
+    else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:BLOGVIEWSEGUE sender:self];
@@ -421,8 +437,8 @@
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
             
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-           // detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
-            detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"objectId"];
+            detailVC.objectId = [[BlogArray objectAtIndex:indexPath.row] objectId];
+            detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
             detailVC.postby = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             detailVC.subject = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             detailVC.msgDate = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];

@@ -32,8 +32,7 @@
     _AdModel.delegate = self; [_AdModel downloadItems];
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
-    parseConnection.delegate = (id)self;
-    [parseConnection parseHeadAd];
+    parseConnection.delegate = (id)self; [parseConnection parseHeadAd];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     

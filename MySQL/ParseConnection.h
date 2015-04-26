@@ -48,9 +48,9 @@
 - (void)parseHeadProduct;
 - (void)parseBlog;
 
-@property (strong, nonatomic) NSString *frm22;
-@property (strong, nonatomic) NSString *frm23;
-@property (strong, nonatomic) UITextField *jobName;
-@property (strong, nonatomic) UITextField *adName;
+//@property (strong, nonatomic) NSString *frm22;
+//@property (strong, nonatomic) NSString *frm23;
+//@property (strong, nonatomic) UITextField *jobName;
+//@property (strong, nonatomic) UITextField *adName;
 
 @end

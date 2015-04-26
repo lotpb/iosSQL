@@ -134,23 +134,23 @@
     myCell.blogImageView.clipsToBounds = YES;
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    if ([self.selectedLocation.rating isEqual: @"5"]) {
-     //    label2.hidden = YES;
-     //    else {
-     //    label2.hidden = NO;
-     [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-     [self.Like setBackgroundColor:LIKECOLORBACK];
-     [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
-      self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+  
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        
+        if ([self.rating isEqual:@"5"]) {
+            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            [self.Like setBackgroundColor:LIKECOLORBACK];
+            [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
+            self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+        } else { 
+            if ([self.selectedLocation.rating isEqual: @"5"]) {
+                [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+                [self.Like setBackgroundColor:LIKECOLORBACK];
+                [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
+                self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+            }
+        }
     }
- /* label2.text=  @"Like";
-    label2.font = [UIFont boldSystemFontOfSize:9.0];
-    label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:[UIColor whiteColor]];
-    [label2 setBackgroundColor:[UIColor redColor]];
-    label2.tag = 103;
-    [myCell.contentView addSubview:label2]; */
     
     return myCell;
 }
@@ -169,6 +169,7 @@
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
             
+            detailVC.textcontentobjectId = self.objectId;
             detailVC.textcontentmsgNo = self.msgNo;
             detailVC.textcontentdate = self.msgDate;
             detailVC.textcontentsubject = self.subject;

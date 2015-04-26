@@ -31,8 +31,7 @@
     _JobModel.delegate = self; [_JobModel downloadItems];
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
-    parseConnection.delegate = (id)self;
-    [parseConnection parseHeadJob];
+    parseConnection.delegate = (id)self; [parseConnection parseHeadJob];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     

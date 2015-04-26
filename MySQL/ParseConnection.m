@@ -208,13 +208,13 @@
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [PFQuery clearAllCachedResults];
-/*  [query selectKeys:@[@"MsgNo"]];
-    [query selectKeys:@[@"objectId"]];
+  /*  [query selectKeys:@[@"objectId"]];
+    [query selectKeys:@[@"MsgNo"]];
     [query selectKeys:@[@"MsgDate"]];
     [query selectKeys:@[@"PostBy"]];
     [query selectKeys:@[@"Rating"]];
-    [query selectKeys:@[@"Subject"]]; */
-    [query orderByDescending:@"MsgNo"];
+    [query selectKeys:@[@"Subject"]];  */
+    [query orderByDescending:@"createdAt"];
     [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -222,6 +222,7 @@
         if (!error) {
             for (PFObject *object in objects) {
                 [BlogArray addObject:object];
+               // NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
                     [self.delegate parseBlogloaded:BlogArray];
                 }
