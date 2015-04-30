@@ -17,7 +17,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 //#import "CalenderEdit.h"
 
-@interface LeadDetailViewControler : UIViewController
+@interface LeadDetailViewControler : UIViewController //<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;

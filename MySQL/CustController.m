@@ -171,35 +171,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 75, 27)];
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     CustLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
-    
-       [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-    
-        myCell.textLabel.text = item.lastname;
-        myCell.detailTextLabel.text = item.city;
-      //  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-      // [myCell.imageView setImage:myImage];
 
-    label2.text=  item.date;
+    myCell.textLabel.text = item.lastname;
+    myCell.detailTextLabel.text = item.city;
+   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+//  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+// [myCell.imageView setImage:myImage];
+    
+    label1.text = item.amount;
+    [label1 setFont:CELL_FONT1(CELL_FONTSIZE - 2)];
+    label1.textAlignment = NSTextAlignmentCenter;
+    [label1 setTextColor:[UIColor blackColor]];
+    [label1 setBackgroundColor:[UIColor whiteColor]];
+    label1.tag = 102;
+    [myCell.contentView addSubview:label1];
+    
+    label2.text = item.date;
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:DATECOLORBACK];
     label2.tag = 103;
     [myCell.contentView addSubview:label2];
-
+    
     return myCell;
 }
 

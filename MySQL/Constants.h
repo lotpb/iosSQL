@@ -82,6 +82,7 @@
 #define ROW_HEIGHT        44.0f
 #define CELL_FONTSIZE     14
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
+#define CELL_FONT1(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
 #define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]

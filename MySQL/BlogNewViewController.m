@@ -45,7 +45,7 @@
         self.msgDate = dateString;
         self.rating = @"4";
         self.postby = [defaults objectForKey:userNameKey];
-            self.Reply.hidden = YES; }
+            self.Update.hidden = YES; }
       } else {
         self.objectId = self.textcontentobjectId;
         self.msgNo = self.textcontentmsgNo;
@@ -85,37 +85,37 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = IDCELL;
-    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
-    
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    if (indexPath.row == 0) {
+        static NSString *CellIdentifier = IDCELL;
+        UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
         
-        if ([self.rating isEqual:@"5"] ) {
-            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
-            [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
-        } else {
-            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
-            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (myCell == nil)
+            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        if (indexPath.row == 0) {
+            
+            if ([self.rating isEqual:@"5"] ) {
+                activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
+                [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+            } else {
+                activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
+                [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            }
+            activeImage.contentMode = UIViewContentModeScaleAspectFit;
+            [myCell.contentView addSubview:activeImage];
+            
+            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            myCell.textLabel.text = self.postby;
+            myCell.detailTextLabel.text = @"";
+            
+        } else if (indexPath.row == 1) {
+            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            myCell.textLabel.text = self.msgDate;
+            myCell.detailTextLabel.text = @"Date";
         }
-        activeImage.contentMode = UIViewContentModeScaleAspectFit;
-        [myCell.contentView addSubview:activeImage];
-        
-        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-        myCell.textLabel.text = self.postby;
-        myCell.detailTextLabel.text = @"";
-        
-    } else if (indexPath.row == 1) {
-        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-        myCell.textLabel.text = self.msgDate;
-        myCell.detailTextLabel.text = @"Date";
-    }
-    return myCell;
+        return myCell;
 }
 
 #pragma mark - Button
@@ -144,7 +144,7 @@
 }
 
 #pragma mark - Button New Database
--(IBAction)Reply:(id)sender{ //update
+-(IBAction)Update:(id)sender {
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {  //updateBlog
         [self.listTableView reloadData];
@@ -154,12 +154,13 @@
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
             if (!error) {
                 [updateblog setObject:self.msgDate forKey:@"MsgDate"];
-                //  [updateblog setObject:[NSNumber numberWithInt:self.msgNo] forKey:@"MsgNo"];
-                //[updateblog setObject:self.msgNo forKey:@"MsgNo"];
+            //  [updateblog setObject:[NSNumber numberWithInt:self.msgNo] forKey:@"MsgNo"];
+            //  [updateblog setObject:self.msgNo forKey:@"MsgNo"];
                 [updateblog setObject:self.postby forKey:@"PostBy"];
                 [updateblog setObject:self.rating forKey:@"Rating"];
                 [updateblog setObject:self.subject.text forKey:@"Subject"];
                 [updateblog saveInBackground];
+                
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
             } else {
@@ -247,6 +248,7 @@
      // NSLog(@"%lu", (unsigned long)responseString.length);
     //  NSLog(@"%lu", (unsigned long)success.length);
     }
+    
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 

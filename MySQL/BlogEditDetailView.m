@@ -142,16 +142,17 @@
             [self.Like setBackgroundColor:LIKECOLORBACK];
             [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-        } else { 
-            if ([self.selectedLocation.rating isEqual: @"5"]) {
-                [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-                [self.Like setBackgroundColor:LIKECOLORBACK];
-                [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
-                self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-            }
+        }
+        
+    } else {
+        
+        if ([self.selectedLocation.rating isEqual:@"5"]) {
+            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            [self.Like setBackgroundColor:LIKECOLORBACK];
+            [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
+            self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
     }
-    
     return myCell;
 }
 

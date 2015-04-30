@@ -211,9 +211,9 @@
       if (isFilltered)
       return filteredString.count;
       else
-  //  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-  //      return BlogArray.count;
-  //      else
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+        return BlogArray.count;
+        else
         return _feedItems.count;
     
 }
@@ -227,7 +227,7 @@
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+   
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
@@ -248,9 +248,10 @@
         myCell.blogmsgDateLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
         
         //not working properly below
-        if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
+    if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
             label2.hidden = NO;
         else label2.hidden = YES;
+        
     } else {
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
@@ -258,8 +259,9 @@
         
         //not working properly below
         if (![item.rating isEqual:@"5"])
-            label2.hidden = NO;
-        else label2.hidden = YES;
+            [label2 setBackgroundColor:LIKECOLORBACK];
+           // label2.hidden = NO;
+        else [label2 setBackgroundColor:[UIColor whiteColor]];//label2.hidden = YES;
     }
     
     myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
@@ -271,8 +273,12 @@
     label2.font = LIKEFONT(LIKEFONTSIZE);
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:LIKECOLORTEXT];
-    [label2 setBackgroundColor:LIKECOLORBACK];
+   // [label2 setBackgroundColor:LIKECOLORBACK];
+    //label2.tag = 102;
+   // label2.numberOfLines = 0;
+   // label2.lineBreakMode = NSLineBreakByClipping;
     [myCell.contentView addSubview:label2];
+    
     
     return myCell;
 }

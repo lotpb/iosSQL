@@ -179,6 +179,7 @@
 
 /* Begin PBXFileReference section */
 		AF023A9E1AE09691006D8AEC /* ParseConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseConnection.m; sourceTree = "<group>"; };
+		AF0263DD1AEDCEEF005A0AD4 /* ConstantMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstantMain.h; sourceTree = "<group>"; };
 		AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeadDetailViewControler.h; sourceTree = "<group>"; };
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
@@ -693,6 +694,7 @@
 		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				AF0263DD1AEDCEEF005A0AD4 /* ConstantMain.h */,
 				AF68D6BF1A921A130014106A /* SearchResultsViewController.h */,
 				AF68D6C01A921A130014106A /* SearchResultsViewController.m */,
 				AF68D6C21A926C0B0014106A /* SearchControllerBaseViewController.h */,

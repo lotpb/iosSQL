@@ -131,7 +131,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="Reply:" destination="Ukk-fm-E6W" eventType="touchUpInside" id="dKU-d4-Rc9"/>
+                                                        <action selector="Update:" destination="Ukk-fm-E6W" eventType="touchUpInside" id="yYc-BW-8SF"/>
                                                     </connections>
                                                 </button>
                                             </barButtonItem>
@@ -324,8 +324,8 @@
                     <navigationItem key="navigationItem" id="NZg-d1-v4L"/>
                     <connections>
                         <outlet property="Like" destination="gX6-rq-I3w" id="IpH-Gq-Zdn"/>
-                        <outlet property="Reply" destination="Osv-Cx-tM8" id="fgT-hL-FVm"/>
                         <outlet property="Share" destination="bow-GC-MRI" id="Zpl-Zz-Hwj"/>
+                        <outlet property="Update" destination="Osv-Cx-tM8" id="RkE-dS-Ebd"/>
                         <outlet property="listTableView" destination="e8Y-ve-d4B" id="qte-4i-3xn"/>
                         <outlet property="myDatePicker" destination="7Ic-Sb-mf6" id="zbY-gT-RaA"/>
                         <outlet property="subject" destination="c3J-Uj-gke" id="7S5-tZ-KdU"/>
@@ -421,9 +421,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="8" y="40" width="299" height="15"/>
-                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -451,9 +448,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="242" y="14" width="65" height="19"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -2896,7 +2890,7 @@
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                                             </variation>
                                                                         </label>
                                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xjl-bW-fg6">
@@ -2904,7 +2898,7 @@
                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
-                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="8"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
                                                                             </variation>
                                                                         </label>
                                                                     </subviews>
@@ -2982,7 +2976,7 @@
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                                             </variation>
                                                                         </label>
                                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P0S-NK-CKn">
@@ -2990,7 +2984,7 @@
                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <variation key="heightClass=regular-widthClass=compact">
-                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="8"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
                                                                             </variation>
                                                                         </label>
                                                                     </subviews>
@@ -3103,46 +3097,38 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="13" width="282" height="15"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-Aj-S6R">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="28" width="266" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read more" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtL-ch-upH">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="262" y="28" width="41" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" text="News" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYd-KN-lCj">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
-                                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                        <rect key="frame" x="15" y="39" width="280" height="10"/>
-                                                                    </variation>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="a4B-Aj-S6R" firstAttribute="leading" secondItem="CYd-KN-lCj" secondAttribute="leading" id="1za-dc-2J7"/>
-                                                                <constraint firstAttribute="bottomMargin" secondItem="CYd-KN-lCj" secondAttribute="bottom" priority="250" constant="54" id="3Ct-xj-VFY">
-                                                                    <variation key="heightClass=regular-widthClass=compact" constant="48"/>
+                                                                <constraint firstItem="a4B-Aj-S6R" firstAttribute="leading" secondItem="CYd-KN-lCj" secondAttribute="leading" id="1za-dc-2J7">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                                 </constraint>
-                                                                <constraint firstItem="u7x-0N-LVx" firstAttribute="leading" secondItem="Zrz-YK-nSU" secondAttribute="leadingMargin" constant="7" id="7M4-ms-nTg"/>
+                                                                <constraint firstAttribute="bottomMargin" secondItem="CYd-KN-lCj" secondAttribute="bottom" priority="250" constant="54" id="3Ct-xj-VFY">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="22"/>
+                                                                </constraint>
+                                                                <constraint firstItem="u7x-0N-LVx" firstAttribute="leading" secondItem="Zrz-YK-nSU" secondAttribute="leadingMargin" constant="7" id="7M4-ms-nTg">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="-1"/>
+                                                                </constraint>
                                                                 <constraint firstItem="CtL-ch-upH" firstAttribute="leading" secondItem="a4B-Aj-S6R" secondAttribute="trailing" constant="11" id="AHB-qm-iAg">
-                                                                    <variation key="heightClass=regular-widthClass=compact" constant="-19"/>
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="-4"/>
                                                                 </constraint>
                                                                 <constraint firstItem="u7x-0N-LVx" firstAttribute="top" secondItem="Zrz-YK-nSU" secondAttribute="topMargin" id="LAa-6b-GIN">
                                                                     <variation key="heightClass=regular-widthClass=compact" constant="5"/>
@@ -3154,12 +3140,16 @@
                                                                     <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                                 </constraint>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="u7x-0N-LVx" secondAttribute="trailing" constant="5" id="TE4-0A-HNc">
-                                                                    <variation key="heightClass=regular-widthClass=compact" constant="15"/>
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="5"/>
                                                                 </constraint>
-                                                                <constraint firstAttribute="trailingMargin" secondItem="CtL-ch-upH" secondAttribute="trailing" constant="9" id="alf-hC-iT0"/>
-                                                                <constraint firstItem="a4B-Aj-S6R" firstAttribute="leading" secondItem="u7x-0N-LVx" secondAttribute="leading" id="daY-6f-YWv"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="CtL-ch-upH" secondAttribute="trailing" constant="9" id="alf-hC-iT0">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="2"/>
+                                                                </constraint>
+                                                                <constraint firstItem="a4B-Aj-S6R" firstAttribute="leading" secondItem="u7x-0N-LVx" secondAttribute="leading" id="daY-6f-YWv">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                                                                </constraint>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="CYd-KN-lCj" secondAttribute="trailing" constant="25" id="izm-37-BCD">
-                                                                    <variation key="heightClass=regular-widthClass=compact" constant="17"/>
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="5"/>
                                                                 </constraint>
                                                                 <constraint firstItem="CYd-KN-lCj" firstAttribute="top" secondItem="CtL-ch-upH" secondAttribute="bottom" constant="9" id="ka5-Uf-rFM">
                                                                     <variation key="heightClass=regular-widthClass=compact" constant="1"/>
@@ -6110,14 +6100,14 @@
     <inferredMetricsTieBreakers>
         <segue reference="jwQ-k2-eY1"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="wDP-4Y-cdF"/>
         <segue reference="8fI-fo-TTU"/>
-        <segue reference="YL2-bg-fIc"/>
         <segue reference="zQR-YQ-xF4"/>
-        <segue reference="xOD-Ja-G1n"/>
-        <segue reference="dip-5A-Lje"/>
-        <segue reference="Vww-ua-WBq"/>
+        <segue reference="YL2-bg-fIc"/>
+        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="382-1V-m5k"/>
         <segue reference="46l-tX-X1A"/>
+        <segue reference="wDP-4Y-cdF"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

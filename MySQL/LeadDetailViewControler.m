@@ -33,10 +33,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.title = NSLocalizedString(name, nil);
+    
+    self.title = NSLocalizedString(name, nil);
+   // self.listTableView.delegate = self;
+  //  self.listTableView.dataSource = self;
+  //  self.listTableView2.delegate = self;
+  //  self.listTableView2.dataSource = self;
+  //  self.newsTableView.delegate = self;
+  //  self.newsTableView.dataSource = self;
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
-    self.newsTableView.estimatedRowHeight = 200.0;
+    self.newsTableView.estimatedRowHeight = 220.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.edgesForExtendedLayout = UIRectEdgeNone;
    [self parseData];
@@ -64,6 +71,7 @@
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
@@ -77,6 +85,12 @@
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+}
+
+- (void)reloadTable {
+    [self.newsTableView reloadData];
+    [self.listTableView reloadData]; [self.listTableView2 reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,11 +121,6 @@
         
         [refreshControl endRefreshing];
     }
-}
-
-- (void)reloadTable {
-    [self.listTableView reloadData]; [self.listTableView2 reloadData];
-    [self.newsTableView reloadData];
 }
 
 #pragma mark - Buttons
@@ -185,7 +194,7 @@
      myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
     [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
     [myCell.detailTextLabel setTextColor:DETAILTITLECOLOR];
-        
+
     return myCell;
 }
     else if ([tableView isEqual:self.listTableView2]) {
@@ -208,18 +217,17 @@
     UIView *vertLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, myCell.frame.size.height)];
     vertLine.backgroundColor = DIVIDERCOLOR;
     [myCell.contentView addSubview:vertLine];
-        
+
     return myCell;
 }
-    else if ([tableView isEqual:self.newsTableView]) {
-        
+     else if ([tableView isEqual:self.newsTableView]) {
+      
     static NSString *CellIdentifier1 = IDCELL;
             CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
     
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
 
-        
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;
@@ -277,8 +285,8 @@
     separatorLineView.backgroundColor = [UIColor grayColor];// you can also put image here
     [myCell.contentView addSubview:separatorLineView];
 
-
 return myCell;
+        
     } else {
       NSLog(@"I have no idea what's going on...");
       return nil;
@@ -438,7 +446,7 @@ return myCell;
         t25 = self.tbl25;
     else t25 = @"None";
     
-    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] == 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
   
@@ -458,6 +466,7 @@ return myCell;
     tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
     
     tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
+    
 }
 
 #pragma mark - Parse

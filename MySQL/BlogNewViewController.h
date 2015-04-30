@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *subject;
 
 @property (weak, nonatomic) IBOutlet UIButton *Share;
-@property (weak, nonatomic) IBOutlet UIButton *Reply;
+@property (weak, nonatomic) IBOutlet UIButton *Update;
 @property (weak, nonatomic) IBOutlet UIButton *Like;
 @property (weak, nonatomic) IBOutlet UIDatePicker *myDatePicker;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
