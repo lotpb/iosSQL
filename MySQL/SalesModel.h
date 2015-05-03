@@ -19,4 +19,5 @@
 @property (nonatomic, weak) id <SalesModelProtocol> delegate;
 
 - (void)downloadItems;
+
 @end

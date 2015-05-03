@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import "CustLocation.h"
+#import "LeadTodayModel.h"
 
-
-@interface StatisticsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
+@interface StatisticsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, LeadTodayModelProtocol>
 {
     NSMutableArray *tableData, *tableData1, *filteredString;
     BOOL isFilltered;

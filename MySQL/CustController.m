@@ -175,7 +175,6 @@
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -208,6 +207,7 @@
     label2.tag = 103;
     [myCell.contentView addSubview:label2];
     
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
 

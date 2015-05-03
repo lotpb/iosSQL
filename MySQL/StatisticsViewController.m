@@ -10,6 +10,7 @@
 
 @interface StatisticsViewController ()
 {
+    LeadTodayModel *_LeadTodayModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -17,7 +18,6 @@
 @end
 
 @implementation StatisticsViewController
-@synthesize label2;
 
 - (void)viewDidLoad
 {
@@ -27,17 +27,21 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+    //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    //self.listTableView.estimatedRowHeight = 44.0;
+    //self.listTableView.rowHeight = UITableViewAutomaticDimension;
+
+    _feedItems = [[NSMutableArray alloc] init]; _LeadTodayModel = [[LeadTodayModel alloc] init];
+    _LeadTodayModel.delegate = self; [_LeadTodayModel downloadItems];
     
     tableData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, SNAME7, SNAME8, SNAME9, nil];
     
-    tableData1 = [[NSMutableArray alloc]initWithObjects:SNAME11, SNAME22, SNAME33, SNAME44, SNAME55, SNAME66, SNAME77, SNAME88, SNAME99, nil];
-    
+    filteredString= [[NSMutableArray alloc] init];
+
 #pragma mark Bar Button
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    //Change BarButton Font Below
-    // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -56,14 +60,27 @@
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
 }
 
+- (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
+    [super viewDidAppear:animated];
+   /*
+    tableData1 = [[NSMutableArray alloc]initWithObjects:SNAME22, SNAME22, SNAME33, SNAME44, SNAME55, SNAME66, SNAME77, SNAME88, SNAME99, nil];
+    [self.listTableView reloadData]; */
+}
+
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)itemsDownloaded:(NSMutableArray *)items {
+    _feedItems = items;
+    [self.listTableView reloadData];
+}
+
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
     
+    [_LeadTodayModel downloadItems];
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -87,8 +104,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(isFilltered)
         return [filteredString count];
-    
-    return [tableData count];
+    else
+        return _feedItems.count;
 }
 
 #pragma mark TableView Delegate
@@ -97,19 +114,29 @@
     static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    //myCell.layer.cornerRadius = 5;
+    //myCell.layer.masksToBounds = YES;
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (!isFilltered) {
-        myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
-        myCell.detailTextLabel.text = [tableData1 objectAtIndex:indexPath.row];
-    } else
-        myCell.textLabel.text = [filteredString objectAtIndex:indexPath.row];
+    CustLocation *item;
     
+    if (!isFilltered)
+        //  myCell.detailTextLabel.text = [tableData1 objectAtIndex:indexPath.row];
+        item = _feedItems[indexPath.row];
+    else
+        item = [filteredString objectAtIndex:indexPath.row];
+
+        myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
+        myCell.detailTextLabel.text = item.custNo;
+       [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+ 
     if (self.searchController.searchBar.text.length > 0)
         myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    myCell.accessoryType = UITableViewCellAccessoryNone;
     return myCell;
 }
 
@@ -241,6 +268,17 @@
         }
     }
     [self.listTableView reloadData];
+}
+
+#pragma mark - Segue
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (!isFilltered)
+        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+    else
+        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+    
+   // [self performSegueWithIdentifier:LEADVIEWSEGUE sender:self];
 }
 
 @end

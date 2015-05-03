@@ -192,10 +192,9 @@
         else
         item = [filteredString objectAtIndex:indexPath.row];
 
-    [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-
     myCell.textLabel.text = item.name;
     myCell.detailTextLabel.text = item.city;
+   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
  // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
  // [myCell.imageView setImage:myImage];

@@ -127,7 +127,7 @@
 		AFAAE68B1A06C44A000C2423 /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAE68A1A06C44A000C2423 /* NewsController.m */; };
 		AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */; };
 		AFB581061AE5AFFA00DDD9B6 /* parseBlogLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */; };
-		AFB581091AE5C46C00DDD9B6 /* DataLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB581081AE5C46C00DDD9B6 /* DataLocation.m */; };
+		AFB8C7181AF3035500417431 /* LeadTodayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB8C7171AF3035500417431 /* LeadTodayModel.m */; };
 		AFBC9E8719D9CEDE0050E67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8619D9CEDE0050E67A /* main.m */; };
 		AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */; };
 		AFBC9E8D19D9CEDF0050E67A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8C19D9CEDF0050E67A /* ViewController.m */; };
@@ -360,8 +360,8 @@
 		AFAE5FC51A138998005D4245 /* BlogLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlogLocation.h; sourceTree = "<group>"; };
 		AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseBlogLocation.h; sourceTree = "<group>"; };
 		AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseBlogLocation.m; sourceTree = "<group>"; };
-		AFB581071AE5C46C00DDD9B6 /* DataLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataLocation.h; sourceTree = "<group>"; };
-		AFB581081AE5C46C00DDD9B6 /* DataLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataLocation.m; sourceTree = "<group>"; };
+		AFB8C7161AF3035500417431 /* LeadTodayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeadTodayModel.h; sourceTree = "<group>"; };
+		AFB8C7171AF3035500417431 /* LeadTodayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadTodayModel.m; sourceTree = "<group>"; };
 		AFB91FBA1A4A592B00737D1F /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		AFBC9E8119D9CEDE0050E67A /* MySQL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySQL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFBC9E8519D9CEDE0050E67A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -622,8 +622,10 @@
 		AF3F387E19EB558600CB785F /* Database Files */ = {
 			isa = PBXGroup;
 			children = (
-				AFB581071AE5C46C00DDD9B6 /* DataLocation.h */,
-				AFB581081AE5C46C00DDD9B6 /* DataLocation.m */,
+				AFB8C7161AF3035500417431 /* LeadTodayModel.h */,
+				AFB8C7171AF3035500417431 /* LeadTodayModel.m */,
+				AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */,
+				AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */,
 				AF26EF781A360BFB00FFE5F0 /* SalesLocation.h */,
 				AF26EF791A360BFB00FFE5F0 /* SalesLocation.m */,
 				AF26EF7B1A360C0F00FFE5F0 /* SalesModel.h */,
@@ -644,8 +646,6 @@
 				AFF3B8861A2135B6005D556C /* EmployeeLocation.m */,
 				AF2856681A256B9E00A6F42A /* EmployeeModel.h */,
 				AF2856691A256BBB00A6F42A /* EmployeeModel.m */,
-				AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */,
-				AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */,
 				AFAE5FC51A138998005D4245 /* BlogLocation.h */,
 				AF3F388319EB566000CB785F /* BlogLocation.m */,
 				AF3F387F19EB562600CB785F /* BlogModel.h */,
@@ -874,13 +874,13 @@
 			isa = PBXGroup;
 			children = (
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
-				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
-				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF8B684A1AE442810025A2FD /* StatisticsViewController.h */,
 				AF8B684B1AE442810025A2FD /* StatisticsViewController.m */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
+				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
+				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AFBC9E9119D9CEDF0050E67A /* Images.xcassets */,
@@ -1195,6 +1195,7 @@
 				AFFEA0791A31ED5200165318 /* ProductModel.m in Sources */,
 				AFE9268A1A8AB7AA00FE7043 /* NewDataDetail.m in Sources */,
 				AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */,
+				AFB8C7181AF3035500417431 /* LeadTodayModel.m in Sources */,
 				AF9926B31A4CFD1100429EC8 /* CollectionDetailController.m in Sources */,
 				AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */,
 				AF26EF7D1A360C0F00FFE5F0 /* SalesModel.m in Sources */,
@@ -1218,7 +1219,6 @@
 				AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */,
 				AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,
-				AFB581091AE5C46C00DDD9B6 /* DataLocation.m in Sources */,
 				AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
