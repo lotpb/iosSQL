@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "LeadTodayModel.h"
+#import "StatModel.h"
 #import "CustLocation.h"
 
-@interface LeadTodayModel ()
+@interface StatModel ()
 {
     NSMutableData *_downloadedData;
 }
 @end
 
-@implementation LeadTodayModel
+@implementation StatModel
 
 - (void)downloadItems
 {
@@ -59,9 +59,8 @@
         NSDictionary *jsonElement = jsonArray[i];
         
         CustLocation *newLocation = [[CustLocation alloc] init];
-        //newLocation.salesCount = jsonElement[@"SalesCount"];
         newLocation.custNo = jsonElement[@"CustNo"];
-        newLocation.leadNo = jsonElement[@"LeadNo"];
+     /*   newLocation.leadNo = jsonElement[@"LeadNo"];
         newLocation.date = jsonElement[@"Date"];
         newLocation.address = jsonElement[@"Address"];
         newLocation.city = jsonElement[@"City"];
@@ -86,7 +85,7 @@
         newLocation.first = jsonElement[@"First"];
         newLocation.spouse = jsonElement[@"Spouse"];
         newLocation.lastname = jsonElement[@"Last Name"];
-        newLocation.time = jsonElement[@"Time"];
+        newLocation.time = jsonElement[@"Time"]; */
         
         // Add this question to the locations array
         [_locations addObject:newLocation];

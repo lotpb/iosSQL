@@ -10,7 +10,8 @@
 
 @interface StatisticsViewController ()
 {
-    LeadTodayModel *_LeadTodayModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation;
+    StatModel *_StatModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation;
+    StatHeaderModel *_StatHeaderModel; NSMutableArray *_feedHeaderItems; CustLocation *_selectedHeaderLocation;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -31,10 +32,13 @@
     //self.listTableView.estimatedRowHeight = 44.0;
     //self.listTableView.rowHeight = UITableViewAutomaticDimension;
 
-    _feedItems = [[NSMutableArray alloc] init]; _LeadTodayModel = [[LeadTodayModel alloc] init];
-    _LeadTodayModel.delegate = self; [_LeadTodayModel downloadItems];
+    _feedItems = [[NSMutableArray alloc] init]; _StatModel = [[StatModel alloc] init];
+    _StatModel.delegate = self; [_StatModel downloadItems];
     
-    tableData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, SNAME7, SNAME8, SNAME9, nil];
+    _feedHeaderItems = [[NSMutableArray alloc] init]; _StatHeaderModel = [[StatHeaderModel alloc] init];
+    _StatHeaderModel.delegate = self; [_StatHeaderModel downloadItems];
+    
+    tableData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, SNAME7, SNAME8, SNAME9, SNAME10, nil];
     
     filteredString= [[NSMutableArray alloc] init];
 
@@ -77,10 +81,15 @@
     [self.listTableView reloadData];
 }
 
+-(void)itemsHeaderDownloaded:(NSMutableArray *)itemsHeader {
+    _feedHeaderItems = itemsHeader;
+    [self.listTableView reloadData];
+}
+
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
     
-    [_LeadTodayModel downloadItems];
+    [_StatModel downloadItems];
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -149,9 +158,10 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    // CustLocation *itemsHeader;
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$81,295";
+    NSString *newString2 = @"$81,295"; //[_feedHeaderItems objectAtIndex:1];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     
@@ -213,8 +223,9 @@
 
 #pragma mark - SegmentedControl
 - (void)segmentAction:(UISegmentedControl *)segment {
-    
+   // CustLocation *itemsHeader;
     if (segment.selectedSegmentIndex == 0) {
+       // [self.label2 setText:itemsHeader.amount];
         [self.label2 setText:@"$23,399"];
     }
     if (segment.selectedSegmentIndex == 1) {

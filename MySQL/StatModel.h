@@ -1,5 +1,5 @@
 //
-//  LeadTodayModel.h
+//  StatModel.h
 //  MySQL
 //
 //  Created by Peter Balsamo on 4/30/15.
@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol LeadTodayModelProtocol <NSObject>
+@protocol StatModelProtocol <NSObject>
 
 - (void)itemsDownloaded:(NSArray *)items;
 
 @end
 
-@interface LeadTodayModel : NSObject <NSURLConnectionDataDelegate>
+@interface StatModel : NSObject <NSURLConnectionDataDelegate>
 
-@property (nonatomic, weak) id <LeadTodayModelProtocol> delegate;
+@property (nonatomic, weak) id <StatModelProtocol> delegate;
 
 - (void)downloadItems;
 
