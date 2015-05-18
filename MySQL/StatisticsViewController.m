@@ -10,8 +10,9 @@
 
 @interface StatisticsViewController ()
 {
-    StatModel *_StatModel; NSMutableArray *_feedItems; CustLocation *_selectedLocation;
-    StatHeaderModel *_StatHeaderModel; NSMutableArray *_feedHeaderItems; CustLocation *_selectedHeaderLocation;
+    StatModel *_StatModel; NSMutableArray *_feedItems; //CustLocation *_selectedLocation;
+    StatLeadModel *_StatLeadModel; NSMutableArray *_feedLeadItems; //CustLocation *_selectedLocation;
+    StatHeaderModel *_StatHeaderModel; NSMutableArray *_feedHeaderItems; //CustLocation *_selectedHeaderLocation;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -27,7 +28,7 @@
     self.title = NSLocalizedString(@"Statistics", nil);
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+    self.listTableView.backgroundColor = [UIColor lightGrayColor];
     //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
     //self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -35,10 +36,14 @@
     _feedItems = [[NSMutableArray alloc] init]; _StatModel = [[StatModel alloc] init];
     _StatModel.delegate = self; [_StatModel downloadItems];
     
+    _feedLeadItems = [[NSMutableArray alloc] init]; _StatLeadModel = [[StatLeadModel alloc] init];
+    _StatLeadModel.delegate = self; [_StatLeadModel downloadItems];
+    
     _feedHeaderItems = [[NSMutableArray alloc] init]; _StatHeaderModel = [[StatHeaderModel alloc] init];
     _StatHeaderModel.delegate = self; [_StatHeaderModel downloadItems];
     
-    tableData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, SNAME7, SNAME8, SNAME9, SNAME10, nil];
+    tableLeadData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, nil];
+    tableCustData = [[NSMutableArray alloc]initWithObjects:SNAME8, SNAME9, SNAME10, SNAME11, SNAME12,nil];
     
     filteredString= [[NSMutableArray alloc] init];
 
@@ -51,7 +56,7 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = REFRESHCOLOR;
+    refreshControl.backgroundColor = [UIColor lightGrayColor];
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
@@ -79,11 +84,19 @@
 -(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
+    // NSLog(@"rawStr is %@",_feedItems);
+}
+
+-(void)itemsLeadDownloaded:(NSMutableArray *)itemsLead {
+    _feedLeadItems = itemsLead;
+    [self.listTableView reloadData];
+    // NSLog(@"rawStr is %@",_feedHeaderItems);
 }
 
 -(void)itemsHeaderDownloaded:(NSMutableArray *)itemsHeader {
     _feedHeaderItems = itemsHeader;
     [self.listTableView reloadData];
+   // NSLog(@"rawStr is %@",_feedHeaderItems);
 }
 
 #pragma mark - RefreshControl
@@ -110,59 +123,78 @@
 }
 
 #pragma mark - TableView
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(isFilltered)
-        return [filteredString count];
-    else
-        return _feedItems.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+       if (section == 0)
+            return _feedLeadItems.count;
+        else if (section == 1)
+            return _feedItems.count;
+    return 0;
 }
 
 #pragma mark TableView Delegate
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = IDCELL;
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    //myCell.layer.cornerRadius = 5;
-    //myCell.layer.masksToBounds = YES;
-    
-    if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    CustLocation *item;
-    
-    if (!isFilltered)
-        //  myCell.detailTextLabel.text = [tableData1 objectAtIndex:indexPath.row];
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
+    if (indexPath.section == 0){
+        
+        static NSString *CellIdentifier = IDCELL;
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+         if (myCell == nil)
+         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        CustLocation *item;
+        item = _feedLeadItems[indexPath.row];
 
-        myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
+        myCell.textLabel.text = [tableLeadData objectAtIndex:indexPath.row];
+        myCell.detailTextLabel.text = item.leadNo;
+        [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+        
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        return myCell;
+        
+    } else if (indexPath.section == 1) {
+        static NSString *CellIdentifier = IDCELL;
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+         if (myCell == nil)
+         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
+        
+        CustLocation *item;
+        item = _feedItems[indexPath.row];
+        
+        myCell.textLabel.text = [tableCustData objectAtIndex:indexPath.row];
         myCell.detailTextLabel.text = item.custNo;
-       [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
- 
-    if (self.searchController.searchBar.text.length > 0)
-        myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    myCell.accessoryType = UITableViewCellAccessoryNone;
-    return myCell;
+        [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+        
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        return myCell;
+        
+    }
+    return nil;
 }
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (!isFilltered)
+     if (section == 0){
         return MAINHEADHEIGHT;
-    else return 0.0;
+     }
+    else return 30;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    // CustLocation *itemsHeader;
+//  CustLocation *itemsHeader;
+ //NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$81,295"; //[_feedHeaderItems objectAtIndex:1];
-    
+    NSString *newString2 = @"$81,295"; //[[_feedHeaderItems objectAtIndex:indexPath.row]objectForKey:@"amount"];//itemsHeader.amount;
+//NSLog(@"rawStr is %@",_feedHeaderItems);
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     
     tableView.tableHeaderView = view; //makes header move with tablecell
@@ -179,8 +211,6 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -45, 3, 90, 45)];
     [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];
     [label setTextColor:HEADTEXTCOLOR];
-    //label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    //label.shadowOffset = CGSizeMake(0.0f, 0.5f);
      label.textAlignment = NSTextAlignmentCenter;
     NSString *string = newString;
     [label setText:string];
@@ -197,8 +227,6 @@
      label1.textAlignment = NSTextAlignmentCenter;
     [label1 setFont:[UIFont fontWithName:@"Avenir-Black" size:16]];
     [label1 setTextColor:[UIColor greenColor]];
-    //label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-   // label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -212,8 +240,6 @@
      self.label2.textAlignment = NSTextAlignmentCenter;
     [self.label2 setFont:[UIFont fontWithName:@"Avenir-Black" size:30]];
     [self.label2 setTextColor:HEADTEXTCOLOR];
-    //self.label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    //self.label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
     [self.label2 setText:string2];
     [view addSubview:self.label2];
@@ -223,9 +249,8 @@
 
 #pragma mark - SegmentedControl
 - (void)segmentAction:(UISegmentedControl *)segment {
-   // CustLocation *itemsHeader;
+
     if (segment.selectedSegmentIndex == 0) {
-       // [self.label2 setText:itemsHeader.amount];
         [self.label2 setText:@"$23,399"];
     }
     if (segment.selectedSegmentIndex == 1) {
@@ -271,7 +296,7 @@
     else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        for(NSString *str in tableData)
+        for(NSString *str in tableLeadData)
         {
             NSRange stringRange = [str rangeOfString:searchText options:NSCaseInsensitiveSearch];
             if(stringRange.location != NSNotFound)
@@ -282,6 +307,7 @@
 }
 
 #pragma mark - Segue
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!isFilltered)
@@ -290,6 +316,6 @@
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
    // [self performSegueWithIdentifier:LEADVIEWSEGUE sender:self];
-}
+} */
 
 @end

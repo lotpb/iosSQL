@@ -106,6 +106,7 @@
 		AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81F3981A06E4B40036FEDF /* WebMainController.m */; };
 		AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F919FC70E300840AA3 /* StoreKit.framework */; };
 		AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsViewController.m */; };
+		AF8D22E51B09641200AB426B /* StatLeadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8D22E41B09641200AB426B /* StatLeadModel.m */; };
 		AF909E8F1A61C2F0008D6F14 /* LookupJob.m in Sources */ = {isa = PBXBuildFile; fileRef = AF909E8E1A61C2F0008D6F14 /* LookupJob.m */; };
 		AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */; };
 		AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9926AF1A4CF79300429EC8 /* JobViewCell.m */; };
@@ -327,6 +328,8 @@
 		AF81F3981A06E4B40036FEDF /* WebMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMainController.m; sourceTree = "<group>"; };
 		AF8B684A1AE442810025A2FD /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
 		AF8B684B1AE442810025A2FD /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+		AF8D22E31B09641200AB426B /* StatLeadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatLeadModel.h; sourceTree = "<group>"; };
+		AF8D22E41B09641200AB426B /* StatLeadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatLeadModel.m; sourceTree = "<group>"; };
 		AF909E8E1A61C2F0008D6F14 /* LookupJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupJob.m; sourceTree = "<group>"; };
 		AF99267D1A4C768B00429EC8 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
@@ -642,6 +645,8 @@
 				AF5427381AFED5C80049E363 /* StatHeaderModel.m */,
 				AFB8C7161AF3035500417431 /* StatModel.h */,
 				AFB8C7171AF3035500417431 /* StatModel.m */,
+				AF8D22E31B09641200AB426B /* StatLeadModel.h */,
+				AF8D22E41B09641200AB426B /* StatLeadModel.m */,
 				AFFEA06E1A31E8BA00165318 /* AdLocation.h */,
 				AFFEA06F1A31E8BA00165318 /* AdLocation.m */,
 				AFFEA0711A31E8DE00165318 /* AdModel.h */,
@@ -1204,6 +1209,7 @@
 				AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */,
 				AF5427391AFED5C80049E363 /* StatHeaderModel.m in Sources */,
 				AF4D46BA1A5634FB005984AD /* NewData.m in Sources */,
+				AF8D22E51B09641200AB426B /* StatLeadModel.m in Sources */,
 				AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */,
 				AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */,
 				AFFEA0791A31ED5200165318 /* ProductModel.m in Sources */,

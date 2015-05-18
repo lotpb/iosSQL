@@ -21,7 +21,7 @@
 {
     // Download the json file
     
-    NSURL *jsonFileUrl = [NSURL URLWithString:@"http://localhost:8888/iosStatistic.php"];
+    NSURL *jsonFileUrl = [NSURL URLWithString:@"http://localhost:8888/iosStatisticCustomer.php"];
     
     // Create the request
     NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:jsonFileUrl];

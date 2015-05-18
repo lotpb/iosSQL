@@ -190,17 +190,21 @@
 //-----------------------END-------------------------------
 
 //STATISTIC
-#define SNAME1             @"Customers Year"
-#define SNAME2             @"Customer Avg"
-#define SNAME3             @"Windows Sold"
-#define SNAME4             @"Customer High"
-#define SNAME5             @"Customer Low"
-#define SNAME6             @"Leads Year"
-#define SNAME7             @"Leads Avg"
-#define SNAME8             @"Leads High"
-#define SNAME9             @"Leads Low"
-#define SNAME10            @"Appointment's Tomorrow"
-#define SNAME11            @"Leads Today"
+#define SNAME1             @"Leads Year"
+#define SNAME2             @"Leads Avg"
+#define SNAME3             @"Leads High"
+#define SNAME4             @"Leads Low"
+#define SNAME5             @"Leads Today"
+#define SNAME6             @"Appointment's Today"
+
+//#define SNAME7             @"Leads Tomorrow"
+
+#define SNAME8             @"Customers Year"
+#define SNAME9             @"Customer Avg"
+#define SNAME10             @"Customer High"
+#define SNAME11             @"Customer Low"
+#define SNAME12             @"Windows Sold"
+
 #define SNAME22             @"10"
 #define SNAME33             @"4"
 #define SNAME44             @"2"
