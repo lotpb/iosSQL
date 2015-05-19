@@ -28,7 +28,7 @@
     self.title = NSLocalizedString(@"Statistics", nil);
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    self.listTableView.backgroundColor = [UIColor lightGrayColor];
+    self.listTableView.backgroundColor = STATBACKCOLOR;
     //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
     //self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -56,7 +56,7 @@
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor lightGrayColor];
+    refreshControl.backgroundColor = STATBACKCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
@@ -84,13 +84,11 @@
 -(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
-    // NSLog(@"rawStr is %@",_feedItems);
 }
 
 -(void)itemsLeadDownloaded:(NSMutableArray *)itemsLead {
     _feedLeadItems = itemsLead;
     [self.listTableView reloadData];
-    // NSLog(@"rawStr is %@",_feedHeaderItems);
 }
 
 -(void)itemsHeaderDownloaded:(NSMutableArray *)itemsHeader {
@@ -138,38 +136,32 @@
 #pragma mark TableView Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0){
+    static NSString *CellIdentifier = IDCELL;
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     CustLocation *item;
+    
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    if (indexPath.section == 0) {
         
-        static NSString *CellIdentifier = IDCELL;
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-         if (myCell == nil)
-         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
-        CustLocation *item;
         item = _feedLeadItems[indexPath.row];
 
         myCell.textLabel.text = [tableLeadData objectAtIndex:indexPath.row];
         myCell.detailTextLabel.text = item.leadNo;
-        [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+        [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
         return myCell;
         
     } else if (indexPath.section == 1) {
-        static NSString *CellIdentifier = IDCELL;
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-         if (myCell == nil)
-         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; 
-        
-        CustLocation *item;
         item = _feedItems[indexPath.row];
         
         myCell.textLabel.text = [tableCustData objectAtIndex:indexPath.row];
         myCell.detailTextLabel.text = item.custNo;
-        [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+        [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
@@ -181,10 +173,20 @@
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-     if (section == 0){
+    
+    if (section == 0)
         return MAINHEADHEIGHT;
-     }
-    else return 30;
+    
+    return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
+(NSInteger)section {
+    NSString *footerTitle;
+    if (section == 0)
+        footerTitle = @"*";
+    
+    return footerTitle;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

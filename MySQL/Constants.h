@@ -190,15 +190,15 @@
 //-----------------------END-------------------------------
 
 //STATISTIC
+#define STATTEXTCOLOR      [UIColor orangeColor]
+#define STATBACKCOLOR      [UIColor lightGrayColor]
 #define SNAME1             @"Leads Year"
 #define SNAME2             @"Leads Avg"
 #define SNAME3             @"Leads High"
 #define SNAME4             @"Leads Low"
 #define SNAME5             @"Leads Today"
 #define SNAME6             @"Appointment's Today"
-
 //#define SNAME7             @"Leads Tomorrow"
-
 #define SNAME8             @"Customers Year"
 #define SNAME9             @"Customer Avg"
 #define SNAME10             @"Customer High"
