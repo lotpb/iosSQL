@@ -10,7 +10,7 @@
 
 @interface StatisticsViewController ()
 {
-    StatModel *_StatModel; NSMutableArray *_feedItems; //CustLocation *_selectedLocation;
+    StatCustModel *_StatCustModel; NSMutableArray *_feedCustItems; //CustLocation *_selectedLocation;
     StatLeadModel *_StatLeadModel; NSMutableArray *_feedLeadItems; //CustLocation *_selectedLocation;
     StatHeaderModel *_StatHeaderModel; NSMutableArray *_feedHeaderItems; //CustLocation *_selectedHeaderLocation;
     UIRefreshControl *refreshControl;
@@ -32,15 +32,15 @@
     //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
     //self.listTableView.rowHeight = UITableViewAutomaticDimension;
-
-    _feedItems = [[NSMutableArray alloc] init]; _StatModel = [[StatModel alloc] init];
-    _StatModel.delegate = self; [_StatModel downloadItems];
-    
-    _feedLeadItems = [[NSMutableArray alloc] init]; _StatLeadModel = [[StatLeadModel alloc] init];
-    _StatLeadModel.delegate = self; [_StatLeadModel downloadItems];
     
     _feedHeaderItems = [[NSMutableArray alloc] init]; _StatHeaderModel = [[StatHeaderModel alloc] init];
     _StatHeaderModel.delegate = self; [_StatHeaderModel downloadItems];
+
+    _feedCustItems = [[NSMutableArray alloc] init]; _StatCustModel = [[StatCustModel alloc] init];
+    _StatCustModel.delegate = self; [_StatCustModel downloadItems];
+    
+    _feedLeadItems = [[NSMutableArray alloc] init]; _StatLeadModel = [[StatLeadModel alloc] init];
+    _StatLeadModel.delegate = self; [_StatLeadModel downloadItems];
     
     tableLeadData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, nil];
     tableCustData = [[NSMutableArray alloc]initWithObjects:SNAME8, SNAME9, SNAME10, SNAME11, SNAME12,nil];
@@ -66,14 +66,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
-}
-
-- (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
-    [super viewDidAppear:animated];
-   /*
-    tableData1 = [[NSMutableArray alloc]initWithObjects:SNAME22, SNAME22, SNAME33, SNAME44, SNAME55, SNAME66, SNAME77, SNAME88, SNAME99, nil];
-    [self.listTableView reloadData]; */
+ // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
 }
 
 -(void)didReceiveMemoryWarning {
@@ -81,8 +74,8 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)itemsDownloaded:(NSMutableArray *)items {
-    _feedItems = items;
+-(void)itemsCustDownloaded:(NSMutableArray *)itemsCust {
+    _feedCustItems = itemsCust;
     [self.listTableView reloadData];
 }
 
@@ -100,7 +93,7 @@
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
     
-    [_StatModel downloadItems];
+    [_StatCustModel downloadItems];
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -129,7 +122,7 @@
        if (section == 0)
             return _feedLeadItems.count;
         else if (section == 1)
-            return _feedItems.count;
+            return _feedCustItems.count;
     return 0;
 }
 
@@ -157,7 +150,7 @@
         
     } else if (indexPath.section == 1) {
         
-        item = _feedItems[indexPath.row];
+        item = _feedCustItems[indexPath.row];
         
         myCell.textLabel.text = [tableCustData objectAtIndex:indexPath.row];
         myCell.detailTextLabel.text = item.custNo;

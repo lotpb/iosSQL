@@ -171,7 +171,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = IDCELL;
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -65, 0, 50, 27)];
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    myCell.accessoryType = UITableViewCellAccessoryNone;
 
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -183,9 +187,19 @@
       item = [filteredString objectAtIndex:indexPath.row];
 
     myCell.textLabel.text = item.vendorName;
-    myCell.detailTextLabel.text = item.vendorNo;
+   // myCell.detailTextLabel.text = item.address;
+   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+    
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
+    
+    label2.text = item.vendorNo;
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
+    label2.textAlignment = NSTextAlignmentCenter;
+    [label2 setTextColor:DATECOLORTEXT];
+    [label2 setBackgroundColor:NUMCOLORBACK];
+    label2.tag = 103;
+    [myCell.contentView addSubview:label2];
     
     return myCell;
 }

@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "CustLocation.h"
-#import "StatModel.h"
+#import "StatCustModel.h"
 #import "StatLeadModel.h"
 #import "StatHeaderModel.h"
 
-@interface StatisticsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, StatModelProtocol, StatLeadModelProtocol, StatHeaderModelProtocol>
+@interface StatisticsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, StatCustModelProtocol, StatLeadModelProtocol, StatHeaderModelProtocol>
 {
     NSMutableArray *tableLeadData, *tableCustData, *filteredString;
     BOOL isFilltered;

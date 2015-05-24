@@ -89,6 +89,7 @@
 #define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define DATECOLORTEXT     [UIColor whiteColor]
 #define DATECOLORBACK     [UIColor redColor]
+#define NUMCOLORBACK     [UIColor darkGrayColor]
 //------tableHeader-------------------------------
 //#define HEADTITLE1    @"NASDAQ \n4,727.35"
 #define HEADTITLE2      @"NASDAQ \n4,727.35"

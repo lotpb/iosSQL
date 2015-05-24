@@ -31,6 +31,8 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+    
+     //| -----------------------Sound Key---------------------------
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"soundKey"]) {
         [self playSound1];
@@ -44,6 +46,7 @@
   //  [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
     
     //| -----------------------------end----------------------------------
+    
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
     [self.tabBarController.tabBar setTintColor:TABTINTCOLOR];

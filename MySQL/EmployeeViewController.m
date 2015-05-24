@@ -111,6 +111,7 @@
 {
     EmployeeLocation *item;
     static NSString *CellIdentifier = IDCELL;
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -65, 0, 50, 27)];
     
     if (!isFilltered)
         item = _feedItems[indexPath.row];
@@ -131,15 +132,27 @@
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    myCell.accessoryType = UITableViewCellAccessoryNone;
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
     myCell.detailTextLabel.text = item.city;
+   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
     //Retreive an image
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
+    
+    label2.text = item.employeeNo;
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
+    label2.textAlignment = NSTextAlignmentCenter;
+    [label2 setTextColor:DATECOLORTEXT];
+    [label2 setBackgroundColor:NUMCOLORBACK];
+    label2.tag = 103;
+    [myCell.contentView addSubview:label2];
     
     return myCell;
 }

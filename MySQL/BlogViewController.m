@@ -34,12 +34,11 @@
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-    ParseConnection *parseConnection = [[ParseConnection alloc]init];
-    parseConnection.delegate = (id)self; [parseConnection parseBlog];
-    } //else {
-     _BlogModel = [[BlogModel alloc] init];
-     _BlogModel.delegate = self; [_BlogModel downloadItems];
-   // }
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseBlog];
+    }
+    _BlogModel = [[BlogModel alloc] init];
+    _BlogModel.delegate = self; [_BlogModel downloadItems];
     
     _feedItems = [[NSMutableArray alloc] init];
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
@@ -81,11 +80,13 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-            ParseConnection *parseConnection = [[ParseConnection alloc]init];
-            parseConnection.delegate = (id)self; [parseConnection parseBlog];
-        }
-    [_BlogModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseBlog];
+    } else {
+        [_BlogModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -208,13 +209,13 @@
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-      if (isFilltered)
-      return filteredString.count;
-      else
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-        return BlogArray.count;
+    if (isFilltered)
+        return filteredString.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return BlogArray.count;
         else
-        return _feedItems.count;
+            return _feedItems.count;
     
 }
 
