@@ -187,7 +187,7 @@
                                  [success dataUsingEncoding:NSUTF8StringEncoding];
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                                 [self.navigationController popViewControllerAnimated:YES];
+                                 GOBACK;
                                  //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                 }

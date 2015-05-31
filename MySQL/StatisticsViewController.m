@@ -10,9 +10,9 @@
 
 @interface StatisticsViewController ()
 {
-    StatCustModel *_StatCustModel; NSMutableArray *_feedCustItems; //CustLocation *_selectedLocation;
-    StatLeadModel *_StatLeadModel; NSMutableArray *_feedLeadItems; //CustLocation *_selectedLocation;
-    StatHeaderModel *_StatHeaderModel; NSMutableArray *_feedHeaderItems; //CustLocation *_selectedHeaderLocation;
+    StatCustModel *_StatCustModel; StatLeadModel *_StatLeadModel;
+    NSMutableArray *_statHeaderItems, *_feedCustItems, *_feedLeadItems;
+    NSDictionary *dict; NSString *amount;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -29,12 +29,23 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = STATBACKCOLOR;
+    self.listTableView.rowHeight = 30; //UITableViewAutomaticDimension;
     //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
-    //self.listTableView.rowHeight = UITableViewAutomaticDimension;
     
-    _feedHeaderItems = [[NSMutableArray alloc] init]; _StatHeaderModel = [[StatHeaderModel alloc] init];
-    _StatHeaderModel.delegate = self; [_StatHeaderModel downloadItems];
+#pragma mark StatHeader
+    amount = @"Amount";
+    _statHeaderItems = [[NSMutableArray alloc] init];
+    NSData *jsonData = [NSData dataWithContentsOfURL:
+                        [NSURL URLWithString:@"http://localhost:8888/iosStatisticHeader.php"]];
+    id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    
+    for (NSDictionary *dataDict in jsonObjects) {
+        NSString *strAmount = [dataDict objectForKey:@"Amount"];
+        dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                strAmount, amount, nil];
+        [_statHeaderItems addObject:dict];
+    }
 
     _feedCustItems = [[NSMutableArray alloc] init]; _StatCustModel = [[StatCustModel alloc] init];
     _StatCustModel.delegate = self; [_StatCustModel downloadItems];
@@ -42,8 +53,8 @@
     _feedLeadItems = [[NSMutableArray alloc] init]; _StatLeadModel = [[StatLeadModel alloc] init];
     _StatLeadModel.delegate = self; [_StatLeadModel downloadItems];
     
-    tableLeadData = [[NSMutableArray alloc]initWithObjects:SNAME1, SNAME2, SNAME3, SNAME4, SNAME5, SNAME6, nil];
-    tableCustData = [[NSMutableArray alloc]initWithObjects:SNAME8, SNAME9, SNAME10, SNAME11, SNAME12,nil];
+    tableLeadData = [[NSMutableArray alloc]initWithObjects:SLNAME1, SLNAME2, SLNAME3, SLNAME4, SLNAME5, SLNAME6, SLNAME7, SLNAME8, nil];
+    tableCustData = [[NSMutableArray alloc]initWithObjects:SCNAME1, SCNAME2, SCNAME3, SCNAME4, SCNAME5, SCNAME6, SCNAME7, SCNAME8, nil];
     
     filteredString= [[NSMutableArray alloc] init];
 
@@ -60,6 +71,11 @@
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
+    [super viewDidAppear:animated];
+    [self.listTableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,12 +98,6 @@
 -(void)itemsLeadDownloaded:(NSMutableArray *)itemsLead {
     _feedLeadItems = itemsLead;
     [self.listTableView reloadData];
-}
-
--(void)itemsHeaderDownloaded:(NSMutableArray *)itemsHeader {
-    _feedHeaderItems = itemsHeader;
-    [self.listTableView reloadData];
-   // NSLog(@"rawStr is %@",_feedHeaderItems);
 }
 
 #pragma mark - RefreshControl
@@ -131,7 +141,12 @@
     
     static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     CustLocation *item;
+    CustLocation *item;
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    myCell.accessoryType = UITableViewCellAccessoryNone;
+   [myCell.textLabel setFont:CELL_FONT(STATFONTSIZE)];
+   [myCell.detailTextLabel setFont:CELL_MEDFONT(STATFONTSIZE)];
+   [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -140,24 +155,18 @@
         
         item = _feedLeadItems[indexPath.row];
 
-        myCell.textLabel.text = [tableLeadData objectAtIndex:indexPath.row];
-        myCell.detailTextLabel.text = item.leadNo;
-        [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
+         myCell.textLabel.text = [tableLeadData objectAtIndex:indexPath.row];
+         myCell.detailTextLabel.text = item.leadNo;
         
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        myCell.accessoryType = UITableViewCellAccessoryNone;
         return myCell;
         
     } else if (indexPath.section == 1) {
         
         item = _feedCustItems[indexPath.row];
         
-        myCell.textLabel.text = [tableCustData objectAtIndex:indexPath.row];
-        myCell.detailTextLabel.text = item.custNo;
-        [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
+         myCell.textLabel.text = [tableCustData objectAtIndex:indexPath.row];
+         myCell.detailTextLabel.text = item.custNo;
         
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        myCell.accessoryType = UITableViewCellAccessoryNone;
         return myCell;
         
     }
@@ -184,23 +193,18 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-//  CustLocation *itemsHeader;
- //NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$81,295"; //[[_feedHeaderItems objectAtIndex:indexPath.row]objectForKey:@"amount"];//itemsHeader.amount;
-//NSLog(@"rawStr is %@",_feedHeaderItems);
+    NSString *newString2 = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    
     tableView.tableHeaderView = view; //makes header move with tablecell
-    
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
     
     UIImage *image = [UIImage imageNamed:@"background"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
-    
     [view addSubview:imageHolder];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -45, 3, 90, 45)];
@@ -246,13 +250,13 @@
 - (void)segmentAction:(UISegmentedControl *)segment {
 
     if (segment.selectedSegmentIndex == 0) {
-        [self.label2 setText:@"$23,399"];
+        self.label2.text = [[_statHeaderItems objectAtIndex:2] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 1) {
-        self.label2.text = @"$81,295";
+        self.label2.text = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 2) {
-        self.label2.text = @"$199,392";
+        self.label2.text = [[_statHeaderItems objectAtIndex:0] objectForKey:@"Amount"];
     }
 }
 

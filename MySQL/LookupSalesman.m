@@ -144,7 +144,7 @@
         [self.delegate salesFromController:self.tsa22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"SalesNo"]];
         [self.delegate salesNameFromController:self.tsn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Salesman"]];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    GOBACK;
 }
 
 #pragma mark - Segue

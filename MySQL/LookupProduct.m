@@ -202,7 +202,7 @@
         [self.delegate productNameFromController:self.tpn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Advertiser"]];
        }
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    GOBACK;
 }
 
 #pragma mark - Segue

@@ -142,7 +142,7 @@
                                  [success dataUsingEncoding:NSUTF8StringEncoding];
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                                 [self.navigationController popViewControllerAnimated:YES]; // Dismiss the viewController upon success
+                                 GOBACK; // Dismiss the viewController upon success
                                  //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
@@ -188,10 +188,9 @@
 
     myCell.textLabel.text = item.vendorName;
    // myCell.detailTextLabel.text = item.address;
-   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-    
-    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-    [myCell.imageView setImage:myImage];
+   //[myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+  //  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+  // [myCell.imageView setImage:myImage];
     
     label2.text = item.vendorNo;
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];

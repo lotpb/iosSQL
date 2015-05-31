@@ -11,11 +11,13 @@
 //#import "ConstantMain.h"
 #import "Constants.h"
 #import "SWRevealViewController.h"
+//#import <iAd/iAd.h>
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate> 
 {
     NSMutableArray *tableData, *filteredString;
     BOOL isFilltered;
+    //ADBannerView *bannerView;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

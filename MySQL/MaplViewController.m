@@ -36,8 +36,8 @@
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-    self.locationManager.distanceFilter = 500; // meters
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     // Check for iOS 8
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
@@ -54,9 +54,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingLocation];
     
     NSString *location = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
     
@@ -69,8 +66,8 @@
                          MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
                          MKCoordinateRegion region = self.mapView.region;
                          region.center = [(CLCircularRegion *)placemark.region center];
-                         region.span.longitudeDelta /= 1500.0;
-                         region.span.latitudeDelta /= 1500.0;
+                         region.span.longitudeDelta /= 8.0; //1500.0;
+                         region.span.latitudeDelta /= 8.0; //1500.0;
                          region = [self.mapView regionThatFits:region];
                          [self.mapView setRegion:region animated:YES];
                          [self.mapView addAnnotation:placemark];
@@ -97,20 +94,14 @@
         self.mapView.mapType = MKMapTypeSatellite;
     }
 }
-/*
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations {
-    // If it's a relatively recent event, turn off updates to save power.
-    CLLocation* location = [locations lastObject];
-    NSDate* eventDate = location.timestamp;
-    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    if (fabs(howRecent) < 15.0) {
-        // If the event is recent, do something with it.
-        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-              location.coordinate.latitude,
-              location.coordinate.longitude);
-    }
-} */
+
+// CLLocationManager Delegate Methods
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:
+(NSArray *)locations
+{
+    NSLog(@"location info object=%@", [locations lastObject]);
+}
+
 
 #pragma mark - Annotation
 // When a map annotation point is added, zoom to it (1500 range)
@@ -119,8 +110,10 @@
     MKAnnotationView *annotationView = [views objectAtIndex:0];
     id <MKAnnotation> mp = [annotationView annotation];
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
-    ([mp coordinate], 1500, 1500);
-    [mv setRegion:region animated:YES];
+    ([mp coordinate], 1500, 1500); //MKCoordinateRegionForMapRect(MKMapRectWorld);
+    //region.span.longitudeDelta = 0.005f;
+    //region.span.longitudeDelta = 0.005f;
+    [mv setRegion:region animated:NO];
     [mv selectAnnotation:mp animated:YES];
 }
 

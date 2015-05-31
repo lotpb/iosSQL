@@ -140,7 +140,7 @@ NSString *cityName;
      [self.delegate cityFromController:self.tci14 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"City"]];
      [self.delegate stateFromController:self.tst15 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"State"]];
      [self.delegate zipFromController:self.tzi21 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"zipCode"]]; }
-    [self.navigationController popViewControllerAnimated:YES];
+    GOBACK;
 }
 
 #pragma mark - Segue

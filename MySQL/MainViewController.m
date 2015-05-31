@@ -31,6 +31,13 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+  /*
+    bannerView = [[ADBannerView alloc]initWithFrame:
+                  CGRectMake(0, 0, 320, 50)];
+    // Optional to set background color to clear color
+    [bannerView setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview: bannerView];
+   */
     
      //| -----------------------Sound Key---------------------------
 
@@ -96,6 +103,24 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+/*
+#pragma mark - AdViewDelegates
+
+-(void)bannerView:(ADBannerView *)banner
+didFailToReceiveAdWithError:(NSError *)error{
+    NSLog(@"Error loading");
+}
+
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner{
+    NSLog(@"Ad loaded");
+}
+-(void)bannerViewWillLoadAd:(ADBannerView *)banner{
+    NSLog(@"Ad will load");
+}
+-(void)bannerViewActionDidFinish:(ADBannerView *)banner{
+    NSLog(@"Ad did finish");
+    
+} */
 
 //#pragma message ("To Do: Meassage test - highlight but no error")
 

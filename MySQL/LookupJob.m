@@ -138,7 +138,7 @@
         [self.delegate jobFromController:self.tjo22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"JobNo"]];
         [self.delegate jobNameFromController:self.tjn22 = [[filteredString objectAtIndex:indexPath.row]objectForKey:@"Description"]];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    GOBACK;
 }
 
 #pragma mark - Segue

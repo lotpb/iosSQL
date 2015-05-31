@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF023A9F1AE09691006D8AEC /* ParseConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF023A9E1AE09691006D8AEC /* ParseConnection.m */; };
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
+		AF0B56D21B1A0AC70085EFA8 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF789A901B17ED5D0049F540 /* iAd.framework */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
 		AF1D77231ADC50090096E183 /* mastercard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1D77221ADC50090096E183 /* mastercard@2x.png */; };
 		AF2301951A96BC6F0035D6BB /* cvc-amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2301831A96BC6F0035D6BB /* cvc-amex@2x.png */; };
@@ -81,7 +82,6 @@
 		AF4B1CB81ADC4DD100079669 /* Recents_filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4B1CB61ADC4DD100079669 /* Recents_filled@2x.png */; };
 		AF4D46B71A55F3B6005984AD /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4D46B61A55F3B6005984AD /* calendar.png */; };
 		AF4D46BA1A5634FB005984AD /* NewData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4D46B91A5634FB005984AD /* NewData.m */; };
-		AF5427391AFED5C80049E363 /* StatHeaderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5427381AFED5C80049E363 /* StatHeaderModel.m */; };
 		AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF558C6D19DACE25004D30D7 /* MaplViewController.m */; };
 		AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF558C6F19DAD06A004D30D7 /* MapKit.framework */; };
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
@@ -283,8 +283,6 @@
 		AF4D46B61A55F3B6005984AD /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = calendar.png; path = images/calendar.png; sourceTree = "<group>"; };
 		AF4D46B81A5634FB005984AD /* NewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewData.h; sourceTree = "<group>"; };
 		AF4D46B91A5634FB005984AD /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewData.m; sourceTree = "<group>"; };
-		AF5427371AFED5C80049E363 /* StatHeaderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatHeaderModel.h; sourceTree = "<group>"; };
-		AF5427381AFED5C80049E363 /* StatHeaderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatHeaderModel.m; sourceTree = "<group>"; };
 		AF558C6C19DACE25004D30D7 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AF558C6D19DACE25004D30D7 /* MaplViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaplViewController.m; sourceTree = "<group>"; };
 		AF558C6F19DAD06A004D30D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -316,6 +314,7 @@
 		AF68D6C01A921A130014106A /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		AF68D6C21A926C0B0014106A /* SearchControllerBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchControllerBaseViewController.h; sourceTree = "<group>"; };
 		AF68D6C31A926C0B0014106A /* SearchControllerBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchControllerBaseViewController.m; sourceTree = "<group>"; };
+		AF789A901B17ED5D0049F540 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		AF79A4231ADB6A6C003907FD /* CalenderEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalenderEdit.h; sourceTree = "<group>"; };
 		AF79A4241ADB6A6C003907FD /* CalenderEdit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalenderEdit.m; sourceTree = "<group>"; };
 		AF7B25701A05829600F7C058 /* CustController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustController.h; sourceTree = "<group>"; };
@@ -440,6 +439,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF0B56D21B1A0AC70085EFA8 /* iAd.framework in Frameworks */,
 				AFE7A80A1A33446B00A47D4A /* Parse.framework in Frameworks */,
 				AF35E3A31A7E6831004064DD /* ParseUI.framework in Frameworks */,
 				AFE7A8081A33445E00A47D4A /* Bolts.framework in Frameworks */,
@@ -472,10 +472,10 @@
 		AF0634871AF662A000D4B846 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
-				AF8B684A1AE442810025A2FD /* StatisticsViewController.h */,
-				AF8B684B1AE442810025A2FD /* StatisticsViewController.m */,
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
+				AF8B684A1AE442810025A2FD /* StatisticsViewController.h */,
+				AF8B684B1AE442810025A2FD /* StatisticsViewController.m */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -641,8 +641,6 @@
 			children = (
 				AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */,
 				AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */,
-				AF5427371AFED5C80049E363 /* StatHeaderModel.h */,
-				AF5427381AFED5C80049E363 /* StatHeaderModel.m */,
 				AFB8C7161AF3035500417431 /* StatCustModel.h */,
 				AFB8C7171AF3035500417431 /* StatCustModel.m */,
 				AF8D22E31B09641200AB426B /* StatLeadModel.h */,
@@ -819,6 +817,7 @@
 		AFA352FD19FC711E00840AA3 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				AF789A901B17ED5D0049F540 /* iAd.framework */,
 				AF35E3A21A7E6831004064DD /* ParseUI.framework */,
 				AFE7A8091A33446B00A47D4A /* Parse.framework */,
 				AFE7A8071A33445E00A47D4A /* Bolts.framework */,
@@ -1207,7 +1206,6 @@
 				AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */,
 				AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */,
 				AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */,
-				AF5427391AFED5C80049E363 /* StatHeaderModel.m in Sources */,
 				AF4D46BA1A5634FB005984AD /* NewData.m in Sources */,
 				AF8D22E51B09641200AB426B /* StatLeadModel.m in Sources */,
 				AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */,

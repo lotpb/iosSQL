@@ -10,9 +10,6 @@
 
 @interface Constants : NSObject
 
-/**Navigation - Go back - POP view controller **/
-#define GOBACK [self.navigationController popViewControllerAnimated:YES]
-
 // Device Info
 #define IS_IPAD     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) /** BOOL: Detect if device is an iPad **/
 
@@ -32,7 +29,6 @@
 
 #define DATE_COMPONENTS         NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit /** Return date component**/
 #define TIME_COMPONENTS         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit /** Return time component**/
-
 
 #define USER_DEFAULTS           [NSUserDefaults standardUserDefaults]
 #define NOTIFICATION_CENTER     [NSNotificationCenter defaultCenter]
@@ -54,6 +50,8 @@
 #define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
 
 // All STORYBOOKS
+/**Navigation - Go back - POP view controller **/
+#define GOBACK [self.navigationController popViewControllerAnimated:YES]
 //------searchbar-------------------------------
 #define SEARCHBARSTYLE      UIBarStyleBlack
 #define SEARCHTINTCOLOR     [UIColor whiteColor]
@@ -82,14 +80,14 @@
 #define ROW_HEIGHT        44.0f
 #define CELL_FONTSIZE     14
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
-#define CELL_FONT1(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
+#define CELL_FONT1(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
 #define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
 #define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define DATECOLORTEXT     [UIColor whiteColor]
 #define DATECOLORBACK     [UIColor redColor]
-#define NUMCOLORBACK     [UIColor darkGrayColor]
+#define NUMCOLORBACK      [UIColor darkGrayColor]
 //------tableHeader-------------------------------
 //#define HEADTITLE1    @"NASDAQ \n4,727.35"
 #define HEADTITLE2      @"NASDAQ \n4,727.35"
@@ -191,30 +189,26 @@
 //-----------------------END-------------------------------
 
 //STATISTIC
+#define STATFONTSIZE       11
 #define STATTEXTCOLOR      [UIColor orangeColor]
 #define STATBACKCOLOR      [UIColor lightGrayColor]
-#define SNAME1             @"Leads Year"
-#define SNAME2             @"Leads Avg"
-#define SNAME3             @"Leads High"
-#define SNAME4             @"Leads Low"
-#define SNAME5             @"Leads Today"
-#define SNAME6             @"Appointment's Today"
-//#define SNAME7             @"Leads Tomorrow"
-#define SNAME8             @"Customers Year"
-#define SNAME9             @"Customer Avg"
-#define SNAME10             @"Customer High"
-#define SNAME11             @"Customer Low"
-#define SNAME12             @"Windows Sold"
+#define SLNAME1             @"Appointment's Today"
+#define SLNAME2             @"Appointment's Tomorrow"
+#define SLNAME3             @"Leads Today"
+#define SLNAME4             @"Leads Active"
+#define SLNAME5             @"Leads Year"
+#define SLNAME6             @"Leads Avg"
+#define SLNAME7             @"Leads High"
+#define SLNAME8             @"Leads Low"
 
-#define SNAME22             @"10"
-#define SNAME33             @"4"
-#define SNAME44             @"2"
-#define SNAME55             @"$800.00"
-#define SNAME66             @"5"
-#define SNAME77             @"$1200.00"
-#define SNAME88             @"15"
-#define SNAME99             @"987"
-
+#define SCNAME1             @"Customers Today"
+#define SCNAME2             @"Customers Yesterday"
+#define SCNAME3             @"Customers Active"
+#define SCNAME4             @"Customers Year"
+#define SCNAME5             @"Customer Avg"
+#define SCNAME6             @"Customer High"
+#define SCNAME7             @"Customer Low"
+#define SCNAME8             @"Windows Sold"
 
 // LEAD
 #define LEADDELETENO       @"_leadNo=%@&&"
@@ -380,7 +374,7 @@
 #define KEY_WEBPAGE2 @"http://www.cnet.com"
 #define KEY_WEBPAGE3 @"http://www.theblaze.com"
 #define KEY_WEBPAGE4 @"http://finance.yahoo.com/mb/UPL/"
-#define KEY_WEBPAGE5 @"http://stocktwits.com/symbol/UPL"
+#define KEY_WEBPAGE5 @"http://stocktwits.com/The_Stock_Whisperer"
 //-----------------------END-------------------------------
 
 // NOTIFICATION CONTROLLER

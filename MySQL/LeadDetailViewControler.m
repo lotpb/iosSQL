@@ -73,6 +73,19 @@
     [refreshView addSubview:refreshControl];
     
 }
+/*
+//Call Number from here
+NSString *phoneNo = [NSString stringWithFormat:@"+1234567890"];
+NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
+
+if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+    [[UIApplication sharedApplication] openURL:phoneUrl];
+}
+else
+{
+    UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"You cannot call this consumer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [calert show];
+} */
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
     [super viewDidAppear:animated];
@@ -446,10 +459,16 @@ return myCell;
         t25 = self.tbl25;
     else t25 = @"None";
     
+if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] == 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
-  
+} else {
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
+        t26 = self.tbl26;
+    else t26 = @"None";
+}
+    
     self.labelNo.text = leadNo;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;
@@ -549,8 +568,8 @@ return myCell;
             detailVC.frm18 = nil; //date
             detailVC.frm19 = nil; //aptdate
             detailVC.frm20 = self.tbl12; //phone
-            detailVC.frm21 = self.tbl22; //salesNo
-            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm21 = self.salesman;
+            detailVC.frm22 = self.jobdescription;
             detailVC.frm23 = nil; //adNo
             detailVC.frm24 = self.amount;
             detailVC.frm25 = self.tbl15; //email
@@ -559,8 +578,8 @@ return myCell;
             detailVC.frm28 = self.comments;
             detailVC.frm29 = self.photo;
             detailVC.frm30 = self.active;
-            detailVC.saleNoDetail = self.tbl22;
-            detailVC.jobNoDetail = self.tbl23;
+            detailVC.saleNoDetail = self.tbl22; //salesNo
+            detailVC.jobNoDetail = self.tbl23; //jobNo
         }
     }
     

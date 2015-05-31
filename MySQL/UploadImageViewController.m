@@ -110,7 +110,7 @@
                 
                 if (succeeded)
                     //Go back to the wall
-                    [self.navigationController popViewControllerAnimated:YES];
+                    GOBACK;
                 else{
                     NSString *errorString = [[error userInfo] objectForKey:@"error"];
                     [self showErrorView:errorString];
