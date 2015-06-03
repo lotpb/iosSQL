@@ -10,7 +10,8 @@
 
 @interface EmployeeViewController ()
 {
-    EmployeeModel *_EmployeeModel; NSMutableArray *_feedItems; EmployeeLocation *_selectedLocation;
+    EmployeeModel *_EmployeeModel; EmployeeLocation *_selectedLocation;
+    NSMutableArray *_feedItems, *employArray;
     UIRefreshControl *refreshControl;
     NSString *firstItem, *lastnameItem, *companyItem;
 }
@@ -28,8 +29,13 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
-    _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseEmployee];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
+        _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
+    }
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -92,6 +98,12 @@
     [self performSegueWithIdentifier:EMPLOYNEWSEGUE sender:self];
 }
 
+#pragma mark - ParseDelegate
+- (void)parseEmployloaded:(NSMutableArray *)employItem {
+    employArray = employItem;
+    [self.listTableView reloadData];
+}
+
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
@@ -100,11 +112,14 @@
 
 #pragma mark TableView Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{  
+{
     if (isFilltered)
         return filteredString.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return employArray.count;
         else
-        return _feedItems.count;
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,19 +149,25 @@
     
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     myCell.accessoryType = UITableViewCellAccessoryNone;
+   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
-    myCell.detailTextLabel.text = item.city;
-   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"First"];
+        myCell.detailTextLabel.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"City"];
+        label2.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"City"];
+    } else {
+        myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
+        myCell.detailTextLabel.text = item.city;
+        label2.text = item.employeeNo;
+    }
     
     //Retreive an image
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
-    label2.text = item.employeeNo;
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];

@@ -14,7 +14,7 @@
 
 @required
 
-- (void)parseSalesmanloaded:(NSMutableArray *)salesItem;
+- (void)parseSalesPickloaded:(NSMutableArray *)salesItem;
 - (void)parseRateloaded:(NSMutableArray *)rateItem;
 - (void)parseContractorloaded:(NSMutableArray *)contractItem;
 - (void)parseCallbackloaded:(NSMutableArray *)callbackItem;
@@ -27,6 +27,14 @@
 - (void)parseHeadAdloaded:(NSMutableArray *)adheadItem;
 - (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem;
 - (void)parseBlogloaded:(NSMutableArray *)blogItem;
+- (void)parseCustomerloaded:(NSMutableArray *)custItem;
+- (void)parseLeadloaded:(NSMutableArray *)leadItem;
+- (void)parseVendorloaded:(NSMutableArray *)vendItem;
+- (void)parseEmployloaded:(NSMutableArray *)employItem;
+- (void)parseAdvertiserloaded:(NSMutableArray *)adItem;
+- (void)parseProductloaded:(NSMutableArray *)prodItem;
+- (void)parseJobloaded:(NSMutableArray *)jobItem;
+- (void)parseSalesmanloaded:(NSMutableArray *)saleItem;
 
 @end
 
@@ -34,7 +42,7 @@
 
 @property (weak, nonatomic) id<ParseConnectionProtocal> delegate;
 
-- (void)parseSalesman;
+- (void)parseSalesPick;
 - (void)parseRate;
 - (void)parseContractor;
 - (void)parseCallback;
@@ -47,6 +55,14 @@
 - (void)parseHeadAd;
 - (void)parseHeadProduct;
 - (void)parseBlog;
+- (void)parseCustomer;
+- (void)parseLeads;
+- (void)parseVendor;
+- (void)parseEmployee;
+- (void)parseAdvertiser;
+- (void)parseProduct;
+- (void)parseJob;
+- (void)parseSalesman;
 
 //@property (strong, nonatomic) NSString *frm22;
 //@property (strong, nonatomic) NSString *frm23;

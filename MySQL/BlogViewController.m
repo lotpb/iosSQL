@@ -36,11 +36,11 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseBlog];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
+        _BlogModel.delegate = self; [_BlogModel downloadItems];
     }
-    _BlogModel = [[BlogModel alloc] init];
-    _BlogModel.delegate = self; [_BlogModel downloadItems];
     
-    _feedItems = [[NSMutableArray alloc] init];
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark Bar Button
@@ -117,13 +117,13 @@
 }
 
 #pragma mark - TableView
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0;
-}
-
 -(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80.0;
 }
 
 #pragma mark TableView Delete Button
@@ -238,32 +238,27 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
-    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
-    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
-    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
         
         myCell.blogtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
         myCell.blogsubtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
         myCell.blogmsgDateLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-        
-        //not working properly below
-    if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
-            label2.hidden = NO;
+        if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
+             label2.hidden = NO;
         else label2.hidden = YES;
-        
     } else {
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
-        
-        //not working properly below
         if (![item.rating isEqual:@"5"])
-            [label2 setBackgroundColor:LIKECOLORBACK];
+             [label2 setBackgroundColor:LIKECOLORBACK];
            // label2.hidden = NO;
         else [label2 setBackgroundColor:[UIColor whiteColor]];//label2.hidden = YES;
     }
+    
+    [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
+    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
+    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
     
     myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
     myCell.blog2ImageView.clipsToBounds = YES;
@@ -274,13 +269,8 @@
     label2.font = LIKEFONT(LIKEFONTSIZE);
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:LIKECOLORTEXT];
-   // [label2 setBackgroundColor:LIKECOLORBACK];
-    //label2.tag = 102;
-   // label2.numberOfLines = 0;
-   // label2.lineBreakMode = NSLineBreakByClipping;
+
     [myCell.contentView addSubview:label2];
-    
-    
     return myCell;
 }
 

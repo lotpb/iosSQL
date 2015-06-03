@@ -713,6 +713,7 @@
 		AF4E626D1A5CBAED007A56D0 /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				AFF135B41AE1C5270045CE2C /* drum01.mp3 */,
 				AF0263DD1AEDCEEF005A0AD4 /* ConstantMain.h */,
 				AF68D6BF1A921A130014106A /* SearchResultsViewController.h */,
 				AF68D6C01A921A130014106A /* SearchResultsViewController.m */,
@@ -928,8 +929,8 @@
 		AFBC9E8419D9CEDE0050E67A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AFF135B31AE1C5000045CE2C /* Sounds */,
 				AFA352E119FBE8D400840AA3 /* Library */,
+				AFF135B31AE1C5000045CE2C /* Sounds */,
 				AF2BACC51A0D527E000995A5 /* images */,
 				AFBC9E8519D9CEDE0050E67A /* Info.plist */,
 				AFBC9E8619D9CEDE0050E67A /* main.m */,
@@ -958,7 +959,6 @@
 			isa = PBXGroup;
 			children = (
 				AFF135B61AE1CD000045CE2C /* 03 A Whiter Shade Of Pale.mp3 */,
-				AFF135B41AE1C5270045CE2C /* drum01.mp3 */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";

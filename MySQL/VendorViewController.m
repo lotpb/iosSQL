@@ -10,7 +10,9 @@
 
 @interface VendorViewController () 
 {
-    VendorModel *_VendorModel; NSMutableArray *_feedItems; VendLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    VendorModel *_VendorModel; VendLocation *_selectedLocation;
+    NSMutableArray *_feedItems, *vendorArray;
+    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -24,8 +26,13 @@
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
-    _VendorModel.delegate = self; [_VendorModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseVendor];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
+        _VendorModel.delegate = self; [_VendorModel downloadItems];
+    }
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -88,6 +95,12 @@
 #pragma mark - BarButton NewData
 -(void)newData:(id)sender {
     [self performSegueWithIdentifier:VENDNEWSEGUE sender:self];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseVendorloaded:(NSMutableArray *)vendItem {
+    vendorArray = vendItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Table
@@ -165,7 +178,10 @@
     if (isFilltered)
         return filteredString.count;
     else
-        return _feedItems.count;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return vendorArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -185,14 +201,24 @@
       item = _feedItems[indexPath.row];
       else
       item = [filteredString objectAtIndex:indexPath.row];
-
-    myCell.textLabel.text = item.vendorName;
-   // myCell.detailTextLabel.text = item.address;
-   //[myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-  //  UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-  // [myCell.imageView setImage:myImage];
     
-    label2.text = item.vendorNo;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[vendorArray objectAtIndex:indexPath.row] objectForKey:@"VendorName"];
+         label2.text = item.vendorNo;
+    } else {
+        myCell.textLabel.text = item.vendorName;
+         label2.text = item.vendorNo;
+        /*
+         if (myCell.textLabel.text.length > 200) {
+         myCell.textLabel.text = [NSString stringWithFormat:@"%@...", [subtitle substringToIndex:200]];
+         } */
+        
+        // myCell.detailTextLabel.text = item.address;
+        //[myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+        // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+        //[myCell.imageView setImage:myImage];
+    }
+    
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];

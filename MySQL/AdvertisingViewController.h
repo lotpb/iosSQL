@@ -10,7 +10,6 @@
 #import "AdModel.h"
 #import "AdLocation.h"
 #import "ParseConnection.h"
-//#import <Parse/Parse.h>
 #import "NewDataDetail.h"
 
 @interface AdvertisingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, AdModelProtocol>

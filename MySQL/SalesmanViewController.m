@@ -10,9 +10,9 @@
 
 @interface SalesmanViewController ()
 {
-    SalesModel *_SalesModel; NSMutableArray *_feedItems; SalesLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    
-    NSMutableArray *headCount;
+    SalesModel *_SalesModel; SalesLocation *_selectedLocation;
+    NSMutableArray *headCount, *_feedItems, *saleArray;
+    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -28,8 +28,13 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
-    _SalesModel.delegate = self; [_SalesModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseSalesman];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
+        _SalesModel.delegate = self; [_SalesModel downloadItems];
+    }
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self; [parseConnection parseHeadSalesman];
@@ -70,11 +75,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - ParseDelegate
-- (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem {
-    headCount = salesheadItem;
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_SalesModel downloadItems];
@@ -100,6 +100,16 @@
 -(void)newData {
      isFormStat = YES;
     [self performSegueWithIdentifier:SALEVIEWSEGUE sender:self];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem {
+    headCount = salesheadItem;
+}
+
+- (void)parseSalesmanloaded:(NSMutableArray *)saleItem {
+    saleArray = saleItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Table
@@ -183,7 +193,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return filteredString.count;
-return _feedItems.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return saleArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -200,15 +214,19 @@ return _feedItems.count;
     SalesLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[saleArray objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+    } else {
         myCell.textLabel.text = item.salesman;
-       // myCell.detailTextLabel.text = item.salesNo;
-        //Retreive an image
-        UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-        [myCell.imageView setImage:myImage];
- 
+        // myCell.detailTextLabel.text = item.salesNo;
+    }
+
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
+    
     return myCell;
 }
 

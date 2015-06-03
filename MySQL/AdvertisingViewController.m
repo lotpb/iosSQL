@@ -10,9 +10,11 @@
 
 @interface AdvertisingViewController ()
 {
-    AdModel *_AdModel; NSMutableArray *_feedItems; AdLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *headCount;
+    AdModel *_AdModel;  AdLocation *_selectedLocation;
+    NSMutableArray *headCount, *_feedItems, *adArray;
+    UIRefreshControl *refreshControl;
 }
+
 @property (nonatomic, strong) UISearchController *searchController;
 @end
 
@@ -28,8 +30,13 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
-    _AdModel.delegate = self; [_AdModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseAdvertiser];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _AdModel = [[AdModel alloc] init];
+        _AdModel.delegate = self; [_AdModel downloadItems];
+    }
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self; [parseConnection parseHeadAd];
@@ -66,11 +73,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - ParseDelegate
-- (void)parseHeadAdloaded:(NSMutableArray *)adheadItem {
-    headCount = adheadItem;
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_AdModel downloadItems];
@@ -98,9 +100,18 @@
     [self performSegueWithIdentifier:ADVIEWSEGUE sender:self];
 }
 
+#pragma mark - ParseDelegate
+- (void)parseHeadAdloaded:(NSMutableArray *)adheadItem {
+    headCount = adheadItem;
+}
+
+- (void)parseAdvertiserloaded:(NSMutableArray *)adItem {
+    adArray = adItem;
+    [self.listTableView reloadData];
+}
+
 #pragma mark - Table
--(void)itemsDownloaded:(NSMutableArray *)items
-{   // This delegate method will get called when the items are finished downloading
+-(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
 }
@@ -178,7 +189,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
-    return _feedItems.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return adArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,14 +210,17 @@
     AdLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[adArray objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
+    } else {
         myCell.textLabel.text = item.Advertiser;
-     // myCell.detailTextLabel.text = item.AdNo;
+    }
     
-        UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-        [myCell.imageView setImage:myImage];
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
     
     return myCell;
 }

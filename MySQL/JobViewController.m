@@ -10,8 +10,9 @@
 
 @interface JobViewController ()
 {
-    JobModel *_JobModel; NSMutableArray *_feedItems; JobLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *headCount;
+    JobModel *_JobModel; JobLocation *_selectedLocation;
+    NSMutableArray *headCount, *_feedItems, *jobArray;
+    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -27,8 +28,13 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
-    _JobModel.delegate = self; [_JobModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseJob];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _JobModel = [[JobModel alloc] init];
+        _JobModel.delegate = self; [_JobModel downloadItems];
+    }
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self; [parseConnection parseHeadJob];
@@ -69,15 +75,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - BarButton NewData
+-(void)newData {
+    isFormStat = YES;
+    [self performSegueWithIdentifier:JOBVIEWSEGUE sender:self];
+}
+
 #pragma mark - ParseDelegate
 - (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem {
     headCount = jobheadItem;
 }
 
-#pragma mark - BarButton NewData
--(void)newData {
-    isFormStat = YES;
-    [self performSegueWithIdentifier:JOBVIEWSEGUE sender:self];
+- (void)parseJobloaded:(NSMutableArray *)jobItem {
+    jobArray = jobItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Table
@@ -181,7 +192,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
-    return _feedItems.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return jobArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -198,13 +213,17 @@
     JobLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[jobArray objectAtIndex:indexPath.row] objectForKey:@"Description"];
+    } else {
         myCell.textLabel.text = item.jobdescription;
-       // myCell.detailTextLabel.text = item.jobNo;
-        UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-        [myCell.imageView setImage:myImage];
+        // myCell.detailTextLabel.text = item.jobNo;
+    }
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
     
     return myCell;
 }

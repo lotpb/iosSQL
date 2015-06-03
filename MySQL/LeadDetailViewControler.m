@@ -43,7 +43,7 @@
   //  self.newsTableView.dataSource = self;
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
-    self.newsTableView.estimatedRowHeight = 220.0;
+    self.newsTableView.estimatedRowHeight = 250.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.edgesForExtendedLayout = UIRectEdgeNone;
    [self parseData];

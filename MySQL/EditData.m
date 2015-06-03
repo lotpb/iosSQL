@@ -54,7 +54,7 @@
     parseConnection.delegate = (id)self;
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-         [parseConnection parseSalesman];
+         [parseConnection parseSalesPick];
     }
     if ([_formController isEqual:TNAME1]) {
         [parseConnection parseCallback];
@@ -892,7 +892,7 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
     else if ([_formController isEqual:TNAME2]) { //customer
-      //NSString *_date = self.date.text;
+        NSString *_date = self.date.text;
         NSString *_custNo = self.custNo;
         NSString *_leadNo = self.leadNo;
         NSString *_address = self.address.text;
@@ -935,7 +935,6 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
     else if ([_formController isEqual:TNAME3]) {//vendor
-        
         NSString *_vendorNo = self.leadNo;
         NSString *_name = self.company.text;
         NSString *_address = self.address.text;
@@ -977,7 +976,6 @@
         [success dataUsingEncoding:NSUTF8StringEncoding];
     }
     else if ([_formController isEqual:TNAME4]) { //employee
-        
         NSString *_employeeNo = self.leadNo;
         NSString *_company = self.company.text;
         NSString *_address = self.address.text;

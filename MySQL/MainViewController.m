@@ -31,28 +31,27 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-  /*
-    bannerView = [[ADBannerView alloc]initWithFrame:
+    
+     //| -------------------------iAd------------------------------
+  /*  bannerView = [[ADBannerView alloc]initWithFrame:
                   CGRectMake(0, 0, 320, 50)];
     // Optional to set background color to clear color
     [bannerView setBackgroundColor:[UIColor clearColor]];
-    [self.view addSubview: bannerView];
-   */
-    
+    [self.view addSubview: bannerView]; */
+   
      //| -----------------------Sound Key---------------------------
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"soundKey"]) {
         [self playSound1];
     }
-    
-    //| -----------------------notification Key---------------------------
+    //| -----------------------Notification Key---------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"verseKey"]) {
         [self sendLocalNotification];
     }
-    
+     //| -------------------------Timer----------------------------------
   //  [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
     
-    //| -----------------------------end----------------------------------
+    //| ---------------------------end----------------------------------
     
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
     [self.tabBarController.tabBar setTranslucent:NO];
@@ -271,14 +270,12 @@ didFailToReceiveAdWithError:(NSError *)error{
     [view addSubview:separatorLineView2];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
-               action:@selector(openStats:)
-     forControlEvents:UIControlEventTouchDown];
+    [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Statistics" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
      button.titleLabel.font = [UIFont systemFontOfSize:12.0];
     button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
-    [self.view addSubview:button];
+    [view addSubview:button];
     
     return view;
 }

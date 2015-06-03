@@ -30,23 +30,11 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = STATBACKCOLOR;
     self.listTableView.rowHeight = 30; //UITableViewAutomaticDimension;
-    //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    //self.listTableView.estimatedRowHeight = 44.0;
+ //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+  //self.listTableView.estimatedRowHeight = 44.0;
     
-#pragma mark StatHeader
-    amount = @"Amount";
-    _statHeaderItems = [[NSMutableArray alloc] init];
-    NSData *jsonData = [NSData dataWithContentsOfURL:
-                        [NSURL URLWithString:@"http://localhost:8888/iosStatisticHeader.php"]];
-    id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    [self itemsStatHeaderDownloaded];
     
-    for (NSDictionary *dataDict in jsonObjects) {
-        NSString *strAmount = [dataDict objectForKey:@"Amount"];
-        dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                strAmount, amount, nil];
-        [_statHeaderItems addObject:dict];
-    }
-
     _feedCustItems = [[NSMutableArray alloc] init]; _StatCustModel = [[StatCustModel alloc] init];
     _StatCustModel.delegate = self; [_StatCustModel downloadItems];
     
@@ -90,6 +78,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)itemsStatHeaderDownloaded {
+    amount = @"Amount";
+    _statHeaderItems = [[NSMutableArray alloc] init];
+    NSData *jsonData = [NSData dataWithContentsOfURL:
+                        [NSURL URLWithString:@"http://localhost:8888/iosStatisticHeader.php"]];
+    id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    
+    for (NSDictionary *dataDict in jsonObjects) {
+        NSString *strAmount = [dataDict objectForKey:@"Amount"];
+        dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                strAmount, amount, nil];
+        [_statHeaderItems addObject:dict];
+    }
+}
+
 -(void)itemsCustDownloaded:(NSMutableArray *)itemsCust {
     _feedCustItems = itemsCust;
     [self.listTableView reloadData];
@@ -102,7 +105,7 @@
 
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
-    
+    [_StatLeadModel downloadItems];
     [_StatCustModel downloadItems];
     [self.listTableView reloadData];
     
@@ -114,8 +117,7 @@
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:KEY_DATEREFRESH];
             NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR
-                                                                        forKey:NSForegroundColorAttributeName];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
             NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         

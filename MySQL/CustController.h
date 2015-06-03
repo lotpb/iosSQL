@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustLocation.h"
 #import "CustModel.h"
+#import "ParseConnection.h"
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
 #import "MapViewController.h"

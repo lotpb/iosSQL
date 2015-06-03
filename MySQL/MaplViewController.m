@@ -48,7 +48,6 @@
   /*   // Add a user tracking button to the toolbar
      MKUserTrackingBarButtonItem *trackingItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
      [self.toolbar setItems:@[trackingItem]]; */
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -101,7 +100,6 @@
 {
     NSLog(@"location info object=%@", [locations lastObject]);
 }
-
 
 #pragma mark - Annotation
 // When a map annotation point is added, zoom to it (1500 range)

@@ -10,7 +10,6 @@
 #import "ProductModel.h"
 #import "ProductLocation.h"
 #import "ParseConnection.h"
-//#import <Parse/Parse.h>
 #import "NewDataDetail.h"
 
 @interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ProductModelProtocol>

@@ -10,7 +10,8 @@
 
 @interface ViewController ()
 {
-    HomeModel *_homeModel; NSMutableArray *_feedItems; Location *_selectedLocation;
+    HomeModel *_homeModel; Location *_selectedLocation;
+    NSMutableArray *_feedItems, *leadArray;
     UIRefreshControl *refreshControl;
 }
 @property (strong, nonatomic) NSString *tsa22;
@@ -30,7 +31,12 @@
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
      self.listTableView.pagingEnabled = YES;
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseLeads];
+    } else {
     _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
+    }
     
     filteredString= [[NSMutableArray alloc] init];
     
@@ -92,6 +98,12 @@
 #pragma mark - BarButton NewData
 -(void)newData:(id)sender {
     [self performSegueWithIdentifier:LEADNEWSEGUE sender:self];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseLeadsloaded:(NSMutableArray *)leadItem {
+    leadArray = leadItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - TableView
@@ -169,9 +181,12 @@
 #pragma mark TableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (isFilltered)
-    return filteredString.count;
+        return filteredString.count;
     else
-    return _feedItems.count;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return leadArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

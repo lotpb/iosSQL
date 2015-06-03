@@ -17,7 +17,7 @@
 {
     NSMutableArray *tableData, *filteredString;
     BOOL isFilltered;
-    //ADBannerView *bannerView;
+   // ADBannerView *bannerView;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

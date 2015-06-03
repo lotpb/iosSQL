@@ -10,8 +10,8 @@
 
 @interface ProductViewController ()
 {
-    ProductModel *_ProductModel; NSMutableArray *_feedItems; ProductLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *headCount;
+    ProductModel *_ProductModel; ProductLocation *_selectedLocation; UIRefreshControl *refreshControl;
+    NSMutableArray *headCount, *_feedItems, *prodArray;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -27,8 +27,13 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    _feedItems = [[NSMutableArray alloc] init]; _ProductModel = [[ProductModel alloc] init];
-    _ProductModel.delegate = self; [_ProductModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseProduct];
+    } else {
+        _feedItems = [[NSMutableArray alloc] init]; _ProductModel = [[ProductModel alloc] init];
+        _ProductModel.delegate = self; [_ProductModel downloadItems];
+    }
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self; [parseConnection parseHeadProduct];
@@ -69,11 +74,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - ParseDelegate
-- (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem {
-    headCount = prodheadItem;
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     [_ProductModel downloadItems];
@@ -99,6 +99,16 @@
 -(void)newData {
     isFormStat = YES;
     [self performSegueWithIdentifier:PRODVIEWSEGUE sender:self];
+}
+
+#pragma mark - ParseDelegate
+- (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem {
+    headCount = prodheadItem;
+}
+
+- (void)parseProductloaded:(NSMutableArray *)prodItem {
+    prodArray = prodItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - Table
@@ -182,7 +192,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (isFilltered)
         return [filteredString  count];
-    return _feedItems.count;
+    else
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
+            return prodArray.count;
+        else
+            return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -199,14 +213,18 @@
     ProductLocation *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-     else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        myCell.textLabel.text = [[prodArray objectAtIndex:indexPath.row] objectForKey:@"Products"];
+    } else {
         myCell.textLabel.text = item.products;
-      //  myCell.detailTextLabel.text = item.productNo;
-        UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-        [myCell.imageView setImage:myImage];
-  
+        //  myCell.detailTextLabel.text = item.productNo;
+    }
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
+    
     return myCell;
 }
 
