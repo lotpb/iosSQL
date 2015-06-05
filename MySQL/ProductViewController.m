@@ -11,7 +11,7 @@
 @interface ProductViewController ()
 {
     ProductModel *_ProductModel; ProductLocation *_selectedLocation; UIRefreshControl *refreshControl;
-    NSMutableArray *headCount, *_feedItems, *prodArray;
+    NSMutableArray *headCount, *_feedItems;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -27,7 +27,7 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseProduct];
     } else {
@@ -76,19 +76,25 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    [_ProductModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseProduct];
+    } else {
+        [_ProductModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -107,7 +113,7 @@
 }
 
 - (void)parseProductloaded:(NSMutableArray *)prodItem {
-    prodArray = prodItem;
+    _feedItems = prodItem;
     [self.listTableView reloadData];
 }
 
@@ -193,10 +199,7 @@
     if (isFilltered)
         return [filteredString  count];
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return prodArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -216,8 +219,8 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[prodArray objectAtIndex:indexPath.row] objectForKey:@"Products"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Products"];
     } else {
         myCell.textLabel.text = item.products;
         //  myCell.detailTextLabel.text = item.productNo;
@@ -395,9 +398,16 @@
         else
             detailVC.formStatus = @"Edit";
         
-        detailVC.frm11 = _selectedLocation.active;
-        detailVC.frm12 = _selectedLocation.productNo;
-        detailVC.frm13 = _selectedLocation.products;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
+            detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ProductNo"];
+            detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Products"];
+        } else {
+            detailVC.frm11 = _selectedLocation.active;
+            detailVC.frm12 = _selectedLocation.productNo;
+            detailVC.frm13 = _selectedLocation.products;
+        }
     }
 }
 

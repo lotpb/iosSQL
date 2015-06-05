@@ -11,7 +11,7 @@
 @interface SalesmanViewController ()
 {
     SalesModel *_SalesModel; SalesLocation *_selectedLocation;
-    NSMutableArray *headCount, *_feedItems, *saleArray;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -28,7 +28,7 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseSalesman];
     } else {
@@ -77,19 +77,25 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    [_SalesModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseSalesman];
+    } else {
+        [_SalesModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -108,7 +114,7 @@
 }
 
 - (void)parseSalesmanloaded:(NSMutableArray *)saleItem {
-    saleArray = saleItem;
+    _feedItems = saleItem;
     [self.listTableView reloadData];
 }
 
@@ -194,10 +200,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return saleArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -217,8 +220,8 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[saleArray objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
     } else {
         myCell.textLabel.text = item.salesman;
         // myCell.detailTextLabel.text = item.salesNo;
@@ -380,13 +383,21 @@
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME8;
         if (isFormStat == YES)
-        detailVC.formStatus = @"New";
+            detailVC.formStatus = @"New";
         else
-        detailVC.formStatus = @"Edit";
+            detailVC.formStatus = @"Edit";
         
-        detailVC.frm11 = _selectedLocation.active;
-        detailVC.frm12 = _selectedLocation.salesNo;
-        detailVC.frm13 = _selectedLocation.salesman;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
+            detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
+            detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+        } else {
+            detailVC.frm11 = _selectedLocation.active;
+            detailVC.frm12 = _selectedLocation.salesNo;
+            detailVC.frm13 = _selectedLocation.salesman;
+        }
     }
 }
 

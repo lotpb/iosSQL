@@ -11,7 +11,7 @@
 @interface JobViewController ()
 {
     JobModel *_JobModel; JobLocation *_selectedLocation;
-    NSMutableArray *headCount, *_feedItems, *jobArray;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -28,7 +28,7 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseJob];
     } else {
@@ -87,7 +87,7 @@
 }
 
 - (void)parseJobloaded:(NSMutableArray *)jobItem {
-    jobArray = jobItem;
+    _feedItems = jobItem;
     [self.listTableView reloadData];
 }
 
@@ -100,19 +100,25 @@
 
 #pragma mark Table Refresh Control
 - (void)reloadDatas:(id)sender {
-    [_JobModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseJob];
+    } else {
+        [_JobModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -193,10 +199,7 @@
     if (isFilltered)
         return [filteredString  count];
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return jobArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -216,8 +219,8 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[jobArray objectAtIndex:indexPath.row] objectForKey:@"Description"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Description"];
     } else {
         myCell.textLabel.text = item.jobdescription;
         // myCell.detailTextLabel.text = item.jobNo;
@@ -357,17 +360,6 @@
     }
     [self.listTableView reloadData];
 }
-/*
-#pragma mark - Parse HeaderActive
--(void)parseJob {
-    PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query selectKeys:@[@"Description"]];
-    //[query whereKey:@"Active" containsString:@"Active"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        headCount = [[NSMutableArray alloc]initWithArray:objects];
-    }];
-} */
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -391,9 +383,18 @@
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-        detailVC.frm11 = _selectedLocation.active;
-        detailVC.frm12 = _selectedLocation.jobNo;
-        detailVC.frm13 = _selectedLocation.jobdescription;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
+            detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"JobNo"];
+            detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Description"];
+        } else {
+            detailVC.frm11 = _selectedLocation.active;
+            detailVC.frm12 = _selectedLocation.jobNo;
+            detailVC.frm13 = _selectedLocation.jobdescription;
+        }
     }
 }
 

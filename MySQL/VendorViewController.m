@@ -11,7 +11,7 @@
 @interface VendorViewController () 
 {
     VendorModel *_VendorModel; VendLocation *_selectedLocation;
-    NSMutableArray *_feedItems, *vendorArray;
+    NSMutableArray *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -26,7 +26,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseVendor];
     } else {
@@ -73,19 +73,25 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    [_VendorModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseVendor];
+    } else {
+        [_VendorModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -99,7 +105,7 @@
 
 #pragma mark - ParseDelegate
 - (void)parseVendorloaded:(NSMutableArray *)vendItem {
-    vendorArray = vendItem;
+    _feedItems = vendItem;
     [self.listTableView reloadData];
 }
 
@@ -178,10 +184,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return vendorArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -202,9 +205,9 @@
       else
       item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[vendorArray objectAtIndex:indexPath.row] objectForKey:@"VendorName"];
-         label2.text = item.vendorNo;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
+         label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
     } else {
         myCell.textLabel.text = item.vendorName;
          label2.text = item.vendorNo;
@@ -380,42 +383,69 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([[segue identifier] isEqualToString:VENDVIEWSEGUE])
-   {
-   LeadDetailViewControler *detailVC = segue.destinationViewController;
-       detailVC.formController = TNAME3;
-       //detailVC.selectedLocation = _selectedLocation;
-       detailVC.leadNo = _selectedLocation.vendorNo;
-       detailVC.date = _selectedLocation.webpage;
-       detailVC.name = _selectedLocation.vendorName;
-       detailVC.address = _selectedLocation.address;
-       detailVC.city = _selectedLocation.city;
-       detailVC.state = _selectedLocation.state;
-       detailVC.zip = _selectedLocation.zip;
-       detailVC.amount = _selectedLocation.profession;
-       detailVC.tbl11 = _selectedLocation.phone;
-       detailVC.tbl12 = _selectedLocation.phone1;
-       detailVC.tbl13 = _selectedLocation.phone2;
-       detailVC.tbl14 = _selectedLocation.phone3;
-       detailVC.tbl15 = _selectedLocation.assistant;
-       detailVC.tbl21 = _selectedLocation.email;
-       detailVC.tbl22 = _selectedLocation.department;
-       detailVC.tbl23 = _selectedLocation.office;
-       detailVC.tbl24 = _selectedLocation.manager;
-       detailVC.tbl25 = _selectedLocation.profession;
-       detailVC.comments = _selectedLocation.comments;
-       detailVC.active = _selectedLocation.active;
-       detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.webpage;
-       
-       detailVC.l11 = @"Phone"; detailVC.l12 = @"Phone1";
-       detailVC.l13 = @"Phone2"; detailVC.l14 = @"Phone3";
-       detailVC.l15 = @"Assistant"; detailVC.l21 = @"Email";
-       detailVC.l22 = @"Department"; detailVC.l23 = @"Office";
-       detailVC.l24 = @"Manager"; detailVC.l25 = @"Profession";
-       detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Web Page";
-       detailVC.l1datetext = @"Web Page:";
-       detailVC.lnewsTitle = VENDORNEWSTITLE;
-   }
+    if ([[segue identifier] isEqualToString:VENDVIEWSEGUE])
+    {
+        LeadDetailViewControler *detailVC = segue.destinationViewController;
+        detailVC.formController = TNAME3;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
+            detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WebPage"];
+            detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
+            detailVC.address = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Address"];
+            detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+            detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
+            detailVC.zip = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"];
+            detailVC.amount = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Profession"];
+            detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone"];
+            detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone1"];
+            detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone2"];
+            detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone3"];
+            detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Assistant"];
+            detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+            detailVC.tbl22 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Department"];
+            detailVC.tbl23 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Office"];
+            detailVC.tbl24 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Manager"];
+            detailVC.tbl25 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Profession"];
+            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+            detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+            detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+            detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WebPage"];
+        } else {
+            detailVC.leadNo = _selectedLocation.vendorNo;
+            detailVC.date = _selectedLocation.webpage;
+            detailVC.name = _selectedLocation.vendorName;
+            detailVC.address = _selectedLocation.address;
+            detailVC.city = _selectedLocation.city;
+            detailVC.state = _selectedLocation.state;
+            detailVC.zip = _selectedLocation.zip;
+            detailVC.amount = _selectedLocation.profession;
+            detailVC.tbl11 = _selectedLocation.phone;
+            detailVC.tbl12 = _selectedLocation.phone1;
+            detailVC.tbl13 = _selectedLocation.phone2;
+            detailVC.tbl14 = _selectedLocation.phone3;
+            detailVC.tbl15 = _selectedLocation.assistant;
+            detailVC.tbl21 = _selectedLocation.email;
+            detailVC.tbl22 = _selectedLocation.department;
+            detailVC.tbl23 = _selectedLocation.office;
+            detailVC.tbl24 = _selectedLocation.manager;
+            detailVC.tbl25 = _selectedLocation.profession;
+            detailVC.comments = _selectedLocation.comments;
+            detailVC.active = _selectedLocation.active;
+            detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.webpage;
+        }
+        
+        detailVC.l11 = @"Phone"; detailVC.l12 = @"Phone1";
+        detailVC.l13 = @"Phone2"; detailVC.l14 = @"Phone3";
+        detailVC.l15 = @"Assistant"; detailVC.l21 = @"Email";
+        detailVC.l22 = @"Department"; detailVC.l23 = @"Office";
+        detailVC.l24 = @"Manager"; detailVC.l25 = @"Profession";
+        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Web Page";
+        detailVC.l1datetext = @"Web Page:";
+        detailVC.lnewsTitle = VENDORNEWSTITLE;
+    }
+    
     if ([[segue identifier] isEqualToString:VENDNEWSEGUE])
     {
         NewData *detailVC = segue.destinationViewController;

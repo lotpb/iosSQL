@@ -11,7 +11,7 @@
 @interface AdvertisingViewController ()
 {
     AdModel *_AdModel;  AdLocation *_selectedLocation;
-    NSMutableArray *headCount, *_feedItems, *adArray;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 
@@ -30,7 +30,7 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseAdvertiser];
     } else {
@@ -75,7 +75,13 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    [_AdModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseAdvertiser];
+    } else {
+        [_AdModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -106,7 +112,7 @@
 }
 
 - (void)parseAdvertiserloaded:(NSMutableArray *)adItem {
-    adArray = adItem;
+    _feedItems = adItem;
     [self.listTableView reloadData];
 }
 
@@ -190,10 +196,7 @@
     if (isFilltered)
         return [filteredString  count];
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return adArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -213,8 +216,8 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[adArray objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
     } else {
         myCell.textLabel.text = item.Advertiser;
     }
@@ -376,9 +379,17 @@
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-        detailVC.frm11 = _selectedLocation.active;
-        detailVC.frm12 = _selectedLocation.AdNo;
-        detailVC.frm13 = _selectedLocation.Advertiser;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
+            detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"AdNo"];
+            detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Advertiser"];
+        } else {
+            detailVC.frm11 = _selectedLocation.active;
+            detailVC.frm12 = _selectedLocation.AdNo;
+            detailVC.frm13 = _selectedLocation.Advertiser;
+        }
     }
 }
 

@@ -12,7 +12,7 @@
 {
     BlogModel *_BlogModel; BlogLocation *_selectedLocation;
     UIRefreshControl *refreshControl;
-    NSMutableArray *_feedItems, *BlogArray;
+    NSMutableArray *_feedItems;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -33,11 +33,12 @@
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseBlog];
     } else {
-        _feedItems = [[NSMutableArray alloc] init]; _BlogModel = [[BlogModel alloc] init];
+        //_feedItems = [[NSMutableArray alloc] init];
+        _BlogModel = [[BlogModel alloc] init];
         _BlogModel.delegate = self; [_BlogModel downloadItems];
     }
     
@@ -81,7 +82,7 @@
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseBlog];
     } else {
@@ -112,7 +113,7 @@
 
 #pragma mark - ParseDelegate
 - (void)parseBlogloaded:(NSMutableArray *)blogItem {
-    BlogArray = blogItem;
+    _feedItems = blogItem;
     [self.listTableView reloadData];
 }
 
@@ -151,10 +152,10 @@
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      
                                      PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-                                     [query whereKey:@"objectId" equalTo:[[BlogArray objectAtIndex:indexPath.row] objectId] ];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
                                      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                                          if (!error) {
                                              for (PFObject *object in objects) {
@@ -212,10 +213,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return BlogArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
     
 }
 
@@ -238,12 +236,12 @@
     else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
-        myCell.blogtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-        myCell.blogsubtitleLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-        myCell.blogmsgDateLabel.text = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-        if (![[[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
+        myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+        myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+        myCell.blogmsgDateLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+        if (![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
              label2.hidden = NO;
         else label2.hidden = YES;
     } else {
@@ -431,15 +429,15 @@
     {
         BlogEditDetailView*detailVC = segue.destinationViewController;
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-            detailVC.objectId = [[BlogArray objectAtIndex:indexPath.row] objectId];
-            detailVC.msgNo = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
-            detailVC.postby = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-            detailVC.subject = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-            detailVC.msgDate = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-            detailVC.rating = [[BlogArray objectAtIndex:indexPath.row] objectForKey:@"Rating"];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
+            detailVC.msgNo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
+            detailVC.postby = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+            detailVC.subject = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            detailVC.msgDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            detailVC.rating = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"];
         }
         else
             detailVC.selectedLocation = _selectedLocation;

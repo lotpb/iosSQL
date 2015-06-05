@@ -11,7 +11,7 @@
 @interface ViewController ()
 {
     HomeModel *_homeModel; Location *_selectedLocation;
-    NSMutableArray *_feedItems, *leadArray;
+    NSMutableArray *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (strong, nonatomic) NSString *tsa22;
@@ -31,11 +31,12 @@
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
      self.listTableView.pagingEnabled = YES;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseLeads];
     } else {
-    _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init]; _homeModel.delegate = self; [_homeModel downloadItems];
+        _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init];
+        _homeModel.delegate = self; [_homeModel downloadItems];
     }
     
     filteredString= [[NSMutableArray alloc] init];
@@ -76,19 +77,24 @@
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
     
-    [_homeModel downloadItems];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseLeads];
+    } else {
+        [_homeModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -101,8 +107,8 @@
 }
 
 #pragma mark - ParseDelegate
-- (void)parseLeadsloaded:(NSMutableArray *)leadItem {
-    leadArray = leadItem;
+- (void)parseLeadloaded:(NSMutableArray *)leadItem {
+    _feedItems = leadItem;
     [self.listTableView reloadData];
 }
 
@@ -183,10 +189,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return leadArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -197,38 +200,44 @@
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
- 
+    [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
     Location *item;
     if (!isFilltered)
         item = _feedItems[indexPath.row];
-        else
+    else
         item = [filteredString objectAtIndex:indexPath.row];
-
-    myCell.textLabel.text = item.name;
-    myCell.detailTextLabel.text = item.city;
-   [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
- // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
- // [myCell.imageView setImage:myImage];
-      //problem below with iphone 5 width
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+        myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+        label1.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CallBack"];
+        label2.text=  [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
+    } else {
+        myCell.textLabel.text = item.name;
+        myCell.detailTextLabel.text = item.city;
+        label1.text = item.callback;
+        label2.text = item.date;
+    }
     
-    label1.text = item.callback;
+    // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    // [myCell.imageView setImage:myImage];
+    
     [label1 setFont:CELL_FONT1(CELL_FONTSIZE - 2)];
     label1.textAlignment = NSTextAlignmentCenter;
     [label1 setTextColor:[UIColor blackColor]];
     [label1 setBackgroundColor:[UIColor whiteColor]];
     label1.tag = 102;
     [myCell.contentView addSubview:label1];
-
-    label2.text=  item.date;
+    
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)];//[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:DATECOLORBACK];
-     label2.tag = 103;
+    label2.tag = 103;
     [myCell.contentView addSubview:label2];
     
     return myCell;
@@ -239,7 +248,7 @@
     if (!isFilltered)
         return HEADHEIGHT;
     else
-       return 0.0;
+        return 0.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -398,24 +407,60 @@
 {
     if ([[segue identifier] isEqualToString:LEADVIEWSEGUE])
     {
-      //  NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        //  NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME1;
-        detailVC.leadNo = _selectedLocation.leadNo; detailVC.date = _selectedLocation.date;
-        detailVC.name = _selectedLocation.name; detailVC.address = _selectedLocation.address;
-        detailVC.city = _selectedLocation.city; detailVC.state = _selectedLocation.state;
-        detailVC.zip = _selectedLocation.zip; detailVC.amount = _selectedLocation.amount;
-        detailVC.tbl11 = _selectedLocation.callback; detailVC.tbl12 = _selectedLocation.phone;
-        detailVC.tbl13 = _selectedLocation.first; detailVC.tbl14 = _selectedLocation.spouse;
-        detailVC.tbl15 = _selectedLocation.email; detailVC.tbl21 = _selectedLocation.aptdate;
-        detailVC.tbl22 = _selectedLocation.salesNo; detailVC.tbl23 = _selectedLocation.jobNo;
-        detailVC.tbl24 = _selectedLocation.adNo; detailVC.tbl25 = _selectedLocation.active;
-        detailVC.tbl16 = _selectedLocation.time; detailVC.tbl26 = _selectedLocation.photo;
         
-        detailVC.photo = _selectedLocation.photo;
-        detailVC.comments = _selectedLocation.comments;
-        detailVC.active = _selectedLocation.active;
-        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
+            detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
+            detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+            detailVC.address = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Address"];
+            detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+            detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
+            detailVC.zip = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"]stringValue];
+            detailVC.amount = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
+            detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CallBack"];
+            detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone"];
+            detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+            detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Spouse"];
+            detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+            detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"AptDate"];
+            detailVC.tbl22 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"]stringValue];
+            detailVC.tbl23 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
+            detailVC.tbl24 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"AdNo"]stringValue];
+            detailVC.tbl25 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+            detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+            detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
+            detailVC.photo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
+            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+            detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+        } else {
+            detailVC.leadNo = _selectedLocation.leadNo;
+            detailVC.date = _selectedLocation.date;
+            detailVC.name = _selectedLocation.name;
+            detailVC.address = _selectedLocation.address;
+            detailVC.city = _selectedLocation.city;
+            detailVC.state = _selectedLocation.state;
+            detailVC.zip = _selectedLocation.zip;
+            detailVC.amount = _selectedLocation.amount;
+            detailVC.tbl11 = _selectedLocation.callback;
+            detailVC.tbl12 = _selectedLocation.phone;
+            detailVC.tbl13 = _selectedLocation.first;
+            detailVC.tbl14 = _selectedLocation.spouse;
+            detailVC.tbl15 = _selectedLocation.email;
+            detailVC.tbl21 = _selectedLocation.aptdate;
+            detailVC.tbl22 = _selectedLocation.salesNo;
+            detailVC.tbl23 = _selectedLocation.jobNo;
+            detailVC.tbl24 = _selectedLocation.adNo;
+            detailVC.tbl25 = _selectedLocation.active;
+            detailVC.tbl16 = _selectedLocation.time;
+            detailVC.tbl26 = _selectedLocation.photo;
+            detailVC.photo = _selectedLocation.photo;
+            detailVC.comments = _selectedLocation.comments;
+            detailVC.active = _selectedLocation.active;
+        }
         detailVC.l11 = @"Call Back"; detailVC.l12 = @"Phone";
         detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
         detailVC.l15 = @"Email"; detailVC.l21 = @"Apt Date";

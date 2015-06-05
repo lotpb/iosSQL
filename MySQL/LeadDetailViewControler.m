@@ -460,7 +460,7 @@ return myCell;
     else t25 = @"None";
     
 if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
-    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] == 0 ))
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
 } else {
@@ -475,7 +475,12 @@ if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     self.labelname.text = name;
     self.labeladdress.text = address;
     self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
-    self.labelamount.text = amount;
+    
+    if (([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) && (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])))
+        self.labelamount.text = [NSString stringWithFormat:@"%@.00",amount];
+     else
+        self.labelamount.text = amount;
+    
     //self.photo = p1;
     
     tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];

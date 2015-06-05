@@ -117,7 +117,7 @@
     [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
     [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         myCell.titleLabel.text = self.postby;
         myCell.subtitleLabel.text = self.subject;
@@ -135,7 +135,7 @@
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
   
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         if ([self.rating isEqual:@"5"]) {
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
@@ -168,7 +168,7 @@
     {
         BlogNewViewController *detailVC = segue.destinationViewController;
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             detailVC.textcontentobjectId = self.objectId;
             detailVC.textcontentmsgNo = self.msgNo;

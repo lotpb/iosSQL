@@ -146,7 +146,7 @@
 #pragma mark - Button New Database
 -(IBAction)Update:(id)sender {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {  //updateBlog
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {  //updateBlog
         [self.listTableView reloadData];
         
         PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
@@ -199,7 +199,7 @@
 #pragma mark - Button Update Database
 -(IBAction)Share:(id)sender { //save
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) { //saveBlog
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
         [self.listTableView reloadData];
         /*
          NSString *tempString = self.rating;

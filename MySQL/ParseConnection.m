@@ -10,7 +10,7 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *BlogArray, *custArray, *leadArray, *vendorArray, *employArray, *adArray, *prodArray, *saleArray;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *BlogArray, *_feedItems;
 }
 @end
 
@@ -21,12 +21,8 @@
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [PFQuery clearAllCachedResults];
-    /*  [query selectKeys:@[@"objectId"]];
-     [query selectKeys:@[@"MsgNo"]];
-     [query selectKeys:@[@"MsgDate"]];
-     [query selectKeys:@[@"PostBy"]];
-     [query selectKeys:@[@"Rating"]];
-     [query selectKeys:@[@"Subject"]];  */
+  /*[query selectKeys:@[@"objectId"]];
+    [query selectKeys:@[@"MsgNo"]];  */
     [query orderByDescending:@"createdAt"];
     [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
@@ -47,19 +43,23 @@
 
 #pragma mark - Customer Form
 - (void)parseCustomer {
+  //PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
+  //[innerQuery whereKey:@"LeadNo" equalTo:@"LastName"];
     PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-    [PFQuery clearAllCachedResults];
+ // [query whereKey:@"LeadNo" matchesQuery:innerQuery];
+  //[query includeKey:@"LeadNo"];
+   // [PFQuery clearAllCachedResults];
     [query orderByDescending:@"createdAt"];
-    [query setLimit: 5000]; //parse.com standard is 100
+    [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        custArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [custArray addObject:object];
+                [_feedItems addObject:object];
                 //NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseCustomerloaded:custArray];
+                    [self.delegate parseCustomerloaded:_feedItems];
                 }
             }
         } else
@@ -70,18 +70,19 @@
 #pragma mark - Lead Form //not setup yet
 - (void)parseLeads {
     PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
-    [PFQuery clearAllCachedResults];
+   // [PFQuery clearAllCachedResults];
     [query orderByDescending:@"createdAt"];
-    [query setLimit: 10000]; //parse.com standard is 100
+     query.skip = 0;
+    [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        leadArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [leadArray addObject:object];
+                [_feedItems addObject:object];
                 //NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseLeadloaded:leadArray];
+                    [self.delegate parseLeadloaded:_feedItems];
                 }
             }
         } else
@@ -89,21 +90,21 @@
     }];
 }
 
-#pragma mark - Vendor Form //not setup yet
+#pragma mark - Vendor Form
 - (void)parseVendor {
-    PFQuery *query = [PFQuery queryWithClassName:@"Vendor"];
-    [PFQuery clearAllCachedResults];
-    [query orderByDescending:@"createdAt"];
-    //[query setLimit: 10000]; //parse.com standard is 100
+    PFQuery *query = [PFQuery queryWithClassName:@"Vendors"];
+  //  [PFQuery clearAllCachedResults];
+    [query orderByAscending:@"Vendor"];
+    [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        vendorArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [vendorArray addObject:object];
+                [_feedItems addObject:object];
                 //NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseVendorloaded:vendorArray];
+                    [self.delegate parseVendorloaded:_feedItems];
                 }
             }
         } else
@@ -111,21 +112,21 @@
     }];
 }
 
-#pragma mark - Employee Form //not setup yet
+#pragma mark - Employee Form
 - (void)parseEmployee {
     PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
-    [PFQuery clearAllCachedResults];
-    [query orderByDescending:@"createdAt"];
-    //[query setLimit: 10000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
+ //   [PFQuery clearAllCachedResults];
+    [query orderByAscending:@"createdAt"];
+    [query setLimit: 100]; //parse.com standard is 100
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        employArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [employArray addObject:object];
+                [_feedItems addObject:object];
                 //NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseEmployloaded:employArray];
+                    [self.delegate parseEmployloaded:_feedItems];
                 }
             }
         } else
@@ -133,7 +134,7 @@
     }];
 }
 
-#pragma mark - Advertiser Form //not setup yet
+#pragma mark - Advertiser Form 
 - (void)parseAdvertiser {
     PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
     [PFQuery clearAllCachedResults];
@@ -141,13 +142,13 @@
     //[query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [adArray addObject:object];
+                [_feedItems addObject:object];
                 //NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseAdvertiserloaded:adArray];
+                    [self.delegate parseAdvertiserloaded:_feedItems];
                 }
             }
         } else
@@ -163,13 +164,12 @@
     [query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        prodArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [prodArray addObject:object];
-                //NSLog(@"Object id %@",[object objectId]);
+                [_feedItems addObject:object];
                 if (self.delegate) {
-                    [self.delegate parseProductloaded:prodArray];
+                    [self.delegate parseProductloaded:_feedItems];
                 }
             }
         } else
@@ -185,13 +185,12 @@
     [query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [jobArray addObject:object];
-                //NSLog(@"Object id %@",[object objectId]);
+                [_feedItems addObject:object];
                 if (self.delegate) {
-                    [self.delegate parseJobloaded:jobArray];
+                    [self.delegate parseJobloaded:_feedItems];
                 }
             }
         } else
@@ -207,13 +206,12 @@
     //[query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        saleArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [saleArray addObject:object];
-                //NSLog(@"Object id %@",[object objectId]);
+                [_feedItems addObject:object];
                 if (self.delegate) {
-                    [self.delegate parseSalesmanloaded:saleArray];
+                    [self.delegate parseSalesmanloaded:_feedItems];
                 }
             }
         } else

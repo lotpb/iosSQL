@@ -11,7 +11,7 @@
 @interface EmployeeViewController ()
 {
     EmployeeModel *_EmployeeModel; EmployeeLocation *_selectedLocation;
-    NSMutableArray *_feedItems, *employArray;
+    NSMutableArray *_feedItems;
     UIRefreshControl *refreshControl;
     NSString *firstItem, *lastnameItem, *companyItem;
 }
@@ -29,11 +29,12 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseEmployee];
     } else {
-        _feedItems = [[NSMutableArray alloc] init]; _EmployeeModel = [[EmployeeModel alloc] init];
+       // _feedItems = [[NSMutableArray alloc] init];
+        _EmployeeModel = [[EmployeeModel alloc] init];
         _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
     }
     
@@ -74,19 +75,25 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    [_EmployeeModel downloadItems];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self; [parseConnection parseEmployee];
+    } else {
+        [_EmployeeModel downloadItems];
+    }
     [self.listTableView reloadData];
     
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:KEY_DATEREFRESH];
-        NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
         
         [refreshControl endRefreshing];
@@ -100,12 +107,12 @@
 
 #pragma mark - ParseDelegate
 - (void)parseEmployloaded:(NSMutableArray *)employItem {
-    employArray = employItem;
+    _feedItems = employItem;
     [self.listTableView reloadData];
 }
 
 #pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items {   // This delegate method will get called when the items are finished downloading
+-(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
 }
@@ -116,10 +123,7 @@
     if (isFilltered)
         return filteredString.count;
     else
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"])
-            return employArray.count;
-        else
-            return _feedItems.count;
+        return _feedItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,17 +137,33 @@
         else
         item = [filteredString objectAtIndex:indexPath.row];
     
-    if ((![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ))
-         firstItem = item.first;
-    else firstItem = @"";
-    
-    if ((![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ))
-         lastnameItem = item.lastname;
-    else lastnameItem = @"";
-    
-    if ((![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ))
-         companyItem = item.company;
-    else companyItem = @"";
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] length] != 0 ))
+            firstItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+        else firstItem = @"";
+        
+        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] length] != 0 ))
+            lastnameItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"];
+        else lastnameItem = @"";
+        
+        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] length] != 0 ))
+            companyItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
+        else companyItem = @"";
+        
+    } else {
+        
+        if ((![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ))
+            firstItem = item.first;
+        else firstItem = @"";
+        
+        if ((![item.lastname isEqual:[NSNull null]] ) && ( [item.lastname length] != 0 ))
+            lastnameItem = item.lastname;
+        else lastnameItem = @"";
+        
+        if ((![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ))
+            companyItem = item.company;
+        else companyItem = @"";
+    }
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -154,17 +174,16 @@
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseblogKey"]) {
-        myCell.textLabel.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"First"];
-        myCell.detailTextLabel.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"City"];
-        label2.text = [[employArray objectAtIndex:indexPath.row] objectForKey:@"City"];
-    } else {
         myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+        label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
+    } else {
         myCell.detailTextLabel.text = item.city;
         label2.text = item.employeeNo;
     }
     
-    //Retreive an image
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
@@ -395,51 +414,77 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-   if ([[segue identifier] isEqualToString:EMPLOYVIEWSEGUE])
-   {
-       LeadDetailViewControler *detailVC = segue.destinationViewController;
-       detailVC.formController = TNAME4;
-    // detailVC.selectedLocation = _selectedLocation;
-       if ( [_selectedLocation.first isEqual:[NSNull null]] ) { _selectedLocation.first = @""; }
-       if ( [_selectedLocation.lastname isEqual:[NSNull null]] ) { _selectedLocation.lastname = @""; }
-       if ( [_selectedLocation.company isEqual:[NSNull null]] ) { _selectedLocation.company = @""; }
-       
-       detailVC.leadNo = _selectedLocation.employeeNo;
-       detailVC.date = _selectedLocation.email;
-      // detailVC.first = _selectedLocation.email;
-       detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",_selectedLocation.first,_selectedLocation.lastname, _selectedLocation.company];
-       detailVC.custNo = _selectedLocation.lastname;
-       detailVC.address = _selectedLocation.street;
-       detailVC.city = _selectedLocation.city;
-       detailVC.state = _selectedLocation.state;
-       detailVC.zip = _selectedLocation.zip;
-       detailVC.amount = _selectedLocation.titleEmploy;
-       detailVC.tbl11 = _selectedLocation.homephone;
-       detailVC.tbl12 = _selectedLocation.workphone;
-       detailVC.tbl13 = _selectedLocation.cellphone;
-       detailVC.tbl14 = _selectedLocation.social;
-       detailVC.tbl15 = _selectedLocation.middle;
-       detailVC.tbl21 = _selectedLocation.email;
-       detailVC.tbl22 = _selectedLocation.department;
-       detailVC.tbl23 = _selectedLocation.titleEmploy;
-       detailVC.tbl24 = _selectedLocation.manager;
-       detailVC.tbl25 = _selectedLocation.country;
-       detailVC.tbl16 = _selectedLocation.time;
-       detailVC.tbl26 = _selectedLocation.first;
-       detailVC.tbl27 = _selectedLocation.company;
-       //detailVC.tbl28 = _selectedLocation.company;
-       detailVC.comments = _selectedLocation.comments;
-       detailVC.active = _selectedLocation.active;
-       
-       detailVC.l11 = @"Home Phone"; detailVC.l12 = @"Work phone";
-       detailVC.l13 = @"Mobile Phone"; detailVC.l14 = @"Social Security";
-       detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";
-       detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
-       detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
-       detailVC.l16 = @"Last Updated"; detailVC.l26 = @"First";
-       detailVC.l1datetext = @"Email:";
-       detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
-   }
+    if ([[segue identifier] isEqualToString:EMPLOYVIEWSEGUE])
+    {
+        LeadDetailViewControler *detailVC = segue.destinationViewController;
+        detailVC.formController = TNAME4;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
+            detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+            detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"],[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"], [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"]];
+            detailVC.custNo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"];
+            detailVC.address = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Street"];
+            detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+            detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
+            detailVC.zip = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"];
+            detailVC.amount = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
+            detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"HomePhone"];
+            detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WorkPhone"];
+            detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CellPhone"];
+            detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SS"];
+            detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Middle"];
+            detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+            detailVC.tbl22 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Department"];
+            detailVC.tbl23 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
+            detailVC.tbl24 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Manager"];
+            detailVC.tbl25 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Country"];
+            detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+            detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+            detailVC.tbl27 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
+            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+            detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+        } else {
+            if ( [_selectedLocation.first isEqual:[NSNull null]] ) { _selectedLocation.first = @""; }
+            if ( [_selectedLocation.lastname isEqual:[NSNull null]] ) { _selectedLocation.lastname = @""; }
+            if ( [_selectedLocation.company isEqual:[NSNull null]] ) { _selectedLocation.company = @""; }
+            detailVC.leadNo = _selectedLocation.employeeNo;
+            detailVC.date = _selectedLocation.email;
+            detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",_selectedLocation.first,_selectedLocation.lastname, _selectedLocation.company];
+            detailVC.custNo = _selectedLocation.lastname;
+            detailVC.address = _selectedLocation.street;
+            detailVC.city = _selectedLocation.city;
+            detailVC.state = _selectedLocation.state;
+            detailVC.zip = _selectedLocation.zip;
+            detailVC.amount = _selectedLocation.titleEmploy;
+            detailVC.tbl11 = _selectedLocation.homephone;
+            detailVC.tbl12 = _selectedLocation.workphone;
+            detailVC.tbl13 = _selectedLocation.cellphone;
+            detailVC.tbl14 = _selectedLocation.social;
+            detailVC.tbl15 = _selectedLocation.middle;
+            detailVC.tbl21 = _selectedLocation.email;
+            detailVC.tbl22 = _selectedLocation.department;
+            detailVC.tbl23 = _selectedLocation.titleEmploy;
+            detailVC.tbl24 = _selectedLocation.manager;
+            detailVC.tbl25 = _selectedLocation.country;
+            detailVC.tbl16 = _selectedLocation.time;
+            detailVC.tbl26 = _selectedLocation.first;
+            detailVC.tbl27 = _selectedLocation.company;
+            detailVC.comments = _selectedLocation.comments;
+            detailVC.active = _selectedLocation.active;
+        }
+        
+        detailVC.l11 = @"Home Phone"; detailVC.l12 = @"Work phone";
+        detailVC.l13 = @"Mobile Phone"; detailVC.l14 = @"Social Security";
+        detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";
+        detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
+        detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
+        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"First";
+        detailVC.l1datetext = @"Email:";
+        detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
+    }
+    
     if ([[segue identifier] isEqualToString:EMPLOYNEWSEGUE])
     {
         NewData *detailVC = segue.destinationViewController;
