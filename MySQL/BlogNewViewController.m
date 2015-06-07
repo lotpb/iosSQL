@@ -34,7 +34,6 @@
     self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
     
     if (self.textcontentsubject.length == 0) {
-        
         static NSDateFormatter *dateFormatter = nil;
         if (dateFormatter == nil) {
             
@@ -85,37 +84,37 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        static NSString *CellIdentifier = IDCELL;
-        UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
+    static NSString *CellIdentifier = IDCELL;
+    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
+    
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    if (indexPath.row == 0) {
         
-        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (myCell == nil)
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
-        if (indexPath.row == 0) {
-            
-            if ([self.rating isEqual:@"5"] ) {
-                activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
-                [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
-            } else {
-                activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
-                [self.Like setTitle: @"Like" forState: UIControlStateNormal];
-            }
-            activeImage.contentMode = UIViewContentModeScaleAspectFit;
-            [myCell.contentView addSubview:activeImage];
-            
-            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-            myCell.textLabel.text = self.postby;
-            myCell.detailTextLabel.text = @"";
-            
-        } else if (indexPath.row == 1) {
-            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-            myCell.textLabel.text = self.msgDate;
-            myCell.detailTextLabel.text = @"Date";
+        if ([self.rating isEqual:@"5"] ) {
+            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
+            [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+        } else {
+            activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
+            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
         }
-        return myCell;
+        activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        [myCell.contentView addSubview:activeImage];
+        
+        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        myCell.textLabel.text = self.postby;
+        myCell.detailTextLabel.text = @"";
+        
+    } else if (indexPath.row == 1) {
+        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        myCell.textLabel.text = self.msgDate;
+        myCell.detailTextLabel.text = @"Date";
+    }
+    return myCell;
 }
 
 #pragma mark - Button
@@ -145,7 +144,11 @@
 
 #pragma mark - Button New Database
 -(IBAction)Update:(id)sender {
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {  //updateBlog
         [self.listTableView reloadData];
         
@@ -198,7 +201,11 @@
 
 #pragma mark - Button Update Database
 -(IBAction)Share:(id)sender { //save
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
         [self.listTableView reloadData];
         /*
@@ -224,7 +231,6 @@
         }];
         
     } else {
-        
         [self.listTableView reloadData];
         NSString *_msgDate = self.msgDate;
         NSString *_subject = self.subject.text;

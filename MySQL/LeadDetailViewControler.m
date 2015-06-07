@@ -475,7 +475,11 @@ if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     self.labelname.text = name;
     self.labeladdress.text = address;
     self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if (([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) && (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])))
         self.labelamount.text = [NSString stringWithFormat:@"%@.00",amount];
      else
@@ -492,7 +496,11 @@ if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
     
 }
-
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
 #pragma mark - Parse
 - (void)parseData {
     if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
@@ -592,6 +600,7 @@ if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
         EditData *detailVC = segue.destinationViewController;
         if ([_formController isEqual:TNAME1]) {
             detailVC.formController = TNAME1;
+            detailVC.objectId = self.objectId; //Parse Only
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name;

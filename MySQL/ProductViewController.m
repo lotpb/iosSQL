@@ -26,17 +26,21 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseProduct];
+        ParseConnection *parseConnection = [[ParseConnection alloc]init]; parseConnection.delegate = (id)self;
+        [parseConnection parseProduct]; [parseConnection parseHeadProduct];
     } else {
         _feedItems = [[NSMutableArray alloc] init]; _ProductModel = [[ProductModel alloc] init];
         _ProductModel.delegate = self; [_ProductModel downloadItems];
     }
     
-    ParseConnection *parseConnection = [[ParseConnection alloc]init];
-    parseConnection.delegate = (id)self; [parseConnection parseHeadProduct];
+    //ParseConnection *parseConnection = [[ParseConnection alloc]init];
+    //parseConnection.delegate = (id)self; [parseConnection parseHeadProduct];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -110,6 +114,7 @@
 #pragma mark - ParseDelegate
 - (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem {
     headCount = prodheadItem;
+    [self.listTableView reloadData];
 }
 
 - (void)parseProductloaded:(NSMutableArray *)prodItem {
@@ -151,6 +156,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Product"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  ProductLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.productNo;
@@ -173,7 +197,7 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
                              }];
@@ -218,7 +242,11 @@
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Products"];
     } else {
@@ -397,9 +425,14 @@
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-        
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
             detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ProductNo"];
             detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Products"];

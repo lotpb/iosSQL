@@ -103,7 +103,7 @@
 {
     
     static NSString *CellIdentifier = IDCELL;
-      //  UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
+  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
    
@@ -116,7 +116,11 @@
     [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 1)];
     [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
     [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         myCell.titleLabel.text = self.postby;
@@ -134,7 +138,11 @@
     myCell.blogImageView.clipsToBounds = YES;
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
-  
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         if ([self.rating isEqual:@"5"]) {
@@ -167,7 +175,11 @@
     if ([[segue identifier] isEqualToString:BLOGEDITSEGUE])
     {
         BlogNewViewController *detailVC = segue.destinationViewController;
-        
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             detailVC.textcontentobjectId = self.objectId;

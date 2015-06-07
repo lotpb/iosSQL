@@ -32,7 +32,11 @@
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-   
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseBlog];
@@ -81,7 +85,11 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseBlog];
@@ -110,7 +118,11 @@
 -(void)foundView:(id)sender {
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
-
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
 #pragma mark - ParseDelegate
 - (void)parseBlogloaded:(NSMutableArray *)blogItem {
     _feedItems = blogItem;
@@ -152,6 +164,11 @@
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      
                                      PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
@@ -235,7 +252,11 @@
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
@@ -428,7 +449,11 @@
     if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
     {
         BlogEditDetailView*detailVC = segue.destinationViewController;
-        
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];

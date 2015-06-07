@@ -27,17 +27,21 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseSalesman];
+        ParseConnection *parseConnection = [[ParseConnection alloc]init]; parseConnection.delegate = (id)self;
+       [parseConnection parseSalesman]; [parseConnection parseHeadSalesman];
     } else {
         _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
         _SalesModel.delegate = self; [_SalesModel downloadItems];
     }
     
-    ParseConnection *parseConnection = [[ParseConnection alloc]init];
-    parseConnection.delegate = (id)self; [parseConnection parseHeadSalesman];
+   // ParseConnection *parseConnection = [[ParseConnection alloc]init];
+  //  parseConnection.delegate = (id)self; [parseConnection parseHeadSalesman];
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -111,6 +115,7 @@
 #pragma mark - ParseDelegate
 - (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem {
     headCount = salesheadItem;
+    [self.listTableView reloadData];
 }
 
 - (void)parseSalesmanloaded:(NSMutableArray *)saleItem {
@@ -123,7 +128,6 @@
 {   // This delegate method will get called when the items are finished downloading
     _feedItems = items;
     [self.listTableView reloadData];
-  
 }
 
 #pragma mark TableView Delete
@@ -152,6 +156,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  SalesLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.salesNo;
@@ -174,7 +197,7 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
                              }];
@@ -219,7 +242,11 @@
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
     } else {
@@ -386,10 +413,15 @@
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-        
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
             detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
             detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];

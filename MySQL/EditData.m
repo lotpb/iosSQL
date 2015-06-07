@@ -49,7 +49,11 @@
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
-
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self;
     
@@ -774,7 +778,11 @@
         self.last.placeholder = @"Last";
     }
 }
-
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
 #pragma mark - Parse
 - (void)parseData {
     if ([_formController isEqual:TNAME1]) {
@@ -854,168 +862,339 @@
 #pragma mark - EditData
 -(void)updateLeads:(id)sender {
     if ([_formController isEqual:TNAME1]) { //leads
-        NSString *_leadNo = self.leadNo;
-        NSString *_active = self.active;
-        NSString *_date = self.date.text;
-        NSString *_first = self.first.text;
-        NSString *_name = self.last.text;
-        NSString *_address = self.address.text;
-        NSString *_city = self.city.text;
-        NSString *_state = self.state.text;
-        NSString *_zip = self.zip.text;
-        NSString *_phone = self.phone.text;
-        NSString *_aptdate = self.aptDate.text;
-        NSString *_email = self.email.text;
-        NSString *_amount = self.amount.text;
-        NSString *_spouse = self.spouse.text;
-        NSString *_callback = self.callback.text;
-        NSString *_salesNo = self.saleNo;
-        NSString *_jobNo = self.jobNo;
-        NSString *_adNo = self.adNo;
-        NSString *_comments = self.comment.text;
-        NSString *_photo = self.photo.text;
-     // NSString *_time = self.time;
-        
-        NSString *rawStr = [NSString stringWithFormat:UPDATELEADFIELD, UPDATELEADFIELD1];
-    //  NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:UPDATELEADURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseLead
+            [self.listTableView reloadData];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
+            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                if (!error) {
+                    // [updateData setObject:self.leadNo forKey:@"LeadNo"];
+                    // [updateData setObject:self.active forKey:@"Active"];//
+                    [updateData setObject:self.date.text forKey:@"Date"];
+                    [updateData setObject:self.first.text forKey:@"First"];
+                    [updateData setObject:self.last.text forKey:@"LastName"];
+                    [updateData setObject:self.address.text forKey:@"Address"];
+                    [updateData setObject:self.city.text forKey:@"City"];
+                    [updateData setObject:self.state.text forKey:@"State"];
+                    // [updateData setObject:self.zip.text forKey:@"Zip"];
+                    [updateData setObject:self.phone.text forKey:@"Phone"];
+                    [updateData setObject:self.aptDate.text forKey:@"AptDate"];
+                    [updateData setObject:self.email.text forKey:@"Email"];
+                    // [updateData setObject:self.amount.text forKey:@"Amount"];//
+                    [updateData setObject:self.spouse.text forKey:@"Spouse"];
+                    [updateData setObject:self.callback.text forKey:@"CallBack"];
+                    // [updateData setObject:self.saleNo forKey:@"SalesNo"];
+                    // [updateData setObject:self.jobNo forKey:@"JobNo"];
+                    // [updateData setObject:self.adNo forKey:@"AdNo"];
+                    [updateData setObject:self.comment.text forKey:@"Coments"];
+                    [updateData setObject:self.photo.text forKey:@"Photo"];
+                    [updateData saveInBackground];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }];
+        } else {
+            NSString *_leadNo = self.leadNo;
+            NSString *_active = self.active;
+            NSString *_date = self.date.text;
+            NSString *_first = self.first.text;
+            NSString *_name = self.last.text;
+            NSString *_address = self.address.text;
+            NSString *_city = self.city.text;
+            NSString *_state = self.state.text;
+            NSString *_zip = self.zip.text;
+            NSString *_phone = self.phone.text;
+            NSString *_aptdate = self.aptDate.text;
+            NSString *_email = self.email.text;
+            NSString *_amount = self.amount.text;
+            NSString *_spouse = self.spouse.text;
+            NSString *_callback = self.callback.text;
+            NSString *_salesNo = self.saleNo;
+            NSString *_jobNo = self.jobNo;
+            NSString *_adNo = self.adNo;
+            NSString *_comments = self.comment.text;
+            NSString *_photo = self.photo.text;
+            // NSString *_time = self.time;
+            
+            NSString *rawStr = [NSString stringWithFormat:UPDATELEADFIELD, UPDATELEADFIELD1];
+            //  NSLog(@"rawStr is %@",rawStr);
+            NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSURL *url = [NSURL URLWithString:UPDATELEADURL];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:data];
+            NSURLResponse *response;
+            NSError *err;
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+            NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+            NSLog(@"%@", responseString);
+            NSString *success = @"success";
+            [success dataUsingEncoding:NSUTF8StringEncoding];
+        }
     }
     else if ([_formController isEqual:TNAME2]) { //customer
-        NSString *_date = self.date.text;
-        NSString *_custNo = self.custNo;
-        NSString *_leadNo = self.leadNo;
-        NSString *_address = self.address.text;
-        NSString *_city = self.city.text;
-        NSString *_state = self.state.text;
-        NSString *_zip = self.zip.text;
-        NSString *_comments = self.comment.text;
-        NSString *_amount = self.amount.text;
-        NSString *_phone = self.phone.text;
-        NSString *_quan = self.callback.text;
-        NSString *_email = self.email.text;
-        NSString *_first = self.first.text;
-        NSString *_spouse = self.spouse.text;
-        NSString *_rate = self.aptDate.text;
-        NSString *_photo = self.photo.text;
-        NSString *_photo1 = nil;
-        NSString *_photo2 = nil;
-        NSString *_salesNo = self.saleNo;
-        NSString *_jobNo = self.jobNo;
-        NSString *_start = self.start.text;
-        NSString *_complete = self.complete.text;
-        NSString *_productNo = self.adNo;
-        NSString *_contractor = self.company.text;
-        NSString *_active = self.active;
-    //  NSString *_time = self.time;
-        
-        NSString *rawStr = [NSString stringWithFormat:UPDATECUSTFIELD, UPDATECUSTFIELD1];
-        
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:UPDATECUSTURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseCust
+            [self.listTableView reloadData];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                if (!error) {
+                    [updateData setObject:self.date.text forKey:@"Date"];
+                    [updateData setObject:self.custNo forKey:@"CustNo"];//
+                    [updateData setObject:self.leadNo forKey:@"LeadNo"];
+                    [updateData setObject:self.address.text forKey:@"Address"];
+                    [updateData setObject:self.city.text forKey:@"City"];
+                    [updateData setObject:self.state.text forKey:@"State"];
+                    [updateData setObject:self.zip.text forKey:@"Zip"];
+                    [updateData setObject:self.comment.text forKey:@"Comments"];
+                    [updateData setObject:self.amount.text forKey:@"Amount"];
+                    [updateData setObject:self.phone.text forKey:@"Phone"];
+                    [updateData setObject:self.callback.text forKey:@"Quan"];//
+                    [updateData setObject:self.email.text forKey:@"Email"];
+                    [updateData setObject:self.first.text forKey:@"First"];
+                    [updateData setObject:self.spouse.text forKey:@"Spouse"];
+                    [updateData setObject:self.aptDate forKey:@"Rate"];
+                    [updateData setObject:self.photo forKey:@"Photo"];
+                    [updateData setObject:self.saleNo forKey:@"SalesNo"];
+                    [updateData setObject:self.jobNo forKey:@"JobNo"];
+                    [updateData setObject:self.start.text forKey:@"Start"];
+                    [updateData setObject:self.complete.text forKey:@"Completion"];
+                    [updateData setObject:self.adNo forKey:@"ProductNo"];
+                    [updateData setObject:self.company.text forKey:@"Contractor"];
+                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData saveInBackground];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }];
+        } else {
+            NSString *_date = self.date.text;
+            NSString *_custNo = self.custNo;
+            NSString *_leadNo = self.leadNo;
+            NSString *_address = self.address.text;
+            NSString *_city = self.city.text;
+            NSString *_state = self.state.text;
+            NSString *_zip = self.zip.text;
+            NSString *_comments = self.comment.text;
+            NSString *_amount = self.amount.text;
+            NSString *_phone = self.phone.text;
+            NSString *_quan = self.callback.text;
+            NSString *_email = self.email.text;
+            NSString *_first = self.first.text;
+            NSString *_spouse = self.spouse.text;
+            NSString *_rate = self.aptDate.text;
+            NSString *_photo = self.photo.text;
+            NSString *_photo1 = nil;
+            NSString *_photo2 = nil;
+            NSString *_salesNo = self.saleNo;
+            NSString *_jobNo = self.jobNo;
+            NSString *_start = self.start.text;
+            NSString *_complete = self.complete.text;
+            NSString *_productNo = self.adNo;
+            NSString *_contractor = self.company.text;
+            NSString *_active = self.active;
+            //  NSString *_time = self.time;
+            
+            NSString *rawStr = [NSString stringWithFormat:UPDATECUSTFIELD, UPDATECUSTFIELD1];
+            
+            NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSURL *url = [NSURL URLWithString:UPDATECUSTURL];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:data];
+            NSURLResponse *response;
+            NSError *err;
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+            NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+            NSLog(@"%@", responseString);
+            NSString *success = @"success";
+            [success dataUsingEncoding:NSUTF8StringEncoding];
+        }
     }
     else if ([_formController isEqual:TNAME3]) {//vendor
-        NSString *_vendorNo = self.leadNo;
-        NSString *_name = self.company.text;
-        NSString *_address = self.address.text;
-        NSString *_city = self.city.text;
-        NSString *_state = self.state.text;
-        NSString *_zip = self.zip.text;
-        NSString *_phone = self.phone.text;
-        NSString *_phone1 = self.salesman.text;
-        NSString *_phone2 = self.jobName.text;
-        NSString *_phone3 = self.adName.text;
-        NSString *_email = self.email.text;
-        NSString *_webpage = self.last.text;
-        NSString *_department = self.amount.text;
-        NSString *_office = self.spouse.text;
-        NSString *_manager = self.first.text;
-        NSString *_profession = self.date.text;
-        NSString *_assistant = self.aptDate.text;
-        NSString *_comments = self.comment.text;
-        NSString *_active = self.active;
-        NSString *_phonecmbo = nil;
-        NSString *_phonecmbo1 = nil;
-        NSString *_phonecmbo2 = nil;
-        NSString *_phonecmbo3 = nil;
-    //  NSString *_time = self.time;
-        
-        NSString *rawStr = [NSString stringWithFormat:UPDATEVENDORFIELD, UPDATEVENDORFIELD1];
-        
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:UPDATEVENDORURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseVendor
+            [self.listTableView reloadData];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Vendors"];
+            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                if (!error) {
+                    [updateData setObject:self.leadNo forKey:@"VendorNo"];
+                    [updateData setObject:self.company.text forKey:@"Vendor"];//
+                    [updateData setObject:self.address.text forKey:@"Address"];
+                    [updateData setObject:self.city.text forKey:@"City"];
+                    [updateData setObject:self.state.text forKey:@"State"];
+                    [updateData setObject:self.zip.text forKey:@"Zip"];
+                    [updateData setObject:self.phone.text forKey:@"Phone"];
+                    [updateData setObject:self.salesman.text forKey:@"Phone1"];
+                    [updateData setObject:self.jobName.text forKey:@"Phone2"];
+                    [updateData setObject:self.adName.text forKey:@"Phone3"];
+                    [updateData setObject:self.email.text forKey:@"Email"];
+                    [updateData setObject:self.last.text forKey:@"WebPage"];
+                    [updateData setObject:self.amount.text forKey:@"Department"];//
+                    [updateData setObject:self.spouse.text forKey:@"Office"];
+                    [updateData setObject:self.first.text forKey:@"Manager"];
+                    [updateData setObject:self.date.text forKey:@"Profession"];
+                    [updateData setObject:self.aptDate.text forKey:@"Assistant"];
+                    [updateData setObject:self.comment.text forKey:@"Comments"];
+                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData saveInBackground];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }];
+        } else {
+            NSString *_vendorNo = self.leadNo;
+            NSString *_name = self.company.text;
+            NSString *_address = self.address.text;
+            NSString *_city = self.city.text;
+            NSString *_state = self.state.text;
+            NSString *_zip = self.zip.text;
+            NSString *_phone = self.phone.text;
+            NSString *_phone1 = self.salesman.text;
+            NSString *_phone2 = self.jobName.text;
+            NSString *_phone3 = self.adName.text;
+            NSString *_email = self.email.text;
+            NSString *_webpage = self.last.text;
+            NSString *_department = self.amount.text;
+            NSString *_office = self.spouse.text;
+            NSString *_manager = self.first.text;
+            NSString *_profession = self.date.text;
+            NSString *_assistant = self.aptDate.text;
+            NSString *_comments = self.comment.text;
+            NSString *_active = self.active;
+            NSString *_phonecmbo = nil;
+            NSString *_phonecmbo1 = nil;
+            NSString *_phonecmbo2 = nil;
+            NSString *_phonecmbo3 = nil;
+            //  NSString *_time = self.time;
+            
+            NSString *rawStr = [NSString stringWithFormat:UPDATEVENDORFIELD, UPDATEVENDORFIELD1];
+            
+            NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSURL *url = [NSURL URLWithString:UPDATEVENDORURL];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:data];
+            NSURLResponse *response;
+            NSError *err;
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+            NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+            NSLog(@"%@", responseString);
+            NSString *success = @"success";
+            [success dataUsingEncoding:NSUTF8StringEncoding];
+        }
     }
     else if ([_formController isEqual:TNAME4]) { //employee
-        NSString *_employeeNo = self.leadNo;
-        NSString *_company = self.company.text;
-        NSString *_address = self.address.text;
-        NSString *_city = self.city.text;
-        NSString *_state = self.state.text;
-        NSString *_zip = self.zip.text;
-        NSString *_homephone = self.phone.text;
-        NSString *_workphone = self.salesman.text;
-        NSString *_cellphone = self.jobName.text;
-        NSString *_country = self.spouse.text;
-        NSString *_email = self.email.text;
-        NSString *_last = self.last.text;
-        NSString *_department = self.amount.text;
-        NSString *_middle = self.aptDate.text;
-        NSString *_first = self.first.text;
-        NSString *_manager = self.callback.text;
-        NSString *_social = self.adName.text;
-        NSString *_comments = self.comment.text;
-        NSString *_active = self.active;
-        NSString *_employtitle = self.date.text;
-    //  NSString *_time = self.time;
-        
-        NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];
-        
-        NSURL *url = [NSURL URLWithString:UPDATEEMPLOYEEURL];
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseEmployee
+            [self.listTableView reloadData];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
+            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                if (!error) {
+                    [updateData setObject:self.leadNo forKey:@"EmployeeNo"];
+                    [updateData setObject:self.company.text forKey:@"Company"];//
+                    [updateData setObject:self.address.text forKey:@"Address"];
+                    [updateData setObject:self.city.text forKey:@"City"];
+                    [updateData setObject:self.state.text forKey:@"State"];
+                    [updateData setObject:self.zip.text forKey:@"Zip"];
+                    [updateData setObject:self.phone.text forKey:@"HomePhone"];
+                    [updateData setObject:self.salesman.text forKey:@"WorkPhone"];
+                    [updateData setObject:self.jobName.text forKey:@"CellPhone"];
+                    [updateData setObject:self.spouse.text forKey:@"Country"];
+                    [updateData setObject:self.email.text forKey:@"Email"];
+                    [updateData setObject:self.last.text forKey:@"Last"];
+                    [updateData setObject:self.amount.text forKey:@"Department"];//
+                    [updateData setObject:self.aptDate.text forKey:@"Middle"];
+                    [updateData setObject:self.first.text forKey:@"First"];
+                    [updateData setObject:self.callback forKey:@"Manager"];
+                    [updateData setObject:self.adName forKey:@"SS"];
+                    [updateData setObject:self.comment forKey:@"Comments"];
+                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData setObject:self.date.text forKey:@"Title"];
+                    [updateData saveInBackground];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }];
+        } else {
+            NSString *_employeeNo = self.leadNo;
+            NSString *_company = self.company.text;
+            NSString *_address = self.address.text;
+            NSString *_city = self.city.text;
+            NSString *_state = self.state.text;
+            NSString *_zip = self.zip.text;
+            NSString *_homephone = self.phone.text;
+            NSString *_workphone = self.salesman.text;
+            NSString *_cellphone = self.jobName.text;
+            NSString *_country = self.spouse.text;
+            NSString *_email = self.email.text;
+            NSString *_last = self.last.text;
+            NSString *_department = self.amount.text;
+            NSString *_middle = self.aptDate.text;
+            NSString *_first = self.first.text;
+            NSString *_manager = self.callback.text;
+            NSString *_social = self.adName.text;
+            NSString *_comments = self.comment.text;
+            NSString *_active = self.active;
+            NSString *_employtitle = self.date.text;
+            //  NSString *_time = self.time;
+            
+            NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];
+            
+            NSURL *url = [NSURL URLWithString:UPDATEEMPLOYEEURL];
+            NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:data];
+            NSURLResponse *response;
+            NSError *err;
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+            NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+            NSLog(@"%@", responseString);
+            NSString *success = @"success";
+            [success dataUsingEncoding:NSUTF8StringEncoding];
+        }
     }
-    
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
-
 
 @end

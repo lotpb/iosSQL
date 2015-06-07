@@ -28,7 +28,11 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseEmployee];
@@ -136,7 +140,11 @@
         item = _feedItems[indexPath.row];
         else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] length] != 0 ))
             firstItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
@@ -175,7 +183,11 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
         myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
         label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
@@ -223,6 +235,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  EmployeeLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.employeeNo;
@@ -245,7 +276,7 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
         UIAlertAction* cancel = [UIAlertAction
@@ -418,9 +449,14 @@
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME4;
-        
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
             detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
             detailVC.name = [NSString stringWithFormat:@"%@ %@ %@",[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"],[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"], [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"]];

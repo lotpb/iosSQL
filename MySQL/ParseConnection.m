@@ -10,7 +10,7 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *BlogArray, *_feedItems;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *_feedItems;
 }
 @end
 
@@ -27,13 +27,13 @@
     [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        BlogArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-                [BlogArray addObject:object];
+                [_feedItems addObject:object];
                 // NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
-                    [self.delegate parseBlogloaded:BlogArray];
+                    [self.delegate parseBlogloaded:_feedItems];
                 }
             }
         } else
@@ -43,21 +43,31 @@
 
 #pragma mark - Customer Form
 - (void)parseCustomer {
-  //PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-  //[innerQuery whereKey:@"LeadNo" equalTo:@"LastName"];
+  PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
+    [innerQuery selectKeys:@[@"LastName"]];
+    //[query selectKeys:@[@"LeadNo"]];
+    //[query whereKeyExists:@"LastName"];
+   // [innerQuery whereKey:@"LeadNo" equalTo:@51];
+   // [query setLimit:1];
     PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
- // [query whereKey:@"LeadNo" matchesQuery:innerQuery];
-  //[query includeKey:@"LeadNo"];
-   // [PFQuery clearAllCachedResults];
+   // [innerQuery whereKey:@"LeadNo" equalTo:@10876];
+   // [innerQuery selectKeys:@[@"LastName"]];
+   // [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
+    //[innerQuery whereKeyExists:@"LastName"];
+    //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
+    //[innerQuery whereKey:@"LeadNo" equalTo:query];
+    
+    //[query whereKey:@"City" equalTo:@"Massapequa"];
     [query orderByDescending:@"createdAt"];
-    [query setLimit: 1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
+    [query setMaxCacheAge:60 * 4];  //4 mins cache
+    [query setLimit:1000]; //parse.com standard is 100
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
-                //NSLog(@"Object id %@",[object objectId]);
+               // NSLog(@"Object id %@",_feedItems);
                 if (self.delegate) {
                     [self.delegate parseCustomerloaded:_feedItems];
                 }
@@ -69,12 +79,12 @@
 
 #pragma mark - Lead Form //not setup yet
 - (void)parseLeads {
-    PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
-   // [PFQuery clearAllCachedResults];
+     PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
+    [PFQuery clearAllCachedResults];
     [query orderByDescending:@"createdAt"];
      query.skip = 0;
     [query setLimit: 1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
@@ -93,7 +103,7 @@
 #pragma mark - Vendor Form
 - (void)parseVendor {
     PFQuery *query = [PFQuery queryWithClassName:@"Vendors"];
-  //  [PFQuery clearAllCachedResults];
+    [PFQuery clearAllCachedResults];
     [query orderByAscending:@"Vendor"];
     [query setLimit: 1000]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
@@ -115,7 +125,7 @@
 #pragma mark - Employee Form
 - (void)parseEmployee {
     PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
- //   [PFQuery clearAllCachedResults];
+    [PFQuery clearAllCachedResults];
     [query orderByAscending:@"createdAt"];
     [query setLimit: 100]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;

@@ -47,6 +47,7 @@
 @property (strong, nonatomic) UITextField *complete; //cust
 
 @property (strong, nonatomic) NSString *rate; //cust
+@property (strong, nonatomic) NSString *objectId; //Parse ID
 @property (strong, nonatomic) NSString *saleNo;
 @property (strong, nonatomic) NSString *jobNo;
 @property (strong, nonatomic) NSString *adNo;

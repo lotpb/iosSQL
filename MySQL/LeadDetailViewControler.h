@@ -21,6 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;
+@property (strong, nonatomic) NSString *objectId; //Parse
 //need to share strings below give need common name
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;

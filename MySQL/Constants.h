@@ -69,7 +69,7 @@
 #define NAVTRANSLUCENT     YES
 #define NAVTINTCOLOR       [UIColor grayColor]
 //------parse-------------------------------
-#define kPFCACHEPOLICY    kPFCachePolicyNetworkElseCache
+#define kPFCACHEPOLICY    kPFCachePolicyNetworkOnly
 //kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly//kPFCachePolicyNetworkOnly
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active

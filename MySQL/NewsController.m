@@ -8,10 +8,11 @@
 
 #import "NewsController.h"
 
-@interface NewsController ()
+@interface NewsController () {
+    
+}
 
 @property (nonatomic, retain) NSArray *imageFilesArray;
-@property (nonatomic, retain) NSArray *wallObjectsArray;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
 -(void)getWallImages;
@@ -23,7 +24,7 @@
 
 @implementation NewsController
 
-@synthesize wallObjectsArray = _wallObjectsArray;
+@synthesize imageFilesArray = _imageFilesArray;
 @synthesize wallScroll = _wallScroll;
 @synthesize activityIndicator = _loadingSpinner;
 
@@ -36,8 +37,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
    [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
@@ -107,6 +107,7 @@
             //Remove the activity indicator
             [self.activityIndicator stopAnimating];
             [self.activityIndicator removeFromSuperview];
+            
             //Show the error
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
@@ -136,12 +137,17 @@
         
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-//fix changed UIImageView to PFImageView didnt work below also added Parse header
-        PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-        [userImage loadInBackground]; //fix - dont work
-        
-        userImage.frame = CGRectMake(0, 67, wallImageView.frame.size.width, 225);
+            
+        UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
+        
+//fix changed UIImageView to PFImageView didnt work below also added Parse header
+     //   PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+     //   [userImage loadInBackground]; //fix - dont work
+        
+      //  userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
+     //   [wallImageView addSubview:userImage];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
@@ -194,6 +200,7 @@
        
         UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
+        [wallImageView addSubview:separatorLineView];
             
       //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
       //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
@@ -203,7 +210,6 @@
            // [self.wallScroll addSubview:separatorLineView];
            // self.automaticallyAdjustsScrollViewInsets = NO;
             
-          [wallImageView addSubview:separatorLineView];
           [self.wallScroll addSubview:wallImageView];
         
         originY = originY + wallImageView.frame.size.width + 1;

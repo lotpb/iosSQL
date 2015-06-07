@@ -30,7 +30,11 @@
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
      self.listTableView.pagingEnabled = YES;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseLeads];
@@ -143,6 +147,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  Location *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.leadNo;
@@ -165,10 +188,11 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
                              }];
+                             
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
                                  style:UIAlertActionStyleDefault
@@ -210,7 +234,11 @@
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
         myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
@@ -410,9 +438,14 @@
         //  NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME1;
-        
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
             detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
             detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
@@ -434,7 +467,7 @@
             detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
             detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
             detailVC.photo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
-            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Coments"];
             detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
         } else {
             detailVC.leadNo = _selectedLocation.leadNo;

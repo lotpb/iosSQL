@@ -25,7 +25,11 @@
     self.title = NSLocalizedString(TNAME3, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseVendor];
@@ -140,6 +144,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Vendors"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  VendLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.vendorNo;
@@ -162,7 +185,7 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
         UIAlertAction* cancel = [UIAlertAction
@@ -195,32 +218,35 @@
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     myCell.accessoryType = UITableViewCellAccessoryNone;
-
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     VendLocation *item;
     if (!isFilltered)
-      item = _feedItems[indexPath.row];
-      else
-      item = [filteredString objectAtIndex:indexPath.row];
-    
+        item = _feedItems[indexPath.row];
+    else
+        item = [filteredString objectAtIndex:indexPath.row];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
-         label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
+        label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
     } else {
         myCell.textLabel.text = item.vendorName;
-         label2.text = item.vendorNo;
-        /*
-         if (myCell.textLabel.text.length > 200) {
-         myCell.textLabel.text = [NSString stringWithFormat:@"%@...", [subtitle substringToIndex:200]];
-         } */
-        
-        // myCell.detailTextLabel.text = item.address;
-        //[myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-        // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-        //[myCell.imageView setImage:myImage];
+        label2.text = item.vendorNo;
     }
+    
+    /*   if (myCell.textLabel.text.length > 200) {
+     myCell.textLabel.text = [NSString stringWithFormat:@"%@...", [subtitle substringToIndex:200]];
+     } */
+    
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
+    
     
     [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
@@ -387,9 +413,14 @@
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME3;
-        
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
             detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WebPage"];
             detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];

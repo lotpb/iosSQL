@@ -28,7 +28,11 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self; [parseConnection parseCustomer];
@@ -135,6 +139,25 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
+                                 /*
+                                  *******************************************************************************************
+                                  Parse.com
+                                  *******************************************************************************************
+                                  */
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                     PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (!error) {
+                                             for (PFObject *object in objects) {
+                                                 [object deleteInBackground];
+                                             }
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }];
+                                     
+                                 } else {
                                  CustLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.custNo;
@@ -157,7 +180,7 @@
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                                  GOBACK; // Dismiss the viewController upon success
-                                 //Do some thing here
+                                 }
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
                              }];
@@ -203,12 +226,16 @@
         item = _feedItems[indexPath.row];
     else
         item = [filteredString objectAtIndex:indexPath.row];
-    
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
         NSString *numberAsString = [numberFormatter stringFromNumber:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
-        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
         myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
         label1.text = numberAsString;
         label2.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
@@ -395,9 +422,14 @@
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME2;
-        
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
             detailVC.custNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CustNo"]stringValue];
             detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
             detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
@@ -461,8 +493,7 @@
             detailVC.l1datetext = @"Sale Date:";
             detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
         
-        if ([[segue identifier] isEqualToString:CUSTNEWSEGUE])
-        {
+        if ([[segue identifier] isEqualToString:CUSTNEWSEGUE]) {
             NewData *detailVC = segue.destinationViewController;
             detailVC.formController = TNAME2 ;
         }

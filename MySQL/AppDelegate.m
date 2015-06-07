@@ -11,6 +11,8 @@
 
 @implementation AppDelegate
 
+//@synthesize window = _window;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
