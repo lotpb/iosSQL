@@ -505,7 +505,9 @@ Parse.com
     }
     if ([[segue identifier] isEqualToString:LEADNEWSEGUE]) {
         NewData *detailVC = segue.destinationViewController;
-        detailVC.formController = TNAME1; }
+        detailVC.formController = TNAME1;
+    }
+    
 }
 
 @end

@@ -492,12 +492,11 @@ Parse.com
             detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Rate";
             detailVC.l1datetext = @"Sale Date:";
             detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
-        
+           }
         if ([[segue identifier] isEqualToString:CUSTNEWSEGUE]) {
             NewData *detailVC = segue.destinationViewController;
             detailVC.formController = TNAME2 ;
         }
-    }
 }
 
 @end

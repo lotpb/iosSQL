@@ -57,6 +57,10 @@
            self.comments = self.comments;
       else self.comments = @"No Comments";
     
+   if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) ) {
+     self.labelamount.font = CELL_FONT1(20);
+   }
+    
 #pragma mark Bar Button
         UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
            UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
@@ -385,7 +389,7 @@ return myCell;
     if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
         self.amount = self.amount;
     else self.amount = @"None";
-    
+   
   /*  if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
         self.date = self.date;
     else self.date = @"None";
@@ -468,7 +472,6 @@ if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
         t26 = self.tbl26;
     else t26 = @"None";
 }
-    
     self.labelNo.text = leadNo;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;
@@ -628,6 +631,7 @@ Parse.com
             
         } else if ([_formController  isEqual:TNAME2]) { //edit Cust
             detailVC.formController = TNAME2;
+            detailVC.objectId = self.objectId; //Parse Only
             detailVC.custNo = self.custNo;
             detailVC.leadNo = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
@@ -660,6 +664,7 @@ Parse.com
             
         } else if ([_formController  isEqual:TNAME3]) { //edit Vendor
             detailVC.formController = TNAME3;
+            detailVC.objectId = self.objectId; //Parse Only
             detailVC.leadNo = self.leadNo; //vendorNo
             detailVC.frm11 = self.tbl24; //manager
             detailVC.frm12 = self.date; //webpage
@@ -684,6 +689,7 @@ Parse.com
             
         } else if ([_formController  isEqual:TNAME4]) { //edit Employee
             detailVC.formController = TNAME4;
+            detailVC.objectId = self.objectId; //Parse Only
             detailVC.leadNo = self.leadNo; //employeeNo
             detailVC.frm11 = self.tbl26; //first
             detailVC.frm12 = self.custNo; //lastname

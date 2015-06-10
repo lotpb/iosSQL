@@ -20,7 +20,7 @@
 @property (strong, nonatomic) NSString *textcontentsubject;
 @property (strong, nonatomic) NSString *textcontentrating;
 
-@property (strong, nonatomic) NSString *objectId;
+@property (strong, nonatomic) NSString *objectId;//Parse
 @property (strong, nonatomic) NSString *msgNo;
 @property (strong, nonatomic) NSString *msgDate;
 @property (strong, nonatomic) NSString *postby;

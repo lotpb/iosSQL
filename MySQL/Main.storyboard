@@ -421,6 +421,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="8" y="40" width="299" height="15"/>
+                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VZ8-io-icF">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -448,6 +451,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="242" y="14" width="65" height="19"/>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -6164,16 +6170,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jwQ-k2-eY1"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="wDP-4Y-cdF"/>
+        <segue reference="jwQ-k2-eY1"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="MSe-EU-M35"/>
         <segue reference="6uJ-0s-NFa"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="YL2-bg-fIc"/>
-        <segue reference="382-1V-m5k"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="Dbq-7P-K8C"/>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="wDP-4Y-cdF"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

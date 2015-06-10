@@ -141,6 +141,7 @@
         UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
         userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
+       
         
 //fix changed UIImageView to PFImageView didnt work below also added Parse header
      //   PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];

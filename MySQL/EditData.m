@@ -16,7 +16,7 @@
 @end
 
 @implementation EditData
-@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, comment, rate, start, complete;
+@synthesize custNo, leadNo, active, date, first, last, company, address, city, state, zip, phone, aptDate, email, amount, spouse, callback, saleNo, jobNo, adNo, photo, photo1, photo2, comment, rate, start, complete;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -861,41 +861,53 @@ Parse.com
 
 #pragma mark - EditData
 -(void)updateLeads:(id)sender {
-    if ([_formController isEqual:TNAME1]) { //leads
 /*
 *******************************************************************************************
 Parse.com
 *******************************************************************************************
 */
+      if ([_formController isEqual:TNAME1]) { //leads
+          
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseLead
             [self.listTableView reloadData];
+
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+            NSNumber *myActive = [formatter numberFromString:self.active];
+            NSNumber *myAmount = [formatter numberFromString:self.amount.text];
+            NSNumber *myZip = [formatter numberFromString:self.zip.text];
+            NSNumber *mySalesNo = [formatter numberFromString:self.saleNo];
+            NSNumber *myJobNo = [formatter numberFromString:self.jobNo];
+            NSNumber *myAdNo = [formatter numberFromString:self.adNo];
             
             PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
             [query whereKey:@"objectId" equalTo:self.objectId];
-            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
                 if (!error) {
-                    // [updateData setObject:self.leadNo forKey:@"LeadNo"];
-                    // [updateData setObject:self.active forKey:@"Active"];//
-                    [updateData setObject:self.date.text forKey:@"Date"];
-                    [updateData setObject:self.first.text forKey:@"First"];
-                    [updateData setObject:self.last.text forKey:@"LastName"];
-                    [updateData setObject:self.address.text forKey:@"Address"];
-                    [updateData setObject:self.city.text forKey:@"City"];
-                    [updateData setObject:self.state.text forKey:@"State"];
-                    // [updateData setObject:self.zip.text forKey:@"Zip"];
-                    [updateData setObject:self.phone.text forKey:@"Phone"];
-                    [updateData setObject:self.aptDate.text forKey:@"AptDate"];
-                    [updateData setObject:self.email.text forKey:@"Email"];
-                    // [updateData setObject:self.amount.text forKey:@"Amount"];//
-                    [updateData setObject:self.spouse.text forKey:@"Spouse"];
-                    [updateData setObject:self.callback.text forKey:@"CallBack"];
-                    // [updateData setObject:self.saleNo forKey:@"SalesNo"];
-                    // [updateData setObject:self.jobNo forKey:@"JobNo"];
-                    // [updateData setObject:self.adNo forKey:@"AdNo"];
-                    [updateData setObject:self.comment.text forKey:@"Coments"];
-                    [updateData setObject:self.photo.text forKey:@"Photo"];
-                    [updateData saveInBackground];
-                    
+                     NSLog(@"rawStr is %@",updateLead);
+                    [updateLead setObject:myLeadNo forKey:@"LeadNo"];
+                    [updateLead setObject:myActive forKey:@"Active"];
+                    [updateLead setObject:self.date.text forKey:@"Date"];
+                    [updateLead setObject:self.first.text forKey:@"First"];
+                    [updateLead setObject:self.last.text forKey:@"LastName"];
+                    [updateLead setObject:self.address.text forKey:@"Address"];
+                    [updateLead setObject:self.city.text forKey:@"City"];
+                    [updateLead setObject:self.state.text forKey:@"State"];
+                    [updateLead setObject:myZip forKey:@"Zip"];
+                    [updateLead setObject:self.phone.text forKey:@"Phone"];
+                    [updateLead setObject:self.aptDate.text forKey:@"AptDate"];
+                    [updateLead setObject:self.email.text forKey:@"Email"];
+                    [updateLead setObject:myAmount forKey:@"Amount"];
+                    [updateLead setObject:self.spouse.text forKey:@"Spouse"];
+                    [updateLead setObject:self.callback.text forKey:@"CallBack"];
+                    [updateLead setObject:mySalesNo forKey:@"SalesNo"];
+                    [updateLead setObject:myJobNo forKey:@"JobNo"];
+                    [updateLead setObject:myAdNo forKey:@"AdNo"];
+                    [updateLead setObject:self.comment.text forKey:@"Coments"];
+                    [updateLead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
+                  //[updateData setObject:self.time.text forKey:@"Time"];
+                    [updateLead saveInBackground];
+
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     [alert show];
                 } else {
@@ -950,34 +962,49 @@ Parse.com
 */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseCust
             [self.listTableView reloadData];
+          
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+            NSNumber *myCustNo = [formatter numberFromString:self.custNo];
+            NSNumber *myZip = [formatter numberFromString:self.zip.text];
+            NSNumber *myAmount = [formatter numberFromString:self.amount.text];
+            NSNumber *myQuan = [formatter numberFromString:self.callback.text];
+            NSNumber *mySalesNo = [formatter numberFromString:self.saleNo];
+            NSNumber *myJobNo = [formatter numberFromString:self.jobNo];
+            NSNumber *myAdNo = [formatter numberFromString:self.adNo];
+            NSNumber *myActive = [formatter numberFromString:self.active];
             
             PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
             [query whereKey:@"objectId" equalTo:self.objectId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
+                    //NSLog(@"rawStr is %@",updateData);
                     [updateData setObject:self.date.text forKey:@"Date"];
-                    [updateData setObject:self.custNo forKey:@"CustNo"];//
-                    [updateData setObject:self.leadNo forKey:@"LeadNo"];
+                    [updateData setObject:myCustNo forKey:@"CustNo"];//
+                    [updateData setObject:myLeadNo forKey:@"LeadNo"];
                     [updateData setObject:self.address.text forKey:@"Address"];
                     [updateData setObject:self.city.text forKey:@"City"];
                     [updateData setObject:self.state.text forKey:@"State"];
-                    [updateData setObject:self.zip.text forKey:@"Zip"];
+                    [updateData setObject:myZip forKey:@"Zip"];
                     [updateData setObject:self.comment.text forKey:@"Comments"];
-                    [updateData setObject:self.amount.text forKey:@"Amount"];
+                    [updateData setObject:myAmount forKey:@"Amount"];
                     [updateData setObject:self.phone.text forKey:@"Phone"];
-                    [updateData setObject:self.callback.text forKey:@"Quan"];//
+                    [updateData setObject:myQuan forKey:@"Quan"];//
                     [updateData setObject:self.email.text forKey:@"Email"];
                     [updateData setObject:self.first.text forKey:@"First"];
                     [updateData setObject:self.spouse.text forKey:@"Spouse"];
-                    [updateData setObject:self.aptDate forKey:@"Rate"];
-                    [updateData setObject:self.photo forKey:@"Photo"];
-                    [updateData setObject:self.saleNo forKey:@"SalesNo"];
-                    [updateData setObject:self.jobNo forKey:@"JobNo"];
+                    [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Rate"];
+                    [updateData setObject:self.photo.text forKey:@"Photo"];
+                    [updateData setObject:mySalesNo forKey:@"SalesNo"];
+                    [updateData setObject:myJobNo forKey:@"JobNo"];
                     [updateData setObject:self.start.text forKey:@"Start"];
                     [updateData setObject:self.complete.text forKey:@"Completion"];
-                    [updateData setObject:self.adNo forKey:@"ProductNo"];
+                    [updateData setObject:myAdNo forKey:@"ProductNo"];
                     [updateData setObject:self.company.text forKey:@"Contractor"];
-                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
+                    [updateData setObject:self.photo1 ? self.photo1 : [NSNull null] forKey:@"Photo1"];
+                    [updateData setObject:self.photo2 ? self.photo2 : [NSNull null] forKey:@"Photo2"];
+                    [updateData setObject:myActive forKey:@"Active"];
                     [updateData saveInBackground];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     [alert show];
@@ -1030,7 +1057,7 @@ Parse.com
             [success dataUsingEncoding:NSUTF8StringEncoding];
         }
     }
-    else if ([_formController isEqual:TNAME3]) {//vendor
+    else if ([_formController isEqual:TNAME3]) { //vendor
 /*
 *******************************************************************************************
 Parse.com
@@ -1038,13 +1065,21 @@ Parse.com
 */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseVendor
             [self.listTableView reloadData];
+           
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+            NSNumber *myActive = [formatter numberFromString:self.active];
+           // NSNumber *myZip = [formatter numberFromString:self.zip.text];
+           // NSNumber *mySalesNo = [formatter numberFromString:self.saleNo];
+          //  NSNumber *myJobNo = [formatter numberFromString:self.jobNo];
+           // NSNumber *myAdNo = [formatter numberFromString:self.adNo];
             
             PFQuery *query = [PFQuery queryWithClassName:@"Vendors"];
             [query whereKey:@"objectId" equalTo:self.objectId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
-                    [updateData setObject:self.leadNo forKey:@"VendorNo"];
-                    [updateData setObject:self.company.text forKey:@"Vendor"];//
+                    [updateData setObject:myLeadNo forKey:@"VendorNo"];
+                    [updateData setObject:self.company.text forKey:@"Vendor"];
                     [updateData setObject:self.address.text forKey:@"Address"];
                     [updateData setObject:self.city.text forKey:@"City"];
                     [updateData setObject:self.state.text forKey:@"State"];
@@ -1055,13 +1090,13 @@ Parse.com
                     [updateData setObject:self.adName.text forKey:@"Phone3"];
                     [updateData setObject:self.email.text forKey:@"Email"];
                     [updateData setObject:self.last.text forKey:@"WebPage"];
-                    [updateData setObject:self.amount.text forKey:@"Department"];//
+                    [updateData setObject:self.amount.text forKey:@"Department"];
                     [updateData setObject:self.spouse.text forKey:@"Office"];
                     [updateData setObject:self.first.text forKey:@"Manager"];
                     [updateData setObject:self.date.text forKey:@"Profession"];
                     [updateData setObject:self.aptDate.text forKey:@"Assistant"];
                     [updateData setObject:self.comment.text forKey:@"Comments"];
-                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData setObject:myActive forKey:@"Active"];
                     [updateData saveInBackground];
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -1122,12 +1157,21 @@ Parse.com
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseEmployee
             [self.listTableView reloadData];
             
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+            NSNumber *myActive = [formatter numberFromString:self.active];
+            // NSNumber *myZip = [formatter numberFromString:self.zip.text];
+            // NSNumber *mySalesNo = [formatter numberFromString:self.saleNo];
+            // NSNumber *myJobNo = [formatter numberFromString:self.jobNo];
+            // NSNumber *myAdNo = [formatter numberFromString:self.adNo];
+            
             PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
             [query whereKey:@"objectId" equalTo:self.objectId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
-                    [updateData setObject:self.leadNo forKey:@"EmployeeNo"];
-                    [updateData setObject:self.company.text forKey:@"Company"];//
+                    // NSLog(@"rawStr is %@",updateData);
+                    [updateData setObject:myLeadNo forKey:@"EmployeeNo"];
+                    [updateData setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Company"];
                     [updateData setObject:self.address.text forKey:@"Address"];
                     [updateData setObject:self.city.text forKey:@"City"];
                     [updateData setObject:self.state.text forKey:@"State"];
@@ -1138,14 +1182,14 @@ Parse.com
                     [updateData setObject:self.spouse.text forKey:@"Country"];
                     [updateData setObject:self.email.text forKey:@"Email"];
                     [updateData setObject:self.last.text forKey:@"Last"];
-                    [updateData setObject:self.amount.text forKey:@"Department"];//
+                    [updateData setObject:self.amount.text forKey:@"Department"];
                     [updateData setObject:self.aptDate.text forKey:@"Middle"];
                     [updateData setObject:self.first.text forKey:@"First"];
-                    [updateData setObject:self.callback forKey:@"Manager"];
-                    [updateData setObject:self.adName forKey:@"SS"];
-                    [updateData setObject:self.comment forKey:@"Comments"];
-                    [updateData setObject:self.active forKey:@"Active"];
+                    [updateData setObject:self.callback.text forKey:@"Manager"];
+                    [updateData setObject:self.adName.text forKey:@"SS"];
                     [updateData setObject:self.date.text forKey:@"Title"];
+                    [updateData setObject:self.comment.text forKey:@"Comments"];
+                    [updateData setObject:myActive forKey:@"Active"];
                     [updateData saveInBackground];
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -1176,7 +1220,7 @@ Parse.com
             NSString *_comments = self.comment.text;
             NSString *_active = self.active;
             NSString *_employtitle = self.date.text;
-            //  NSString *_time = self.time;
+            //NSString *_time = self.time;
             
             NSString *rawStr = [NSString stringWithFormat:UPDATEEMPLOYEEFIELD, UPDATEEMPLOYEEFIELD1];
             

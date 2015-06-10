@@ -21,6 +21,7 @@
 
 //@property (weak, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) NSString *formController;
+@property (strong, nonatomic) NSString *objectId; //Parse ID
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
 @property (strong, nonatomic) NSString *active;
@@ -47,7 +48,6 @@
 @property (strong, nonatomic) UITextField *complete; //cust
 
 @property (strong, nonatomic) NSString *rate; //cust
-@property (strong, nonatomic) NSString *objectId; //Parse ID
 @property (strong, nonatomic) NSString *saleNo;
 @property (strong, nonatomic) NSString *jobNo;
 @property (strong, nonatomic) NSString *adNo;
@@ -80,6 +80,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 
 @property (weak, nonatomic) IBOutlet UITextField *photo;
+@property (strong, nonatomic) NSString *photo1;
+@property (strong, nonatomic) NSString *photo2;
 @property (strong, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (retain, nonatomic) UIPickerView *pickerView;
 

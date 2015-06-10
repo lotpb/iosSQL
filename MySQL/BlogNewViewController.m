@@ -150,15 +150,12 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {  //updateBlog
-        [self.listTableView reloadData];
-        
         PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
         [query whereKey:@"objectId" equalTo:self.objectId];
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
             if (!error) {
                 [updateblog setObject:self.msgDate forKey:@"MsgDate"];
-            //  [updateblog setObject:[NSNumber numberWithInt:self.msgNo] forKey:@"MsgNo"];
-            //  [updateblog setObject:self.msgNo forKey:@"MsgNo"];
+                [updateblog setObject:self.msgNo forKey:@"MsgNo"];
                 [updateblog setObject:self.postby forKey:@"PostBy"];
                 [updateblog setObject:self.rating forKey:@"Rating"];
                 [updateblog setObject:self.subject.text forKey:@"Subject"];
@@ -171,7 +168,7 @@ Parse.com
                 [alert show];
             }
         }];
-        
+          [self.listTableView reloadData];
     } else {
         
         NSString *_msgNo = self.msgNo;

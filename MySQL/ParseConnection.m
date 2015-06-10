@@ -43,31 +43,39 @@
 
 #pragma mark - Customer Form
 - (void)parseCustomer {
+  //  PFRelation *relation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
+   // PFQuery *query = [relation query];
   PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-    [innerQuery selectKeys:@[@"LastName"]];
+ //   [innerQuery selectKeys:@"LastName"];
     //[query selectKeys:@[@"LeadNo"]];
-    //[query whereKeyExists:@"LastName"];
-   // [innerQuery whereKey:@"LeadNo" equalTo:@51];
-   // [query setLimit:1];
-    PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+    // [innerQuery includeKey:@"LastName"];
+    //[innerQuery whereKeyExists:@"LastName"];
+    [innerQuery whereKey:@"LeadNo" equalTo:@51];
+    //[innerQuery setLimit:2];
+  PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+     // [query includeKey:@"LastName"];
    // [innerQuery whereKey:@"LeadNo" equalTo:@10876];
    // [innerQuery selectKeys:@[@"LastName"]];
    // [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
+    // [query includeKey:@"Leads.LastName"];
     //[innerQuery whereKeyExists:@"LastName"];
     //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
     //[innerQuery whereKey:@"LeadNo" equalTo:query];
     
     //[query whereKey:@"City" equalTo:@"Massapequa"];
+    //PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1, innerQuery]];
+    [query includeKey:@"from"];
+    [query includeKey:@"to"];
     [query orderByDescending:@"createdAt"];
     [query setMaxCacheAge:60 * 4];  //4 mins cache
-    [query setLimit:1000]; //parse.com standard is 100
+    [query setLimit:2]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
-               // NSLog(@"Object id %@",_feedItems);
+              //  NSLog(@"Object id %@",_feedItems);
                 if (self.delegate) {
                     [self.delegate parseCustomerloaded:_feedItems];
                 }

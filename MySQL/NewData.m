@@ -559,6 +559,7 @@ Parse.com
 
 #pragma mark - New Data
 -(void)share:(id)sender {
+    
     if (([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]))
     {
         UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
@@ -575,29 +576,38 @@ Parse.com
 Parse.com
 *******************************************************************************************
 */
+            
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveLead
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+                NSNumber *myAmount = [formatter numberFromString:self.amount.text];
+                NSNumber *myActive = [formatter numberFromString:self.active.text];
+                NSNumber *myZip = [formatter numberFromString:self.zip.text];
+                NSNumber *mySalesNo = [formatter numberFromString:self.saleNo.text];
+                NSNumber *myJobNo = [formatter numberFromString:self.jobNo.text];
+                NSNumber *myAdNo = [formatter numberFromString:self.adNo.text];
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Leads"];
-                // [savelead setObject:self.leadNo forKey:@"LeadNo"];
-                //  [savelead setObject:self.active.text forKey:@"Active"];
-                [savelead setObject:self.date.text forKey:@"Date"];
-                [savelead setObject:self.first.text forKey:@"First"];
-                [savelead setObject:self.last.text forKey:@"LastName"];
-                [savelead setObject:self.address.text forKey:@"Address"];
-                [savelead setObject:self.city.text forKey:@"City"];
-                [savelead setObject:self.state.text forKey:@"State"];
-                //   [savelead setObject:self.zip.text forKey:@"Zip"];
-                [savelead setObject:self.phone.text forKey:@"Phone"];
-                [savelead setObject:self.aptDate.text forKey:@"AptDate"];
-                [savelead setObject:self.email.text forKey:@"Email"];
-                // [savelead setObject:self.amount.text forKey:@"Amount"];
-                [savelead setObject:self.spouse.text forKey:@"Spouse"];
-                [savelead setObject:self.callback.text forKey:@"CallBack"];
-                // [savelead setObject:self.saleNo.text forKey:@"SalesNo"];
-                // [savelead setObject:self.jobNo.text forKey:@"JobNo"];
-                // [savelead setObject:self.adNo.text forKey:@"AdNo"];
-                [savelead setObject:self.comment.text forKey:@"Coments"];
-                [savelead setObject:self.photo.text forKey:@"Photo"];
+                [savelead setObject:myLeadNo ? myLeadNo : [NSNull null] forKey:@"LeadNo"];
+                [savelead setObject:myActive ? myActive : [NSNull null] forKey:@"Active"];
+                [savelead setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Date"];
+                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
+                [savelead setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"LastName"];
+                [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                [savelead setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                [savelead setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                [savelead setObject:myZip ? myZip : [NSNull null] forKey:@"Zip"];
+                [savelead setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
+                [savelead setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"AptDate"];
+                [savelead setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
+                [savelead setObject:myAmount ? myAmount : [NSNull null] forKey:@"Amount"];
+                [savelead setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Spouse"];
+                [savelead setObject:self.callback.text ? self.callback.text : [NSNull null] forKey:@"CallBack"];
+                [savelead setObject:mySalesNo ? mySalesNo : [NSNull null] forKey:@"SalesNo"];
+                [savelead setObject:myJobNo ? myJobNo : [NSNull null] forKey:@"JobNo"];
+                [savelead setObject:myAdNo ? myAdNo : [NSNull null] forKey:@"AdNo"];
+                [savelead setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Coments"];
+                [savelead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -628,7 +638,7 @@ Parse.com
                 NSString *_adNo = self.adNo.text;
                 NSString *_comments = self.comment.text;
                 NSString *_photo = self.photo.text;
-                //  NSString *_time = self.time;
+                //NSString *_time = self.time;
                 
                 NSString *rawStr = [NSString stringWithFormat:SAVELEADFIELD, SAVELEADFIELD1];
                 //NSLog(@"rawStr is %@",rawStr);
@@ -655,31 +665,39 @@ Parse.com
 *******************************************************************************************
 */
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveCustomer
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+                NSNumber *myAmount = [formatter numberFromString:self.amount.text];
+                NSNumber *myActive = [formatter numberFromString:self.active.text];
+                NSNumber *myZip = [formatter numberFromString:self.zip.text];
+                NSNumber *mySalesNo = [formatter numberFromString:self.saleNo.text];
+                NSNumber *myJobNo = [formatter numberFromString:self.jobNo.text];
+                NSNumber *myAdNo = [formatter numberFromString:self.adNo.text];
+                NSNumber *myQuan = [formatter numberFromString:self.callback.text];
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Customer"];
-                //[savelead setObject:self.leadNo forKey:@"LeadNo"];
-                //[savelead setObject:self.active.text forKey:@"Active"];
-                [savelead setObject:self.first.text forKey:@"First"];
-                [savelead setObject:self.leadNo forKey:@"LeadNo"];
-                [savelead setObject:self.company.text forKey:@"Contractor"];
-                [savelead setObject:self.address.text forKey:@"Address"];
-                [savelead setObject:self.city.text forKey:@"City"];
-                [savelead setObject:self.state.text forKey:@"State"];
-                //[savelead setObject:self.zip.text forKey:@"Zip"];
-                [savelead setObject:self.date.text forKey:@"Date"];
-                [savelead setObject:self.aptDate forKey:@"Rate"];
-                [savelead setObject:self.phone.text forKey:@"Phone"];
-                //[savelead setObject:self.saleNo.text forKey:@"SalesNo"];
-                //[savelead setObject:self.jobNo.text forKey:@"JobNo"];
-                //[savelead setObject:self.adNo.text forKey:@"ProductNo"];
-                //[savelead setObject:self.amount.text forKey:@"Amount"];
-                [savelead setObject:self.email.text forKey:@"Email"];
-                [savelead setObject:self.spouse.text forKey:@"Spouse"];
-                //[savelead setObject:self.callback.text forKey:@"Quan"];
-                [savelead setObject:self.start.text forKey:@"Start"];
-                [savelead setObject:self.complete.text forKey:@"Complete"];
-                [savelead setObject:self.comment.text forKey:@"Comment"];
-                [savelead setObject:self.photo.text forKey:@"Photo"];
+                [savelead setObject:myActive ? myActive : [NSNull null] forKey:@"Active"];
+                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
+                [savelead setObject:myLeadNo ? myLeadNo : [NSNull null] forKey:@"LeadNo"];
+                [savelead setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Contractor"];
+                [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                [savelead setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                [savelead setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                [savelead setObject:myZip ? myZip : [NSNull null] forKey:@"Zip"];
+                [savelead setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Date"];
+                [savelead setObject:self.aptDate ? self.aptDate.text : [NSNull null] forKey:@"Rate"];
+                [savelead setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
+                [savelead setObject:mySalesNo ? mySalesNo : [NSNull null] forKey:@"SalesNo"];
+                [savelead setObject:myJobNo ? myJobNo : [NSNull null] forKey:@"JobNo"];
+                [savelead setObject:myAdNo ? myAdNo : [NSNull null] forKey:@"ProductNo"];
+                [savelead setObject:myAmount ? myAmount : [NSNull null] forKey:@"Amount"];
+                [savelead setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
+                [savelead setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Spouse"];
+                [savelead setObject:myQuan ? myQuan : [NSNull null] forKey:@"Quan"];
+                [savelead setObject:self.start.text ? self.start.text : [NSNull null] forKey:@"Start"];
+                [savelead setObject:self.complete.text ? self.complete.text : [NSNull null] forKey:@"Complete"];
+                [savelead setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comment"];
+                [savelead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -739,27 +757,36 @@ Parse.com
 *******************************************************************************************
 */
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveVendor
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+                NSNumber *myActive = [formatter numberFromString:self.active.text];
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Vendors"];
-               // [savelead setObject:self.leadNo forKey:@"VendorNo"];
-                [savelead setObject:self.complete.text forKey:@"Vendor"];
-                [savelead setObject:self.address.text forKey:@"Address"];
-                [savelead setObject:self.city forKey:@"City"];
-                [savelead setObject:self.state.text forKey:@"State"];
-                [savelead setObject:self.zip.text forKey:@"Zip"];
-                [savelead setObject:self.phone.text forKey:@"Phone"];
-                [savelead setObject:self.salesman.text forKey:@"Phone1"];
-                [savelead setObject:self.jobName.text forKey:@"Phone2"];
-                [savelead setObject:self.adName.text forKey:@"Phone3"];
-                [savelead setObject:self.email forKey:@"Email"];
-                [savelead setObject:self.last.text forKey:@"WebPage"];
-                [savelead setObject:self.amount.text forKey:@"Department"];
-                [savelead setObject:self.spouse.text forKey:@"Office"];
-                [savelead setObject:self.date.text forKey:@"Manager"];
-                [savelead setObject:self.first.text forKey:@"Profession"];
-                [savelead setObject:self.aptDate.text forKey:@"Assistant"];
-                [savelead setObject:self.comment.text forKey:@"Comments"];
-                //[savelead setObject:self.active.text forKey:@"Active"];
+                [savelead setObject:myLeadNo ? myLeadNo : [NSNull null] forKey:@"VendorNo"];
+                [savelead setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Vendor"];
+                [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                [savelead setObject:self.city ? self.city.text : [NSNull null] forKey:@"City"];
+                [savelead setObject:self.state.text ? self.start.text : [NSNull null] forKey:@"State"];
+                [savelead setObject:self.zip.text ? self.zip.text : [NSNull null] forKey:@"Zip"];
+                [savelead setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Phone1"];
+                [savelead setObject:self.jobName.text ? self.jobName.text : [NSNull null] forKey:@"Phone2"];
+                [savelead setObject:self.adName.text ? self.adName.text : [NSNull null] forKey:@"Phone3"];
+                
+                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo"];
+                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo1"];
+                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo2"];
+                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo3"];
+                
+                [savelead setObject:self.email ? self.email.text : [NSNull null] forKey:@"Email"];
+                [savelead setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"WebPage"];
+                [savelead setObject:self.amount.text ? self.amount.text : [NSNull null] forKey:@"Department"];
+                [savelead setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Office"];
+                [savelead setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Manager"];
+                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"Profession"];
+                [savelead setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Assistant"];
+                [savelead setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
+                [savelead setObject:myActive ? myActive : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -818,28 +845,31 @@ Parse.com
 *******************************************************************************************
 */
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveEmployee
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
+                NSNumber *myActive = [formatter numberFromString:self.active.text];
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Employee"];
-                //[savelead setObject:self.leadNo forKey:@"EmployeeNo"];
-                [savelead setObject:self.company.text forKey:@"Company"];
-                [savelead setObject:self.address.text forKey:@"Address"];
-                [savelead setObject:self.city.text forKey:@"City"];
-                [savelead setObject:self.state.text forKey:@"State"];
-                [savelead setObject:self.zip.text forKey:@"Zip"];
-                [savelead setObject:self.phone.text forKey:@"HomePhone"];
-                [savelead setObject:self.salesman.text forKey:@"WorkPhone"];
-                [savelead setObject:self.jobName.text forKey:@"CellPhone"];
-                [savelead setObject:self.date.text forKey:@"Country"];
-                [savelead setObject:self.email.text forKey:@"Email"];
-                [savelead setObject:self.last.text forKey:@"Last"];
-                [savelead setObject:self.amount.text forKey:@"Department"];
-                [savelead setObject:self.aptDate.text forKey:@"Middle"];
-                [savelead setObject:self.first.text forKey:@"First"];
-                [savelead setObject:self.callback.text forKey:@"Manager"];
-                [savelead setObject:self.adName.text forKey:@"SS"];
-                [savelead setObject:self.comment.text forKey:@"Comments"];
-                //[savelead setObject:self.active.text forKey:@"Active"];
-                [savelead setObject:self.spouse.text forKey:@"Title"];
+                [savelead setObject:myLeadNo ? myLeadNo : [NSNull null] forKey:@"EmployeeNo"];
+                [savelead setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Company"];
+                [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                [savelead setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                [savelead setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                [savelead setObject:self.zip.text ? self.zip.text : [NSNull null] forKey:@"Zip"];
+                [savelead setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"HomePhone"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"WorkPhone"];
+                [savelead setObject:self.jobName.text ? self.jobName.text : [NSNull null] forKey:@"CellPhone"];
+                [savelead setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Country"];
+                [savelead setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
+                [savelead setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"Last"];
+                [savelead setObject:self.amount.text ? self.amount.text : [NSNull null] forKey:@"Department"];
+                [savelead setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Middle"];
+                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
+                [savelead setObject:self.callback.text ? self.callback.text : [NSNull null] forKey:@"Manager"];
+                [savelead setObject:self.adName.text ? self.adName.text : [NSNull null] forKey:@"SS"];
+                [savelead setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
+                [savelead setObject:myActive ? myActive : [NSNull null] forKey:@"Active"];
+                [savelead setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Title"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
