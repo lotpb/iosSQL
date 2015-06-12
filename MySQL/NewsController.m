@@ -62,6 +62,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
@@ -133,23 +134,21 @@
         
         //fix-self.view.frame.size.height - original height 330 not 345
         UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
-        [wallImageView setBackgroundColor:VIEWBACKCOLOR];
-        
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-            
-        UIImageView *userImage = [[UIImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+//-------------------------------------------------------------------------------------------------
+        /*
+        UIImageView *userImage = [[UIImageView alloc] initWithImage:
+        [UIImage imageWithData:image.getData]];
+        userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
+        [wallImageView addSubview:userImage]; */
+
+        PFImageView *userImage = [[PFImageView alloc] initWithImage:
+        [UIImage imageWithData:image.getData]];
+        [userImage loadInBackground]; //fix - dont work
         userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
         [wallImageView addSubview:userImage];
-       
-        
-//fix changed UIImageView to PFImageView didnt work below also added Parse header
-     //   PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-     //   [userImage loadInBackground]; //fix - dont work
-        
-      //  userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
-     //   [wallImageView addSubview:userImage];
-        
+//--------------------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.font = DETAILFONT(TITLEFONTSIZE);
@@ -211,8 +210,8 @@
            // [self.wallScroll addSubview:separatorLineView];
            // self.automaticallyAdjustsScrollViewInsets = NO;
             
-          [self.wallScroll addSubview:wallImageView];
-        
+        [wallImageView setBackgroundColor:VIEWBACKCOLOR];
+        [self.wallScroll addSubview:wallImageView];
         originY = originY + wallImageView.frame.size.width + 1;
     }
     

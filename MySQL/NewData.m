@@ -12,6 +12,7 @@
 {
    NSMutableArray *salesArray, *callbackArray, *contractorArray;
 }
+
 @end
 
 @implementation NewData
@@ -20,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    
+
     /*
      if ([_formController isEqual:TNAME2]) { //need to add contractor to form
      [parseConnection parseContractor];
@@ -93,10 +94,18 @@ Parse.com
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
 {   [super viewDidAppear:animated];
     [self loadFormData];
+    //animate label
+    self.following.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.following.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 #pragma mark - ParseDelegate
@@ -567,7 +576,7 @@ Parse.com
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil, nil];
         [ErrorAlert show];
-        //  [ErrorAlert release];
+
     } else {
         
         if ([_formController isEqual:TNAME1]) {
@@ -760,12 +769,13 @@ Parse.com
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
                 NSNumber *myActive = [formatter numberFromString:self.active.text];
-                
+               
                 PFObject *savelead = [PFObject objectWithClassName:@"Vendors"];
+                 NSLog(@"rawStr is %@",savelead);
                 [savelead setObject:myLeadNo ? myLeadNo : [NSNull null] forKey:@"VendorNo"];
                 [savelead setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Vendor"];
                 [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
-                [savelead setObject:self.city ? self.city.text : [NSNull null] forKey:@"City"];
+                [savelead setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
                 [savelead setObject:self.state.text ? self.start.text : [NSNull null] forKey:@"State"];
                 [savelead setObject:self.zip.text ? self.zip.text : [NSNull null] forKey:@"Zip"];
                 [savelead setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
@@ -773,12 +783,12 @@ Parse.com
                 [savelead setObject:self.jobName.text ? self.jobName.text : [NSNull null] forKey:@"Phone2"];
                 [savelead setObject:self.adName.text ? self.adName.text : [NSNull null] forKey:@"Phone3"];
                 
-                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo"];
-                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo1"];
-                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo2"];
-                [savelead setObject:[NSNull null] forKey:@"PhoneCmbo3"];
+                //[savelead setObject:[NSNull null] forKey:@"PhoneCmbo"];
+                //[savelead setObject:[NSNull null] forKey:@"PhoneCmbo1"];
+                //[savelead setObject:[NSNull null] forKey:@"PhoneCmbo2"];
+                //[savelead setObject:[NSNull null] forKey:@"PhoneCmbo3"];
                 
-                [savelead setObject:self.email ? self.email.text : [NSNull null] forKey:@"Email"];
+                [savelead setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
                 [savelead setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"WebPage"];
                 [savelead setObject:self.amount.text ? self.amount.text : [NSNull null] forKey:@"Department"];
                 [savelead setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Office"];

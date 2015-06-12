@@ -95,6 +95,14 @@ else
     [super viewDidAppear:animated];
     [self fieldData];
     [self reloadTable];
+    
+    //animate label
+    self.following.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.following.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -251,7 +259,37 @@ else
     myCell.leadtitleLabel.numberOfLines = 0;
     myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
    [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
-        
+         
+//---------------------animate label--------------------------------
+       /*
+         //animate label
+         myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.01, 0.01);
+         [UIView animateWithDuration:0.5 animations:^{
+             myCell.leadtitleLabel.transform = CGAffineTransformIdentity;
+         } completion:^(BOOL finished) {
+             
+         }]; */
+     /*
+         [UIView animateWithDuration:0.5
+                               delay:0.0
+                             options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                          animations:^{
+                              myCell.leadtitleLabel.transform = CGAffineTransformScale(myCell.leadtitleLabel.transform, 0.7, 0.7);
+                          }
+                          completion:nil]; */
+     
+          myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.3, 0.3);
+         [UIView animateWithDuration:2.0
+                               delay: 0.1
+                             options: UIViewAnimationOptionBeginFromCurrentState
+                          animations:^{
+                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1.5, 1.5); //grow
+                          }
+                          completion:^(BOOL finished){
+                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1, 1);
+                          }];
+//---------------------animate label--------------------------------
+         
         static NSDateFormatter *dateFormater = nil;
         if (dateFormater == nil) {
             
@@ -659,6 +697,7 @@ Parse.com
             detailVC.saleNo = self.tbl22;
             detailVC.jobNo = self.tbl23;
             detailVC.adNo = self.tbl24;
+            detailVC.time = self.tbl16;
          // detailVC.frm33 = self.photo1;
          // detailVC.frm34 = self.photo2;
             

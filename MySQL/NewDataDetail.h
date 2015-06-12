@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <Parse/Parse.h>
+#import <Parse/Parse.h>
 #import "Constants.h"
 
 @interface NewDataDetail : UIViewController <UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>

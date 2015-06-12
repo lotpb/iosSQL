@@ -80,7 +80,26 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     revealViewController.frontViewShadowRadius = 5;
     [self.view addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
+
+ //------------
+    NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate :[NSDate date]];
     
+    NSInteger hh = [components hour];
+    
+    NSInteger mm = [components minute];
+    //time is between 00:01 AM to 9:00 AM
+    if( (9>hh && hh>0) || (hh==0 && mm >0)|| (hh ==9 && mm ==0 ))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 00:01 AM to 9:00 AM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    //time is between 3:00 PM to 9:00 PM
+    else if( (21>hh && hh>=15) || (hh==21 && mm ==0))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 3:00 PM to 9:00 PM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+//--------------
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
@@ -281,7 +300,13 @@ didFailToReceiveAdWithError:(NSError *)error{
 }
 
 -(void)openStats:(id)sender {
-     [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else
+        [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
     
 }
 

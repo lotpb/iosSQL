@@ -46,28 +46,19 @@
   //  PFRelation *relation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
    // PFQuery *query = [relation query];
   PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
- //   [innerQuery selectKeys:@"LastName"];
-    //[query selectKeys:@[@"LeadNo"]];
-    // [innerQuery includeKey:@"LastName"];
-    //[innerQuery whereKeyExists:@"LastName"];
-    [innerQuery whereKey:@"LeadNo" equalTo:@51];
-    //[innerQuery setLimit:2];
-  PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-     // [query includeKey:@"LastName"];
-   // [innerQuery whereKey:@"LeadNo" equalTo:@10876];
-   // [innerQuery selectKeys:@[@"LastName"]];
-   // [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
-    // [query includeKey:@"Leads.LastName"];
-    //[innerQuery whereKeyExists:@"LastName"];
-    //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
-    //[innerQuery whereKey:@"LeadNo" equalTo:query];
+     [innerQuery includeKey:@"LastName"];
+    // [innerQuery includeKey:@"LeadNo"];
+    [innerQuery whereKeyExists:@"LastName"];
+   // [innerQuery whereKeyExists:@"LeadNo"];
+    //[innerQuery whereKey:@"LeadNo" equalTo:@"LastName"];
+//[innerQuery setLimit:2];
     
-    //[query whereKey:@"City" equalTo:@"Massapequa"];
-    //PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1, innerQuery]];
-    [query includeKey:@"from"];
-    [query includeKey:@"to"];
+  PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+    [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
+    //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
+    
     [query orderByDescending:@"createdAt"];
-    [query setMaxCacheAge:60 * 4];  //4 mins cache
+   // [query setMaxCacheAge:60 * 4];  //4 mins cache
     [query setLimit:2]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -75,7 +66,7 @@
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
-              //  NSLog(@"Object id %@",_feedItems);
+            NSLog(@"Object id %@",_feedItems);
                 if (self.delegate) {
                     [self.delegate parseCustomerloaded:_feedItems];
                 }

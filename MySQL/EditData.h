@@ -21,7 +21,8 @@
 
 //@property (weak, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) NSString *formController;
-@property (strong, nonatomic) NSString *objectId; //Parse ID
+@property (strong, nonatomic) NSString *objectId; //Parse
+@property (strong, nonatomic) NSString *time; //Parse
 @property (strong, nonatomic) NSString *custNo;
 @property (strong, nonatomic) NSString *leadNo;
 @property (strong, nonatomic) NSString *active;

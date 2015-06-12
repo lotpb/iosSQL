@@ -409,6 +409,7 @@ Parse.com
     {
         NewDataDetail *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME8;
+        
         if (isFormStat == YES)
             detailVC.formStatus = @"New";
         else

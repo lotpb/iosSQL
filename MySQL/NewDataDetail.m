@@ -210,236 +210,356 @@
 
     return footerTitle;
 }
-//---------------------------------------------------
 
-#pragma mark - Parse Data
-- (void)parseData {
-    /*
-     if ([_formController isEqual: @"Salesman"]) {
-     
-     PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-     query.cachePolicy = kPFCACHEPOLICY;
-     [query selectKeys:@[@"SalesNo"]];
-     [query selectKeys:@[@"Salesman"]];
-     [query orderByDescending:@"SalesNo"];
-     [query whereKey:@"Active" containsString:@"Active"];
-     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     salesArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-     }
-     
-     if ([_formController isEqual: @"Jobs"]) {
-     
-     PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-     query21.cachePolicy = kPFCACHEPOLICY;
-     [query21 selectKeys:@[@"JobNo"]];
-     [query21 selectKeys:@[@"Description"]];
-     [query21 orderByDescending:@"Description"];
-     [query21 whereKey:@"Active" containsString:@"Active"];
-     [query21 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     jobArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-     }
-     if ([_formController isEqual: @"Advertising"]) {
-     
-     PFQuery *query31 = [PFQuery queryWithClassName:@"Advertising"];
-     query31.cachePolicy = kPFCACHEPOLICY;
-     [query31 selectKeys:@[@"AdNo"]];
-     [query31 selectKeys:@[@"Advertiser"]];
-     [query31 orderByDescending:@"Advertiser"];
-     [query31 whereKey:@"Active" containsString:@"Active"];
-     [query31 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     adArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-     }
-     
-     if ([_formController isEqual: @"Products"]) {
-     
-     PFQuery *query41 = [PFQuery queryWithClassName:@"Product"];
-     query41.cachePolicy = kPFCACHEPOLICY;
-     [query41 selectKeys:@[@"ProductNo"]];
-     [query41 selectKeys:@[@"Products"]];
-     [query41 orderByDescending:@"Products"];
-     [query41 whereKey:@"Active" containsString:@"Active"];
-     [query41 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     prodArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-     } */
-}
-
-#pragma mark - New Data
+#pragma mark - New/Update Data
 -(void)updateData:(id)sender {
     
     if ([_formStatus isEqual:@"New"]) {
         
-    if ([_formController isEqual:TNAME8]) {
+        if ([_formController isEqual:TNAME8]) {
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveSalesman
+                
+                PFObject *savelead = [PFObject objectWithClassName:@"Salesman"];
+                NSLog(@"rawStr is %@",savelead);
+                [savelead setObject:self.salesNo.text ? self.salesNo.text : [NSNull null] forKey:@"SalesNo"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Salesman"];
+                [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
+                [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_salesman = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:SAVESALEFIELD, SAVESALEFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:SAVESALEURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME7]) {
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveJob
+                
+                PFObject *savelead = [PFObject objectWithClassName:@"Job"];
+                NSLog(@"rawStr is %@",savelead);
+                [savelead setObject:self.salesNo.text ? self.salesNo.text : [NSNull null] forKey:@"JobNo"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Description"];
+                [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
+                [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_description = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:SAVEJOBFIELD, SAVEJOBFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:SAVEJOBURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME6]) {
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveJob
+                
+                PFObject *savelead = [PFObject objectWithClassName:@"Product"];
+                NSLog(@"rawStr is %@",savelead);
+                [savelead setObject:self.salesNo.text ? self.salesNo.text : [NSNull null] forKey:@"ProductNo"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Products"];
+                [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
+                [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_product = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:SAVEPRODFIELD, SAVEPRODFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:SAVEPRODURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME5]) {
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveAd
+                
+                PFObject *savelead = [PFObject objectWithClassName:@"Advertising"];
+                NSLog(@"rawStr is %@",savelead);
+                [savelead setObject:self.salesNo.text ? self.salesNo.text : [NSNull null] forKey:@"AdNo"];
+                [savelead setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Advertiser"];
+                [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
+                [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_advertiser = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:SAVEADFIELD, SAVEADFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:SAVEADURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+    } else if ([_formStatus isEqual:@"Edit"]) {
         
-        NSString *_salesman = self.salesman.text;
-        NSString *_active = self.active; //@"Active";
-        
-        NSString *rawStr = [NSString stringWithFormat:SAVESALEFIELD, SAVESALEFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:SAVESALEURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
+        if ([_formController isEqual:TNAME8]) {
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateSalesman
+                
+                PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
+                [query whereKey:@"objectId" equalTo:self.objectId];
+                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                    if (!error) {
+                        //NSLog(@"rawStr is %@",updateData);
+                        [updateData setObject:self.salesNo.text forKey:@"SalesNo"];
+                        [updateData setObject:self.salesman.text forKey:@"Salesman"];
+                        [updateData setObject:self.active forKey:@"Active"];
+                        [updateData saveInBackground];
+                        [self.listTableView reloadData];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_salesNo = self.salesNo.text;
+                NSString *_salesman = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:EDITSALEFIELD, EDITSALEFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:EDITSALEURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME7]) {
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updatejob
+                
+                PFQuery *query = [PFQuery queryWithClassName:@"Job"];
+                [query whereKey:@"objectId" equalTo:self.objectId];
+                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                    if (!error) {
+                        //NSLog(@"rawStr is %@",updateData);
+                        [updateData setObject:self.salesNo.text forKey:@"JobNo"];
+                        [updateData setObject:self.salesman.text forKey:@"Description"];
+                        [updateData setObject:self.active forKey:@"Active"];
+                        [updateData saveInBackground];
+                        [self.listTableView reloadData];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_jobNo = self.salesNo.text;
+                NSString *_description = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:EDITJOBFIELD, EDITJOBFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:EDITJOBURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME6]) {
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateJob
+                
+                PFQuery *query = [PFQuery queryWithClassName:@"Product"];
+                [query whereKey:@"objectId" equalTo:self.objectId];
+                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                    if (!error) {
+                        //NSLog(@"rawStr is %@",updateData);
+                        [updateData setObject:self.salesNo.text forKey:@"ProductNo"];
+                        [updateData setObject:self.salesman.text forKey:@"Products"];
+                        [updateData setObject:self.active forKey:@"Active"];
+                        [updateData saveInBackground];
+                        [self.listTableView reloadData];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_productNo = self.salesNo.text;
+                NSString *_products = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:EDITPRODFIELD, EDITPRODFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:EDITPRODURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
+        else if ([_formController isEqual:TNAME5]) {
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateAds
+                
+                PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
+                [query whereKey:@"objectId" equalTo:self.objectId];
+                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
+                    if (!error) {
+                        //NSLog(@"rawStr is %@",updateData);
+                        [updateData setObject:self.salesNo.text forKey:@"AdNo"];
+                        [updateData setObject:self.salesman.text forKey:@"Advertiser"];
+                        [updateData setObject:self.active forKey:@"Active"];
+                        [updateData saveInBackground];
+                        [self.listTableView reloadData];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSString *_adNo = self.salesNo.text;
+                NSString *_advertiser = self.salesman.text;
+                NSString *_active = self.active;
+                
+                NSString *rawStr = [NSString stringWithFormat:EDITADFIELD, EDITADFIELD1];
+                NSLog(@"rawStr is %@",rawStr);
+                NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSURL *url = [NSURL URLWithString:EDITADURL];
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                [request setHTTPMethod:@"POST"];
+                [request setHTTPBody:data];
+                NSURLResponse *response;
+                NSError *err;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                NSLog(@"%@", responseString);
+                NSString *success = @"success";
+                [success dataUsingEncoding:NSUTF8StringEncoding];
+            }
+        }
     }
-    else if ([_formController isEqual:TNAME7]) {
-        
-        NSString *_description = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:SAVEJOBFIELD, SAVEJOBFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:SAVEJOBURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    else if ([_formController isEqual:TNAME6]) {
-        
-        NSString *_product = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:SAVEPRODFIELD, SAVEPRODFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:SAVEPRODURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    else if ([_formController isEqual:TNAME5]) {
-        
-        NSString *_advertiser = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:SAVEADFIELD, SAVEADFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:SAVEADURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-        
-} else if ([_formStatus isEqual:@"Edit"]) {
-    
-    if ([_formController isEqual:TNAME8]) {
-        
-        NSString *_salesNo = self.salesNo.text;
-        NSString *_salesman = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:EDITSALEFIELD, EDITSALEFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:EDITSALEURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    else if ([_formController isEqual:TNAME7]) {
-        
-        NSString *_jobNo = self.salesNo.text;
-        NSString *_description = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:EDITJOBFIELD, EDITJOBFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:EDITJOBURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    else if ([_formController isEqual:TNAME6]) {
-        
-        NSString *_productNo = self.salesNo.text;
-        NSString *_products = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:EDITPRODFIELD, EDITPRODFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:EDITPRODURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    else if ([_formController isEqual:TNAME5]) {
-        
-        NSString *_adNo = self.salesNo.text;
-        NSString *_advertiser = self.salesman.text;
-        NSString *_active = self.active;
-        
-        NSString *rawStr = [NSString stringWithFormat:EDITADFIELD, EDITADFIELD1];
-        NSLog(@"rawStr is %@",rawStr);
-        NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:EDITADURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
-        NSString *success = @"success";
-        [success dataUsingEncoding:NSUTF8StringEncoding];
-       }
-}
     [[self navigationController]popToRootViewControllerAnimated:YES];
 }
 

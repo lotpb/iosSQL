@@ -204,7 +204,7 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
-        [self.listTableView reloadData];
+
         /*
          NSString *tempString = self.rating;
          NSNumber *numValue = @([tempString intValue]);
@@ -221,6 +221,7 @@ Parse.com
             if (succeeded) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
+                        [self.listTableView reloadData];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
