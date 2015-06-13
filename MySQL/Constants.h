@@ -50,7 +50,7 @@
 #define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
 
 // All STORYBOOKS
-/**Navigation - Go back - POP view controller **/
+//Navigation - Go back - POP view controller **/
 #define GOBACK [self.navigationController popViewControllerAnimated:YES]
 //------searchbar-------------------------------
 #define SEARCHBARSTYLE      UIBarStyleBlack

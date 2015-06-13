@@ -50,7 +50,6 @@
    [parseConnection parseLookupJob];
     
     filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

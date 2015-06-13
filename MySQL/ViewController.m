@@ -70,7 +70,8 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+   //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+    //[self reloadDatas:nil];
 }
 
 -(void)didReceiveMemoryWarning {
@@ -147,11 +148,11 @@ Parse.com
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 /*
-                                  *******************************************************************************************
-                                  Parse.com
-                                  *******************************************************************************************
-                                  */
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
                                      [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
@@ -185,12 +186,11 @@ Parse.com
                                  NSLog(@"%@", responseString);
                                  NSString *success = @"success";
                                  [success dataUsingEncoding:NSUTF8StringEncoding];
-                                 [_feedItems removeObjectAtIndex:indexPath.row];
-                                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                                 GOBACK; // Dismiss the viewController upon success
                                  }
+                                 [_feedItems removeObjectAtIndex:indexPath.row];
+                                 [self.listTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                               //  GOBACK; // Dismiss the viewController upon success
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
                              
         UIAlertAction* cancel = [UIAlertAction
@@ -204,7 +204,6 @@ Parse.com
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
-        [self.listTableView reloadData];
     }
 }
 

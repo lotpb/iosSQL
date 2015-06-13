@@ -65,11 +65,11 @@ Parse.com
          [parseConnection parseSalesPick];
     }
     if ([_formController isEqual:TNAME1]) {
-        [parseConnection parseCallback];
+        [parseConnection parseCallbackPick];
     }
     else if ([_formController isEqual:TNAME2]) {
-        [parseConnection parseRate];
-        [parseConnection parseContractor];
+        [parseConnection parseRatePick];
+        [parseConnection parseContractorPick];
     }
     
     [self passFieldData];
@@ -82,7 +82,7 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+   //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
     [self.first becomeFirstResponder];
 }
@@ -92,20 +92,20 @@ Parse.com
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - ParseDelegate
-- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
+#pragma mark - ParsePickView
+- (void)parseSalesPickloaded:(NSMutableArray *)salesItem {
     salesArray = salesItem;
 }
 
-- (void)parseRateloaded:(NSMutableArray *)rateItem {
+- (void)parseRatePickloaded:(NSMutableArray *)rateItem {
     rateArray = rateItem;
 }
 
-- (void)parseContractorloaded:(NSMutableArray *)contractItem {
+- (void)parseContractorPickloaded:(NSMutableArray *)contractItem {
     contractorArray = contractItem;
 }
 
-- (void)parseCallbackloaded:(NSMutableArray *)callbackItem {
+- (void)parseCallbackPickloaded:(NSMutableArray *)callbackItem {
     callbackArray = callbackItem;
 }
 
@@ -456,11 +456,13 @@ Parse.com
 
         if ([_formController isEqual:TNAME3]) {
             self.salesman.placeholder = @"Phone 1";
-            myCell.textLabel.text = @"Phone 1"; }
+            myCell.textLabel.text = @"Phone 1";
+            self.salesman.inputView = nil;}
         
         else if ([_formController isEqual:TNAME4]) {
             self.salesman.placeholder = @"Work Phone";
-            myCell.textLabel.text = @"Work Phone"; }
+            myCell.textLabel.text = @"Work Phone";
+            self.salesman.inputView = nil;}
         
     } else if (indexPath.row == 7) {
          self.jobName = textframe;

@@ -77,10 +77,11 @@ Parse.com
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
     self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
-    [super viewWillAppear:animated];
+   [self reloadDatas:nil];
 }
 
 #pragma mark - RefreshControl
@@ -184,18 +185,14 @@ Parse.com
                                      }];
                                      
                                  } else {
-                                 
                                  BlogLocation *item;
                                  item = [_feedItems objectAtIndex:indexPath.row];
                                  NSString *deletestring = item.msgNo;
-    
                                  NSString *_msgNo = deletestring;
                                  NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
                                  NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-                                 
                                  NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
                                  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                                 
                                  [request setHTTPMethod:@"POST"]; [request setHTTPBody:data];
                                  NSURLResponse *response; NSError *err;
                                  NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
@@ -203,14 +200,13 @@ Parse.com
                                  NSLog(@"%@", responseString);
                                  NSString *success = @"success";
                                  [success dataUsingEncoding:NSUTF8StringEncoding];
+                                 }
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                                 GOBACK;
-                                 //Do some thing here
+                              //   GOBACK; //Do some thing here
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                }
                              }];
-                             
+        
         UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
                                  style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                                  {
@@ -220,7 +216,6 @@ Parse.com
         [view addAction:ok];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
-        [self.listTableView reloadData];
     }
 }
 
@@ -396,37 +391,44 @@ Parse.com
     NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
         isFilltered = NO;
-        else {
+    else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        for(BlogLocation* string in _feedItems)
-        {
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
-            {
-                NSRange stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
-            }
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
-            {
-                NSRange stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
-            }
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Search" message:@"No search in Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
+        } else {
+            for(BlogLocation* string in _feedItems)
             {
-                NSRange stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
-            }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
-            {
-                NSRange stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
+                {
+                    NSRange stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                    if(stringRange.location != NSNotFound)
+                        [filteredString addObject:string];
+                }
+                
+                if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
+                {
+                    NSRange stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                    if(stringRange.location != NSNotFound)
+                        [filteredString addObject:string];
+                }
+                
+                if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
+                {
+                    NSRange stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                    if(stringRange.location != NSNotFound)
+                        [filteredString addObject:string];
+                }
+                
+                if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
+                {
+                    NSRange stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                    if(stringRange.location != NSNotFound)
+                        [filteredString addObject:string];
+                }
             }
         }
     }

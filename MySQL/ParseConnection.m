@@ -10,7 +10,7 @@
 
 @interface ParseConnection ()
 {
-    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *zipArray, *jobArray, *adproductArray, *headCount, *_feedItems;
+    NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *headCount, *_feedItems;
 }
 @end
 
@@ -46,14 +46,18 @@
   //  PFRelation *relation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
    // PFQuery *query = [relation query];
   PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-     [innerQuery includeKey:@"LastName"];
+     [innerQuery selectKeys:@[@"LastName"]];
+     //[innerQuery selectKeys:@[@"LeadNo"]];
+    // [innerQuery includeKey:@"LastName"];
     // [innerQuery includeKey:@"LeadNo"];
-    [innerQuery whereKeyExists:@"LastName"];
-   // [innerQuery whereKeyExists:@"LeadNo"];
-    //[innerQuery whereKey:@"LeadNo" equalTo:@"LastName"];
-//[innerQuery setLimit:2];
+     //[innerQuery whereKeyExists:@"LeadNo"];
+    // [innerQuery whereKeyExists:@"LeadNo"];
+     //[innerQuery whereKey:@"LeadNo" equalTo:@"LastName"];
+     //[innerQuery setLimit:2];
     
   PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+    [PFQuery clearAllCachedResults];
+    [query includeKey:@"LastName"];
     [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
     //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
     
@@ -241,12 +245,12 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         salesArray = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseSalesmanloaded:salesArray];
+            [self.delegate parseSalesPickloaded:salesArray];
         }
     }];
 }
 
-- (void)parseRate {
+- (void)parseRatePick {
     PFQuery *query14 = [PFQuery queryWithClassName:@"Rate"];
     [query14 selectKeys:@[@"rating"]];
     [query14 orderByDescending:@"rating"];
@@ -254,12 +258,12 @@
     [query14 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         rateArray = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseRateloaded:rateArray];
+            [self.delegate parseRatePickloaded:rateArray];
         }
     }];
 }
 
-- (void)parseContractor {
+- (void)parseContractorPick {
     PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
     [query13 selectKeys:@[@"Contractor"]];
     [query13 orderByDescending:@"Contractor"];
@@ -267,12 +271,12 @@
     [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         contractorArray = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseContractorloaded:contractorArray];
+            [self.delegate parseContractorPickloaded:contractorArray];
         }
     }];
 }
 
-- (void)parseCallback {
+- (void)parseCallbackPick {
     PFQuery *query1 = [PFQuery queryWithClassName:@"Callback"];
     [query1 selectKeys:@[@"Callback"]];
     [query1 orderByDescending:@"Callback"];
@@ -280,7 +284,7 @@
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         callbackArray = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseCallbackloaded:callbackArray];
+            [self.delegate parseCallbackPickloaded:callbackArray];
         }
     }];
 }
@@ -290,58 +294,57 @@
 #pragma mark - Lookup Form
 - (void)parseLookupZip { //lookup city
     PFQuery *query = [PFQuery queryWithClassName:@"Zip"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     //[query selectKeys:@[@"ZipNo"]];
-    [query selectKeys:@[@"City"]];
-    [query selectKeys:@[@"State"]];
-    [query selectKeys:@[@"zipCode"]];
+    //[query selectKeys:@[@"City"]];
+    //[query selectKeys:@[@"State"]];
+    //[query selectKeys:@[@"zipCode"]];
     [query orderByAscending:@"City"];
     [query setLimit: 1000]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     zipArray = [[NSMutableArray alloc]initWithArray:objects];
-    /*    if (self.delegate) {
-            [self.delegate parseLookupZiploaded:zipArray]; */
+     _feedItems = [[NSMutableArray alloc]initWithArray:objects];
+       // if (self.delegate) {
+       //     [self.delegate parseLookupZiploaded:zipArray];
         if (!error) {
             for (PFObject *object in objects) {
-                [zipArray addObject:object];
+                [_feedItems addObject:object];
             if (self.delegate) {
-               [self.delegate parseLookupZiploaded:zipArray];
+               [self.delegate parseLookupZiploaded:_feedItems];
                }
             }
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
+        
     }];
 }
 
 - (void)parseLookupJob { //lookup job
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    [PFQuery clearAllCachedResults];
-    [query selectKeys:@[@"JobNo"]];
-    [query selectKeys:@[@"Description"]];
+    //[PFQuery clearAllCachedResults];
+    //[query selectKeys:@[@"JobNo"]];
+    //[query selectKeys:@[@"Description"]];
     [query orderByDescending:@"Description"];
-    //[query whereKey:@"Active" containsString:QACTIVE];
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        jobArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseLookupJobloaded:jobArray];
+            [self.delegate parseLookupJobloaded:_feedItems];
         }
     }];
 }
 
 - (void)parseLookupProduct { //lookup product
     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    [PFQuery clearAllCachedResults];
-    [query3 selectKeys:@[@"ProductNo"]];
-    [query3 selectKeys:@[@"Products"]];
+    //[PFQuery clearAllCachedResults];
+    //[query3 selectKeys:@[@"ProductNo"]];
+    //[query3 selectKeys:@[@"Products"]];
     [query3 orderByDescending:@"Products"];
-    //[query3 whereKey:@"Active" containsString:QACTIVE];
      query3.cachePolicy = kPFCACHEPOLICY;
     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseLookupProductloaded:adproductArray];
+            [self.delegate parseLookupProductloaded:_feedItems];
         }
     }];
 }
@@ -349,15 +352,29 @@
 - (void)parseLookupAd { //lookup Advertiser
     PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
   //[PFQuery clearAllCachedResults];
-    [query1 selectKeys:@[@"AdNo"]];
-    [query1 selectKeys:@[@"Advertiser"]];
+    //[query1 selectKeys:@[@"AdNo"]];
+    //[query1 selectKeys:@[@"Advertiser"]];
     [query1 orderByDescending:@"Advertiser"];
-    //[query1 whereKey:@"Active" containsString:QACTIVE];
      query1.cachePolicy = kPFCACHEPOLICY;
     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseLookupProductloaded:adproductArray];
+            [self.delegate parseLookupProductloaded:_feedItems];
+        }
+    }];
+}
+
+- (void)parseLookupSalesman { //lookup Salesman
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Salesman"];
+    //[PFQuery clearAllCachedResults];
+    //[query1 selectKeys:@[@"SalesNo"]];
+    //[query1 selectKeys:@[@"Salesman"]];
+    [query1 orderByDescending:@"Salesman"];
+    query1.cachePolicy = kPFCACHEPOLICY;
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
+        if (self.delegate) {
+            [self.delegate parseLookupSalesloaded:_feedItems];
         }
     }];
 }

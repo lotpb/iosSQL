@@ -501,15 +501,15 @@ return myCell;
         t25 = self.tbl25;
     else t25 = @"None";
     
-if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
+//if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
-} else {
-    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
-        t26 = self.tbl26;
-    else t26 = @"None";
-}
+//} else {
+//    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
+//        t26 = self.tbl26;
+//    else t26 = @"None";
+//}
     self.labelNo.text = leadNo;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;

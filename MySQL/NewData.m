@@ -43,11 +43,11 @@ Parse.com
     parseConnection.delegate = (id)self;
    
     if ([_formController isEqual:TNAME1]) {
-        [parseConnection parseCallback];
+        [parseConnection parseCallbackPick];
        }
 
     if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
-         [parseConnection parseSalesman];
+         [parseConnection parseSalesPick];
        }
     
     [self passFieldData];
@@ -86,7 +86,7 @@ Parse.com
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
      if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
           [self.company becomeFirstResponder];
-     else [self.first becomeFirstResponder];
+     else [self.last becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,11 +94,11 @@ Parse.com
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark - reload Form Data
 - (void)viewDidAppear:(BOOL)animated
 {   [super viewDidAppear:animated];
     [self loadFormData];
+    
     //animate label
     self.following.transform = CGAffineTransformMakeScale(0.01, 0.01);
     [UIView animateWithDuration:0.5 animations:^{
@@ -108,16 +108,16 @@ Parse.com
     }];
 }
 
-#pragma mark - ParseDelegate
-- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
+#pragma mark - ParsePickView
+- (void)parseSalesPickloaded:(NSMutableArray *)salesItem {
     salesArray = salesItem;
 }
 
-- (void)parseContractorloaded:(NSMutableArray *)contractItem {
+- (void)parseContractorPickloaded:(NSMutableArray *)contractItem {
     contractorArray = contractItem;
 }
 
-- (void)parseCallbackloaded:(NSMutableArray *)callbackItem {
+- (void)parseCallbackPickloaded:(NSMutableArray *)callbackItem {
     callbackArray = callbackItem;
 }
 
@@ -585,7 +585,6 @@ Parse.com
 Parse.com
 *******************************************************************************************
 */
-            
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveLead
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];

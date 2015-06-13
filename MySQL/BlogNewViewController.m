@@ -229,7 +229,7 @@ Parse.com
         }];
         
     } else {
-        [self.listTableView reloadData];
+       // [self.listTableView reloadData];
         NSString *_msgDate = self.msgDate;
         NSString *_subject = self.subject.text;
         NSString *_rating = self.rating;

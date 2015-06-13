@@ -48,7 +48,7 @@
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self;
-    [parseConnection parseSalesman];
+    [parseConnection parseLookupSalesman];
     
     filteredString= [[NSMutableArray alloc] initWithArray:salesArray];
  /*
@@ -72,8 +72,8 @@
 }
 
 #pragma mark - ParseDelegate 
-- (void)parseSalesmanloaded:(NSMutableArray *)salesItem {
-    salesArray = salesItem;
+- (void)parseLookupSalesloaded:(NSMutableArray *)saleLookItem {
+    salesArray = saleLookItem;
 }
 
 #pragma mark - TableView 

@@ -23,15 +23,18 @@
 - (void)parseProductloaded:(NSMutableArray *)prodItem;
 - (void)parseJobloaded:(NSMutableArray *)jobItem;
 - (void)parseSalesmanloaded:(NSMutableArray *)saleItem;
-
+//PickerView
 - (void)parseSalesPickloaded:(NSMutableArray *)salesItem;
-- (void)parseRateloaded:(NSMutableArray *)rateItem;
-- (void)parseContractorloaded:(NSMutableArray *)contractItem;
-- (void)parseCallbackloaded:(NSMutableArray *)callbackItem;
+- (void)parseRatePickloaded:(NSMutableArray *)rateItem;
+- (void)parseContractorPickloaded:(NSMutableArray *)contractItem;
+- (void)parseCallbackPickloaded:(NSMutableArray *)callbackItem;
+//Lookup
 - (void)parseLookupZiploaded:(NSMutableArray *)zipItem;
 - (void)parseLookupJobloaded:(NSMutableArray *)jobItem;
 - (void)parseLookupProductloaded:(NSMutableArray *)prodItem;
 - (void)parseLookupAdloaded:(NSMutableArray *)adItem;
+- (void)parseLookupSalesloaded:(NSMutableArray *)saleLookItem;
+//Header
 - (void)parseHeadSalesmanloaded:(NSMutableArray *)salesheadItem;
 - (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem;
 - (void)parseHeadAdloaded:(NSMutableArray *)adheadItem;
@@ -52,15 +55,18 @@
 - (void)parseProduct;
 - (void)parseJob;
 - (void)parseSalesman;
-
+//PickerView
 - (void)parseSalesPick;
-- (void)parseRate;
-- (void)parseContractor;
-- (void)parseCallback;
+- (void)parseRatePick;
+- (void)parseContractorPick;
+- (void)parseCallbackPick;
+//Lookup
 - (void)parseLookupZip;
 - (void)parseLookupJob;
 - (void)parseLookupProduct;
 - (void)parseLookupAd;
+- (void)parseLookupSalesman;
+//Header
 - (void)parseHeadSalesman;
 - (void)parseHeadJob;
 - (void)parseHeadAd;

@@ -17,7 +17,7 @@
 #import "LookupSalesman.h"
 
 
-@interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
+@interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
 //@property (weak, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) NSString *formController;
