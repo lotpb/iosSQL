@@ -43,9 +43,15 @@
         NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
         self.msgDate = dateString;
         self.rating = @"4";
-        self.postby = [defaults objectForKey:userNameKey];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                PFUser *currentUser = [PFUser currentUser];
+                if (currentUser) {
+                    self.postby =  currentUser.username;}
+                else
+                    self.postby = [defaults objectForKey:userNameKey];
+            }
             self.Update.hidden = YES; }
-      } else {
+    } else {
         self.objectId = self.textcontentobjectId;
         self.msgNo = self.textcontentmsgNo;
         self.msgDate = self.textcontentdate;
@@ -53,10 +59,12 @@
         self.postby = self.textcontentpostby;
         self.rating = self.textcontentrating;
         self.Share.hidden = YES;
-      }
+    }
        [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         self.myDatePicker.hidden = YES;
     
+    
+   [self.subject setFont:CELL_FONT(BLOG_FONTSIZE)];
   [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
 
@@ -204,15 +212,11 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
-
-        /*
-         NSString *tempString = self.rating;
-         NSNumber *numValue = @([tempString intValue]);
-         NSNull *null = [NSNull null];
-         NSDate *date = [NSDate date]; */
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        NSNumber *myMsgNo = [formatter numberFromString:self.msgNo];
         
         PFObject *saveblog = [PFObject objectWithClassName:@"Blog"];
-     // [saveblog setObject:NULL forKey:@"MsgNo"];
+        [saveblog setObject:myMsgNo ? myMsgNo : [NSNumber numberWithInteger: -1] forKey:@"MsgNo"];
         [saveblog setObject:self.msgDate forKey:@"MsgDate"];
         [saveblog setObject:self.postby forKey:@"PostBy"];
         [saveblog setObject:self.rating forKey:@"Rating"];

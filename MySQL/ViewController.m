@@ -11,7 +11,7 @@
 @interface ViewController ()
 {
     HomeModel *_homeModel; Location *_selectedLocation;
-    NSMutableArray *_feedItems;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (strong, nonatomic) NSString *tsa22;
@@ -37,7 +37,8 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseLeads];
+        parseConnection.delegate = (id)self;
+        [parseConnection parseLeads]; [parseConnection parseHeadLeads];
     } else {
         _feedItems = [[NSMutableArray alloc] init]; _homeModel = [[HomeModel alloc] init];
         _homeModel.delegate = self; [_homeModel downloadItems];
@@ -84,7 +85,8 @@ Parse.com
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseLeads];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseLeads]; [parseConnection parseHeadLeads];
     } else {
         [_homeModel downloadItems];
     }
@@ -116,6 +118,12 @@ Parse.com
     _feedItems = leadItem;
     [self.listTableView reloadData];
 }
+
+- (void)parseHeadLeadsloaded:(NSMutableArray *)leadheadItem {
+    headCount = leadheadItem;
+    [self.listTableView reloadData];
+} 
+
 
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {
@@ -218,12 +226,14 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = IDCELL;
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 75, 27)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 85, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 85, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+    [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+    [myCell.detailTextLabel setFont:CELL_FONT1(CELL_FONTSIZE)];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -253,14 +263,14 @@ Parse.com
     // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     // [myCell.imageView setImage:myImage];
     
-    [label1 setFont:CELL_FONT1(CELL_FONTSIZE - 2)];
+    [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
     label1.textAlignment = NSTextAlignmentCenter;
     [label1 setTextColor:[UIColor blackColor]];
     [label1 setBackgroundColor:[UIColor whiteColor]];
     label1.tag = 102;
     [myCell.contentView addSubview:label1];
     
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)];//[UIFont boldSystemFontOfSize:12.0];
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];//[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:DATECOLORBACK];
@@ -281,7 +291,7 @@ Parse.com
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {   //NSString *uppercase = [TNAME1 uppercaseString];
     NSString *newString = [NSString stringWithFormat:@"LEADS \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

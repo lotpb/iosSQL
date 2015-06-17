@@ -11,7 +11,7 @@
 @interface VendorViewController () 
 {
     VendorModel *_VendorModel; VendLocation *_selectedLocation;
-    NSMutableArray *_feedItems;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -32,7 +32,8 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseVendor];
+        parseConnection.delegate = (id)self;
+        [parseConnection parseVendor]; [parseConnection parseHeadVendor];
     } else {
         _feedItems = [[NSMutableArray alloc] init]; _VendorModel = [[VendorModel alloc] init];
         _VendorModel.delegate = self; [_VendorModel downloadItems];
@@ -81,7 +82,8 @@ Parse.com
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseVendor];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseVendor]; [parseConnection parseHeadVendor];
     } else {
         [_VendorModel downloadItems];
     }
@@ -111,6 +113,11 @@ Parse.com
 #pragma mark - ParseDelegate
 - (void)parseVendorloaded:(NSMutableArray *)vendItem {
     _feedItems = vendItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseHeadVendorloaded:(NSMutableArray *)vendheadItem {
+    headCount = vendheadItem;
     [self.listTableView reloadData];
 }
 
@@ -267,7 +274,7 @@ Parse.com
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSString *newString = [NSString stringWithFormat:@"VENDOR \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

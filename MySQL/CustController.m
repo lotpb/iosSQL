@@ -11,7 +11,7 @@
 @interface CustController ()
 {
     CustModel *_CustModel; CustLocation *_selectedLocation;
-    NSMutableArray *_feedItems;
+    NSMutableArray * headCount, *_feedItems;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -35,9 +35,11 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseCustomer];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseCustomer]; [parseConnection parseHeadCustomer];
     } else {
-         _CustModel = [[CustModel alloc] init]; _CustModel.delegate = self; [_CustModel downloadItems];
+         _CustModel = [[CustModel alloc] init]; _CustModel.delegate = self;
+        [_CustModel downloadItems];
     }
      //_feedItems = [[NSMutableArray alloc] init];
      filteredString= [[NSMutableArray alloc] init];
@@ -75,7 +77,8 @@ Parse.com
 - (void)reloadDatas:(id)sender {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseCustomer];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseCustomer]; //[parseConnection parseHeadCustomer];
     } else {
         [_CustModel downloadItems];
     }
@@ -105,6 +108,11 @@ Parse.com
 #pragma mark - ParseDelegate
 - (void)parseCustomerloaded:(NSMutableArray *)custItem {
     _feedItems = custItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseHeadCustomerloaded:(NSMutableArray *)custheadItem {
+    headCount = custheadItem;
     [self.listTableView reloadData];
 }
 
@@ -211,11 +219,13 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 75, 27)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 75, 27)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 85, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 85, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
+    [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+    [myCell.detailTextLabel setFont:CELL_FONT1(CELL_FONTSIZE)];
    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -234,6 +244,7 @@ Parse.com
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
         NSString *numberAsString = [numberFormatter stringFromNumber:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
+        
         myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
         myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
         label1.text = numberAsString;
@@ -245,14 +256,14 @@ Parse.com
         label2.text = item.date;
     }
     
-    [label1 setFont:CELL_FONT1(CELL_FONTSIZE - 2)];
+    [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
     label1.textAlignment = NSTextAlignmentCenter;
     [label1 setTextColor:[UIColor blackColor]];
     [label1 setBackgroundColor:[UIColor whiteColor]];
     label1.tag = 102;
     [myCell.contentView addSubview:label1];
     
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE - 2)]; //[UIFont boldSystemFontOfSize:12.0];
+    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)]; //[UIFont boldSystemFontOfSize:12.0];
     label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:DATECOLORBACK];
@@ -273,7 +284,7 @@ Parse.com
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"CUST \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

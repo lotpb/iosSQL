@@ -39,8 +39,8 @@ NSString* const kFirstNameKey			= @"firstNameKey";
 NSString* const kLastNameKey			= @"lastNameKey";
 NSString* const kWebSiteKey			    = @"websiteKey";
 NSString* const kEmailKey		    	= @"emailKey";
-NSString* const kUserNameKey			= @"username";
-NSString* const kPasswordKey		    = @"password";
+NSString* const kUserNameKey			= @"usernameKey";
+NSString* const kPasswordKey		    = @"passwordKey";
 
 //Notification.plist
 NSString* const kVerseKey		    	= @"verseKey";

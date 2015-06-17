@@ -303,34 +303,34 @@ else
             NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         
     myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
-    myCell.leadsubtitleLabel.font = CELL_FONT(DETAILFONTSIZE);
+    myCell.leadsubtitleLabel.font = CELL_FONT(DETAILNEWSFONTSIZE);
    [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
    }
     myCell.leadreadmore.text = @"Read more";
-    myCell.leadreadmore.font = CELL_FONT(DETAILFONTSIZE);
+    myCell.leadreadmore.font = CELL_FONT(DETAILNEWSFONTSIZE);
         
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
-    myCell.leadnews.font = CELL_MEDFONT(DETAILFONTSIZE);
+    myCell.leadnews.font = CELL_MEDFONT(DETAILNEWSFONTSIZE);
    [myCell.leadnews setTextColor:DETAILCOLOR];
     
     //Social buttons - code below
-    UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(12,85, 20, 20)];
+    UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(12,97, 20, 20)];
     [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:faceBtn];
         
-    UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(42,85, 20, 20)];
+    UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(42,97, 20, 20)];
     [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
     [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:twitBtn];
         
-    UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(72,85, 20, 20)];
+    UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(72,97, 20, 20)];
     [tumblrBtn setImage:[UIImage imageNamed:@"Tumblr.png"] forState:UIControlStateNormal];
     [tumblrBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:tumblrBtn];
         
-    UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(102,85, 20, 20)];
+    UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(102,97, 20, 20)];
     [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
     [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:yourBtn];

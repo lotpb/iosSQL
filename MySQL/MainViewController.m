@@ -9,7 +9,7 @@
 
 #import "MainViewController.h"
 #import <AVFoundation/AVAudioPlayer.h>
-//#import "SearchResultsViewController.h"
+#import <Parse/Parse.h>
 
 @interface MainViewController ()
 {
@@ -22,8 +22,7 @@
 
 @implementation MainViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone;//fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MAINNAVLOGO]];
@@ -31,6 +30,46 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
+
+    
+//-----create Parse User----------------------------
+  /*
+    [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
+                                    block:^(PFUser *user, NSError *error) {
+                                        if (user) {
+                                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The login successfull" message:@"Yayyyyyyyyyyy" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                            [alert show];
+                                        } else {
+                                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The login failed" message:@"Get Lost" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                            [alert show];
+                                            // The login failed. Check error to see why.
+                                        }
+                                    }]; */
+
+
+ [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
+ block:^(PFUser *user, NSError *error) {
+ if (user) {
+ // Hooray! Let them use the app now.
+ } else {
+// NSString *errorString = [error userInfo][@"error"];
+ // Show the errorString somewhere and let the user try again.
+ }
+ }];
+//----------------------------------------------------
+   /*
+    NSString *url = @"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=dagqdghwaq3e3mxyrp7kmmj5&limit=20&country=us";
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        self.movies = dict[@"movies"];
+        [self.tableView reloadData];
+        //NSArray * movies = dict[@"movies"];
+        //NSDictionary * firstMovie = movies[0];
+        //NSLog(@"%@", firstMovie);
+        //NSLog(@"%@", object);
+    }]; */
     
      //| -------------------------iAd------------------------------
   /*  bannerView = [[ADBannerView alloc]initWithFrame:
@@ -82,6 +121,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
 
  //------------
+    /*
     NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate :[NSDate date]];
     
     NSInteger hh = [components hour];
@@ -98,7 +138,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 3:00 PM to 9:00 PM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
-    }
+    } */
 //--------------
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -207,6 +247,8 @@ didFailToReceiveAdWithError:(NSError *)error{
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
+    [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+    
     if (!isFilltered)
        myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
        else
@@ -214,7 +256,7 @@ didFailToReceiveAdWithError:(NSError *)error{
     
     if (self.searchController.searchBar.text.length > 0)
         myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+
     return myCell;
 }
 
@@ -233,17 +275,12 @@ didFailToReceiveAdWithError:(NSError *)error{
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
-    
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    
     UIImage *image = [UIImage imageNamed:HEADERIMAGE];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
-//  imageHolder.alpha = 0.5; //0
-// [imageHolder setImageToBlur:image blurRadius:10 completionBlock:nil];
-   
     [view addSubview:imageHolder];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];

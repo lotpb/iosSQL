@@ -31,7 +31,8 @@
         _reEnterPasswordField.hidden = YES;
         _registerBtn.hidden = YES;
     }
-    
+    // self.usernameField.text = @"eunitedws@verizon.net";
+    // self.passwordField.text = @"3911";
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
@@ -79,8 +80,8 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //write the username and password and set BOOL value in NSUserDefaults
-    [defaults setObject:_usernameField.text forKey:@"username"];
-    [defaults setObject:_passwordField.text forKey:@"password"];
+    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+    [defaults setObject:_passwordField.text forKey:@"passwordKey"];
     [defaults setBool:YES forKey:@"registered"];
     
     [defaults synchronize];
@@ -96,7 +97,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //check that username and password match stored values
-    if ([_usernameField.text isEqualToString:[defaults objectForKey:@"username"]] && [_passwordField.text isEqualToString:[defaults objectForKey:@"password"]]) {
+    if ([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
         _usernameField.text = nil;
         _passwordField.text = nil;
         [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller

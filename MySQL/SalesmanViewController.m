@@ -33,7 +33,8 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseConnection *parseConnection = [[ParseConnection alloc]init]; parseConnection.delegate = (id)self;
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self;
        [parseConnection parseSalesman]; [parseConnection parseHeadSalesman];
     } else {
         _feedItems = [[NSMutableArray alloc] init]; _SalesModel = [[SalesModel alloc] init];
@@ -85,7 +86,8 @@ Parse.com
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseSalesman];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseSalesman]; [parseConnection parseHeadSalesman];
     } else {
         [_SalesModel downloadItems];
     }

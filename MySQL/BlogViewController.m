@@ -272,9 +272,22 @@ Parse.com
     
     [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
     [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
-    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 1)];
+    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 2)];
     
-    myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
+    PFUser *cUser = [PFUser currentUser];
+    // [cUser whereKey:@"objectId" notEqualTo:@"XXXXX"];
+    PFFile *pictureFile = [cUser objectForKey:@"imageFile"];
+    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error){
+            [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
+        }
+        else {
+            NSLog(@"no data!");
+            [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+        }
+    }]; 
+    
+    //myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;

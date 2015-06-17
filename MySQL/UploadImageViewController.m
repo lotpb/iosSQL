@@ -50,11 +50,11 @@
     self.commentDetail = nil;
    // self.username = nil;
 }
-
+/*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+} */
 
 #pragma mark IB Actions
 
@@ -99,7 +99,7 @@
             [imageObject setObject:file forKey:@"imageFile"];
             [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
             [imageObject setObject:self.commentDetail.text forKey:@"newsDetail"];
-            [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"username"];
+            [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"usernameKey"];
             
             //[imageObject setObject:[PFUser currentUser].username forKey:@"username"];
             

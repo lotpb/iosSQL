@@ -78,6 +78,7 @@
 #define TABLECELLIMAGE    @"DemoCellImage"
 #define BACKGROUNDCOLOR   [UIColor blackColor]
 #define ROW_HEIGHT        44.0f
+#define CELL_TITLEFONTSIZE 20
 #define CELL_FONTSIZE     14
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
 #define CELL_FONT1(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
@@ -281,8 +282,9 @@
 
 // LEADDETAIL
 //extern int DETAILFONTSIZE = 9;
-#define DETAILFONTSIZE     9
-#define DETAILNEWS         12
+#define DETAILFONTSIZE     10
+#define DETAILNEWSFONTSIZE 14
+#define DETAILNEWS         16
 #define DETAILTITLECOLOR   [UIColor blackColor]
 #define DETAILSUBCOLOR     [UIColor grayColor]
 #define DETAILCOLOR        [UIColor darkGrayColor]
@@ -296,11 +298,11 @@
 #define NEWCUSTSEGUE       @"newcustSegue"
 #define MAPSEGUE           @"mapdetailSegue"
 #define CALENDSEGUE        @"calenderSegue"
-#define CONTACTSEGUE        @"contactSegue"
+#define CONTACTSEGUE       @"contactSegue"
 //-----------------------END-------------------------------
 
 // BLOG
-#define BLOGCELLIMAGE    @"IMG_1378"
+#define BLOGCELLIMAGE      @"IMG_1378"
 #define BLOGIMGRADIUS      5
 #define BLOGDELETENO       @"_msgNo=%@&&"
 #define BLOGDELETENO1      _msgNo
@@ -311,7 +313,7 @@
 #define BLOGNAVBARCOLOR        [UIColor redColor]
 #define BLOGNAVBARTINTCOLOR    [UIColor whiteColor]
 #define BLOGNAVBARTRANSLUCENT   NO
-#define BLOG_FONTSIZE          12
+#define BLOG_FONTSIZE          16
 #define SEARCHBARSTYLEBLOG     UIBarStyleDefault
 //--------------segue-------------------------------
 #define BLOGVIEWSEGUE      @"blogviewSegue"
@@ -332,7 +334,7 @@
 //-----------------------END-------------------------------
 
 // BLOGNEW
-#define KEY_USER          @"username"
+#define KEY_USER          @"usernameKey"
 #define KEY_EMAIL         @"emailKey"
 #define BLOGNEWBACKCOLOR  [UIColor darkGrayColor]
 #define BLOGNEWTITLE      @"Share an idea"
@@ -396,7 +398,7 @@
 #define SIDEIMAGETITLE      @"user_male-128.png"
 #define SIDEIMAGEBACKCOLOR  [UIColor grayColor]
 #define SIDEEMAILTITLE      @"Email Support"
-#define SIDEEMAILMESSAGE    @"<h1>Learning iOS Programming!</h1>"
+#define SIDEEMAILMESSAGE    @"<h2>Learning iOS Programming!</h2>"
 //-----------------------END-------------------------------
 
 // PHOTO COLLECTION

@@ -531,7 +531,18 @@ Parse.com
         
         if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
              self.amount.placeholder = @"Department";
-             myCell.textLabel.text = @"Department"; }
+             myCell.textLabel.text = @"Department";
+    /*    } else {
+            UIStepper *stepper = [[UIStepper alloc] init];
+            stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            [stepper setTintColor:[UIColor grayColor]];
+            stepper.value = [self.amount.text doubleValue];
+            stepper.stepValue = 1;
+            UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+            [wrapper addSubview:stepper];
+            myCell.accessoryView = stepper;
+            [stepper addTarget:self action:@selector(changestepAmount:) forControlEvents:UIControlEventValueChanged]; */
+        }
 
         [myCell.contentView addSubview:self.amount];
         
@@ -703,6 +714,11 @@ Parse.com
     double va = [sender value];
     [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
 }
+/*
+- (void) changestepAmount:(UIStepper *)sender {
+    double va = [sender value];
+    [self.amount setText:[NSString stringWithFormat:@"%d", (int)va]];
+} */
 
 #pragma mark - LookupCity Data
 - (void)cityFromController:(NSString *)passedData{

@@ -84,7 +84,8 @@ Parse.com
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseProduct];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseProduct]; [parseConnection parseHeadProduct];
     } else {
         [_ProductModel downloadItems];
     }

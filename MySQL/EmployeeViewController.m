@@ -11,7 +11,7 @@
 @interface EmployeeViewController ()
 {
     EmployeeModel *_EmployeeModel; EmployeeLocation *_selectedLocation;
-    NSMutableArray *_feedItems;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
     NSString *firstItem, *lastnameItem, *companyItem;
 }
@@ -35,7 +35,8 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseEmployee];
+        parseConnection.delegate = (id)self;
+        [parseConnection parseEmployee]; [parseConnection parseHeadEmployee];
     } else {
        // _feedItems = [[NSMutableArray alloc] init];
         _EmployeeModel = [[EmployeeModel alloc] init];
@@ -83,7 +84,8 @@ Parse.com
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseEmployee];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseEmployee]; [parseConnection parseHeadEmployee];
     } else {
         [_EmployeeModel downloadItems];
     }
@@ -111,8 +113,13 @@ Parse.com
 }
 
 #pragma mark - ParseDelegate
-- (void)parseEmployloaded:(NSMutableArray *)employItem {
+- (void)parseEmployeeloaded:(NSMutableArray *)employItem {
     _feedItems = employItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseHeadEmployeeloaded:(NSMutableArray *)employheadItem {
+    headCount = employheadItem;
     [self.listTableView reloadData];
 }
 
@@ -302,7 +309,7 @@ Parse.com
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"EMPLOY \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];

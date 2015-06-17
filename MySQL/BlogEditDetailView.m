@@ -41,15 +41,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Button
+#pragma mark - BarButton
 - (void)share:(id)sender {
-    NSString * message = self.selectedLocation.msgDate;
-    NSString * message1 = self.selectedLocation.postby;
-    NSString * message2 = self.selectedLocation.subject;
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, message1, message2, image];
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    [self presentViewController:avc animated:YES completion:nil];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        NSString * message = self.msgDate;
+        NSString * message1 = self.postby;
+        NSString * message2 = self.subject;
+        UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+        NSArray * shareItems = @[message, message1, message2, image];
+        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+        [self presentViewController:avc animated:YES completion:nil];
+    } else {
+        NSString * message = self.selectedLocation.msgDate;
+        NSString * message1 = self.selectedLocation.postby;
+        NSString * message2 = self.selectedLocation.subject;
+        UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+        NSArray * shareItems = @[message, message1, message2, image];
+        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+        [self presentViewController:avc animated:YES completion:nil];
+    }
 }
 
 #pragma mark - ActionSheet
@@ -113,9 +123,9 @@
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     
-    [myCell.titleLabel setFont:CELL_BOLDFONT(CELL_FONTSIZE - 1)];
-    [myCell.subtitleLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
-    [myCell.msgDateLabel setFont:CELL_FONT(CELL_FONTSIZE - 3)];
+    [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
+    [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
+    [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 2)];
 /*
 *******************************************************************************************
 Parse.com
@@ -133,8 +143,18 @@ Parse.com
         myCell.subtitleLabel.text = self.selectedLocation.subject;
         myCell.msgDateLabel.text = self.selectedLocation.msgDate;
     }
-    
-    myCell.blogImageView.image = [[UIImage imageNamed:BLOGCELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    PFUser *cUser = [PFUser currentUser];
+    PFFile *pictureFile = [cUser objectForKey:@"imageFile"];
+    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error){
+            [myCell.blogImageView setImage:[UIImage imageWithData:data]];
+        }
+        else {
+            NSLog(@"no data!");
+            [myCell.blogImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+        }
+    }];
+    //myCell.blogImageView.image = [[UIImage imageNamed:BLOGCELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
     myCell.blogImageView.clipsToBounds = YES;
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;

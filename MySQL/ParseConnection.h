@@ -18,7 +18,7 @@
 - (void)parseCustomerloaded:(NSMutableArray *)custItem;
 - (void)parseLeadloaded:(NSMutableArray *)leadItem;
 - (void)parseVendorloaded:(NSMutableArray *)vendItem;
-- (void)parseEmployloaded:(NSMutableArray *)employItem;
+- (void)parseEmployeeloaded:(NSMutableArray *)employItem;
 - (void)parseAdvertiserloaded:(NSMutableArray *)adItem;
 - (void)parseProductloaded:(NSMutableArray *)prodItem;
 - (void)parseJobloaded:(NSMutableArray *)jobItem;
@@ -39,6 +39,10 @@
 - (void)parseHeadJobloaded:(NSMutableArray *)jobheadItem;
 - (void)parseHeadAdloaded:(NSMutableArray *)adheadItem;
 - (void)parseHeadProductloaded:(NSMutableArray *)prodheadItem;
+- (void)parseHeadEmployeeloaded:(NSMutableArray *)employheadItem;
+- (void)parseHeadVendorloaded:(NSMutableArray *)vendheadItem;
+- (void)parseHeadLeadsloaded:(NSMutableArray *)leadheadItem;
+- (void)parseHeadCustomerloaded:(NSMutableArray *)custheadItem;
 
 @end
 
@@ -71,6 +75,10 @@
 - (void)parseHeadJob;
 - (void)parseHeadAd;
 - (void)parseHeadProduct;
+- (void)parseHeadEmployee;
+- (void)parseHeadVendor;
+- (void)parseHeadLeads;
+- (void)parseHeadCustomer;
 
 //@property (strong, nonatomic) NSString *frm22;
 //@property (strong, nonatomic) NSString *frm23;
