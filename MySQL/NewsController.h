@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-#import <ParseUI/ParseUI.h> //added to fix PFImageView
+#import <ParseUI/ParseUI.h> //added to use PFImageView
 #import "Constants.h"
+#import "NSOperationQueue+SharedQueue.h" //added to remove warning on thread
 
 @interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate>
 

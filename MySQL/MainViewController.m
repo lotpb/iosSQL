@@ -46,7 +46,7 @@
                                         }
                                     }]; */
 
-
+ //[PFUser logInWithUsernameInBackground:@"Gabie Monteleone" password:@"june11"
  [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
  block:^(PFUser *user, NSError *error) {
  if (user) {
@@ -278,7 +278,7 @@ didFailToReceiveAdWithError:(NSError *)error{
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    UIImage *image = [UIImage imageNamed:HEADERIMAGE];
+    UIImage *image = [UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     [view addSubview:imageHolder];
@@ -308,7 +308,7 @@ didFailToReceiveAdWithError:(NSError *)error{
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    separatorLineView1.backgroundColor = LINECOLOR2;
+    separatorLineView1.backgroundColor = LINECOLOR3;
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
@@ -332,6 +332,11 @@ didFailToReceiveAdWithError:(NSError *)error{
      button.titleLabel.font = [UIFont systemFontOfSize:12.0];
     button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
     [view addSubview:button];
+    /*
+    if (!isFilltered)
+        [view setBackgroundColor:[UIColor clearColor]];
+    else
+        [view setBackgroundColor:[UIColor blackColor]]; */
     
     return view;
 }
@@ -423,6 +428,16 @@ didFailToReceiveAdWithError:(NSError *)error{
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
 }
+/*
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+} */
+/*
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+} */
 
 @end
 

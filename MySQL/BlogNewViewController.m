@@ -225,7 +225,8 @@ Parse.com
             if (succeeded) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
-                        [self.listTableView reloadData];
+                GOBACK;
+                        //[self.listTableView reloadData];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
@@ -257,7 +258,7 @@ Parse.com
     //  NSLog(@"%lu", (unsigned long)success.length);
     }
     
-    [[self navigationController]popToRootViewControllerAnimated:YES];
+    //[[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 @end

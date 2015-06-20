@@ -10,9 +10,9 @@
 
 @interface BlogViewController ()
 {
-    BlogModel *_BlogModel; BlogLocation *_selectedLocation;
+    BlogModel *_BlogModel; BlogLocation *_selectedLocation; //ParseConnection *parseConnection;
+    NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-    NSMutableArray *_feedItems;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -39,7 +39,8 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseBlog];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseBlog]; [parseConnection parseHeadBlog];
     } else {
         //_feedItems = [[NSMutableArray alloc] init];
         _BlogModel = [[BlogModel alloc] init];
@@ -93,7 +94,8 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self; [parseConnection parseBlog];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseBlog]; [parseConnection parseHeadBlog];
     } else {
         [_BlogModel downloadItems];
     }
@@ -127,6 +129,11 @@ Parse.com
 #pragma mark - ParseDelegate
 - (void)parseBlogloaded:(NSMutableArray *)blogItem {
     _feedItems = blogItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseHeadBlogloaded:(NSMutableArray *)blogheadItem {
+    headCount = blogheadItem;
     [self.listTableView reloadData];
 }
 
@@ -237,6 +244,25 @@ Parse.com
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
+    [query setLimit:1000]; //parse.com standard is 100
+     query.cachePolicy = kPFCACHEPOLICY;
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            PFFile *file = [object objectForKey:@"imageFile"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
+                } else {
+                    [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+                }
+            }];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
    
     if (myCell == nil)
@@ -273,21 +299,7 @@ Parse.com
     [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
     [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
     [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 2)];
-    
-    PFUser *cUser = [PFUser currentUser];
-    // [cUser whereKey:@"objectId" notEqualTo:@"XXXXX"];
-    PFFile *pictureFile = [cUser objectForKey:@"imageFile"];
-    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        if (!error){
-            [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
-        }
-        else {
-            NSLog(@"no data!");
-            [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-        }
-    }]; 
-    
-    //myCell.blog2ImageView.image = [UIImage imageNamed:BLOGCELLIMAGE];
+
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -312,7 +324,7 @@ Parse.com
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"MSG \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
+    NSString *newString1 = [NSString stringWithFormat:@"LIKES \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
@@ -343,7 +355,7 @@ Parse.com
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE2)];
-    separatorLineView1.backgroundColor = LINECOLOR1;
+    separatorLineView1.backgroundColor = BLOGLINECOLOR1;
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
@@ -483,6 +495,11 @@ Parse.com
             detailVC.selectedLocation = _selectedLocation;
         
     }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
 }
 
 @end

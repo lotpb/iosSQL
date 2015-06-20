@@ -74,14 +74,49 @@
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
-                             //Do some thing here
-                             [view dismissViewControllerAnimated:YES completion:nil];
+                             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                 
+                                 PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+                                 [query whereKey:@"objectId" equalTo:self.objectId];
+                                 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                     if (!error) {
+                                         for (PFObject *object in objects) {
+                                             [object deleteInBackground];
+                                             
+                                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Complete" message:@"Successfully deleted the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                             [alert show];
+                                             GOBACK;
+                                             //[self.listTableView reloadData];
+                                         }
+                                     } else {
+                                         NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                     }
+                                 }];
+                             } else { /*
+                                       //BlogLocation *item;
+                                       //item = [_feedItems objectAtIndex:indexPath.row];
+                                       NSString *deletestring = _selectedLocation.msgNo;
+                                       NSString *_msgNo = deletestring;
+                                       NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
+                                       NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                       NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
+                                       NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+                                       [request setHTTPMethod:@"POST"]; [request setHTTPBody:data];
+                                       NSURLResponse *response; NSError *err;
+                                       NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+                                       NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
+                                       NSLog(@"%@", responseString);
+                                       NSString *success = @"success";
+                                       [success dataUsingEncoding:NSUTF8StringEncoding]; */
+                             }
                              
+                             //[_feedItems removeObjectAtIndex:indexPath.row];
+                             //[tableView deleteRowsAtIndexPaths:@[indexPath]
+                             [view dismissViewControllerAnimated:YES completion:nil];
                          }];
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancel"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action)
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  
@@ -89,6 +124,7 @@
     [view addAction:ok];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
+
 }
 
 #pragma mark - TableView
@@ -116,6 +152,29 @@
   //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    PFQuery *query = [PFUser query];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        [query whereKey:@"username" equalTo:self.postby];
+    } else {
+        [query whereKey:@"username" equalTo:self.selectedLocation.postby];
+    }
+    [query setLimit:1000]; //parse.com standard is 100
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            PFFile *file = [object objectForKey:@"imageFile"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    [myCell.blogImageView setImage:[UIImage imageWithData:data]];
+                } else {
+                    [myCell.blogImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+                }
+            }];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
    
     if (myCell == nil) {
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -143,18 +202,7 @@ Parse.com
         myCell.subtitleLabel.text = self.selectedLocation.subject;
         myCell.msgDateLabel.text = self.selectedLocation.msgDate;
     }
-    PFUser *cUser = [PFUser currentUser];
-    PFFile *pictureFile = [cUser objectForKey:@"imageFile"];
-    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        if (!error){
-            [myCell.blogImageView setImage:[UIImage imageWithData:data]];
-        }
-        else {
-            NSLog(@"no data!");
-            [myCell.blogImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-        }
-    }];
-    //myCell.blogImageView.image = [[UIImage imageNamed:BLOGCELLIMAGE]  stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+
     myCell.blogImageView.clipsToBounds = YES;
     myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
     myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;

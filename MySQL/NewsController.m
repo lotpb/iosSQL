@@ -134,20 +134,32 @@
         
         //fix-self.view.frame.size.height - original height 330 not 345
         UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
+            
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
 //-------------------------------------------------------------------------------------------------
-        /*
+/*
         UIImageView *userImage = [[UIImageView alloc] initWithImage:
         [UIImage imageWithData:image.getData]];
         userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
         [wallImageView addSubview:userImage]; */
-
-        PFImageView *userImage = [[PFImageView alloc] initWithImage:
-        [UIImage imageWithData:image.getData]];
-        [userImage loadInBackground]; //fix - dont work
-        userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
-        [wallImageView addSubview:userImage];
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
+                //added to remove warning on thread...load faster use above code
+                [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
+                    PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+                    [userImage loadInBackground];
+                    userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
+                    [wallImageView addSubview:userImage];
+                }];
+            } else {
+                PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+                [userImage loadInBackground];
+                userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
+                [wallImageView addSubview:userImage];
+                
+            }
+      
 //--------------------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
@@ -178,11 +190,11 @@
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
-        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(5,310, 20, 20)];
-        [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];
+        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
+        [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
         [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:faceBtn];
-        
+       /*
         UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(35,310, 20, 20)];
         [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
         [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
@@ -196,7 +208,7 @@
         UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(95,310, 20, 20)];
         [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
         [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-        [wallImageView addSubview:yourBtn];
+        [wallImageView addSubview:yourBtn]; */
        
         UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
@@ -246,16 +258,30 @@
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
-#pragma mark - Airdrop
+#pragma mark - ActivityViewController
 - (void)share:(id)sender {
-
+    //CGSize mySize;
+    //mySize.width = 375;
+    //mySize.height = 365;
+    //UIGraphicsBeginImageContextWithOptions(mySize, self.view.opaque, 0.0);
+    //UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, view.opaque, 0.0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, 365), self.view.opaque, 0.0);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *newPNG=UIImagePNGRepresentation(img); // or you can use JPG or PDF
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:[NSArray arrayWithObjects:@"I would like to share this.",newPNG, nil] applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    [self presentViewController:activityVC animated:YES completion:nil];//UIActivityTypeMessage ,
+/*
     NSString * message = @"Breaking News";
     NSString * message1 = @"Newsios";
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"]; //self.userImage.image
     NSArray * shareItems = @[message, message1, image];
     
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    [self presentViewController:avc animated:YES completion:nil];
+    [self presentViewController:avc animated:YES completion:nil]; */
 }
 
 @end

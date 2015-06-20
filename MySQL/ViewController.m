@@ -519,4 +519,9 @@ Parse.com
     
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
 @end

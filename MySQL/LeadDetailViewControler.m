@@ -179,8 +179,8 @@ else
 #pragma mark social Buttons
 - (void)share:(id)sender {
     
-    NSString * message = self.date;
-    NSString * message1 = self.name;
+    NSString * message = self.name;
+    NSString * message1 = self.date;
     NSString * message2 = self.comments;
     UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
     NSArray * shareItems = @[message, message1, message2, image];
@@ -315,11 +315,11 @@ else
    [myCell.leadnews setTextColor:DETAILCOLOR];
     
     //Social buttons - code below
-    UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(12,97, 20, 20)];
-    [faceBtn setImage:[UIImage imageNamed:@"Facebook.png"] forState:UIControlStateNormal];
+    UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height-80, 20, 20)];//height 97
+    [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:faceBtn];
-        
+ /*
     UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(42,97, 20, 20)];
     [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
     [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
@@ -333,7 +333,7 @@ else
     UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(102,97, 20, 20)];
     [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
     [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    [myCell.contentView addSubview:yourBtn];
+    [myCell.contentView addSubview:yourBtn]; */
         
     //add dark line border TableView Header - code below
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, .7)];

@@ -20,18 +20,14 @@
 #pragma mark - Blog Form
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-    [PFQuery clearAllCachedResults];
-  /*[query selectKeys:@[@"objectId"]];
-    [query selectKeys:@[@"MsgNo"]];  */
     [query orderByDescending:@"createdAt"];
-    [query setLimit: 1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
+    [query setLimit:1000]; //parse.com standard is 100
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
-                // NSLog(@"Object id %@",[object objectId]);
                 if (self.delegate) {
                     [self.delegate parseBlogloaded:_feedItems];
                 }
@@ -43,19 +39,9 @@
 
 #pragma mark - Customer Form
 - (void)parseCustomer {
-  PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-     [innerQuery includeKey:@"LastName"];
-    // [innerQuery selectKeys:@[@"LastName"]];
-    //[innerQuery whereKeyExists:@"LastName"];
-    
-    //[innerQuery setLimit:1];
+  //PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
   PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
     [query clearCachedResult];
-    [query whereKey:@"LeadNo" matchesKey:@"LeadNo" inQuery:innerQuery];
-    //[query whereKey:@"LeadNo" equalTo:innerQuery];
-    //[query whereKey:@"LeadNo" matchesQuery:innerQuery];
-    //[query includeKey:@"LastName"];
-    
     [query orderByDescending:@"createdAt"];
    // [query setMaxCacheAge:60 * 4];  //4 mins cache
     //[query setLimit:1]; //parse.com standard is 100
@@ -481,59 +467,19 @@
     }];
 }
 
-/*
-- (void)parseLookupSalesman { //lookup Salesman
-    PFQuery *query = [PFQuery queryWithClassName:@"Salesman"];
-    //[PFQuery clearAllCachedResults];
-    [query selectKeys:@[@"SalesNo"]];
-    [query selectKeys:@[@"Salesman"]];
-    [query orderByDescending:@"Salesman"];
-     query.cachePolicy = kPFCACHEPOLICY;
+- (void)parseHeadBlog {
+    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+    [query selectKeys:@[@"Rating"]];
+    [query whereKey:@"Rating" equalTo:@"5"];
+    [query setLimit: 1000];
+    query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        salesArray = [[NSMutableArray alloc]initWithArray:objects];
+        headCount = [[NSMutableArray alloc]initWithArray:objects];
         if (self.delegate) {
-            [self.delegate parseLookupSalesmanloaded:salesArray];
+            [self.delegate parseHeadBlogloaded:headCount];
         }
     }];
-} */
-
-/*
-- (void)parseJob {
-    PFQuery *query21 = [PFQuery queryWithClassName:@"Job"];
-    query21.cachePolicy = kPFCACHEPOLICY;
-    [query21 whereKey:@"JobNo" equalTo:self.frm22];
-    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            NSLog(@"The getFirstObject request failed.");
-        } else
-            self.jobName.text = [object objectForKey:@"Description"];
-    }];
 }
-
-- (void)parseProduct {
-    PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-    query3.cachePolicy = kPFCACHEPOLICY;
-    [query3 whereKey:@"ProductNo" containsString:self.frm23];
-    [query3 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            NSLog(@"The getFirstObject request failed.");
-        } else
-            self.adName.text = [object objectForKey:@"Products"];
-    }];
-   
-}
-
-- (void)parseAd {
-    PFQuery *query11 = [PFQuery queryWithClassName:@"Advertising"];
-    query11.cachePolicy = kPFCACHEPOLICY;
-    [query11 whereKey:@"AdNo" equalTo:self.frm23];
-    [query11 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            NSLog(@"The getFirstObject request failed.");
-        } else
-            self.adName.text = [object objectForKey:@"Advertiser"];
-    }];
-} */
 
 
 @end

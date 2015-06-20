@@ -69,8 +69,8 @@
 #define NAVTRANSLUCENT     YES
 #define NAVTINTCOLOR       [UIColor grayColor]
 //------parse-------------------------------
-#define kPFCACHEPOLICY    kPFCachePolicyNetworkOnly
-//kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly//kPFCachePolicyNetworkOnly
+#define kPFCACHEPOLICY    kPFCachePolicyNetworkElseCache
+//kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly// kPFCachePolicyNetworkOnly
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------tableviewcell-------------------------------
@@ -103,7 +103,7 @@
 #define LINESIZE2       85, 45, 60, 1.5
 #define LINESIZE3       158, 45, 60, 1.5
 #define LINECOLOR1     [UIColor greenColor]
-#define LINECOLOR2     [UIColor redColor]
+#define LINECOLOR2     [UIColor greenColor]
 #define LINECOLOR3     [UIColor redColor]
 //------tabBar Controller-------------------------------
 #define TABTINTCOLOR     [UIColor whiteColor]
@@ -136,8 +136,8 @@
 #define TEXTBDWIDTH     2.0f //layer.borderWidth
 #define TEXTBDRADIUS    7.0f //layer.cornerRadius
 //------deletetable-------------------------------
-#define DELMESSAGE1           @"Delete the selected record?"
-#define DELMESSAGE2           @"OK, delete it"
+#define DELMESSAGE1           @"Delete"
+#define DELMESSAGE2           @"OK, Delete the selected record?"
 //-----------------------END-------------------------------
 
 // MAINVIEW
@@ -154,7 +154,7 @@
 #define SIDEBARTINTCOLOR     [UIColor whiteColor]
 //------tableheader-------------------------------
 #define MAINHEADHEIGHT     175.0
-#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
+//#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
 #define MAINLABELSIZE1     12, 122, tableView.frame.size.width, 45
 #define MAINLABELSIZE2     85, 122, tableView.frame.size.width, 45
 #define MAINLABELSIZE3     158, 122, tableView.frame.size.width, 45
@@ -292,7 +292,7 @@
 #define LEADNEWSTITLE      @"Customer News Company to expand to a new web advertising directive starting this week."
 #define CUSTOMERNEWSTITLE  @"Customer News Check out or new line of fabulous windows and siding."
 #define VENDORNEWSTITLE    @"Business News Peter Balsamo Appointed to United's Board of Directors."
-#define EMPLOYEENEWSTITLE  @"Employee News Health benifits will be cancelled immediately and will not be ineffect starting today."
+#define EMPLOYEENEWSTITLE  @"Employee News Health benifits cancelled immediately, ineffect starting today."
 //------segue-------------------------------
 #define VIEWSEGUE          @"editFormSegue"
 #define NEWCUSTSEGUE       @"newcustSegue"

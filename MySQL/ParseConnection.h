@@ -43,6 +43,7 @@
 - (void)parseHeadVendorloaded:(NSMutableArray *)vendheadItem;
 - (void)parseHeadLeadsloaded:(NSMutableArray *)leadheadItem;
 - (void)parseHeadCustomerloaded:(NSMutableArray *)custheadItem;
+- (void)parseHeadBlogloaded:(NSMutableArray *)blogheadItem;
 
 @end
 
@@ -79,6 +80,7 @@
 - (void)parseHeadVendor;
 - (void)parseHeadLeads;
 - (void)parseHeadCustomer;
+- (void)parseHeadBlog;
 
 //@property (strong, nonatomic) NSString *frm22;
 //@property (strong, nonatomic) NSString *frm23;
