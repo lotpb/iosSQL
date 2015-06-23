@@ -587,7 +587,7 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
 }
 
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

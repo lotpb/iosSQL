@@ -15,6 +15,6 @@ UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imgToUpload;
 @property (weak, nonatomic) IBOutlet UITextField *commentTitle;
 @property (weak, nonatomic) IBOutlet UITextField *commentDetail;
-//@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *username;
 -(IBAction)selectPicturePressed:(id)sender;
 @end

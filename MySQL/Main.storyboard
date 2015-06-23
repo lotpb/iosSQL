@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E36b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14E36b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -2380,8 +2381,8 @@
                                 </connections>
                             </segmentedControl>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9Aw-fV-fat">
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="-112" y="-4" width="625" height="608"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
                             </mapView>
                         </subviews>
@@ -3479,9 +3480,6 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="492" width="384" height="44"/>
-                                </variation>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4680,10 +4678,10 @@
             </objects>
             <point key="canvasLocation" x="-73.5" y="217.5"/>
         </scene>
-        <!--Blog-->
+        <!--Blog Controller-->
         <scene sceneID="gMy-LR-8kq">
             <objects>
-                <viewController title="Blog" id="rLo-z8-4uc" customClass="BlogViewController" sceneMemberID="viewController">
+                <viewController title="Blog Controller" id="rLo-z8-4uc" customClass="BlogViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2F0-xe-PMw"/>
                         <viewControllerLayoutGuide type="bottom" id="PPq-Hv-DGR"/>
@@ -4710,7 +4708,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="185" id="LFo-Yd-jhi"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -4742,7 +4740,7 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="APC-vT-tco">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" text="Subtitle" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="APC-vT-tco">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -4755,7 +4753,7 @@
                                                             <variation key="heightClass=regular-widthClass=compact" constant="115"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -4771,29 +4769,29 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="APC-vT-tco" firstAttribute="top" secondItem="F7m-Ji-EMU" secondAttribute="bottom" constant="10" id="1Ax-hY-Bnb">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="4"/>
-                                                </constraint>
-                                                <constraint firstItem="APC-vT-tco" firstAttribute="leading" secondItem="ORa-y4-CDg" secondAttribute="trailing" constant="13" id="2EX-mD-Iz8">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="13"/>
-                                                </constraint>
                                                 <constraint firstItem="F7m-Ji-EMU" firstAttribute="top" secondItem="ORa-y4-CDg" secondAttribute="top" id="4Ut-nm-nDW"/>
-                                                <constraint firstItem="F7m-Ji-EMU" firstAttribute="leading" secondItem="APC-vT-tco" secondAttribute="leading" id="PNj-0H-Awf"/>
+                                                <constraint firstItem="APC-vT-tco" firstAttribute="trailing" secondItem="Be9-Re-hwC" secondAttribute="trailingMargin" id="5VN-N4-59Z">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                                                </constraint>
+                                                <constraint firstItem="APC-vT-tco" firstAttribute="leading" secondItem="F7m-Ji-EMU" secondAttribute="leading" id="5pi-Ln-xeL"/>
                                                 <constraint firstItem="9we-JI-fWP" firstAttribute="top" secondItem="Be9-Re-hwC" secondAttribute="topMargin" constant="9" id="PQS-Zu-Eea">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="2"/>
                                                 </constraint>
-                                                <constraint firstItem="F7m-Ji-EMU" firstAttribute="top" secondItem="Be9-Re-hwC" secondAttribute="topMargin" constant="2" id="PwV-UR-C05"/>
+                                                <constraint firstItem="F7m-Ji-EMU" firstAttribute="top" secondItem="Be9-Re-hwC" secondAttribute="topMargin" constant="2" id="PwV-UR-C05">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                                                </constraint>
+                                                <constraint firstItem="APC-vT-tco" firstAttribute="top" secondItem="9we-JI-fWP" secondAttribute="bottom" constant="8" symbolic="YES" id="QWw-mb-lsL">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                                                </constraint>
+                                                <constraint firstItem="APC-vT-tco" firstAttribute="leading" secondItem="ORa-y4-CDg" secondAttribute="trailing" constant="13" id="ZBp-pN-b3J"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="9we-JI-fWP" secondAttribute="trailing" constant="-5" id="jkZ-xY-Gtk">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="-6"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
                                                 <constraint firstItem="ORa-y4-CDg" firstAttribute="leading" secondItem="Be9-Re-hwC" secondAttribute="leadingMargin" constant="-6" id="xOR-7A-dJW">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="1"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
-                                                <constraint firstAttribute="bottomMargin" secondItem="ORa-y4-CDg" secondAttribute="bottom" constant="4" id="yce-9y-31b">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="14"/>
-                                                </constraint>
-                                                <constraint firstAttribute="trailingMargin" secondItem="APC-vT-tco" secondAttribute="trailing" constant="15" id="zFh-Wl-BMb">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="-5"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ORa-y4-CDg" secondAttribute="bottom" priority="999" constant="4" id="yce-9y-31b">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="21"/>
                                                 </constraint>
                                             </constraints>
                                             <variation key="default">
@@ -4806,11 +4804,11 @@
                                                 <mask key="constraints">
                                                     <exclude reference="PQS-Zu-Eea"/>
                                                     <exclude reference="jkZ-xY-Gtk"/>
-                                                    <exclude reference="1Ax-hY-Bnb"/>
-                                                    <exclude reference="2EX-mD-Iz8"/>
-                                                    <exclude reference="zFh-Wl-BMb"/>
+                                                    <exclude reference="5VN-N4-59Z"/>
+                                                    <exclude reference="5pi-Ln-xeL"/>
+                                                    <exclude reference="QWw-mb-lsL"/>
+                                                    <exclude reference="ZBp-pN-b3J"/>
                                                     <exclude reference="4Ut-nm-nDW"/>
-                                                    <exclude reference="PNj-0H-Awf"/>
                                                     <exclude reference="PwV-UR-C05"/>
                                                     <exclude reference="xOR-7A-dJW"/>
                                                     <exclude reference="yce-9y-31b"/>
@@ -4826,11 +4824,11 @@
                                                 <mask key="constraints">
                                                     <include reference="PQS-Zu-Eea"/>
                                                     <include reference="jkZ-xY-Gtk"/>
-                                                    <include reference="1Ax-hY-Bnb"/>
-                                                    <include reference="2EX-mD-Iz8"/>
-                                                    <include reference="zFh-Wl-BMb"/>
+                                                    <include reference="5VN-N4-59Z"/>
+                                                    <include reference="5pi-Ln-xeL"/>
+                                                    <include reference="QWw-mb-lsL"/>
+                                                    <include reference="ZBp-pN-b3J"/>
                                                     <include reference="4Ut-nm-nDW"/>
-                                                    <include reference="PNj-0H-Awf"/>
                                                     <include reference="PwV-UR-C05"/>
                                                     <include reference="xOR-7A-dJW"/>
                                                     <include reference="yce-9y-31b"/>
@@ -4845,8 +4843,8 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="540"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="rLo-z8-4uc" id="H4A-un-sbl"/>
@@ -4860,7 +4858,7 @@
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="wiX-5G-avX" firstAttribute="bottom" secondItem="PPq-Hv-DGR" secondAttribute="top" id="ofG-MS-PZH">
-                                <variation key="heightClass=regular-widthClass=compact" constant="-1"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="wiX-5G-avX" firstAttribute="top" secondItem="cyG-mR-qyF" secondAttribute="top" id="ygt-1n-epB"/>
                         </constraints>
@@ -4938,8 +4936,8 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="pjZ-XI-nKK" id="Ve0-ke-bOP"/>
@@ -5599,7 +5597,7 @@
                                             <rect key="frame" x="25" y="0.0" width="540" height="54"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -5653,7 +5651,7 @@
                                             <rect key="frame" x="25" y="6" width="34" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -5666,7 +5664,7 @@
                                             <rect key="frame" x="25" y="27" width="44" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -6171,8 +6169,8 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
                             </tableView>
                         </subviews>
@@ -6242,16 +6240,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MEa-hs-crl"/>
         <segue reference="jwQ-k2-eY1"/>
+        <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="wDP-4Y-cdF"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="e2A-fc-Mn4"/>
-        <segue reference="8CE-Ce-Bwc"/>
-        <segue reference="YL2-bg-fIc"/>
+        <segue reference="JGM-Q4-zwX"/>
+        <segue reference="4KL-RL-dt5"/>
         <segue reference="xOD-Ja-G1n"/>
         <segue reference="dip-5A-Lje"/>
         <segue reference="Vww-ua-WBq"/>
-        <segue reference="wDP-4Y-cdF"/>
+        <segue reference="YL2-bg-fIc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

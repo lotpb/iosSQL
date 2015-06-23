@@ -21,7 +21,7 @@
 @synthesize imgToUpload = _imgToUpload;
 @synthesize commentTitle = _commentTitle;
 @synthesize commentDetail = _commentDetail;
-//@synthesize username = _username;
+@synthesize username = _username;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +48,7 @@
     self.imgToUpload = nil;
     self.commentTitle = nil;
     self.commentDetail = nil;
-   // self.username = nil;
+    self.username = nil;
 }
 /*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -99,11 +99,14 @@
             [imageObject setObject:file forKey:@"imageFile"];
             [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
             [imageObject setObject:self.commentDetail.text forKey:@"newsDetail"];
-            [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"usernameKey"];
             
-            //[imageObject setObject:[PFUser currentUser].username forKey:@"username"];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                [imageObject setObject:[PFUser currentUser].username forKey:@"username"];
+            } else {
+                [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"usernameKey"];
+            }
             
-           // PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:52 longitude:-4];
+            //PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:52 longitude:-4];
             //[imageObject setObject:point forKey:KEY_GEOLOC];
             
             [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

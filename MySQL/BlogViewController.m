@@ -13,6 +13,7 @@
     BlogModel *_BlogModel; BlogLocation *_selectedLocation; //ParseConnection *parseConnection;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
+    
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -26,12 +27,15 @@
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BLOGNAVLOGO]];
     self.title = NSLocalizedString(TNAME9, nil);
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.listTableView.pagingEnabled = YES;
+    
+    [self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
 /*
 *******************************************************************************************
 Parse.com
@@ -83,6 +87,17 @@ Parse.com
     self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
    [self reloadDatas:nil];
+}
+/*
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.listTableView reloadData];
+} */
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
 }
 
 #pragma mark - RefreshControl
@@ -244,25 +259,6 @@ Parse.com
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
-    [query setLimit:1000]; //parse.com standard is 100
-     query.cachePolicy = kPFCACHEPOLICY;
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            PFFile *file = [object objectForKey:@"imageFile"];
-            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                if (!error) {
-                    [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
-                } else {
-                    [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-                }
-            }];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
    
     if (myCell == nil)
@@ -278,6 +274,25 @@ Parse.com
 Parse.com
 *******************************************************************************************
 */
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
+    [query setLimit:1000]; //parse.com standard is 100
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            PFFile *file = [object objectForKey:@"imageFile"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
+                } else {
+                    [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+                }
+            }];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
@@ -298,11 +313,11 @@ Parse.com
     
     [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
     [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
-    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 2)];
+    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 4)];
 
     myCell.blog2ImageView.clipsToBounds = YES;
     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
     
     label2.text = @"Like";
     label2.font = LIKEFONT(LIKEFONTSIZE);
@@ -495,11 +510,6 @@ Parse.com
             detailVC.selectedLocation = _selectedLocation;
         
     }
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:
-(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
 }
 
 @end

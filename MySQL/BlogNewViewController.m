@@ -221,6 +221,12 @@ Parse.com
         [saveblog setObject:self.postby forKey:@"PostBy"];
         [saveblog setObject:self.rating forKey:@"Rating"];
         [saveblog setObject:self.subject.text forKey:@"Subject"];
+        
+        // Set ACL permissions for added security
+        PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [postACL setPublicReadAccess:YES];
+        [saveblog setACL:postACL];
+        
         [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

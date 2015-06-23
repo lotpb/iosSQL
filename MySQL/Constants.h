@@ -313,7 +313,7 @@
 #define BLOGNAVBARCOLOR        [UIColor redColor]
 #define BLOGNAVBARTINTCOLOR    [UIColor whiteColor]
 #define BLOGNAVBARTRANSLUCENT   NO
-#define BLOG_FONTSIZE          16
+#define BLOG_FONTSIZE          17
 #define SEARCHBARSTYLEBLOG     UIBarStyleDefault
 //--------------segue-------------------------------
 #define BLOGVIEWSEGUE      @"blogviewSegue"

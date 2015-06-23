@@ -152,7 +152,21 @@
   //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+   
+    if (myCell == nil) {
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
     
+    [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
+    [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
+    [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 3)];
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     PFQuery *query = [PFUser query];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         [query whereKey:@"username" equalTo:self.postby];
@@ -175,21 +189,7 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-   
-    if (myCell == nil) {
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        myCell.accessoryType = UITableViewCellAccessoryNone;
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
     
-    [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
-    [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
-    [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 2)];
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         myCell.titleLabel.text = self.postby;
@@ -202,15 +202,7 @@ Parse.com
         myCell.subtitleLabel.text = self.selectedLocation.subject;
         myCell.msgDateLabel.text = self.selectedLocation.msgDate;
     }
-
-    myCell.blogImageView.clipsToBounds = YES;
-    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFit;
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         if ([self.rating isEqual:@"5"]) {
@@ -229,6 +221,16 @@ Parse.com
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
     }
+
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+    myCell.blogImageView.clipsToBounds = YES;
+    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+
     return myCell;
 }
 

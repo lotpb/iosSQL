@@ -13,7 +13,7 @@
 }
 
 @property (nonatomic, retain) NSArray *imageFilesArray;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
+//@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
 -(void)getWallImages;
 -(void)loadWallViews;
@@ -26,7 +26,7 @@
 
 @synthesize imageFilesArray = _imageFilesArray;
 @synthesize wallScroll = _wallScroll;
-@synthesize activityIndicator = _loadingSpinner;
+//@synthesize activityIndicator = _loadingSpinner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -105,10 +105,6 @@
             self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
             [self loadWallViews];
         } else {
-            //Remove the activity indicator
-            [self.activityIndicator stopAnimating];
-            [self.activityIndicator removeFromSuperview];
-            
             //Show the error
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
@@ -137,28 +133,31 @@
             
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+
 //-------------------------------------------------------------------------------------------------
-/*
-        UIImageView *userImage = [[UIImageView alloc] initWithImage:
-        [UIImage imageWithData:image.getData]];
-        userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
-        [wallImageView addSubview:userImage]; */
             
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
-                //added to remove warning on thread...load faster use above code
-                [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
-                    PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-                    [userImage loadInBackground];
-                    userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
-                    [wallImageView addSubview:userImage];
-                }];
-            } else {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
+            //added to remove warning on thread...load faster use above code
+            [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
                 PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
                 [userImage loadInBackground];
-                userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
+                 //userImage.contentMode = UIViewContentModeScaleAspectFill;
+                 userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
                 [wallImageView addSubview:userImage];
-                
-            }
+            }];
+        } else {
+            PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+            [userImage loadInBackground];
+             //userImage.contentMode = UIViewContentModeScaleAspectFit;
+             userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
+            [wallImageView addSubview:userImage];
+            
+        }
+            /*
+             UIImageView *userImage = [[UIImageView alloc] initWithImage:
+             [UIImage imageWithData:image.getData]];
+             userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
+             [wallImageView addSubview:userImage]; */
       
 //--------------------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
@@ -225,14 +224,11 @@
         [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         [self.wallScroll addSubview:wallImageView];
         originY = originY + wallImageView.frame.size.width + 1;
+    
     }
     
     //Set the bounds of the scroll
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
-    
-    //Remove the activity indicator
-    [self.activityIndicator stopAnimating];
-    [self.activityIndicator removeFromSuperview];
 }
 
 #pragma mark Error Alert
