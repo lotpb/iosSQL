@@ -38,6 +38,11 @@
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
     [self.commentTitle becomeFirstResponder];
     
+    if (self.progressView.progress == 1) {
+        self.progressView.hidden = YES;
+    } else {
+        self.progressView.hidden = NO;
+    }
 }
 
 - (void)viewDidUnload
@@ -63,7 +68,13 @@
     //Open a UIImagePickerController to select the picture
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     imgPicker.delegate = self;
+    imgPicker.allowsEditing = YES;
     imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
+    
+    /*
+    NSArray *mediaTypesAllowed = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    [imgPicker setMediaTypes:mediaTypesAllowed]; */
     
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
@@ -83,8 +94,16 @@
     
     [self.view addSubview:loadingSpinner];
     
-    //Upload a new picture
-    NSData *pictureData = UIImagePNGRepresentation(self.imgToUpload.image);
+    
+    
+   /* NSString *mediaType = [UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:@"video"]){
+        NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        //Upload a new picture
+        
+    } else { */
+      NSData *pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
+   // }
     
     PFFile *file = [PFFile fileWithName:@"img" data:pictureData];
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -108,7 +127,7 @@
             
             //PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:52 longitude:-4];
             //[imageObject setObject:point forKey:KEY_GEOLOC];
-            
+
             [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
                 if (succeeded)
@@ -129,23 +148,28 @@
         [loadingSpinner removeFromSuperview];
         
     } progressBlock:^(int percentDone) {
-        
+     [self.progressView setProgress:(float)percentDone/100.0f];
     }];
 }
 
 #pragma mark UIImagePicker delegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)Info
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+  /*
+    NSString * mediaType = [Info objectForKey:UIImagePickerControllerMediaType];
+    if ( [ mediaType isEqualToString:@"public.movie" ]){
+         NSLog(@"Error: %@", @"public.movie");
+       // NSURL *videoURL = [Info objectForKey:UIImagePickerControllerMediaURL];
+    } */
+    
     
     //Place the image in the imageview
-    self.imgToUpload.image = img;
+     self.imgToUpload.image = img;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Error View
-
-
 -(void)showErrorView:(NSString *)errorMsg
 {
     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMsg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

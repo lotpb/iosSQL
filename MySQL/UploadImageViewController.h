@@ -12,6 +12,7 @@
 UIImagePickerControllerDelegate>
 
 
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgToUpload;
 @property (weak, nonatomic) IBOutlet UITextField *commentTitle;
 @property (weak, nonatomic) IBOutlet UITextField *commentDetail;

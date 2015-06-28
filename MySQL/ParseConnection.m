@@ -66,8 +66,6 @@ query.cachePolicy = kPFCACHEPOLICY;
     }];
 } */
 
-
-
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query orderByDescending:@"createdAt"];

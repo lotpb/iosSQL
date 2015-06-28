@@ -8,13 +8,13 @@
 //
 
 #import "MainViewController.h"
-#import <AVFoundation/AVAudioPlayer.h>
-#import <Parse/Parse.h>
 
 @interface MainViewController ()
 {
    UIRefreshControl *refreshControl;
    AVAudioPlayer *_audioPlayer;
+   NSDictionary *results, *results1, *results2;
+   NSString *respond, *respond1, *respond2, *respond3;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -30,31 +30,16 @@
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-
     
-//-----create Parse User----------------------------
-  /*
-    [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
-                                    block:^(PFUser *user, NSError *error) {
-                                        if (user) {
-                                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The login successfull" message:@"Yayyyyyyyyyyy" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                            [alert show];
-                                        } else {
-                                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The login failed" message:@"Get Lost" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                            [alert show];
-                                            // The login failed. Check error to see why.
-                                        }
-                                    }]; */
+    [self YahooFinanceLoad];
 
- //[PFUser logInWithUsernameInBackground:@"Gabie Monteleone" password:@"june11"
+//-----create Parse User----------------------------
+
  [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
  block:^(PFUser *user, NSError *error) {
  if (user) {
  // Hooray! Let them use the app now.
- } else {
-// NSString *errorString = [error userInfo][@"error"];
- // Show the errorString somewhere and let the user try again.
- }
+ } 
  }];
 //----------------------------------------------------
    /*
@@ -119,27 +104,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     revealViewController.frontViewShadowRadius = 5;
     [self.view addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
-
- //------------
-    /*
-    NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate :[NSDate date]];
     
-    NSInteger hh = [components hour];
-    
-    NSInteger mm = [components minute];
-    //time is between 00:01 AM to 9:00 AM
-    if( (9>hh && hh>0) || (hh==0 && mm >0)|| (hh ==9 && mm ==0 ))
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 00:01 AM to 9:00 AM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    //time is between 3:00 PM to 9:00 PM
-    else if( (21>hh && hh>=15) || (hh==21 && mm ==0))
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 3:00 PM to 9:00 PM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    } */
-//--------------
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
@@ -161,56 +126,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-#pragma mark - AdViewDelegates
-
--(void)bannerView:(ADBannerView *)banner
-didFailToReceiveAdWithError:(NSError *)error{
-    NSLog(@"Error loading");
-}
-
--(void)bannerViewDidLoadAd:(ADBannerView *)banner{
-    NSLog(@"Ad loaded");
-}
--(void)bannerViewWillLoadAd:(ADBannerView *)banner{
-    NSLog(@"Ad will load");
-}
--(void)bannerViewActionDidFinish:(ADBannerView *)banner{
-    NSLog(@"Ad did finish");
-    
-} */
-
-//#pragma message ("To Do: Meassage test - highlight but no error")
-
-#pragma mark - AudioPlayer
--(void)playSound1 {
-  
-    // Construct URL to sound file
-    NSString *path = [NSString stringWithFormat:SOUNDFILE, [[NSBundle mainBundle] resourcePath]];
-    NSURL *soundUrl = [NSURL fileURLWithPath:path];
-    
-    // Create audio player object and initialize with URL to sound
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
-      [_audioPlayer play];
-}
-
-#pragma mark - Notification
- - (void)sendLocalNotification {
- UILocalNotification *notification = [[UILocalNotification alloc] init];
- notification.alertBody = MNOTIFTEXT;
- notification.category = MNOTIFCATEGORY;
- notification.alertAction = NSLocalizedString(MAINNOTIFACTION, nil);
- notification.alertTitle = NSLocalizedString(MAINNOTIFTITLE, nil);
- // The notification will arrive in 5 seconds
- notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
- notification.soundName = UILocalNotificationDefaultSoundName;
- notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
- [[UIApplication sharedApplication] scheduleLocalNotification:notification];
- } 
 
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
-    
+    [self YahooFinanceLoad];
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -270,8 +189,9 @@ didFailToReceiveAdWithError:(NSError *)error{
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"FOLLOW \n%lu", (unsigned long) tableData.count];
-    NSString *newString1 = [NSString stringWithFormat:HEADTITLE2];
-    NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
+    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n%@", respond];
+    NSString *newString2 = [NSString stringWithFormat:@"S&P 500 \n%@", respond1];
+    NSString *newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", respond3, respond2];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
@@ -283,14 +203,28 @@ didFailToReceiveAdWithError:(NSError *)error{
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     [view addSubview:imageHolder];
     
+    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+    [label4 setFont:CELL_FONT(HEADFONTSIZE)];
+    
+    if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
+        [label4 setTextColor:LINECOLOR3];
+    } else {
+        [label4 setTextColor:LINECOLOR1];
+    }
+
+    label4.numberOfLines = 0;
+    NSString *string = newString3;
+    [label4 setText:string];
+    [view addSubview:label4];
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
-    [label setFont:CELL_FONT(HEADFONTSIZE)];
+    [label setFont:CELL_FONT(HEADFONTSIZE + 1)];
     [label setTextColor:HEADTEXTCOLOR];
     label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label.numberOfLines = 0;
-    NSString *string = newString;
-    [label setText:string];
+    NSString *string3 = newString;
+    [label setText:string3];
     [view addSubview:label];
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE1)];
@@ -299,7 +233,7 @@ didFailToReceiveAdWithError:(NSError *)error{
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label1 setFont:CELL_FONT(HEADFONTSIZE + 1)];
     [label1 setTextColor:HEADTEXTCOLOR];
     label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
@@ -308,12 +242,16 @@ didFailToReceiveAdWithError:(NSError *)error{
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    separatorLineView1.backgroundColor = LINECOLOR3;
+    if ([respond containsString:@"-"]) {
+        separatorLineView1.backgroundColor = LINECOLOR3;
+    } else {
+        separatorLineView1.backgroundColor = LINECOLOR1;
+    }
     [view addSubview:separatorLineView1];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+    [label2 setFont:CELL_FONT(HEADFONTSIZE + 1)];
     [label2 setTextColor:HEADTEXTCOLOR];
     label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
@@ -322,7 +260,11 @@ didFailToReceiveAdWithError:(NSError *)error{
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
-    separatorLineView2.backgroundColor = LINECOLOR3;
+    if ([respond1 containsString:@"-"]) {
+        separatorLineView2.backgroundColor = LINECOLOR3;
+    } else {
+        separatorLineView2.backgroundColor = LINECOLOR1;
+    }
     [view addSubview:separatorLineView2];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -342,6 +284,7 @@ didFailToReceiveAdWithError:(NSError *)error{
 }
 
 -(void)openStats:(id)sender {
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -349,7 +292,6 @@ didFailToReceiveAdWithError:(NSError *)error{
     }
     else
         [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
-    
 }
 
 #pragma mark - Search
@@ -373,7 +315,7 @@ didFailToReceiveAdWithError:(NSError *)error{
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
+
     if (!searchController.active) {
          self.listTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         return;
@@ -395,6 +337,60 @@ didFailToReceiveAdWithError:(NSError *)error{
         }
     }
     [self.listTableView reloadData];
+}
+
+#pragma mark - Yahoo Finance
+-(void)YahooFinanceLoad {
+    
+    yql = [[YQL alloc] init];
+    
+    NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\")";
+    NSString *queryString1 = @"select * from yahoo.finance.quote where symbol in (\"SPY\")";
+   // NSString *queryString2 = @"select item.condition.temp from weather.forecast where woeid=2446726";
+    NSString *queryString2 = @"select * from weather.forecast where woeid=2446726";
+    //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
+    //NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"YHOO\",\"AAPL\",\"GOOG\",\"SPY\")";
+    //NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"SPY\",\"^IXIC\")";
+    
+    results = [yql query:queryString];
+    //respond = [[[results valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+        respond = [[[results valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
+    
+    results1 = [yql query:queryString1];
+    //respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+        respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
+    
+    results2 = [yql query:queryString2];
+    respond2 = [[results2 valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"temp"];
+    
+    respond3 = [[results2 valueForKeyPath:@"query.results.channel.item.condition"]
+                objectForKey:@"text"];
+
+   // respond4 = [[results2 valueForKeyPath:@"query.results.channel.item.forecast"] objectForKey:@"text"];
+    NSLog(@"%@", results);
+    //NSLog(@"%@", respond4);
+}
+
+#pragma mark - AudioPlayer
+-(void)playSound1 {
+    NSString *path = [NSString stringWithFormat:SOUNDFILE, [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundUrl = [NSURL fileURLWithPath:path];
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+    [_audioPlayer play];
+}
+
+#pragma mark - Notification
+- (void)sendLocalNotification {
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.alertBody = MNOTIFTEXT;
+    notification.category = MNOTIFCATEGORY;
+    notification.alertAction = NSLocalizedString(MAINNOTIFACTION, nil);
+    notification.alertTitle = NSLocalizedString(MAINNOTIFTITLE, nil);
+    // The notification will arrive in 5 seconds
+    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
 
 #pragma mark - Segue
@@ -428,16 +424,48 @@ didFailToReceiveAdWithError:(NSError *)error{
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
 }
+
+//------------
 /*
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-} */
+ NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate :[NSDate date]];
+ 
+ NSInteger hh = [components hour];
+ 
+ NSInteger mm = [components minute];
+ //time is between 00:01 AM to 9:00 AM
+ if( (9>hh && hh>0) || (hh==0 && mm >0)|| (hh ==9 && mm ==0 ))
+ {
+ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 00:01 AM to 9:00 AM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+ [alert show];
+ }
+ //time is between 3:00 PM to 9:00 PM
+ else if( (21>hh && hh>=15) || (hh==21 && mm ==0))
+ {
+ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 3:00 PM to 9:00 PM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+ [alert show];
+ } */
+//--------------
+
 /*
-- (BOOL)shouldAutorotateToInterfaceOrientation:
-(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
-} */
+ #pragma mark - AdViewDelegates
+ 
+ -(void)bannerView:(ADBannerView *)banner
+ didFailToReceiveAdWithError:(NSError *)error{
+ NSLog(@"Error loading");
+ }
+ 
+ -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
+ NSLog(@"Ad loaded");
+ }
+ -(void)bannerViewWillLoadAd:(ADBannerView *)banner{
+ NSLog(@"Ad will load");
+ }
+ -(void)bannerViewActionDidFinish:(ADBannerView *)banner{
+ NSLog(@"Ad did finish");
+ 
+ } */
+
+//#pragma message ("To Do: Meassage test - highlight but no error")
 
 @end
 

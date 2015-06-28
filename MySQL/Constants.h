@@ -155,12 +155,14 @@
 //------tableheader-------------------------------
 #define MAINHEADHEIGHT     175.0
 //#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
-#define MAINLABELSIZE1     12, 122, tableView.frame.size.width, 45
-#define MAINLABELSIZE2     85, 122, tableView.frame.size.width, 45
-#define MAINLABELSIZE3     158, 122, tableView.frame.size.width, 45
-#define MAINLINESIZE1      12, 162, 60, 1.5
-#define MAINLINESIZE2      85, 162, 60, 1.5
-#define MAINLINESIZE3      158, 162, 60, 1.5
+#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 45
+#define MAINLABELSIZE2     85, 125, tableView.frame.size.width, 45
+#define MAINLABELSIZE3     158, 125, tableView.frame.size.width, 45
+#define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
+#define MAINLINESIZE1      12, 166, 60, 1.5
+#define MAINLINESIZE2      85, 166, 60, 1.5
+#define MAINLINESIZE3      158, 166, 60, 1.5
+#define MAINWEATHERSIZE1   12, 50, 60, 1.5
 //------table names-------------------------------
 #define TNAME1             @"Leads"
 #define TNAME2             @"Customers"

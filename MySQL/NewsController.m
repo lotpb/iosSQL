@@ -15,7 +15,7 @@
 @property (nonatomic, retain) NSArray *imageFilesArray;
 //@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
--(void)getWallImages;
+-(void)getNewsImages;
 -(void)loadWallViews;
 -(void)showErrorView:errorString;
 
@@ -72,7 +72,7 @@
             [viewToRemove removeFromSuperview];
     }
     //Reload the wall
-    [self getWallImages];
+    [self getNewsImages];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,14 +87,15 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(UIRefreshControl *)refreshControl {
-    [self getWallImages];
+    [self getNewsImages];
     [refreshControl endRefreshing];
 }
 
-#pragma mark - Receive Wall Objects
+#pragma mark - Get Parse Image
 //Get the list of images
--(void)getWallImages {
+-(void)getNewsImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+    [query setLimit:15]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY; 
     [query orderByDescending:KEY_CREATION_DATE];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -134,7 +135,7 @@
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
 
-//-------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
             
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
             //added to remove warning on thread...load faster use above code
@@ -159,7 +160,7 @@
              userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
              [wallImageView addSubview:userImage]; */
       
-//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.font = DETAILFONT(TITLEFONTSIZE);
@@ -217,9 +218,9 @@
       //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
      //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
             
-           // [self.wallScroll addSubview:wallImageView];
-           // [self.wallScroll addSubview:separatorLineView];
-           // self.automaticallyAdjustsScrollViewInsets = NO;
+       // [self.wallScroll addSubview:wallImageView];
+       // [self.wallScroll addSubview:separatorLineView];
+       // self.automaticallyAdjustsScrollViewInsets = NO;
             
         [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         [self.wallScroll addSubview:wallImageView];
@@ -265,7 +266,7 @@
     [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    NSData *newPNG=UIImagePNGRepresentation(img); // or you can use JPG or PDF
+    NSData *newPNG=UIImageJPEGRepresentation(img, 0.0f); // or you can use JPG or PDF
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:[NSArray arrayWithObjects:@"I would like to share this.",newPNG, nil] applicationActivities:nil];
     activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];

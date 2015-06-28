@@ -907,24 +907,24 @@ Parse.com
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
                 if (!error) {
                     // NSLog(@"rawStr is %@",updateLead);
-                    [updateLead setObject:myLeadNo forKey:@"LeadNo"];
-                    [updateLead setObject:myActive forKey:@"Active"];
+                    [updateLead setObject:myLeadNo ? myLeadNo : [NSNumber numberWithInteger: -1] forKey:@"LeadNo"];
+                    [updateLead setObject:myActive ? myActive : [NSNumber numberWithInteger: -1] forKey:@"Active"];
                     [updateLead setObject:self.date.text forKey:@"Date"];
                     [updateLead setObject:self.first.text forKey:@"First"];
                     [updateLead setObject:self.last.text forKey:@"LastName"];
                     [updateLead setObject:self.address.text forKey:@"Address"];
                     [updateLead setObject:self.city.text forKey:@"City"];
                     [updateLead setObject:self.state.text forKey:@"State"];
-                    [updateLead setObject:myZip forKey:@"Zip"];
+                    [updateLead setObject:myZip ? myZip : [NSNumber numberWithInteger: -1] forKey:@"Zip"];
                     [updateLead setObject:self.phone.text forKey:@"Phone"];
                     [updateLead setObject:self.aptDate.text forKey:@"AptDate"];
                     [updateLead setObject:self.email.text forKey:@"Email"];
-                    [updateLead setObject:myAmount forKey:@"Amount"];
+                    [updateLead setObject:myAmount ? myAmount : [NSNumber numberWithInteger: -1] forKey:@"Amount"];
                     [updateLead setObject:self.spouse.text forKey:@"Spouse"];
                     [updateLead setObject:self.callback.text forKey:@"CallBack"];
-                    [updateLead setObject:mySalesNo forKey:@"SalesNo"];
-                    [updateLead setObject:myJobNo forKey:@"JobNo"];
-                    [updateLead setObject:myAdNo forKey:@"AdNo"];
+                    [updateLead setObject:mySalesNo ? mySalesNo : [NSNumber numberWithInteger: -1] forKey:@"SalesNo"];
+                    [updateLead setObject:myJobNo ? myJobNo : [NSNumber numberWithInteger: -1] forKey:@"JobNo"];
+                    [updateLead setObject:myAdNo ? myAdNo : [NSNumber numberWithInteger: -1] forKey:@"AdNo"];
                     [updateLead setObject:self.comment.text forKey:@"Coments"];
                     [updateLead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
                   //[updateData setObject:self.time.text forKey:@"Time"];
@@ -1000,28 +1000,28 @@ Parse.com
             [query whereKey:@"objectId" equalTo:self.objectId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
-                    NSLog(@"rawStr is %@",updateData);
-                    [updateData setObject:self.date.text forKey:@"Date"];
-                    [updateData setObject:myCustNo forKey:@"CustNo"];//
-                    [updateData setObject:myLeadNo forKey:@"LeadNo"];
-                    [updateData setObject:self.address.text forKey:@"Address"];
-                    [updateData setObject:self.city.text forKey:@"City"];
-                    [updateData setObject:self.state.text forKey:@"State"];
-                    [updateData setObject:myZip forKey:@"Zip"];
-                    [updateData setObject:self.comment.text forKey:@"Comments"];
-                    [updateData setObject:myAmount forKey:@"Amount"];
-                    [updateData setObject:self.phone.text forKey:@"Phone"];
-                    [updateData setObject:myQuan ? myQuan : [NSNull null] forKey:@"Quan"];//
+                    //NSLog(@"rawStr is %@",updateData);
+                    [updateData setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Date"];
+                    [updateData setObject:myCustNo ? myCustNo : [NSNumber numberWithInteger: -1] forKey:@"CustNo"];//
+                    [updateData setObject:myLeadNo ? myLeadNo : [NSNumber numberWithInteger: -1] forKey:@"LeadNo"];
+                    [updateData setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                    [updateData setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                    [updateData setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                    [updateData setObject:myZip ? myZip : [NSNumber numberWithInteger: -1] forKey:@"Zip"];
+                    [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
+                    [updateData setObject:myAmount ? myAmount : [NSNumber numberWithInteger: -1] forKey:@"Amount"];
+                    [updateData setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
+                    [updateData setObject:myQuan ? myQuan : [NSNumber numberWithInteger: -1] forKey:@"Quan"];//
                     [updateData setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
                     [updateData setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
                     [updateData setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Spouse"];
                     [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Rate"];
-                    [updateData setObject:self.photo.text forKey:@"Photo"];
-                    [updateData setObject:mySalesNo forKey:@"SalesNo"];
-                    [updateData setObject:myJobNo forKey:@"JobNo"];
+                    [updateData setObject:self.photo.text ? self.phone.text : [NSNull null] forKey:@"Photo"];
+                    [updateData setObject:mySalesNo ? mySalesNo : [NSNumber numberWithInteger: -1] forKey:@"SalesNo"];
+                    [updateData setObject:myJobNo ? myJobNo : [NSNumber numberWithInteger: -1] forKey:@"JobNo"];
                     [updateData setObject:self.start.text ? self.start.text : [NSNull null] forKey:@"Start"];
                     [updateData setObject:self.complete.text ? self.complete.text : [NSNull null] forKey:@"Completion"];
-                    [updateData setObject:myAdNo forKey:@"ProductNo"];
+                    [updateData setObject:myAdNo ? myAdNo : [NSNumber numberWithInteger: -1] forKey:@"ProductNo"];
                     [updateData setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Contractor"];
                     [updateData setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
                     [updateData setObject:self.photo1 ? self.photo1 : [NSNull null] forKey:@"Photo1"];
@@ -1102,24 +1102,24 @@ Parse.com
             [query whereKey:@"objectId" equalTo:self.objectId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
-                    [updateData setObject:myLeadNo forKey:@"VendorNo"];
-                    [updateData setObject:self.company.text forKey:@"Vendor"];
-                    [updateData setObject:self.address.text forKey:@"Address"];
-                    [updateData setObject:self.city.text forKey:@"City"];
-                    [updateData setObject:self.state.text forKey:@"State"];
-                    [updateData setObject:self.zip.text forKey:@"Zip"];
-                    [updateData setObject:self.phone.text forKey:@"Phone"];
-                    [updateData setObject:self.salesman.text forKey:@"Phone1"];
-                    [updateData setObject:self.jobName.text forKey:@"Phone2"];
-                    [updateData setObject:self.adName.text forKey:@"Phone3"];
-                    [updateData setObject:self.email.text forKey:@"Email"];
-                    [updateData setObject:self.last.text forKey:@"WebPage"];
-                    [updateData setObject:self.amount.text forKey:@"Department"];
-                    [updateData setObject:self.spouse.text forKey:@"Office"];
-                    [updateData setObject:self.first.text forKey:@"Manager"];
-                    [updateData setObject:self.date.text forKey:@"Profession"];
-                    [updateData setObject:self.aptDate.text forKey:@"Assistant"];
-                    [updateData setObject:self.comment.text forKey:@"Comments"];
+                    [updateData setObject:myLeadNo ? myLeadNo : [NSNumber numberWithInteger: -1] forKey:@"VendorNo"];
+                    [updateData setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Vendor"];
+                    [updateData setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];
+                    [updateData setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                    [updateData setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                    [updateData setObject:self.zip.text ? self.zip.text : [NSNull null] forKey:@"Zip"];
+                    [updateData setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"Phone"];
+                    [updateData setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"Phone1"];
+                    [updateData setObject:self.jobName.text ? self.jobName.text : [NSNull null] forKey:@"Phone2"];
+                    [updateData setObject:self.adName.text ? self.adName.text : [NSNull null] forKey:@"Phone3"];
+                    [updateData setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
+                    [updateData setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"WebPage"];
+                    [updateData setObject:self.amount.text ? self.amount.text : [NSNull null] forKey:@"Department"];
+                    [updateData setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Office"];
+                    [updateData setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"Manager"];
+                    [updateData setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Profession"];
+                    [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Assistant"];
+                    [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
                     [updateData setObject:myActive forKey:@"Active"];
                     [updateData saveInBackground];
                     [self.listTableView reloadData];
@@ -1193,25 +1193,25 @@ Parse.com
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateData, NSError *error) {
                 if (!error) {
                     // NSLog(@"rawStr is %@",updateData);
-                    [updateData setObject:myLeadNo forKey:@"EmployeeNo"];
+                    [updateData setObject:myLeadNo ? myLeadNo : [NSNumber numberWithInteger: -1] forKey:@"EmployeeNo"];
                     [updateData setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Company"];
-                    [updateData setObject:self.address.text forKey:@"Address"];
-                    [updateData setObject:self.city.text forKey:@"City"];
-                    [updateData setObject:self.state.text forKey:@"State"];
-                    [updateData setObject:self.zip.text forKey:@"Zip"];
-                    [updateData setObject:self.phone.text forKey:@"HomePhone"];
-                    [updateData setObject:self.salesman.text forKey:@"WorkPhone"];
-                    [updateData setObject:self.jobName.text forKey:@"CellPhone"];
-                    [updateData setObject:self.spouse.text forKey:@"Country"];
-                    [updateData setObject:self.email.text forKey:@"Email"];
-                    [updateData setObject:self.last.text forKey:@"Last"];
-                    [updateData setObject:self.amount.text forKey:@"Department"];
-                    [updateData setObject:self.aptDate.text forKey:@"Middle"];
-                    [updateData setObject:self.first.text forKey:@"First"];
-                    [updateData setObject:self.callback.text forKey:@"Manager"];
-                    [updateData setObject:self.adName.text forKey:@"SS"];
-                    [updateData setObject:self.date.text forKey:@"Title"];
-                    [updateData setObject:self.comment.text forKey:@"Comments"];
+                    [updateData setObject:self.address.text  ? self.address.text : [NSNull null] forKey:@"Address"];
+                    [updateData setObject:self.city.text ? self.city.text : [NSNull null] forKey:@"City"];
+                    [updateData setObject:self.state.text ? self.state.text : [NSNull null] forKey:@"State"];
+                    [updateData setObject:self.zip.text ? self.zip.text : [NSNull null] forKey:@"Zip"];
+                    [updateData setObject:self.phone.text ? self.phone.text : [NSNull null] forKey:@"HomePhone"];
+                    [updateData setObject:self.salesman.text ? self.salesman.text : [NSNull null] forKey:@"WorkPhone"];
+                    [updateData setObject:self.jobName.text ? self.jobName.text : [NSNull null] forKey:@"CellPhone"];
+                    [updateData setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Country"];
+                    [updateData setObject:self.email.text ? self.email.text : [NSNull null] forKey:@"Email"];
+                    [updateData setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"Last"];
+                    [updateData setObject:self.amount.text ? self.amount.text : [NSNull null] forKey:@"Department"];
+                    [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Middle"];
+                    [updateData setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
+                    [updateData setObject:self.callback.text ? self.callback.text : [NSNull null] forKey:@"Manager"];
+                    [updateData setObject:self.adName.text ? self.adName.text : [NSNull null] forKey:@"SS"];
+                    [updateData setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Title"];
+                    [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
                     [updateData setObject:myActive forKey:@"Active"];
                     [updateData saveInBackground];
                     [self.listTableView reloadData];

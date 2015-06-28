@@ -41,9 +41,6 @@ Parse.com
         _SalesModel.delegate = self; [_SalesModel downloadItems];
     }
     
-   // ParseConnection *parseConnection = [[ParseConnection alloc]init];
-  //  parseConnection.delegate = (id)self; [parseConnection parseHeadSalesman];
-    
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark  Bar Button

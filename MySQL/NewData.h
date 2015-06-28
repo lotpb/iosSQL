@@ -20,6 +20,7 @@
 //may be a problem with employee lastname may be under custNo
 @property (strong, nonatomic) NSString *formController;
 @property (strong, nonatomic) NSString *leadNo;
+@property (strong, nonatomic) NSString *custNo;
 @property (weak, nonatomic) IBOutlet UITextField *active;
 @property (weak, nonatomic) IBOutlet UITextField *first;
 @property (weak, nonatomic) IBOutlet UITextField *last;

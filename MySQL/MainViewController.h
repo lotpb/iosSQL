@@ -7,16 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <Parse/Parse.h>
-//#import "ConstantMain.h"
+#import <Parse/Parse.h>
 #import "Constants.h"
 #import "SWRevealViewController.h"
+#import "YQL.h"
+#import <AVFoundation/AVAudioPlayer.h>
 //#import <iAd/iAd.h>
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate> 
 {
     NSMutableArray *tableData, *filteredString;
-    BOOL isFilltered;
+    BOOL isFilltered, condition;
+    YQL *yql;
    // ADBannerView *bannerView;
 }
 

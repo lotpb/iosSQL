@@ -150,10 +150,10 @@ else
 
 #pragma mark - Buttons
 - (void)followButton {
-
+    
     UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
     UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
-    if ( [self.active isEqual:@"1"] ) {
+    if ([self.active isEqual:@"1"]) {
         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
         self.following.text = @"Following";
     } else {
@@ -176,14 +176,12 @@ else
     [self performSegueWithIdentifier:VIEWSEGUE sender:self];
 }
 
-#pragma mark social Buttons
+#pragma mark UIActivityViewController
 - (void)share:(id)sender {
     
-    NSString * message = self.name;
-    NSString * message1 = self.date;
-    NSString * message2 = self.comments;
+    NSString * message = [NSString stringWithFormat:@"United News \n%@ \n%@ \n%@ %@ %@ \n%@ ", self.name, self.address, city, state, zip, self.comments];
     UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, message1, message2, image];
+    NSArray * shareItems = @[message, image];
     
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
     [self presentViewController:avc animated:YES completion:nil];
@@ -610,7 +608,7 @@ Parse.com
         NewData *detailVC = segue.destinationViewController;
         if ([_formController isEqual: TNAME1]) {
             detailVC.formController = TNAME2;
-         // detailVC.custNo = self.custNo;
+            detailVC.custNo = self.custNo;
             detailVC.frm31 = self.leadNo;
             detailVC.frm11 = self.tbl13; //first
             detailVC.frm12 = self.name;
