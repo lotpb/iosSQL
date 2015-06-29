@@ -133,17 +133,6 @@
     return 1;
 }
 
-//this keep contraint errors away don't remove
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ROW_HEIGHT;
-}
-//this keep contraint errors away don't remove
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ROW_HEIGHT; //this keep contraint errors away don't remove
-}
-
 #pragma mark - TableView Delegate Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

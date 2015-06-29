@@ -8,15 +8,38 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "MainViewController.h"
 
 @implementation AppDelegate
-
-//@synthesize window = _window;
+@synthesize window;
+@synthesize navController = _navController;
+@synthesize splitViewController = _splitViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
  // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
+    
+    
+//| ------------------------Ipad storyBoard---------------------------------
+    
+    UIStoryboard *storyboard = [self grabStoryboard];
+    
+    // display storyboard
+    self.window.rootViewController = [storyboard instantiateInitialViewController];
+    [self.window makeKeyAndVisible];
+    
+    
+    /*
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        //I'm running on the iPad
+         NSLog(@"The getFirstObject request iPad.");
+         UIStoryboard *storyboard;
+         storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
+    } else {
+        //I'm running on the iPhone
+         NSLog(@"The getFirstObject request iphone.");
+    } */
     
    /*
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
@@ -34,6 +57,7 @@
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     }
+    
 //| -----------------------loginController Key------------------------
     NSString *storyboardIdentifier;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
@@ -60,6 +84,43 @@
     return YES;
 }
 //| --------------------------END--------------------------------------
+
+- (UIStoryboard *)grabStoryboard {
+    
+    // determine screen size
+    int screenHeight = [UIScreen mainScreen].bounds.size.height;
+    UIStoryboard *storyboard;
+    
+    switch (screenHeight) {
+            
+            // iPhone 4s
+        case 480:
+            storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            break;
+            
+            // iPhone 5s
+        case 568:
+            storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            break;
+            
+            // iPhone 6
+        case 667:
+            storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            break;
+            
+            // iPhone 6 Plus
+        case 736:
+            storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            break;
+            
+        default:
+            // it's an iPad
+            storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
+            break;
+    }
+    
+    return storyboard;
+}
 
 #pragma mark - Notification
 #pragma mark Register

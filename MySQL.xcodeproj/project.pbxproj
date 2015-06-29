@@ -89,6 +89,7 @@
 		AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF558C6D19DACE25004D30D7 /* MaplViewController.m */; };
 		AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF558C6F19DAD06A004D30D7 /* MapKit.framework */; };
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
+		AF58DFB21B409520006729A3 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF58DFB11B409520006729A3 /* iPad.storyboard */; };
 		AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */; };
 		AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F8EE01A61C4290063B6DA /* LookupCity.m */; };
 		AF600B9E1ABF2AF00010E7D0 /* profile-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AF600B9D1ABF2AF00010E7D0 /* profile-bg.png */; };
@@ -295,6 +296,7 @@
 		AF558C6F19DAD06A004D30D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		AF57D6931A428B3200CF130C /* AppPrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPrefViewController.h; sourceTree = "<group>"; };
 		AF57D6941A428B3200CF130C /* AppPrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppPrefViewController.m; sourceTree = "<group>"; };
+		AF58DFB11B409520006729A3 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		AF5EF83A1A4F015900B802E1 /* UploadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
 		AF5F8EE01A61C4290063B6DA /* LookupCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupCity.m; sourceTree = "<group>"; };
@@ -897,6 +899,7 @@
 		AFBC9E8319D9CEDE0050E67A /* MySQL */ = {
 			isa = PBXGroup;
 			children = (
+				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
 				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
 				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
@@ -1109,6 +1112,7 @@
 				AF366EC81A55A15800976387 /* home30.png in Resources */,
 				AF366EDB1A55A15800976387 /* Tumblr.png in Resources */,
 				AF4B1CAC1ADC4B8500079669 /* placeholder.png in Resources */,
+				AF58DFB21B409520006729A3 /* iPad.storyboard in Resources */,
 				AF23019A1A96BC6F0035D6BB /* discover.png in Resources */,
 				AF366EC01A55A15800976387 /* display30copy.png in Resources */,
 				AF366EDD1A55A15800976387 /* Twitter.png in Resources */,

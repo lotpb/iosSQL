@@ -38,10 +38,10 @@
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
     [self.commentTitle becomeFirstResponder];
     
-    if (self.progressView.progress == 1) {
-        self.progressView.hidden = YES;
-    } else {
+    if (self.progressView.progress == 0) {
         self.progressView.hidden = NO;
+    } else {
+        self.progressView.hidden = YES;
     }
 }
 
@@ -55,11 +55,6 @@
     self.commentDetail = nil;
     self.username = nil;
 }
-/*
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-} */
 
 #pragma mark IB Actions
 
@@ -89,7 +84,7 @@
     //Place the loading spinner
     UIActivityIndicatorView *loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
-    [loadingSpinner setCenter:CGPointMake(self.view.frame.size.width/2.0, self.view.frame.size.height/2.0)];
+    [loadingSpinner setCenter:CGPointMake(self.view.frame.size.width/2.0f, self.view.frame.size.height/2.0f)];
     [loadingSpinner startAnimating];
     
     [self.view addSubview:loadingSpinner];

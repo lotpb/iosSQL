@@ -13,6 +13,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) IBOutlet id splitViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *navController;
 
 @end
 

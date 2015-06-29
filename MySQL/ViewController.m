@@ -519,6 +519,28 @@ Parse.com
     
 }
 
+#pragma mark - UISplitViewDelegate methods
+-(void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    //Grab a reference to the popover
+   // self.popover = pc;
+    
+    //Set the title of the bar button item
+   // barButtonItem.title = @"Monsters";
+    
+    //Set the bar button item as the Nav Bar's leftBarButtonItem
+  //  [_navBarItem setLeftBarButtonItem:barButtonItem animated:YES];
+}
+
+-(void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    //Remove the barButtonItem.
+  //  [_navBarItem setLeftBarButtonItem:barButtonItem animated:YES];
+    
+    //Nil out the pointer to the popover.
+  //  _popover = nil;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:
 (UIInterfaceOrientation)toInterfaceOrientation {
     return YES;

@@ -14,7 +14,7 @@
 #import <AVFoundation/AVAudioPlayer.h>
 //#import <iAd/iAd.h>
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate> 
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 {
     NSMutableArray *tableData, *filteredString;
     BOOL isFilltered, condition;

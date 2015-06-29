@@ -104,7 +104,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     revealViewController.frontViewShadowRadius = 5;
     [self.view addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
-    
+
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.listTableView insertSubview:refreshView atIndex:0];
@@ -147,7 +147,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
     [refreshControl endRefreshing];
     }
-}
+} 
 
 #pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -198,7 +198,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    UIImage *image = [UIImage imageNamed:@"IMG_1133New.jpg"];
+    UIImage *image = [UIImage imageNamed:@""]; //[UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     [view addSubview:imageHolder];
@@ -367,7 +367,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                 objectForKey:@"text"];
 
    // respond4 = [[results2 valueForKeyPath:@"query.results.channel.item.forecast"] objectForKey:@"text"];
-    NSLog(@"%@", results);
+    //NSLog(@"%@", results);
     //NSLog(@"%@", respond4);
 }
 
@@ -423,6 +423,11 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
 }
 
 //------------
