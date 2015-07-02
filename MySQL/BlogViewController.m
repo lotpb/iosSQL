@@ -106,10 +106,6 @@ Parse.com
     return NO;
 }
 
--(UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
 /*

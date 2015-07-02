@@ -10,14 +10,15 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import "Constants.h"
-//#import <FacebookSDK/FacebookSDK.h>
+#import <MessageUI/MessageUI.h>
+#import "SWRevealViewController.h"
 
-@interface FacebookViewController : UIViewController //<FBLoginViewDelegate>
+@interface FacebookViewController : UIViewController <MFMessageComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 
 -(IBAction)twitterPost:(id)sender;
 -(IBAction)facebookPost:(id)sender;
--(IBAction)messagePost:(id)sender;
+-(IBAction)sendSMS :(id)sender;
 
 @end

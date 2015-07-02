@@ -300,8 +300,56 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-    UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
-    UITextView *textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 230, 95)];
+    UITextView *textviewframe;
+    UITextField *textframe;
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+         textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
+         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
+        [self.first setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.last setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.company setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.date setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.address setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.city setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.state setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.zip setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.aptDate setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.phone setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.salesman setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.jobName setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.adName setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.amount setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.email setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.spouse setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.callback setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.comment setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.start setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.complete setFont:CELL_FONT(IPAD_FONTSIZE)];
+    } else {
+         textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
+         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 230, 95)];
+        [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.zip setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.aptDate setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
+    }
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
    
@@ -315,7 +363,6 @@ Parse.com
         //self.date.layer.borderColor = TEXTBDCOLOR;
         //self.date.layer.borderWidth = TEXTBDWIDTH;
         //self.date.layer.cornerRadius = TEXTBDRADIUS;
-       [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm18 isEqual:[NSNull null]])
              self.date.text = @"";
         else self.date.text = self.frm18;
@@ -341,7 +388,6 @@ Parse.com
     } else if (indexPath.row == 1) {
         
         self.address = textframe;
-       [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm14 isEqual:[NSNull null]])
              self.address.text = @"";
         else self.address.text = self.frm14;
@@ -354,7 +400,6 @@ Parse.com
     } else if (indexPath.row == 2) {
        
         self.city = textframe;
-       [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm15 isEqual:[NSNull null]])
              self.city.text = @"";
         else self.city.text = self.frm15;
@@ -368,7 +413,6 @@ Parse.com
     } else if (indexPath.row == 3) {
         
         self.state = textframe;
-       [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm16 isEqual:[NSNull null]])
              self.state.text = @"";
         else self.state.text = self.frm16;
@@ -381,7 +425,6 @@ Parse.com
         
         UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
-       [self.zip setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm17 isEqual:[NSNull null]])
              self.zip.text = @"";
         else self.zip.text = self.frm17;
@@ -396,7 +439,6 @@ Parse.com
         if ([self.frm19 isEqual:[NSNull null]])
              self.aptDate.text = @"";
         else self.aptDate.text = self.frm19;
-            [self.aptDate setFont:CELL_FONT(CELL_FONTSIZE)];
              self.aptDate.tag = 4;
              self.aptDate.placeholder = @"Apt Date";
              self.aptDate.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -405,7 +447,6 @@ Parse.com
         
         if ([_formController isEqual:TNAME1])
             self.aptDate.inputView = [self datePicker:4];
-        
         else if ([_formController isEqual:TNAME2]) {
             self.aptDate.placeholder = @"Rate";
             self.aptDate.tag = 24;
@@ -425,7 +466,6 @@ Parse.com
     } else if (indexPath.row == 5) {
         
          self.phone = textframe;
-        [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
          self.phone.placeholder = @"Phone";
          self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -438,7 +478,6 @@ Parse.com
     } else if (indexPath.row == 6) {
         
          self.salesman = textframe;
-        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
          self.salesman.tag = 6;
          self.salesman.adjustsFontSizeToFitWidth = YES;
          self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -466,7 +505,6 @@ Parse.com
         
     } else if (indexPath.row == 7) {
          self.jobName = textframe;
-        [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
          self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.jobName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm22 isEqual:[NSNull null]])
@@ -491,7 +529,6 @@ Parse.com
         
     } else if (indexPath.row == 8) {
         self.adName = textframe;
-        [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
         self.adName.placeholder = @"Advertiser";
         self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -520,7 +557,6 @@ Parse.com
     } else if(indexPath.row == 9) {
     
          self.amount = textframe;
-        [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
          self.amount.placeholder = @"Amount";
          self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -549,7 +585,6 @@ Parse.com
     } else if (indexPath.row == 10) {
         
          self.email = textframe;
-        [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
          self.email.placeholder = @"Email";
         if ([self.frm25 isEqual:[NSNull null]])
              self.email.text = @"";
@@ -563,7 +598,6 @@ Parse.com
         
     } else if(indexPath.row == 11) {
          self.spouse = textframe;
-        [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
          self.spouse.placeholder = @"Spouse";
          self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -584,7 +618,6 @@ Parse.com
         
     } else if (indexPath.row == 12) {
          self.callback = textframe;
-        [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
          self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.callback setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm27 isEqual:[NSNull null]])
@@ -623,7 +656,6 @@ Parse.com
         
     } else if (indexPath.row == 13) {
          self.comment = textviewframe;
-        [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
          self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
         if ([self.frm28 isEqual:[NSNull null]])
              self.comment.text = @"";
@@ -633,7 +665,6 @@ Parse.com
         
     } else if(indexPath.row == 14) {
          self.start = textframe;
-        [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
          self.start.tag = 14;
          self.start.placeholder = @"Start Date";
          self.start.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -648,7 +679,6 @@ Parse.com
  
     } else if(indexPath.row == 15) {
          self.complete = textframe;
-        [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
          self.complete.tag = 15;
          self.complete.placeholder = @"Completion Date";
          self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -759,9 +789,7 @@ Parse.com
 
 #pragma mark - FieldData
 - (void)passFieldData {
-    [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
-    [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
-    [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
+
     self.leadNo = self.leadNo;
     
     if ([self.frm11 isEqual:[NSNull null]])

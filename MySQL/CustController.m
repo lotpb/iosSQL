@@ -219,8 +219,8 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 85, 27)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 85, 27)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 23, 85, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 0, 85, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
@@ -254,6 +254,11 @@ Parse.com
         myCell.detailTextLabel.text = item.city;
         label1.text = [NSString stringWithFormat:@"$%@",item.amount];
         label2.text = item.date;
+    }
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
     }
     
     [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];

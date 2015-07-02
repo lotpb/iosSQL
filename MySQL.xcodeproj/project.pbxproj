@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -287,7 +287,7 @@
 		AF4CD2A01B31E17900009991 /* Upload50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Upload50.png; path = images/Upload50.png; sourceTree = "<group>"; };
 		AF4D46B61A55F3B6005984AD /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = calendar.png; path = images/calendar.png; sourceTree = "<group>"; };
 		AF4D46B81A5634FB005984AD /* NewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewData.h; sourceTree = "<group>"; };
-		AF4D46B91A5634FB005984AD /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewData.m; sourceTree = "<group>"; };
+		AF4D46B91A5634FB005984AD /* NewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NewData.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AF5163EC1B29C170007EAB2E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Parse/Bolts.framework; sourceTree = "<group>"; };
 		AF5163ED1B29C170007EAB2E /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Parse/Parse.framework; sourceTree = "<group>"; };
 		AF5163F01B29C180007EAB2E /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Parse/ParseUI.framework; sourceTree = "<group>"; };
@@ -415,7 +415,7 @@
 		AFE926891A8AB7AA00FE7043 /* NewDataDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDataDetail.m; sourceTree = "<group>"; };
 		AFEAB0291A90F2C9000A1B95 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		AFEBCF451A6DAA2100C28C51 /* EditData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditData.h; sourceTree = "<group>"; };
-		AFEBCF461A6DAA2100C28C51 /* EditData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditData.m; sourceTree = "<group>"; };
+		AFEBCF461A6DAA2100C28C51 /* EditData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EditData.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AFF135B41AE1C5270045CE2C /* drum01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = drum01.mp3; path = "../../../Downloads/Sound Demo/Sound Demo/drum01.mp3"; sourceTree = "<group>"; };
 		AFF3B8821A2133F5005D556C /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
 		AFF3B8831A2133F5005D556C /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
@@ -899,7 +899,6 @@
 		AFBC9E8319D9CEDE0050E67A /* MySQL */ = {
 			isa = PBXGroup;
 			children = (
-				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
 				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
 				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
@@ -907,6 +906,7 @@
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
+				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
 				AF0634871AF662A000D4B846 /* MainMenu */,
 				AF4E626C1A5CBABA007A56D0 /* New/Edit Data */,
@@ -1073,7 +1073,7 @@
 				};
 			};
 			buildConfigurationList = AFBC9E7C19D9CEDE0050E67A /* Build configuration list for PBXProject "MySQL" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (

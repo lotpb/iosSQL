@@ -138,7 +138,7 @@ NSArray *menuItems;
        [Cell.contentView addSubview:activeImage];
     
         label2.text = [defaults objectForKey:userNameKey];
-       [label2 setFont:CELL_FONT(CELL_FONTSIZE + 2)];
+       [label2 setFont:CELL_FONT(IPAD_FONTSIZE)];
         label2.textAlignment = NSTextAlignmentCenter;
        [label2 setTextColor:[UIColor whiteColor]];
        [Cell.contentView addSubview:label2];

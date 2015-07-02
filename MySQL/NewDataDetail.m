@@ -87,6 +87,15 @@
     UITextField *textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.salesman setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.salesNo setFont:CELL_FONT(IPAD_FONTSIZE)];
+
+    } else {
+        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.salesNo setFont:CELL_FONT(CELL_FONTSIZE)];
+    }
+    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
@@ -117,7 +126,6 @@
     } else if (indexPath.row == 1){
         
          self.salesman = textframe;
-        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm13 isEqual:[NSNull null]])
              self.salesman.text = @"";
         else self.salesman.text = self.frm13;
@@ -146,7 +154,6 @@
     } else if (indexPath.row == 2){
         
          self.salesNo = textframe;
-        [self.salesNo setFont:CELL_FONT(CELL_FONTSIZE)];
         if ([self.frm12 isEqual:[NSNull null]])
              self.salesNo.text = @"";
         else self.salesNo.text = self.frm12;

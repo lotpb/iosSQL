@@ -89,8 +89,6 @@
     
     [self.view addSubview:loadingSpinner];
     
-    
-    
    /* NSString *mediaType = [UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:@"video"]){
         NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];

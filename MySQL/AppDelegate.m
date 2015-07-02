@@ -29,18 +29,6 @@
     self.window.rootViewController = [storyboard instantiateInitialViewController];
     [self.window makeKeyAndVisible];
     
-    
-    /*
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        //I'm running on the iPad
-         NSLog(@"The getFirstObject request iPad.");
-         UIStoryboard *storyboard;
-         storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
-    } else {
-        //I'm running on the iPhone
-         NSLog(@"The getFirstObject request iphone.");
-    } */
-    
    /*
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {

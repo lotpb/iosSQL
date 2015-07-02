@@ -226,8 +226,8 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = IDCELL;
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 23, 85, 27)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 0, 85, 27)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 23, 85, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 0, 85, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -260,8 +260,10 @@ Parse.com
         label2.text = item.date;
     }
     
-    // UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
-    // [myCell.imageView setImage:myImage];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    [myCell.imageView setImage:myImage];
+    }
     
     [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
     label1.textAlignment = NSTextAlignmentCenter;
@@ -517,28 +519,6 @@ Parse.com
         detailVC.formController = TNAME1;
     }
     
-}
-
-#pragma mark - UISplitViewDelegate methods
--(void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
-{
-    //Grab a reference to the popover
-   // self.popover = pc;
-    
-    //Set the title of the bar button item
-   // barButtonItem.title = @"Monsters";
-    
-    //Set the bar button item as the Nav Bar's leftBarButtonItem
-  //  [_navBarItem setLeftBarButtonItem:barButtonItem animated:YES];
-}
-
--(void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-{
-    //Remove the barButtonItem.
-  //  [_navBarItem setLeftBarButtonItem:barButtonItem animated:YES];
-    
-    //Nil out the pointer to the popover.
-  //  _popover = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:

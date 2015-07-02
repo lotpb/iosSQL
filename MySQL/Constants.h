@@ -73,6 +73,9 @@
 //kPFCachePolicyIgnoreCache //kPFCachePolicyCacheOnly// kPFCachePolicyNetworkOnly
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
+//------iPad Font Form-------------------------------
+#define IPAD_FONTSIZE      18
+#define IPADTITLE_FONTSIZE 22
 //------tableviewcell-------------------------------
 #define IDCELL            @"BasicCell"
 #define TABLECELLIMAGE    @"DemoCellImage"

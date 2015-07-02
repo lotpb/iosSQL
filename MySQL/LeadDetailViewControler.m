@@ -48,6 +48,11 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
    [self parseData];
    [self followButton];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
+            self.labelamount.font = CELL_FONT1(20);
+    }
  
     if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
            self.date = self.date;
@@ -56,10 +61,6 @@
     if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
            self.comments = self.comments;
       else self.comments = @"No Comments";
-    
-   if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) ) {
-     self.labelamount.font = CELL_FONT1(20);
-   }
     
 #pragma mark Bar Button
         UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
@@ -109,13 +110,7 @@ else
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-}
-
-- (void)reloadTable {
-    [self.newsTableView reloadData];
-    [self.listTableView reloadData]; [self.listTableView2 reloadData];
-    
+  //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -127,6 +122,7 @@ else
     [super viewDidLayoutSubviews];
     self.listTableView.layoutMargins = UIEdgeInsetsZero;
     self.listTableView2.layoutMargins = UIEdgeInsetsZero;
+    self.newsTableView.layoutMargins = UIEdgeInsetsZero;
 }
 
 #pragma mark - RefreshControl
@@ -146,6 +142,11 @@ else
         
         [refreshControl endRefreshing];
     }
+}
+
+- (void)reloadTable {
+    [self.newsTableView reloadData];
+    [self.listTableView reloadData]; [self.listTableView2 reloadData];
 }
 
 #pragma mark - Buttons
@@ -184,7 +185,18 @@ else
     NSArray * shareItems = @[message, image];
     
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    [self presentViewController:avc animated:YES completion:nil];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        [self presentViewController:avc animated:YES completion:nil];
+        
+    } else {
+        avc.popoverPresentationController.sourceView = self.view;
+        avc.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        // this is the center of the screen currently but it can be any point in the view
+        
+         [self presentViewController:avc animated:YES completion:nil];
+    }
 }
 
 #pragma mark - TableView
@@ -210,12 +222,18 @@ else
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+        } else {
+            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+        }
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
-    [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
     [myCell.textLabel setTextColor:DETAILCOLOR];
      myCell.detailTextLabel.text = [tableData objectAtIndex:indexPath.row];
-    [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
     [myCell.detailTextLabel setTextColor:DETAILTITLECOLOR];
 
     return myCell;
@@ -228,12 +246,18 @@ else
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         
-        //need to reload table (void)viewDidAppear to get fonts to change but its annoying
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+        } else {
+            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+        }
+        
+    //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
-    [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
     [myCell.textLabel setTextColor:DETAILCOLOR];
      myCell.detailTextLabel.text = [tableData2 objectAtIndex:indexPath.row];
-    [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
     [myCell.detailTextLabel setTextColor:DETAILTITLECOLOR];
 
         //draw red vertical line
@@ -247,46 +271,41 @@ else
       
     static NSString *CellIdentifier1 = IDCELL;
             CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
-    
-    if (myCell == nil)
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-
-     //need to reload table (void)viewDidAppear to get fonts to change but its annoying
-    myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 400.0f);
-    myCell.leadtitleLabel.text = self.lnewsTitle;
-    myCell.leadtitleLabel.numberOfLines = 0;
-    myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
-   [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
+         //---------------------animate label--------------------------------
          
-//---------------------animate label--------------------------------
-       /*
-         //animate label
-         myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.01, 0.01);
-         [UIView animateWithDuration:0.5 animations:^{
-             myCell.leadtitleLabel.transform = CGAffineTransformIdentity;
-         } completion:^(BOOL finished) {
-             
-         }]; */
-     /*
-         [UIView animateWithDuration:0.5
-                               delay:0.0
-                             options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
-                          animations:^{
-                              myCell.leadtitleLabel.transform = CGAffineTransformScale(myCell.leadtitleLabel.transform, 0.7, 0.7);
-                          }
-                          completion:nil]; */
-     
-          myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.3, 0.3);
+         myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.3, 0.3);
          [UIView animateWithDuration:2.0
                                delay: 0.1
                              options: UIViewAnimationOptionBeginFromCurrentState
                           animations:^{
-                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1.5, 1.5); //grow
+                              myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1.5, 1.5); //grow
                           }
                           completion:^(BOOL finished){
-                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1, 1);
+                              myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1, 1);
                           }];
-//---------------------animate label--------------------------------
+         //---------------------animate label--------------------------------
+    
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+         
+         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+             myCell.leadtitleLabel.font = CELL_FONT(IPADTITLE_FONTSIZE);
+             myCell.leadsubtitleLabel.font = CELL_FONT(IPAD_FONTSIZE);
+             myCell.leadreadmore.font = CELL_FONT(IPAD_FONTSIZE);
+             myCell.leadnews.font = CELL_MEDFONT(IPAD_FONTSIZE);
+             self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+         } else {
+             myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
+             myCell.leadsubtitleLabel.font = CELL_FONT(DETAILNEWSFONTSIZE);
+             myCell.leadreadmore.font = CELL_FONT(DETAILNEWSFONTSIZE);
+             myCell.leadnews.font = CELL_MEDFONT(DETAILNEWSFONTSIZE);
+         }
+
+     //need to reload table (void)viewDidAppear to get fonts to change but its annoying
+    //myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 0.0f);
+    myCell.leadtitleLabel.text = self.lnewsTitle;
+    myCell.leadtitleLabel.numberOfLines = 0;
+   [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
          
         static NSDateFormatter *dateFormater = nil;
         if (dateFormater == nil) {
@@ -301,41 +320,29 @@ else
             NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         
     myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
-    myCell.leadsubtitleLabel.font = CELL_FONT(DETAILNEWSFONTSIZE);
    [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
    }
     myCell.leadreadmore.text = @"Read more";
-    myCell.leadreadmore.font = CELL_FONT(DETAILNEWSFONTSIZE);
         
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
-    myCell.leadnews.font = CELL_MEDFONT(DETAILNEWSFONTSIZE);
    [myCell.leadnews setTextColor:DETAILCOLOR];
     
     //Social buttons - code below
-    UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height-80, 20, 20)];//height 97
+    UIButton *faceBtn;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height- 445, 20, 20)];
+    } else {
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height- 80, 20, 20)];
+    }
+    
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:faceBtn];
- /*
-    UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(42,97, 20, 20)];
-    [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
-    [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    [myCell.contentView addSubview:twitBtn];
-        
-    UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(72,97, 20, 20)];
-    [tumblrBtn setImage:[UIImage imageNamed:@"Tumblr.png"] forState:UIControlStateNormal];
-    [tumblrBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    [myCell.contentView addSubview:tumblrBtn];
-        
-    UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(102,97, 20, 20)];
-    [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
-    [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    [myCell.contentView addSubview:yourBtn]; */
         
     //add dark line border TableView Header - code below
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, .7)];
-    separatorLineView.backgroundColor = [UIColor grayColor];// you can also put image here
+    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, .5)];
+    separatorLineView.backgroundColor = [UIColor lightGrayColor];// you can also put image here
     [myCell.contentView addSubview:separatorLineView];
 
 return myCell;
@@ -425,14 +432,6 @@ return myCell;
     if ((![self.amount isEqual:[NSNull null]] ) && ( [self.amount length] != 0 ))
         self.amount = self.amount;
     else self.amount = @"None";
-   
-  /*  if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
-        self.date = self.date;
-    else self.date = @"None";
-    
-    if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
-        self.comments = self.comments;
-    else self.comments = @"No Comments"; */
     
     if ((![self.photo isEqual:[NSNull null]] ) && ( [self.photo length] != 0 ))
         p1 = self.photo;
@@ -499,7 +498,6 @@ return myCell;
         t25 = self.tbl25;
     else t25 = @"None";
     
-//if ([_formController isEqual: TNAME1]) { //was displaying null in photofield
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
@@ -533,7 +531,6 @@ Parse.com
     tableData4 = [NSMutableArray arrayWithObjects:self.l11, self.l12, self.l13,self.l14, self.l15, self.l16, nil];
     
     tableData3 = [NSMutableArray arrayWithObjects:self.l21, self.l22, self.l23, self.l24, self.l25, self.l26, nil];
-    
 }
 /*
 *******************************************************************************************
@@ -764,7 +761,7 @@ Parse.com
         //2
         NSLog(@"Authorized");
         [self addContact:sender];
-    } else{ //ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined
+    } else { //ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined
         //3
         NSLog(@"Not determined");
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {

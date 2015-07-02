@@ -128,6 +128,50 @@ Parse.com
     self.adNo.hidden = YES; //Field
     self.active.hidden = YES; //Field
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.first setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.last setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.company setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.date setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.address setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.city setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.state setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.zip setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.aptDate setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.phone setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.salesman setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.jobName setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.adName setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.amount setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.email setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.spouse setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.callback setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.comment setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.start setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.complete setFont:CELL_FONT(IPAD_FONTSIZE)];
+    } else {
+        [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.zip setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.aptDate setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
+    }
+    
     if ([self.frm31 isEqual:[NSNull null]])
         self.leadNo = @"";
     else self.leadNo = self.frm31;

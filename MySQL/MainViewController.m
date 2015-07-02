@@ -194,11 +194,18 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     NSString *newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", respond3, respond2];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
     tableView.tableHeaderView = view; //makes header move with tablecell
+  //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    UIImage *image = [UIImage imageNamed:@""]; //[UIImage imageNamed:@"IMG_1133New.jpg"];
+    
+    UIImage *image;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        image = nil; //[UIImage imageNamed:@""];
+    } else {
+        image = [UIImage imageNamed:@"IMG_1133New.jpg"];
+    }
+    
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     [view addSubview:imageHolder];
@@ -242,10 +249,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    if ([respond containsString:@"-"]) {
-        separatorLineView1.backgroundColor = LINECOLOR3;
-    } else {
+    if (![respond containsString:@"-"]) {
         separatorLineView1.backgroundColor = LINECOLOR1;
+    } else {
+        separatorLineView1.backgroundColor = LINECOLOR3;
     }
     [view addSubview:separatorLineView1];
     
@@ -260,10 +267,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
-    if ([respond1 containsString:@"-"]) {
-        separatorLineView2.backgroundColor = LINECOLOR3;
-    } else {
+    if (![respond1 containsString:@"-"]) {
         separatorLineView2.backgroundColor = LINECOLOR1;
+    } else {
+        separatorLineView2.backgroundColor = LINECOLOR3;
     }
     [view addSubview:separatorLineView2];
     
@@ -346,7 +353,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\")";
     NSString *queryString1 = @"select * from yahoo.finance.quote where symbol in (\"SPY\")";
-   // NSString *queryString2 = @"select item.condition.temp from weather.forecast where woeid=2446726";
     NSString *queryString2 = @"select * from weather.forecast where woeid=2446726";
     //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
     //NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"YHOO\",\"AAPL\",\"GOOG\",\"SPY\")";
