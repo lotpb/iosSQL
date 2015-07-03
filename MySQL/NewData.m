@@ -75,7 +75,6 @@ Parse.com
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,9 +83,9 @@ Parse.com
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
   // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
-     if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
-          [self.company becomeFirstResponder];
-     else [self.last becomeFirstResponder];
+   //  if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
+    //      [self.company becomeFirstResponder];
+    // else [self.last becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,7 +103,6 @@ Parse.com
     [UIView animateWithDuration:0.5 animations:^{
         self.following.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
-        
     }];
 }
 

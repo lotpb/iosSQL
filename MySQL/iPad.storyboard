@@ -1511,6 +1511,14 @@
             </objects>
             <point key="canvasLocation" x="-814.5" y="217.5"/>
         </scene>
+        <!--Split View Controller-->
+        <scene sceneID="ahG-wi-0GA">
+            <objects>
+                <splitViewController id="v1m-GE-VoH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sYC-IZ-CU0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-794" y="1149"/>
+        </scene>
         <!--Nav Home-->
         <scene sceneID="GhE-pY-nbh">
             <objects>
@@ -1685,6 +1693,9 @@
                                                                 <include reference="ukj-yn-IUA"/>
                                                             </mask>
                                                         </variation>
+                                                        <connections>
+                                                            <action selector="callPhone:" destination="7T0-2h-dH4" eventType="touchUpInside" id="f8a-Vv-6dV"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="748" text="City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05a-bR-b5C">
                                                         <rect key="frame" x="28" y="153" width="36" height="24"/>
@@ -2156,9 +2167,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="GnH-nH-b90" secondAttribute="trailing" id="60t-Tp-tmp"/>
+                            <constraint firstItem="GnH-nH-b90" firstAttribute="leading" secondItem="0iB-N3-nwi" secondAttribute="leading" id="1AU-aU-7oM"/>
+                            <constraint firstAttribute="trailing" secondItem="GnH-nH-b90" secondAttribute="trailing" id="3XI-hq-Tno"/>
                             <constraint firstItem="GnH-nH-b90" firstAttribute="bottom" secondItem="aLf-IG-oDc" secondAttribute="top" id="eLv-Hx-d85"/>
-                            <constraint firstItem="GnH-nH-b90" firstAttribute="leading" secondItem="0iB-N3-nwi" secondAttribute="leading" id="h2Y-OR-cdQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9cY-4H-gdy">
@@ -2519,6 +2530,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3ab-WA-LYN"/>
+                    <connections>
+                        <outlet property="MapView" destination="kwX-Ad-h7c" id="QeF-Kb-ihm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gJP-bt-Xbx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2546,13 +2560,15 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="E0K-gJ-byx" secondAttribute="bottom" id="15Y-vT-UY3"/>
+                                    <constraint firstAttribute="width" constant="400" id="YZX-gA-p6O"/>
+                                    <constraint firstItem="E0K-gJ-byx" firstAttribute="centerY" secondItem="JPM-zc-qaO" secondAttribute="centerY" id="gfP-0R-u56"/>
                                     <constraint firstAttribute="trailing" secondItem="E0K-gJ-byx" secondAttribute="trailing" constant="2" id="nnR-wv-ZAM"/>
                                     <constraint firstItem="E0K-gJ-byx" firstAttribute="leading" secondItem="JPM-zc-qaO" secondAttribute="leading" id="rBe-FO-xLT"/>
                                     <constraint firstItem="E0K-gJ-byx" firstAttribute="top" secondItem="JPM-zc-qaO" secondAttribute="top" id="t3q-DS-t42"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JPM-zc-qaO" firstAttribute="centerX" secondItem="KKG-qI-bPT" secondAttribute="centerX" id="Zhu-Ft-r9p"/>
                             <constraint firstAttribute="bottomMargin" secondItem="JPM-zc-qaO" secondAttribute="bottom" id="iZd-yg-OvB"/>
@@ -3815,18 +3831,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHQ-oc-gnW">
-                                <rect key="frame" x="420" y="156" width="38" height="30"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="LoginUser:" destination="P0A-9J-ykz" eventType="touchUpInside" id="va3-gf-cvv"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4w-FS-lFa">
-                                <rect key="frame" x="132" y="194" width="57" height="30"/>
+                                <rect key="frame" x="132" y="188" width="57" height="30"/>
                                 <state key="normal" title="Register">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -3835,21 +3841,46 @@
                                     <action selector="registerUser:" destination="P0A-9J-ykz" eventType="touchUpInside" id="zql-Lk-VIA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tlZ-fE-izq">
+                                <rect key="frame" x="132" y="215" width="132" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="132" id="9lO-j2-jlB"/>
+                                </constraints>
+                                <state key="normal" title="Authenticate">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="authenticateButtonTapped:" destination="P0A-9J-ykz" eventType="touchUpInside" id="MTm-Gj-aQu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHQ-oc-gnW">
+                                <rect key="frame" x="132" y="154" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="LoginUser:" destination="P0A-9J-ykz" eventType="touchUpInside" id="va3-gf-cvv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="top" secondItem="EJR-fv-q7N" secondAttribute="top" constant="103" id="5fX-6b-U8b"/>
-                            <constraint firstItem="z4w-FS-lFa" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="leading" constant="1" id="BGD-oS-tlR"/>
-                            <constraint firstItem="GqI-4i-NX3" firstAttribute="top" secondItem="BHQ-oc-gnW" secondAttribute="bottom" constant="414" id="BgZ-UE-RlX"/>
+                            <constraint firstItem="z4w-FS-lFa" firstAttribute="trailing" secondItem="MOa-ah-D2s" secondAttribute="trailing" constant="-280" id="6Yp-7l-x1T"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="leading" secondItem="TRn-QQ-TmX" secondAttribute="leading" id="LAR-Li-8kx"/>
-                            <constraint firstItem="BHQ-oc-gnW" firstAttribute="top" secondItem="MOa-ah-D2s" secondAttribute="top" constant="1" id="N45-ON-BJZ"/>
+                            <constraint firstItem="z4w-FS-lFa" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="leading" constant="1" id="MaW-1P-ZSc"/>
+                            <constraint firstItem="tlZ-fE-izq" firstAttribute="top" secondItem="z4w-FS-lFa" secondAttribute="bottom" constant="-3" id="Pfs-GM-BdW"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="trailing" secondItem="TRn-QQ-TmX" secondAttribute="trailing" id="Pw9-UO-kKg"/>
+                            <constraint firstItem="BHQ-oc-gnW" firstAttribute="bottom" secondItem="MOa-ah-D2s" secondAttribute="bottom" constant="-1" id="WbW-WZ-hal"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="trailing" secondItem="MOa-ah-D2s" secondAttribute="trailing" id="Zys-aG-CJb"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="leading" id="aG3-Qt-q2j"/>
+                            <constraint firstItem="BHQ-oc-gnW" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="trailing" constant="-337" id="ajE-TP-I3x"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="centerX" secondItem="EJR-fv-q7N" secondAttribute="centerX" id="ghr-0N-Fdi"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="top" secondItem="TRn-QQ-TmX" secondAttribute="bottom" constant="23" id="hXk-up-m6l"/>
-                            <constraint firstAttribute="trailing" secondItem="BHQ-oc-gnW" secondAttribute="trailing" constant="142" id="khE-nT-XG7"/>
-                            <constraint firstItem="z4w-FS-lFa" firstAttribute="top" secondItem="MOa-ah-D2s" secondAttribute="bottom" constant="9" id="n2f-Fl-9iX"/>
+                            <constraint firstItem="tlZ-fE-izq" firstAttribute="leading" secondItem="z4w-FS-lFa" secondAttribute="leading" id="ihQ-MM-PSN"/>
+                            <constraint firstItem="BHQ-oc-gnW" firstAttribute="top" secondItem="MOa-ah-D2s" secondAttribute="top" constant="-1" id="lVW-Ct-oxk"/>
+                            <constraint firstItem="z4w-FS-lFa" firstAttribute="top" secondItem="MOa-ah-D2s" secondAttribute="bottom" constant="3" id="sMf-US-IU2"/>
                             <constraint firstItem="MOa-ah-D2s" firstAttribute="top" secondItem="LVJ-Fp-TAB" secondAttribute="bottom" constant="22" id="uF5-sb-tlg"/>
                         </constraints>
                     </view>
@@ -3864,7 +3895,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCG-NR-TJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-815" y="1133"/>
+            <point key="canvasLocation" x="-815" y="-458"/>
         </scene>
         <!--Product Info-->
         <scene sceneID="3rz-8B-oqJ">
@@ -4233,16 +4264,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="4KL-RL-dt5"/>
         <segue reference="OIT-Tg-XOk"/>
+        <segue reference="lKf-fs-Wiv"/>
         <segue reference="Nyg-nQ-ht6"/>
         <segue reference="wDP-4Y-cdF"/>
         <segue reference="46l-tX-X1A"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="JGM-Q4-zwX"/>
-        <segue reference="YL2-bg-fIc"/>
-        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="Dbq-7P-K8C"/>
-        <segue reference="382-1V-m5k"/>
+        <segue reference="JT1-3I-mwZ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

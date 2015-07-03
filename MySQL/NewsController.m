@@ -80,11 +80,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 #pragma mark - RefreshControl
 - (void)reloadDatas:(UIRefreshControl *)refreshControl {
     [self getNewsImages];
@@ -92,7 +87,6 @@
 }
 
 #pragma mark - Get Parse Image
-//Get the list of images
 -(void)getNewsImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
     [query setLimit:15]; //parse.com standard is 100
@@ -114,7 +108,6 @@
 }
 
 #pragma mark - Wall Load
-//Load the images on the wall
 -(void)loadWallViews
 {
     //Clean the scroll view
@@ -128,37 +121,49 @@
     int originY = 10;
     
         for (PFObject *wallObject in self.imageFilesArray){
-        
+            
+        UIView *wallImageView;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //fix-self.view.frame.size.height - original height 330 not 345
-        UIView *wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
+        wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 222 , 535)];
+        } else {
+        wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
+        }
             
         //Add the image
         PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
 
-//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
             
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
-            //added to remove warning on thread...load faster use above code
-            [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
-                PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-                [userImage loadInBackground];
-                 //userImage.contentMode = UIViewContentModeScaleAspectFill;
-                 userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
-                [wallImageView addSubview:userImage];
-            }];
-        } else {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
+        //added to remove warning on thread...load faster use above code
+        [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
             PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
             [userImage loadInBackground];
-             //userImage.contentMode = UIViewContentModeScaleAspectFit;
-             userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
-            [wallImageView addSubview:userImage];
+            //userImage.contentMode = UIViewContentModeScaleAspectFill;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            userImage.frame = CGRectMake(0, 80, wallImageView.frame.size.width, 375);
+            else
+            userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 235);
             
-        }
-            /*
-             UIImageView *userImage = [[UIImageView alloc] initWithImage:
-             [UIImage imageWithData:image.getData]];
-             userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
-             [wallImageView addSubview:userImage]; */
+            [wallImageView addSubview:userImage];
+        }];
+    } else {
+        PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        [userImage loadInBackground];
+        //userImage.contentMode = UIViewContentModeScaleAspectFit;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            userImage.frame = CGRectMake(0, 80, wallImageView.frame.size.width, 375);
+        else
+            userImage.frame = CGRectMake(0, 70, wallImageView.frame.size.width, 225);
+        
+        [wallImageView addSubview:userImage];
+    }
+    /*
+     UIImageView *userImage = [[UIImageView alloc] initWithImage:
+     [UIImage imageWithData:image.getData]];
+     userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
+     [wallImageView addSubview:userImage]; */
       
 //--------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
@@ -174,8 +179,6 @@
         NSDate *datetime2 = [NSDate date];
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
-
-        //Add the detail
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 52, wallImageView.frame.size.width, 12)];
         detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
         detailLabel.font = DETAILFONT(KEY_FONTSIZE);
@@ -183,35 +186,30 @@
         detailLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:detailLabel];
         
-        UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 62 , 52, wallImageView.frame.size.width, 12)];
+        UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 60 , 52, wallImageView.frame.size.width, 12)];
         readLabel.text = READLABEL;
         readLabel.font = DETAILFONT(KEY_FONTSIZE + 1);
         readLabel.textColor = NEWSREADCOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
-        
-        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
+            
+        UIButton *faceBtn;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,500, 20, 20)];
+        } else {
+            faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
+        }
         [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
         [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:faceBtn];
-       /*
-        UIButton *twitBtn = [[UIButton alloc] initWithFrame:CGRectMake(35,310, 20, 20)];
-        [twitBtn setImage:[UIImage imageNamed:@"Twitter.png"] forState:UIControlStateNormal];
-        [twitBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-        [wallImageView addSubview:twitBtn];
-        
-        UIButton *tumblrBtn = [[UIButton alloc] initWithFrame:CGRectMake(65,310, 20, 20)];
-        [tumblrBtn setImage:[UIImage imageNamed:@"Tumblr.png"] forState:UIControlStateNormal];
-        [tumblrBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-        [wallImageView addSubview:tumblrBtn];
-        
-        UIButton *yourBtn = [[UIButton alloc] initWithFrame:CGRectMake(95,310, 20, 20)];
-        [yourBtn setImage:[UIImage imageNamed:@"Flickr.png"] forState:UIControlStateNormal];
-        [yourBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-        [wallImageView addSubview:yourBtn]; */
-       
-        UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
-        separatorLineView.backgroundColor = SEPARATORCOLOR;// you can also put image here
+            
+        UIView* separatorLineView;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 550, self.view.frame.size.width, .8)];
+        } else {
+                separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
+        }
+        separatorLineView.backgroundColor = SEPARATORCOLOR;
         [wallImageView addSubview:separatorLineView];
             
       //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
@@ -257,11 +255,7 @@
 
 #pragma mark - ActivityViewController
 - (void)share:(id)sender {
-    //CGSize mySize;
-    //mySize.width = 375;
-    //mySize.height = 365;
-    //UIGraphicsBeginImageContextWithOptions(mySize, self.view.opaque, 0.0);
-    //UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, view.opaque, 0.0);
+    
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, 365), self.view.opaque, 0.0);
     [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
@@ -270,15 +264,16 @@
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:[NSArray arrayWithObjects:@"I would like to share this.",newPNG, nil] applicationActivities:nil];
     activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
-    [self presentViewController:activityVC animated:YES completion:nil];//UIActivityTypeMessage ,
-/*
-    NSString * message = @"Breaking News";
-    NSString * message1 = @"Newsios";
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"]; //self.userImage.image
-    NSArray * shareItems = @[message, message1, image];
     
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    [self presentViewController:avc animated:YES completion:nil]; */
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:activityVC animated:YES completion:nil];
+    } else {
+
+        activityVC.popoverPresentationController.sourceView = self.view;
+        activityVC.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        
+        [self presentViewController:activityVC animated:YES completion:nil];
+    }
 }
 
 @end

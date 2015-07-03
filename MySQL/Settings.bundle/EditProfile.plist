@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>StringsTable</key>
+    <string>EditProfile</string>
+    <key>Title</key>
+    <string>Edit Profile</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
@@ -73,9 +77,5 @@
 			<string>3911</string>
 		</dict>
 	</array>
-	<key>Title</key>
-	<string>EditProfile</string>
-	<key>StringsTable</key>
-	<string>EditProfile</string>
 </dict>
 </plist>

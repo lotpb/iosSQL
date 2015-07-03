@@ -755,8 +755,8 @@
 		AF6A13731A07BD0C00C3EEAC /* Customer */ = {
 			isa = PBXGroup;
 			children = (
-				AF7B25701A05829600F7C058 /* CustController.h */,
 				AF7B25711A05829600F7C058 /* CustController.m */,
+				AF7B25701A05829600F7C058 /* CustController.h */,
 			);
 			name = Customer;
 			sourceTree = "<group>";

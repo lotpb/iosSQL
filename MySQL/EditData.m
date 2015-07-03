@@ -84,7 +84,7 @@ Parse.com
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-    [self.first becomeFirstResponder];
+    //[self.first becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,13 +109,14 @@ Parse.com
     callbackArray = callbackItem;
 }
 
+/*
 #pragma mark - Keyboard
 - (void)dismissKeyboard {
     // To dismiss the keyboard, we simply ask all fields to resign its focus.
     for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
         [[self.view viewWithTag:i] resignFirstResponder];
     }
-}
+} */
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {

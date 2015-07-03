@@ -15,9 +15,10 @@
 #import "MapViewController.h"
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import <MessageUI/MessageUI.h> 
 //#import "CalenderEdit.h"
 
-@interface LeadDetailViewControler : UIViewController <UIPopoverPresentationControllerDelegate>
+@interface LeadDetailViewControler : UIViewController <UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate>;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;

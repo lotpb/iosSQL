@@ -31,7 +31,7 @@ NSArray *menuItems;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    //self.view.backgroundColor = [UIColor redColor];
     self.tableView.backgroundColor = BACKGROUNDCOLOR;
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
@@ -138,7 +138,7 @@ NSArray *menuItems;
        [Cell.contentView addSubview:activeImage];
     
         label2.text = [defaults objectForKey:userNameKey];
-       [label2 setFont:CELL_FONT(IPAD_FONTSIZE)];
+       [label2 setFont:CELL_FONT(CELL_FONTSIZE)];
         label2.textAlignment = NSTextAlignmentCenter;
        [label2 setTextColor:[UIColor whiteColor]];
        [Cell.contentView addSubview:label2];
@@ -149,7 +149,7 @@ NSArray *menuItems;
        [label3 setTextColor:[UIColor lightGrayColor]];
        [Cell.contentView addSubview:label3];
     }
-    
+    Cell.backgroundColor = [UIColor darkGrayColor];
     return Cell;
 }
 

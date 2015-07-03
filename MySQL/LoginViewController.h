@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface LoginViewController : UIViewController
 
@@ -18,4 +19,5 @@
 
 - (IBAction)registerUser:(id)sender;
 - (IBAction)LoginUser:(id)sender;
+- (IBAction)authenticateButtonTapped:(id)sender;
 @end

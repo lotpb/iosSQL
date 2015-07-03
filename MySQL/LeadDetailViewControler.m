@@ -19,6 +19,7 @@
 {
     NSMutableArray *tableData, *tableData2, *tableData3, *tableData4;
     NSString *t12, *t11, *t13, *t14, *t15, *t16, *t21, *t22, *t23, *t24, *t25, *t26, *p1, *p12;
+    UIBarButtonItem *newItem;
 }
 @synthesize leadNo, date, name, address, city, state, zip, comments, amount, active, photo, salesman, jobdescription, advertiser;
 
@@ -63,10 +64,10 @@
       else self.comments = @"No Comments";
     
 #pragma mark Bar Button
-        UIBarButtonItem *newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
-           UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
-        NSArray *actionButtonItems = @[editItem, newItem];
-        self.navigationItem.rightBarButtonItems = actionButtonItems;
+    newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
+    NSArray *actionButtonItems = @[editItem, newItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -78,19 +79,6 @@
     [refreshView addSubview:refreshControl];
     
 }
-/*
-//Call Number from here
-NSString *phoneNo = [NSString stringWithFormat:@"+1234567890"];
-NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
-
-if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
-    [[UIApplication sharedApplication] openURL:phoneUrl];
-}
-else
-{
-    UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"You cannot call this consumer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [calert show];
-} */
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
     [super viewDidAppear:animated];
@@ -177,7 +165,7 @@ else
     [self performSegueWithIdentifier:VIEWSEGUE sender:self];
 }
 
-#pragma mark UIActivityViewController
+#pragma mark - UIActivityViewController
 - (void)share:(id)sender {
     
     NSString * message = [NSString stringWithFormat:@"United News \n%@ \n%@ \n%@ %@ %@ \n%@ ", self.name, self.address, city, state, zip, self.comments];
@@ -197,6 +185,105 @@ else
         
          [self presentViewController:avc animated:YES completion:nil];
     }
+}
+
+#pragma mark - Call Phone
+-(void)callPhone {
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        NSString *phoneNo = t12; //[NSString stringWithFormat:@"+5162414786"];
+        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
+        
+        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+            
+            [[UIApplication sharedApplication] openURL:phoneUrl];
+        } else {
+            UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [calert show];
+        }
+    } else {
+        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warning show];
+    }
+}
+
+#pragma mark - Send Email
+-(void)sendEmail {
+    
+    NSArray *toRecipents;
+    
+    if (([_formController isEqual: TNAME1]) || ([_formController isEqual: TNAME2])) {
+        if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 )) {
+            MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
+            toRecipents = [NSArray arrayWithObject:t15];
+            [mailcomposer setToRecipients:toRecipents];
+            mailcomposer.mailComposeDelegate = self;
+            NSString *emailTitle = SIDEEMAILTITLE;
+            NSString *messageBody = SIDEEMAILMESSAGE;
+            [mailcomposer setSubject:emailTitle];
+            [mailcomposer setMessageBody:messageBody isHTML:NO];
+            //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+            [self presentViewController:mailcomposer animated:YES completion:NULL];
+            
+        } else {
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
+        }
+    }
+    
+    if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
+        if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 )) {
+            MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
+            toRecipents = [NSArray arrayWithObject:t21];
+            [mailcomposer setToRecipients:toRecipents];
+            mailcomposer.mailComposeDelegate = self;
+            NSString *emailTitle = SIDEEMAILTITLE;
+            NSString *messageBody = SIDEEMAILMESSAGE;
+            [mailcomposer setSubject:emailTitle];
+            [mailcomposer setMessageBody:messageBody isHTML:NO];
+            //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+            [self presentViewController:mailcomposer animated:YES completion:NULL];
+            
+        } else {
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
+        }
+    }
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    if(error) {
+        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        [alrt show];
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+    /*
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL]; */
+    
 }
 
 #pragma mark - TableView
@@ -331,7 +418,7 @@ else
     //Social buttons - code below
     UIButton *faceBtn;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height- 445, 20, 20)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 ,self.newsTableView.frame.size.height- 460, 25, 25)];
     } else {
     faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height- 80, 20, 20)];
     }
@@ -362,7 +449,7 @@ return myCell;
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* addr = [UIAlertAction
-                          actionWithTitle:@"Add to Contact"
+                          actionWithTitle:@"Add Contact"
                           style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
@@ -371,7 +458,7 @@ return myCell;
                          }];
     
     UIAlertAction* cal = [UIAlertAction
-                          actionWithTitle:@"Add to Calender"
+                          actionWithTitle:@"Add Calender"
                           style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
@@ -382,7 +469,7 @@ return myCell;
     
                           if ([_formController isEqual:TNAME1]) {
     UIAlertAction* new = [UIAlertAction
-                         actionWithTitle:@"Add to Customer"
+                         actionWithTitle:@"Add Customer"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
@@ -392,7 +479,25 @@ return myCell;
                          }];
                          [view addAction:new];
                          }
-    
+    UIAlertAction* phone = [UIAlertAction
+                          actionWithTitle:@"Call Phone"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //Do some thing here
+                              [self callPhone];
+                          [view dismissViewControllerAnimated:YES completion:nil];
+                          }];
+    UIAlertAction* email = [UIAlertAction
+                            actionWithTitle:@"Send Email"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //Do some thing here
+                                [self sendEmail];
+                                [view dismissViewControllerAnimated:YES completion:nil];
+                            }];
+
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"
                              style:UIAlertActionStyleDefault
@@ -403,9 +508,19 @@ return myCell;
                               
     [view addAction:addr];
     [view addAction:cal];
+    [view addAction:phone];
+    [view addAction:email];
     [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
+        view.popoverPresentationController.barButtonItem = newItem;
+        view.popoverPresentationController.sourceView = self.view;
+    }
+    
     [self presentViewController:view animated:YES completion:nil];
 }
+
 #pragma mark - LoadFieldData
 - (void)fieldData {
 

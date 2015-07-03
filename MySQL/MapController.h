@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Constants.h"
+//#import "SWRevealViewController.h"
 
-@interface MapController : UIViewController
-@property (weak, nonatomic) IBOutlet MKMapView *myMapView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@interface MapController : UIViewController <MKMapViewDelegate,  CLLocationManagerDelegate>
 
+@property (weak, nonatomic) IBOutlet MKMapView *MapView;
+@property (nonatomic, retain) CLLocationManager *locationManager;
 @end
