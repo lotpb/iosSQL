@@ -10,9 +10,10 @@
 
 @interface LeadDetailViewControler ()
 {
-  UIRefreshControl *refreshControl;    
+  UIRefreshControl *refreshControl;
+    //NSString *efield;
 }
-
+@property (nonatomic, retain) NSString *getEmail;
 @end
 
 @implementation LeadDetailViewControler
@@ -208,43 +209,20 @@
     }
 }
 
-#pragma mark - Send Email
+#pragma mark - Email
 -(void)sendEmail {
-    
-    NSArray *toRecipents;
     
     if (([_formController isEqual: TNAME1]) || ([_formController isEqual: TNAME2])) {
         if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 )) {
-            MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
-            toRecipents = [NSArray arrayWithObject:t15];
-            [mailcomposer setToRecipients:toRecipents];
-            mailcomposer.mailComposeDelegate = self;
-            NSString *emailTitle = SIDEEMAILTITLE;
-            NSString *messageBody = SIDEEMAILMESSAGE;
-            [mailcomposer setSubject:emailTitle];
-            [mailcomposer setMessageBody:messageBody isHTML:NO];
-            //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-            [self presentViewController:mailcomposer animated:YES completion:NULL];
-            
+            [self getEmail:t15];
         } else {
             UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [warning show];
         }
-    }
-    
+    }    
     if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
         if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 )) {
-            MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
-            toRecipents = [NSArray arrayWithObject:t21];
-            [mailcomposer setToRecipients:toRecipents];
-            mailcomposer.mailComposeDelegate = self;
-            NSString *emailTitle = SIDEEMAILTITLE;
-            NSString *messageBody = SIDEEMAILMESSAGE;
-            [mailcomposer setSubject:emailTitle];
-            [mailcomposer setMessageBody:messageBody isHTML:NO];
-            //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-            [self presentViewController:mailcomposer animated:YES completion:NULL];
-            
+            [self getEmail:t21];
         } else {
             UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [warning show];
@@ -252,38 +230,30 @@
     }
 }
 
+-(void)getEmail:(NSString*)emailfield {
+    NSArray *toRecipents;
+    MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
+    toRecipents = [NSArray arrayWithObject:emailfield];
+    [mailcomposer setToRecipients:toRecipents];
+    mailcomposer.mailComposeDelegate = self;
+    NSString *emailTitle = SIDEEMAILTITLE;
+    NSString *messageBody = SIDEEMAILMESSAGE;
+    [mailcomposer setSubject:emailTitle];
+    [mailcomposer setMessageBody:messageBody isHTML:NO];
+    //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentViewController:mailcomposer animated:YES completion:NULL];
+}
+
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     if(error) {
-        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"Mail sent failure" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
         [alrt show];
         [self dismissViewControllerAnimated:YES completion:NULL];
     }
     else {
         [self dismissViewControllerAnimated:YES completion:NULL];
     }
-    /*
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-            NSLog(@"Mail cancelled");
-            break;
-        case MFMailComposeResultSaved:
-            NSLog(@"Mail saved");
-            break;
-        case MFMailComposeResultSent:
-            NSLog(@"Mail sent");
-            break;
-        case MFMailComposeResultFailed:
-            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
-            break;
-        default:
-            break;
-    }
-    
-    // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL]; */
-    
 }
 
 #pragma mark - TableView
@@ -443,9 +413,8 @@ return myCell;
 #pragma mark - AlertController ios8
 -(void)showNew:(id)sender {
     
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:@"Confirm"
-                                 message:@"Enter data entry"
+    UIAlertController* view= [UIAlertController
+                              alertControllerWithTitle:@"Note" message:@"Enter data entry"
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* addr = [UIAlertAction
@@ -467,7 +436,6 @@ return myCell;
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
-                          if ([_formController isEqual:TNAME1]) {
     UIAlertAction* new = [UIAlertAction
                          actionWithTitle:@"Add Customer"
                          style:UIAlertActionStyleDefault
@@ -477,8 +445,7 @@ return myCell;
                          [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
                          [view dismissViewControllerAnimated:YES completion:nil];
                          }];
-                         [view addAction:new];
-                         }
+
     UIAlertAction* phone = [UIAlertAction
                           actionWithTitle:@"Call Phone"
                           style:UIAlertActionStyleDefault
@@ -505,15 +472,16 @@ return myCell;
                              {
                             [view dismissViewControllerAnimated:YES completion:nil];
                             }];
-                              
-    [view addAction:addr];
-    [view addAction:cal];
+
     [view addAction:phone];
     [view addAction:email];
+if ([_formController isEqual:TNAME1]) {
+    [view addAction:new]; }
+    [view addAction:addr];
+    [view addAction:cal];
     [view addAction:cancel];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        
         view.popoverPresentationController.barButtonItem = newItem;
         view.popoverPresentationController.sourceView = self.view;
     }

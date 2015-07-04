@@ -211,7 +211,12 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:imageHolder];
     
     UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
+    } else {
     [label4 setFont:CELL_FONT(HEADFONTSIZE)];
+    }
     
     if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
         [label4 setTextColor:LINECOLOR3];
@@ -278,7 +283,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Statistics" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-     button.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        button.titleLabel.font = CELL_FONT(IPAD_FONTSIZE) ;
+    } else {
+        button.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    }
+    
     button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
     [view addSubview:button];
     /*
@@ -291,14 +302,17 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 }
 
 -(void)openStats:(id)sender {
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    else
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        else
+            [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
+    } else {
         [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
+    }
 }
 
 #pragma mark - Search

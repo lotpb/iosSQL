@@ -177,10 +177,10 @@ if(self.segmentedControl.selectedSegmentIndex == 0)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (shareEnabled) {
+   // if (shareEnabled) {
         NSString *selectedRecipe = [jobImages[indexPath.section] objectAtIndex:indexPath.row];
         [selectedJobs addObject:selectedRecipe];
-    }
+   // }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

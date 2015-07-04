@@ -84,7 +84,8 @@ Parse.com
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-    //[self.first becomeFirstResponder];
+    [self.first becomeFirstResponder];
+    [self.view endEditing:YES]; //dismiss the keyboard
 }
 
 - (void)didReceiveMemoryWarning {
