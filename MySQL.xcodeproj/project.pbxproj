@@ -90,6 +90,7 @@
 		AF558C7119DAD121004D30D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF558C6F19DAD06A004D30D7 /* MapKit.framework */; };
 		AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF57D6941A428B3200CF130C /* AppPrefViewController.m */; };
 		AF58DFB21B409520006729A3 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF58DFB11B409520006729A3 /* iPad.storyboard */; };
+		AF5D75941B4A21E200EEAA80 /* ParseStatConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D75931B4A21E200EEAA80 /* ParseStatConnection.m */; };
 		AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */; };
 		AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F8EE01A61C4290063B6DA /* LookupCity.m */; };
 		AF600B9E1ABF2AF00010E7D0 /* profile-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AF600B9D1ABF2AF00010E7D0 /* profile-bg.png */; };
@@ -298,6 +299,8 @@
 		AF57D6931A428B3200CF130C /* AppPrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPrefViewController.h; sourceTree = "<group>"; };
 		AF57D6941A428B3200CF130C /* AppPrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppPrefViewController.m; sourceTree = "<group>"; };
 		AF58DFB11B409520006729A3 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
+		AF5D75921B4A21E200EEAA80 /* ParseStatConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStatConnection.h; sourceTree = "<group>"; };
+		AF5D75931B4A21E200EEAA80 /* ParseStatConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseStatConnection.m; sourceTree = "<group>"; };
 		AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		AF5EF83A1A4F015900B802E1 /* UploadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
 		AF5F8EE01A61C4290063B6DA /* LookupCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupCity.m; sourceTree = "<group>"; };
@@ -757,6 +760,17 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		AF5D75951B4A241B00EEAA80 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
+				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
+				AF5D75921B4A21E200EEAA80 /* ParseStatConnection.h */,
+				AF5D75931B4A21E200EEAA80 /* ParseStatConnection.m */,
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
 		AF6A13731A07BD0C00C3EEAC /* Customer */ = {
 			isa = PBXGroup;
 			children = (
@@ -905,14 +919,13 @@
 			isa = PBXGroup;
 			children = (
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
-				AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */,
-				AF023A9E1AE09691006D8AEC /* ParseConnection.m */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
+				AF5D75951B4A241B00EEAA80 /* Parse */,
 				AF0634871AF662A000D4B846 /* MainMenu */,
 				AF4E626C1A5CBABA007A56D0 /* New/Edit Data */,
 				AFA3528019FBD43B00840AA3 /* Leads */,
@@ -1243,6 +1256,7 @@
 				AFB8C7181AF3035500417431 /* StatCustModel.m in Sources */,
 				AF9926B31A4CFD1100429EC8 /* CollectionDetailController.m in Sources */,
 				AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */,
+				AF5D75941B4A21E200EEAA80 /* ParseStatConnection.m in Sources */,
 				AF26EF7D1A360C0F00FFE5F0 /* SalesModel.m in Sources */,
 				AF627C151A1239EF0048668B /* ProfileViewController.m in Sources */,
 				AFBC9E8719D9CEDE0050E67A /* main.m in Sources */,

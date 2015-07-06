@@ -47,7 +47,7 @@
     self.listTableView2.rowHeight = 25;
     self.newsTableView.estimatedRowHeight = 250.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
    [self parseData];
    [self followButton];
     
@@ -175,17 +175,11 @@
     
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        
-        [self presentViewController:avc animated:YES completion:nil];
-        
-    } else {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         avc.popoverPresentationController.sourceView = self.view;
         avc.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
-        // this is the center of the screen currently but it can be any point in the view
-        
-         [self presentViewController:avc animated:YES completion:nil];
     }
+         [self presentViewController:avc animated:YES completion:nil];
 }
 
 #pragma mark - Call Phone

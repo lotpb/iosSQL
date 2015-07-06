@@ -195,39 +195,20 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
-  //[[UIView appearance] setBackgroundColor:[UIColor redColor]]; //added for problem solve
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
     
     UIImage *image;
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+  /*  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         image = nil; //[UIImage imageNamed:@""];
     } else {
         image = [UIImage imageNamed:@"IMG_1133New.jpg"];
-    }
-    
+    }*/
+    image = [UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
+    imageHolder.clipsToBounds = true;
     [view addSubview:imageHolder];
-    
-    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
-    } else {
-    [label4 setFont:CELL_FONT(HEADFONTSIZE)];
-    }
-    
-    if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
-        [label4 setTextColor:LINECOLOR3];
-    } else {
-        [label4 setTextColor:LINECOLOR1];
-    }
-
-    label4.numberOfLines = 0;
-    NSString *string = newString3;
-    [label4 setText:string];
-    [view addSubview:label4];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
     [label setFont:CELL_FONT(HEADFONTSIZE + 1)];
@@ -252,14 +233,14 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
-    
+    /*
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
     if (![respond containsString:@"-"]) {
         separatorLineView1.backgroundColor = LINECOLOR1;
     } else {
         separatorLineView1.backgroundColor = LINECOLOR3;
     }
-    [view addSubview:separatorLineView1];
+    [view addSubview:separatorLineView1]; */
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
     label2.numberOfLines = 0;
@@ -270,14 +251,30 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
-    
+    /*
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
     if (![respond1 containsString:@"-"]) {
         separatorLineView2.backgroundColor = LINECOLOR1;
     } else {
         separatorLineView2.backgroundColor = LINECOLOR3;
     }
-    [view addSubview:separatorLineView2];
+    [view addSubview:separatorLineView2]; */
+    
+    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
+    } else {
+        [label4 setFont:CELL_FONT(HEADFONTSIZE)];
+    }
+    if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
+        [label4 setTextColor:LINECOLOR3];
+    } else {
+        [label4 setTextColor:LINECOLOR1];
+    }
+    label4.numberOfLines = 0;
+    NSString *string = newString3;
+    [label4 setText:string];
+    [view addSubview:label4];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
@@ -378,7 +375,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     results1 = [yql query:queryString1];
     //respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
-        respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
+    respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
     
     results2 = [yql query:queryString2];
     respond2 = [[results2 valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"temp"];

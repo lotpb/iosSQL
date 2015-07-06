@@ -294,6 +294,11 @@ Parse.com
                                  }];
         [view addAction:ok];
         [view addAction:cancel];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            view.popoverPresentationController.sourceView = self.view;
+            view.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        }
         [self presentViewController:view animated:YES completion:nil];
     }
 }

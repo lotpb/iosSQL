@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "YQL.h"
+#import "ParseStatConnection.h"
 //#import "CustLocation.h"
 //#import "StatCustModel.h"
 //#import "StatLeadModel.h"
@@ -21,6 +22,8 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
+@property (weak, nonatomic) IBOutlet UITableView *listTableViewLeft;
+@property (weak, nonatomic) IBOutlet UITableView *listTableViewRight;
 @property (weak, nonatomic)  UILabel *label2;
 
 @end

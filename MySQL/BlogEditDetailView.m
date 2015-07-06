@@ -14,6 +14,9 @@
 @end
 
 @implementation BlogEditDetailView
+{
+UIBarButtonItem *trashItem, *shareItem;
+}
 //@synthesize msgDate, postby, subject, rating, msgNo;
 
 - (void)viewDidLoad
@@ -24,8 +27,8 @@
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.view.backgroundColor = BLOGBACKCOLOR;
     
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
-    UIBarButtonItem *trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
+    trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
@@ -43,23 +46,25 @@
 
 #pragma mark - BarButton
 - (void)share:(id)sender {
+    NSString *message, *message1, *message2;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        NSString * message = self.msgDate;
-        NSString * message1 = self.postby;
-        NSString * message2 = self.subject;
-        UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-        NSArray * shareItems = @[message, message1, message2, image];
-        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-        [self presentViewController:avc animated:YES completion:nil];
+        message = self.msgDate;
+        message1 = self.postby;
+        message2 = self.subject;
     } else {
-        NSString * message = self.selectedLocation.msgDate;
-        NSString * message1 = self.selectedLocation.postby;
-        NSString * message2 = self.selectedLocation.subject;
-        UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-        NSArray * shareItems = @[message, message1, message2, image];
-        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-        [self presentViewController:avc animated:YES completion:nil];
+        message = self.selectedLocation.msgDate;
+        message1 = self.selectedLocation.postby;
+        message2 = self.selectedLocation.subject;
     }
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    NSArray * shareItems = @[message, message1, message2, image];
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        avc.popoverPresentationController.barButtonItem = shareItem;
+        avc.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:avc animated:YES completion:nil];
 }
 
 #pragma mark - ActionSheet
@@ -119,12 +124,15 @@
                                                      style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
     [view addAction:ok];
     [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        view.popoverPresentationController.barButtonItem = trashItem;
+        view.popoverPresentationController.sourceView = self.view;
+    }
     [self presentViewController:view animated:YES completion:nil];
-
 }
 
 #pragma mark - TableView
@@ -136,7 +144,6 @@
 #pragma mark - TableView Delegate Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *CellIdentifier = IDCELL;
   //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
     
