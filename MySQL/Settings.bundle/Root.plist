@@ -248,6 +248,26 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Email Title</string>
+			<key>Key</key>
+			<string>emailtitleKey</string>
+			<key>DefaultValue</key>
+			<string>mySQL Support</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Email Message</string>
+			<key>Key</key>
+			<string>emailmessageKey</string>
+			<key>DefaultValue</key>
+			<string>&lt;h2&gt;Learning iOS Programming!&lt;/h2&gt;</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Location</string>

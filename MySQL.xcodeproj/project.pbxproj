@@ -931,7 +931,6 @@
 				AFA3528019FBD43B00840AA3 /* Leads */,
 				AF6A13731A07BD0C00C3EEAC /* Customer */,
 				AF8F7E131A37E26B009D34EA /* Salesman */,
-				AFFEA08B1A32196200165318 /* Job */,
 				AFFEA08A1A32194600165318 /* Advertising */,
 				AFFEA0831A320F1C00165318 /* Product */,
 				AFF3B88B1A214403005D556C /* Employee */,
@@ -1019,6 +1018,7 @@
 			isa = PBXGroup;
 			children = (
 				AFFEA0841A32101600165318 /* AdvertisingViewController.h */,
+				AFFEA08B1A32196200165318 /* Job */,
 				AFFEA0851A32101600165318 /* AdvertisingViewController.m */,
 			);
 			name = Advertising;

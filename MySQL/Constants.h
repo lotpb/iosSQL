@@ -74,15 +74,17 @@
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------iPad Font Form-------------------------------
-#define IPAD_FONTSIZE      18
-#define IPADTITLE_FONTSIZE 22
+#define IPADTITLE_FONTSIZE 20
+#define IPAD_FONTSIZE      16
+#define IPAD_BUTTONSIZE    18
+#define IPADSTATFONTSIZE   11
 //------tableviewcell-------------------------------
-#define IDCELL            @"BasicCell"
-#define TABLECELLIMAGE    @"DemoCellImage"
-#define BACKGROUNDCOLOR   [UIColor blackColor]
-#define ROW_HEIGHT        44.0f
+#define IDCELL             @"BasicCell"
+#define TABLECELLIMAGE     @"DemoCellImage"
+#define BACKGROUNDCOLOR    [UIColor blackColor]
+#define ROW_HEIGHT         44.0f
 #define CELL_TITLEFONTSIZE 20
-#define CELL_FONTSIZE     14
+#define CELL_FONTSIZE      16
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
 #define CELL_FONT1(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
 #define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
@@ -97,7 +99,7 @@
 #define HEADTITLE2      @"NASDAQ \n4,727.35"
 #define HEADTITLE3      @"DOW \n17,776.80"
 #define HEADTEXTCOLOR   [UIColor whiteColor]
-#define HEADFONTSIZE    13
+#define HEADFONTSIZE    14
 #define HEADHEIGHT      55.0
 #define LABELSIZE1      12, 3, tableView.frame.size.width, 45
 #define LABELSIZE2      85, 3, tableView.frame.size.width, 45
@@ -158,13 +160,14 @@
 //------tableheader-------------------------------
 #define MAINHEADHEIGHT     175.0
 //#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
-#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 45
-#define MAINLABELSIZE2     85, 125, tableView.frame.size.width, 45
-#define MAINLABELSIZE3     158, 125, tableView.frame.size.width, 45
+#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE2     90, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE3     163, 125, tableView.frame.size.width, 50
 #define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
-#define MAINLINESIZE1      12, 166, 60, 1.5
-#define MAINLINESIZE2      85, 166, 60, 1.5
-#define MAINLINESIZE3      158, 166, 60, 1.5
+#define MAINLABELSIZE5     12, 80, tableView.frame.size.width, 20 //ipad
+#define MAINLINESIZE1      12, 170, 60, 1.5
+#define MAINLINESIZE2      90, 170, 60, 1.5
+#define MAINLINESIZE3      163, 170, 60, 1.5
 #define MAINWEATHERSIZE1   12, 50, 60, 1.5
 //------table names-------------------------------
 #define TNAME1             @"Leads"
@@ -402,8 +405,6 @@
 // SIDEBAR CONTROLLER
 #define SIDEIMAGETITLE      @"user_male-128.png"
 #define SIDEIMAGEBACKCOLOR  [UIColor grayColor]
-#define SIDEEMAILTITLE      @"Email Support"
-#define SIDEEMAILMESSAGE    @"<h2>Learning iOS Programming!</h2>"
 //-----------------------END-------------------------------
 
 // PHOTO COLLECTION

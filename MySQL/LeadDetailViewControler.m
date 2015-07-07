@@ -225,16 +225,17 @@
 }
 
 -(void)getEmail:(NSString*)emailfield {
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *toRecipents;
     MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
     toRecipents = [NSArray arrayWithObject:emailfield];
     [mailcomposer setToRecipients:toRecipents];
     mailcomposer.mailComposeDelegate = self;
-    NSString *emailTitle = SIDEEMAILTITLE;
-    NSString *messageBody = SIDEEMAILMESSAGE;
+    NSString *emailTitle = [standardDefaults objectForKey:@"emailtitleKey"];
+    NSString *messageBody = [standardDefaults objectForKey:@"emailmessageKey"];
     [mailcomposer setSubject:emailTitle];
-    [mailcomposer setMessageBody:messageBody isHTML:NO];
-    //[mailcomposer setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [mailcomposer setMessageBody:messageBody isHTML:YES];
+    [mailcomposer setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [self presentViewController:mailcomposer animated:YES completion:NULL];
 }
 

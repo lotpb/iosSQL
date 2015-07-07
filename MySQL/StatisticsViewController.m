@@ -29,7 +29,8 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = STATBACKCOLOR;
-    self.listTableView.rowHeight = 30; //UITableViewAutomaticDimension;
+    self.listTableView.rowHeight = 30;
+  //UITableViewAutomaticDimension;
  //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
   //self.listTableView.estimatedRowHeight = 44.0;
     

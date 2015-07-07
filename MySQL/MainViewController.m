@@ -163,10 +163,14 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT1(IPADTITLE_FONTSIZE)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+    }
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
     
     if (!isFilltered)
        myCell.textLabel.text = [tableData objectAtIndex:indexPath.row];
@@ -197,24 +201,49 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
+    UILabel *label4;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE5)];
+    } else {
+    label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+    }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [label setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label1 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label2 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
+        label.backgroundColor = [UIColor blackColor];
+        button.titleLabel.font = CELL_FONT1(IPAD_BUTTONSIZE);
+        button.frame = CGRectMake(tableView.frame.size.width -115, 130, 90, 37);
+    } else {
+        [label setFont:CELL_FONT(HEADFONTSIZE + 1)];
+        [label1 setFont:CELL_FONT(HEADFONTSIZE + 1)];
+        [label2 setFont:CELL_FONT(HEADFONTSIZE + 1)];
+        [label4 setFont:CELL_FONT(HEADFONTSIZE)];
+        button.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
+    }
+    [label setTextColor:HEADTEXTCOLOR];
+    [label1 setTextColor:HEADTEXTCOLOR];
+    [label2 setTextColor:HEADTEXTCOLOR];
     
     UIImage *image;
-  /*  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        image = nil; //[UIImage imageNamed:@""];
-    } else {
-        image = [UIImage imageNamed:@"IMG_1133New.jpg"];
-    }*/
+    /*  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+     image = nil; //[UIImage imageNamed:@""];
+     } else {
+     image = [UIImage imageNamed:@"IMG_1133New.jpg"];
+     }*/
     image = [UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
     [view addSubview:imageHolder];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
-    [label setFont:CELL_FONT(HEADFONTSIZE + 1)];
-    [label setTextColor:HEADTEXTCOLOR];
-    label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label.shadowOffset = CGSizeMake(0.0f, 0.5f);
+
     label.numberOfLines = 0;
     NSString *string3 = newString;
     [label setText:string3];
@@ -224,12 +253,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     separatorLineView.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_FONT(HEADFONTSIZE + 1)];
-    [label1 setTextColor:HEADTEXTCOLOR];
-    label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
@@ -242,12 +266,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
     [view addSubview:separatorLineView1]; */
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_FONT(HEADFONTSIZE + 1)];
-    [label2 setTextColor:HEADTEXTCOLOR];
-    label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
@@ -260,40 +279,26 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
     [view addSubview:separatorLineView2]; */
     
-    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
-    } else {
-        [label4 setFont:CELL_FONT(HEADFONTSIZE)];
-    }
     if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
         [label4 setTextColor:LINECOLOR3];
     } else {
         [label4 setTextColor:LINECOLOR1];
     }
+    
     label4.numberOfLines = 0;
     NSString *string = newString3;
     [label4 setText:string];
     [view addSubview:label4];
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Statistics" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        button.titleLabel.font = CELL_FONT(IPAD_FONTSIZE) ;
-    } else {
-        button.titleLabel.font = [UIFont systemFontOfSize:12.0];
-    }
-    
-    button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
     [view addSubview:button];
-    /*
+    
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];
     else
-        [view setBackgroundColor:[UIColor blackColor]]; */
+        [view setBackgroundColor:[UIColor blackColor]];
     
     return view;
 }

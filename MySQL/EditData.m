@@ -110,14 +110,13 @@ Parse.com
     callbackArray = callbackItem;
 }
 
-/*
 #pragma mark - Keyboard
 - (void)dismissKeyboard {
     // To dismiss the keyboard, we simply ask all fields to resign its focus.
     for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
         [[self.view viewWithTag:i] resignFirstResponder];
     }
-} */
+}
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {
@@ -302,10 +301,13 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     UITextView *textviewframe;
     UITextField *textframe;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
          textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
          textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
         [self.first setFont:CELL_FONT(IPAD_FONTSIZE)];
@@ -353,7 +355,64 @@ Parse.com
         [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
     }
     
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    self.first.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.last.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.company.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.date.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.address.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.city.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.state.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.aptDate.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.email.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.start.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
+    
+    [self.first setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.last setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.company setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.city setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.zip setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.aptDate setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.jobName setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
+    //[self.comment setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.start setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.complete setClearButtonMode:UITextFieldViewModeWhileEditing];
+    
+    [self.callback setClearButtonMode:UITextFieldViewModeNever];
+
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
+        self.amount.keyboardType = UIKeyboardTypeNumbersAndPunctuation; }
+    if ([_formController isEqual:TNAME3]) {
+        self.last.keyboardType = UIKeyboardTypeURL;
+        self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+    if ([_formController isEqual:TNAME4]) {
+        self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+    self.email.keyboardType = UIKeyboardTypeEmailAddress;
+    self.phone.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    
+    self.email.returnKeyType = UIReturnKeyNext;
    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -369,8 +428,6 @@ Parse.com
              self.date.text = @"";
         else self.date.text = self.frm18;
              self.date.tag = 0;
-             self.date.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.date setClearButtonMode:UITextFieldViewModeWhileEditing];
 
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             self.date.inputView = [self datePicker:0];
@@ -393,8 +450,6 @@ Parse.com
         if ([self.frm14 isEqual:[NSNull null]])
              self.address.text = @"";
         else self.address.text = self.frm14;
-             self.address.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.address setClearButtonMode:UITextFieldViewModeWhileEditing];
              self.address.placeholder = @"Address";
          myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
@@ -405,8 +460,6 @@ Parse.com
         if ([self.frm15 isEqual:[NSNull null]])
              self.city.text = @"";
         else self.city.text = self.frm15;
-        self.city.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.city setClearButtonMode:UITextFieldViewModeWhileEditing];
          myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
          self.city.placeholder = @"City";
          myCell.textLabel.text = @"City";
@@ -419,8 +472,6 @@ Parse.com
              self.state.text = @"";
         else self.state.text = self.frm16;
              self.state.adjustsFontSizeToFitWidth = YES;
-             self.state.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.state setClearButtonMode:UITextFieldViewModeWhileEditing];
              self.state.placeholder = @"State";
          myCell.textLabel.text = @"State";
         [myCell.contentView addSubview:self.state];
@@ -430,8 +481,6 @@ Parse.com
         if ([self.frm17 isEqual:[NSNull null]])
              self.zip.text = @"";
         else self.zip.text = self.frm17;
-             self.zip.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.zip setClearButtonMode:UITextFieldViewModeWhileEditing];
              self.zip.placeholder = @"Zip";
         [myCell.contentView addSubview:self.zip];
         
@@ -443,8 +492,6 @@ Parse.com
         else self.aptDate.text = self.frm19;
              self.aptDate.tag = 4;
              self.aptDate.placeholder = @"Apt Date";
-             self.aptDate.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.aptDate setClearButtonMode:UITextFieldViewModeWhileEditing];
         myCell.textLabel.text = @"Apt Date";
         
         if ([_formController isEqual:TNAME1])
@@ -469,8 +516,6 @@ Parse.com
         
          self.phone = textframe;
          self.phone.placeholder = @"Phone";
-         self.phone.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.phone setClearButtonMode:UITextFieldViewModeWhileEditing];
         if (self.frm20.length == 0)
             self.phone.text = @"(516)";
        else self.phone.text = self.frm20;
@@ -482,8 +527,6 @@ Parse.com
          self.salesman = textframe;
          self.salesman.tag = 6;
          self.salesman.adjustsFontSizeToFitWidth = YES;
-         self.salesman.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.salesman setClearButtonMode:UITextFieldViewModeWhileEditing];
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -507,8 +550,6 @@ Parse.com
         
     } else if (indexPath.row == 7) {
          self.jobName = textframe;
-         self.jobName.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.jobName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm22 isEqual:[NSNull null]])
              self.jobName.text = @"";
         else self.jobName.text = self.frm22;
@@ -532,8 +573,6 @@ Parse.com
     } else if (indexPath.row == 8) {
         self.adName = textframe;
         self.adName.placeholder = @"Advertiser";
-        self.adName.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.adName setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm23 isEqual:[NSNull null]])
             self.adName.text = @"";
         else self.adName.text = self.frm23;
@@ -560,8 +599,6 @@ Parse.com
     
          self.amount = textframe;
          self.amount.placeholder = @"Amount";
-         self.amount.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.amount setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm24 isEqual:[NSNull null]])
              self.amount.text = @"";
         else self.amount.text = self.frm24;
@@ -591,18 +628,12 @@ Parse.com
         if ([self.frm25 isEqual:[NSNull null]])
              self.email.text = @"";
         else self.email.text = self.frm25;
-         self.email.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.email setClearButtonMode:UITextFieldViewModeWhileEditing];
-         self.email.keyboardType = UIKeyboardTypeEmailAddress;
-         self.email.returnKeyType = UIReturnKeyNext;
          myCell.textLabel.text = @"Email";
         [myCell.contentView addSubview:self.email];
         
     } else if(indexPath.row == 11) {
          self.spouse = textframe;
          self.spouse.placeholder = @"Spouse";
-         self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.spouse setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm26 isEqual:[NSNull null]])
              self.spouse.text = @"";
         else self.spouse.text = self.frm26;
@@ -620,8 +651,6 @@ Parse.com
         
     } else if (indexPath.row == 12) {
          self.callback = textframe;
-         self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.callback setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm27 isEqual:[NSNull null]])
              self.callback.text = @"";
         else self.callback.text = self.frm27;
@@ -629,7 +658,6 @@ Parse.com
     if ([_formController isEqual:TNAME2]) {
         self.callback.placeholder = @"Quan";
         myCell.textLabel.text = @"# Windows";
-        [self.callback setClearButtonMode:UITextFieldViewModeNever];
         
         UIStepper *stepper = [[UIStepper alloc] init];
         stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -658,7 +686,6 @@ Parse.com
         
     } else if (indexPath.row == 13) {
          self.comment = textviewframe;
-         self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
         if ([self.frm28 isEqual:[NSNull null]])
              self.comment.text = @"";
         else self.comment.text = self.frm28;
@@ -669,8 +696,6 @@ Parse.com
          self.start = textframe;
          self.start.tag = 14;
          self.start.placeholder = @"Start Date";
-         self.start.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.start setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm31 isEqual:[NSNull null]])
              self.start.text = @"";
         else self.start.text = self.frm31;
@@ -683,8 +708,6 @@ Parse.com
          self.complete = textframe;
          self.complete.tag = 15;
          self.complete.placeholder = @"Completion Date";
-         self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
-        [self.complete setClearButtonMode:UITextFieldViewModeWhileEditing];
         if ([self.frm32 isEqual:[NSNull null]])
              self.complete.text = @"";
         else self.complete.text = self.frm32;

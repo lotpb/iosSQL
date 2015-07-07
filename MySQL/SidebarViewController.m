@@ -53,14 +53,15 @@ NSArray *menuItems;
     {
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
         
-        NSString *emailTitle = SIDEEMAILTITLE;
-        NSString *messageBody = SIDEEMAILMESSAGE;
-        NSArray *toRecipents =  [NSArray arrayWithObject:[standardDefaults objectForKey:@"emailKey"]];
+        NSString *emailTitle = [standardDefaults objectForKey:@"emailtitleKey"];
+        NSString *messageBody = [standardDefaults objectForKey:@"emailmessageKey"];
+        NSArray *toRecipents = [NSArray arrayWithObject:[standardDefaults objectForKey:@"emailKey"]];
         
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
         mc.mailComposeDelegate = self;
         [mc setSubject:emailTitle];
         [mc setMessageBody:messageBody isHTML:YES];
+        [mc setModalTransitionStyle:UIModalTransitionStylePartialCurl];
         [mc setToRecipients:toRecipents];
         
         // Present mail view controller on screen

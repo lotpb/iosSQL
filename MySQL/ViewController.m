@@ -230,14 +230,30 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = IDCELL;
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 23, 85, 27)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 0, 85, 27)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 23, 95, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 0, 95, 27)];
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-    [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
-    [myCell.detailTextLabel setFont:CELL_FONT1(CELL_FONTSIZE)];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT1(IPADTITLE_FONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
+        [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT1(CELL_FONTSIZE)];
+        [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
+        [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
+    }
+    [label1 setTextColor:[UIColor blackColor]];
+    [label2 setTextColor:DATECOLORTEXT];
+     label2.textAlignment = NSTextAlignmentCenter;
+     label1.textAlignment = NSTextAlignmentCenter;
+    [label1 setBackgroundColor:[UIColor whiteColor]];
+    [label2 setBackgroundColor:DATECOLORBACK];
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -269,17 +285,9 @@ Parse.com
     [myCell.imageView setImage:myImage];
     }
     
-    [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
-    label1.textAlignment = NSTextAlignmentCenter;
-    [label1 setTextColor:[UIColor blackColor]];
-    [label1 setBackgroundColor:[UIColor whiteColor]];
     label1.tag = 102;
     [myCell.contentView addSubview:label1];
     
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];//[UIFont boldSystemFontOfSize:12.0];
-    label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:DATECOLORTEXT];
-    [label2 setBackgroundColor:DATECOLORBACK];
     label2.tag = 103;
     [myCell.contentView addSubview:label2];
     
@@ -295,7 +303,7 @@ Parse.com
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{   //NSString *uppercase = [TNAME1 uppercaseString];
+{
     NSString *newString = [NSString stringWithFormat:@"LEADS \n%lu", (unsigned long) _feedItems.count];
     NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
@@ -304,11 +312,21 @@ Parse.com
     tableView.tableHeaderView = view; //makes header move with tablecell
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE1)];
-    [label setFont:CELL_FONT(HEADFONTSIZE)];
-    [label setTextColor:HEADTEXTCOLOR];
-    label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label.shadowOffset = CGSizeMake(0.0f, 0.5f);
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE2)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [label setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label1 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label2 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+    } else {
+        [label setFont:CELL_FONT(HEADFONTSIZE)];
+        [label1 setFont:CELL_FONT(HEADFONTSIZE)];
+        [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+    }
+    
      label.numberOfLines = 0;
+    [label setTextColor:HEADTEXTCOLOR];
      NSString *string = newString;
     [label setText:string];
     [view addSubview:label];
@@ -317,13 +335,9 @@ Parse.com
     separatorLineView.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE2)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_FONT(HEADFONTSIZE)];
     [label1 setTextColor:HEADTEXTCOLOR];
-    label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
-    NSString *string1 = newString1;
+     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
     
@@ -331,12 +345,8 @@ Parse.com
     separatorLineView1.backgroundColor = LINECOLOR2;
     [view addSubview:separatorLineView1];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_FONT(HEADFONTSIZE)];
     [label2 setTextColor:HEADTEXTCOLOR];
-    label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
-    label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];

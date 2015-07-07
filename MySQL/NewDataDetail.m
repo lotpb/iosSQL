@@ -33,7 +33,6 @@
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,10 +59,8 @@
     
     if([sender isOn]) {
         self.frm11 = @"Active";
-       // NSLog(@"Switch is ON");
     } else {
         self.frm11 = @"";
-       // NSLog(@"Switch is OFF");
     }
        [self.listTableView reloadData];
 }
@@ -229,7 +226,6 @@
 Parse.com
 *******************************************************************************************
 */
-            
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveSalesman
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Salesman"];

@@ -179,15 +179,15 @@
          
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     myCell.accessoryType = UITableViewCellAccessoryNone;
-    [myCell.textLabel setFont:CELL_FONT(STATFONTSIZE)];
-    [myCell.detailTextLabel setFont:CELL_FONT(STATFONTSIZE)];
+    [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
+    [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
     [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
          
     if (indexPath.section == 0) {
         
-        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -140, 5, 70, 17)];
+        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -155, 5, 77, 17)];
         [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
-        [myCell.detailTextLabel setFont:CELL_MEDFONT(CELL_FONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPAD_FONTSIZE)];
         [label1 setFont:CELL_FONT(CELL_FONTSIZE)];
         [label1 setBackgroundColor:[UIColor whiteColor]];
         label1.textAlignment = NSTextAlignmentRight;
@@ -367,8 +367,8 @@
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(STATFONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(STATFONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
         [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
 
@@ -424,8 +424,8 @@
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(STATFONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(STATFONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
         [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
           if (indexPath.row == 0) {

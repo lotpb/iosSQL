@@ -145,19 +145,29 @@ UIBarButtonItem *trashItem, *shareItem;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
-    
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-   
-    if (myCell == nil) {
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        myCell.accessoryType = UITableViewCellAccessoryNone;
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
+
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPAD_FONTSIZE)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPAD_FONTSIZE - 3)];
+    } else {
+        [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
+        [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
+        [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 3)];
+    }
     
-    [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
-    [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
-    [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 3)];
+    myCell.accessoryType = UITableViewCellAccessoryNone;
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    myCell.blogImageView.clipsToBounds = YES;
+    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+    
+  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
+
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 /*
 *******************************************************************************************
 Parse.com
@@ -191,9 +201,7 @@ Parse.com
         myCell.titleLabel.text = self.postby;
         myCell.subtitleLabel.text = self.subject;
         myCell.msgDateLabel.text = self.msgDate;
-        
     } else {
-        
         myCell.titleLabel.text = self.selectedLocation.postby;
         myCell.subtitleLabel.text = self.selectedLocation.subject;
         myCell.msgDateLabel.text = self.selectedLocation.msgDate;
@@ -207,9 +215,7 @@ Parse.com
             [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
-        
     } else {
-        
         if ([self.selectedLocation.rating isEqual:@"5"]) {
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
             [self.Like setBackgroundColor:LIKECOLORBACK];
@@ -223,9 +229,6 @@ Parse.com
 Parse.com
 *******************************************************************************************
 */
-    myCell.blogImageView.clipsToBounds = YES;
-    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
 
     return myCell;
 }

@@ -270,12 +270,28 @@ Parse.com
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-    
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
-    
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPAD_FONTSIZE)];
+        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPAD_FONTSIZE)];
+        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPAD_FONTSIZE - 4)];
+    } else {
+        [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
+        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
+        [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 4)];
+    }
+
+     myCell.blog2ImageView.clipsToBounds = YES;
+     myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
+     myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
+     label2.text = @"Like";
+     label2.font = LIKEFONT(LIKEFONTSIZE);
+     label2.textAlignment = NSTextAlignmentCenter;
+     [label2 setTextColor:LIKECOLORTEXT];
    
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -293,7 +309,7 @@ Parse.com
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
     [query setLimit:1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
+     query.cachePolicy = kPFCACHEPOLICY;
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error) {
             PFFile *file = [object objectForKey:@"imageFile"];
@@ -315,31 +331,19 @@ Parse.com
         myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
         myCell.blogmsgDateLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
         if (![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
-             label2.hidden = NO;
+            label2.hidden = NO;
         else label2.hidden = YES;
     } else {
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
+        
         if (![item.rating isEqual:@"5"])
              [label2 setBackgroundColor:LIKECOLORBACK];
-           // label2.hidden = NO;
+            //label2.hidden = NO;
         else [label2 setBackgroundColor:[UIColor whiteColor]];//label2.hidden = YES;
     }
     
-    [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
-    [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
-    [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 4)];
-
-    myCell.blog2ImageView.clipsToBounds = YES;
-    myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
-    
-    label2.text = @"Like";
-    label2.font = LIKEFONT(LIKEFONTSIZE);
-    label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:LIKECOLORTEXT];
-
     [myCell.contentView addSubview:label2];
     return myCell;
 }

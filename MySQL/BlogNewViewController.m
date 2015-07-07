@@ -63,8 +63,12 @@
        [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         self.myDatePicker.hidden = YES;
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.subject setFont:CELL_FONT(IPAD_FONTSIZE)];
+    } else {
+        [self.subject setFont:CELL_FONT(BLOG_FONTSIZE)];
+    }
     
-   [self.subject setFont:CELL_FONT(BLOG_FONTSIZE)];
   [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
 
@@ -93,8 +97,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = IDCELL;
-    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
-    
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (myCell == nil)
@@ -102,23 +104,37 @@
     
     if (indexPath.row == 0) {
         
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.textLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+        } else {
+            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        }
+        
+    UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
+    activeImage.contentMode = UIViewContentModeScaleAspectFit;
+        
         if ([self.rating isEqual:@"5"] ) {
             activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
-            [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+            [self.Like setTitle: @"unLike" forState: UIControlStateNormal];
         } else {
             activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
             [self.Like setTitle: @"Like" forState: UIControlStateNormal];
         }
-        activeImage.contentMode = UIViewContentModeScaleAspectFit;
-        [myCell.contentView addSubview:activeImage];
         
-        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-        myCell.textLabel.text = self.postby;
-        myCell.detailTextLabel.text = @"";
+        [myCell.contentView addSubview:activeImage];
+         myCell.textLabel.text = self.postby;
+         myCell.detailTextLabel.text = @"";
         
     } else if (indexPath.row == 1) {
-        [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.textLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+        } else {
+            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+        }
+        
         myCell.textLabel.text = self.msgDate;
         myCell.detailTextLabel.text = @"Date";
     }
