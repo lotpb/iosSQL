@@ -111,7 +111,7 @@
 		AF7B25781A0584AC00F7C058 /* CustModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25771A0584AC00F7C058 /* CustModel.m */; };
 		AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81F3981A06E4B40036FEDF /* WebMainController.m */; };
 		AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F919FC70E300840AA3 /* StoreKit.framework */; };
-		AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsViewController.m */; };
+		AF8B684C1AE442810025A2FD /* StatisticsiPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsiPhoneController.m */; };
 		AF8D22E51B09641200AB426B /* StatLeadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8D22E41B09641200AB426B /* StatLeadModel.m */; };
 		AF909E8F1A61C2F0008D6F14 /* LookupJob.m in Sources */ = {isa = PBXBuildFile; fileRef = AF909E8E1A61C2F0008D6F14 /* LookupJob.m */; };
 		AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */; };
@@ -163,7 +163,7 @@
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
 		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
 		AFF782041A41B6760098692C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AFF782031A41B6760098692C /* Settings.bundle */; };
-		AFFE80401B47215D0022D2F9 /* ParseStatsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE803F1B47215D0022D2F9 /* ParseStatsController.m */; };
+		AFFE80401B47215D0022D2F9 /* StatisticsiPadController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE803F1B47215D0022D2F9 /* StatisticsiPadController.m */; };
 		AFFEA0701A31E8BA00165318 /* AdLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA06F1A31E8BA00165318 /* AdLocation.m */; };
 		AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA0721A31E8DE00165318 /* AdModel.m */; };
 		AFFEA0761A31ED3500165318 /* ProductLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA0751A31ED3500165318 /* ProductLocation.m */; };
@@ -338,8 +338,8 @@
 		AF7B25771A0584AC00F7C058 /* CustModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustModel.m; sourceTree = "<group>"; };
 		AF81F3971A06E4B40036FEDF /* WebMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebMainController.h; sourceTree = "<group>"; };
 		AF81F3981A06E4B40036FEDF /* WebMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMainController.m; sourceTree = "<group>"; };
-		AF8B684A1AE442810025A2FD /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
-		AF8B684B1AE442810025A2FD /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+		AF8B684A1AE442810025A2FD /* StatisticsiPhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsiPhoneController.h; sourceTree = "<group>"; };
+		AF8B684B1AE442810025A2FD /* StatisticsiPhoneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsiPhoneController.m; sourceTree = "<group>"; };
 		AF8D22E31B09641200AB426B /* StatLeadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatLeadModel.h; sourceTree = "<group>"; };
 		AF8D22E41B09641200AB426B /* StatLeadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatLeadModel.m; sourceTree = "<group>"; };
 		AF909E8E1A61C2F0008D6F14 /* LookupJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupJob.m; sourceTree = "<group>"; };
@@ -428,8 +428,8 @@
 		AFF5F4881A68921900687BC3 /* LookupProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookupProduct.h; sourceTree = "<group>"; };
 		AFF5F4891A68921900687BC3 /* LookupProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupProduct.m; sourceTree = "<group>"; };
 		AFF782031A41B6760098692C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		AFFE803E1B47215D0022D2F9 /* ParseStatsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStatsController.h; sourceTree = "<group>"; };
-		AFFE803F1B47215D0022D2F9 /* ParseStatsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseStatsController.m; sourceTree = "<group>"; };
+		AFFE803E1B47215D0022D2F9 /* StatisticsiPadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsiPadController.h; sourceTree = "<group>"; };
+		AFFE803F1B47215D0022D2F9 /* StatisticsiPadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsiPadController.m; sourceTree = "<group>"; };
 		AFFEA06E1A31E8BA00165318 /* AdLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdLocation.h; sourceTree = "<group>"; };
 		AFFEA06F1A31E8BA00165318 /* AdLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdLocation.m; sourceTree = "<group>"; };
 		AFFEA0711A31E8DE00165318 /* AdModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdModel.h; sourceTree = "<group>"; };
@@ -490,10 +490,10 @@
 			children = (
 				AF65080F19EB158300CEF44D /* MainViewController.h */,
 				AF65081019EB158300CEF44D /* MainViewController.m */,
-				AF8B684A1AE442810025A2FD /* StatisticsViewController.h */,
-				AF8B684B1AE442810025A2FD /* StatisticsViewController.m */,
-				AFFE803E1B47215D0022D2F9 /* ParseStatsController.h */,
-				AFFE803F1B47215D0022D2F9 /* ParseStatsController.m */,
+				AF8B684A1AE442810025A2FD /* StatisticsiPhoneController.h */,
+				AF8B684B1AE442810025A2FD /* StatisticsiPhoneController.m */,
+				AFFE803E1B47215D0022D2F9 /* StatisticsiPadController.h */,
+				AFFE803F1B47215D0022D2F9 /* StatisticsiPadController.m */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -921,10 +921,10 @@
 				AFB91FBA1A4A592B00737D1F /* Constants.h */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
-				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
+				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
 				AF5D75951B4A241B00EEAA80 /* Parse */,
 				AF0634871AF662A000D4B846 /* MainMenu */,
 				AF4E626C1A5CBABA007A56D0 /* New/Edit Data */,
@@ -1215,7 +1215,7 @@
 				AFFEA0891A32155300165318 /* JobViewController.m in Sources */,
 				AFA352E419FBE90600840AA3 /* SWRevealViewController.m in Sources */,
 				AF6308CF1A4DE1D800D89FD8 /* CollectionParseController.m in Sources */,
-				AFFE80401B47215D0022D2F9 /* ParseStatsController.m in Sources */,
+				AFFE80401B47215D0022D2F9 /* StatisticsiPadController.m in Sources */,
 				AF3F388719EB595D00CB785F /* BlogViewController.m in Sources */,
 				AFAA0FD51A0E931E00205EE9 /* MasterAddressViewController.m in Sources */,
 				AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */,
@@ -1241,7 +1241,7 @@
 				AF79A4251ADB6A6C003907FD /* CalenderEdit.m in Sources */,
 				AF65081119EB158300CEF44D /* MainViewController.m in Sources */,
 				AFFEA0731A31E8DE00165318 /* AdModel.m in Sources */,
-				AF8B684C1AE442810025A2FD /* StatisticsViewController.m in Sources */,
+				AF8B684C1AE442810025A2FD /* StatisticsiPhoneController.m in Sources */,
 				AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */,
 				AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */,
 				AF4D46BA1A5634FB005984AD /* NewData.m in Sources */,

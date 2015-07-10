@@ -14,9 +14,9 @@
 //#define MySQL_ConstantMain_h
 
 // MAINVIEW
-#define CELL_FONTSIZE     14
+#define IPHONEFONT16     14
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
-#define HEADFONTSIZE    13
+#define IPHONEFONT14    13
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define LINECOLOR1     [UIColor greenColor]
 #define LINECOLOR2     [UIColor redColor]

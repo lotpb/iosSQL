@@ -234,11 +234,11 @@ Parse.com
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.textLabel setFont:CELL_FONT1(IPADTITLE_FONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
-        //[myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE - 2)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
+        //[myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16 - 2)];
     }
      myCell.layer.cornerRadius = 5;
      myCell.layer.masksToBounds = YES;
@@ -291,13 +291,13 @@ Parse.com
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [label setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label1 setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label2 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label setFont:CELL_FONT(IPADFONT16)];
+        [label1 setFont:CELL_FONT(IPADFONT16)];
+        [label2 setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [label setFont:CELL_FONT(HEADFONTSIZE)];
-        [label1 setFont:CELL_FONT(HEADFONTSIZE)];
-        [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+        [label setFont:CELL_FONT(IPHONEFONT14)];
+        [label1 setFont:CELL_FONT(IPHONEFONT14)];
+        [label2 setFont:CELL_FONT(IPHONEFONT14)];
     }
     
     label.numberOfLines = 0;
@@ -317,7 +317,7 @@ Parse.com
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE2)];
-    separatorLineView1.backgroundColor = LINECOLOR2;
+    separatorLineView1.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView1];
     
     label2.numberOfLines = 0;

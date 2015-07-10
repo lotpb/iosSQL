@@ -228,16 +228,16 @@ Parse.com
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -95, 0, 95, 27)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.textLabel setFont:CELL_FONT1(IPADTITLE_FONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT1(CELL_FONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
     }
     
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
-    [label1 setFont:CELL_FONT1(CELL_FONTSIZE)];
-    [label2 setFont:CELL_MEDFONT(CELL_FONTSIZE)];
+    [label1 setFont:CELL_FONT(IPHONEFONT16)];
+    [label2 setFont:CELL_MEDFONT(IPHONEFONT16)];
      label1.textAlignment = NSTextAlignmentCenter;
      label2.textAlignment = NSTextAlignmentCenter;
     [label1 setTextColor:[UIColor blackColor]];
@@ -310,13 +310,13 @@ Parse.com
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [label setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label1 setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label2 setFont:CELL_FONT1(IPAD_FONTSIZE)];
+        [label setFont:CELL_FONT(IPADFONT16)];
+        [label1 setFont:CELL_FONT(IPADFONT16)];
+        [label2 setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [label setFont:CELL_FONT(HEADFONTSIZE)];
-        [label1 setFont:CELL_FONT(HEADFONTSIZE)];
-        [label2 setFont:CELL_FONT(HEADFONTSIZE)];
+        [label setFont:CELL_FONT(IPHONEFONT14)];
+        [label1 setFont:CELL_FONT(IPHONEFONT14)];
+        [label2 setFont:CELL_FONT(IPHONEFONT14)];
     }
     
     label.numberOfLines = 0;
@@ -336,7 +336,7 @@ Parse.com
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE2)];
-    separatorLineView1.backgroundColor = LINECOLOR2;
+    separatorLineView1.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView1];
     
     label2.numberOfLines = 0;

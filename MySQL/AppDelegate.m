@@ -12,8 +12,6 @@
 
 @implementation AppDelegate
 @synthesize window;
-@synthesize navController = _navController;
-@synthesize splitViewController = _splitViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   

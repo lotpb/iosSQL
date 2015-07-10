@@ -168,7 +168,7 @@
 //--------------------------------------------------------------------------------------
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, wallImageView.frame.size.width - 5, 55)];
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
-        titleLabel.font = DETAILFONT(TITLEFONTSIZE);
+        titleLabel.font = DETAILFONT(IPADFONT18);
         titleLabel.textColor = NEWSTITLECOLOR;
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.numberOfLines = 0;
@@ -181,14 +181,14 @@
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 52, wallImageView.frame.size.width, 12)];
         detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
-        detailLabel.font = DETAILFONT(KEY_FONTSIZE);
+        detailLabel.font = DETAILFONT(IPHONEFONT11);
         detailLabel.textColor = NEWSDETAILCOLOR;
         detailLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:detailLabel];
         
         UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 60 , 52, wallImageView.frame.size.width, 12)];
         readLabel.text = READLABEL;
-        readLabel.font = DETAILFONT(KEY_FONTSIZE + 1);
+        readLabel.font = DETAILFONT(IPHONEFONT12);
         readLabel.textColor = NEWSREADCOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];

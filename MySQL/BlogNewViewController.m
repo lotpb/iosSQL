@@ -64,9 +64,9 @@
         self.myDatePicker.hidden = YES;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.subject setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.subject setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [self.subject setFont:CELL_FONT(BLOG_FONTSIZE)];
+        [self.subject setFont:CELL_FONT(IPHONEFONT17)];
     }
     
   [[UITextView appearance] setTintColor:CURSERCOLOR];
@@ -105,9 +105,9 @@
     if (indexPath.row == 0) {
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
         } else {
-            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
         }
         
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
@@ -128,11 +128,11 @@
     } else if (indexPath.row == 1) {
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
+            [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
         } else {
-            [myCell.textLabel setFont:CELL_FONT(CELL_FONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_FONT(CELL_FONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
+            [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
         }
         
         myCell.textLabel.text = self.msgDate;

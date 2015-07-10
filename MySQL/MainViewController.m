@@ -13,8 +13,9 @@
 {
    UIRefreshControl *refreshControl;
    AVAudioPlayer *_audioPlayer;
-   NSDictionary *results, *results1, *results2;
-   NSString *respond, *respond1, *respond2, *respond3;
+   NSDictionary *resultsYQL, *resultsWeatherYQL;
+   NSMutableArray *fieldYQL, *changeYQL;
+   NSString *tempYQL, *textYQL;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -164,9 +165,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.textLabel setFont:CELL_FONT1(IPADTITLE_FONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT1(CELL_TITLEFONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
     }
     
     if (myCell == nil)
@@ -193,9 +194,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *newString = [NSString stringWithFormat:@"FOLLOW \n%lu", (unsigned long) tableData.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n%@", respond];
-    NSString *newString2 = [NSString stringWithFormat:@"S&P 500 \n%@", respond1];
-    NSString *newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", respond3, respond2];
+    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n%@", [changeYQL objectAtIndex:0]];
+    NSString *newString2 = [NSString stringWithFormat:@"S&P 500 \n%@", [changeYQL objectAtIndex:1]];
+    NSString *newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", textYQL, tempYQL];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
@@ -213,20 +214,20 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [label setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label1 setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label2 setFont:CELL_FONT1(IPAD_FONTSIZE)];
-        [label4 setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [label setFont:CELL_FONT(IPADFONT16)];
+        [label1 setFont:CELL_FONT(IPADFONT16)];
+        [label2 setFont:CELL_FONT(IPADFONT16)];
+        [label4 setFont:CELL_FONT(IPADFONT16)];
         label.backgroundColor = [UIColor blackColor];
-        button.titleLabel.font = CELL_FONT1(IPAD_BUTTONSIZE);
+        button.titleLabel.font = CELL_FONT(IPADFONT18);
         button.frame = CGRectMake(tableView.frame.size.width -115, 130, 90, 37);
     } else {
-        [label setFont:CELL_FONT(HEADFONTSIZE + 1)];
-        [label1 setFont:CELL_FONT(HEADFONTSIZE + 1)];
-        [label2 setFont:CELL_FONT(HEADFONTSIZE + 1)];
-        [label4 setFont:CELL_FONT(HEADFONTSIZE)];
-        button.titleLabel.font = [UIFont systemFontOfSize:12.0];
-        button.frame = CGRectMake(tableView.frame.size.width -90, 120, 90, 37);
+        [label setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label1 setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label2 setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label4 setFont:CELL_FONT(IPHONEFONT14)];
+        button.titleLabel.font = CELL_FONT(IPHONEFONT14);
+        button.frame = CGRectMake(tableView.frame.size.width -90, 125, 90, 37);
     }
     [label setTextColor:HEADTEXTCOLOR];
     [label1 setTextColor:HEADTEXTCOLOR];
@@ -279,7 +280,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
     [view addSubview:separatorLineView2]; */
     
-    if (([respond3 containsString:@"Rain"]) || ([respond3 containsString:@"Snow"])) {
+    if (([textYQL containsString:@"Rain"]) || ([textYQL containsString:@"Snow"])) {
         [label4 setTextColor:LINECOLOR3];
     } else {
         [label4 setTextColor:LINECOLOR1];
@@ -292,7 +293,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Statistics" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [button setTitleColor:LINECOLOR1 forState:UIControlStateNormal];
     [view addSubview:button];
     
     if (!isFilltered)
@@ -307,8 +308,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
+            [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
+           /*
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [alert show]; */
         }
         else
             [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
@@ -367,30 +370,19 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     yql = [[YQL alloc] init];
     
-    NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\")";
-    NSString *queryString1 = @"select * from yahoo.finance.quote where symbol in (\"SPY\")";
-    NSString *queryString2 = @"select * from weather.forecast where woeid=2446726";
+   NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\",\"SPY\")";
+   NSString *queryString1 = @"select * from weather.forecast where woeid=2446726";
     //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
-    //NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"YHOO\",\"AAPL\",\"GOOG\",\"SPY\")";
-    //NSString *queryString = @"select * from yahoo.finance.quote where symbol in (\"SPY\",\"^IXIC\")";
     
-    results = [yql query:queryString];
-    //respond = [[[results valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
-        respond = [[[results valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
+    resultsYQL = [yql query:queryString];
+    //symYQL = [resultsYQL valueForKeyPath:@"query.results.quote.symbol"];
+    fieldYQL = [resultsYQL valueForKeyPath:@"query.results.quote.LastTradePriceOnly"];
+    changeYQL = [resultsYQL valueForKeyPath:@"query.results.quote.Change"];
     
-    results1 = [yql query:queryString1];
-    //respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
-    respond1 = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
+    resultsWeatherYQL = [yql query:queryString1];
+    tempYQL = [[resultsWeatherYQL valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"temp"];
     
-    results2 = [yql query:queryString2];
-    respond2 = [[results2 valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"temp"];
-    
-    respond3 = [[results2 valueForKeyPath:@"query.results.channel.item.condition"]
-                objectForKey:@"text"];
-
-   // respond4 = [[results2 valueForKeyPath:@"query.results.channel.item.forecast"] objectForKey:@"text"];
-    //NSLog(@"%@", results);
-    //NSLog(@"%@", respond4);
+    textYQL = [[resultsWeatherYQL valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"text"];
 }
 
 #pragma mark - AudioPlayer
@@ -445,11 +437,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:
-(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
 }
 
 //------------

@@ -13,7 +13,6 @@
     BlogModel *_BlogModel; BlogLocation *_selectedLocation; //ParseConnection *parseConnection;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-    
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -35,7 +34,7 @@
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.listTableView.pagingEnabled = YES;
     
-    [self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    //[self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
 /*
 *******************************************************************************************
 Parse.com
@@ -76,9 +75,9 @@ Parse.com
  *******************************************************************************************
  */
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // [self.searchBar resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,23 +87,12 @@ Parse.com
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
    [self reloadDatas:nil];
 }
-/*
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.listTableView reloadData];
-} */
 
-#pragma mark - Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
--(BOOL)shouldAutorotate
-{
-    return NO;
-}
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
@@ -264,7 +252,6 @@ Parse.com
         return filteredString.count;
     else
         return _feedItems.count;
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -272,27 +259,27 @@ Parse.com
     static NSString *CellIdentifier = IDCELL;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
+    
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPAD_FONTSIZE)];
-        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPAD_FONTSIZE)];
-        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPAD_FONTSIZE - 4)];
+        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT16)];
+        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT12)];
     } else {
-        [myCell.blogtitleLabel setFont:CELL_MEDFONT(BLOG_FONTSIZE)];
-        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(BLOG_FONTSIZE)];
-        [myCell.blogmsgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 4)];
+        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
+        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
+        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
     }
+    label2.font = LIKEFONT(IPHONEFONT9);
+    label2.text = @"Like";
+    label2.textAlignment = NSTextAlignmentCenter;
+    [label2 setTextColor:LIKECOLORTEXT];
 
      myCell.blog2ImageView.clipsToBounds = YES;
      myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
      myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
      myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
-     label2.text = @"Like";
-     label2.font = LIKEFONT(LIKEFONTSIZE);
-     label2.textAlignment = NSTextAlignmentCenter;
-     [label2 setTextColor:LIKECOLORTEXT];
-   
+
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
@@ -351,7 +338,7 @@ Parse.com
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
-        return HEADHEIGHT;
+        return 30; //HEADHEIGHT;
         else
         return 0.0;
 }
@@ -363,10 +350,22 @@ Parse.com
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    //tableView.tableHeaderView = view; //makes header move with tablecell
+    tableView.tableHeaderView = view; //makes header move with tablecell
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE1)];
-    [label setFont:CELL_MEDFONT(HEADFONTSIZE) ];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE2)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [label setFont:CELL_BOLDFONT(IPADFONT16)];
+        [label1 setFont:CELL_BOLDFONT(IPADFONT16)];
+        [label2 setFont:CELL_BOLDFONT(IPADFONT16)];
+    } else {
+        [label setFont:CELL_MEDFONT(IPHONEFONT14) ];
+        [label1 setFont:CELL_MEDFONT(IPHONEFONT14)];
+        [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
+    }
+
     [label setTextColor:HEADTEXTCOLOR];
     label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label.shadowOffset = CGSizeMake(0.0f, 0.5f);
@@ -379,9 +378,7 @@ Parse.com
     separatorLineView.backgroundColor = BLOGLINECOLOR1;// you can also put image here
     [view addSubview:separatorLineView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE2)];
     label1.numberOfLines = 0;
-    [label1 setFont:CELL_MEDFONT(HEADFONTSIZE)];
     [label1 setTextColor:HEADTEXTCOLOR];
     label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
@@ -393,9 +390,7 @@ Parse.com
     separatorLineView1.backgroundColor = BLOGLINECOLOR1;
     [view addSubview:separatorLineView1];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(LABELSIZE3)];
     label2.numberOfLines = 0;
-    [label2 setFont:CELL_MEDFONT(HEADFONTSIZE)];
     [label2 setTextColor:HEADTEXTCOLOR];
     label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label2.shadowOffset = CGSizeMake(0.0f, 0.5f);

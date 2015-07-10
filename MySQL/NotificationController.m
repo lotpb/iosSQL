@@ -40,6 +40,10 @@ bool allowsAlert;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
+    [self.customMessage setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [self.customMessage setFont:CELL_MEDFONT(IPHONEFONT18) ];
+     self.customMessage.placeholder = @"enter to send notification";
+    
     [[UITextField appearance] setTintColor:[UIColor orangeColor]];
 }
 

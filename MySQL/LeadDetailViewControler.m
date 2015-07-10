@@ -53,7 +53,7 @@
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
-            self.labelamount.font = CELL_FONT1(20);
+            self.labelamount.font = CELL_FONT(20);
     }
  
     if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
@@ -276,11 +276,11 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
         } else {
-            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
         }
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
@@ -299,11 +299,11 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_FONT(DETAILFONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
         } else {
-            [myCell.textLabel setFont:CELL_FONT(DETAILFONTSIZE)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(DETAILFONTSIZE)];
+            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
+            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
         }
         
     //need to reload table (void)viewDidAppear to get fonts to change but its annoying
@@ -341,16 +341,16 @@
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
          
          if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-             myCell.leadtitleLabel.font = CELL_FONT(IPADTITLE_FONTSIZE);
-             myCell.leadsubtitleLabel.font = CELL_FONT(IPAD_FONTSIZE);
-             myCell.leadreadmore.font = CELL_FONT(IPAD_FONTSIZE);
-             myCell.leadnews.font = CELL_MEDFONT(IPAD_FONTSIZE);
+             myCell.leadtitleLabel.font = CELL_FONT(IPADFONT20);
+             myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
+             myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
+             myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
              self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
          } else {
-             myCell.leadtitleLabel.font = CELL_FONT(DETAILNEWS);
-             myCell.leadsubtitleLabel.font = CELL_FONT(DETAILNEWSFONTSIZE);
-             myCell.leadreadmore.font = CELL_FONT(DETAILNEWSFONTSIZE);
-             myCell.leadnews.font = CELL_MEDFONT(DETAILNEWSFONTSIZE);
+             myCell.leadtitleLabel.font = CELL_FONT(IPHONEFONT16);
+             myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
+             myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
+             myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
          }
 
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying

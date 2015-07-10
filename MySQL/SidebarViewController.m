@@ -139,13 +139,13 @@ NSArray *menuItems;
        [Cell.contentView addSubview:activeImage];
     
         label2.text = [defaults objectForKey:userNameKey];
-       [label2 setFont:CELL_FONT(CELL_FONTSIZE)];
+       [label2 setFont:CELL_FONT(IPHONEFONT16)];
         label2.textAlignment = NSTextAlignmentCenter;
        [label2 setTextColor:[UIColor whiteColor]];
        [Cell.contentView addSubview:label2];
         
         label3.text = [defaults objectForKey:EmailKey];
-       [label3 setFont:CELL_FONT(CELL_FONTSIZE - 4)];
+       [label3 setFont:CELL_FONT(IPHONEFONT16 - 4)];
         label3.textAlignment = NSTextAlignmentCenter;
        [label3 setTextColor:[UIColor lightGrayColor]];
        [Cell.contentView addSubview:label3];

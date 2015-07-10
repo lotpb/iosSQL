@@ -26,7 +26,6 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
- // self.listTableView.tableHeaderView = view; //makes header move with tablecell
 
 #pragma mark Form Circle Image
   //UIImage *profileImage = [UIImage imageNamed:@"mySQLHOME.png"];
@@ -75,7 +74,6 @@ Parse.com
     [self passFieldData];
     [self parseData];
     [self activeButton];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -116,7 +114,7 @@ Parse.com
     for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
         [[self.view viewWithTag:i] resignFirstResponder];
     }
-}
+} 
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {
@@ -135,11 +133,12 @@ Parse.com
 -(void)activeButton {
     UIImage *buttonImage1 = [UIImage imageNamed:ACTIVEBUTTONYES];
     UIImage *buttonImage2 = [UIImage imageNamed:ACTIVEBUTTONNO];
-    if ( [self.frm30 isEqual:@"1"] ) { //active
+    if ([self.frm30 isEqual:@"1"]) { //active
         [self.activebutton setImage:buttonImage1 forState:UIControlStateNormal];
         self.following.text = @"Following";
-        self.active = @"1";}
-    else { [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
+        self.active = @"1";
+    } else {
+        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
         self.following.text = @"Follow";
         self.active = @"0";
     }
@@ -209,6 +208,7 @@ Parse.com
     return pickerView;
 }
 
+#pragma mark ViewPicker Done Button
 -(void)doneClicked {
     [self.view endEditing:YES];
 }
@@ -310,49 +310,49 @@ Parse.com
         
          textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
          textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
-        [self.first setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.last setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.company setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.date setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.address setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.city setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.state setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.zip setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.aptDate setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.phone setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.salesman setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.jobName setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.adName setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.amount setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.email setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.spouse setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.callback setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.comment setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.start setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.complete setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.first setFont:CELL_FONT(IPADFONT16)];
+        [self.last setFont:CELL_FONT(IPADFONT16)];
+        [self.company setFont:CELL_FONT(IPADFONT16)];
+        [self.date setFont:CELL_FONT(IPADFONT16)];
+        [self.address setFont:CELL_FONT(IPADFONT16)];
+        [self.city setFont:CELL_FONT(IPADFONT16)];
+        [self.state setFont:CELL_FONT(IPADFONT16)];
+        [self.zip setFont:CELL_FONT(IPADFONT16)];
+        [self.aptDate setFont:CELL_FONT(IPADFONT16)];
+        [self.phone setFont:CELL_FONT(IPADFONT16)];
+        [self.salesman setFont:CELL_FONT(IPADFONT16)];
+        [self.jobName setFont:CELL_FONT(IPADFONT16)];
+        [self.adName setFont:CELL_FONT(IPADFONT16)];
+        [self.amount setFont:CELL_FONT(IPADFONT16)];
+        [self.email setFont:CELL_FONT(IPADFONT16)];
+        [self.spouse setFont:CELL_FONT(IPADFONT16)];
+        [self.callback setFont:CELL_FONT(IPADFONT16)];
+        [self.comment setFont:CELL_FONT(IPADFONT16)];
+        [self.start setFont:CELL_FONT(IPADFONT16)];
+        [self.complete setFont:CELL_FONT(IPADFONT16)];
     } else {
          textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
          textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 230, 95)];
-        [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.zip setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.aptDate setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.first setFont:CELL_FONT(IPHONEFONT16)];
+        [self.last setFont:CELL_FONT(IPHONEFONT16)];
+        [self.company setFont:CELL_FONT(IPHONEFONT16)];
+        [self.date setFont:CELL_FONT(IPHONEFONT16)];
+        [self.address setFont:CELL_FONT(IPHONEFONT16)];
+        [self.city setFont:CELL_FONT(IPHONEFONT16)];
+        [self.state setFont:CELL_FONT(IPHONEFONT16)];
+        [self.zip setFont:CELL_FONT(IPHONEFONT16)];
+        [self.aptDate setFont:CELL_FONT(IPHONEFONT16)];
+        [self.phone setFont:CELL_FONT(IPHONEFONT16)];
+        [self.salesman setFont:CELL_FONT(IPHONEFONT16)];
+        [self.jobName setFont:CELL_FONT(IPHONEFONT16)];
+        [self.adName setFont:CELL_FONT(IPHONEFONT16)];
+        [self.amount setFont:CELL_FONT(IPHONEFONT16)];
+        [self.email setFont:CELL_FONT(IPHONEFONT16)];
+        [self.spouse setFont:CELL_FONT(IPHONEFONT16)];
+        [self.callback setFont:CELL_FONT(IPHONEFONT16)];
+        [self.comment setFont:CELL_FONT(IPHONEFONT16)];
+        [self.start setFont:CELL_FONT(IPHONEFONT16)];
+        [self.complete setFont:CELL_FONT(IPHONEFONT16)];
     }
     
     self.first.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -372,7 +372,7 @@ Parse.com
     self.email.autocorrectionType = UITextAutocorrectionTypeNo;
     self.spouse.autocorrectionType = UITextAutocorrectionTypeNo;
     self.callback.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.comment.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.comment.autocorrectionType = UITextAutocorrectionTypeDefault;
     self.start.autocorrectionType = UITextAutocorrectionTypeNo;
     self.complete.autocorrectionType = UITextAutocorrectionTypeNo;
     
@@ -408,7 +408,8 @@ Parse.com
     if ([_formController isEqual:TNAME4]) {
         self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        }
     self.email.keyboardType = UIKeyboardTypeEmailAddress;
     self.phone.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
@@ -525,18 +526,17 @@ Parse.com
     } else if (indexPath.row == 6) {
         
          self.salesman = textframe;
-         self.salesman.tag = 6;
          self.salesman.adjustsFontSizeToFitWidth = YES;
         
-        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        if ([self.frm21 isEqual:[NSNull null]])
-             self.salesman.text = @"";
-        else self.salesman.text = self.frm21;
-             self.salesman.placeholder = @"Salesman";
-             myCell.textLabel.text = @"Salesman";
-            [myCell.contentView addSubview:self.salesman];
-             self.salesman.inputView = [self customPicker:6];
+            if ([self.frm21 isEqual:[NSNull null]])
+                self.salesman.text = @"";
+            else self.salesman.text = self.frm21;
+            self.salesman.placeholder = @"Salesman";
+            myCell.textLabel.text = @"Salesman";
+            self.salesman.tag = 6;
+            self.salesman.inputView = [self customPicker:6]; }
 
         if ([_formController isEqual:TNAME3]) {
             self.salesman.placeholder = @"Phone 1";
@@ -547,6 +547,8 @@ Parse.com
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone";
             self.salesman.inputView = nil;}
+        
+        [myCell.contentView addSubview:self.salesman];
         
     } else if (indexPath.row == 7) {
          self.jobName = textframe;
@@ -634,54 +636,54 @@ Parse.com
     } else if(indexPath.row == 11) {
          self.spouse = textframe;
          self.spouse.placeholder = @"Spouse";
+        
         if ([self.frm26 isEqual:[NSNull null]])
              self.spouse.text = @"";
         else self.spouse.text = self.frm26;
         
         if ([_formController isEqual:TNAME3]) {
             self.spouse.placeholder = @"Office";
-            myCell.textLabel.text = @"Office"; }
-        
-        else if ([_formController isEqual:TNAME4]) {
+            myCell.textLabel.text = @"Office";
+        } else if ([_formController isEqual:TNAME4]) {
              self.spouse.placeholder = @"Country";
              myCell.textLabel.text = @"Country"; }
-             else myCell.textLabel.text = @"Spouse";
+          else myCell.textLabel.text = @"Spouse";
 
         [myCell.contentView addSubview:self.spouse];
         
     } else if (indexPath.row == 12) {
-         self.callback = textframe;
+        self.callback = textframe;
         if ([self.frm27 isEqual:[NSNull null]])
-             self.callback.text = @"";
+            self.callback.text = @"";
         else self.callback.text = self.frm27;
         
-    if ([_formController isEqual:TNAME2]) {
-        self.callback.placeholder = @"Quan";
-        myCell.textLabel.text = @"# Windows";
+        if ([_formController isEqual:TNAME2]) {
+            self.callback.placeholder = @"Quan";
+            myCell.textLabel.text = @"# Windows";
+            
+            UIStepper *stepper = [[UIStepper alloc] init];
+            stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            [stepper setTintColor:[UIColor grayColor]];
+            stepper.value = [self.callback.text doubleValue];
+            stepper.stepValue = 1;
+            UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+            [wrapper addSubview:stepper];
+            myCell.accessoryView = stepper;
+            [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged]; }
         
-        UIStepper *stepper = [[UIStepper alloc] init];
-        stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [stepper setTintColor:[UIColor grayColor]];
-        stepper.value = [self.callback.text doubleValue];
-        stepper.stepValue = 1;
-        UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
-        [wrapper addSubview:stepper];
-        myCell.accessoryView = stepper;
-        [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
-    }
+        else if ([_formController isEqual:TNAME3]) {
+            self.callback.placeholder = @"";
+            myCell.textLabel.text = @""; }
         
-    else if ([_formController isEqual:TNAME3]) {
-        self.callback.placeholder = @"";
-        myCell.textLabel.text = @""; }
+        else if ([_formController isEqual:TNAME4]) {
+            self.callback.placeholder = @"Manager";
+            myCell.textLabel.text = @"Manager"; }
         
-    else if ([_formController isEqual:TNAME4]) {
-        self.callback.placeholder = @"Manager";
-        myCell.textLabel.text = @"Manager"; }
+        else if ([_formController isEqual:TNAME1]) {
+            self.callback.placeholder = @"Call Back";
+            myCell.textLabel.text = @"Call Back";
+            self.callback.inputView = [self customPicker:12]; }
         
-    else if ([_formController isEqual:TNAME1]) {
-        self.callback.placeholder = @"Call Back";
-        myCell.textLabel.text = @"Call Back";
-        self.callback.inputView = [self customPicker:12]; }
         [myCell.contentView addSubview:self.callback];
         
     } else if (indexPath.row == 13) {
@@ -708,14 +710,14 @@ Parse.com
          self.complete = textframe;
          self.complete.tag = 15;
          self.complete.placeholder = @"Completion Date";
+        
         if ([self.frm32 isEqual:[NSNull null]])
              self.complete.text = @"";
         else self.complete.text = self.frm32;
-      //  if ([_formController isEqual: @"Customer"])
-             self.complete.inputView = [self datePicker:15];
+   
+         self.complete.inputView = [self datePicker:15];
          myCell.textLabel.text = @"Completion Date";
         [myCell.contentView addSubview:self.complete];
-      // myCell.clipsToBounds = YES;
     }
     
    /*
@@ -821,9 +823,9 @@ Parse.com
         self.first.text = @"";
     else self.first.text = self.frm11;
     
-    if ([self.frm12 isEqual:[NSNull null]])
+    if ([self.frm12 isEqual:[NSNull null]]) {
         self.last.text = @"";
-        else {
+      } else {
         self.last.text = self.frm12;
         self.last.borderStyle = TEXTBDSTYLE;
         self.last.layer.borderColor = TEXTBDCOLOR;
@@ -851,7 +853,7 @@ Parse.com
       } else if ([_formController isEqual:TNAME4]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
-    }
+      }
 }
 /*
 *******************************************************************************************

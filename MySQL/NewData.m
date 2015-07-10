@@ -7,7 +7,7 @@
 //
 
 #import "NewData.h"
-
+NSString* const kareacodeKeyKey = @"areacodeKey";
 @interface NewData ()
 {
    NSMutableArray *salesArray, *callbackArray, *contractorArray;
@@ -21,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    
+
 
     /*
      if ([_formController isEqual:TNAME2]) { //need to add contractor to form
@@ -85,7 +87,7 @@ Parse.com
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
      if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
           [self.company becomeFirstResponder];
-     else [self.last becomeFirstResponder];
+     else [self.first becomeFirstResponder];
     [self.view endEditing:YES]; //dismiss the keyboard
 }
 
@@ -126,49 +128,50 @@ Parse.com
     self.jobNo.hidden = YES; //Field
     self.adNo.hidden = YES; //Field
     self.active.hidden = YES; //Field
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.first setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.last setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.company setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.date setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.address setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.city setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.state setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.zip setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.aptDate setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.phone setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.salesman setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.jobName setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.adName setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.amount setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.email setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.spouse setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.callback setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.comment setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.start setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [self.complete setFont:CELL_FONT(IPAD_FONTSIZE)];
+        [self.first setFont:CELL_FONT(IPADFONT16)];
+        [self.last setFont:CELL_FONT(IPADFONT16)];
+        [self.company setFont:CELL_FONT(IPADFONT16)];
+        [self.date setFont:CELL_FONT(IPADFONT16)];
+        [self.address setFont:CELL_FONT(IPADFONT16)];
+        [self.city setFont:CELL_FONT(IPADFONT16)];
+        [self.state setFont:CELL_FONT(IPADFONT16)];
+        [self.zip setFont:CELL_FONT(IPADFONT16)];
+        [self.aptDate setFont:CELL_FONT(IPADFONT16)];
+        [self.phone setFont:CELL_FONT(IPADFONT16)];
+        [self.salesman setFont:CELL_FONT(IPADFONT16)];
+        [self.jobName setFont:CELL_FONT(IPADFONT16)];
+        [self.adName setFont:CELL_FONT(IPADFONT16)];
+        [self.amount setFont:CELL_FONT(IPADFONT16)];
+        [self.email setFont:CELL_FONT(IPADFONT16)];
+        [self.spouse setFont:CELL_FONT(IPADFONT16)];
+        [self.callback setFont:CELL_FONT(IPADFONT16)];
+        [self.comment setFont:CELL_FONT(IPADFONT16)];
+        [self.start setFont:CELL_FONT(IPADFONT16)];
+        [self.complete setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [self.first setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.last setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.company setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.date setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.address setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.city setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.state setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.zip setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.aptDate setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.phone setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.salesman setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.jobName setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.adName setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.amount setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.email setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.spouse setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.callback setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.comment setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.start setFont:CELL_FONT(CELL_FONTSIZE)];
-        [self.complete setFont:CELL_FONT(CELL_FONTSIZE)];
+        [self.first setFont:CELL_FONT(IPHONEFONT16)];
+        [self.last setFont:CELL_FONT(IPHONEFONT16)];
+        [self.company setFont:CELL_FONT(IPHONEFONT16)];
+        [self.date setFont:CELL_FONT(IPHONEFONT16)];
+        [self.address setFont:CELL_FONT(IPHONEFONT16)];
+        [self.city setFont:CELL_FONT(IPHONEFONT16)];
+        [self.state setFont:CELL_FONT(IPHONEFONT16)];
+        [self.zip setFont:CELL_FONT(IPHONEFONT16)];
+        [self.aptDate setFont:CELL_FONT(IPHONEFONT16)];
+        [self.phone setFont:CELL_FONT(IPHONEFONT16)];
+        [self.salesman setFont:CELL_FONT(IPHONEFONT16)];
+        [self.jobName setFont:CELL_FONT(IPHONEFONT16)];
+        [self.adName setFont:CELL_FONT(IPHONEFONT16)];
+        [self.amount setFont:CELL_FONT(IPHONEFONT16)];
+        [self.email setFont:CELL_FONT(IPHONEFONT16)];
+        [self.spouse setFont:CELL_FONT(IPHONEFONT16)];
+        [self.callback setFont:CELL_FONT(IPHONEFONT16)];
+        [self.comment setFont:CELL_FONT(IPHONEFONT16)];
+        [self.start setFont:CELL_FONT(IPHONEFONT16)];
+        [self.complete setFont:CELL_FONT(IPHONEFONT16)];
     }
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
@@ -237,9 +240,13 @@ Parse.com
             else self.date.text = dateString; }//no date on customer aptdate
     }
     
-    if (self.frm20.length == 0)
-        self.phone.text = @"(516)";
-    else self.phone.text = self.frm20;
+    if (self.frm20.length == 0) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            self.phone.text = [standardDefaults objectForKey:kareacodeKeyKey];
+        } else {
+            self.phone.text = @"";
+        }
+    } else self.phone.text = self.frm20;
     
     if ([self.frm21 isEqual:[NSNull null]])
         self.salesman.text = @"";

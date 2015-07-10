@@ -1,18 +1,17 @@
 //
-//  ParseStatsController.m
+//  StatisticsiPadController.m
 //  MySQL
 //
 //  Created by Peter Balsamo on 7/3/15.
 //  Copyright © 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "ParseStatsController.h"
+#import "StatisticsiPadController.h"
 
-@interface ParseStatsController ()
+@interface StatisticsiPadController ()
 {
-   // StatCustModel *_StatCustModel; StatLeadModel *_StatLeadModel;
-    NSMutableArray *_statHeaderItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold;
-    NSDictionary *dict, *w1results, *results1, *results2, *results3, *results4, *results5, *results6, *results7, *results8, *results9, *results10, *results11;
+    NSMutableArray *_statHeaderItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold, *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
+    NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
     UIRefreshControl *refreshControl;
 }
@@ -20,7 +19,7 @@
 
 @end
 
-@implementation ParseStatsController
+@implementation StatisticsiPadController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,6 +31,8 @@
     self.listTableView.rowHeight = 30;
     self.listTableViewLeft.rowHeight = 30;
     self.listTableViewRight.rowHeight = 30;
+    self.listTableViewLeft1.rowHeight = 30;
+    self.listTableViewRight1.rowHeight = 30;
     //UITableViewAutomaticDimension;
     //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
@@ -44,6 +45,7 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
         parseConnection.delegate = (id)self;
+        
         [parseConnection parseTodayLeads]; [parseConnection parseActiveLeads];
         [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
         [parseConnection parseWindowSold];
@@ -65,7 +67,7 @@
     
 #pragma mark TableRefresh
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.listTableView insertSubview:refreshView atIndex:0];
+    [self.scrollWall insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = STATBACKCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
@@ -92,6 +94,8 @@
 
 #pragma mark - RefreshControl
 -(void)reloadDatas:(id)sender {
+    
+    [self YahooFinanceLoad];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
         parseConnection.delegate = (id)self;
@@ -99,8 +103,10 @@
        [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
        [parseConnection parseWindowSold];
     }
-    [self YahooFinanceLoad];
-    [self.listTableView reloadData];
+    [self.listTableView reloadData]; [self.listTableViewLeft reloadData];
+    [self.listTableViewRight reloadData]; [self.listTableViewLeft1 reloadData];
+    [self.listTableViewRight1 reloadData];
+    
     if (refreshControl) {
         
         static NSDateFormatter *formatter = nil;
@@ -144,179 +150,201 @@
 }
 
 #pragma mark - TableView
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    if ([tableView isEqual:self.listTableView])
-    return 2;
-    else
+ 
+   // if ([tableView isEqual:self.listTableView])
+  //  return 1;
+ //   else
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 0)
+    if ([tableView isEqual:self.listTableView])
         return 10;
-    else if (section == 1)
+    else if ([tableView isEqual:self.listTableViewLeft1])
+        return 6;
+    else if ([tableView isEqual:self.listTableViewRight1])
         return 6;
     else if ([tableView isEqual:self.listTableViewLeft])
         return 8;
     else if ([tableView isEqual:self.listTableViewRight])
         return 8;
     
-    return 1;
+    return 0;
 }
 
 #pragma mark TableView Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-     if ([tableView isEqual:self.listTableView]) {
-         
-    static NSString *CellIdentifier = IDCELL;
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-         
-    if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-         
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    myCell.accessoryType = UITableViewCellAccessoryNone;
-    [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
-    [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
-    [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
-         
-    if (indexPath.section == 0) {
+    if ([tableView isEqual:self.listTableView]) {
         
-        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -155, 5, 77, 17)];
+        static NSString *CellIdentifier = IDCELL;
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (myCell == nil)
+            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
+        
+        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -165, 6, 77, 17)];
         [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
-        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPAD_FONTSIZE)];
-        [label1 setFont:CELL_FONT(CELL_FONTSIZE)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPADFONT16)];
+        [label1 setFont:CELL_LIGHTFONT(IPADFONT16)];
         [label1 setBackgroundColor:[UIColor whiteColor]];
         label1.textAlignment = NSTextAlignmentRight;
         
         if (indexPath.row == 0) {
-            if (![[[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results1 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:0] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:0];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:0];
+            label1.text = [fieldYQL objectAtIndex:0];
             [myCell.contentView addSubview:label1];
             
             return myCell;
             
         } else if (indexPath.row == 1) {
-            if (![[[[results2 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results2 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results2 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results2 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:1] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:1];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:1];
+            label1.text = [fieldYQL objectAtIndex:1];
             [myCell.contentView addSubview:label1];
             
             return myCell;
             
         } else if (indexPath.row == 2) {
-            if (![[[[results3 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results3 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results3 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results3 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:2] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:2] ;
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:2] ;
+            label1.text = [fieldYQL objectAtIndex:2] ;
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 3) {
-            if (![[[[results4 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results4 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results4 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results4 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:3] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:3];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:3];
+            label1.text = [fieldYQL objectAtIndex:3];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 4) {
-            if (![[[[results5 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results5 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results5 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results5 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:4] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:4];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:4];
+            label1.text = [fieldYQL objectAtIndex:4];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 5) {
-            if (![[[[results6 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results6 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results6 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results6 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:5] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:5];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:5];
+            label1.text = [fieldYQL objectAtIndex:5];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 6) {
-            if (![[[[results7 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results7 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results7 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results7 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:6] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:6];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:6];
+            label1.text = [fieldYQL objectAtIndex:6];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 7) {
-            if (![[[[results8 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results8 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results8 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results8 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:7] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:7];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:7];
+            label1.text = [fieldYQL objectAtIndex:7];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 8) {
-            if (![[[[results9 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results9 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results9 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results9 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:8] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:8];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:8];
+            label1.text = [fieldYQL objectAtIndex:8];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         } else if (indexPath.row == 9) {
-            if (![[[[results10 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-            }
-            myCell.textLabel.text = [[[results10 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"symbol"];
-            myCell.detailTextLabel.text = [[[results10 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"Change"];
-            label1.text = [[[results10 valueForKeyPath:@"query.results"] objectForKey:@"quote"] objectForKey:@"LastTradePriceOnly"];
+            
+             if (![[changeYQL objectAtIndex:9] containsString:@"-"]) {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+             } else {
+             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+             }
+            myCell.textLabel.text = [symYQL objectAtIndex:9];
+            myCell.detailTextLabel.text = [changeYQL objectAtIndex:9];
+            label1.text = [fieldYQL objectAtIndex:9];
             [myCell.contentView addSubview:label1];
             
             return myCell;
         }
+    } else if ([tableView isEqual:self.listTableViewLeft1]) {
         
-    } else if (indexPath.section == 1) {
+        static NSString *CellIdentifier1 = IDCELL;
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        
+        if (myCell == nil)
+            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+        
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
         if (indexPath.row == 0) {
             
@@ -344,8 +372,59 @@
             return myCell;
         } else if (indexPath.row == 4) {
             
+            myCell.textLabel.text = @"Humidity";
+            myCell.detailTextLabel.text = [[w1results valueForKeyPath:@"query.results.channel.atmosphere"] objectForKey:@"humidity"];
+            return myCell;
+            
+        } else if (indexPath.row == 5) {
+            
             myCell.textLabel.text = @"City";
             myCell.detailTextLabel.text = [[w1results valueForKeyPath:@"query.results.channel.location"] objectForKey:@"city"];
+            return myCell;
+            
+        }
+    } else if ([tableView isEqual:self.listTableViewRight1]) {
+        
+        static NSString *CellIdentifier1 = IDCELL;
+        UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        
+        if (myCell == nil)
+            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+        
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
+        
+        if (indexPath.row == 0) {
+            
+            myCell.textLabel.text = [dayYQL objectAtIndex:0];
+            myCell.detailTextLabel.text = [textYQL objectAtIndex:0];
+            
+            return myCell;
+        } else if (indexPath.row == 1) {
+            
+            myCell.textLabel.text = [dayYQL objectAtIndex:1];
+            myCell.detailTextLabel.text = [textYQL objectAtIndex:1];
+            
+            return myCell;
+        } else if (indexPath.row == 2) {
+            
+            myCell.textLabel.text = [dayYQL objectAtIndex:2];
+            myCell.detailTextLabel.text = [textYQL objectAtIndex:2];
+            
+            return myCell;
+        } else if (indexPath.row == 3) {
+            
+            myCell.textLabel.text = [dayYQL objectAtIndex:3];
+            myCell.detailTextLabel.text = [textYQL objectAtIndex:3];
+            
+            return myCell;
+        } else if (indexPath.row == 4) {
+            
+            myCell.textLabel.text = [dayYQL objectAtIndex:4];
+            myCell.detailTextLabel.text = [textYQL objectAtIndex:4];
             
             return myCell;
         } else if (indexPath.row == 5) {
@@ -355,8 +434,6 @@
             
             return myCell;
         }
-    }
-        
     } else if ([tableView isEqual:self.listTableViewLeft]) {
         
         static NSString *CellIdentifier1 = IDCELL;
@@ -367,11 +444,10 @@
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
         [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
-
         if (indexPath.row == 0) {
             
             myCell.textLabel.text = @"Leads Today";
@@ -424,11 +500,12 @@
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADSTATFONTSIZE)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
         [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
-          if (indexPath.row == 0) {
+        if (indexPath.row == 0) {
+            
             myCell.textLabel.text = @"Customers Today";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
             return myCell;
@@ -437,35 +514,35 @@
             myCell.textLabel.text = @"Customers Yesterday";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
             return myCell;
-        } else if (indexPath.row == 2) {
+        }  else if (indexPath.row == 2) {
+            
+            myCell.textLabel.text = @"Windows Sold";
+            myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedWinSold.count];
+            return myCell;
+        } else if (indexPath.row == 3) {
             
             myCell.textLabel.text = @"Customers Active";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedCustActive.count];
             return myCell;
-        } else if (indexPath.row == 3) {
+        } else if (indexPath.row == 4) {
             
             myCell.textLabel.text = @"Customers Year";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
             return myCell;
-        } else if (indexPath.row == 4) {
+        } else if (indexPath.row == 5) {
             
             myCell.textLabel.text = @"Customers Avg";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
             return myCell;
-        } else if (indexPath.row == 5) {
+        } else if (indexPath.row == 6) {
             
             myCell.textLabel.text = @"Customers High";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
             return myCell;
-        } else if (indexPath.row == 6) {
+        } else if (indexPath.row == 7) {
             
             myCell.textLabel.text = @"Customers Low";
             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
-            return myCell;
-        } else if (indexPath.row == 7) {
-            
-            myCell.textLabel.text = @"Windows Sold";
-            myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedWinSold.count];
             return myCell;
         }
     }
@@ -474,30 +551,48 @@
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
     if ([tableView isEqual:self.listTableView]) {
-    if (section == 0)
+        if (section == 0)
         return MAINHEADHEIGHT;
+    } else if ([tableView isEqual:self.listTableViewLeft1]) {
+        return 30;
+    } else if ([tableView isEqual:self.listTableViewRight1]) {
+        return 30;
+    } else if ([tableView isEqual:self.listTableViewLeft]) {
+        if (section == 0)
+        return 30;
+    } else if ([tableView isEqual:self.listTableViewRight]) {
+        if (section == 0)
+        return 30;
     }
     
     return 0;
 }
-
+/*
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *headerTitle;
+    if ([tableView isEqual:self.listTableViewLeft1]) {
+        if (section == 0)
+        headerTitle = @"Lead Info";
+        
+    }
+    return headerTitle;
+} */
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
 (NSInteger)section {
+    
     NSString *footerTitle;
-    if ([tableView isEqual:self.listTableView]) {
-    if (section == 0)
-        footerTitle = @"Weather";
-    if (section == 1)
+    if ([tableView isEqual:self.listTableViewLeft1]) {
+        footerTitle = @"Lead Info";
+    } else if ([tableView isEqual:self.listTableViewRight1]) {
         footerTitle = @"Customer Info";
     }
     return footerTitle;
-}
+} */
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
     NSString *newString2 = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
@@ -589,34 +684,20 @@
 -(void)YahooFinanceLoad {
     
     yql = [[YQL alloc] init];
+  //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
     NSString *queryStringw1 = @"select * from weather.forecast where woeid=2446726";
-    NSString *queryString1 = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\")";
-    NSString *queryString2 = @"select * from yahoo.finance.quote where symbol in (\"SPY\")";
-    NSString *queryString3 = @"select * from yahoo.finance.quote where symbol in (\"UUP\")";
-    NSString *queryString4 = @"select * from yahoo.finance.quote where symbol in (\"VCSY\")";
-    NSString *queryString5 = @"select * from yahoo.finance.quote where symbol in (\"GPRO\")";
-    NSString *queryString6 = @"select * from yahoo.finance.quote where symbol in (\"UPL\")";
-    NSString *queryString7 = @"select * from yahoo.finance.quote where symbol in (\"XLE\")";
-    NSString *queryString8 = @"select * from yahoo.finance.quote where symbol in (\"UGAZ\")";
-    NSString *queryString9 = @"select * from yahoo.finance.quote where symbol in (\"VXX\")";
-    NSString *queryString10 = @"select * from yahoo.finance.quote where symbol in (\"^XOI\")";
-    //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
-    NSString *queryString11 = @"select * from yahoo.finance.quote where symbol in (\"YHOO\",\"AAPL\",\"GOOG\",\"SPY\")";
+    NSString *queryString2 = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\",\"SPY\",\"UUP\",\"VCSY\",\"GPRO\",\"VXX\",\"UPL\",\"UGAZ\",\"XLE\",\"^XOI\")";
     
     w1results = [yql query:queryStringw1];
-    results1 = [yql query:queryString1]; //nasdaq
-    results2 = [yql query:queryString2]; //spy
-    results3 = [yql query:queryString3]; //uup
-    results4 = [yql query:queryString4]; //vcsy
-    results5 = [yql query:queryString5]; //GPRO
-    results6 = [yql query:queryString6]; //UPL
-    results7 = [yql query:queryString7]; //UPL
-    results8 = [yql query:queryString8]; //UPL
-    results9 = [yql query:queryString9]; //UPL
-    results10 = [yql query:queryString10]; //UPL
+    dayYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.day"];
+    textYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.text"];
+    //NSLog(@"%@ %@", fieldYQL, w1results );
     
-    results11 = [yql query:queryString11]; //Many
-    //NSLog(@"%@", results11);
+    resultsYQL = [yql query:queryString2];
+    symYQL = [resultsYQL valueForKeyPath:@"query.results.quote.symbol"];
+    fieldYQL = [resultsYQL valueForKeyPath:@"query.results.quote.LastTradePriceOnly"];
+    changeYQL = [resultsYQL valueForKeyPath:@"query.results.quote.Change"];
+    //NSLog(@"%@ %@", fieldYQL, symYQL );
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {

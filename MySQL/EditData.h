@@ -76,7 +76,6 @@
 @property (strong, nonatomic) NSString *frm31; //start
 @property (strong, nonatomic) NSString *frm32; //completion date
 
-//@property (weak, nonatomic) IBOutlet UIButton *clearBTN;
 @property (weak, nonatomic) IBOutlet UILabel *following;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 

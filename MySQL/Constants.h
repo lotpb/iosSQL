@@ -74,32 +74,66 @@
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------iPad Font Form-------------------------------
-#define IPADTITLE_FONTSIZE 20
-#define IPAD_FONTSIZE      16
-#define IPAD_BUTTONSIZE    18
-#define IPADSTATFONTSIZE   11
+#define IPADFONT20         20
+#define IPADFONT18         18
+#define IPADFONT16         16
+#define IPADFONT14         14
+#define IPADFONT12         12
 //------tableviewcell-------------------------------
+#define IPHONEFONT20       20
+#define IPHONEFONT18       18
+#define IPHONEFONT17       17
+#define IPHONEFONT16       16
+#define IPHONEFONT14       14
+#define IPHONEFONT12       12
+#define IPHONEFONT11       11
+#define IPHONEFONT10       10
+#define IPHONEFONT9        9
+
 #define IDCELL             @"BasicCell"
 #define TABLECELLIMAGE     @"DemoCellImage"
 #define BACKGROUNDCOLOR    [UIColor blackColor]
 #define ROW_HEIGHT         44.0f
-#define CELL_TITLEFONTSIZE 20
-#define CELL_FONTSIZE      16
-#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
-#define CELL_FONT1(s)     [UIFont fontWithName:@"HelveticaNeue" size:s]//Avenir-Black
-#define CELL_THINFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Thin" size:s]
-#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]
-#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]
-#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
+//Avenir-Black
+//Avenir-BlackOblique
+//Avenir-Book
+//Avenir-BookOblique
+//Avenir-Heavy
+//Avenir-HeavyOblique
+//Avenir-Light
+//Avenir-LightOblique
+//Avenir-Medium
+//Avenir-MediumOblique
+//Avenir-Oblique
+//Avenir-Roman
+//HelveticaNeue
+//HelveticaNeue-Bold
+//HelveticaNeue-BoldItalic
+//HelveticaNeue-CondensedBlack
+//HelveticaNeue-CondensedBold
+//HelveticaNeue-Italic
+//HelveticaNeue-Light
+//HelveticaNeue-LightItalic
+//HelveticaNeue-Medium
+//HelveticaNeue-MediumItalic
+//HelveticaNeue-UltraLight
+//HelveticaNeue-UltraLightItalic
+//HelveticaNeue-Thin
+//HelveticaNeue-ThinItalic
+#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
+#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"Avenir-Light" size:s] //ipad stats
+#define CELL_MEDFONT(s)   [UIFont fontWithName:@"Avenir-Medium" size:s]  //ipad stats
+#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"Avenir-Heavy" size:s] //blogedit
+#define DETAILFONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s] //news
+#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //like button
 #define DATECOLORTEXT     [UIColor whiteColor]
 #define DATECOLORBACK     [UIColor redColor]
 #define NUMCOLORBACK      [UIColor darkGrayColor]
 //------tableHeader-------------------------------
 //#define HEADTITLE1    @"NASDAQ \n4,727.35"
-#define HEADTITLE2      @"NASDAQ \n4,727.35"
+//#define HEADTITLE2    @"NASDAQ \n4,727.35"
 #define HEADTITLE3      @"DOW \n17,776.80"
 #define HEADTEXTCOLOR   [UIColor whiteColor]
-#define HEADFONTSIZE    14
 #define HEADHEIGHT      55.0
 #define LABELSIZE1      12, 3, tableView.frame.size.width, 45
 #define LABELSIZE2      85, 3, tableView.frame.size.width, 45
@@ -108,7 +142,6 @@
 #define LINESIZE2       85, 45, 60, 1.5
 #define LINESIZE3       158, 45, 60, 1.5
 #define LINECOLOR1     [UIColor greenColor]
-#define LINECOLOR2     [UIColor greenColor]
 #define LINECOLOR3     [UIColor redColor]
 //------tabBar Controller-------------------------------
 #define TABTINTCOLOR     [UIColor whiteColor]
@@ -124,8 +157,6 @@
 //------curser color-------------------------------
 #define CURSERCOLOR        [UIColor grayColor]
 //------buttons------------------------------------
-#define LIKEFONTSIZE      9
-#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s]
 #define LIKECOLORTEXT     [UIColor whiteColor]
 #define LIKECOLORBACK     [UIColor redColor]
 #define ACTIVEBUTTONYES   @"iosStar.png"
@@ -198,8 +229,7 @@
 //-----------------------END-------------------------------
 
 //STATISTIC
-#define STATFONTSIZE       11
-#define STATTEXTCOLOR      [UIColor orangeColor]
+#define STATTEXTCOLOR      [UIColor blackColor]
 #define STATBACKCOLOR      [UIColor lightGrayColor]
 #define SLNAME1             @"Appointment's Today"
 #define SLNAME2             @"Appointment's Tomorrow"
@@ -289,10 +319,7 @@
 //-----------------------END-------------------------------
 
 // LEADDETAIL
-//extern int DETAILFONTSIZE = 9;
-#define DETAILFONTSIZE     10
-#define DETAILNEWSFONTSIZE 14
-#define DETAILNEWS         16
+//extern int IPHONEFONT10 = 9;
 #define DETAILTITLECOLOR   [UIColor blackColor]
 #define DETAILSUBCOLOR     [UIColor grayColor]
 #define DETAILCOLOR        [UIColor darkGrayColor]
@@ -321,7 +348,6 @@
 #define BLOGNAVBARCOLOR        [UIColor redColor]
 #define BLOGNAVBARTINTCOLOR    [UIColor whiteColor]
 #define BLOGNAVBARTRANSLUCENT   NO
-#define BLOG_FONTSIZE          17
 #define SEARCHBARSTYLEBLOG     UIBarStyleDefault
 //--------------segue-------------------------------
 #define BLOGVIEWSEGUE      @"blogviewSegue"
@@ -363,9 +389,7 @@
 #define KEY_IMAGE         @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_DATETIME      @"yyyy-MM-dd HH:mm:ss" //news
-#define TITLEFONTSIZE     18
-#define KEY_FONTSIZE      11
-#define DETAILFONT(s)    [UIFont fontWithName:@"HelveticaNeue" size:s] //ArialMT
+
 #define NEWSTITLECOLOR   [UIColor blackColor] //darkGrayColor
 #define NEWSDETAILCOLOR  [UIColor grayColor]
 #define READLABEL        @"News" //Read more

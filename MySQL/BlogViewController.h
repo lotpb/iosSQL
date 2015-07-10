@@ -20,7 +20,7 @@
     NSMutableArray *filteredString;
     BOOL isFilltered;
 }
-
+//@property(nonatomic,retain) IBOutlet UIView *Headerview;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
 @end

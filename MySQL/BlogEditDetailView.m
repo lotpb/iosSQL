@@ -148,13 +148,13 @@ UIBarButtonItem *trashItem, *shareItem;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPAD_FONTSIZE)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPAD_FONTSIZE)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPAD_FONTSIZE - 3)];
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT16)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT16)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT12)];
     } else {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(BLOG_FONTSIZE)];
-        [myCell.subtitleLabel setFont:CELL_FONT(BLOG_FONTSIZE)];
-        [myCell.msgDateLabel setFont:CELL_FONT(BLOG_FONTSIZE - 3)];
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT17)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT17)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
     }
     
     myCell.accessoryType = UITableViewCellAccessoryNone;
@@ -276,7 +276,7 @@ Parse.com
     localNotification.alertAction = NSLocalizedString(BNOTIFACTION, nil);
     localNotification.alertTitle = NSLocalizedString(BNOTIFTITLE, nil);
     localNotification.soundName = UILocalNotificationDefaultSoundName;
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    localNotification.fireDate = [NSDate date]; //[NSDate dateWithTimeIntervalSinceNow:1];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
