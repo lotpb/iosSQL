@@ -49,7 +49,7 @@
     parseConnection.delegate = (id)self;
    [parseConnection parseLookupJob];
     
-    filteredString= [[NSMutableArray alloc] initWithArray:jobArray];
+    filteredString = [[NSMutableArray alloc] initWithArray:jobArray];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

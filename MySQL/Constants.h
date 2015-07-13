@@ -120,10 +120,10 @@
 //HelveticaNeue-UltraLightItalic
 //HelveticaNeue-Thin
 //HelveticaNeue-ThinItalic
-#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
-#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"Avenir-Light" size:s] //ipad stats
-#define CELL_MEDFONT(s)   [UIFont fontWithName:@"Avenir-Medium" size:s]  //ipad stats
-#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"Avenir-Heavy" size:s] //blogedit
+#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s] //ipad stats
+#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]  //ipad stats
+#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //blogedit
 #define DETAILFONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s] //news
 #define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //like button
 #define DATECOLORTEXT     [UIColor whiteColor]
@@ -400,13 +400,13 @@
 #define KEY_WEBNAME0 @"CNN"
 #define KEY_WEBNAME1 @"Drudge"
 #define KEY_WEBNAME2 @"cnet"
-#define KEY_WEBNAME3 @"Blaze"
+#define KEY_WEBNAME3 @"CNBC"
 #define KEY_WEBNAME4 @"Yahoo"
 #define KEY_WEBNAME5 @"Twits"
 #define KEY_WEBPAGE0 @"http://www.cnn.com"
 #define KEY_WEBPAGE1 @"http://www.Drudgereport.com"
 #define KEY_WEBPAGE2 @"http://www.cnet.com"
-#define KEY_WEBPAGE3 @"http://www.theblaze.com"
+#define KEY_WEBPAGE3 @"http://www.cnbc.com"
 #define KEY_WEBPAGE4 @"http://finance.yahoo.com/mb/UPL/"
 #define KEY_WEBPAGE5 @"http://stocktwits.com/The_Stock_Whisperer"
 //-----------------------END-------------------------------

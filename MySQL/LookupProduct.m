@@ -48,6 +48,7 @@
     [self presentViewController:self.searchController animated:YES completion:nil];
     
     adproductArray = [[NSMutableArray alloc] init];
+    filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
     
     ParseConnection *parseConnection = [[ParseConnection alloc]init];
     parseConnection.delegate = (id)self;
@@ -55,48 +56,10 @@
     
     if ([_formController isEqual:TNAME2]) {
         [parseConnection parseLookupProduct];
-        /*
-     PFQuery *query3 = [PFQuery queryWithClassName:@"Product"];
-     //[PFQuery clearAllCachedResults];
-     [query3 selectKeys:@[@"ProductNo"]];
-     [query3 selectKeys:@[@"Products"]];
-     [query3 orderByDescending:@"Products"];
-     [query3 whereKey:@"Active" containsString:@"Active"];
-      query3.cachePolicy = kPFCACHEPOLICY;
-     [query3 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         if (!error) {
-             for (PFObject *object in objects) {
-                 [adproductArray addObject:object];
-                 [self.listTableView reloadData]; }
-         } else
-             NSLog(@"Error: %@ %@", error, [error userInfo]);
-     }]; */
-    } else {  //leads
+    } else {
         [parseConnection parseLookupAd];
-        /*
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Advertising"];
-    query1.cachePolicy = kPFCACHEPOLICY;
-    [query1 selectKeys:@[@"AdNo"]];
-    [query1 selectKeys:@[@"Advertiser"]];
-    [query1 orderByDescending:@"Advertiser"];
-    [query1 whereKey:@"Active" containsString:@"Active"];
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        adproductArray = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [adproductArray addObject:object];
-                [self.listTableView reloadData]; }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }]; */
-}
+    }
     
-    filteredString= [[NSMutableArray alloc] initWithArray:adproductArray];
- /*
-#pragma mark Bar Button
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems; */
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -154,7 +117,6 @@
 }
 
 #pragma mark - Search
-
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
     [self updateSearchResultsForSearchController:self.searchController];
@@ -175,7 +137,12 @@
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *str in adproductArray)
         {
-            NSRange stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            NSRange stringRange;
+            if ([_formController isEqual:TNAME2]) {
+            stringRange = [[str objectForKey:@"Products"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            } else {
+            stringRange = [[str objectForKey:@"Advertiser"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            }
             if(stringRange.location != NSNotFound)
                 [filteredString addObject:str];
         }

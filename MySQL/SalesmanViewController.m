@@ -70,7 +70,7 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-     //[self reloadDatas:nil];
+    [self.listTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,7 +106,7 @@ Parse.com
     }
 }
 
-#pragma mark - BarButton NewData
+#pragma mark - BarButton New
 -(void)newData {
      isFormStat = YES;
     [self performSegueWithIdentifier:SALEVIEWSEGUE sender:self];
@@ -235,7 +235,7 @@ Parse.com
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
+        //[myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
         [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
         //[myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16 - 2)];
@@ -246,19 +246,22 @@ Parse.com
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    SalesLocation *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
 /*
 *******************************************************************************************
 Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+        if (!isFilltered)
+            myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+        else
+            myCell.textLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
     } else {
+        SalesLocation *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
         myCell.textLabel.text = item.salesman;
         // myCell.detailTextLabel.text = item.salesNo;
     }
@@ -378,29 +381,29 @@ Parse.com
         else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        
-        for(SalesLocation* string in _feedItems)
+        for(PFObject *string in _feedItems)
+        //for(SalesLocation* string in _feedItems)
         {
+            NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
-                NSRange stringRange = [string.salesman rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Salesman"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.salesman rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
-                NSRange stringRange = [string.salesNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"SalesNo"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.salesNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
-                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Active"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:string];
         }
     }
   [self.listTableView reloadData];

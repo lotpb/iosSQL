@@ -362,6 +362,7 @@
 		AFA352F919FC70E300840AA3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AFA352FB19FC70F200840AA3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AFA71F0D1A6192BF00FBEDEE /* LookupJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookupJob.h; sourceTree = "<group>"; };
+		AFA744931B50AD17004F7984 /* MySQL.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = MySQL.profdata; sourceTree = "<group>"; };
 		AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AFA99E1C1A49E79700231173 /* NotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
 		AFA99E1D1A49E79700231173 /* NotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
@@ -863,6 +864,14 @@
 			name = Framework;
 			sourceTree = "<group>";
 		};
+		AFA744921B50AD17004F7984 /* OptimizationProfiles */ = {
+			isa = PBXGroup;
+			children = (
+				AFA744931B50AD17004F7984 /* MySQL.profdata */,
+			);
+			path = OptimizationProfiles;
+			sourceTree = "<group>";
+		};
 		AFAA0FDB1A0E9A1200205EE9 /* Address */ = {
 			isa = PBXGroup;
 			children = (
@@ -903,6 +912,7 @@
 				AFBC9E8319D9CEDE0050E67A /* MySQL */,
 				AFBC9E9D19D9CEDF0050E67A /* MySQLTests */,
 				AFBC9E8219D9CEDE0050E67A /* Products */,
+				AFA744921B50AD17004F7984 /* OptimizationProfiles */,
 			);
 			sourceTree = "<group>";
 		};
@@ -931,6 +941,7 @@
 				AFA3528019FBD43B00840AA3 /* Leads */,
 				AF6A13731A07BD0C00C3EEAC /* Customer */,
 				AF8F7E131A37E26B009D34EA /* Salesman */,
+				AFFEA08B1A32196200165318 /* Job */,
 				AFFEA08A1A32194600165318 /* Advertising */,
 				AFFEA0831A320F1C00165318 /* Product */,
 				AFF3B88B1A214403005D556C /* Employee */,
@@ -1018,7 +1029,6 @@
 			isa = PBXGroup;
 			children = (
 				AFFEA0841A32101600165318 /* AdvertisingViewController.h */,
-				AFFEA08B1A32196200165318 /* Job */,
 				AFFEA0851A32101600165318 /* AdvertisingViewController.m */,
 			);
 			name = Advertising;
@@ -1384,6 +1394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1406,6 +1417,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

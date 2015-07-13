@@ -31,90 +31,20 @@
         _reEnterPasswordField.hidden = YES;
         _registerBtn.hidden = YES;
     }
-    // self.usernameField.text = @"eunitedws@verizon.net";
+     self.usernameField.text = @"eunitedws@verizon.net";
     // self.passwordField.text = @"3911";
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.usernameField becomeFirstResponder];
+    [self.passwordField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)authenticateButtonTapped:(id)sender {
-    LAContext *context = [[LAContext alloc] init];
-    
-    NSError *error = nil;
-    
-    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
-        // Authenticate User
-        
-    } else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Your device cannot authenticate using TouchID."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert show];
-        
-    }
-}
-
-- (void)authenicateButtonTapped:(id)sender {
-    LAContext *context = [[LAContext alloc] init];
-    
-    NSError *error = nil;
-    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                localizedReason:@"Are you the device owner?"
-                          reply:^(BOOL success, NSError *error) {
-                              
-                              if (error) {
-                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                  message:@"There was a problem verifying your identity."
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:@"Ok"
-                                                                        otherButtonTitles:nil];
-                                  [alert show];
-                                  return;
-                              }
-                              
-                              if (success) {
-                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                                                  message:@"You are the device owner!"
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:@"Ok"
-                                                                        otherButtonTitles:nil];
-                                  [alert show];
-                                  
-                              } else {
-                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                  message:@"You are not the device owner."
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:@"Ok"
-                                                                        otherButtonTitles:nil];
-                                  [alert show];
-                              }
-                              
-                          }];
-        
-    } else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Your device cannot authenticate using TouchID."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert show];
-        
-    }
 }
 
 - (IBAction)registerUser:(id)sender {
@@ -167,7 +97,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //check that username and password match stored values
-    if ([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
+    if (([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] || [_usernameField.text isEqualToString:[defaults objectForKey:@"emailKey"]]) && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
         _usernameField.text = nil;
         _passwordField.text = nil;
         [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller
@@ -177,6 +107,87 @@
         
         [error show];
     }
+}
+//--------------------------------------------------------------------------------------------
+- (IBAction)authenticateButtonTapped:(id)sender {
+    [self.passwordField resignFirstResponder];
+    LAContext *myContext = [[LAContext alloc] init];
+    NSError *authError = nil;
+    NSString *myLocalizedReasonString = @"Authenticate using your finger";
+    if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
+        
+        [myContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                  localizedReason:myLocalizedReasonString
+                            reply:^(BOOL success, NSError *error) {
+                                
+                                if (success) {
+                                    
+                                   
+                                    //NSLog(@"User authenticated");
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                    [self didAuthenticateWithTouchId];
+                                    //[self showMessage:@"Authentication is successful" withTitle:@"Success"];
+
+                                    });
+                       
+                                }  /*else {
+                                    
+                                    switch (error.code) {
+                                        case LAErrorAuthenticationFailed:
+                                            [self showMessage:@"Authentication is failed" withTitle:@"Error"];
+                                            NSLog(@"Authentication Failed");
+                                            break;
+                                            
+                                        case LAErrorUserCancel:
+                                            [self showMessage:@"You clicked on Cancel" withTitle:@"Error"];
+                                            NSLog(@"User pressed Cancel button");
+                                            break;
+                                            
+                                        case LAErrorUserFallback:
+                                            [self showMessage:@"You clicked on \"Enter Password\"" withTitle:@"Error"];
+                                            NSLog(@"User pressed \"Enter Password\"");
+                                            break;
+                                            
+                                        default:
+                                            [self showMessage:@"Touch ID is not configured" withTitle:@"Error"];
+                                            NSLog(@"Touch ID is not configured");
+                                            break;
+                                    }
+                                    
+                                    NSLog(@"Authentication Fails");
+                                } */
+                            }];
+    } else {
+        [self showMessage:@"Your device doesn't support this feature." withTitle:@"Error"];
+        
+    }
+}
+
+- (void)didAuthenticateWithTouchId {
+    _usernameField.text = nil;
+    _passwordField.text = nil;
+   [self performSegueWithIdentifier:@"loginSegue" sender:self];
+}
+
+-(void) showMessage:(NSString*)message withTitle:(NSString *)title
+{
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:message
+                                  preferredStyle:UIAlertControllerStyleAlert];
+ 
+    
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+    
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

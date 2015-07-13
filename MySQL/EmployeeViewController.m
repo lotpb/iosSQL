@@ -38,7 +38,6 @@ Parse.com
         parseConnection.delegate = (id)self;
         [parseConnection parseEmployee]; [parseConnection parseHeadEmployee];
     } else {
-       // _feedItems = [[NSMutableArray alloc] init];
         _EmployeeModel = [[EmployeeModel alloc] init];
         _EmployeeModel.delegate = self; [_EmployeeModel downloadItems];
     }
@@ -58,8 +57,12 @@ Parse.com
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    
     [refreshView addSubview:refreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.listTableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -72,7 +75,7 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-    //[self reloadDatas:nil];
+    //[self.listTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,7 +110,7 @@ Parse.com
     }
 }
 
-#pragma mark - BarButton NewData
+#pragma mark - BarButton New
 -(void)newData:(id)sender {
     [self performSegueWithIdentifier:EMPLOYNEWSEGUE sender:self];
 }
@@ -151,40 +154,61 @@ Parse.com
         [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT14)];
     }
     
-     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -65, 0, 50, 27)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -65, 0, 50, 27)];
     [label2 setFont:CELL_MEDFONT(IPHONEFONT16 - 2)];
-     label2.textAlignment = NSTextAlignmentCenter;
+    label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:NUMCOLORBACK];
     
-     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-     myCell.accessoryType = UITableViewCellAccessoryNone;
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    myCell.accessoryType = UITableViewCellAccessoryNone;
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
-    EmployeeLocation *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-        else
-        item = [filteredString objectAtIndex:indexPath.row];
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
+    if (myCell == nil)
+        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    /*
+     *******************************************************************************************
+     Parse.com
+     *******************************************************************************************
+     */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] length] != 0 ))
-            firstItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
-        else firstItem = @"";
-        
-        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] length] != 0 ))
-            lastnameItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"];
-        else lastnameItem = @"";
-        
-        if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] length] != 0 ))
-            companyItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
-        else companyItem = @"";
-        
+        if (!isFilltered) {
+            if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"] length] != 0 ))
+                firstItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+            else firstItem = @"";
+            
+            if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"] length] != 0 ))
+                lastnameItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Last"];
+            else lastnameItem = @"";
+            
+            if ((![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] isEqual:[NSNull null]] ) && ( [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"] length] != 0 ))
+                companyItem = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
+            else companyItem = @"";
+            
+            myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+            label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
+        } else {
+            if ((![[[filteredString objectAtIndex:indexPath.row] objectForKey:@"First"] isEqual:[NSNull null]] ) && ( [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"First"] length] != 0 ))
+                firstItem = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"First"];
+            else firstItem = @"";
+            
+            if ((![[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Last"] isEqual:[NSNull null]] ) && ( [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Last"] length] != 0 ))
+                lastnameItem = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Last"];
+            else lastnameItem = @"";
+            
+            if ((![[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Company"] isEqual:[NSNull null]] ) && ( [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Company"] length] != 0 ))
+                companyItem = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Company"];
+            else companyItem = @"";
+            
+            myCell.detailTextLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
+            label2.text = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
+        }
     } else {
+        EmployeeLocation *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
         
         if ((![item.first isEqual:[NSNull null]] ) && ( [item.first length] != 0 ))
             firstItem = item.first;
@@ -197,24 +221,11 @@ Parse.com
         if ((![item.company isEqual:[NSNull null]] ) && ( [item.company length] != 0 ))
             companyItem = item.company;
         else companyItem = @"";
-    }
-    
-    if (myCell == nil)
-        myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-        myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
-        label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
-    } else {
+        
         myCell.detailTextLabel.text = item.city;
         label2.text = item.employeeNo;
     }
+    myCell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@",firstItem, lastnameItem, companyItem];
     
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
@@ -423,36 +434,35 @@ Parse.com
         isFilltered = YES;
         [filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
-        
-        for(EmployeeLocation* string in _feedItems)
+        for(PFObject *string in _feedItems)
+        //for(EmployeeLocation* string in _feedItems)
         {
+            NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
-                NSRange stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Last"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.lastname rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
-                NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
-                NSRange stringRange = [string.homephone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"HomePhone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.homephone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
-                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Active"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:string];
         }
     }
     [self.listTableView reloadData];

@@ -11,7 +11,7 @@
 @interface LeadDetailViewControler ()
 {
   UIRefreshControl *refreshControl;
-    //NSString *efield;
+  NSString *savedEventId;
 }
 @property (nonatomic, retain) NSString *getEmail;
 @end
@@ -78,6 +78,15 @@
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
+    
+    // Switch button
+    if ([_formController isEqual: TNAME1]) {
+    if ( [_tbl11 isEqual:@"Sold"] )
+        [self.mySwitch setOn:YES];
+    else [self.mySwitch setOn:NO];
+    } else {
+      [self.mySwitch setOn:YES];
+    }
     
 }
 
@@ -149,11 +158,6 @@
     } else {
         [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
         self.following.text = @"Follow";}
-    
-    // Switch button
-    if ( [t11 isEqual:@"Sold"] )
-        [self.mySwitch setOn:YES];
-    else [self.mySwitch setOn:NO];
 }
 
 #pragma mark  Map Buttons
@@ -164,91 +168,6 @@
 #pragma mark Edit Buttons
 -(void)showEdit:(id)sender {
     [self performSegueWithIdentifier:VIEWSEGUE sender:self];
-}
-
-#pragma mark - UIActivityViewController
-- (void)share:(id)sender {
-    
-    NSString * message = [NSString stringWithFormat:@"United News \n%@ \n%@ \n%@ %@ %@ \n%@ ", self.name, self.address, city, state, zip, self.comments];
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, image];
-    
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        avc.popoverPresentationController.sourceView = self.view;
-        avc.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
-    }
-         [self presentViewController:avc animated:YES completion:nil];
-}
-
-#pragma mark - Call Phone
--(void)callPhone {
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        
-        NSString *phoneNo = t12; //[NSString stringWithFormat:@"+5162414786"];
-        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
-        
-        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
-            
-            [[UIApplication sharedApplication] openURL:phoneUrl];
-        } else {
-            UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [calert show];
-        }
-    } else {
-        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warning show];
-    }
-}
-
-#pragma mark - Email
--(void)sendEmail {
-    
-    if (([_formController isEqual: TNAME1]) || ([_formController isEqual: TNAME2])) {
-        if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 )) {
-            [self getEmail:t15];
-        } else {
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
-        }
-    }    
-    if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
-        if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 )) {
-            [self getEmail:t21];
-        } else {
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
-        }
-    }
-}
-
--(void)getEmail:(NSString*)emailfield {
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *toRecipents;
-    MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
-    toRecipents = [NSArray arrayWithObject:emailfield];
-    [mailcomposer setToRecipients:toRecipents];
-    mailcomposer.mailComposeDelegate = self;
-    NSString *emailTitle = [standardDefaults objectForKey:@"emailtitleKey"];
-    NSString *messageBody = [standardDefaults objectForKey:@"emailmessageKey"];
-    [mailcomposer setSubject:emailTitle];
-    [mailcomposer setMessageBody:messageBody isHTML:YES];
-    [mailcomposer setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-    [self presentViewController:mailcomposer animated:YES completion:NULL];
-}
-
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    if(error) {
-        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"Mail sent failure" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
-        [alrt show];
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-    else {
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
 }
 
 #pragma mark - TableView
@@ -403,85 +322,6 @@ return myCell;
       NSLog(@"I have no idea what's going on...");
       return nil;
     }
-}
-
-#pragma mark - AlertController ios8
--(void)showNew:(id)sender {
-    
-    UIAlertController* view= [UIAlertController
-                              alertControllerWithTitle:@"Note" message:@"Enter data entry"
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction* addr = [UIAlertAction
-                          actionWithTitle:@"Add Contact"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              //Do some thing here
-                               [self setContact:sender];
-                         }];
-    
-    UIAlertAction* cal = [UIAlertAction
-                          actionWithTitle:@"Add Calender"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              //Do some thing here
-                              [self performSegueWithIdentifier:CALENDSEGUE sender:self];
-                              [view dismissViewControllerAnimated:YES completion:nil];
-                          }];
-    
-    UIAlertAction* new = [UIAlertAction
-                         actionWithTitle:@"Add Customer"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             //Do some thing here
-                         [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
-                         [view dismissViewControllerAnimated:YES completion:nil];
-                         }];
-
-    UIAlertAction* phone = [UIAlertAction
-                          actionWithTitle:@"Call Phone"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              //Do some thing here
-                              [self callPhone];
-                          [view dismissViewControllerAnimated:YES completion:nil];
-                          }];
-    UIAlertAction* email = [UIAlertAction
-                            actionWithTitle:@"Send Email"
-                            style:UIAlertActionStyleDefault
-                            handler:^(UIAlertAction * action)
-                            {
-                                //Do some thing here
-                                [self sendEmail];
-                                [view dismissViewControllerAnimated:YES completion:nil];
-                            }];
-
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancel"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action)
-                             {
-                            [view dismissViewControllerAnimated:YES completion:nil];
-                            }];
-
-    [view addAction:phone];
-    [view addAction:email];
-if ([_formController isEqual:TNAME1]) {
-    [view addAction:new]; }
-    [view addAction:addr];
-    [view addAction:cal];
-    [view addAction:cancel];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        view.popoverPresentationController.barButtonItem = newItem;
-        view.popoverPresentationController.sourceView = self.view;
-    }
-    
-    [self presentViewController:view animated:YES completion:nil];
 }
 
 #pragma mark - LoadFieldData
@@ -665,167 +505,354 @@ Parse.com
     }
 }
 
-#pragma mark - Segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-   if ([segue.identifier isEqualToString:MAPSEGUE]) {
-    MapViewController *detailVC = segue.destinationViewController;
-       detailVC.mapaddress = self.address;
-       detailVC.mapcity = self.city;
-       detailVC.mapstate = self.state;
-       detailVC.mapzip = self.zip; }
-   /*
-    if ([segue.identifier isEqualToString:CALENDSEGUE]) {
-        CalenderEdit *detailVC = segue.destinationViewController;
-        detailVC.calname = self.name; } */
- 
-    if ([segue.identifier isEqualToString:NEWCUSTSEGUE]) { //new Customer from Lead
-        NewData *detailVC = segue.destinationViewController;
-        if ([_formController isEqual: TNAME1]) {
-            detailVC.formController = TNAME2;
-            detailVC.custNo = self.custNo;
-            detailVC.frm31 = self.leadNo;
-            detailVC.frm11 = self.tbl13; //first
-            detailVC.frm12 = self.name;
-            detailVC.frm13 = nil;
-            detailVC.frm14 = self.address;
-            detailVC.frm15 = self.city;
-            detailVC.frm16 = self.state;
-            detailVC.frm17 = self.zip;
-            detailVC.frm18 = nil; //date
-            detailVC.frm19 = nil; //aptdate
-            detailVC.frm20 = self.tbl12; //phone
-            detailVC.frm21 = self.salesman;
-            detailVC.frm22 = self.jobdescription;
-            detailVC.frm23 = nil; //adNo
-            detailVC.frm24 = self.amount;
-            detailVC.frm25 = self.tbl15; //email
-            detailVC.frm26 = self.tbl14; //spouse
-            detailVC.frm27 = nil; //callback
-            detailVC.frm28 = self.comments;
-            detailVC.frm29 = self.photo;
-            detailVC.frm30 = self.active;
-            detailVC.saleNoDetail = self.tbl22; //salesNo
-            detailVC.jobNoDetail = self.tbl23; //jobNo
-        }
+#pragma mark - UIActivityViewController
+- (void)share:(id)sender {
+    
+    NSString * message = [NSString stringWithFormat:@"United News \n%@ \n%@ \n%@ %@ %@ \n%@ ", self.name, self.address, city, state, zip, self.comments];
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    NSArray * shareItems = @[message, image];
+    
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        avc.popoverPresentationController.sourceView = self.view;
+        avc.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+    }
+    [self presentViewController:avc animated:YES completion:nil];
+}
+
+#pragma mark - AlertController ios8
+-(void)showNew:(id)sender {
+    
+    UIAlertController* view= [UIAlertController
+                              alertControllerWithTitle:@"Note" message:@"Pick action"
+                              preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* addr = [UIAlertAction
+                           actionWithTitle:@"Add Contact"
+                           style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action)
+                           {
+                               //Do some thing here
+                               [self setContact:sender];
+                               [view dismissViewControllerAnimated:YES completion:nil];
+                           }];
+    
+    UIAlertAction* cal = [UIAlertAction
+                          actionWithTitle:@"Add Calender Event"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //Do some thing here
+                              [self requestApptdate];
+                              //[self performSegueWithIdentifier:CALENDSEGUE sender:self];
+                              [view dismissViewControllerAnimated:YES completion:nil];
+                          }];
+    
+    UIAlertAction* web = [UIAlertAction
+                              actionWithTitle:@"Web Page"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //Do some thing here
+                                  [self openurl];
+                                  [view dismissViewControllerAnimated:YES completion:nil];
+                              }];
+    
+    UIAlertAction* new = [UIAlertAction
+                          actionWithTitle:@"Add Customer"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //Do some thing here
+                              [self performSegueWithIdentifier:NEWCUSTSEGUE sender:self];
+                              [view dismissViewControllerAnimated:YES completion:nil];
+                          }];
+    
+    UIAlertAction* phone = [UIAlertAction
+                            actionWithTitle:@"Call Phone"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //Do some thing here
+                                [self callPhone];
+                                [view dismissViewControllerAnimated:YES completion:nil];
+                            }];
+    
+    UIAlertAction* email = [UIAlertAction
+                            actionWithTitle:@"Send Email"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //Do some thing here
+                                [self sendEmail];
+                                [view dismissViewControllerAnimated:YES completion:nil];
+                            }];
+    
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    
+    [view addAction:phone];
+    [view addAction:email];
+    if ([_formController isEqual:TNAME1]) {
+        [view addAction:new]; }
+    [view addAction:addr];
+    if (![_formController isEqual:TNAME4]) {
+        [view addAction:cal];}
+    if ([_formController isEqual:TNAME3]) {
+        [view addAction:web];}
+    [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        view.popoverPresentationController.barButtonItem = newItem;
+        view.popoverPresentationController.sourceView = self.view;
     }
     
-    if ([segue.identifier isEqualToString:VIEWSEGUE]) { //edit Lead
-        EditData *detailVC = segue.destinationViewController;
-        if ([_formController isEqual:TNAME1]) {
-            detailVC.formController = TNAME1;
-            detailVC.objectId = self.objectId; //Parse Only
-            detailVC.leadNo = self.leadNo;
-            detailVC.frm11 = self.tbl13; //first
-            detailVC.frm12 = self.name;
-            detailVC.frm13 = nil;
-            detailVC.frm14 = self.address;
-            detailVC.frm15 = self.city;
-            detailVC.frm16 = self.state;
-            detailVC.frm17 = self.zip;
-            detailVC.frm18 = self.date;
-            detailVC.frm19 = self.tbl21; //aptdate
-            detailVC.frm20 = self.tbl12; //phone
-            detailVC.frm21 = self.tbl22; //salesNo
-            detailVC.frm22 = self.tbl23; //jobNo
-            detailVC.frm23 = self.tbl24; //adNo
-            detailVC.frm24 = self.amount;
-            detailVC.frm25 = self.tbl15; //email
-            detailVC.frm26 = self.tbl14; //spouse
-            detailVC.frm27 = self.tbl11; //callback
-            detailVC.frm28 = self.comments;
-            detailVC.frm29 = self.photo;
-            detailVC.frm30 = self.active;
-            detailVC.saleNo = self.tbl22;
-            detailVC.jobNo = self.tbl23;
-            detailVC.adNo = self.tbl24;
+    [self presentViewController:view animated:YES completion:nil];
+}
+
+#pragma mark - Web Page
+- (void)openurl {
+    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 )) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.tbl26]];
+    } else {
+        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid web address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warning show];
+    }
+}
+
+#pragma mark - Calender
+- (void)requestApptdate
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+    UIDatePicker *DatePicker;
+    NSDateFormatter *DateFormatter;
+    UIAlertView *alert;
+
+    DateFormatter = [[NSDateFormatter alloc] init];
+    [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    alert = [[UIAlertView alloc] initWithTitle:@"Appointment date:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;//UIAlertViewStylePlainTextInput;
+    DatePicker = [[UIDatePicker alloc] init];
+    DatePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    DatePicker.timeZone = [NSTimeZone localTimeZone];
+    DatePicker.date = [NSDate date];
+
+    self.DateInput = [alert textFieldAtIndex:0];
+    self.itemText = [alert textFieldAtIndex:1];
+    [self.DateInput setTextAlignment:NSTextAlignmentLeft];
+    [self.itemText setTextAlignment:NSTextAlignmentLeft];
+    self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
+    self.itemText.text = [standardDefaults objectForKey:@"eventtitleKey"]; //@"Appt:"
+  //self.itemText.text = [DateFormatter stringFromDate:[[NSDate date]dateByAddingTimeInterval:60*60]];
+    [self.DateInput setPlaceholder:@"appointment date"];
+    [self.itemText setPlaceholder:@"title"];
+    self.itemText.secureTextEntry = NO;
+    self.DateInput.inputView=DatePicker;
+  //self.itemText.inputView=DatePicker;
+    [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"OK"]) {
+       [self calenderEvent];
+    }
+}
+
+- (void) dateChanged:(UIDatePicker *)DatePicker {
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormat setTimeStyle:NSDateFormatterShortStyle];
+    self.DateInput.text = [dateFormat stringFromDate:DatePicker.date];
+    }
+}
+
+- (void)calenderEvent {
+    //NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormat setTimeStyle:NSDateFormatterShortStyle];
+        NSDate *apptdate = [dateFormat dateFromString:self.DateInput.text ];
+
+    EKEventStore *store = [[EKEventStore alloc] init];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted) return;
+        EKEvent *event = [EKEvent eventWithEventStore:store];
+        event.title = [NSString stringWithFormat:@"%@ %@",self.itemText.text, self.name];
+        event.location = [NSString stringWithFormat:@"%@ %@ %@ %@", address, city, state, zip];
+        event.startDate = apptdate;
+        event.endDate = [event.startDate dateByAddingTimeInterval:60*60];  // Duration 1 hr
+        event.notes = comments;
+        [event setCalendar:[store defaultCalendarForNewEvents]];
+        NSError *err = nil;
+        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+        savedEventId = event.eventIdentifier;  // Store this so you can access this event later
+        if (error)
+        {
+            NSLog(@"error = %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Event not successfully saved." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Event" message:@"Event successfully saved." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        }
+    }];
+    }
+}
+/*
+- (void)editcalenderEvent {
+    EKEventStore *store = [[EKEventStore alloc] init];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted) return;
+        EKEvent *event = [store eventWithIdentifier:savedEventId];
+        // Uncomment below if you want to create a new event if savedEventId no longer exists
+        // if (event == nil)
+        //   event = [EKEvent eventWithEventStore:store];
+        if (event) {
+            NSError *err = nil;
+            event.title = @"New event title";
+            [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+        }
+        if (error)
+        {
+            NSLog(@"error = %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Event not successfully edited." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Event" message:@"Event successfully edited." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        }
+    }];
+}
+
+- (void)deletecalenderEvent {
+    EKEventStore *store = [[EKEventStore alloc] init];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted) return;
+        EKEvent* eventToRemove = [store eventWithIdentifier:savedEventId];
+        if (eventToRemove) {
+            NSError* err = nil;
+            [store removeEvent:eventToRemove span:EKSpanThisEvent commit:YES error:&err];
+        }
+        if (error)
+        {
+            NSLog(@"error = %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Event not successfully deleted." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Event" message:@"Event was successfully deleted." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [warning show];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            });
+        }
+    }];
+} */
+
+#pragma mark - Call Phone
+-(void)callPhone {
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        NSString *phoneNo;
+        if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
+            phoneNo = t11; //[NSString stringWithFormat:@"+5162414786"];
+        } else {
+            phoneNo = t12; //[NSString stringWithFormat:@"+5162414786"];
+        }
+        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
+        
+        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
             
-        } else if ([_formController  isEqual:TNAME2]) { //edit Cust
-            detailVC.formController = TNAME2;
-            detailVC.objectId = self.objectId; //Parse Only
-            detailVC.custNo = self.custNo;
-            detailVC.leadNo = self.leadNo;
-            detailVC.frm11 = self.tbl13; //first
-            detailVC.frm12 = self.name; //last Name
-            detailVC.frm13 = self.tbl11; //contractor
-            detailVC.frm14 = self.address;
-            detailVC.frm15 = self.city;
-            detailVC.frm16 = self.state;
-            detailVC.frm17 = self.zip;
-            detailVC.frm18 = self.date;
-            detailVC.frm19 = self.tbl26;  //rate
-            detailVC.frm20 = self.tbl12; //phone
-            detailVC.frm21 = self.tbl22; //salesNo
-            detailVC.frm22 = self.tbl23; //jobNo
-            detailVC.frm23 = self.tbl24; //productNo
-            detailVC.frm24 = self.amount;
-            detailVC.frm25 = self.tbl15; //email
-            detailVC.frm26 = self.tbl14; //spouse
-            detailVC.frm27 = self.tbl25;  //quan
-            detailVC.frm28 = self.comments;
-            detailVC.frm29 = self.photo;
-            detailVC.frm30 = self.active;
-            detailVC.frm31 = self.tbl21; //start date
-            detailVC.frm32 = self.complete;
-            detailVC.saleNo = self.tbl22;
-            detailVC.jobNo = self.tbl23;
-            detailVC.adNo = self.tbl24;
-            detailVC.time = self.tbl16;
-         // detailVC.frm33 = self.photo1;
-         // detailVC.frm34 = self.photo2;
-            
-        } else if ([_formController  isEqual:TNAME3]) { //edit Vendor
-            detailVC.formController = TNAME3;
-            detailVC.objectId = self.objectId; //Parse Only
-            detailVC.leadNo = self.leadNo; //vendorNo
-            detailVC.frm11 = self.tbl24; //manager
-            detailVC.frm12 = self.date; //webpage
-            detailVC.frm13 = self.name; //vendorname
-            detailVC.frm14 = self.address;
-            detailVC.frm15 = self.city;
-            detailVC.frm16 = self.state;
-            detailVC.frm17 = self.zip;
-            detailVC.frm18 = self.tbl25; //profession
-            detailVC.frm19 = self.tbl15;  //assistant
-            detailVC.frm20 = self.tbl11; //phone
-            detailVC.frm21 = self.tbl12; //phone1
-            detailVC.frm22 = self.tbl13; //phone2
-            detailVC.frm23 = self.tbl14; // phone3
-            detailVC.frm24 = self.tbl22; //department
-            detailVC.frm25 = self.tbl21; //email
-            detailVC.frm26 = self.tbl23; //office
-            detailVC.frm27 = nil;
-            detailVC.frm28 = self.comments;
-            detailVC.frm29 = nil;
-            detailVC.frm30 = self.active;
-            
-        } else if ([_formController  isEqual:TNAME4]) { //edit Employee
-            detailVC.formController = TNAME4;
-            detailVC.objectId = self.objectId; //Parse Only
-            detailVC.leadNo = self.leadNo; //employeeNo
-            detailVC.frm11 = self.tbl26; //first
-            detailVC.frm12 = self.custNo; //lastname
-            detailVC.frm13 = self.tbl27; //company
-            detailVC.frm14 = self.address;
-            detailVC.frm15 = self.city;
-            detailVC.frm16 = self.state;
-            detailVC.frm17 = self.zip;
-            detailVC.frm18 = self.tbl23; //title
-            detailVC.frm19 = self.tbl15;  //middle
-            detailVC.frm20 = self.tbl11; //homephone
-            detailVC.frm21 = self.tbl12; //workphone
-            detailVC.frm22 = self.tbl13; //cellphone
-            detailVC.frm23 = self.tbl14; //social
-            detailVC.frm24 = self.tbl22; //department
-            detailVC.frm25 = self.tbl21; //email
-            detailVC.frm26 = self.tbl25; //country
-            detailVC.frm27 = self.tbl24; //manager
-            detailVC.frm28 = self.comments;
-            detailVC.frm29 = nil;
-            detailVC.frm30 = self.active;
+            [[UIApplication sharedApplication] openURL:phoneUrl];
+        } else {
+            UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [calert show];
+        }
+    } else {
+        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warning show];
+    }
+}
+
+#pragma mark - Email
+-(void)sendEmail {
+    
+    if (([_formController isEqual: TNAME1]) || ([_formController isEqual: TNAME2])) {
+        if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 )) {
+            [self getEmail:t15];
+        } else {
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
+        }
+    }
+    if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
+        if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 )) {
+            [self getEmail:t21];
+        } else {
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
         }
     }
 }
+
+-(void)getEmail:(NSString*)emailfield {
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *toRecipents;
+    MFMailComposeViewController *mailcomposer = [[MFMailComposeViewController alloc] init];
+    toRecipents = [NSArray arrayWithObject:emailfield];
+    [mailcomposer setToRecipients:toRecipents];
+    mailcomposer.mailComposeDelegate = self;
+    NSString *emailTitle = [standardDefaults objectForKey:@"emailtitleKey"];
+    NSString *messageBody = [standardDefaults objectForKey:@"emailmessageKey"];
+    [mailcomposer setSubject:emailTitle];
+    [mailcomposer setMessageBody:messageBody isHTML:YES];
+    [mailcomposer setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self presentViewController:mailcomposer animated:YES completion:NULL];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    if(error) {
+        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"Mail sent failure" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        [alrt show];
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+}
+
 #pragma mark - Contact
 #pragma mark AuthorizeContact
 - (void)setContact:(id)sender {
@@ -1039,6 +1066,168 @@ Parse.com
         //-----------------------------------------
         CFRelease(addressBook);
         }
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:MAPSEGUE]) {
+        MapViewController *detailVC = segue.destinationViewController;
+        detailVC.mapaddress = self.address;
+        detailVC.mapcity = self.city;
+        detailVC.mapstate = self.state;
+        detailVC.mapzip = self.zip; }
+    /*
+     if ([segue.identifier isEqualToString:CALENDSEGUE]) {
+     CalenderEdit *detailVC = segue.destinationViewController;
+     detailVC.calname = self.name; } */
+    
+    if ([segue.identifier isEqualToString:NEWCUSTSEGUE]) { //new Customer from Lead
+        NewData *detailVC = segue.destinationViewController;
+        if ([_formController isEqual: TNAME1]) {
+            detailVC.formController = TNAME2;
+            detailVC.custNo = self.custNo;
+            detailVC.frm31 = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name;
+            detailVC.frm13 = nil;
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = nil; //date
+            detailVC.frm19 = nil; //aptdate
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.salesman;
+            detailVC.frm22 = self.jobdescription;
+            detailVC.frm23 = nil; //adNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = nil; //callback
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+            detailVC.saleNoDetail = self.tbl22; //salesNo
+            detailVC.jobNoDetail = self.tbl23; //jobNo
+        }
+    }
+    
+    if ([segue.identifier isEqualToString:VIEWSEGUE]) { //edit Lead
+        EditData *detailVC = segue.destinationViewController;
+        if ([_formController isEqual:TNAME1]) {
+            detailVC.formController = TNAME1;
+            detailVC.objectId = self.objectId; //Parse Only
+            detailVC.leadNo = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name;
+            detailVC.frm13 = nil;
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.date;
+            detailVC.frm19 = self.tbl21; //aptdate
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.tbl22; //salesNo
+            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm23 = self.tbl24; //adNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = self.tbl11; //callback
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+            detailVC.saleNo = self.tbl22;
+            detailVC.jobNo = self.tbl23;
+            detailVC.adNo = self.tbl24;
+            
+        } else if ([_formController  isEqual:TNAME2]) { //edit Cust
+            detailVC.formController = TNAME2;
+            detailVC.objectId = self.objectId; //Parse Only
+            detailVC.custNo = self.custNo;
+            detailVC.leadNo = self.leadNo;
+            detailVC.frm11 = self.tbl13; //first
+            detailVC.frm12 = self.name; //last Name
+            detailVC.frm13 = self.tbl11; //contractor
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.date;
+            detailVC.frm19 = self.tbl26;  //rate
+            detailVC.frm20 = self.tbl12; //phone
+            detailVC.frm21 = self.tbl22; //salesNo
+            detailVC.frm22 = self.tbl23; //jobNo
+            detailVC.frm23 = self.tbl24; //productNo
+            detailVC.frm24 = self.amount;
+            detailVC.frm25 = self.tbl15; //email
+            detailVC.frm26 = self.tbl14; //spouse
+            detailVC.frm27 = self.tbl25;  //quan
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = self.photo;
+            detailVC.frm30 = self.active;
+            detailVC.frm31 = self.tbl21; //start date
+            detailVC.frm32 = self.complete;
+            detailVC.saleNo = self.tbl22;
+            detailVC.jobNo = self.tbl23;
+            detailVC.adNo = self.tbl24;
+            detailVC.time = self.tbl16;
+            // detailVC.frm33 = self.photo1;
+            // detailVC.frm34 = self.photo2;
+            
+        } else if ([_formController  isEqual:TNAME3]) { //edit Vendor
+            detailVC.formController = TNAME3;
+            detailVC.objectId = self.objectId; //Parse Only
+            detailVC.leadNo = self.leadNo; //vendorNo
+            detailVC.frm11 = self.tbl24; //manager
+            detailVC.frm12 = self.date; //webpage
+            detailVC.frm13 = self.name; //vendorname
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.tbl25; //profession
+            detailVC.frm19 = self.tbl15;  //assistant
+            detailVC.frm20 = self.tbl11; //phone
+            detailVC.frm21 = self.tbl12; //phone1
+            detailVC.frm22 = self.tbl13; //phone2
+            detailVC.frm23 = self.tbl14; // phone3
+            detailVC.frm24 = self.tbl22; //department
+            detailVC.frm25 = self.tbl21; //email
+            detailVC.frm26 = self.tbl23; //office
+            detailVC.frm27 = nil;
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = nil;
+            detailVC.frm30 = self.active;
+            
+        } else if ([_formController  isEqual:TNAME4]) { //edit Employee
+            detailVC.formController = TNAME4;
+            detailVC.objectId = self.objectId; //Parse Only
+            detailVC.leadNo = self.leadNo; //employeeNo
+            detailVC.frm11 = self.tbl26; //first
+            detailVC.frm12 = self.custNo; //lastname
+            detailVC.frm13 = self.tbl27; //company
+            detailVC.frm14 = self.address;
+            detailVC.frm15 = self.city;
+            detailVC.frm16 = self.state;
+            detailVC.frm17 = self.zip;
+            detailVC.frm18 = self.tbl23; //title
+            detailVC.frm19 = self.tbl15;  //middle
+            detailVC.frm20 = self.tbl11; //homephone
+            detailVC.frm21 = self.tbl12; //workphone
+            detailVC.frm22 = self.tbl13; //cellphone
+            detailVC.frm23 = self.tbl14; //social
+            detailVC.frm24 = self.tbl22; //department
+            detailVC.frm25 = self.tbl21; //email
+            detailVC.frm26 = self.tbl25; //country
+            detailVC.frm27 = self.tbl24; //manager
+            detailVC.frm28 = self.comments;
+            detailVC.frm29 = nil;
+            detailVC.frm30 = self.active;
+        }
+    }
 }
 
 @end

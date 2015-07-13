@@ -44,7 +44,7 @@ Parse.com
         _homeModel.delegate = self; [_homeModel downloadItems];
     }
     
-    filteredString= [[NSMutableArray alloc] init];
+    filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
     
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData:)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
@@ -71,7 +71,7 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-    //[self reloadDatas:nil];
+    [self.listTableView reloadData];
 }
 
 -(void)didReceiveMemoryWarning {
@@ -102,12 +102,11 @@ Parse.com
             NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
             NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
             refreshControl.attributedTitle = attributedTitle; }
-        
         [refreshControl endRefreshing];
     }
 }
 
-#pragma mark - BarButton NewData
+#pragma mark - BarButton New
 -(void)newData:(id)sender {
     [self performSegueWithIdentifier:LEADNEWSEGUE sender:self];
 }
@@ -258,23 +257,30 @@ Parse.com
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    
-    Location *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
 /*
 *******************************************************************************************
 Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
-        myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
-        label1.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CallBack"];
-        label2.text=  [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
+        if (!isFilltered) {
+            myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+            myCell.detailTextLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+            label1.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CallBack"];
+            label2.text=  [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
+        } else {
+            myCell.textLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+            myCell.detailTextLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
+            label1.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"CallBack"];
+            label2.text=  [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Date"];
+        }
     } else {
+        Location *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
+        
         myCell.textLabel.text = item.name;
         myCell.detailTextLabel.text = item.city;
         label1.text = item.callback;
@@ -398,51 +404,43 @@ Parse.com
     
     NSString *searchText = searchController.searchBar.text;
     if(searchText.length == 0)
-        
         isFilltered = NO;
     else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        
-        for(Location* string in _feedItems)
+        for(PFObject *string in _feedItems)
+      //for(Location* string in _feedItems)
         {
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
-            {
-                NSRange stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+            NSRange stringRange;
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 0) {
+                stringRange = [[string objectForKey:@"LastName"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
-            {
-                NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 1) {
+                stringRange = [[string objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
-            {
-                NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 2) {
+                stringRange = [[string objectForKey:@"Phone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
-            {
-                NSRange stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 3) {
+                stringRange = [[string objectForKey:@"Date"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 4)
-            {
-                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+            if (self.searchController.searchBar.selectedScopeButtonIndex == 4) {
+                stringRange = [[string objectForKey:@"Active"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:string];
         }
     }
-   [self.listTableView reloadData];  
+    [self.listTableView reloadData];  
 }
 
 #pragma mark - Segue

@@ -74,6 +74,8 @@ Parse.com
     [self passFieldData];
     [self parseData];
     [self activeButton];
+    
+    [self.listTableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -350,7 +352,6 @@ Parse.com
         [self.email setFont:CELL_FONT(IPHONEFONT16)];
         [self.spouse setFont:CELL_FONT(IPHONEFONT16)];
         [self.callback setFont:CELL_FONT(IPHONEFONT16)];
-        [self.comment setFont:CELL_FONT(IPHONEFONT16)];
         [self.start setFont:CELL_FONT(IPHONEFONT16)];
         [self.complete setFont:CELL_FONT(IPHONEFONT16)];
     }
@@ -399,17 +400,22 @@ Parse.com
     [self.callback setClearButtonMode:UITextFieldViewModeNever];
 
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-        self.amount.keyboardType = UIKeyboardTypeNumbersAndPunctuation; }
+        self.amount.keyboardType = UIKeyboardTypeDecimalPad;
+    }
+    if ([_formController isEqual:TNAME2]) {
+        self.callback.keyboardType = UIKeyboardTypeDecimalPad;
+    }
     if ([_formController isEqual:TNAME3]) {
         self.last.keyboardType = UIKeyboardTypeURL;
         self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    }
     if ([_formController isEqual:TNAME4]) {
         self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        }
+    }
     self.email.keyboardType = UIKeyboardTypeEmailAddress;
     self.phone.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
@@ -421,10 +427,6 @@ Parse.com
     if (indexPath.row == 0) {
         
         self.date = textframe;
-        //self.date.borderStyle = TEXTBDSTYLE;
-        //self.date.layer.borderColor = TEXTBDCOLOR;
-        //self.date.layer.borderWidth = TEXTBDWIDTH;
-        //self.date.layer.cornerRadius = TEXTBDRADIUS;
         if ([self.frm18 isEqual:[NSNull null]])
              self.date.text = @"";
         else self.date.text = self.frm18;
@@ -693,6 +695,7 @@ Parse.com
         else self.comment.text = self.frm28;
          myCell.textLabel.text = @"Comments";
         [myCell.contentView addSubview:self.comment];
+        [self.comment setFont:CELL_FONT(IPHONEFONT16)]; //fix font change only works when placed here
         
     } else if(indexPath.row == 14) {
          self.start = textframe;
@@ -728,8 +731,8 @@ Parse.com
     self.adName.delegate = self; self.amount.delegate = self;
     self.email.delegate = self; self.spouse.delegate = self;
     self.callback.delegate = self; self.start.delegate = self;
-    self.complete.delegate = self;
-    //  self.comment.delegate = self; */
+    self.complete.delegate = self; */
+    //self.comment.delegate = self;
     
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;

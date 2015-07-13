@@ -84,7 +84,8 @@ Parse.com
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
     self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
-    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR ;
+    self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR;
+   [self.listTableView reloadData];
    [self reloadDatas:nil];
 }
 
@@ -283,11 +284,6 @@ Parse.com
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    BlogLocation *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
 /*
 *******************************************************************************************
 Parse.com
@@ -313,14 +309,25 @@ Parse.com
     }];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        
+        if (!isFilltered) {
         myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
         myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
         myCell.blogmsgDateLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+        } else {
+            myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+            myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            myCell.blogmsgDateLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+        }
         if (![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
             label2.hidden = NO;
         else label2.hidden = YES;
     } else {
+        BlogLocation *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
+        
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
@@ -449,44 +456,37 @@ Parse.com
     else {
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Search" message:@"No search in Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
-            
-        } else {
-            for(BlogLocation* string in _feedItems)
+        for(PFObject *string in _feedItems)
+        //for(BlogLocation* string in _feedItems)
             {
+                NSRange stringRange;
                 if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
                 {
-                    NSRange stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                    if(stringRange.location != NSNotFound)
-                        [filteredString addObject:string];
+                    stringRange = [[string objectForKey:@"Subject"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                    //stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 }
                 
                 if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
                 {
-                    NSRange stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                    if(stringRange.location != NSNotFound)
-                        [filteredString addObject:string];
+                    stringRange = [[string objectForKey:@"MsgDate"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                    //stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 }
                 
                 if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
                 {
-                    NSRange stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                    if(stringRange.location != NSNotFound)
-                        [filteredString addObject:string];
+                    stringRange = [[string objectForKey:@"Rating"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                    //stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 }
                 
                 if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
                 {
-                    NSRange stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                    if(stringRange.location != NSNotFound)
-                        [filteredString addObject:string];
+                    stringRange = [[string objectForKey:@"PostBy"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                    //stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
                 }
+                if(stringRange.location != NSNotFound)
+                    [filteredString addObject:string];
             }
         }
-    }
     [self.listTableView reloadData];
 }
 

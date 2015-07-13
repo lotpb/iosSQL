@@ -16,9 +16,13 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <MessageUI/MessageUI.h> 
+#import <EventKit/EventKit.h> //calender
 //#import "CalenderEdit.h"
 
-@interface LeadDetailViewControler : UIViewController <UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate>;
+@interface LeadDetailViewControler : UIViewController <UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate>
+{
+    BOOL suceed;
+}
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;
@@ -41,6 +45,9 @@
 //label text only
 @property (strong, nonatomic) NSString *l1datetext;
 @property (weak, nonatomic) IBOutlet UILabel *labeldatetext;
+
+@property (strong, nonatomic) UITextField *DateInput; //calender event
+@property (strong, nonatomic) UITextField *itemText; //calender event
 
 @property (strong, nonatomic) NSString *tbl11;
 @property (strong, nonatomic) NSString *tbl12;

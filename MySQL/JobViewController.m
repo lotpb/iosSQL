@@ -72,7 +72,7 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-    //[self reloadDatas:nil];
+    [self.listTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,7 +80,7 @@ Parse.com
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BarButton NewData
+#pragma mark - BarButton New
 -(void)newData {
     isFormStat = YES;
     [self performSegueWithIdentifier:JOBVIEWSEGUE sender:self];
@@ -243,28 +243,32 @@ Parse.com
         [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT20 -2)];
     }
     
-     myCell.layer.cornerRadius = 5;
-     myCell.layer.masksToBounds = YES;
+    myCell.layer.cornerRadius = 5;
+    myCell.layer.masksToBounds = YES;
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    JobLocation *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
+    /*
+     *******************************************************************************************
+     Parse.com
+     *******************************************************************************************
+     */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Description"];
+        if (!isFilltered)
+            myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Description"];
+        else
+            myCell.textLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Description"];
     } else {
+        JobLocation *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
+        
         myCell.textLabel.text = item.jobdescription;
-      //myCell.detailTextLabel.text = item.jobNo;
     }
+    
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
@@ -378,31 +382,30 @@ Parse.com
         isFilltered = NO;
         else {
         isFilltered = YES;
-        // [filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
-        
-        for(JobLocation *string in _feedItems)
+        for(PFObject *string in _feedItems)
+        //for(JobLocation *string in _feedItems)
         {
+            NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
-                NSRange stringRange = [string.jobdescription rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Description"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.jobdescription rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
-                NSRange stringRange = [string.jobNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"JobNo"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.jobNo rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
-                NSRange stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Active"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:string];
         }
     }
     [self.listTableView reloadData];

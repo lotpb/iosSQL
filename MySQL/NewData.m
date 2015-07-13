@@ -175,16 +175,22 @@ Parse.com
     }
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-        self.amount.keyboardType = UIKeyboardTypeDecimalPad; }
+        self.amount.keyboardType = UIKeyboardTypeDecimalPad;
+    }
+    if ([_formController isEqual:TNAME2]) {
+        self.callback.keyboardType = UIKeyboardTypeDecimalPad;
+    }
     if ([_formController isEqual:TNAME3]) {
         self.last.keyboardType = UIKeyboardTypeURL;
         self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    }
     if ([_formController isEqual:TNAME4]) {
         self.salesman.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         self.jobName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;}
+        self.adName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    }
     self.email.keyboardType = UIKeyboardTypeEmailAddress;
     self.phone.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     

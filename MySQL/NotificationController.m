@@ -41,7 +41,7 @@ bool allowsAlert;
     self.navigationItem.rightBarButtonItem = doneButton;
     
     [self.customMessage setClearButtonMode:UITextFieldViewModeWhileEditing];
-    [self.customMessage setFont:CELL_MEDFONT(IPHONEFONT18) ];
+    [self.customMessage setFont:CELL_FONT(IPHONEFONT18) ];
      self.customMessage.placeholder = @"enter to send notification";
     
     [[UITextField appearance] setTintColor:[UIColor orangeColor]];
@@ -58,12 +58,12 @@ bool allowsAlert;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self.customMessage resignFirstResponder];
     return NO;
-}
+} */
 
 - (void)showdone:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -127,9 +127,7 @@ bool allowsAlert;
   //---------------------------------------------------------------------
 
     }
-    
     // we're creating a string of the date so we can log the time the notif is supposed to fire
-    
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
         

@@ -312,6 +312,32 @@
 			<key>DefaultValue</key>
 			<string>74.005973</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Calender</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Event Title</string>
+			<key>Key</key>
+			<string>eventtitleKey</string>
+			<key>DefaultValue</key>
+			<string>Appt:</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Duration</string>
+			<key>Key</key>
+			<string>durationKey</string>
+			<key>DefaultValue</key>
+			<string>60*60</string>
+		</dict>
 	</array>
 </dict>
 </plist>

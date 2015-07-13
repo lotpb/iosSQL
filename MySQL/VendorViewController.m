@@ -24,6 +24,8 @@
    [super viewDidLoad];
     self.title = NSLocalizedString(TNAME3, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.listTableView.delegate = self;
+    self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
 /*
 *******************************************************************************************
@@ -54,8 +56,12 @@ Parse.com
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    
     [refreshView addSubview:refreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.listTableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -69,7 +75,6 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
-    //[self reloadDatas:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,7 +110,7 @@ Parse.com
     }
 }
 
-#pragma mark - BarButton NewData
+#pragma mark - BarButton New
 -(void)newData:(id)sender {
     [self performSegueWithIdentifier:VENDNEWSEGUE sender:self];
 }
@@ -121,7 +126,7 @@ Parse.com
     [self.listTableView reloadData];
 }
 
-#pragma mark - Table
+#pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
@@ -228,14 +233,14 @@ Parse.com
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
+        //[myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
         [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
-        //[myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16 - 2)];
+        //[myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
     }
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -65, 0, 50, 27)];
-    [label2 setFont:CELL_MEDFONT(IPHONEFONT16 - 2)];
+    [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
      label2.textAlignment = NSTextAlignmentCenter;
     [label2 setTextColor:DATECOLORTEXT];
     [label2 setBackgroundColor:NUMCOLORBACK];
@@ -246,20 +251,26 @@ Parse.com
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    VendLocation *item;
-    if (!isFilltered)
-        item = _feedItems[indexPath.row];
-    else
-        item = [filteredString objectAtIndex:indexPath.row];
 /*
 *******************************************************************************************
 Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
-        label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
+        if (!isFilltered) {
+            myCell.textLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
+            label2.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
+        } else {
+            myCell.textLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Vendor"];
+            label2.text = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"VendorNo"]stringValue];
+        }
     } else {
+        VendLocation *item;
+        if (!isFilltered)
+            item = _feedItems[indexPath.row];
+        else
+            item = [filteredString objectAtIndex:indexPath.row];
+        
         myCell.textLabel.text = item.vendorName;
         label2.text = item.vendorNo;
     }
@@ -389,36 +400,35 @@ Parse.com
         isFilltered = YES;
         [filteredString removeAllObjects];
         filteredString = [[NSMutableArray alloc]init];
-        
-        for(VendLocation* string in _feedItems)
+        for(PFObject *string in _feedItems)
+        //for(VendLocation* string in _feedItems)
         {
+            NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
             {
-                NSRange stringRange = [string.vendorName rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Vendor"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.vendorName rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
             {
-                NSRange stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
             {
-                NSRange stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Phone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
             {
-                NSRange stringRange = [string.department rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-                if(stringRange.location != NSNotFound)
-                    [filteredString addObject:string];
+                stringRange = [[string objectForKey:@"Department"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                //stringRange = [string.department rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
+            if(stringRange.location != NSNotFound)
+                [filteredString addObject:string];
         }
     }
     [self.listTableView reloadData];
