@@ -505,21 +505,30 @@ Parse.com
     
     if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
     {
-        BlogEditDetailView*detailVC = segue.destinationViewController;
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
+        BlogEditDetailView *detailVC = segue.destinationViewController;
+       
+        /*
+         *******************************************************************************************
+         Parse.com
+         *******************************************************************************************
+         */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            
-            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
-            detailVC.msgNo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
-            detailVC.postby = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-            detailVC.subject = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-            detailVC.msgDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-            detailVC.rating = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"];
+             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+            if (!isFilltered) {
+                detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
+                detailVC.msgNo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
+                detailVC.postby = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+                detailVC.subject = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+                detailVC.msgDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+                detailVC.rating = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"];
+            } else {
+                detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
+                detailVC.msgNo = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
+                detailVC.postby = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+                detailVC.subject = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+                detailVC.msgDate = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+                detailVC.rating = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Rating"];
+            }
         }
         else
             detailVC.selectedLocation = _selectedLocation;

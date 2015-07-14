@@ -444,9 +444,9 @@ Parse.com
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!isFilltered)
-     _selectedLocation = _feedItems[indexPath.row];
-      else
-     _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+        _selectedLocation = _feedItems[indexPath.row];
+    else
+        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:CUSTVIEWSEGUE sender:self];
 }
@@ -457,39 +457,68 @@ Parse.com
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME2;
-/*
- *******************************************************************************************
- Parse.com
- *******************************************************************************************
- */
+        /*
+         *******************************************************************************************
+         Parse.com
+         *******************************************************************************************
+         */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
-            detailVC.custNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CustNo"]stringValue];
-            detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
-            detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
-            detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
-            detailVC.address = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Address"];
-            detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
-            detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
-            detailVC.zip = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"]stringValue];
-            detailVC.amount = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
-            detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Contractor"];
-            detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone"];
-            detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
-            detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Spouse"];
-            detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
-            detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Start"];
-            detailVC.tbl22 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"]stringValue];
-            detailVC.tbl23 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
-            detailVC.tbl24 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ProductNo"]stringValue];
-            detailVC.tbl25 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Quan"]stringValue];
-            detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
-            detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rate"];
-            detailVC.complete = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Completion"];
-            detailVC.photo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
-            detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
-            detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+            if (!isFilltered) {
+                detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
+                detailVC.custNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CustNo"]stringValue];
+                detailVC.leadNo = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
+                detailVC.date = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
+                detailVC.name = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+                detailVC.address = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Address"];
+                detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+                detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
+                detailVC.zip = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"]stringValue];
+                detailVC.amount = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
+                detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Contractor"];
+                detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Phone"];
+                detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+                detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Spouse"];
+                detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+                detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Start"];
+                detailVC.tbl22 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"]stringValue];
+                detailVC.tbl23 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
+                detailVC.tbl24 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ProductNo"]stringValue];
+                detailVC.tbl25 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Quan"]stringValue];
+                detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rate"];
+                detailVC.complete = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Completion"];
+                detailVC.photo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
+                detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+                detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+            } else {
+                detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
+                detailVC.custNo = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"CustNo"]stringValue];
+                detailVC.leadNo = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"LeadNo"]stringValue];
+                detailVC.date = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Date"];
+                detailVC.name = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+                detailVC.address = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Address"];
+                detailVC.city = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
+                detailVC.state = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"State"];
+                detailVC.zip = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Zip"]stringValue];
+                detailVC.amount = [NSString stringWithFormat:@"%@",[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Amount"]];
+                detailVC.tbl11 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Contractor"];
+                detailVC.tbl12 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Phone"];
+                detailVC.tbl13 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"First"];
+                detailVC.tbl14 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Spouse"];
+                detailVC.tbl15 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Email"];
+                detailVC.tbl21 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Start"];
+                detailVC.tbl22 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"SalesNo"]stringValue];
+                detailVC.tbl23 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
+                detailVC.tbl24 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"ProductNo"]stringValue];
+                detailVC.tbl25 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Quan"]stringValue];
+                detailVC.tbl16 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl26 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Rate"];
+                detailVC.complete = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Completion"];
+                detailVC.photo = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Photo"];
+                detailVC.comments = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+                detailVC.active = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
+            }
         } else {
             detailVC.custNo = _selectedLocation.custNo;
             detailVC.leadNo = _selectedLocation.leadNo;
@@ -517,21 +546,21 @@ Parse.com
             detailVC.comments = _selectedLocation.comments;
             detailVC.active = _selectedLocation.active;
             //photo1, photo2
-            }
-        
-            detailVC.l11 = @"Contractor"; detailVC.l12 = @"Phone";
-            detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
-            detailVC.l15 = @"Email"; detailVC.l21 = @"Start date";
-            detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
-            detailVC.l24 = @"Product"; detailVC.l25 = @"Quan";
-            detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Rate";
-            detailVC.l1datetext = @"Sale Date:";
-            detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
-           }
-        if ([[segue identifier] isEqualToString:CUSTNEWSEGUE]) {
-            NewData *detailVC = segue.destinationViewController;
-            detailVC.formController = TNAME2 ;
         }
+        
+        detailVC.l11 = @"Contractor"; detailVC.l12 = @"Phone";
+        detailVC.l13 = @"First"; detailVC.l14 = @"Spouse";
+        detailVC.l15 = @"Email"; detailVC.l21 = @"Start date";
+        detailVC.l22 = @"Salesman"; detailVC.l23 = @"Job";
+        detailVC.l24 = @"Product"; detailVC.l25 = @"Quan";
+        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"Rate";
+        detailVC.l1datetext = @"Sale Date:";
+        detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
+    }
+    if ([[segue identifier] isEqualToString:CUSTNEWSEGUE]) {
+        NewData *detailVC = segue.destinationViewController;
+        detailVC.formController = TNAME2 ;
+    }
 }
 
 @end

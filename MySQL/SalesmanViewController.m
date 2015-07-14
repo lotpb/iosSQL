@@ -432,18 +432,24 @@ Parse.com
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-/*
- *******************************************************************************************
- Parse.com
- *******************************************************************************************
- */
+        /*
+         *******************************************************************************************
+         Parse.com
+         *******************************************************************************************
+         */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
-            detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
-            detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
-            detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+            if (!isFilltered) {
+                detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
+                detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
+                detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
+                detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+            } else {
+                detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
+                detailVC.frm11 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Active"];
+                detailVC.frm12 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
+                detailVC.frm13 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+            }
         } else {
             detailVC.frm11 = _selectedLocation.active;
             detailVC.frm12 = _selectedLocation.salesNo;

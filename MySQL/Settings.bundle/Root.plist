@@ -174,26 +174,6 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Area Code Active</string>
-			<key>Key</key>
-			<string>areacodeactive</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Area Code</string>
-			<key>Key</key>
-			<string>areacodeKey</string>
-			<key>DefaultValue</key>
-			<string>(516)</string>
-		</dict>
-		<dict>
-			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>PERSONAL INFO</string>
@@ -268,26 +248,6 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Email Title</string>
-			<key>Key</key>
-			<string>emailtitleKey</string>
-			<key>DefaultValue</key>
-			<string>mySQL Support</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Email Message</string>
-			<key>Key</key>
-			<string>emailmessageKey</string>
-			<key>DefaultValue</key>
-			<string>&lt;h2&gt;Learning iOS Programming!&lt;/h2&gt;</string>
-		</dict>
-		<dict>
-			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Location</string>
@@ -320,23 +280,107 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
+			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
 			<string>Event Title</string>
+			<key>Titles</key>
+			<array>
+				<string>Meeting</string>
+				<string>Appt</string>
+				<string>Check</string>
+				<string>Bill</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>Meeting:</string>
+				<string>Appt:</string>
+				<string>Check:</string>
+				<string>Bill:</string>
+			</array>
 			<key>Key</key>
 			<string>eventtitleKey</string>
 			<key>DefaultValue</key>
-			<string>Appt:</string>
+			<string>Appt</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Duration</string>
+			<key>Titles</key>
+			<array>
+				<string>1 Hour</string>
+				<string>2 Hour</string>
+				<string>All day</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>1 Hour</string>
+				<string>2 Hours</string>
+				<string>All day</string>
+			</array>
+			<key>Key</key>
+			<string>DurationKey</string>
+			<key>DefaultValue</key>
+			<string>1 Hour</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Data Entry</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Area Code Active</string>
+			<key>Key</key>
+			<string>areacodeactive</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Area Code</string>
+			<key>Values</key>
+			<array>
+				<string>(516)</string>
+				<string>(718)</string>
+				<string>(212)</string>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>(516)</string>
+				<string>(718)</string>
+				<string>(212)</string>
+			</array>
+			<key>Key</key>
+			<string>areacodeKey</string>
+			<key>DefaultValue</key>
+			<string>(516)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>Duration</string>
+			<string>Email Title</string>
 			<key>Key</key>
-			<string>durationKey</string>
+			<string>emailtitleKey</string>
 			<key>DefaultValue</key>
-			<string>60*60</string>
+			<string>mySQL Support</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Email Message</string>
+			<key>Key</key>
+			<string>emailmessageKey</string>
+			<key>DefaultValue</key>
+			<string>&lt;h2&gt;Learning iOS Programming!&lt;/h2&gt;</string>
 		</dict>
 	</array>
 </dict>

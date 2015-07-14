@@ -545,7 +545,6 @@ Parse.com
                           {
                               //Do some thing here
                               [self requestApptdate];
-                              //[self performSegueWithIdentifier:CALENDSEGUE sender:self];
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
@@ -682,7 +681,6 @@ Parse.com
 }
 
 - (void)calenderEvent {
-    //NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
@@ -888,43 +886,29 @@ Parse.com
     
     ABAddressBookRef addressBook =  ABAddressBookCreateWithOptions(NULL, NULL);
     ABRecordRef person = ABPersonCreate();
+    NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
+    
+    ABMutableMultiValueRef addressMultipleValue = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
+    ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMutableMultiValueRef emailMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMutableMultiValueRef urlMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
     
     if ([_formController isEqual:TNAME1]) {  //leads
         // Creating new entry
-    // Setting basic properties
-    ABRecordSetValue(person, kABPersonFirstNameProperty, (__bridge CFTypeRef)(self.tbl13) , nil);
-    ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(self.name), nil);
-    ABRecordSetValue(person, kABPersonNoteProperty, CFBridgingRetain(self.comments), nil);
-    
-    // Adding address
-    ABMutableMultiValueRef addressMultipleValue = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
-    NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
-    [addressDictionary setObject:self.address forKey:(NSString *)kABPersonAddressStreetKey];
-    [addressDictionary setObject:self.city forKey:(NSString *)kABPersonAddressCityKey];
-     [addressDictionary setObject:self.state forKey:(NSString *)kABPersonAddressStateKey];
-    [addressDictionary setObject:self.zip forKey:(NSString *)kABPersonAddressZIPKey];
-    [addressDictionary setObject:@"US" forKey:(NSString *)kABPersonAddressCountryKey];
-    ABMultiValueAddValueAndLabel(addressMultipleValue, (__bridge CFTypeRef)(addressDictionary), kABHomeLabel, NULL);
-    ABRecordSetValue(person, kABPersonAddressProperty, addressMultipleValue, nil);
-    CFRelease(addressMultipleValue);
-    
-    // Adding phone numbers
-    ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-    ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl12), (CFStringRef)@"home", NULL);
-    ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, nil);
-    CFRelease(phoneNumberMultiValue);
-    
-    // Adding emails
-    ABMutableMultiValueRef emailMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-    ABMultiValueAddValueAndLabel(emailMultiValue, (__bridge CFTypeRef)(self.tbl15), (CFStringRef)@"email", NULL);
-    ABRecordSetValue(person, kABPersonURLProperty, emailMultiValue, nil);
-    CFRelease(emailMultiValue);
-         
-    // Adding photo
-    //ABPersonSetImageData(person, (__bridge CFDataRef)self.photo, nil);
- 
-    // Adding person to the address book
-    ABAddressBookAddRecord(addressBook, person, nil);
+        // Setting basic properties
+        ABRecordSetValue(person, kABPersonFirstNameProperty, (__bridge CFTypeRef)(self.tbl13) , nil);
+        ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(self.name), nil);
+        ABRecordSetValue(person, kABPersonNoteProperty, CFBridgingRetain(self.comments), nil);
+        // Adding address
+        [addressDictionary setObject:self.address forKey:(NSString *)kABPersonAddressStreetKey];
+        [addressDictionary setObject:self.city forKey:(NSString *)kABPersonAddressCityKey];
+        [addressDictionary setObject:self.state forKey:(NSString *)kABPersonAddressStateKey];
+        [addressDictionary setObject:self.zip forKey:(NSString *)kABPersonAddressZIPKey];
+        [addressDictionary setObject:@"US" forKey:(NSString *)kABPersonAddressCountryKey];
+        // Adding phone numbers
+        ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl12), (CFStringRef)@"home", NULL);
+        // Adding emails
+        ABMultiValueAddValueAndLabel(emailMultiValue, (__bridge CFTypeRef)(self.tbl15), (CFStringRef)@"email", NULL);
     }
     
     if ([_formController isEqual:TNAME2]) { //cust
@@ -934,87 +918,45 @@ Parse.com
         ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(self.name), nil);
         ABRecordSetValue(person, kABPersonOrganizationProperty, (__bridge CFTypeRef)(self.tbl11), nil);
         ABRecordSetValue(person, kABPersonNoteProperty, CFBridgingRetain(self.comments), nil);
-        
         // Adding address
-        ABMutableMultiValueRef addressMultipleValue = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
-        NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
         [addressDictionary setObject:self.address forKey:(NSString *)kABPersonAddressStreetKey];
         [addressDictionary setObject:self.city forKey:(NSString *)kABPersonAddressCityKey];
         [addressDictionary setObject:self.state forKey:(NSString *)kABPersonAddressStateKey];
         [addressDictionary setObject:self.zip forKey:(NSString *)kABPersonAddressZIPKey];
         [addressDictionary setObject:@"US" forKey:(NSString *)kABPersonAddressCountryKey];
-        ABMultiValueAddValueAndLabel(addressMultipleValue, (__bridge CFTypeRef)(addressDictionary), kABHomeLabel, NULL);
-        ABRecordSetValue(person, kABPersonAddressProperty, addressMultipleValue, nil);
-        CFRelease(addressMultipleValue);
-        
         // Adding phone numbers
-        ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl12), (CFStringRef)@"home", NULL);
-        ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, nil);
-        CFRelease(phoneNumberMultiValue);
-        
         // Adding emails
-        ABMutableMultiValueRef emailMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(emailMultiValue, (__bridge CFTypeRef)(self.tbl15), (CFStringRef)@"email", NULL);
-        ABRecordSetValue(person, kABPersonURLProperty, emailMultiValue, nil);
-        CFRelease(emailMultiValue);
-        
         // Adding photo
         //ABPersonSetImageData(person, (__bridge CFDataRef)self.photo, nil);
-        
-        // Adding person to the address book
-        ABAddressBookAddRecord(addressBook, person, nil);
-       }
+    }
     
     if ([_formController isEqual:TNAME3]) { //vendor
-
         // Setting basic properties
         ABRecordSetValue(person, kABPersonOrganizationProperty, (__bridge CFTypeRef)(self.name), nil);
         ABRecordSetValue(person, kABPersonJobTitleProperty, (__bridge CFTypeRef)(self.tbl25), nil);
         ABRecordSetValue(person, kABPersonNoteProperty, CFBridgingRetain(self.comments), nil);
-        
         // Adding address
-        ABMutableMultiValueRef addressMultipleValue = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
-        NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
         [addressDictionary setObject:self.address forKey:(NSString *)kABPersonAddressStreetKey];
         [addressDictionary setObject:self.city forKey:(NSString *)kABPersonAddressCityKey];
         [addressDictionary setObject:self.state forKey:(NSString *)kABPersonAddressStateKey];
         [addressDictionary setObject:self.zip forKey:(NSString *)kABPersonAddressZIPKey];
         [addressDictionary setObject:@"US" forKey:(NSString *)kABPersonAddressCountryKey];
-        ABMultiValueAddValueAndLabel(addressMultipleValue, (__bridge CFTypeRef)(addressDictionary), kABHomeLabel, NULL);
-        ABRecordSetValue(person, kABPersonAddressProperty, addressMultipleValue, nil);
-        CFRelease(addressMultipleValue);
-        
         // Adding phone numbers
-        ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl11), (CFStringRef)@"work", NULL);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl12), (CFStringRef)@"work", NULL);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl13), (CFStringRef)@"cell", NULL);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl14), (CFStringRef)@"home", NULL);
-        ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, nil);
-        CFRelease(phoneNumberMultiValue);
-        
-        // Adding url
-        ABMutableMultiValueRef urlMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-        ABMultiValueAddValueAndLabel(urlMultiValue, (__bridge CFTypeRef)(self.date), kABPersonHomePageLabel, NULL);
-        ABRecordSetValue(person, kABPersonURLProperty, urlMultiValue, nil);
-        CFRelease(urlMultiValue);
-        
         // Adding emails
-        ABMutableMultiValueRef emailMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(emailMultiValue, (__bridge CFTypeRef)(self.tbl21), (CFStringRef)@"email", NULL);
-        ABRecordSetValue(person, kABPersonURLProperty, emailMultiValue, nil);
-        CFRelease(emailMultiValue);
-        
+        // Adding url
+        ABMultiValueAddValueAndLabel(urlMultiValue, (__bridge CFTypeRef)(self.date), kABPersonHomePageLabel, NULL);
         // Adding photo
         //ABPersonSetImageData(person, (__bridge CFDataRef)self.photo, nil);
-        
-        // Adding person to the address book
-        ABAddressBookAddRecord(addressBook, person, nil);
-       }
+    }
     
     if ([_formController isEqual:TNAME4]) { //employee
-        
         // Setting basic properties
         ABRecordSetValue(person, kABPersonFirstNameProperty, (__bridge CFTypeRef)(self.tbl26) , nil);
         ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(self.custNo), nil);
@@ -1022,40 +964,36 @@ Parse.com
         ABRecordSetValue(person, kABPersonOrganizationProperty, (__bridge CFTypeRef)(self.tbl27), nil);
         ABRecordSetValue(person, kABPersonJobTitleProperty, (__bridge CFTypeRef)(self.tbl23), nil);
         ABRecordSetValue(person, kABPersonNoteProperty, CFBridgingRetain(self.comments), nil);
-        
         // Adding address
-        ABMutableMultiValueRef addressMultipleValue = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
-        NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
         [addressDictionary setObject:self.address forKey:(NSString *)kABPersonAddressStreetKey];
         [addressDictionary setObject:self.city forKey:(NSString *)kABPersonAddressCityKey];
         [addressDictionary setObject:self.state forKey:(NSString *)kABPersonAddressStateKey];
         [addressDictionary setObject:self.zip forKey:(NSString *)kABPersonAddressZIPKey];
         [addressDictionary setObject:self.tbl25 forKey:(NSString *)kABPersonAddressCountryKey];
-        ABMultiValueAddValueAndLabel(addressMultipleValue, (__bridge CFTypeRef)(addressDictionary), kABHomeLabel, NULL);
-        ABRecordSetValue(person, kABPersonAddressProperty, addressMultipleValue, nil);
-        CFRelease(addressMultipleValue);
-        
         // Adding phone numbers
-        ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl11), (CFStringRef)@"home", NULL);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl12), (CFStringRef)@"work", NULL);
         ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(self.tbl13), (CFStringRef)@"cell", NULL);
-        ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, nil);
-        CFRelease(phoneNumberMultiValue);
-        
         // Adding emails
-        ABMutableMultiValueRef emailMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
         ABMultiValueAddValueAndLabel(emailMultiValue, (__bridge CFTypeRef)(self.tbl21), (CFStringRef)@"email", NULL);
-        ABRecordSetValue(person, kABPersonURLProperty, emailMultiValue, nil);
-        CFRelease(emailMultiValue);
-        
         // Adding photo
         //ABPersonSetImageData(person, (__bridge CFDataRef)self.photo, nil);
-        
-        // Adding person to the address book
-        ABAddressBookAddRecord(addressBook, person, nil);
-       }
-        CFRelease(addressBook);
+    }
+    
+    ABMultiValueAddValueAndLabel(addressMultipleValue, (__bridge CFTypeRef)(addressDictionary), kABHomeLabel, NULL);
+    ABRecordSetValue(person, kABPersonAddressProperty, addressMultipleValue, nil);
+    ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, nil);
+    ABRecordSetValue(person, kABPersonURLProperty, emailMultiValue, nil);
+    ABRecordSetValue(person, kABPersonURLProperty, urlMultiValue, nil);
+    
+    CFRelease(addressMultipleValue);
+    CFRelease(phoneNumberMultiValue);
+    CFRelease(emailMultiValue);
+    CFRelease(urlMultiValue);
+    // Adding person to the address book
+    ABAddressBookAddRecord(addressBook, person, nil);
+    
+    CFRelease(addressBook);
     if (person) {
         ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
         ABAddressBookAddRecord(addressBook, person, nil);
@@ -1065,7 +1003,7 @@ Parse.com
         [contactAddedAlert show];
         //-----------------------------------------
         CFRelease(addressBook);
-        }
+    }
 }
 
 #pragma mark - Segue
@@ -1077,10 +1015,6 @@ Parse.com
         detailVC.mapcity = self.city;
         detailVC.mapstate = self.state;
         detailVC.mapzip = self.zip; }
-    /*
-     if ([segue.identifier isEqualToString:CALENDSEGUE]) {
-     CalenderEdit *detailVC = segue.destinationViewController;
-     detailVC.calname = self.name; } */
     
     if ([segue.identifier isEqualToString:NEWCUSTSEGUE]) { //new Customer from Lead
         NewData *detailVC = segue.destinationViewController;
