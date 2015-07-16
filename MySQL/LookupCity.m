@@ -86,9 +86,15 @@ NSString *cityName;
     static NSString *cellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (myCell == nil) {
+    if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT18)];
     }
+    
     if (!isFilltered)
         cityName = [[zipArray objectAtIndex:indexPath.row] objectForKey:@"City"];
        else

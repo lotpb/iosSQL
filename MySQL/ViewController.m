@@ -487,7 +487,7 @@ Parse.com
                 detailVC.tbl23 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
                 detailVC.tbl24 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"AdNo"]stringValue];
                 detailVC.tbl25 = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
-                detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] updatedAt]];
                 detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
                 detailVC.photo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Photo"];
                 detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Coments"];
@@ -512,7 +512,7 @@ Parse.com
                 detailVC.tbl23 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"JobNo"]stringValue];
                 detailVC.tbl24 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"AdNo"]stringValue];
                 detailVC.tbl25 = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
-                detailVC.tbl16 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[filteredString objectAtIndex:indexPath.row] updatedAt]];
                 detailVC.tbl26 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Photo"];
                 detailVC.photo = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Photo"];
                 detailVC.comments = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Coments"];

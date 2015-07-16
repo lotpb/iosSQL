@@ -116,6 +116,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshView addSubview:refreshControl];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
@@ -392,7 +393,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
     [_audioPlayer play];
 }
-
+//verse of the day
 #pragma mark - Notification
 - (void)sendLocalNotification {
     UILocalNotification *notification = [[UILocalNotification alloc] init];

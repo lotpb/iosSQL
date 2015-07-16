@@ -148,9 +148,9 @@ UIBarButtonItem *trashItem, *shareItem;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT16)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT16)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT18)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT18)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT14)];
     } else {
         [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT17)];
         [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT17)];

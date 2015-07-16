@@ -58,7 +58,7 @@
  
     if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
            self.date = self.date;
-      else self.date = @"None";
+      else self.date = @"";
     
     if ((![self.comments isEqual:[NSNull null]] ) && ( [self.comments length] != 0 ))
            self.comments = self.comments;

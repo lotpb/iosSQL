@@ -15,7 +15,7 @@
 
 @interface FacebookViewController : UIViewController <MFMessageComposeViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 
 -(IBAction)twitterPost:(id)sender;
 -(IBAction)facebookPost:(id)sender;

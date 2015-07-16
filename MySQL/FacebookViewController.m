@@ -19,9 +19,9 @@
     [super viewDidLoad];
 
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = SIDEBARTINTCOLOR; //[UIColor colorWithWhite:0.1f alpha:0.9f];
+    //_sidebarButton.target = self.revealViewController;
+    //_sidebarButton.action = @selector(revealToggle:);
+    //_sidebarButton.tintColor = SIDEBARTINTCOLOR; //[UIColor colorWithWhite:0.1f alpha:0.9f];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;

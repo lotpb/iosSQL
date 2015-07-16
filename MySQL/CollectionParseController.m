@@ -11,12 +11,10 @@
 
 @interface CollectionParseController ()
 {   //Parse
-    NSArray *imageFilesArray;
-    NSMutableArray *imagesArray;
-    //Collection
-    NSArray *jobImages;
+    NSArray *imageFilesArray, *jobImages;
+    NSMutableArray *imagesArray, *selectedJobs;
     BOOL shareEnabled;
-    NSMutableArray *selectedJobs;
+    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
@@ -50,6 +48,16 @@
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;
+    
+#pragma mark RefreshControl
+    UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [self.collectionView insertSubview:refreshView atIndex:0]; //the tableView is a IBOutlet
+    refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
+    
+    [refreshView addSubview:refreshControl];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -61,6 +69,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - RefreshControl
+- (void)reloadDatas:(id)sender {
+    
+    [self queryParseMethod];
+    [self.collectionView reloadData];
+    
+    if (refreshControl) {
+        
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            refreshControl.attributedTitle = attributedTitle;  }
+        
+        [refreshControl endRefreshing];
+    }
 }
 
 - (void)showdone {

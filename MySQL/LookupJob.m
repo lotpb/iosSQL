@@ -87,6 +87,12 @@
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT18)];
+    }
+    
     if (!isFilltered)
         jobName = [[jobArray objectAtIndex:indexPath.row] objectForKey:@"Description"];
         else

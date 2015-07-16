@@ -275,10 +275,6 @@ Parse.com
         label2.text = item.vendorNo;
     }
     
-    /*   if (myCell.textLabel.text.length > 200) {
-     myCell.textLabel.text = [NSString stringWithFormat:@"%@...", [subtitle substringToIndex:200]];
-     } */
-    
     UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
     [myCell.imageView setImage:myImage];
     
@@ -480,7 +476,7 @@ Parse.com
                 detailVC.tbl25 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Profession"];
                 detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
                 detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
-                detailVC.tbl16 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] updatedAt]];
                 detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WebPage"];
             } else {
                 detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
@@ -504,7 +500,7 @@ Parse.com
                 detailVC.tbl25 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Profession"];
                 detailVC.comments = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Comments"];
                 detailVC.active = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
-                detailVC.tbl16 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Time"];
+                detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[filteredString objectAtIndex:indexPath.row] updatedAt]];
                 detailVC.tbl26 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"WebPage"];
             }
         } else {

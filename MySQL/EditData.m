@@ -307,53 +307,54 @@ Parse.com
     
     UITextView *textviewframe;
     UITextField *textframe;
+    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
          textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
          textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
-        [self.first setFont:CELL_FONT(IPADFONT16)];
-        [self.last setFont:CELL_FONT(IPADFONT16)];
-        [self.company setFont:CELL_FONT(IPADFONT16)];
-        [self.date setFont:CELL_FONT(IPADFONT16)];
-        [self.address setFont:CELL_FONT(IPADFONT16)];
-        [self.city setFont:CELL_FONT(IPADFONT16)];
-        [self.state setFont:CELL_FONT(IPADFONT16)];
-        [self.zip setFont:CELL_FONT(IPADFONT16)];
-        [self.aptDate setFont:CELL_FONT(IPADFONT16)];
-        [self.phone setFont:CELL_FONT(IPADFONT16)];
-        [self.salesman setFont:CELL_FONT(IPADFONT16)];
-        [self.jobName setFont:CELL_FONT(IPADFONT16)];
-        [self.adName setFont:CELL_FONT(IPADFONT16)];
-        [self.amount setFont:CELL_FONT(IPADFONT16)];
-        [self.email setFont:CELL_FONT(IPADFONT16)];
-        [self.spouse setFont:CELL_FONT(IPADFONT16)];
-        [self.callback setFont:CELL_FONT(IPADFONT16)];
-        [self.comment setFont:CELL_FONT(IPADFONT16)];
-        [self.start setFont:CELL_FONT(IPADFONT16)];
-        [self.complete setFont:CELL_FONT(IPADFONT16)];
+        [self.first setFont:CELL_FONT(IPADFONT20)];
+        [self.last setFont:CELL_FONT(IPADFONT20)];
+        [self.company setFont:CELL_FONT(IPADFONT20)];
+        [self.date setFont:CELL_FONT(IPADFONT20)];
+        [self.address setFont:CELL_FONT(IPADFONT20)];
+        [self.city setFont:CELL_FONT(IPADFONT20)];
+        [self.state setFont:CELL_FONT(IPADFONT20)];
+        [self.zip setFont:CELL_FONT(IPADFONT20)];
+        [self.aptDate setFont:CELL_FONT(IPADFONT20)];
+        [self.phone setFont:CELL_FONT(IPADFONT20)];
+        [self.salesman setFont:CELL_FONT(IPADFONT20)];
+        [self.jobName setFont:CELL_FONT(IPADFONT20)];
+        [self.adName setFont:CELL_FONT(IPADFONT20)];
+        [self.amount setFont:CELL_FONT(IPADFONT20)];
+        [self.email setFont:CELL_FONT(IPADFONT20)];
+        [self.spouse setFont:CELL_FONT(IPADFONT20)];
+        [self.callback setFont:CELL_FONT(IPADFONT20)];
+        [self.comment setFont:CELL_FONT(IPADFONT20)];
+        [self.start setFont:CELL_FONT(IPADFONT20)];
+        [self.complete setFont:CELL_FONT(IPADFONT20)];
     } else {
-         textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 175, 30)];
-         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 230, 95)];
-        [self.first setFont:CELL_FONT(IPHONEFONT16)];
-        [self.last setFont:CELL_FONT(IPHONEFONT16)];
-        [self.company setFont:CELL_FONT(IPHONEFONT16)];
-        [self.date setFont:CELL_FONT(IPHONEFONT16)];
-        [self.address setFont:CELL_FONT(IPHONEFONT16)];
-        [self.city setFont:CELL_FONT(IPHONEFONT16)];
-        [self.state setFont:CELL_FONT(IPHONEFONT16)];
-        [self.zip setFont:CELL_FONT(IPHONEFONT16)];
-        [self.aptDate setFont:CELL_FONT(IPHONEFONT16)];
-        [self.phone setFont:CELL_FONT(IPHONEFONT16)];
-        [self.salesman setFont:CELL_FONT(IPHONEFONT16)];
-        [self.jobName setFont:CELL_FONT(IPHONEFONT16)];
-        [self.adName setFont:CELL_FONT(IPHONEFONT16)];
-        [self.amount setFont:CELL_FONT(IPHONEFONT16)];
-        [self.email setFont:CELL_FONT(IPHONEFONT16)];
-        [self.spouse setFont:CELL_FONT(IPHONEFONT16)];
-        [self.callback setFont:CELL_FONT(IPHONEFONT16)];
-        [self.start setFont:CELL_FONT(IPHONEFONT16)];
-        [self.complete setFont:CELL_FONT(IPHONEFONT16)];
+         textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 195, 30)];
+         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 240, 95)];
+        [self.first setFont:CELL_FONT(IPHONEFONT20)];
+        [self.last setFont:CELL_FONT(IPHONEFONT20)];
+        [self.company setFont:CELL_FONT(IPHONEFONT20)];
+        [self.date setFont:CELL_FONT(IPHONEFONT20)];
+        [self.address setFont:CELL_FONT(IPHONEFONT20)];
+        [self.city setFont:CELL_FONT(IPHONEFONT20)];
+        [self.state setFont:CELL_FONT(IPHONEFONT20)];
+        [self.zip setFont:CELL_FONT(IPHONEFONT20)];
+        [self.aptDate setFont:CELL_FONT(IPHONEFONT20)];
+        [self.phone setFont:CELL_FONT(IPHONEFONT20)];
+        [self.salesman setFont:CELL_FONT(IPHONEFONT20)];
+        [self.jobName setFont:CELL_FONT(IPHONEFONT20)];
+        [self.adName setFont:CELL_FONT(IPHONEFONT20)];
+        [self.amount setFont:CELL_FONT(IPHONEFONT20)];
+        [self.email setFont:CELL_FONT(IPHONEFONT20)];
+        [self.spouse setFont:CELL_FONT(IPHONEFONT20)];
+        [self.callback setFont:CELL_FONT(IPHONEFONT20)];
+        [self.start setFont:CELL_FONT(IPHONEFONT20)];
+        [self.complete setFont:CELL_FONT(IPHONEFONT20)];
     }
     
     self.first.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -695,7 +696,7 @@ Parse.com
         else self.comment.text = self.frm28;
          myCell.textLabel.text = @"Comments";
         [myCell.contentView addSubview:self.comment];
-        [self.comment setFont:CELL_FONT(IPHONEFONT16)]; //fix font change only works when placed here
+        [self.comment setFont:CELL_FONT(IPHONEFONT20)]; //fix font change only works when placed here
         
     } else if(indexPath.row == 14) {
          self.start = textframe;
@@ -719,7 +720,7 @@ Parse.com
         else self.complete.text = self.frm32;
    
          self.complete.inputView = [self datePicker:15];
-         myCell.textLabel.text = @"Completion Date";
+         myCell.textLabel.text = @"End Date";
         [myCell.contentView addSubview:self.complete];
     }
     
@@ -734,7 +735,6 @@ Parse.com
     self.complete.delegate = self; */
     //self.comment.delegate = self;
     
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
 }
 

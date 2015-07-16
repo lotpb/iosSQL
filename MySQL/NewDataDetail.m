@@ -85,12 +85,12 @@
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(130, 10, 18, 22)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.salesman setFont:CELL_FONT(IPADFONT16)];
-        [self.salesNo setFont:CELL_FONT(IPADFONT16)];
+        [self.salesman setFont:CELL_FONT(IPADFONT20)];
+        [self.salesNo setFont:CELL_FONT(IPADFONT20)];
 
     } else {
-        [self.salesman setFont:CELL_FONT(IPHONEFONT16)];
-        [self.salesNo setFont:CELL_FONT(IPHONEFONT16)];
+        [self.salesman setFont:CELL_FONT(IPHONEFONT18)];
+        [self.salesNo setFont:CELL_FONT(IPHONEFONT18)];
     }
     
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];

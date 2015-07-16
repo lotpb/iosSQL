@@ -12,6 +12,7 @@
 @interface WebMainController : UIViewController <WKScriptMessageHandler>
 
 @property (strong, nonatomic) WKWebView *webView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControl;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forwardButton;
