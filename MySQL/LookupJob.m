@@ -58,6 +58,7 @@
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
    [self.searchController.searchBar becomeFirstResponder];
+   [self.listTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

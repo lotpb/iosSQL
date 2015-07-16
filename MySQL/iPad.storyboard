@@ -4551,16 +4551,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="YL2-bg-fIc"/>
+        <segue reference="e2A-fc-Mn4"/>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="wDP-4Y-cdF"/>
-        <segue reference="e2A-fc-Mn4"/>
-        <segue reference="zQR-YQ-xF4"/>
-        <segue reference="YL2-bg-fIc"/>
-        <segue reference="382-1V-m5k"/>
-        <segue reference="Dbq-7P-K8C"/>
-        <segue reference="JT1-3I-mwZ"/>
         <segue reference="46l-tX-X1A"/>
+        <segue reference="wDP-4Y-cdF"/>
+        <segue reference="zQR-YQ-xF4"/>
+        <segue reference="dip-5A-Lje"/>
+        <segue reference="Vww-ua-WBq"/>
+        <segue reference="xOD-Ja-G1n"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
