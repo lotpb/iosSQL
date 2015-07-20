@@ -27,7 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.jobImageView.image = [UIImage imageNamed:self.jobImageName];
+    //self.jobImageView.image = [UIImage imageNamed:self.jobImageName];
+    self.jobImageView.image = self.jobimage;
 }
 
 - (void)didReceiveMemoryWarning

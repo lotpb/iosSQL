@@ -22,8 +22,6 @@ NSString* const kareacodeKeyKey = @"areacodeKey";
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
-
-
     /*
      if ([_formController isEqual:TNAME2]) { //need to add contractor to form
      [parseConnection parseContractor];
@@ -107,6 +105,11 @@ Parse.com
         self.following.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
     }];
+}
+
+#pragma mark - textfield
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
 }
 
 #pragma mark - ParsePickView

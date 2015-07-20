@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 #import "CollectionHeaderView.h"
 #import "JobViewCell.h"
 #import "CollectionDetailController.h"
-#import <Parse/Parse.h>
+
 #import <Social/Social.h>
 //#import "Constants.h"
 

@@ -42,7 +42,7 @@ bool allowsAlert;
     
     [self.customMessage setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.customMessage setFont:CELL_FONT(IPHONEFONT18) ];
-     self.customMessage.placeholder = @"enter to send notification";
+     self.customMessage.placeholder = @"enter notification";
     
     [[UITextField appearance] setTintColor:[UIColor orangeColor]];
 }
@@ -58,17 +58,18 @@ bool allowsAlert;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [self.customMessage resignFirstResponder];
-    return NO;
-} */
 
+#pragma mark - button
 - (void)showdone:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - textfield
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
+}
+
+#pragma mark - notification
 - (IBAction)saveNotification:(id)sender {
     /*
     // New for iOS 8 - Register the notifications
@@ -115,7 +116,7 @@ bool allowsAlert;
         }
         if (allowsSound)
         {
-            notification.soundName = UILocalNotificationDefaultSoundName;
+            notification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
         }
 
               // this will schedule the notification to fire at the fire date
@@ -123,19 +124,20 @@ bool allowsAlert;
               // this will fire the notification right away, it will still also fire at the date we set
         [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
     //-----------------------------added---------------------------------
-        _customMessage.text = @"";
+        self.customMessage.text = @"";
   //---------------------------------------------------------------------
 
     }
     // we're creating a string of the date so we can log the time the notif is supposed to fire
-    static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
         
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:NOTIDATE];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
-    NSString *notifDate = [formatter stringFromDate:_datePicker.date];
-        NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate); }
+    NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+    [DateFormatter setDateFormat:NOTIDATE];
+    [DateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    NSString *notifDate = [DateFormatter stringFromDate:_datePicker.date];
+    NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate);
+    }
 }
 
 - (void)setNotificationTypesAllowed

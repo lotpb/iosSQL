@@ -20,6 +20,9 @@
 @property (strong, nonatomic) NSString *msgDate;
 @property (strong, nonatomic) NSString *rating;
 
+@property (strong, nonatomic) UITextField *DateInput; //calender event
+@property (strong, nonatomic) UITextField *itemText; //calender event
+
 @property (weak, nonatomic) IBOutlet UIButton *Like;
 @property (weak, nonatomic) IBOutlet UIButton *update;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

@@ -18,20 +18,19 @@
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
  // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
     
+    // Handle launching from a notification
+     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+     if (localNotification) {
+     application.applicationIconBadgeNumber = 0;
+     }
     
-//| ------------------------Ipad storyBoard---------------------------------
+//| ------------------------ipad storyBoard---------------------------------
     
     UIStoryboard *storyboard = [self grabStoryboard];
     
     // display storyboard
     self.window.rootViewController = [storyboard instantiateInitialViewController];
     [self.window makeKeyAndVisible];
-    
-   /*
-    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (localNotification) {
-        application.applicationIconBadgeNumber = 0;
-    } */
     
 //| ------------------------parse Key---------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
@@ -136,9 +135,11 @@
 #pragma mark Notification didReceiveLocalNotification
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
-    
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateActive) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
     application.applicationIconBadgeNumber = 0;
 }
 
@@ -175,14 +176,13 @@
     
     UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
     inviteCategory.identifier = @"INVITE_CATEGORY";
-    
     [inviteCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
     
     // Add the actions to the category and set the action context
- //   [inviteCategory setActions:@[acceptAction, maybeAction, declineAction] forContext:UIUserNotificationActionContextDefault];
+  //  [inviteCategory setActions:@[acceptAction, maybeAction, declineAction] forContext:UIUserNotificationActionContextDefault];
     
     // Set the actions to present in a minimal context
-  //  [inviteCategory setActions:@[acceptAction, declineAction]forContext:UIUserNotificationActionContextMinimal];
+  //  [inviteCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextMinimal];
     
     return inviteCategory;
 }

@@ -267,19 +267,80 @@ Parse.com
     }
 }
 
-#pragma mark - Button Notification
+#pragma mark - Notification
+#pragma mark Button Notification
 - (IBAction)sendNotification:(UIButton *)sender
 {
+    UIAlertView *alert;
+    UIDatePicker *DatePicker;
+    
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        DateFormatter = [[NSDateFormatter alloc] init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    }
+    
+    alert = [[UIAlertView alloc] initWithTitle:@"Notification date:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;//UIAlertViewStylePlainTextInput;
+    DatePicker = [[UIDatePicker alloc] init];
+    DatePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    DatePicker.timeZone = [NSTimeZone localTimeZone];
+    DatePicker.date = [NSDate date];
+    
+    self.DateInput = [alert textFieldAtIndex:0];
+    self.itemText = [alert textFieldAtIndex:1];
+    [self.DateInput setTextAlignment:NSTextAlignmentLeft];
+    [self.itemText setTextAlignment:NSTextAlignmentLeft];
+    self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
+    self.itemText.text = BLOGNOTIFICATION;
+    [self.DateInput setPlaceholder:@"notification date"];
+    [self.itemText setPlaceholder:@"title"];
+    self.itemText.secureTextEntry = NO;
+    self.DateInput.inputView=DatePicker;
+    [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    [alert show];
+}
+
+- (void) dateChanged:(UIDatePicker *)DatePicker {
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        self.DateInput.text = [DateFormatter stringFromDate:DatePicker.date];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"OK"]) {
+        [self requestApptdate];
+    }
+}
+
+- (void)requestApptdate {
+    NSDate *apptdate;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        apptdate = [DateFormatter dateFromString:self.DateInput.text];
+    }
+    
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = BLOGNOTIFICATION;
+    localNotification.alertBody = self.itemText.text; //BLOGNOTIFICATION;
     localNotification.category = BNOTIFCATEGORY;
     localNotification.alertAction = NSLocalizedString(BNOTIFACTION, nil);
-    localNotification.alertTitle = NSLocalizedString(BNOTIFTITLE, nil);
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    localNotification.fireDate = [NSDate date]; //[NSDate dateWithTimeIntervalSinceNow:1];
+    localNotification.alertTitle = NSLocalizedString(BNOTIFTITLE, nil);;
+    localNotification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
+    localNotification.fireDate = apptdate;//[NSDate dateWithTimeIntervalSinceNow:60];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
 @end

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "CollectionViewController.h"
+#import "CollectionParseController.h"
 
 @interface CollectionDetailController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
-@property (strong, nonatomic) NSString *jobImageName;
+@property (strong, nonatomic) UIImage *jobimage;
 
 @end

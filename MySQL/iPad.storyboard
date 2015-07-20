@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="14F6a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.16"/>
@@ -421,6 +421,9 @@
                                                                 <exclude reference="0TK-Iy-K7F"/>
                                                             </mask>
                                                         </variation>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="vkG-5V-SZx" eventType="editingDidEndOnExit" id="Pxl-UP-yXh"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-NM-M3U">
                                                         <rect key="frame" x="114" y="59" width="360" height="30"/>
@@ -439,11 +442,17 @@
                                                                 <include reference="G1D-Dw-awF"/>
                                                             </mask>
                                                         </variation>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="vkG-5V-SZx" eventType="editingDidEndOnExit" id="ldZ-Uu-Pq6"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Company" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KF4-dd-qcS">
                                                         <rect key="frame" x="114" y="99" width="360" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="vkG-5V-SZx" eventType="editingDidEndOnExit" id="cMy-m8-qQa"/>
+                                                        </connections>
                                                     </textField>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="profile-rabbit-toy.png" translatesAutoresizingMaskIntoConstraints="NO" id="ety-o9-IPB">
                                                         <rect key="frame" x="24" y="17" width="65" height="65"/>
@@ -509,6 +518,9 @@
                                                         <state key="normal" image="iosStar.png">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="like:" destination="vkG-5V-SZx" eventType="touchUpInside" id="b1v-wi-DaB"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -631,7 +643,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vov-15-REd">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="vov-15-REd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="o2E-Js-wL0">
@@ -1100,6 +1112,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="lhx-g3-wXg"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Apt Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tdu-6x-EUx">
                                                         <rect key="frame" x="185" y="256" width="174" height="30"/>
@@ -1108,46 +1123,73 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="qqS-D6-BgZ"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Advertiser" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wZb-ki-IZy">
                                                         <rect key="frame" x="4" y="413" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="8LB-N5-qpX"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XWk-2q-rKF">
                                                         <rect key="frame" x="4" y="452" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="UXa-w3-HRn"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lDE-SA-sIm">
                                                         <rect key="frame" x="4" y="491" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="Wro-NR-0IB"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Spouse" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dYY-Xc-1Mr">
                                                         <rect key="frame" x="4" y="529" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="lZx-FB-4Ba"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Call Back" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="714-Zh-pCK">
                                                         <rect key="frame" x="4" y="567" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="xb0-MT-5ZD"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Company" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ck6-an-PVL">
                                                         <rect key="frame" x="4" y="14" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="ojP-Tq-jbw"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kVO-sI-bPj">
                                                         <rect key="frame" x="4" y="52" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="ZYN-tI-Pm1"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sE7-As-8V3">
                                                         <rect key="frame" x="4" y="90" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="Exg-Zb-xBF"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KUa-oG-uQB">
                                                         <rect key="frame" x="4" y="139" width="358" height="30"/>
@@ -1156,31 +1198,49 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="Xyo-Vk-eDe"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1nG-LZ-CdE">
                                                         <rect key="frame" x="4" y="179" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="GdR-of-Nyb"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aex-Pb-b9a">
                                                         <rect key="frame" x="4" y="257" width="174" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="xRH-F7-sq4"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(###)###-####" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n2M-NC-Fhx">
                                                         <rect key="frame" x="4" y="295" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="fU5-DC-6rg"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Salesman" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cxr-i9-Pv9">
                                                         <rect key="frame" x="4" y="332" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="4fI-pj-puK"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Job" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eRk-5d-1cD">
                                                         <rect key="frame" x="4" y="371" width="358" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="qZE-si-f9J"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rxv-7P-ym4">
                                                         <rect key="frame" x="4" y="219" width="174" height="30"/>
@@ -1189,6 +1249,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                                        <connections>
+                                                            <action selector="textFieldReturn:" destination="xTM-Le-5MW" eventType="editingDidEndOnExit" id="db6-r5-vgx"/>
+                                                        </connections>
                                                     </textField>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0F6-rJ-z2W">
                                                         <rect key="frame" x="4" y="605" width="358" height="51"/>
@@ -1353,6 +1416,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <action selector="textFieldReturn:" destination="y78-Mw-3ln" eventType="editingDidEndOnExit" id="y8A-0L-8R3"/>
+                                        </connections>
                                     </textField>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="GMe-CY-0QX">
                                         <rect key="frame" x="103" y="103" width="394" height="235"/>
@@ -1429,25 +1495,8 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3AG-9l-Qeu">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                            </navigationBar>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CnY-fh-c4F">
-                                <rect key="frame" x="191" y="6" width="218" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="218" id="WP2-gV-3Zx"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Map"/>
-                                    <segment title="Hybrid"/>
-                                    <segment title="Satellite"/>
-                                </segments>
-                                <connections>
-                                    <action selector="mapTypeChanged:" destination="UdA-2X-Te0" eventType="valueChanged" id="gQ7-yw-CId"/>
-                                </connections>
-                            </segmentedControl>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fsj-Zl-Qc5">
-                                <rect key="frame" x="0.0" y="44" width="600" height="444"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
@@ -1455,18 +1504,27 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="fsj-Zl-Qc5" secondAttribute="trailing" id="1no-7g-I0Y"/>
                             <constraint firstItem="fsj-Zl-Qc5" firstAttribute="leading" secondItem="dg5-44-hSn" secondAttribute="leading" id="ANX-ec-VED"/>
-                            <constraint firstAttribute="trailing" secondItem="3AG-9l-Qeu" secondAttribute="trailing" id="HJB-vj-3IN"/>
-                            <constraint firstItem="CnY-fh-c4F" firstAttribute="centerX" secondItem="3AG-9l-Qeu" secondAttribute="centerX" id="Pnj-MI-X3p"/>
-                            <constraint firstItem="fsj-Zl-Qc5" firstAttribute="bottom" secondItem="ypF-UH-CdB" secondAttribute="top" constant="1" id="clc-51-2rK"/>
-                            <constraint firstItem="3AG-9l-Qeu" firstAttribute="trailing" secondItem="fsj-Zl-Qc5" secondAttribute="trailing" id="hLv-P2-HFI"/>
-                            <constraint firstItem="fsj-Zl-Qc5" firstAttribute="top" secondItem="3AG-9l-Qeu" secondAttribute="bottom" id="i3f-ZN-yUV"/>
-                            <constraint firstItem="3AG-9l-Qeu" firstAttribute="leading" secondItem="fsj-Zl-Qc5" secondAttribute="leading" id="jOj-w0-WVI"/>
-                            <constraint firstItem="CnY-fh-c4F" firstAttribute="top" secondItem="icE-jy-0xz" secondAttribute="bottom" constant="6" id="kn7-Lv-vE7"/>
-                            <constraint firstItem="3AG-9l-Qeu" firstAttribute="top" secondItem="icE-jy-0xz" secondAttribute="bottom" id="syh-Ip-zeI"/>
+                            <constraint firstItem="fsj-Zl-Qc5" firstAttribute="top" secondItem="icE-jy-0xz" secondAttribute="bottom" id="Bnw-QJ-y1t"/>
+                            <constraint firstItem="fsj-Zl-Qc5" firstAttribute="bottom" secondItem="ypF-UH-CdB" secondAttribute="top" constant="-1" id="clc-51-2rK"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="rZC-62-qEs"/>
+                    <navigationItem key="navigationItem" id="rZC-62-qEs">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="CnY-fh-c4F">
+                            <rect key="frame" x="191" y="8" width="218" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Map"/>
+                                <segment title="Hybrid"/>
+                                <segment title="Satellite"/>
+                            </segments>
+                            <connections>
+                                <action selector="mapTypeChanged:" destination="UdA-2X-Te0" eventType="valueChanged" id="gQ7-yw-CId"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapTypeSegmentedControl" destination="CnY-fh-c4F" id="2XA-tc-ARu"/>
                         <outlet property="mapView" destination="fsj-Zl-Qc5" id="Gr6-qr-QGg"/>
@@ -2152,7 +2210,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="UFX-bi-20Y"/>
-                                    <barButtonItem systemItem="refresh" id="3eK-Rp-aBG"/>
+                                    <barButtonItem systemItem="refresh" id="3eK-Rp-aBG">
+                                        <connections>
+                                            <action selector="refreshButtonPressed:" destination="Gti-d6-M2T" id="qEV-hd-6iG"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="U5I-2u-nSS"/>
                                     <barButtonItem systemItem="stop" id="pah-bp-vti">
                                         <connections>
@@ -2160,7 +2222,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="bDZ-HD-Yt3"/>
-                                    <barButtonItem systemItem="action" id="r70-j5-HJa"/>
+                                    <barButtonItem systemItem="action" id="r70-j5-HJa">
+                                        <connections>
+                                            <action selector="actionButton:" destination="Gti-d6-M2T" id="R6X-en-Zhk"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -2193,6 +2259,7 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
+                        <outlet property="action" destination="r70-j5-HJa" id="5Vq-pj-7gN"/>
                         <outlet property="backButton" destination="BBw-OK-7Sk" id="wfC-cB-6FU"/>
                         <outlet property="forwardButton" destination="isn-hE-D8y" id="9FE-Hf-URf"/>
                         <outlet property="progressView" destination="lpJ-ca-rAT" id="rHm-pl-74L"/>
@@ -4551,16 +4618,16 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YL2-bg-fIc"/>
-        <segue reference="e2A-fc-Mn4"/>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="46l-tX-X1A"/>
         <segue reference="wDP-4Y-cdF"/>
+        <segue reference="e2A-fc-Mn4"/>
+        <segue reference="YL2-bg-fIc"/>
         <segue reference="zQR-YQ-xF4"/>
-        <segue reference="dip-5A-Lje"/>
-        <segue reference="Vww-ua-WBq"/>
-        <segue reference="xOD-Ja-G1n"/>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="46l-tX-X1A"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

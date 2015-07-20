@@ -39,18 +39,14 @@
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
     NSArray *actionButtonItems = @[editItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
- 
-    // Any tap on the view would dismiss the keyboard.
-    UITapGestureRecognizer *tapGestureRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
-    tapGestureRecognizer.cancelsTouchesInView = NO;
     
     if ([_formController isEqual:TNAME4])
      self.company.placeholder = @"Subcontractor";
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
+    
+    //[self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(swipeGesture)];
     
 /*
 *******************************************************************************************
@@ -82,16 +78,22 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-   //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+     self.navigationController.hidesBarsOnSwipe = true;
+     self.navigationController.hidesBarsOnTap = false;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
     [self.first becomeFirstResponder];
-    [self.view endEditing:YES]; //dismiss the keyboard
+  //[self.view endEditing:YES]; //dismiss the keyboard
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
+}
+
 
 #pragma mark - ParsePickView
 - (void)parseSalesPickloaded:(NSMutableArray *)salesItem {
@@ -109,14 +111,6 @@ Parse.com
 - (void)parseCallbackPickloaded:(NSMutableArray *)callbackItem {
     callbackArray = callbackItem;
 }
-
-#pragma mark - Keyboard
-- (void)dismissKeyboard {
-    // To dismiss the keyboard, we simply ask all fields to resign its focus.
-    for (int i = TEXT_FIELD_TAG_OFFSET; i < TEXT_FIELD_TAG_OFFSET + NUM_TEXT_FIELD; i++) {
-        [[self.view viewWithTag:i] resignFirstResponder];
-    }
-} 
 
 #pragma mark - Button
 -(IBAction)like:(id)sender {
@@ -311,8 +305,8 @@ Parse.com
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
-         textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
-         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
+        textframe = [[UITextField alloc] initWithFrame:CGRectMake(125, 7, 250, 30)];
+        textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(120, 7, 250, 95)];
         [self.first setFont:CELL_FONT(IPADFONT20)];
         [self.last setFont:CELL_FONT(IPADFONT20)];
         [self.company setFont:CELL_FONT(IPADFONT20)];
@@ -334,8 +328,8 @@ Parse.com
         [self.start setFont:CELL_FONT(IPADFONT20)];
         [self.complete setFont:CELL_FONT(IPADFONT20)];
     } else {
-         textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 195, 30)];
-         textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 240, 95)];
+        textframe = [[UITextField alloc] initWithFrame:CGRectMake(130, 7, 195, 30)];
+        textviewframe = [[UITextView alloc] initWithFrame:CGRectMake(125, 7, 240, 95)];
         [self.first setFont:CELL_FONT(IPHONEFONT20)];
         [self.last setFont:CELL_FONT(IPHONEFONT20)];
         [self.company setFont:CELL_FONT(IPHONEFONT20)];
@@ -399,7 +393,7 @@ Parse.com
     [self.complete setClearButtonMode:UITextFieldViewModeWhileEditing];
     
     [self.callback setClearButtonMode:UITextFieldViewModeNever];
-
+    
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
         self.amount.keyboardType = UIKeyboardTypeDecimalPad;
     }
@@ -421,7 +415,7 @@ Parse.com
     self.phone.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
     self.email.returnKeyType = UIReturnKeyNext;
-   
+    
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
@@ -429,13 +423,13 @@ Parse.com
         
         self.date = textframe;
         if ([self.frm18 isEqual:[NSNull null]])
-             self.date.text = @"";
+            self.date.text = @"";
         else self.date.text = self.frm18;
-             self.date.tag = 0;
-
+        self.date.tag = 0;
+        
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
             self.date.inputView = [self datePicker:0];
-            myCell.textLabel.text = @"Date";
+        myCell.textLabel.text = @"Date";
         
         if ([_formController isEqual:TNAME3]) {
             self.date.placeholder = @"Profession";
@@ -446,56 +440,56 @@ Parse.com
             myCell.textLabel.text = @"Title"; }
         
         else self.date.placeholder = @"Date";
-           [myCell.contentView addSubview:self.date];
-
+        [myCell.contentView addSubview:self.date];
+        
     } else if (indexPath.row == 1) {
         
         self.address = textframe;
         if ([self.frm14 isEqual:[NSNull null]])
-             self.address.text = @"";
+            self.address.text = @"";
         else self.address.text = self.frm14;
-             self.address.placeholder = @"Address";
-         myCell.textLabel.text = @"Address";
+        self.address.placeholder = @"Address";
+        myCell.textLabel.text = @"Address";
         [myCell.contentView addSubview:self.address];
         
     } else if (indexPath.row == 2) {
-       
+        
         self.city = textframe;
         if ([self.frm15 isEqual:[NSNull null]])
-             self.city.text = @"";
+            self.city.text = @"";
         else self.city.text = self.frm15;
-         myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-         self.city.placeholder = @"City";
-         myCell.textLabel.text = @"City";
+        myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        self.city.placeholder = @"City";
+        myCell.textLabel.text = @"City";
         [myCell.contentView addSubview:self.city];
         
     } else if (indexPath.row == 3) {
         
         self.state = textframe;
         if ([self.frm16 isEqual:[NSNull null]])
-             self.state.text = @"";
+            self.state.text = @"";
         else self.state.text = self.frm16;
-             self.state.adjustsFontSizeToFitWidth = YES;
-             self.state.placeholder = @"State";
-         myCell.textLabel.text = @"State";
+        self.state.adjustsFontSizeToFitWidth = YES;
+        self.state.placeholder = @"State";
+        myCell.textLabel.text = @"State";
         [myCell.contentView addSubview:self.state];
         
         UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
         if ([self.frm17 isEqual:[NSNull null]])
-             self.zip.text = @"";
+            self.zip.text = @"";
         else self.zip.text = self.frm17;
-             self.zip.placeholder = @"Zip";
+        self.zip.placeholder = @"Zip";
         [myCell.contentView addSubview:self.zip];
         
     } else if (indexPath.row == 4) {
         
         self.aptDate = textframe;
         if ([self.frm19 isEqual:[NSNull null]])
-             self.aptDate.text = @"";
+            self.aptDate.text = @"";
         else self.aptDate.text = self.frm19;
-             self.aptDate.tag = 4;
-             self.aptDate.placeholder = @"Apt Date";
+        self.aptDate.tag = 4;
+        self.aptDate.placeholder = @"Apt Date";
         myCell.textLabel.text = @"Apt Date";
         
         if ([_formController isEqual:TNAME1])
@@ -514,22 +508,22 @@ Parse.com
             self.aptDate.placeholder = @"Middle";
             myCell.textLabel.text = @"Middle"; }
         
-           [myCell.contentView addSubview:self.aptDate];
+        [myCell.contentView addSubview:self.aptDate];
         
     } else if (indexPath.row == 5) {
         
-         self.phone = textframe;
-         self.phone.placeholder = @"Phone";
+        self.phone = textframe;
+        self.phone.placeholder = @"Phone";
         if (self.frm20.length == 0)
             self.phone.text = @"(516)";
-       else self.phone.text = self.frm20;
-         myCell.textLabel.text = @"Phone";
+        else self.phone.text = self.frm20;
+        myCell.textLabel.text = @"Phone";
         [myCell.contentView addSubview:self.phone];
         
     } else if (indexPath.row == 6) {
         
-         self.salesman = textframe;
-         self.salesman.adjustsFontSizeToFitWidth = YES;
+        self.salesman = textframe;
+        self.salesman.adjustsFontSizeToFitWidth = YES;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -540,7 +534,7 @@ Parse.com
             myCell.textLabel.text = @"Salesman";
             self.salesman.tag = 6;
             self.salesman.inputView = [self customPicker:6]; }
-
+        
         if ([_formController isEqual:TNAME3]) {
             self.salesman.placeholder = @"Phone 1";
             myCell.textLabel.text = @"Phone 1";
@@ -554,9 +548,9 @@ Parse.com
         [myCell.contentView addSubview:self.salesman];
         
     } else if (indexPath.row == 7) {
-         self.jobName = textframe;
+        self.jobName = textframe;
         if ([self.frm22 isEqual:[NSNull null]])
-             self.jobName.text = @"";
+            self.jobName.text = @"";
         else self.jobName.text = self.frm22;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
@@ -569,10 +563,10 @@ Parse.com
         else if ([_formController isEqual:TNAME4]) {
             self.jobName.placeholder = @"Cell Phone";
             myCell.textLabel.text = @"Cell Phone";
-          } else {
+        } else {
             self.jobName.placeholder = @"Job";
             myCell.textLabel.text = @"Job"; }
-      
+        
         [myCell.contentView addSubview:self.jobName];
         
     } else if (indexPath.row == 8) {
@@ -601,57 +595,57 @@ Parse.com
         [myCell.contentView addSubview:self.adName];
         
     } else if(indexPath.row == 9) {
-    
-         self.amount = textframe;
-         self.amount.placeholder = @"Amount";
+        
+        self.amount = textframe;
+        self.amount.placeholder = @"Amount";
         if ([self.frm24 isEqual:[NSNull null]])
-             self.amount.text = @"";
+            self.amount.text = @"";
         else self.amount.text = self.frm24;
-            myCell.textLabel.text = @"Amount";
+        myCell.textLabel.text = @"Amount";
         
         if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
-             self.amount.placeholder = @"Department";
-             myCell.textLabel.text = @"Department";
-    /*    } else {
-            UIStepper *stepper = [[UIStepper alloc] init];
-            stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-            [stepper setTintColor:[UIColor grayColor]];
-            stepper.value = [self.amount.text doubleValue];
-            stepper.stepValue = 1;
-            UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
-            [wrapper addSubview:stepper];
-            myCell.accessoryView = stepper;
-            [stepper addTarget:self action:@selector(changestepAmount:) forControlEvents:UIControlEventValueChanged]; */
+            self.amount.placeholder = @"Department";
+            myCell.textLabel.text = @"Department";
+            /*    } else {
+             UIStepper *stepper = [[UIStepper alloc] init];
+             stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+             [stepper setTintColor:[UIColor grayColor]];
+             stepper.value = [self.amount.text doubleValue];
+             stepper.stepValue = 1;
+             UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+             [wrapper addSubview:stepper];
+             myCell.accessoryView = stepper;
+             [stepper addTarget:self action:@selector(changestepAmount:) forControlEvents:UIControlEventValueChanged]; */
         }
-
+        
         [myCell.contentView addSubview:self.amount];
         
     } else if (indexPath.row == 10) {
         
-         self.email = textframe;
-         self.email.placeholder = @"Email";
+        self.email = textframe;
+        self.email.placeholder = @"Email";
         if ([self.frm25 isEqual:[NSNull null]])
-             self.email.text = @"";
+            self.email.text = @"";
         else self.email.text = self.frm25;
-         myCell.textLabel.text = @"Email";
+        myCell.textLabel.text = @"Email";
         [myCell.contentView addSubview:self.email];
         
     } else if(indexPath.row == 11) {
-         self.spouse = textframe;
-         self.spouse.placeholder = @"Spouse";
+        self.spouse = textframe;
+        self.spouse.placeholder = @"Spouse";
         
         if ([self.frm26 isEqual:[NSNull null]])
-             self.spouse.text = @"";
+            self.spouse.text = @"";
         else self.spouse.text = self.frm26;
         
         if ([_formController isEqual:TNAME3]) {
             self.spouse.placeholder = @"Office";
             myCell.textLabel.text = @"Office";
         } else if ([_formController isEqual:TNAME4]) {
-             self.spouse.placeholder = @"Country";
-             myCell.textLabel.text = @"Country"; }
-          else myCell.textLabel.text = @"Spouse";
-
+            self.spouse.placeholder = @"Country";
+            myCell.textLabel.text = @"Country"; }
+        else myCell.textLabel.text = @"Spouse";
+        
         [myCell.contentView addSubview:self.spouse];
         
     } else if (indexPath.row == 12) {
@@ -690,50 +684,39 @@ Parse.com
         [myCell.contentView addSubview:self.callback];
         
     } else if (indexPath.row == 13) {
-         self.comment = textviewframe;
+        self.comment = textviewframe;
         if ([self.frm28 isEqual:[NSNull null]])
-             self.comment.text = @"";
+            self.comment.text = @"";
         else self.comment.text = self.frm28;
-         myCell.textLabel.text = @"Comments";
+        myCell.textLabel.text = @"Comments";
         [myCell.contentView addSubview:self.comment];
         [self.comment setFont:CELL_FONT(IPHONEFONT20)]; //fix font change only works when placed here
         
     } else if(indexPath.row == 14) {
-         self.start = textframe;
-         self.start.tag = 14;
-         self.start.placeholder = @"Start Date";
+        self.start = textframe;
+        self.start.tag = 14;
+        self.start.placeholder = @"Start Date";
         if ([self.frm31 isEqual:[NSNull null]])
-             self.start.text = @"";
+            self.start.text = @"";
         else self.start.text = self.frm31;
-      //  if ([_formController isEqual: @"Customer"])
-             self.start.inputView = [self datePicker:14];
-         myCell.textLabel.text = @"Start Date";
+        //  if ([_formController isEqual: @"Customer"])
+        self.start.inputView = [self datePicker:14];
+        myCell.textLabel.text = @"Start Date";
         [myCell.contentView addSubview:self.start];
- 
+        
     } else if(indexPath.row == 15) {
-         self.complete = textframe;
-         self.complete.tag = 15;
-         self.complete.placeholder = @"Completion Date";
+        self.complete = textframe;
+        self.complete.tag = 15;
+        self.complete.placeholder = @"Completion Date";
         
         if ([self.frm32 isEqual:[NSNull null]])
-             self.complete.text = @"";
+            self.complete.text = @"";
         else self.complete.text = self.frm32;
-   
-         self.complete.inputView = [self datePicker:15];
-         myCell.textLabel.text = @"End Date";
+        
+        self.complete.inputView = [self datePicker:15];
+        myCell.textLabel.text = @"End Date";
         [myCell.contentView addSubview:self.complete];
     }
-    
-   /*
-    self.date.delegate = self; self.address.delegate = self;
-    self.city.delegate = self; self.state.delegate = self;
-    self.aptDate.delegate = self; self.phone.delegate = self;
-    self.salesman.delegate = self; self.jobName.delegate = self;
-    self.adName.delegate = self; self.amount.delegate = self;
-    self.email.delegate = self; self.spouse.delegate = self;
-    self.callback.delegate = self; self.start.delegate = self;
-    self.complete.delegate = self; */
-    //self.comment.delegate = self;
     
     return myCell;
 }
@@ -819,6 +802,19 @@ Parse.com
 
 #pragma mark - FieldData
 - (void)passFieldData {
+    if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
+        self.last.borderStyle = TEXTBDSTYLE;
+        self.last.layer.borderColor = TEXTBDCOLOR;
+        self.last.layer.borderWidth = TEXTBDWIDTH;
+        self.last.layer.cornerRadius = TEXTBDRADIUS;
+    }
+    
+    if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
+        self.company.borderStyle = TEXTBDSTYLE;
+        self.company.layer.borderColor = TEXTBDCOLOR;
+        self.company.layer.borderWidth = TEXTBDWIDTH;
+        self.company.layer.cornerRadius = TEXTBDRADIUS;
+    }
 
     self.leadNo = self.leadNo;
     
@@ -828,12 +824,9 @@ Parse.com
     
     if ([self.frm12 isEqual:[NSNull null]]) {
         self.last.text = @"";
-      } else {
+    } else {
         self.last.text = self.frm12;
-        self.last.borderStyle = TEXTBDSTYLE;
-        self.last.layer.borderColor = TEXTBDCOLOR;
-        self.last.layer.borderWidth = TEXTBDWIDTH;
-        self.last.layer.cornerRadius = TEXTBDRADIUS;}
+    }
     
     if ([self.frm13 isEqual:[NSNull null]])
         self.company.text = @"";

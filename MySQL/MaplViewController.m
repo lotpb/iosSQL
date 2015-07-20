@@ -9,10 +9,14 @@
 #import "MapViewController.h"
 
 @interface MapViewController ()
-@property (nonatomic, strong) MKCircle *circleOverlay;
+//@property (nonatomic, strong) MKCircle *circleOverlay;
+//@property (nonatomic, strong) NSMutableArray *locations;
 @end
 
 @implementation MapViewController
+{
+    UIBarButtonItem *shareItem;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,32 +31,45 @@
 {
     [super viewDidLoad];
     
-    self.mapView.delegate = self;
+     self.mapView.delegate = self;
     [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-    self.mapView.showsUserLocation = YES;
+     self.mapView.showsUserLocation = YES;
     [self.mapView setZoomEnabled:YES];
     [self.mapView setScrollEnabled:YES];
     [self.mapView setRotateEnabled:YES];
+   //self.mapView.pitchEnabled = YES; // 3d dont work
+     self.mapView.showsTraffic = YES;
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
+    NSArray *actionButtonItems = @[shareItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    // Check for iOS 8
-    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-        [self.locationManager requestWhenInUseAuthorization];
+    //[self startLocationUpdates];
+    
+}
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
+{
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolyline *polyLine = (MKPolyline *)overlay;
+        MKPolylineRenderer *aRenderer = [[MKPolylineRenderer alloc] initWithPolyline:polyLine];
+        aRenderer.strokeColor = [UIColor blueColor];
+        aRenderer.lineWidth = 3;
+        return aRenderer;
     }
-    [self.locationManager startUpdatingLocation];
     
-  /*   // Add a user tracking button to the toolbar
-     MKUserTrackingBarButtonItem *trackingItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
-     [self.toolbar setItems:@[trackingItem]]; */
+    return nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    /*
+    if ([self.mapView respondsToSelector:@selector(camera)]) {
+        MKMapCamera *newCamera = [[self.mapView camera] copy];
+        [newCamera setHeading:90.0]; // or newCamera.heading + 90.0 % 360.0
+        [self.mapView setCamera:newCamera animated:YES];
+    } */
     
     NSString *location = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
     
@@ -62,6 +79,14 @@
                      
                      if (placemarks && placemarks.count > 0) {
                          CLPlacemark *topResult = [placemarks objectAtIndex:0];
+                         
+                         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+                         annotation.coordinate = topResult.location.coordinate;
+                         annotation.title = self.mapaddress;
+                         annotation.subtitle = [NSString stringWithFormat:@"%@ %@ %@", self.mapcity, self.mapstate, self.mapzip];
+                         
+                        //[NSString stringWithFormat:@"%@ %@ %@ %@", topResult.country, topResult.locality, topResult.subLocality, topResult.thoroughfare];
+                         
                          MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
                          MKCoordinateRegion region = self.mapView.region;
                          region.center = [(CLCircularRegion *)placemark.region center];
@@ -69,7 +94,7 @@
                          region.span.latitudeDelta /= 8.0; //1500.0;
                          region = [self.mapView regionThatFits:region];
                          [self.mapView setRegion:region animated:YES];
-                         [self.mapView addAnnotation:placemark];
+                         [self.mapView addAnnotation:annotation];
                      }
                  }
      ];
@@ -78,6 +103,35 @@
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Annotation
+// When a map annotation point is added, zoom to it (1500 range)
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+    MKAnnotationView *annotationView = [views objectAtIndex:0];
+    id <MKAnnotation> mp = [annotationView annotation];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
+    ([mp coordinate], 1500, 1500); //MKCoordinateRegionForMapRect(MKMapRectWorld);
+    //region.span.longitudeDelta = 0.005f;
+    //region.span.longitudeDelta = 0.005f;
+    [mv setRegion:region animated:NO];
+    [mv selectAnnotation:mp animated:YES];
+}
+
+#pragma mark - BarButton
+- (void)share:(id)sender {
+    NSString *message;
+    message = @"";
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    NSArray * shareItems = @[message, image];
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        avc.popoverPresentationController.barButtonItem = shareItem;
+        avc.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:avc animated:YES completion:nil];
 }
 
 #pragma mark - SegmentedControl
@@ -94,25 +148,57 @@
     }
 }
 
+#pragma mark - CLLocationManagerDelegate
+- (void)startLocationUpdates {
+    
+    if (self.locationManager == nil) {
+        self.locationManager = [[CLLocationManager alloc] init];
+    }
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    //self.locationManager.activityType = CLActivityTypeFitness;
+    //self.locationManager.distanceFilter = 10; // meters
+    
+    // Check for iOS 8
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    [self.locationManager startUpdatingLocation];
+}
+
 // CLLocationManager Delegate Methods
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:
 (NSArray *)locations
 {
     NSLog(@"location info object=%@", [locations lastObject]);
-}
-
-#pragma mark - Annotation
-// When a map annotation point is added, zoom to it (1500 range)
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
-{
-    MKAnnotationView *annotationView = [views objectAtIndex:0];
-    id <MKAnnotation> mp = [annotationView annotation];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
-    ([mp coordinate], 1500, 1500); //MKCoordinateRegionForMapRect(MKMapRectWorld);
-    //region.span.longitudeDelta = 0.005f;
-    //region.span.longitudeDelta = 0.005f;
-    [mv setRegion:region animated:NO];
-    [mv selectAnnotation:mp animated:YES];
+    /*
+    for (CLLocation *newLocation in locations) {
+        
+        NSDate *eventDate = newLocation.timestamp;
+        
+        NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+        
+        if (fabs(howRecent) < 10.0 && newLocation.horizontalAccuracy < 20) {
+            
+            // update distance
+            if (self.locations.count > 0) {
+              //  self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
+                
+                CLLocationCoordinate2D coords[2];
+                coords[0] = ((CLLocation *)self.locations.lastObject).coordinate;
+                coords[1] = newLocation.coordinate;
+                
+                MKCoordinateRegion region =
+                MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 500, 500);
+                [self.mapView setRegion:region animated:YES];
+                
+                [self.mapView addOverlay:[MKPolyline polylineWithCoordinates:coords count:2]];
+            }
+            
+            [self.locations addObject:newLocation];
+        }
+    } */
 }
 
 #pragma mark - Location Authorized Crap

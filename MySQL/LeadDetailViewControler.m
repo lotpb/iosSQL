@@ -108,7 +108,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-  //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+    self.navigationController.hidesBarsOnSwipe = true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -629,22 +629,22 @@ Parse.com
 - (void)requestApptdate
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
-    UIDatePicker *DatePicker;
-    NSDateFormatter *DateFormatter;
     UIAlertView *alert;
-
-    DateFormatter = [[NSDateFormatter alloc] init];
-    [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    UIDatePicker *DatePicker;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        DateFormatter = [[NSDateFormatter alloc] init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    }
+    
     alert = [[UIAlertView alloc] initWithTitle:@"Appointment date:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
     alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;//UIAlertViewStylePlainTextInput;
     DatePicker = [[UIDatePicker alloc] init];
     DatePicker.datePickerMode = UIDatePickerModeDateAndTime;
     DatePicker.timeZone = [NSTimeZone localTimeZone];
     DatePicker.date = [NSDate date];
-
+    
     self.DateInput = [alert textFieldAtIndex:0];
     self.itemText = [alert textFieldAtIndex:1];
     [self.DateInput setTextAlignment:NSTextAlignmentLeft];
@@ -659,7 +659,7 @@ Parse.com
   //self.itemText.inputView=DatePicker;
     [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [alert show];
-    }
+
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -671,22 +671,24 @@ Parse.com
 }
 
 - (void) dateChanged:(UIDatePicker *)DatePicker {
-    static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
-    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormat setTimeStyle:NSDateFormatterShortStyle];
-    self.DateInput.text = [dateFormat stringFromDate:DatePicker.date];
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+    NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+    [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    self.DateInput.text = [DateFormatter stringFromDate:DatePicker.date];
     }
 }
 
 - (void)calenderEvent {
-    static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
-    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormat setTimeStyle:NSDateFormatterShortStyle];
-        NSDate *apptdate = [dateFormat dateFromString:self.DateInput.text ];
+    NSDate *apptdate;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        apptdate = [DateFormatter dateFromString:self.DateInput.text ];
+    }
 
     EKEventStore *store = [[EKEventStore alloc] init];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
@@ -717,7 +719,6 @@ Parse.com
             });
         }
     }];
-    }
 }
 /*
 - (void)editcalenderEvent {
@@ -993,6 +994,18 @@ Parse.com
     // Adding person to the address book
     ABAddressBookAddRecord(addressBook, person, nil);
     
+    NSArray *allContacts = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+    for (id record in allContacts){
+        ABRecordRef thisContact = (__bridge ABRecordRef)record;
+        if (CFStringCompare(ABRecordCopyCompositeName(thisContact),
+                            ABRecordCopyCompositeName(person), 0) == kCFCompareEqualTo){
+            //The contact already exists!
+            UIAlertView *contactExistsAlert = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"There can only be one %@ %@", t13, name] message:@"Name already exists" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [contactExistsAlert show];
+            return;
+        }
+    }
+    
     CFRelease(addressBook);
     if (person) {
         ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
@@ -1163,5 +1176,6 @@ Parse.com
         }
     }
 }
+
 
 @end

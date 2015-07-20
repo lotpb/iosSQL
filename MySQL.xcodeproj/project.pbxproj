@@ -134,6 +134,7 @@
 		AFAA0FDF1A10634600205EE9 /* FacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FDE1A10634600205EE9 /* FacebookViewController.m */; };
 		AFAAE68B1A06C44A000C2423 /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAE68A1A06C44A000C2423 /* NewsController.m */; };
 		AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */; };
+		AFAF45E41B5AD8C900FA255A /* Tornado.caf in Resources */ = {isa = PBXBuildFile; fileRef = AFAF45E31B5AD75600FA255A /* Tornado.caf */; };
 		AFB581061AE5AFFA00DDD9B6 /* parseBlogLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */; };
 		AFB8C7181AF3035500417431 /* StatCustModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB8C7171AF3035500417431 /* StatCustModel.m */; };
 		AFBC9E8719D9CEDE0050E67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8619D9CEDE0050E67A /* main.m */; };
@@ -377,6 +378,7 @@
 		AFACE9A41A0D04300066C042 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		AFAE5FC51A138998005D4245 /* BlogLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlogLocation.h; sourceTree = "<group>"; };
+		AFAF45E31B5AD75600FA255A /* Tornado.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Tornado.caf; path = Music/Tornado.caf; sourceTree = "<group>"; };
 		AFB581041AE5AFFA00DDD9B6 /* parseBlogLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseBlogLocation.h; sourceTree = "<group>"; };
 		AFB581051AE5AFFA00DDD9B6 /* parseBlogLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseBlogLocation.m; sourceTree = "<group>"; };
 		AFB8C7161AF3035500417431 /* StatCustModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatCustModel.h; sourceTree = "<group>"; };
@@ -1002,6 +1004,7 @@
 		AFF135B31AE1C5000045CE2C /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				AFAF45E31B5AD75600FA255A /* Tornado.caf */,
 				AFE4E15B1B29B9C800CBB751 /* 03 A Whiter Shade Of Pale.mp3 */,
 			);
 			name = Sounds;
@@ -1124,6 +1127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFAF45E41B5AD8C900FA255A /* Tornado.caf in Resources */,
 				AF366EF21A55CA9B00976387 /* Recents.png in Resources */,
 				AF366EB71A55A15800976387 /* tag_photo.jpg in Resources */,
 				AF2301A31A96BC6F0035D6BB /* visa@2x.png in Resources */,

@@ -45,8 +45,14 @@
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-     self.navigationController.toolbar.translucent = YES;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+     self.navigationController.hidesBarsOnSwipe = true;
+}
+
+- (void)viewDidUnload {
+    self.webView = nil;
+    self.backButton = nil;
+    self.forwardButton = nil;
+    [super viewDidUnload];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,6 +104,7 @@
     }
 }
 
+#pragma mark - UISegmentedControl
 - (IBAction)WebTypeChanged:(id)sender {
     
     UISegmentedControl* segControl = (UISegmentedControl*)sender;
@@ -124,23 +131,36 @@
     [self.webView loadRequest:request];
 }
 
+#pragma mark - Button
 -(IBAction)backButtonPressed:(id)sender {
     [self.webView goBack];
 }
 
--(IBAction)forwardButtonPressed:(id)sender{
+-(IBAction)forwardButtonPressed:(id)sender {
     [self.webView goForward];
 }
 
--(IBAction)stopButtonPressed:(id)sender{
+-(IBAction)stopButtonPressed:(id)sender {
     [self.webView stopLoading];
 }
 
-- (void)viewDidUnload {
-     self.webView = nil;
-     self.backButton = nil;
-     self.forwardButton = nil;
-   [super viewDidUnload];
+-(IBAction)refreshButtonPressed:(id)sender {
+    [self.webView reload];
+}
+
+#pragma mark - Activityview
+- (IBAction)actionButton:(id)sender {
+    NSString *message;
+    message = @"";
+    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    NSArray * shareItems = @[message, image];
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+ //       avc.popoverPresentationController.barButtonItem = shareItem;
+        avc.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:avc animated:YES completion:nil];
 }
 
 @end

@@ -52,6 +52,7 @@
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+
 }
 
 - (void)viewDidUnload {
@@ -65,7 +66,8 @@
     
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
+     //self.navigationController.hidesBarsOnSwipe = true;
+     //self.navigationController.hidesBarsOnTap = false;
     //Clean the scroll view
      for (id viewToRemove in [self.wallScroll subviews]) {
         if ([viewToRemove isMemberOfClass:[UIView class]])
