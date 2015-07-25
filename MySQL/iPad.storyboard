@@ -1394,6 +1394,69 @@
             </objects>
             <point key="canvasLocation" x="2924" y="1149"/>
         </scene>
+        <!--Notification Detail Controller-->
+        <scene sceneID="ak0-3Y-kcX">
+            <objects>
+                <viewController id="iit-a7-lWd" customClass="NotificationDetailController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YdF-BE-z0c"/>
+                        <viewControllerLayoutGuide type="bottom" id="lWz-Zu-pz9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wgf-TM-VB8">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4tW-Sr-xAf">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" textLabel="Xcl-A3-VaL" detailTextLabel="38J-nc-juJ" style="IBUITableViewCellStyleValue1" id="SCc-DV-a1k">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SCc-DV-a1k" id="jMs-TF-TlS">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xcl-A3-VaL">
+                                                    <rect key="frame" x="15" y="12" width="32" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="38J-nc-juJ">
+                                                    <rect key="frame" x="543" y="12" width="42" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="iit-a7-lWd" id="AAW-jw-av0"/>
+                                    <outlet property="delegate" destination="iit-a7-lWd" id="J4G-sj-PgB"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4tW-Sr-xAf" firstAttribute="top" secondItem="YdF-BE-z0c" secondAttribute="bottom" id="Kg7-WZ-Q4L"/>
+                            <constraint firstItem="4tW-Sr-xAf" firstAttribute="bottom" secondItem="lWz-Zu-pz9" secondAttribute="top" id="kDp-2N-xVG"/>
+                            <constraint firstAttribute="trailing" secondItem="4tW-Sr-xAf" secondAttribute="trailing" id="nu4-D2-uZr"/>
+                            <constraint firstItem="4tW-Sr-xAf" firstAttribute="leading" secondItem="Wgf-TM-VB8" secondAttribute="leading" id="zkc-Dg-5fn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="listTableView" destination="4tW-Sr-xAf" id="1oB-wj-eY3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YwU-37-EY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5142" y="454"/>
+        </scene>
         <!--Notifications-->
         <scene sceneID="qvR-B9-stT">
             <objects>
@@ -1429,15 +1492,6 @@
                                             <!--2014-12-23 19:37:48 +0000-->
                                         </date>
                                     </datePicker>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="29j-Vy-hPb">
-                                        <rect key="frame" x="203" y="369" width="194" height="29"/>
-                                        <segments>
-                                            <segment title="Daily"/>
-                                            <segment title="Weekly"/>
-                                            <segment title="Monthly"/>
-                                        </segments>
-                                        <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="djC-ai-TOh">
                                         <rect key="frame" x="283" y="416" width="34" height="30"/>
                                         <state key="normal" title="Save">
@@ -1448,6 +1502,16 @@
                                             <action selector="saveNotification:" destination="y78-Mw-3ln" eventType="touchUpInside" id="qEL-TE-Dxs"/>
                                         </connections>
                                     </button>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="29j-Vy-hPb">
+                                        <rect key="frame" x="171" y="369" width="259" height="29"/>
+                                        <segments>
+                                            <segment title="Once"/>
+                                            <segment title="Daily"/>
+                                            <segment title="Weekly"/>
+                                            <segment title="Monthly"/>
+                                        </segments>
+                                        <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="29j-Vy-hPb" firstAttribute="centerX" secondItem="GMe-CY-0QX" secondAttribute="centerX" id="JcV-kJ-wjz"/>
@@ -1477,6 +1541,7 @@
                         <outlet property="customMessage" destination="nco-dF-8kf" id="rp4-nT-1ET"/>
                         <outlet property="datePicker" destination="GMe-CY-0QX" id="XJ9-rK-GLL"/>
                         <outlet property="frequencySegmentedControl" destination="29j-Vy-hPb" id="J4O-Bz-I4w"/>
+                        <segue destination="iit-a7-lWd" kind="show" identifier="notificationdetailsegue" id="asT-cE-ATf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5z-BC-u8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2614,9 +2679,27 @@
                             <constraint firstItem="kwX-Ad-h7c" firstAttribute="top" secondItem="C7b-Db-R6y" secondAttribute="bottom" id="zVU-Bf-VTE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3ab-WA-LYN"/>
+                    <navigationItem key="navigationItem" id="3ab-WA-LYN">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Xcd-tB-VfF">
+                            <rect key="frame" x="191" y="8" width="218" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="218" id="0vg-I2-pck"/>
+                            </constraints>
+                            <segments>
+                                <segment title="Map"/>
+                                <segment title="Hybrid"/>
+                                <segment title="Satellite"/>
+                            </segments>
+                            <connections>
+                                <action selector="mapTypeChanged:" destination="Qk4-GL-7q5" eventType="valueChanged" id="6dI-i6-zNq"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <connections>
                         <outlet property="MapView" destination="kwX-Ad-h7c" id="QeF-Kb-ihm"/>
+                        <outlet property="mapTypeSegmentedControl" destination="Xcd-tB-VfF" id="vYT-Td-KGt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gJP-bt-Xbx" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -114,6 +114,7 @@
 		AF8B684C1AE442810025A2FD /* StatisticsiPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsiPhoneController.m */; };
 		AF8D22E51B09641200AB426B /* StatLeadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8D22E41B09641200AB426B /* StatLeadModel.m */; };
 		AF909E8F1A61C2F0008D6F14 /* LookupJob.m in Sources */ = {isa = PBXBuildFile; fileRef = AF909E8E1A61C2F0008D6F14 /* LookupJob.m */; };
+		AF98DF931B5DC7C9007E4C69 /* NotificationDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF98DF921B5DC7C9007E4C69 /* NotificationDetailController.m */; };
 		AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */; };
 		AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9926AF1A4CF79300429EC8 /* JobViewCell.m */; };
 		AF9926B31A4CFD1100429EC8 /* CollectionDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9926B21A4CFD1100429EC8 /* CollectionDetailController.m */; };
@@ -344,6 +345,8 @@
 		AF8D22E31B09641200AB426B /* StatLeadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatLeadModel.h; sourceTree = "<group>"; };
 		AF8D22E41B09641200AB426B /* StatLeadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatLeadModel.m; sourceTree = "<group>"; };
 		AF909E8E1A61C2F0008D6F14 /* LookupJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupJob.m; sourceTree = "<group>"; };
+		AF98DF911B5DC7C9007E4C69 /* NotificationDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailController.h; sourceTree = "<group>"; };
+		AF98DF921B5DC7C9007E4C69 /* NotificationDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailController.m; sourceTree = "<group>"; };
 		AF99267D1A4C768B00429EC8 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		AF99267E1A4C768B00429EC8 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
 		AF9926AE1A4CF79300429EC8 /* JobViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobViewCell.h; sourceTree = "<group>"; };
@@ -892,6 +895,8 @@
 				AFAA0FDB1A0E9A1200205EE9 /* Address */,
 				AFA99E1C1A49E79700231173 /* NotificationController.h */,
 				AFA99E1D1A49E79700231173 /* NotificationController.m */,
+				AF98DF911B5DC7C9007E4C69 /* NotificationDetailController.h */,
+				AF98DF921B5DC7C9007E4C69 /* NotificationDetailController.m */,
 				AF2856671A256B6D00A6F42A /* MapController.h */,
 				AF2856651A256B5000A6F42A /* MapController.m */,
 				AF79A4231ADB6A6C003907FD /* CalenderEdit.h */,
@@ -1293,6 +1298,7 @@
 				AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,
 				AF99267F1A4C768B00429EC8 /* CollectionHeaderView.m in Sources */,
+				AF98DF931B5DC7C9007E4C69 /* NotificationDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

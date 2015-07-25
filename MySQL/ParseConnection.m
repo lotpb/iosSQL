@@ -16,56 +16,9 @@
 
 @implementation ParseConnection
 
-//------------------Blog Pic----------------------------------
-#pragma mark - Blog Form
-/*
-- (void)parsePicBlog {
- PFQuery *innerQuery = [PFQuery queryWithClassName:@"User"];
- [innerQuery whereKeyExists:@"imageFile"];
- PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
- [query whereKey:@"post" matchesQuery:innerQuery];
-[query setLimit:1000]; //parse.com standard is 100
-query.cachePolicy = kPFCACHEPOLICY;
-[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-    if (!error) {
-        PFFile *file = [object objectForKey:@"imageFile"];
-        [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-            if (!error) {
-                [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
-            } else {
-                [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-            }
-        }];
-    } else {
-        NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }
-}];
-} */
 
 //------------------Table Data----------------------------------
 #pragma mark - Blog Form
-/*
-- (void)parseBlog {
-    PFQuery *innerQuery = [PFQuery queryWithClassName:@"User"];
-    [innerQuery whereKeyExists:@"imageFile"];
-    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-    [query whereKey:@"PostBy" matchesQuery:innerQuery];
-    [query setLimit:1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                [_feedItems addObject:object];
-                if (self.delegate) {
-                    [self.delegate parseBlogloaded:_feedItems];
-                }
-            }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-} */
-
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query orderByDescending:@"createdAt"];
@@ -87,89 +40,16 @@ query.cachePolicy = kPFCACHEPOLICY;
 
 #pragma mark - Customer Form
 - (void)parseCustomer {
-    /*
-    PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-    [innerQuery whereKeyExists:@"LastName"];
-    PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-    [query whereKey:@"LeadNo" equalTo:innerQuery];
-    [query setLimit:1]; //parse.com standard is 100
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                //     PFObject *machine = product[@"machine"];
-                [_feedItems addObject:object];
-                // NSLog(@"Object id %@",_feedItems);
-                if (self.delegate) {
-                    [self.delegate parseCustomerloaded:_feedItems];
-                }
-            }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }]; */
-    
-    /*
-    //PFObject *innerQuery = [PFObject objectWithClassName:@"Leads"];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-    [query includeKey:@"LastName"];
-    //[query whereKey:@"LeadNo" equalTo:innerQuery];
-    [query setLimit:1]; //parse.com standard is 100
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
-        if (!error) {
-            for (PFObject *object in objects) {
-                //     PFObject *machine = product[@"machine"];
-                [_feedItems addObject:object];
-                 NSLog(@"Object id %@",_feedItems);
-                if (self.delegate) {
-                    [self.delegate parseCustomerloaded:_feedItems];
-                }
-            }
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }]; */
-    
-    
-    
-    /*
-    PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
-    [innerQuery whereKey:@"LeadNo" equalTo:@"LeadNo"];
-    //[query whereKey:@"imageFile" matchesQuery:innerQuery];
-    PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        //    _feedItems = [[NSMutableArray alloc]initWithArray:object];
-        if (!error) {
-            //  for (PFObject *object in object) {
-            //PFObject *machine = object[@"LastName"];
-            PFFile *file = [object objectForKey:@"LastName"];
-            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                if (!error) {
-                     //_feedItems = [[NSMutableArray alloc]initWithArray:object];
-                    [_feedItems addObject:object];
-                    //NSLog(@"Object id %@",_feedItems);
-                    if (self.delegate) {
-                        [self.delegate parseCustomerloaded:_feedItems];
-                    }
-                }
-         
-           // } else
-           //  NSLog(@"Error: %@ %@", error, [error userInfo]);
-             }]; */
-    
-   //PFQuery *innerQuery = [PFQuery queryWithClassName:@"Leads"];
   PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
     [query clearCachedResult];
     [query orderByDescending:@"createdAt"];
-   //[query setMaxCacheAge:60 * 4];  //4 mins cache
-   //[query setLimit:1]; //parse.com standard is 100
+  //[query setMaxCacheAge:60 * 4];  //4 mins cache
+    [query setLimit:1000]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
-           //     PFObject *machine = product[@"machine"];
                 [_feedItems addObject:object];
            // NSLog(@"Object id %@",_feedItems);
                 if (self.delegate) {

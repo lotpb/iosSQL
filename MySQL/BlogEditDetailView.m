@@ -338,7 +338,7 @@ Parse.com
     localNotification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
     localNotification.fireDate = apptdate;//[NSDate dateWithTimeIntervalSinceNow:60];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] BADGENO; //The number to diplay on the icon badge
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }

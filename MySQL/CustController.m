@@ -430,7 +430,8 @@ Parse.com
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 4) {
-                stringRange = [[string objectForKey:@"Active"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+                NSString *quoteFromObject = [NSString stringWithFormat:@"%@", [string objectForKey:@"Active"]];
+                stringRange = [quoteFromObject rangeOfString:searchText options:NSCaseInsensitiveSearch];
                 //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
             }
             if(stringRange.location != NSNotFound)

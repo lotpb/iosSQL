@@ -13,6 +13,7 @@
 @end
 
 @implementation WebMainController
+NSURL *url;
 
 - (void)viewDidLoad {
    [super viewDidLoad];
@@ -29,13 +30,13 @@
     [controller addScriptMessageHandler:self name:@"observe"];
     configuration.userContentController = controller;
 
-    NSURL *jsbin = [NSURL URLWithString:KEY_WEBPAGE0];
+    url = [NSURL URLWithString:KEY_WEBPAGE0];
 
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 66,
                                                            self.view.bounds.size.width,
                                                            self.view.bounds.size.height - 155) configuration:configuration];
     
-    [self.webView loadRequest:[NSURLRequest requestWithURL:jsbin]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self.view addSubview:_webView];
     
     [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
@@ -45,7 +46,7 @@
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-     self.navigationController.hidesBarsOnSwipe = true;
+     //self.navigationController.hidesBarsOnSwipe = true;
 }
 
 - (void)viewDidUnload {
@@ -108,7 +109,7 @@
 - (IBAction)WebTypeChanged:(id)sender {
     
     UISegmentedControl* segControl = (UISegmentedControl*)sender;
-    NSURL *url ;
+    //NSURL *url ;
     if (segControl.selectedSegmentIndex == 0)
         url = [[NSURL alloc] initWithString:KEY_WEBPAGE0];
     
@@ -151,13 +152,13 @@
 #pragma mark - Activityview
 - (IBAction)actionButton:(id)sender {
     NSString *message;
-    message = @"";
+    message = @"Check out this web site";
     UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, image];
+    NSArray * shareItems = @[message, url, image];
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
- //       avc.popoverPresentationController.barButtonItem = shareItem;
+        avc.popoverPresentationController.barButtonItem = self.action;
         avc.popoverPresentationController.sourceView = self.view;
     }
     [self presentViewController:avc animated:YES completion:nil];

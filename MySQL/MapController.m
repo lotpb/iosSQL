@@ -51,6 +51,20 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - SegmentedControl
+- (IBAction)mapTypeChanged:(id)sender {
+    
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 0) {
+        self.MapView.mapType = MKMapTypeStandard;
+    }
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 1) {
+        self.MapView.mapType = MKMapTypeHybrid;
+    }
+    if (self.mapTypeSegmentedControl.selectedSegmentIndex == 2) {
+        self.MapView.mapType = MKMapTypeSatellite;
+    }
+}
+
 - (void)gotoLocation
 {
     MKCoordinateRegion newRegion;

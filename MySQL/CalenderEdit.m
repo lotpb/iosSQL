@@ -38,39 +38,23 @@
     self.eventsList = [[NSMutableArray alloc] initWithCapacity:0];
     // The Add button is initially disabled
     self.addButton.enabled = NO;
+
+     [self addEvent:self];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
     self.navigationItem.rightBarButtonItem = doneButton;
 }
-
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     // Check whether we are authorized to access Calendar
     [self checkEventStoreAccessForCalendar];
+    
 }
 
 - (void)showdone:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-// This method is called when the user selects an event in the table view. It configures the destination
-// event view controller with this event.
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{ /*
-    if ([[segue identifier] isEqualToString:@"showEventViewController"])
-    {
-        // Configure the destination event view controller
-        EKEventViewController* eventViewController = (EKEventViewController *)[segue destinationViewController];
-        // Fetch the index path associated with the selected event
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        // Set the view controller to display the selected event
-        eventViewController.event = [self.eventsList objectAtIndex:indexPath.row];
-        
-        // Allow event editing
-        eventViewController.allowsEditing = YES;
-    } */
 }
 
 #pragma mark -
@@ -189,7 +173,6 @@
 
 #pragma mark -
 #pragma mark Add a new event
-
 // Display an event edit view controller when the user taps the "+" button.
 // A new event is added to Calendar when the user taps the "Done" button in the above view controller.
 - (IBAction)addEvent:(id)sender
@@ -202,7 +185,6 @@
     addController.editViewDelegate = self;
     [self presentViewController:addController animated:YES completion:nil];
 }
-
 
 #pragma mark -
 #pragma mark EKEventEditViewDelegate
@@ -234,4 +216,22 @@
     return self.defaultCalendar;
 }
 
-@end 
+// This method is called when the user selects an event in the table view. It configures the destination
+// event view controller with this event.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{ /*
+   if ([[segue identifier] isEqualToString:@"showEventViewController"])
+   {
+   // Configure the destination event view controller
+   EKEventViewController* eventViewController = (EKEventViewController *)[segue destinationViewController];
+   // Fetch the index path associated with the selected event
+   NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+   // Set the view controller to display the selected event
+   eventViewController.event = [self.eventsList objectAtIndex:indexPath.row];
+   
+   // Allow event editing
+   eventViewController.allowsEditing = YES;
+   } */
+}
+
+@end

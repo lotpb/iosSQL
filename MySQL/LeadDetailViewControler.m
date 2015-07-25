@@ -108,7 +108,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    self.navigationController.hidesBarsOnSwipe = true;
+    //self.navigationController.hidesBarsOnSwipe = true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,13 +260,13 @@
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
          
          if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-             myCell.leadtitleLabel.font = CELL_FONT(IPADFONT20);
+             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPADFONT20);
              myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
              myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
              myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
              self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
          } else {
-             myCell.leadtitleLabel.font = CELL_FONT(IPHONEFONT16);
+             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
              myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
              myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
              myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
@@ -302,9 +302,9 @@
     //Social buttons - code below
     UIButton *faceBtn;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 ,self.newsTableView.frame.size.height- 460, 25, 25)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 ,self.newsTableView.frame.size.height - 460, 25, 25)];
     } else {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height- 80, 20, 20)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height - 70, 20, 20)];
     }
     
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];

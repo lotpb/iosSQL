@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollection;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (strong, nonatomic) UIImage *imagePreview;
 @property (strong, nonatomic) NSString *workseg;
 - (IBAction)shareButtonTouched:(id)sender;
 

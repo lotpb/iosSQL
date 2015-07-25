@@ -78,8 +78,8 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-     self.navigationController.hidesBarsOnSwipe = true;
-     self.navigationController.hidesBarsOnTap = false;
+     //self.navigationController.hidesBarsOnSwipe = true;
+     //self.navigationController.hidesBarsOnTap = false;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
     [self.first becomeFirstResponder];
   //[self.view endEditing:YES]; //dismiss the keyboard

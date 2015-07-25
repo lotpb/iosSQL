@@ -15,4 +15,5 @@
 
 @property (weak, nonatomic) IBOutlet MKMapView *MapView;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentedControl;
 @end

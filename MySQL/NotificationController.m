@@ -37,9 +37,13 @@ bool allowsAlert;
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone:)];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showedit:)];
+    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.leftBarButtonItem = editButton;
+
     [self.customMessage setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.customMessage setFont:CELL_FONT(IPHONEFONT18) ];
      self.customMessage.placeholder = @"enter notification";
@@ -47,9 +51,16 @@ bool allowsAlert;
     [[UITextField appearance] setTintColor:[UIColor orangeColor]];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.title = NSLocalizedString(@"Notification", nil);
+    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     [self.customMessage becomeFirstResponder];
 }
 
@@ -63,6 +74,11 @@ bool allowsAlert;
 - (void)showdone:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void)showedit:(id)sender {
+    [self performSegueWithIdentifier:@"notificationdetailsegue" sender:self];
+}
+
 
 #pragma mark - textfield
 -(IBAction)textFieldReturn:(id)sender {
@@ -90,12 +106,15 @@ bool allowsAlert;
             
             switch (_frequencySegmentedControl.selectedSegmentIndex) {
                 case 0:
-                    notification.repeatInterval = NSCalendarUnitDay;
+                    notification.repeatInterval = 0;
                     break;
                 case 1:
-                    notification.repeatInterval = NSCalendarUnitWeekOfYear;
+                    notification.repeatInterval = NSCalendarUnitDay;
                     break;
                 case 2:
+                    notification.repeatInterval = NSCalendarUnitWeekOfYear;
+                    break;
+                case 3:
                     notification.repeatInterval = NSCalendarUnitYear;
                     break;
                 default:
@@ -134,7 +153,7 @@ bool allowsAlert;
         
     NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
     [DateFormatter setDateFormat:NOTIDATE];
-    [DateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    [DateFormatter setTimeZone:[NSTimeZone defaultTimeZone]]; //[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
     NSString *notifDate = [DateFormatter stringFromDate:_datePicker.date];
     NSLog(@"%s: fire time = %@", __PRETTY_FUNCTION__, notifDate);
     }

@@ -385,7 +385,6 @@
 // NEWS
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
 #define VIEWBACKCOLOR    [UIColor whiteColor]
-#define SEPARATORCOLOR   [UIColor lightGrayColor]
 #define KEY_IMAGE         @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
 #define KEY_DATETIME      @"yyyy-MM-dd HH:mm:ss" //news

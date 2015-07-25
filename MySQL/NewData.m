@@ -81,7 +81,6 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-  // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
      if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
           [self.company becomeFirstResponder];
