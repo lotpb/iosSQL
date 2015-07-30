@@ -27,5 +27,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *update;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) BlogLocation *selectedLocation;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @end

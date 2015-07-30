@@ -55,13 +55,7 @@
 
 //| --------------register Notification Actions-----------------
     
-    // First, create an action
-    UIMutableUserNotificationAction *acceptAction = [self createAction];
-    
-    // Second, create a category and tie those actions to it (only the one action for now)
-    UIMutableUserNotificationCategory *inviteCategory = [self createCategory:@[acceptAction]];
-    
-        [self registerSettings:inviteCategory];
+        [self registerForNotification];
     
 //| -----------------------register Settings---------------------------
         [self populateRegistrationDomain];
@@ -107,30 +101,61 @@
     return storyboard;
 }
 
+//| --------------------------END--------------------------------------
 #pragma mark - Notification
 #pragma mark Register
-- (void)registerSettings:(UIMutableUserNotificationCategory *)category {
+- (void)registerForNotification {
     
-    UIUserNotificationType types = (UIUserNotificationTypeAlert |
-                                    UIUserNotificationTypeBadge |
-                                    UIUserNotificationTypeSound);
+    UIMutableUserNotificationAction *notificationAction1 = [[UIMutableUserNotificationAction alloc] init];
+    notificationAction1.identifier = @"Accept";
+    notificationAction1.title = @"Accept";
+    notificationAction1.activationMode = UIUserNotificationActivationModeForeground;
+    notificationAction1.destructive = YES;
+    notificationAction1.authenticationRequired = NO;
     
-    NSSet *categories = [NSSet setWithObjects:category, nil];
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
+    UIMutableUserNotificationAction *notificationAction2 = [[UIMutableUserNotificationAction alloc] init];
+    notificationAction2.identifier = @"Reject";
+    notificationAction2.title = @"Reject";
+    notificationAction2.activationMode = UIUserNotificationActivationModeBackground;
+    notificationAction2.destructive = NO;
+    notificationAction2.authenticationRequired = NO;
     
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    UIMutableUserNotificationAction *notificationAction3 = [[UIMutableUserNotificationAction alloc] init];
+    notificationAction3.identifier = @"Reply";
+    notificationAction3.title = @"Reply";
+    notificationAction3.activationMode = UIUserNotificationActivationModeForeground;
+    notificationAction3.destructive = YES;
+    notificationAction3.authenticationRequired = NO;
+    
+    UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
+    notificationCategory.identifier = @"Email";
+    [notificationCategory setActions:@[notificationAction1,notificationAction2,notificationAction3] forContext:UIUserNotificationActionContextDefault];
+    [notificationCategory setActions:@[notificationAction1,notificationAction2] forContext:UIUserNotificationActionContextMinimal];
+    
+    NSSet *categories = [NSSet setWithObjects:notificationCategory, nil];
+    
+    UIUserNotificationType notificationType = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:notificationType categories:categories];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
 }
 
-/*
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
     
-// Get the notifications types that have been allowed, do whatever with them
-    UIUserNotificationType allowedTypes = [notificationSettings types];
-    NSLog(@"Registered for notification types: %lu",(unsigned long)allowedTypes);
+    if([notification.category isEqualToString:@"Email"])
+    {
+        if ([identifier isEqualToString:@"Accept"])
+        {
+            NSLog(@"Invite accepted! Handle that somehow...");
+        }
+        else if([identifier isEqualToString:@"Reject"])
+        {
+            NSLog(@"Reply was pressed");
+        }
+    }
     
-    // You can get this setting anywhere in your app by using this:
-    // UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-} */
+    completionHandler();
+}
 
 #pragma mark Notification didReceiveLocalNotification
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
@@ -143,63 +168,6 @@
     application.applicationIconBadgeNumber = 0;
 }
 
-//| -----------------------notification Actions-----------------------------
-#pragma mark Notification Action
-- (UIMutableUserNotificationAction *)createAction {
-    
-    UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
-    acceptAction.identifier = @"ACCEPT_IDENTIFIER";
-    acceptAction.title = @"Accept";
-    acceptAction.activationMode = UIUserNotificationActivationModeBackground;
-    acceptAction.destructive = YES;  // If YES the actions is red
-    acceptAction.authenticationRequired = NO;
- /*
-    UIMutableUserNotificationAction* deleteAction = [[UIMutableUserNotificationAction alloc] init];
-    [deleteAction setIdentifier:@"delete_action_id"];
-    [deleteAction setTitle:@"Delete"];
-    [deleteAction setDestructive:YES];
-   
-    UIMutableUserNotificationAction* replyAction = [[UIMutableUserNotificationAction alloc] init];
-    [replyAction setIdentifier:@"reply_action_id"];
-    [replyAction setTitle:@"Reply"];
-    [replyAction setActivationMode:UIUserNotificationActivationModeForeground];
-    [replyAction setDestructive:NO];
-    
-    UIMutableUserNotificationCategory* deleteReplyCategory = [[UIMutableUserNotificationCategory alloc] init];
-    [deleteReplyCategory setIdentifier:@"custom_category_id"];
-    [deleteReplyCategory setActions:@[replyAction, deleteAction] forContext:UIUserNotificationActionContextDefault]; */
-    
-    return acceptAction;
-}
-
-- (UIMutableUserNotificationCategory *)createCategory:(NSArray *)actions {
-    
-    UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
-    inviteCategory.identifier = @"INVITE_CATEGORY";
-    [inviteCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
-    
-    // Add the actions to the category and set the action context
-  //  [inviteCategory setActions:@[acceptAction, maybeAction, declineAction] forContext:UIUserNotificationActionContextDefault];
-    
-    // Set the actions to present in a minimal context
-  //  [inviteCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    return inviteCategory;
-}
-
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
-    
-    if ([identifier isEqualToString:@"ACCEPT_IDENTIFIER"])
-    {
-        NSLog(@"Invite accepted! Handle that somehow...");
-    }
-    else if([identifier isEqualToString:@"INVITE_CATEGORY"])
-    {
-        NSLog(@"Reply was pressed");
-    }
-
-    completionHandler();
-}
 //| -----------------------END------------------------------------------
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -439,6 +439,16 @@ Parse.com
         self.labelamount.text = [NSString stringWithFormat:@"%@.00",amount];
      else
         self.labelamount.text = amount;
+ /*
+    NSDate *apptdate;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        apptdate = [DateFormatter dateFromString:self.tbl16 ];
+        t16 = [DateFormatter stringFromDate:apptdate];
+    } */
     
     //self.photo = p1;
     
@@ -618,7 +628,11 @@ Parse.com
 #pragma mark - Web Page
 - (void)openurl {
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 )) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.tbl26]];
+        NSString* text = self.tbl26;
+        NSURL*    url  = [[NSURL alloc] initWithString:text];
+        text = [@"http://" stringByAppendingString:text];
+        url  = [[NSURL alloc] initWithString:text];
+        [[UIApplication sharedApplication] openURL:url];
     } else {
         UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid web address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [warning show];

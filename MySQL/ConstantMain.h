@@ -10,16 +10,22 @@
 
 @interface ConstantMain : NSObject
 
-//#ifndef MySQL_ConstantMain_h
-//#define MySQL_ConstantMain_h
-
 // MAINVIEW
-#define IPHONEFONT16     14
+#define IPADFONT20         20
+#define IPADFONT18         18
+#define IPADFONT16         16
+#define IPHONEFONT20       20
+#define IPHONEFONT14       14
+
+#define MAINLINESIZE1      12, 170, 60, 1.5
+#define MAINLINESIZE2      90, 170, 60, 1.5
+#define MAINLINESIZE3      163, 170, 60, 1.5
+#define MAINWEATHERSIZE1   12, 50, 60, 1.5
+
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
-#define IPHONEFONT14    13
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define LINECOLOR1     [UIColor greenColor]
-#define LINECOLOR2     [UIColor redColor]
+//#define LINECOLOR2     [UIColor redColor]
 #define LINECOLOR3     [UIColor redColor]
 #define SEDGEINSERT           44, 0, 0, 0
 #define SDIM                 YES //dimsBackgroundDuringPresentation
@@ -27,9 +33,7 @@
 #define SDEFINE              YES //definesPresentationContext
 #define SHIDEBAR             YES //hidesBottomBarWhenPushed
 #define SEARCHBARSTYLE      UIBarStyleBlack
-//#define HEADTITLE1    @"NASDAQ \n4,727.35"
-#define HEADTITLE2      @"NASDAQ \n4,727.35"
-#define HEADTITLE3      @"DOW \n17,776.80"
+
 #define IDCELL            @"BasicCell"
 #define KEY_DATEREFRESH  @"MMM d, h:mm a"
 #define UPDATETEXT       @"Last update: %@"
@@ -41,29 +45,25 @@
 #define MAINNAVCOLOR       [UIColor blackColor]
 #define NAVTRANSLUCENT     YES
 
-
-
-
 #define SOUNDFILE     @"%@/03 A Whiter Shade Of Pale.mp3"
 //------notification-------------------------------
-#define MNOTIFTEXT         @"Lord give me wisdom, ask for wisdom and it will be given!"
-#define MNOTIFCATEGORY     @"INVITE_CATEGORY"
-#define MAINNOTIFACTION    @"View Details"
-#define MAINNOTIFTITLE     @"Item Due"
+#define MAIN_BODY         @"Lord give me wisdom, ask for wisdom and it will be given!"
+#define MAIN_CATEGORY     @"INVITE_CATEGORY"
+#define MAIN_ACTION       @"View Details"
+#define MAIN_ALERTTITLE   @"Item Due"
 //------searchbar-------------------------------
 #define SEARCHTINTCOLORMAIN  [UIColor redColor]
 #define MHIDE                 NO //hidesNavigationBarDuringPresentation
 //------sidebar revealViewController-------------------------------
 #define SIDEBARTINTCOLOR     [UIColor whiteColor]
 //------tableheader-------------------------------
+
 #define MAINHEADHEIGHT     175.0
-#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
-#define MAINLABELSIZE1     12, 122, tableView.frame.size.width, 45
-#define MAINLABELSIZE2     85, 122, tableView.frame.size.width, 45
-#define MAINLABELSIZE3     158, 122, tableView.frame.size.width, 45
-#define MAINLINESIZE1      12, 162, 60, 1.5
-#define MAINLINESIZE2      85, 162, 60, 1.5
-#define MAINLINESIZE3      158, 162, 60, 1.5
+#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE2     90, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE3     163, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
+#define MAINLABELSIZE5     12, 80, tableView.frame.size.width, 20 //ipad
 //------table names-------------------------------
 #define TNAME1             @"Leads"
 #define TNAME2             @"Customers"
@@ -74,12 +74,7 @@
 #define TNAME7             @"Job"
 #define TNAME8             @"Salesman"
 #define TNAME9             @"Blog"
-//------pickerview-------------------------------
-#define PICKCOLOR         [UIColor whiteColor]     //backgroundColor
-#define PICKTOOLSTYLE     UIBarStyleBlackOpaque    //toolbar.barStyle
-#define PICKTOOLTRANS     NO                       //toolbar.translucent
-#define SHOWIND           YES                      //showsSelectionIndicator
-#define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
+
 //------segue-------------------------------
 #define MAINVIEWSEGUE1   @"leadDetailSegue"
 #define MAINVIEWSEGUE2   @"custDetailSegue"

@@ -10,6 +10,7 @@
 
 @interface Constants : NSObject
 
+
 // Device Info
 #define IS_IPAD     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) /** BOOL: Detect if device is an iPad **/
 
@@ -21,33 +22,33 @@
 #define IS_RETINA_DEVICE ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2)
 
 // Return "YES" or "NO" string based on boolean value
-#define NSStringFromBool(b) (b ? @"YES" : @"NO")
+//#define NSStringFromBool(b) (b ? @"YES" : @"NO")
 
 // Colors
-#define UA_RGBA(r,g,b,a)    [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
-#define UA_RGB(r,g,b)       UA_RGBA(r, g, b, 1.0f)
+//#define UA_RGBA(r,g,b,a)    [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+//#define UA_RGB(r,g,b)       UA_RGBA(r, g, b, 1.0f)
 
-#define DATE_COMPONENTS         NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit /** Return date component**/
-#define TIME_COMPONENTS         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit /** Return time component**/
+//#define DATE_COMPONENTS         NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit /** Return date component**/
+//#define TIME_COMPONENTS         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit /** Return time component**/
 
-#define USER_DEFAULTS           [NSUserDefaults standardUserDefaults]
-#define NOTIFICATION_CENTER     [NSNotificationCenter defaultCenter]
-#define SHARED_APPLICATION      [UIApplication sharedApplication]
+//#define USER_DEFAULTS           [NSUserDefaults standardUserDefaults]
+//#define NOTIFICATION_CENTER     [NSNotificationCenter defaultCenter]
+//#define SHARED_APPLICATION      [UIApplication sharedApplication]
 
-#define DATE_FORMAT_DD_MM_YYYY              @"dd-MM-yyyy"               //e.g. 24-07-1990
-#define DATE_FORMAT_MM_DD_YYYY              @"MM-dd-yyyy"               //e.g. 07-24-1990
-#define DATE_FORMAT_YYYY_MM_DD              @"yyyy-MM-dd"               //e.g. 1990-07-24
-#define DATE_FORMAT_DD_MM_YYYY_HH_MM_12H    @"dd-MM-yyyy hh:mm a"       //e.g. 24-07-1990 05:20 AM
-#define DATE_FORMAT_MMM_DD_YYYY             @"MMM dd, yyyy"             //e.g. Jul 24, 1990
-#define DATE_FORMAT_MMMM_DD                 @"MMMM dd"                  //e.g. July 24
-#define DATE_FORMAT_MMMM                    @"MMMM"                     //e.g. July, November
-#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_SS    @"MMM dd, yyyy hh:mm:ss a"  //e.g. Jul 24, 2014 05:20:50 AM
-#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_12H   @"MMM dd, yyyy hh:mm a"     //e.g. Jul 24, 2014 05:20 AM
-#define DATE_FORMAT_HH_MM_SS                @"HH:mm:ss"                 //e.g. 05:20:50 AM
-#define DATE_FORMAT_E                       @"E"                        //e.g. Tue
-#define DATE_FORMAT_EEEE                    @"EEEE"                     //e.g. Tuesday
-#define DATE_FORMAT_QQQ                     @"QQQ"                      //e.g. Q1,Q2,Q3,Q4
-#define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
+//#define DATE_FORMAT_DD_MM_YYYY              @"dd-MM-yyyy"               //e.g. 24-07-1990
+//#define DATE_FORMAT_MM_DD_YYYY              @"MM-dd-yyyy"               //e.g. 07-24-1990
+//#define DATE_FORMAT_YYYY_MM_DD              @"yyyy-MM-dd"               //e.g. 1990-07-24
+//#define DATE_FORMAT_DD_MM_YYYY_HH_MM_12H    @"dd-MM-yyyy hh:mm a"       //e.g. 24-07-1990 05:20 AM
+//#define DATE_FORMAT_MMM_DD_YYYY             @"MMM dd, yyyy"             //e.g. Jul 24, 1990
+//#define DATE_FORMAT_MMMM_DD                 @"MMMM dd"                  //e.g. July 24
+//#define DATE_FORMAT_MMMM                    @"MMMM"                     //e.g. July, November
+//#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_SS    @"MMM dd, yyyy hh:mm:ss a"  //e.g. Jul 24, 2014 05:20:50 AM
+//#define DATE_FORMAT_MMM_DD_YYYY_HH_MM_12H   @"MMM dd, yyyy hh:mm a"     //e.g. Jul 24, 2014 05:20 AM
+//#define DATE_FORMAT_HH_MM_SS                @"HH:mm:ss"                 //e.g. 05:20:50 AM
+//#define DATE_FORMAT_E                       @"E"                        //e.g. Tue
+//#define DATE_FORMAT_EEEE                    @"EEEE"                     //e.g. Tuesday
+//#define DATE_FORMAT_QQQ                     @"QQQ"                      //e.g. Q1,Q2,Q3,Q4
+//#define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
 
 // All STORYBOOKS
 //Navigation - Go back - POP view controller **/
@@ -74,6 +75,7 @@
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------iPad Font Form-------------------------------
+#define IPADFONT22         22
 #define IPADFONT20         20
 #define IPADFONT18         18
 #define IPADFONT16         16
@@ -120,7 +122,7 @@
 //HelveticaNeue-UltraLightItalic
 //HelveticaNeue-Thin
 //HelveticaNeue-ThinItalic
-#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
+//#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s] //ipad stats
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]  //ipad stats
 #define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //blogedit
@@ -162,7 +164,7 @@
 #define ACTIVEBUTTONYES   @"iosStar.png"
 #define ACTIVEBUTTONNO    @"iosStarNA.png"
 //------dates-------------------------------
-#define KEY_DATESQLFORMAT     @"yyyy-MM-dd" //NewDataView, LeadDetail
+#define KEY_DATESQLFORMAT @"yyyy-MM-dd" //NewDataView, LeadDetail
 //------timer-------------------------------
 //#define MTIMER           5.0 //MainController
 //#define MTIMERREP        NO  //repeats
@@ -172,61 +174,16 @@
 #define TEXTBDWIDTH     2.0f //layer.borderWidth
 #define TEXTBDRADIUS    7.0f //layer.cornerRadius
 //------deletetable-------------------------------
-#define DELMESSAGE1           @"Delete"
-#define DELMESSAGE2           @"OK, Delete the selected record?"
+#define DELMESSAGE1       @"Delete"
+#define DELMESSAGE2       @"OK, Delete the selected record?"
 //-----------------------END-------------------------------
 
-// MAINVIEW
-#define SOUNDFILE     @"%@/03 A Whiter Shade Of Pale.mp3"
-//------notification-------------------------------
-#define MNOTIFTEXT         @"Lord give me wisdom, ask for wisdom and it will be given!"
-#define MNOTIFCATEGORY     @"INVITE_CATEGORY"
-#define MAINNOTIFACTION    @"View Details"
-#define MAINNOTIFTITLE     @"Item Due"
-//------searchbar-------------------------------
-#define SEARCHTINTCOLORMAIN  [UIColor redColor]
-#define MHIDE                 NO //hidesNavigationBarDuringPresentation
-//------sidebar revealViewController-------------------------------
-#define SIDEBARTINTCOLOR     [UIColor whiteColor]
-//------tableheader-------------------------------
-#define MAINHEADHEIGHT     175.0
-//#define HEADERIMAGE        @"IMG_1133NEW.jpg" //400x175
-#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 50
-#define MAINLABELSIZE2     90, 125, tableView.frame.size.width, 50
-#define MAINLABELSIZE3     163, 125, tableView.frame.size.width, 50
-#define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
-#define MAINLABELSIZE5     12, 80, tableView.frame.size.width, 20 //ipad
-#define MAINLINESIZE1      12, 170, 60, 1.5
-#define MAINLINESIZE2      90, 170, 60, 1.5
-#define MAINLINESIZE3      163, 170, 60, 1.5
-#define MAINWEATHERSIZE1   12, 50, 60, 1.5
-//------table names-------------------------------
-#define TNAME1             @"Leads"
-#define TNAME2             @"Customers"
-#define TNAME3             @"Vendors"
-#define TNAME4             @"Employee"
-#define TNAME5             @"Advertising"
-#define TNAME6             @"Product"
-#define TNAME7             @"Job"
-#define TNAME8             @"Salesman"
-#define TNAME9             @"Blog"
 //------pickerview-------------------------------
 #define PICKCOLOR         [UIColor whiteColor]     //backgroundColor
 #define PICKTOOLSTYLE     UIBarStyleBlackOpaque    //toolbar.barStyle
 #define PICKTOOLTRANS     NO                       //toolbar.translucent
 #define SHOWIND           YES                      //showsSelectionIndicator
 #define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
-//------segue-------------------------------
-#define MAINVIEWSEGUE1   @"leadDetailSegue"
-#define MAINVIEWSEGUE2   @"custDetailSegue"
-#define MAINVIEWSEGUE3   @"vendDetailSegue"
-#define MAINVIEWSEGUE4   @"employeeSegue"
-#define MAINVIEWSEGUE5   @"adSegue"
-#define MAINVIEWSEGUE6   @"prodSegue"
-#define MAINVIEWSEGUE7   @"jobSegue"
-#define MAINVIEWSEGUE8   @"saleSegue"
-#define MAINVIEWSEGUE9   @"blogSegue"
-//-----------------------END-------------------------------
 
 //STATISTIC
 #define STATTEXTCOLOR      [UIColor blackColor]
@@ -359,10 +316,10 @@
 #define BLOGEDITTITLE      @"Message"
 #define BLOGBACKCOLOR      [UIColor lightGrayColor]
 //------notification-------------------------------
-#define BLOGNOTIFICATION   @"You have entered the region you are monitoring"
-#define BNOTIFCATEGORY     @"INVITE_CATEGORY"
-#define BNOTIFACTION       @"Details"
-#define BNOTIFTITLE        @"Alert! Breaking News"
+#define BLOGNOT_BODY       @"You have entered the region you are monitoring"
+#define BLOGNOT_CATEGORY   @"INVITE_CATEGORY"
+#define BLOGNOT_ACTION     @"Details"
+#define BLOGNOT_TITLE      @"Alert! Breaking News"
 //-------------segue-------------------------------
 #define BLOGEDITSEGUE      @"updateNewSeque"
 //-----------------------END-------------------------------
@@ -411,8 +368,12 @@
 //-----------------------END-------------------------------
 
 // NOTIFICATION CONTROLLER
+//#define NOTIFICATION_BODY  @"You have a notification. Please check"
+#define NOTIFICATION_CATEGORY   @"Email" //@"INVITE_CATEGORY"
+#define NOTIFICATION_ACTION     @"ACCEPT_IDENTIFIER"
+#define NOTIFICATION_TITLE      @"Alert! Breaking News"
 #define NOTIDATE    @"MM-dd-yyy hh:mm"
-//#define NOTMESSAGE  @"You have a notification. Please check"
+
 #define BADGENO     + 1
 #define NSOUND      != 0 //allowsSound
 #define NBADGE      != 0 //allowsBadge

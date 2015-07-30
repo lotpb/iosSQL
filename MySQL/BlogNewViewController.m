@@ -32,6 +32,8 @@
     
     self.view.backgroundColor = BLOGNEWBACKCOLOR;
     self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
+    self.toolBar.translucent = YES;
+    self.toolBar.barTintColor = [UIColor grayColor];
     
     if (self.textcontentsubject.length == 0) {
         static NSDateFormatter *dateFormatter = nil;

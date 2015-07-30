@@ -227,30 +227,17 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([segue.identifier isEqualToString:@"showPhoto"]) {
-        
-        
+      
       /*
-        CollectionDetailController *destViewController = (CollectionDetailController *)segue.destinationViewController;
-        NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
-        
-        NSString *imagePath = [selectedJobs objectAtIndex:indexPath.row];
-        UIImage *image = [UIImage imageNamed:imagePath];
-        
-        
-        destViewController.jobimage = image;
-        NSLog(@"Image named: %@ at row %ld", imagePath, (long)indexPath.row);
-        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO]; */
-        
         NSIndexPath *selectedIndexPath = [self.collectionView indexPathsForSelectedItems][0];
         
         // load the image, to prevent it from being cached we use 'initWithContentsOfFile'
         NSString *imageNameToLoad = [NSString stringWithFormat:@"%ld_full", (long)selectedIndexPath.row];
         UIImage *image = [UIImage imageNamed:imageNameToLoad];
         CollectionDetailController *detailViewController = segue.destinationViewController;
-        detailViewController.jobimage = image;
-        
-        
+        detailViewController.jobimage = image; */
         
         /*
          UICollectionViewCell *cell = (UICollectionViewCell *)sender;
@@ -264,10 +251,9 @@
         
         
         /*
-         NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
+         NSIndexPath *indexPaths = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
          CollectionDetailController *destViewController = segue.destinationViewController;
-         NSIndexPath *indexPath = [indexPaths objectAtIndex:0];
-         destViewController.jobimage = [selectedJobs[indexPath.section] objectAtIndex:indexPath.row];
+         destViewController.jobimage = [imageFilesArray objectAtIndex:indexPath.row];
          [self.collectionView deselectItemAtIndexPath:indexPath animated:NO]; */
     }
 }

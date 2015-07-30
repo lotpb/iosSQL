@@ -26,6 +26,7 @@ UIBarButtonItem *trashItem, *shareItem;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.view.backgroundColor = BLOGBACKCOLOR;
+    //self.toolBar.backgroundColor = [UIColor lightGrayColor];
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
@@ -293,7 +294,7 @@ Parse.com
     [self.DateInput setTextAlignment:NSTextAlignmentLeft];
     [self.itemText setTextAlignment:NSTextAlignmentLeft];
     self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
-    self.itemText.text = BLOGNOTIFICATION;
+    self.itemText.text = BLOGNOT_BODY;
     [self.DateInput setPlaceholder:@"notification date"];
     [self.itemText setPlaceholder:@"title"];
     self.itemText.secureTextEntry = NO;
@@ -332,9 +333,9 @@ Parse.com
     
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.alertBody = self.itemText.text; //BLOGNOTIFICATION;
-    localNotification.category = BNOTIFCATEGORY;
-    localNotification.alertAction = NSLocalizedString(BNOTIFACTION, nil);
-    localNotification.alertTitle = NSLocalizedString(BNOTIFTITLE, nil);;
+    localNotification.category = BLOGNOT_CATEGORY;
+    localNotification.alertAction = NSLocalizedString(BLOGNOT_ACTION, nil);
+    localNotification.alertTitle = NSLocalizedString(BLOGNOT_TITLE, nil);;
     localNotification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
     localNotification.fireDate = apptdate;//[NSDate dateWithTimeIntervalSinceNow:60];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];

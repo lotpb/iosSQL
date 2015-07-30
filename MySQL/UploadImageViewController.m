@@ -7,12 +7,17 @@
 //
 
 #import "UploadImageViewController.h"
-#import <Parse/Parse.h>
-#import "Constants.h"
+
 
 @interface UploadImageViewController ()
+{
+    UIImage *pickImage;
+    NSData *pictureData;
+    NSURL *videoURL, *moviePath;
+}
 
 -(void)showErrorView:(NSString *)errorMsg;
+@property (strong, nonatomic) MPMoviePlayerController *videoController;
 
 @end
 
@@ -35,6 +40,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;//fix
+    self.imgToUpload.backgroundColor = [UIColor whiteColor];
+    self.imgToUpload.userInteractionEnabled = YES;
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
     [self.commentTitle becomeFirstResponder];
     
@@ -54,6 +62,15 @@
     self.commentTitle = nil;
     self.commentDetail = nil;
     self.username = nil;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
 }
 
 #pragma mark IB Actions
@@ -88,17 +105,14 @@
     [loadingSpinner startAnimating];
     
     [self.view addSubview:loadingSpinner];
-    
-   /* NSString *mediaType = [UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:@"video"]){
-        NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-        //Upload a new picture
-        
-    } else { */
-      NSData *pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
-   // }
-    
-    PFFile *file = [PFFile fileWithName:@"img" data:pictureData];
+    PFFile *file;
+    if (pickImage) {
+        pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
+        file = [PFFile fileWithName:@"img" data:pictureData];
+    } else {
+        pictureData = [NSData dataWithContentsOfURL:videoURL];
+        file = [PFFile fileWithName:@"movie.mp4" data:pictureData];
+    }
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (succeeded){
@@ -106,7 +120,6 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             NSString* const userNameKey = KEY_USER;
             
-            //Add the image to the object, and add the comments, the user, and the geolocation (fake)
             PFObject *imageObject = [PFObject objectWithClassName:@"Newsios"];
             [imageObject setObject:file forKey:@"imageFile"];
             [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
@@ -117,9 +130,6 @@
             } else {
                 [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"usernameKey"];
             }
-            
-            //PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:52 longitude:-4];
-            //[imageObject setObject:point forKey:KEY_GEOLOC];
 
             [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
@@ -146,20 +156,45 @@
 }
 
 #pragma mark UIImagePicker delegate
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)Info
-{
-  /*
-    NSString * mediaType = [Info objectForKey:UIImagePickerControllerMediaType];
-    if ( [ mediaType isEqualToString:@"public.movie" ]){
-         NSLog(@"Error: %@", @"public.movie");
-       // NSURL *videoURL = [Info objectForKey:UIImagePickerControllerMediaURL];
-    } */
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)info {
     
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
-    //Place the image in the imageview
-     self.imgToUpload.image = img;
+    if (CFStringCompare ((__bridge_retained CFStringRef)mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo)
+    {
+        videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        pictureData = [NSData dataWithContentsOfURL:videoURL];
+        pickImage = nil;
+        [self refreshSolutionView];
+    } else {
+        moviePath = nil;
+        pickImage = info[UIImagePickerControllerEditedImage];
+        [self refreshSolutionView];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerVideo delegate
+- (void) refreshSolutionView {
+  //  [catchLabel removeFromSuperview];
+    self.imgToUpload.image = nil;
+    [self.videoController stop];
+    self.videoController = nil;
+    [self.videoController.view removeFromSuperview];
+    
+    if (pickImage) { //it's image
+        self.imgToUpload.image = pickImage;
+    } else { //it's video
+        
+        self.videoController = [[MPMoviePlayerController alloc] init];
+        [self.videoController setContentURL:videoURL];
+        [self.videoController.view setFrame:self.imgToUpload.bounds];
+        self.videoController.view.clipsToBounds = YES;
+        self.videoController.controlStyle = MPMovieControlStyleEmbedded;
+        [self.imgToUpload addSubview:self.videoController.view];
+    }
 }
 
 #pragma mark Error View

@@ -10,11 +10,11 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h> //added to use PFImageView
 #import "Constants.h"
+#import <MediaPlayer/MediaPlayer.h>
 #import "NSOperationQueue+SharedQueue.h" //added to remove warning on thread
 
 @interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *wallScroll;
-//-(IBAction)logoutPressed:(id)sender;
 
 @end

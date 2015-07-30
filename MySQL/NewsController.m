@@ -20,6 +20,7 @@
 -(void)showErrorView:errorString;
 
 @property (nonatomic, strong) UISearchController *searchController;
+@property (strong, nonatomic) MPMoviePlayerController *videoController;
 @end
 
 @implementation NewsController
@@ -91,7 +92,7 @@
 #pragma mark - Get Parse Image
 -(void)getNewsImages {
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query setLimit:15]; //parse.com standard is 100
+    [query setLimit:25]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY; 
     [query orderByDescending:KEY_CREATION_DATE];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -127,9 +128,9 @@
         UIView *wallImageView;
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             //fix-self.view.frame.size.height - original height 330 not 345
-            wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 222 , 535)];
+            wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20, 200)];
         } else {
-            wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20 , 345)];
+            wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20, 345)];
         }
         
         //Add the image
@@ -150,12 +151,19 @@
         }
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            userImage.frame = CGRectMake(0, 85, wallImageView.frame.size.width, 375);
+            userImage.frame = CGRectMake(15, 15, 300, 170);
         else
             userImage.frame = CGRectMake(0, 75, wallImageView.frame.size.width, 225);
+        /*
+        self.videoController = [[MPMoviePlayerController alloc] init];
+       // [self.videoController setContentURL:videoURL];
+        [self.videoController.view setFrame:userImage.frame ];
+        self.videoController.view.clipsToBounds = YES;
+        self.videoController.controlStyle = MPMovieControlStyleFullscreen;
+        [userImage addSubview:self.videoController.view]; */
         
         [wallImageView addSubview:userImage];
-
+        
         /*
          UIImageView *userImage = [[UIImageView alloc] initWithImage:
          [UIImage imageWithData:image.getData]];
@@ -163,12 +171,22 @@
          [wallImageView addSubview:userImage]; */
         
         //--------------------------------------------------------------------------------------
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 54, wallImageView.frame.size.width, 15)];
-        UILabel *readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 54, wallImageView.frame.size.width, 15)];
+        UILabel *titleLabel, *detailLabel, *readLabel;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
+            detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
+            readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 70 , 66, wallImageView.frame.size.width, 15)];
+            titleLabel.font = CELL_LIGHTFONT(IPADFONT22);
+        } else {
+            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
+            detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
+            readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 56, wallImageView.frame.size.width, 15)];
+            titleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
+        }
+        detailLabel.font = DETAILFONT(IPHONEFONT14);
+        readLabel.font = DETAILFONT(IPHONEFONT14);
         
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
-        titleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
         titleLabel.textColor = NEWSTITLECOLOR;
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.numberOfLines = 0;
@@ -180,20 +198,18 @@
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
         detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
-        detailLabel.font = DETAILFONT(IPHONEFONT14);
         detailLabel.textColor = NEWSDETAILCOLOR;
         detailLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:detailLabel];
         
         readLabel.text = READLABEL;
-        readLabel.font = DETAILFONT(IPHONEFONT14);
         readLabel.textColor = NEWSREADCOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
         UIButton *actionBtn;
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,500, 20, 20)];
+            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,165, 20, 20)];
         } else {
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
         }
@@ -203,7 +219,7 @@
         
         UIView* separatorLineView;
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 550, self.view.frame.size.width, .8)];
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
         } else {
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         }
@@ -220,11 +236,13 @@
         
         [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         [self.wallScroll addSubview:wallImageView];
-        originY = originY + wallImageView.frame.size.width + 1;
         
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            originY = originY + 200 + 1;
+        } else {
+            originY = originY + wallImageView.frame.size.width + 1;
+        }
     }
-    
-    //Set the bounds of the scroll
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
@@ -254,7 +272,11 @@
 #pragma mark - ActivityViewController
 - (void)share:(id)sender {
     
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, 365), self.view.opaque, 0.0);
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, 212), self.view.opaque, 0.0);
+    }else {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, 365), self.view.opaque, 0.0);
+    }
     [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

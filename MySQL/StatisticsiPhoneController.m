@@ -31,6 +31,12 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = STATBACKCOLOR;
     self.listTableView.rowHeight = 30;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+     //   self.listTableViewLeft.rowHeight = 30;
+     //   self.listTableViewRight.rowHeight = 30;
+     //   self.listTableViewLeft1.rowHeight = 30;
+     //   self.listTableViewRight1.rowHeight = 30;
+    }
  // UITableViewAutomaticDimension;
  //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
   //self.listTableView.estimatedRowHeight = 44.0;
@@ -162,6 +168,11 @@
         [_StatCustModel downloadItems];
     }
     [self.listTableView reloadData];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //    [self.listTableViewLeft reloadData]; [self.listTableViewRight reloadData];
+    //    [self.listTableViewLeft1 reloadData]; [self.listTableViewRight1 reloadData];
+
+    }
     
     if (refreshControl) {
         
@@ -181,27 +192,32 @@
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 1;
+    } else {
+        return 5;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        if (section == 0)
-            return 10;
-        else if (section == 1)
-            return 6;
-        else if (section == 2)
-            return 6;
-        else if (section == 3)
-            return 8;
-        else if (section == 4)
-            return 8;
-    } else {
-        if (section == 3)
-            return _feedLeadItems.count;
-        else if (section == 4)
-            return _feedCustItems.count;
-    }
+
+            if (section == 0)
+                return 10;
+            else if (section == 1)
+                return 6;
+            else if (section == 2)
+                return 6;
+            else if (section == 3)
+                return 8;
+            else if (section == 4)
+                return 8;
+        } else {
+            if (section == 3)
+                return _feedLeadItems.count;
+            else if (section == 4)
+                return _feedCustItems.count;
+        }
     return 0;
 }
 
@@ -229,10 +245,10 @@
         
         if (indexPath.row == 0) {
             
-            if (![[changeYQL objectAtIndex:0] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:0];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:0];
@@ -243,10 +259,10 @@
             return myCell;
         } else if (indexPath.row == 1) {
             
-            if (![[changeYQL objectAtIndex:1] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:1];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:1];
@@ -257,10 +273,10 @@
             return myCell;
         } else if (indexPath.row == 2) {
             
-            if (![[changeYQL objectAtIndex:2] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:2] containsString:@"-"]) || ([[changeYQL objectAtIndex:2] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:2] ;
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:2];
@@ -271,10 +287,10 @@
             return myCell;
         } else if (indexPath.row == 3) {
             
-            if (![[changeYQL objectAtIndex:3] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:3] containsString:@"-"]) || ([[changeYQL objectAtIndex:3] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:3];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:3];
@@ -285,10 +301,10 @@
             return myCell;
         } else if (indexPath.row == 4) {
             
-            if (![[changeYQL objectAtIndex:4] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:4] containsString:@"-"]) || ([[changeYQL objectAtIndex:4] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:4];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:4];
@@ -299,10 +315,10 @@
             return myCell;
         } else if (indexPath.row == 5) {
             
-            if (![[changeYQL objectAtIndex:5] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:5] containsString:@"-"]) || ([[changeYQL objectAtIndex:5] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:5];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:5];
@@ -313,10 +329,10 @@
             return myCell;
         } else if (indexPath.row == 6) {
             
-            if (![[changeYQL objectAtIndex:6] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:6] containsString:@"-"]) || ([[changeYQL objectAtIndex:6] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:6];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:6];
@@ -327,10 +343,10 @@
             return myCell;
         } else if (indexPath.row == 7) {
             
-            if (![[changeYQL objectAtIndex:7] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:7] containsString:@"-"]) || ([[changeYQL objectAtIndex:7] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:7];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:7];
@@ -341,10 +357,10 @@
             return myCell;
         } else if (indexPath.row == 8) {
             
-            if (![[changeYQL objectAtIndex:8] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:8] containsString:@"-"]) || ([[changeYQL objectAtIndex:8] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:8];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:8];
@@ -355,10 +371,10 @@
             return myCell;
         } else if (indexPath.row == 9) {
             
-            if (![[changeYQL objectAtIndex:9] containsString:@"-"]) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-            } else {
+            if (([[changeYQL objectAtIndex:9] containsString:@"-"]) || ([[changeYQL objectAtIndex:9] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+            } else {
+                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:9];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:9];
@@ -574,7 +590,7 @@
 {
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+    NSString *newString2 = @"$100,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell

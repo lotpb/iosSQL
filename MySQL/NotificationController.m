@@ -87,13 +87,6 @@ bool allowsAlert;
 
 #pragma mark - notification
 - (IBAction)saveNotification:(id)sender {
-    /*
-    // New for iOS 8 - Register the notifications
-    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-     
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-     
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings]; */
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     [self setNotificationTypesAllowed];
@@ -125,9 +118,9 @@ bool allowsAlert;
         if (allowsAlert)
         {
             notification.alertBody = _customMessage.text;
-            notification.category = MNOTIFCATEGORY; //INVITE_CATEGORY
-            notification.alertAction = NSLocalizedString(MAINNOTIFACTION, nil);
-            notification.alertTitle = NSLocalizedString(MAINNOTIFTITLE, nil);
+            notification.category = NOTIFICATION_CATEGORY; //INVITE_CATEGORY
+            notification.alertAction = NSLocalizedString(NOTIFICATION_ACTION, nil);
+            notification.alertTitle = NSLocalizedString(NOTIFICATION_TITLE, nil);
         }
         if (allowsBadge)
         {

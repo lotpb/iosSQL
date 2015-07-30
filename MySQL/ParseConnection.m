@@ -16,14 +16,13 @@
 
 @implementation ParseConnection
 
-
 //------------------Table Data----------------------------------
 #pragma mark - Blog Form
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-    [query orderByDescending:@"createdAt"];
     [query setLimit:1000]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
@@ -42,13 +41,14 @@
 - (void)parseCustomer {
   PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
     [query clearCachedResult];
-    [query orderByDescending:@"createdAt"];
   //[query setMaxCacheAge:60 * 4];  //4 mins cache
     [query setLimit:1000]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
+        
         if (!error) {
+            _feedItems = [[NSMutableArray alloc]initWithArray:objects];
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
            // NSLog(@"Object id %@",_feedItems);

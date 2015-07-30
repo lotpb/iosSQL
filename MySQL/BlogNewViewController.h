@@ -33,5 +33,6 @@
 @property (weak, nonatomic) IBOutlet UIDatePicker *myDatePicker;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (strong, nonatomic) UIImageView *activeImage;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @end

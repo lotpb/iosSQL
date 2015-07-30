@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface UploadImageViewController : UIViewController <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate>
