@@ -53,6 +53,10 @@
 // All STORYBOOKS
 //Navigation - Go back - POP view controller **/
 #define GOBACK [self.navigationController popViewControllerAnimated:YES]
+
+//iOS 7 default blue color is R:0.0 G:122.0 B:255.0
+#define BLUECOLOR [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]
+
 //------searchbar-------------------------------
 #define SEARCHBARSTYLE      UIBarStyleBlack
 #define SEARCHTINTCOLOR     [UIColor whiteColor]

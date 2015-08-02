@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface UploadImageViewController : UIViewController <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate>

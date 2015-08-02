@@ -12,14 +12,18 @@
 #import "SWRevealViewController.h"
 #import "YQL.h"
 #import <AVFoundation/AVAudioPlayer.h>
-//#import <iAd/iAd.h>
+#import <iAd/iAd.h>
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ADBannerViewDelegate>
 {
-    NSMutableArray *tableData, *filteredString;
-    BOOL isFilltered, condition;
+    NSMutableArray *tableData, *filteredString, *fieldYQL, *changeYQL;
+    BOOL isFilltered, condition, _bannerIsVisible;
     YQL *yql;
-   // ADBannerView *bannerView;
+    NSDictionary *resultsYQL, *resultsWeatherYQL;
+    ADBannerView *bannerView;
+    NSString *tempYQL, *textYQL;
+    AVAudioPlayer *_audioPlayer;
+   
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;

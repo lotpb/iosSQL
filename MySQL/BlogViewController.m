@@ -13,6 +13,7 @@
     BlogModel *_BlogModel; BlogLocation *_selectedLocation; //ParseConnection *parseConnection;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
+    UILabel *numLabel;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -30,7 +31,7 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = ROW_HEIGHT;
+    self.listTableView.estimatedRowHeight = 110; ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.listTableView.pagingEnabled = YES;
     
@@ -131,6 +132,22 @@ Parse.com
 -(void)foundView:(id)sender {
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
+
+#pragma mark like button
+- (void) likeHandler {
+    /*
+     [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
+     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+     if (!error) {
+     NSLog(@"liked Company!");
+     [self likedSuccess];
+     }
+     else {
+     [self likedFail];
+     }
+     }]; */
+    
+}
 /*
 *******************************************************************************************
 Parse.com
@@ -158,7 +175,7 @@ Parse.com
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     return 90.0;
     } else {
-    return 80.0;
+    return 105.0;
     }
 }
 
@@ -257,10 +274,9 @@ Parse.com
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *CellIdentifier = IDCELL;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(23, 143, 30, 11)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT16)];
@@ -271,10 +287,6 @@ Parse.com
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
     }
-    label2.font = LIKEFONT(IPHONEFONT9);
-    label2.text = @"Like";
-    label2.textAlignment = NSTextAlignmentCenter;
-    [label2 setTextColor:LIKECOLORTEXT];
 
      myCell.blog2ImageView.clipsToBounds = YES;
      myCell.blog2ImageView.layer.cornerRadius = BLOGIMGRADIUS;
@@ -318,9 +330,6 @@ Parse.com
             myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             myCell.blogmsgDateLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
         }
-        if (![[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"] isEqual:@"5"])
-            label2.hidden = NO;
-        else label2.hidden = YES;
     } else {
         BlogLocation *item;
         if (!isFilltered)
@@ -331,14 +340,51 @@ Parse.com
         myCell.blogtitleLabel.text = item.postby;
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
-        
-        if (![item.rating isEqual:@"5"])
-             [label2 setBackgroundColor:LIKECOLORBACK];
-            //label2.hidden = NO;
-        else [label2 setBackgroundColor:[UIColor whiteColor]];//label2.hidden = YES;
     }
+   
+    UIView *buttonview = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(myCell.blogsubtitleLabel.frame) +40, self.listTableView.frame.size.width, 25)];
+   /*
+    UIView *buttonview = [[UIView alloc] initWithFrame:CGRectMake(0, myCell.blogsubtitleLabel.frame.origin.y, self.listTableView.frame.size.width, 25)];*/
     
-    [myCell.contentView addSubview:label2];
+    buttonview.backgroundColor = [UIColor clearColor];
+    [myCell.contentView addSubview:buttonview];
+    
+    UIButton *replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75 ,5, 20, 20)];
+    replyButton.tintColor = [UIColor lightGrayColor];
+    UIImage *replyimage =[[UIImage imageNamed:@"Left 2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [replyButton setImage:replyimage forState:UIControlStateNormal];
+    [replyButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
+    //[replyButton setSelected:NO];
+    //replyButton.enabled = NO;
+    [buttonview addSubview:replyButton];
+    
+    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(140 ,5, 20, 20)];
+    likeButton.tintColor = [UIColor lightGrayColor];
+    UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [likeButton setImage:image forState:UIControlStateNormal];
+    [likeButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
+    [likeButton setSelected:NO];
+    likeButton.enabled = NO;
+    [buttonview addSubview:likeButton];
+    
+    numLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 7, 20, 20)];
+    numLabel.font = CELL_FONT(IPHONEFONT16);
+    numLabel.numberOfLines = 0;
+    numLabel.textColor = [UIColor grayColor];
+    numLabel.text = @"3";
+    [numLabel sizeToFit];
+    [buttonview addSubview:numLabel];
+    
+    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(205 ,5, 20, 20)];
+    reportButton.tintColor = [UIColor lightGrayColor];
+    UIImage *reportimage = [[UIImage imageNamed:@"cloud_filled-50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [reportButton setImage:reportimage forState:UIControlStateNormal];
+    [reportButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
+    [reportButton setSelected:NO];
+    reportButton.enabled = NO;
+    [reportButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
+    [buttonview addSubview:reportButton];
+    
     return myCell;
 }
 

@@ -11,6 +11,8 @@
 @interface ParseConnection ()
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *headCount, *_feedItems;
+    int pageNumber;
+    BOOL stopFetching, requestInProgress, forceRefresh;
 }
 @end
 
@@ -21,13 +23,24 @@
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query setLimit:1000]; //parse.com standard is 100
+     //query.skip = pageNumber*50;
      query.cachePolicy = kPFCACHEPOLICY;
+     //query.maxCacheAge = 60*60;
     [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
+         
+                requestInProgress = NO;
+                forceRefresh = NO;
+                if (objects.count<50) {
+                    stopFetching = YES;
+                }
+                
+                pageNumber++;
+                
                 if (self.delegate) {
                     [self.delegate parseBlogloaded:_feedItems];
                 }

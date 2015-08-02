@@ -12,10 +12,6 @@
 @interface MainViewController ()
 {
    UIRefreshControl *refreshControl;
-   AVAudioPlayer *_audioPlayer;
-   NSDictionary *resultsYQL, *resultsWeatherYQL;
-   NSMutableArray *fieldYQL, *changeYQL;
-   NSString *tempYQL, *textYQL;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -35,12 +31,21 @@
     
     [self YahooFinanceLoad];
 
-//-----create Parse User----------------------------
+//-------------------create Parse User------------------
 
  [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
  block:^(PFUser *user, NSError *error) {
  if (user) {
  // Hooray! Let them use the app now.
+     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+        // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+         [user setObject:geoPoint forKey:@"currentLocation"];
+         [user saveInBackground];
+      //   [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+         
+     //    [refreshMap:nil];
+     }];
+
  } 
  }];
 //----------------------------------------------------
@@ -117,12 +122,18 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [refreshView addSubview:refreshControl];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-  // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"iadKey"]) {
+    bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    bannerView.delegate = self;
+    }
 }
 
 -(void)didReceiveMemoryWarning {
@@ -262,7 +273,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label1];
     
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:[NSNull null]] )) {
+    if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
         separatorLineView1.backgroundColor = LINECOLOR3;
     } else {
         separatorLineView1.backgroundColor = LINECOLOR1;
@@ -275,7 +286,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
-    if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:[NSNull null]] )) {
+    if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:nil] )) {
         separatorLineView2.backgroundColor = LINECOLOR3;
     } else {
         separatorLineView2.backgroundColor = LINECOLOR1;
@@ -385,6 +396,43 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     tempYQL = [[resultsWeatherYQL valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"temp"];
     
     textYQL = [[resultsWeatherYQL valueForKeyPath:@"query.results.channel.item.condition"] objectForKey:@"text"];
+}
+
+#pragma mark - ADBannerView
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!_bannerIsVisible)
+    {
+        if (bannerView.superview == nil)
+        {
+            [self.view addSubview:bannerView];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        
+        [UIView commitAnimations];
+        
+        _bannerIsVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"Failed to retrieve ad");
+    
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        
+        // Assumes the banner view is placed at the bottom of the screen.
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        
+        [UIView commitAnimations];
+        
+        _bannerIsVisible = NO;
+    }
 }
 
 #pragma mark - AudioPlayer

@@ -9,11 +9,17 @@
 #import "NewsController.h"
 
 @interface NewsController () {
-    
+    NSURL *videoURL;
+    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel;
+    PFImageView *userImage;
+    PFFile *image;
+    BOOL stopFetching, requestInProgress, forceRefresh;
+    int pageNumber;
+    UILabel *playLabel;
+    UIButton *likeButton;
 }
 
 @property (nonatomic, retain) NSArray *imageFilesArray;
-//@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
 -(void)getNewsImages;
 -(void)loadWallViews;
@@ -44,6 +50,7 @@
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
+     self.wallScroll.pagingEnabled = YES;
     
   #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -53,7 +60,17 @@
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    emptyLabel = [[UILabel alloc] initWithFrame:self.wallScroll.bounds];
+    emptyLabel.textAlignment = NSTextAlignmentCenter;
+    emptyLabel.textColor = [UIColor lightGrayColor];
+    emptyLabel.text = @"You have no pending news :)";
 
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (void)viewDidUnload {
@@ -75,7 +92,7 @@
             [viewToRemove removeFromSuperview];
     }
     //Reload the wall
-    [self getNewsImages];
+    [self forceFetchData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,11 +106,24 @@
     [refreshControl endRefreshing];
 }
 
+- (void)forceFetchData {
+    forceRefresh = YES;
+    stopFetching = NO;
+    pageNumber=0;
+    [self getNewsImages];
+}
+
 #pragma mark - Get Parse Image
 -(void)getNewsImages {
+    
+    if (!requestInProgress && !stopFetching) {
+        requestInProgress = YES;
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query setLimit:25]; //parse.com standard is 100
-     query.cachePolicy = kPFCACHEPOLICY; 
+    [query setLimit:5]; //parse.com standard is 100
+     query.skip = pageNumber*5;
+     query.cachePolicy = kPFCACHEPOLICY;
+     query.maxCacheAge = 60*60;
     [query orderByDescending:KEY_CREATION_DATE];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
@@ -102,12 +132,29 @@
             self.imageFilesArray = nil;
             self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
             [self loadWallViews];
+            
+            //[self.wallScroll reloadData];
+            
+            if (self.imageFilesArray.count==0) {
+                [self.wallScroll addSubview:emptyLabel];
+            } else {
+                [emptyLabel removeFromSuperview];
+            }
+            
+            requestInProgress = NO;
+            forceRefresh = NO;
+            if (objects.count<5) {
+                stopFetching = YES;
+            }
+            pageNumber++;
         } else {
-            //Show the error
+            requestInProgress = NO;
+            forceRefresh = NO;
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             [self showErrorView:errorString];
         }
     }];
+}
 }
 
 #pragma mark - Wall Load
@@ -122,7 +169,6 @@
     
     //For every wall element, put a view in the scroll
     int originY = 10;
-    
     for (PFObject *wallObject in self.imageFilesArray){
         
         UIView *wallImageView;
@@ -134,8 +180,29 @@
         }
         
         //Add the image
-        PFFile *image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-        PFImageView *userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+        userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        userImage.backgroundColor = [UIColor blackColor];
+        //NSLog(@"TESTING %@",userImage);
+        
+        if(image.url) {
+            
+            playLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, userImage.frame.size.width, userImage.frame.size.height)];
+            userImage.userInteractionEnabled = YES;
+            playLabel.userInteractionEnabled = YES;
+            playLabel.textAlignment = NSTextAlignmentCenter;
+            [userImage addSubview:playLabel];
+            
+            /*
+             NSDictionary *titleAttributes = @{NSForegroundColorAttributeName:[Utils themeColor]};
+              *icon = [FAKFontAwesome playCircleOIconWithSize:100.0f];
+             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:[icon attributedString]];
+             [str addAttributes:titleAttributes range:NSMakeRange(0 , str.length)];
+             playLabel.attributedText = str; */
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
+            [playLabel addGestureRecognizer:tap];
+        }
         
         //--------------------load background-----------------------------------
         
@@ -154,16 +221,14 @@
             userImage.frame = CGRectMake(15, 15, 300, 170);
         else
             userImage.frame = CGRectMake(0, 75, wallImageView.frame.size.width, 225);
-        /*
-        self.videoController = [[MPMoviePlayerController alloc] init];
-       // [self.videoController setContentURL:videoURL];
-        [self.videoController.view setFrame:userImage.frame ];
-        self.videoController.view.clipsToBounds = YES;
-        self.videoController.controlStyle = MPMovieControlStyleFullscreen;
-        [userImage addSubview:self.videoController.view]; */
+        
+        userImage.clipsToBounds = YES;
+        //userImage.layer.cornerRadius = 25.f;
+        userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        userImage.layer.borderWidth = 0.5f;
         
         [wallImageView addSubview:userImage];
-        
+        //[self playVideo];
         /*
          UIImageView *userImage = [[UIImageView alloc] initWithImage:
          [UIImage imageWithData:image.getData]];
@@ -171,7 +236,7 @@
          [wallImageView addSubview:userImage]; */
         
         //--------------------------------------------------------------------------------------
-        UILabel *titleLabel, *detailLabel, *readLabel;
+        
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
@@ -203,7 +268,7 @@
         [wallImageView addSubview:detailLabel];
         
         readLabel.text = READLABEL;
-        readLabel.textColor = NEWSREADCOLOR;
+        readLabel.textColor = BLUECOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
@@ -226,6 +291,14 @@
         separatorLineView.backgroundColor = SCROLLBACKCOLOR;
         [wallImageView addSubview:separatorLineView];
         
+        likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
+        [likeButton setImage:[UIImage imageNamed:@"cloud-50.png"] forState:UIControlStateNormal];
+        
+        [likeButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
+        //[likeButton setTitleColor:[Utils darkBlueColor] forState:UIControlStateNormal];
+        likeButton.enabled = NO;
+        [wallImageView addSubview:likeButton];
+        
         //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
         //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
         //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
@@ -244,6 +317,36 @@
         }
     }
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
+}
+
+- (void) playVideo {
+    //[playLabel removeFromSuperview];
+
+    videoURL = [NSURL URLWithString:image.url];
+    self.videoController = [[MPMoviePlayerController alloc] init];
+    [self.videoController setContentURL:videoURL];
+    [self.videoController.view setFrame:userImage.frame];
+    self.videoController.view.clipsToBounds = YES;
+    //self.videoController.view.backgroundColor = [UIColor clearColor];
+    self.videoController.controlStyle = MPMovieControlStyleEmbedded;
+    [userImage addSubview:self.videoController.view];
+    [self.videoController play];
+}
+
+#pragma mark like button
+- (void) likeHandler {
+    /*
+    [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            NSLog(@"liked Company!");
+            [self likedSuccess];
+        }
+        else {
+            [self likedFail];
+        }
+    }]; */
+
 }
 
 #pragma mark Error Alert

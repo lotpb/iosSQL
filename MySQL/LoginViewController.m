@@ -73,7 +73,6 @@
         
         [error show];
     }
-    
 }
 
 - (void) registerNewUser {

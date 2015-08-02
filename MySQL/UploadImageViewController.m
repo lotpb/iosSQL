@@ -64,6 +64,11 @@
     self.username = nil;
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -100,11 +105,10 @@
     
     //Place the loading spinner
     UIActivityIndicatorView *loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    
-    [loadingSpinner setCenter:CGPointMake(self.view.frame.size.width/2.0f, self.view.frame.size.height/2.0f)];
+    loadingSpinner.center = self.imgToUpload.center;
     [loadingSpinner startAnimating];
-    
     [self.view addSubview:loadingSpinner];
+    
     PFFile *file;
     if (pickImage) {
         pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
@@ -165,6 +169,33 @@
     {
         videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
         pictureData = [NSData dataWithContentsOfURL:videoURL];
+        /*
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+        CGSize size = [[[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] naturalSize];
+        NSTimeInterval durationInSeconds = 0.0;
+        if (asset) durationInSeconds = CMTimeGetSeconds(asset.duration);
+        
+        if (size.width>640 || size.height>480) {
+        //    [self showIndeterminateProgressWithTitle:@"processing video..."];
+            [self cropVideoAtURL:videoURL toWidth:480 height:360 completion:^(NSURL *resultURL, NSError *error) {
+                if (error) {
+                  //  DLOG(@"crop error %@", error);
+                  //  [self hideIndeterminateProgress];
+                } else {
+                    moviePath = resultURL;
+                    
+                    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:moviePath options:nil];
+                    CGSize size = [[[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] naturalSize];
+                 //   DLOG(@"video size after %@", NSStringFromCGSize(size));
+                    
+                    NSData *data = [NSData dataWithContentsOfURL:moviePath];
+                //    DLOG(@"VIDEO SIZE %.2f",(float)data.length/1024.0f/1024.0f);
+                    
+                    [self hideIndeterminateProgress];
+
+                }
+            }]; */
+        
         pickImage = nil;
         [self refreshSolutionView];
     } else {
@@ -191,9 +222,31 @@
         self.videoController = [[MPMoviePlayerController alloc] init];
         [self.videoController setContentURL:videoURL];
         [self.videoController.view setFrame:self.imgToUpload.bounds];
+        self.videoController.view.backgroundColor = [UIColor clearColor];
         self.videoController.view.clipsToBounds = YES;
-        self.videoController.controlStyle = MPMovieControlStyleEmbedded;
+        [self.videoController prepareToPlay];
+        self.videoController.controlStyle = MPMovieControlStyleDefault;
+        self.videoController.shouldAutoplay = NO;
         [self.imgToUpload addSubview:self.videoController.view];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(moviePlayBackDidFinish:)
+                                                     name:MPMoviePlayerPlaybackDidFinishNotification
+                                                   object:self.videoController];
+
+    }
+}
+
+- (void) moviePlayBackDidFinish:(NSNotification*)notification {
+    MPMoviePlayerController *player = [notification object];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:MPMoviePlayerPlaybackDidFinishNotification
+     object:player];
+    
+    if ([player
+         respondsToSelector:@selector(setFullscreen:animated:)])
+    {
+      //  [player.view removeFromSuperview];
     }
 }
 

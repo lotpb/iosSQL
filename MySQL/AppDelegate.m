@@ -34,13 +34,14 @@
     
 //| ------------------------parse Key---------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
-    
-    //[Parse enableLocalDatastore];
  
     [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
                   clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        
+  //[PFFacebookUtils initializeFacebook];
+  //[Parse enableLocalDatastore];
     }
     
 //| -----------------------loginController Key------------------------

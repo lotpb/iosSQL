@@ -10,6 +10,7 @@
 
 @interface NotificationDetailController ()
 {
+    UILabel *emptyLabel;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -45,6 +46,11 @@
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
+    
+    emptyLabel = [[UILabel alloc] initWithFrame:self.view.bounds];
+    emptyLabel.textAlignment = NSTextAlignmentCenter;
+    emptyLabel.textColor = [UIColor whiteColor];
+    emptyLabel.text = @"You have no pending notifications :)";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -56,6 +62,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    
+    if ([[[UIApplication sharedApplication] scheduledLocalNotifications] count] ==0) {
+        [self.listTableView addSubview:emptyLabel];
+    } else {
+        [emptyLabel removeFromSuperview];
+    }
     [self.listTableView reloadData];
 }
 

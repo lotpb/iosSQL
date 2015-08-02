@@ -294,6 +294,7 @@
    [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
    }
     myCell.leadreadmore.text = @"Read more";
+   [myCell.leadreadmore setTextColor:BLUECOLOR];
         
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
