@@ -271,27 +271,27 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
-    
+    /*
     UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
     if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
         separatorLineView1.backgroundColor = LINECOLOR3;
     } else {
         separatorLineView1.backgroundColor = LINECOLOR1;
     }
-    [view addSubview:separatorLineView1];
+    [view addSubview:separatorLineView1]; */
     
     label2.numberOfLines = 0;
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
-    
+    /*
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
     if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:nil] )) {
         separatorLineView2.backgroundColor = LINECOLOR3;
     } else {
         separatorLineView2.backgroundColor = LINECOLOR1;
     }
-    [view addSubview:separatorLineView2];
+    [view addSubview:separatorLineView2]; */
     
     if (([textYQL containsString:@"Rain"]) || ([textYQL containsString:@"Snow"])) {
         [label4 setTextColor:LINECOLOR3];

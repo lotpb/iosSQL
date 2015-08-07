@@ -24,6 +24,14 @@
     [self.MapView setZoomEnabled:YES];
     [self.MapView setScrollEnabled:YES];
     [self.MapView setRotateEnabled:YES];
+    self.MapView.showsPointsOfInterest = YES;
+    self.MapView.showsBuildings = YES;
+    self.MapView.showsCompass = YES;
+    self.MapView.showsScale = YES;
+    self.MapView.camera.altitude = 200;
+    self.MapView.camera.pitch = 70;
+  //self.MapView.pitchEnabled = YES;
+  //self.mapView.showsTraffic = YES;
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -41,6 +49,26 @@
     
     [self gotoLocation];
 }
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay {
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+    renderer.strokeColor = [UIColor orangeColor];
+    renderer.lineWidth = 6.0;
+    return renderer;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+CLLocationCoordinate2D sanFrancisco = { 37.774929, -122.419416 };
+CLLocationCoordinate2D newYork = { 40.714353, -74.005973 };
+CLLocationCoordinate2D points[] = { sanFrancisco, newYork };
+
+MKGeodesicPolyline *geodesic = [MKGeodesicPolyline polylineWithCoordinates:&points[0] count:2];
+
+[self.MapView addOverlay:geodesic];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

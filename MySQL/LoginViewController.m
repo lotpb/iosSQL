@@ -129,7 +129,7 @@
 
                                     });
                        
-                                }  /*else {
+                                }  else {
                                     
                                     switch (error.code) {
                                         case LAErrorAuthenticationFailed:
@@ -154,7 +154,7 @@
                                     }
                                     
                                     NSLog(@"Authentication Fails");
-                                } */
+                                } 
                             }];
     } else {
         [self showMessage:@"Your device doesn't support this feature." withTitle:@"Error"];

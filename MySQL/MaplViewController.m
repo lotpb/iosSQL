@@ -39,10 +39,12 @@
     [self.mapView setRotateEnabled:YES];
     self.mapView.showsPointsOfInterest = YES;
     self.mapView.showsBuildings = YES;
+    self.mapView.showsCompass = YES;
+    self.mapView.showsScale = YES;
     self.mapView.camera.altitude = 200;
     self.mapView.camera.pitch = 70;
-    //self.mapView.pitchEnabled = YES; // 3d dont work
-   //self.mapView.showsTraffic = YES;
+  //self.mapView.pitchEnabled = YES; // 3d dont work
+  //self.mapView.showsTraffic = YES;
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     NSArray *actionButtonItems = @[shareItem];
@@ -52,23 +54,10 @@
     
 }
 
-- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
-{
-    if ([overlay isKindOfClass:[MKPolyline class]]) {
-        MKPolyline *polyLine = (MKPolyline *)overlay;
-        MKPolylineRenderer *aRenderer = [[MKPolylineRenderer alloc] initWithPolyline:polyLine];
-        aRenderer.strokeColor = [UIColor blueColor];
-        aRenderer.lineWidth = 3;
-        return aRenderer;
-    }
-    
-    return nil;
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
+   
     NSString *location = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -115,39 +104,6 @@
     //region.span.longitudeDelta = 0.005f;
     [mv setRegion:region animated:NO];
     [mv selectAnnotation:mp animated:YES];
-}
-
-#pragma mark - BarButton
-- (void)share:(id)sender {
-    MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-    options.region = self.mapView.region;
-    options.scale = [UIScreen mainScreen].scale;
-    options.size = self.mapView.frame.size;
-    
-    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
-    [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-        if (error) {
-            NSLog(@"[Error] %@", error);
-            return;
-        }
-        
-      //MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
-        UIImage *image = snapshot.image;
-      //NSData *data = UIImagePNGRepresentation(image);
-     //[data writeToFile:[self snapshotFilename] atomically:YES];
-        NSString *message;
-        message = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
-        NSArray * shareItems = @[message, image];
-        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-        avc.modalInPopover = UIModalTransitionStyleCoverVertical;
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            avc.popoverPresentationController.barButtonItem = shareItem;
-            avc.popoverPresentationController.sourceView = self.view;
-        }
-        
-        [self presentViewController:avc animated:YES completion:nil];
-    }];
 }
 
 #pragma mark - SegmentedControl
@@ -265,6 +221,39 @@
         NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:settingsURL];
     }
+}
+
+#pragma mark - BarButton
+- (void)share:(id)sender {
+    MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
+    options.region = self.mapView.region;
+    options.scale = [UIScreen mainScreen].scale;
+    options.size = self.mapView.frame.size;
+    
+    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
+    [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+        if (error) {
+            NSLog(@"[Error] %@", error);
+            return;
+        }
+        
+        //MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
+        UIImage *image = snapshot.image;
+        //NSData *data = UIImagePNGRepresentation(image);
+        //[data writeToFile:[self snapshotFilename] atomically:YES];
+        NSString *message;
+        message = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
+        NSArray * shareItems = @[message, image];
+        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+        avc.modalInPopover = UIModalTransitionStyleCoverVertical;
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            avc.popoverPresentationController.barButtonItem = shareItem;
+            avc.popoverPresentationController.sourceView = self.view;
+        }
+        
+        [self presentViewController:avc animated:YES completion:nil];
+    }];
 }
 
 @end

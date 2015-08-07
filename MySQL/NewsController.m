@@ -15,7 +15,7 @@
     PFFile *image;
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
-    UILabel *playLabel;
+    UILabel *playLabel, *numLabel;
     UIButton *likeButton;
 }
 
@@ -33,7 +33,6 @@
 
 @synthesize imageFilesArray = _imageFilesArray;
 @synthesize wallScroll = _wallScroll;
-//@synthesize activityIndicator = _loadingSpinner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,7 +64,6 @@
     emptyLabel.textAlignment = NSTextAlignmentCenter;
     emptyLabel.textColor = [UIColor lightGrayColor];
     emptyLabel.text = @"You have no pending news :)";
-
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -185,25 +183,6 @@
         userImage.backgroundColor = [UIColor blackColor];
         //NSLog(@"TESTING %@",userImage);
         
-        if(image.url) {
-            
-            playLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, userImage.frame.size.width, userImage.frame.size.height)];
-            userImage.userInteractionEnabled = YES;
-            playLabel.userInteractionEnabled = YES;
-            playLabel.textAlignment = NSTextAlignmentCenter;
-            [userImage addSubview:playLabel];
-            
-            /*
-             NSDictionary *titleAttributes = @{NSForegroundColorAttributeName:[Utils themeColor]};
-              *icon = [FAKFontAwesome playCircleOIconWithSize:100.0f];
-             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:[icon attributedString]];
-             [str addAttributes:titleAttributes range:NSMakeRange(0 , str.length)];
-             playLabel.attributedText = str; */
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
-            [playLabel addGestureRecognizer:tap];
-        }
-        
         //--------------------load background-----------------------------------
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
@@ -223,12 +202,27 @@
             userImage.frame = CGRectMake(0, 75, wallImageView.frame.size.width, 225);
         
         userImage.clipsToBounds = YES;
-        //userImage.layer.cornerRadius = 25.f;
+      //userImage.layer.cornerRadius = 25.f;
         userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         userImage.layer.borderWidth = 0.5f;
-        
         [wallImageView addSubview:userImage];
-        //[self playVideo];
+        
+        //if([image.url isEqualToString:@"movie.mp4"]) {
+        if(image.url) {
+            
+            playLabel = [[UILabel alloc] init];
+            playLabel.text = @"Play";
+            playLabel.textColor = [UIColor grayColor];
+            [playLabel sizeToFit];
+            playLabel.center = userImage.center;
+            userImage.userInteractionEnabled = YES;
+            playLabel.userInteractionEnabled = YES;
+            [userImage addSubview:playLabel];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
+            [playLabel addGestureRecognizer:tap];
+        }
+
         /*
          UIImageView *userImage = [[UIImageView alloc] initWithImage:
          [UIImage imageWithData:image.getData]];
@@ -292,12 +286,23 @@
         [wallImageView addSubview:separatorLineView];
         
         likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
-        [likeButton setImage:[UIImage imageNamed:@"cloud-50.png"] forState:UIControlStateNormal];
-        
-        [likeButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
-        //[likeButton setTitleColor:[Utils darkBlueColor] forState:UIControlStateNormal];
-        likeButton.enabled = NO;
+        UIImage *imagebutton = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [likeButton setImage:imagebutton forState:UIControlStateNormal];
+        [likeButton addTarget:self action:@selector(likeButton) forControlEvents:UIControlEventTouchUpInside];
+          likeButton.tintColor = BLUECOLOR;
+        //likeButton.tintColor = [UIColor lightGrayColor];
+        //likeButton.tag=indexPath.row;
+        //[likeButton setSelected:YES];
+        //likeButton.enabled = NO;
         [wallImageView addSubview:likeButton];
+        
+        numLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
+        numLabel.font = DETAILFONT(IPHONEFONT16);
+        //numLabel.numberOfLines = 0;
+        numLabel.textColor = [UIColor grayColor];
+        numLabel.text = [[wallObject objectForKey:@"Like"]stringValue];
+        [numLabel sizeToFit];
+        [wallImageView addSubview:numLabel];
         
         //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
         //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
@@ -334,19 +339,18 @@
 }
 
 #pragma mark like button
-- (void) likeHandler {
-    /*
+- (void) likeButton {
+    
     [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"liked Company!");
-            [self likedSuccess];
+           // [self likedSuccess];
         }
         else {
-            [self likedFail];
+            //[self likedFail];
         }
-    }]; */
-
+    }];
 }
 
 #pragma mark Error Alert

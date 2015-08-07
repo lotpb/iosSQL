@@ -14,6 +14,9 @@
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
     UILabel *numLabel;
+    UIButton *flagButton;
+    UIButton *likeButton;
+    //BOOL *liked, *likeSelected;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -34,6 +37,9 @@
     self.listTableView.estimatedRowHeight = 110; ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.listTableView.pagingEnabled = YES;
+    
+   // bool liked = !likeButton.selected;
+    
     
     //[self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
 /*
@@ -88,13 +94,13 @@ Parse.com
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR;
    [self.listTableView reloadData];
    [self reloadDatas:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
@@ -128,26 +134,23 @@ Parse.com
     }
 }
 
-#pragma mark - Bar Button
+#pragma mark - Button
+#pragma mark Bar Button
 -(void)foundView:(id)sender {
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
-#pragma mark like button
-- (void) likeHandler {
-    /*
-     [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
-     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-     if (!error) {
-     NSLog(@"liked Company!");
-     [self likedSuccess];
-     }
-     else {
-     [self likedFail];
-     }
-     }]; */
+
+#pragma mark flag button
+- (void) flagButton {
+    UIAlertView *alert;
+    alert = [[UIAlertView alloc] initWithTitle:@"Report inappropriate user" message:@"Please enter reason" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"report",nil];
     
+    alert.tintColor = [UIColor lightGrayColor];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
+
 /*
 *******************************************************************************************
 Parse.com
@@ -173,7 +176,7 @@ Parse.com
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    return 90.0;
+    return 110.0;
     } else {
     return 105.0;
     }
@@ -311,6 +314,11 @@ Parse.com
             [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
                 if (!error) {
                     [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
+                    myCell.blog2ImageView.contentMode = UIViewContentModeScaleAspectFill;
+                    myCell.blog2ImageView.clipsToBounds = YES;
+                    myCell.blog2ImageView.layer.cornerRadius = 22.f;
+                    myCell.blog2ImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+                    myCell.blog2ImageView.layer.borderWidth = 0.5f;
                 } else {
                     [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
                 }
@@ -343,49 +351,107 @@ Parse.com
     }
    
     UIView *buttonview = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(myCell.blogsubtitleLabel.frame) +40, self.listTableView.frame.size.width, 25)];
-   /*
-    UIView *buttonview = [[UIView alloc] initWithFrame:CGRectMake(0, myCell.blogsubtitleLabel.frame.origin.y, self.listTableView.frame.size.width, 25)];*/
-    
-    buttonview.backgroundColor = [UIColor clearColor];
+    buttonview.backgroundColor = [UIColor whiteColor];
     [myCell.contentView addSubview:buttonview];
     
     UIButton *replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75 ,5, 20, 20)];
     replyButton.tintColor = [UIColor lightGrayColor];
     UIImage *replyimage =[[UIImage imageNamed:@"Left 2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [replyButton setImage:replyimage forState:UIControlStateNormal];
-    [replyButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
-    //[replyButton setSelected:NO];
-    //replyButton.enabled = NO;
+    [replyButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
     [buttonview addSubview:replyButton];
     
-    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(140 ,5, 20, 20)];
-    likeButton.tintColor = [UIColor lightGrayColor];
+    //bool liked = likeButton.selected;
     UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [likeButton setImage:image forState:UIControlStateNormal];
-    [likeButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
-    [likeButton setSelected:NO];
-    likeButton.enabled = NO;
+    
+    [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
+    //[likeButton addTarget:self action:@selector(buttonPressReset:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+
+    [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
+    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(140 ,5, 20, 20)];
+    
+    if (likeButton.selected) {
+        likeButton.tintColor = [UIColor redColor];
+    } else {
+        likeButton.tintColor = [UIColor lightGrayColor];
+    }
+    //likeButton.tag=indexPath.row;
     [buttonview addSubview:likeButton];
     
+    numLabel = nil;
     numLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 7, 20, 20)];
     numLabel.font = CELL_FONT(IPHONEFONT16);
-    numLabel.numberOfLines = 0;
     numLabel.textColor = [UIColor grayColor];
-    numLabel.text = @"3";
+    numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
     [numLabel sizeToFit];
     [buttonview addSubview:numLabel];
     
-    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(205 ,5, 20, 20)];
-    reportButton.tintColor = [UIColor lightGrayColor];
-    UIImage *reportimage = [[UIImage imageNamed:@"cloud_filled-50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [reportButton setImage:reportimage forState:UIControlStateNormal];
-    [reportButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
-    [reportButton setSelected:NO];
-    reportButton.enabled = NO;
-    [reportButton addTarget:self action:@selector(likeHandler) forControlEvents:UIControlEventTouchUpInside];
-    [buttonview addSubview:reportButton];
-    
+    flagButton = [[UIButton alloc] initWithFrame:CGRectMake(205 ,5, 20, 20)];
+    flagButton.tintColor = [UIColor lightGrayColor];
+    UIImage *reportimage = [[UIImage imageNamed:@"Flag.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [flagButton setImage:reportimage forState:UIControlStateNormal];
+    [flagButton addTarget:self action:@selector(flagButton) forControlEvents:UIControlEventTouchUpInside];
+    [buttonview addSubview:flagButton];
+
     return myCell;
+}
+
+-(void)buttonPress:(id)sender{
+    UIButton* button = (UIButton*)sender;
+    if (!likeButton.selected) {
+        [likeButton setSelected:YES];
+        button.tintColor = [UIColor redColor];
+    } else {
+        [likeButton setSelected:NO];
+        button.tintColor = [UIColor lightGrayColor];
+    }
+    NSLog(@"buttonPressed");
+}
+/*
+-(void)buttonPressReset:(id)sender{
+    UIButton* button = (UIButton*)sender;
+    if (!likeButton.selected) {
+        [likeButton setSelected:YES];
+        button.tintColor = [UIColor redColor];
+    } else {
+        [likeButton setSelected:NO];
+        button.tintColor = [UIColor greenColor];
+    }
+    NSLog(@"buttonPressReset");
+} */
+
+#pragma mark like button
+- (void) likeButton:(id)sender  {
+    //BOOL liked = likeButton.selected;
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.listTableView];
+    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+    [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
+        if (!error) {
+            NSNumber* likedNum = [[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"];
+            int likeCount = [likedNum intValue];
+ 
+            if (likeButton.isSelected) {
+                likeCount++;
+               // NSLog(@"selected");
+            } else {
+                likeCount--;
+               // NSLog(@"not selected");
+            }
+            
+            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+            [updateLead saveInBackground];
+
+            //[self reloadDatas:self];
+            numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
+
+        }
+    }];
+          // numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
 }
 
 #pragma mark Tableheader

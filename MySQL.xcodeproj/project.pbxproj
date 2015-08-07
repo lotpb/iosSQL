@@ -116,6 +116,7 @@
 		AFCB326019F40B390087D3EF /* BlogNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCB325F19F40B390087D3EF /* BlogNewViewController.m */; };
 		AFD0CC6C1A138F4A001FBE4C /* VendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD0CC6B1A138F4A001FBE4C /* VendLocation.m */; };
 		AFD8AB0F1B33933200EF793D /* NSOperationQueue+SharedQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8AB0E1B33933200EF793D /* NSOperationQueue+SharedQueue.m */; };
+		AFDC35FD1B6EFBF8004F4C71 /* Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = AFDC35FC1B6EFBF8004F4C71 /* Flag.png */; };
 		AFDDB3F81B3A2E3A00572370 /* YQL.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDDB3F71B3A2E3A00572370 /* YQL.m */; };
 		AFDE52B719F9E26B00220656 /* BlogEditDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE52B619F9E26B00220656 /* BlogEditDetailView.m */; };
 		AFDFAB8A1A1398CF00022336 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDFAB891A1398CF00022336 /* VendorViewController.m */; };
@@ -321,6 +322,7 @@
 		AFD0CC6B1A138F4A001FBE4C /* VendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendLocation.m; sourceTree = "<group>"; };
 		AFD8AB0D1B33933200EF793D /* NSOperationQueue+SharedQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+SharedQueue.h"; sourceTree = "<group>"; };
 		AFD8AB0E1B33933200EF793D /* NSOperationQueue+SharedQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+SharedQueue.m"; sourceTree = "<group>"; };
+		AFDC35FC1B6EFBF8004F4C71 /* Flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flag.png; sourceTree = "<group>"; };
 		AFDDB3F61B3A2E2C00572370 /* YQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YQL.h; sourceTree = "<group>"; };
 		AFDDB3F71B3A2E3A00572370 /* YQL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQL.m; sourceTree = "<group>"; };
 		AFDE52B519F9E26B00220656 /* BlogEditDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlogEditDetailView.h; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				AF3339A11B6DB7D800914EF5 /* Thumb Up.png */,
 				AF3339A31B6DB8D300914EF5 /* Left 2.png */,
 				AF3339A51B6DC1CE00914EF5 /* Left 2-25.png */,
+				AFDC35FC1B6EFBF8004F4C71 /* Flag.png */,
 				AF4CD2A01B31E17900009991 /* Upload50.png */,
 			);
 			name = "Social Button";
@@ -987,6 +990,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF3339A21B6DB7D800914EF5 /* Thumb Up.png in Resources */,
+				AFDC35FD1B6EFBF8004F4C71 /* Flag.png in Resources */,
 				AFAF45E41B5AD8C900FA255A /* Tornado.caf in Resources */,
 				AF366EC51A55A15800976387 /* home copy.png in Resources */,
 				AF366EB41A55A15800976387 /* IMG_1133New.jpg in Resources */,

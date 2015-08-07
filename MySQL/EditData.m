@@ -28,12 +28,17 @@
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
 
 #pragma mark Form Circle Image
-  //UIImage *profileImage = [UIImage imageNamed:@"mySQLHOME.png"];
-  //self.profileImageView = [[UIImageView alloc] initWithImage:profileImage];
+    /*
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
     self.profileImageView.layer.borderWidth = 3.0f;
     self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.profileImageView.clipsToBounds = YES; */
+    
+    self.profileImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.profileImageView.clipsToBounds = YES;
+    self.profileImageView.layer.cornerRadius = 30.f;
+    self.profileImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.profileImageView.layer.borderWidth = 0.5f;
     
 #pragma mark BarButtons
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
