@@ -850,7 +850,7 @@ Parse.com
                 NSString *_photo = self.photo.text;
                 NSString *_photo1 = nil;
                 NSString *_photo2 = nil;
-                // NSString *_time = self.time;
+                //NSString *_time = self.time;
                 
                 NSString *rawStr = [NSString stringWithFormat:SAVECUSTFIELD, SAVECUSTFIELD1];
                 
@@ -1031,7 +1031,7 @@ Parse.com
                 NSString *_comments = self.comment.text;
                 NSString *_active = self.active.text;
                 NSString *_employtitle = self.spouse.text;
-                //  NSString *_time = self.time;
+                //NSString *_time = self.time;
                 
                 NSString *rawStr = [NSString stringWithFormat:SAVEEMPLOYEEFIELD, SAVEEMPLOYEEFIELD1];
                 

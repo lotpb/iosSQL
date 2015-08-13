@@ -21,6 +21,12 @@
 @property (strong, nonatomic) NSString *mapcity;
 @property (strong, nonatomic) NSString *mapstate;
 @property (strong, nonatomic) NSString *mapzip;
+@property (weak, nonatomic) IBOutlet UIView *routView;
+@property (weak, nonatomic) IBOutlet UILabel *travelTime;
+@property (weak, nonatomic) IBOutlet UILabel *travelDistance;
+@property (weak, nonatomic) IBOutlet UITextView *steps;
+@property (strong, nonatomic) NSString *allSteps;
+@property (weak, nonatomic) IBOutlet UIView *routeView;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentedControl;
 

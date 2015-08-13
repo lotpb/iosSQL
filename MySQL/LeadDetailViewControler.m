@@ -37,17 +37,11 @@
     [super viewDidLoad];
     
     self.title = NSLocalizedString(name, nil);
-   // self.listTableView.delegate = self;
-  //  self.listTableView.dataSource = self;
-  //  self.listTableView2.delegate = self;
-  //  self.listTableView2.dataSource = self;
-  //  self.newsTableView.delegate = self;
-  //  self.newsTableView.dataSource = self;
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.rowHeight = 25;
     self.listTableView2.rowHeight = 25;
-    self.newsTableView.estimatedRowHeight = 250.0;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.newsTableView.estimatedRowHeight = 350;
    [self parseData];
    [self followButton];
     
@@ -81,11 +75,11 @@
     
     // Switch button
     if ([_formController isEqual: TNAME1]) {
-    if ( [_tbl11 isEqual:@"Sold"] )
-        [self.mySwitch setOn:YES];
-    else [self.mySwitch setOn:NO];
+        if ( [_tbl11 isEqual:@"Sold"] )
+            [self.mySwitch setOn:YES];
+        else [self.mySwitch setOn:NO];
     } else {
-      [self.mySwitch setOn:YES];
+        [self.mySwitch setOn:YES];
     }
     
 }
@@ -143,8 +137,8 @@
 }
 
 - (void)reloadTable {
-    [self.newsTableView reloadData];
     [self.listTableView reloadData]; [self.listTableView2 reloadData];
+    [self.newsTableView reloadData];
 }
 
 #pragma mark - Buttons
@@ -169,6 +163,13 @@
 -(void)showEdit:(id)sender {
     [self performSegueWithIdentifier:VIEWSEGUE sender:self];
 }
+/*
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:self.newsTableView]) {
+    return 250.0f;
+    }
+    return 100;
+} */
 
 #pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -176,7 +177,7 @@
     if ([tableView isEqual:self.listTableView]) {
         return [tableData count];
     } else if ([tableView isEqual:self.listTableView2]) {
-        return [tableData count];
+        return [tableData2 count];
     } else if ([tableView isEqual:self.newsTableView]) {
         return 1;
     }
@@ -243,7 +244,7 @@
     static NSString *CellIdentifier1 = IDCELL;
             CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1 forIndexPath:indexPath];
          //---------------------animate label--------------------------------
-         
+         /*
          myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(0.3, 0.3);
          [UIView animateWithDuration:2.0
                                delay: 0.1
@@ -253,7 +254,7 @@
                           }
                           completion:^(BOOL finished){
                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1, 1);
-                          }];
+                          }]; */
          //---------------------animate label--------------------------------
     
     if (myCell == nil)
@@ -264,19 +265,22 @@
              myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
              myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
              myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
-             self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+             //self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
          } else {
              myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
              myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
              myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
              myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
          }
+         
+         self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     //myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 0.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;
     myCell.leadtitleLabel.numberOfLines = 0;
    [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
+    myCell.leadtitleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
          
         static NSDateFormatter *dateFormater = nil;
         if (dateFormater == nil) {
@@ -299,6 +303,7 @@
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
    [myCell.leadnews setTextColor:DETAILCOLOR];
+    myCell.leadnews.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
     
     //Social buttons - code below
     UIButton *faceBtn;
@@ -376,10 +381,21 @@ return myCell;
         t15 = self.tbl15;
     else t15 = @"None";
     
-    if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 ))
-        t16 = self.tbl16;
-    else t16 = @"None";
-    
+    if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 )) {
+        
+         NSString *dateStr = self.tbl16;
+         static NSDateFormatter *DateFormatter = nil;
+         if (DateFormatter == nil) {
+         NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+         [DateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
+         [DateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+         NSDate *dateFM = [DateFormatter dateFromString:dateStr];
+         [DateFormatter setDateFormat:@"MMM dd yy"];
+         dateStr = [DateFormatter stringFromDate:dateFM];
+         }
+        t16 = dateStr;
+    } else t16 = @"None";
+    NSLog(@"rawStr is %@",t16);
     if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
         t21 = self.tbl21;
     else t21 = @"None";
@@ -420,11 +436,7 @@ return myCell;
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
         t26 = self.tbl26;
     else t26 = @"None";
-//} else {
-//    if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 ))
-//        t26 = self.tbl26;
-//    else t26 = @"None";
-//}
+
     self.labelNo.text = leadNo;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;
@@ -440,19 +452,9 @@ Parse.com
         self.labelamount.text = [NSString stringWithFormat:@"%@.00",amount];
      else
         self.labelamount.text = amount;
- /*
-    NSDate *apptdate;
-    static NSDateFormatter *DateFormatter = nil;
-    if (DateFormatter == nil) {
-        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
-        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        apptdate = [DateFormatter dateFromString:self.tbl16 ];
-        t16 = [DateFormatter stringFromDate:apptdate];
-    } */
-    
+ 
     //self.photo = p1;
-    
+  
     tableData = [NSMutableArray arrayWithObjects:t11, t12, t13, t14, t15, t16, nil];
     
     tableData2 = [NSMutableArray arrayWithObjects:t21, t22, t23, t24, t25, t26, nil];

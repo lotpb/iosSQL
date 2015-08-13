@@ -198,10 +198,18 @@ Parse.com
     }];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        
+        NSString *dateStr = self.msgDate;
+        static NSDateFormatter *DateFormatter = nil;
+        if (DateFormatter == nil) {
+            NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+            [DateFormatter setDateFormat:KEY_DATETIME];
+            NSDate *date = [DateFormatter dateFromString:dateStr];
+            [DateFormatter setDateFormat:BLOG_FORMAT];
+            dateStr = [DateFormatter stringFromDate:date];
+        }
         myCell.titleLabel.text = self.postby;
         myCell.subtitleLabel.text = self.subject;
-        myCell.msgDateLabel.text = self.msgDate;
+        myCell.msgDateLabel.text = dateStr;
     } else {
         myCell.titleLabel.text = self.selectedLocation.postby;
         myCell.subtitleLabel.text = self.selectedLocation.subject;

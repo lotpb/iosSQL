@@ -37,9 +37,9 @@
     self.listTableView.estimatedRowHeight = 110; ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     self.listTableView.pagingEnabled = YES;
+
     
    // bool liked = !likeButton.selected;
-    
     
     //[self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
 /*
@@ -92,7 +92,6 @@ Parse.com
     self.navigationController.navigationBar.barTintColor = BLOGNAVBARCOLOR;
     self.navigationController.navigationBar.translucent = BLOGNAVBARTRANSLUCENT;
     self.navigationController.navigationBar.tintColor = BLOGNAVBARTINTCOLOR;
-   [self.listTableView reloadData];
    [self reloadDatas:nil];
     
 }
@@ -329,10 +328,21 @@ Parse.com
     }];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        
         if (!isFilltered) {
-        myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-        myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-        myCell.blogmsgDateLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            static NSDateFormatter *DateFormatter = nil;
+            if (DateFormatter == nil) {
+                NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+                [DateFormatter setDateFormat:KEY_DATETIME];
+                NSDate *date = [DateFormatter dateFromString:dateStr];
+                [DateFormatter setDateFormat:BLOG_FORMAT];
+                dateStr = [DateFormatter stringFromDate:date];
+            }
+            
+            myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+            myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            myCell.blogmsgDateLabel.text = dateStr;
         } else {
             myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
@@ -370,12 +380,13 @@ Parse.com
 
     [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
     likeButton = [[UIButton alloc] initWithFrame:CGRectMake(140 ,5, 20, 20)];
-    
-    if (likeButton.selected) {
+    likeButton.tintColor = [UIColor lightGrayColor];
+/*
+    if (likeButton.isSelected) {
         likeButton.tintColor = [UIColor redColor];
     } else {
         likeButton.tintColor = [UIColor lightGrayColor];
-    }
+    } */
     //likeButton.tag=indexPath.row;
     [buttonview addSubview:likeButton];
     
@@ -408,6 +419,7 @@ Parse.com
     }
     NSLog(@"buttonPressed");
 }
+
 /*
 -(void)buttonPressReset:(id)sender{
     UIButton* button = (UIButton*)sender;
@@ -423,9 +435,15 @@ Parse.com
 
 #pragma mark like button
 - (void) likeButton:(id)sender  {
+    //[sender setTintColor:[UIColor redColor]];
+    UIButton *btn = (UIButton *) sender;
+    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
+    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
+    NSLog(@"%ld",(long)indexPath.row);
+    
     //BOOL liked = likeButton.selected;
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.listTableView];
-    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition];
+    //CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.listTableView];
+    //NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
@@ -436,9 +454,13 @@ Parse.com
  
             if (likeButton.isSelected) {
                 likeCount++;
+                [likeButton setSelected:YES];
+                //numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
                // NSLog(@"selected");
             } else {
                 likeCount--;
+                [likeButton setSelected:NO];
+               // numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
                // NSLog(@"not selected");
             }
             
@@ -447,11 +469,14 @@ Parse.com
             [updateLead saveInBackground];
 
             //[self reloadDatas:self];
-            numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
+            //numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
 
         }
     }];
-          // numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
+    
+    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+     //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
+    //[self.listTableView reloadData];
 }
 
 #pragma mark Tableheader

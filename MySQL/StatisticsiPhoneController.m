@@ -248,7 +248,7 @@
             if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:[NSNull null]] )) {
                 [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [myCell.detailTextLabel setBackgroundColor:[UIColor colorWithRed:0.0 green:100.0 blue:0.0 alpha:1.0]];//LINECOLOR1];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:0];
             myCell.detailTextLabel.text = [changeYQL objectAtIndex:0];

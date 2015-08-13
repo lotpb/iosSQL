@@ -235,7 +235,7 @@ Parse.com
         [myCell.textLabel setFont:CELL_FONT(IPADFONT20)];
         //[myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT20)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT18)];
         //[myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
     }
     

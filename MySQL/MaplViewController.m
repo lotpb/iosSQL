@@ -10,12 +10,15 @@
 
 @interface MapViewController ()
 //@property (nonatomic, strong) MKCircle *circleOverlay;
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay;
 //@property (nonatomic, strong) NSMutableArray *locations;
 @end
 
 @implementation MapViewController
 {
     UIBarButtonItem *shareItem;
+    //MKPlacemark *placemark;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,21 +40,42 @@
     [self.mapView setZoomEnabled:YES];
     [self.mapView setScrollEnabled:YES];
     [self.mapView setRotateEnabled:YES];
-    self.mapView.showsPointsOfInterest = YES;
-    self.mapView.showsBuildings = YES;
-    self.mapView.showsCompass = YES;
-    self.mapView.showsScale = YES;
-    self.mapView.camera.altitude = 200;
-    self.mapView.camera.pitch = 70;
-  //self.mapView.pitchEnabled = YES; // 3d dont work
-  //self.mapView.showsTraffic = YES;
+     self.mapView.showsPointsOfInterest = YES;
+     self.mapView.showsBuildings = YES;
+     self.mapView.showsCompass = YES;
+     self.mapView.showsScale = YES;
+   //self.mapView.showsTraffic = YES;
+   //self.mapView.camera.altitude = 200;
+   //self.mapView.camera.pitch = 70;
+   //self.mapView.pitchEnabled = YES; // 3d dont work
+    self.routView.hidden = false;
+    
+    //if (self.routView.hidden) {
+        //self.mapView.frame = self.view.bounds;
+        //self.mapView.autoresizingMask = self.view.autoresizingMask;
+   // }
+    
+    [self.travelTime setTextColor:BLUECOLOR];
+    [self.travelDistance setTextColor:BLUECOLOR];
+    self.steps.font = [UIFont systemFontOfSize:IPHONEFONT16];
+    
+    self.allSteps = @"";
+    self.travelTime.text = @"";
+    self.travelDistance.text = @"";
+    [self.travelTime sizeToFit];
+    [self.travelDistance sizeToFit];
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     NSArray *actionButtonItems = @[shareItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    //[self startLocationUpdates];
+    [self startLocationUpdates];
     
+}
+
+-(void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+  //  self.mapView.frame = self.view.bounds;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -71,38 +95,125 @@
                          annotation.coordinate = topResult.location.coordinate;
                          annotation.title = self.mapaddress;
                          annotation.subtitle = [NSString stringWithFormat:@"%@ %@ %@", self.mapcity, self.mapstate, self.mapzip];
-                         
-                        //[NSString stringWithFormat:@"%@ %@ %@ %@", topResult.country, topResult.locality, topResult.subLocality, topResult.thoroughfare];
-                         
+                        
                          MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
-                         MKCoordinateRegion region = self.mapView.region;
-                         region.center = [(CLCircularRegion *)placemark.region center];
-                         region.span.longitudeDelta /= 8.0; //1500.0;
-                         region.span.latitudeDelta /= 8.0; //1500.0;
-                         region = [self.mapView regionThatFits:region];
-                         [self.mapView setRegion:region animated:YES];
+
                          [self.mapView addAnnotation:annotation];
+
+ //-------------------------------Directions below------------------------------
+                         
+                         CLLocationCoordinate2D sourceCoords = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude,self.locationManager.location.coordinate.longitude);
+                         MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:sourceCoords addressDictionary:nil];
+                         MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
+
+                         // Make the destination location
+                         CLLocationCoordinate2D destinationCoords = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude);
+                         MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:destinationCoords addressDictionary:nil];
+                         MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+                         
+                         MKDirectionsRequest *directionsRequest = [MKDirectionsRequest new];
+                         [directionsRequest setSource:source];
+                         [directionsRequest setDestination:destination];
+                          directionsRequest.transportType = MKDirectionsTransportTypeAutomobile;
+
+                         MKDirections *directions = [[MKDirections alloc] initWithRequest:directionsRequest];
+                         [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+                             if (error) {
+                                 return;
+                             }
+                             // So there wasn't an error - let's plot those routes
+                             MKRoute *route = [response.routes lastObject];
+                             [self.mapView setVisibleMapRect:route.polyline.boundingMapRect animated:NO];
+                             //[self.mapView addOverlay:route.polyline];
+                             [self showRoute:response];
+                         }];
+                         
                      }
                  }
      ];
 }
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    
+    self.mapView.centerCoordinate = userLocation.location.coordinate;
+    
+  /*
+    MKMapRect newDisplayRect;
+    [_mapView setVisibleMapRect:newDisplayRect animated:YES];
+    
+    [_mapView setVisibleMapRect:newDisplayRect edgePadding:UIEdgeInsetsMake(0, 0, 10, 10) animated:YES];
+    
+    //_mapView.showsUserLocation = YES; */
+}
+
+-(void)showRoute:(MKDirectionsResponse *)response
+{
+    for (MKRoute *route in response.routes)
+    {
+        [self.mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
+        self.travelTime.text = [NSString stringWithFormat:@"Time %0.1f minutes" ,route.expectedTravelTime/60];
+        self.travelDistance.text = [NSString stringWithFormat:@"Distance %0.1f Miles" ,route.distance/1609.344];
+        
+        for (int i = 0; i < route.steps.count; i++) {
+            MKRouteStep *step = [route.steps objectAtIndex:i];
+            NSString *newStep = step.instructions;
+            NSString *distStep = [NSString stringWithFormat:@"%0.2f Miles" ,step.distance/1609.344];
+            self.allSteps = [self.allSteps stringByAppendingString:newStep];
+            self.allSteps = [self.allSteps stringByAppendingString:@"\n"];
+            self.allSteps = [self.allSteps stringByAppendingString:distStep];
+            self.allSteps = [self.allSteps stringByAppendingString:@"\n\n"];
+            self.steps.text = self.allSteps;
+        }
+    }
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay {
+    
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineView* aView = [[MKPolylineView alloc]initWithPolyline:(MKPolyline*)overlay] ;
+        aView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
+        aView.lineWidth = 10;
+        return aView;
+    }
+    return nil;
+}
+//----------------------------directions end-------------------------------------
 
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Annotation
-// When a map annotation point is added, zoom to it (1500 range)
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+   /* //green pins
+    MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
+    annView.animatesDrop=TRUE;
+    annView.canShowCallout = YES;
+    [annView setSelected:YES];
+    annView.pinColor = MKPinAnnotationColorGreen;
+    annView.calloutOffset = CGPointMake(15, 15);
+    return annView; */
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    if ([annotation isKindOfClass:[MKPointAnnotation class]]) {
+        MKPinAnnotationView *pinView = (MKPinAnnotationView*)[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"MyPin"];
+        if (!pinView)
+        {
+            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
+            pinView.canShowCallout = YES;
+        } else {
+            pinView.annotation = annotation;
+        }
+        return pinView;
+    }
+    return nil;
+} 
+
 - (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
 {
     MKAnnotationView *annotationView = [views objectAtIndex:0];
     id <MKAnnotation> mp = [annotationView annotation];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance
-    ([mp coordinate], 1500, 1500); //MKCoordinateRegionForMapRect(MKMapRectWorld);
-    //region.span.longitudeDelta = 0.005f;
-    //region.span.longitudeDelta = 0.005f;
-    [mv setRegion:region animated:NO];
     [mv selectAnnotation:mp animated:YES];
 }
 
@@ -120,7 +231,8 @@
     }
 }
 
-#pragma mark - CLLocationManagerDelegate
+#pragma mark - Location Authorized Crap
+#pragma mark  CLLocationManagerDelegate
 - (void)startLocationUpdates {
     
     if (self.locationManager == nil) {
@@ -139,41 +251,12 @@
     [self.locationManager startUpdatingLocation];
 }
 
-// CLLocationManager Delegate Methods
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:
 (NSArray *)locations
 {
-    NSLog(@"location info object=%@", [locations lastObject]);
-    /*
-    for (CLLocation *newLocation in locations) {
-        
-        NSDate *eventDate = newLocation.timestamp;
-        
-        NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-        
-        if (fabs(howRecent) < 10.0 && newLocation.horizontalAccuracy < 20) {
-            
-            // update distance
-            if (self.locations.count > 0) {
-              //  self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
-                
-                CLLocationCoordinate2D coords[2];
-                coords[0] = ((CLLocation *)self.locations.lastObject).coordinate;
-                coords[1] = newLocation.coordinate;
-                
-                MKCoordinateRegion region =
-                MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 500, 500);
-                [self.mapView setRegion:region animated:YES];
-                
-                [self.mapView addOverlay:[MKPolyline polylineWithCoordinates:coords count:2]];
-            }
-            
-            [self.locations addObject:newLocation];
-        }
-    } */
+    // Turn off the location manager to save power.
+    [manager stopUpdatingLocation];
 }
-
-#pragma mark - Location Authorized Crap
 
 - (void)mapViewWillStartLocatingUser:(MKMapView *)mapView {
     // Check authorization status (with class method)
@@ -237,22 +320,39 @@
             return;
         }
         
-        //MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
+        MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
+        
         UIImage *image = snapshot.image;
-        //NSData *data = UIImagePNGRepresentation(image);
-        //[data writeToFile:[self snapshotFilename] atomically:YES];
-        NSString *message;
-        message = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
-        NSArray * shareItems = @[message, image];
-        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-        avc.modalInPopover = UIModalTransitionStyleCoverVertical;
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            avc.popoverPresentationController.barButtonItem = shareItem;
-            avc.popoverPresentationController.sourceView = self.view;
+        UIGraphicsBeginImageContextWithOptions(image.size, YES, image.scale);
+        {
+            [image drawAtPoint:CGPointMake(0.0f, 0.0f)];
+            
+            CGRect rect = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
+            for (id <MKAnnotation> annotation in self.mapView.annotations) {
+                CGPoint point = [snapshot pointForCoordinate:annotation.coordinate];
+                if (CGRectContainsPoint(rect, point)) {
+                    point.x = point.x + pin.centerOffset.x -
+                    (pin.bounds.size.width / 2.0f);
+                    point.y = point.y + pin.centerOffset.y -
+                    (pin.bounds.size.height / 2.0f);
+                    [pin.image drawAtPoint:point];
+                }
+            }
+            
+            UIImage *compositeImage = UIGraphicsGetImageFromCurrentImageContext();
+            NSString *message;
+            message = [NSString stringWithFormat:@"%@ %@ %@ %@", self.mapaddress, self.mapcity, self.mapstate, self.mapzip];
+            NSArray * shareItems = @[message, compositeImage];
+            UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+            avc.modalInPopover = UIModalTransitionStyleCoverVertical;
+            
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                avc.popoverPresentationController.barButtonItem = shareItem;
+                avc.popoverPresentationController.sourceView = self.view;
+            }
+                  [self presentViewController:avc animated:YES completion:nil];
         }
-        
-        [self presentViewController:avc animated:YES completion:nil];
+        UIGraphicsEndImageContext();
     }];
 }
 
