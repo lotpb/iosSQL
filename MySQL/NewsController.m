@@ -9,24 +9,21 @@
 #import "NewsController.h"
 
 @interface NewsController () {
-    NSURL *videoURL;
-    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel;
+    //NSURL *videoURL;
+    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *playLabel, *numLabel;
     PFImageView *userImage;
     PFFile *image;
+    PFObject *wallObject;
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
-    UILabel *playLabel, *numLabel;
-    UIButton *likeButton;
+    UIButton *likeButton, *playButton;
 }
-
-@property (nonatomic, retain) NSArray *imageFilesArray;
-
 -(void)getNewsImages;
 -(void)loadWallViews;
 -(void)showErrorView:errorString;
 
+@property(copy, nonatomic) NSURL*videoURL;
 @property (nonatomic, strong) UISearchController *searchController;
-@property (strong, nonatomic) MPMoviePlayerController *videoController;
 @end
 
 @implementation NewsController
@@ -68,7 +65,6 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (void)viewDidUnload {
@@ -82,8 +78,6 @@
     
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-     //self.navigationController.hidesBarsOnSwipe = true;
-     //self.navigationController.hidesBarsOnTap = false;
     //Clean the scroll view
      for (id viewToRemove in [self.wallScroll subviews]) {
         if ([viewToRemove isMemberOfClass:[UIView class]])
@@ -167,7 +161,7 @@
     
     //For every wall element, put a view in the scroll
     int originY = 10;
-    for (PFObject *wallObject in self.imageFilesArray){
+    for (wallObject in self.imageFilesArray){
         
         UIView *wallImageView;
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -176,12 +170,12 @@
         } else {
             wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20, 345)];
         }
-        
+
         //Add the image
         image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
         userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
         userImage.backgroundColor = [UIColor blackColor];
-        //NSLog(@"TESTING %@",userImage);
+        NSLog(@"video url...%@", image.url);
         
         //--------------------load background-----------------------------------
         
@@ -206,22 +200,6 @@
         userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         userImage.layer.borderWidth = 0.5f;
         [wallImageView addSubview:userImage];
-        
-        //if([image.url isEqualToString:@"movie.mp4"]) {
-        if(image.url) {
-            
-            playLabel = [[UILabel alloc] init];
-            playLabel.text = @"Play";
-            playLabel.textColor = [UIColor grayColor];
-            [playLabel sizeToFit];
-            playLabel.center = userImage.center;
-            userImage.userInteractionEnabled = YES;
-            playLabel.userInteractionEnabled = YES;
-            [userImage addSubview:playLabel];
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
-            [playLabel addGestureRecognizer:tap];
-        }
 
         /*
          UIImageView *userImage = [[UIImageView alloc] initWithImage:
@@ -272,6 +250,7 @@
         } else {
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
         }
+        actionBtn.tintColor = [UIColor lightGrayColor];
         [actionBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
         [actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:actionBtn];
@@ -286,23 +265,67 @@
         [wallImageView addSubview:separatorLineView];
         
         likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
+        likeButton.tintColor = [UIColor lightGrayColor]; //BLUECOLOR;
         UIImage *imagebutton = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [likeButton setImage:imagebutton forState:UIControlStateNormal];
-        [likeButton addTarget:self action:@selector(likeButton) forControlEvents:UIControlEventTouchUpInside];
-          likeButton.tintColor = BLUECOLOR;
-        //likeButton.tintColor = [UIColor lightGrayColor];
-        //likeButton.tag=indexPath.row;
-        //[likeButton setSelected:YES];
-        //likeButton.enabled = NO;
+        [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:likeButton];
         
         numLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
         numLabel.font = DETAILFONT(IPHONEFONT16);
-        //numLabel.numberOfLines = 0;
         numLabel.textColor = [UIColor grayColor];
-        numLabel.text = [[wallObject objectForKey:@"Like"]stringValue];
+        numLabel.text = [[wallObject objectForKey:@"Liked"]stringValue];
         [numLabel sizeToFit];
         [wallImageView addSubview:numLabel];
+        
+        if([image.url containsString:@"movie.mp4"]) {
+            
+            playButton = [[UIButton alloc] init];
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 55, 50, 50);
+            } else {
+                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 10, 50, 50);
+            }
+             playButton.alpha = 1.0f;
+            //playButton.center = userImage.center;
+            //playButton.tintColor = [UIColor redColor]; //BLUECOLOR;
+            UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [playButton setImage:playbutton forState:UIControlStateNormal];
+            playButton.userInteractionEnabled = YES;
+            userImage.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+            [playButton addGestureRecognizer:tap];
+            
+            [userImage addSubview:playButton];
+            
+            _videoURL = [NSURL URLWithString:@"http://files.parsetfss.com/6ab2bd45-dd6b-4dda-afde-ee839ccbdc32/tfss-512bafb0-b78d-4d18-9098-1e8c429ff7b8-movie.mp4"];
+            
+            //_videoURL = [NSURL URLWithString:image.url];
+            
+            /*
+            playLabel = [[UILabel alloc] init];
+            playLabel.font = DETAILFONT(IPHONEFONT20);
+            playLabel.text = @"Play";
+            playLabel.textColor = [UIColor grayColor];
+            [playLabel sizeToFit];
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                playLabel.frame = CGRectMake(userImage.frame.origin.x, userImage.frame.origin.y + 55, userImage.frame.size.width, playLabel.frame.size.height);
+            } else {
+                playLabel.frame = CGRectMake(userImage.frame.origin.x, userImage.frame.origin.y + 10, userImage.frame.size.width, playLabel.frame.size.height);
+            }
+            playLabel.textAlignment = NSTextAlignmentCenter;
+            playLabel.userInteractionEnabled = YES;
+            userImage.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+            [playLabel addGestureRecognizer:tap];
+            
+            [userImage addSubview:playLabel];
+            */
+
+        }
         
         //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
         //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
@@ -324,38 +347,117 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
-- (void) playVideo {
-    //[playLabel removeFromSuperview];
+#pragma mark - play video
+- (IBAction) playVideo:(id)sender { //(NSURL*) _videoURL{
+     //UIButton* button = (UIButton *) sender;
+    //NSLog([(long)sender tag]);
+    //NSURL *url = [[NSBundle mainBundle] URLForResource:@"video1" withExtension:@"mp4"];
 
-    videoURL = [NSURL URLWithString:image.url];
+    //image = (PFFile *)[wallObject objectAtIndex:[sender tag]];
+    //NSString *url = [[NSBundle mainBundle] pathForResource:@"Test_iPad" ofType:@"m4v"];
+    //[image.url objectAtIndex:3];
+    
+    //_videoURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.videoURL]];//[image objectForKey:@"url"];
+    //_videoURL = [NSURL URLWithString:[_imageFilesArray objectAtIndex:1]];//[image objectForKey:@"url"];
+    // _videoURL = [NSURL URLWithString:image.url];
     self.videoController = [[MPMoviePlayerController alloc] init];
-    [self.videoController setContentURL:videoURL];
-    [self.videoController.view setFrame:userImage.frame];
-    self.videoController.view.clipsToBounds = YES;
-    //self.videoController.view.backgroundColor = [UIColor clearColor];
-    self.videoController.controlStyle = MPMovieControlStyleEmbedded;
-    [userImage addSubview:self.videoController.view];
+    //self.videoController = [[MPMoviePlayerController alloc] initWithFrame:frame placeholderImage:placeholderImage videoURL:videoURL];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:self.videoController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stopPlayingVideo:)
+                                                 name:MPMoviePlayerWillExitFullscreenNotification
+                                               object:self.videoController];
+    
+    self.videoController.view.frame = self.view.bounds;
+    [self.videoController prepareToPlay];
+    [self.videoController setContentURL:_videoURL];
+    [self.view addSubview:self.videoController.view];
     [self.videoController play];
+    [self.videoController setFullscreen:YES animated:YES];
+    
+}
+
+- (void) stopPlayingVideo:(NSNotification*)notification {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerWillExitFullscreenNotification object:nil];
+    
+    [self.videoController stop];
+    [self.videoController.view removeFromSuperview];
+}
+
+- (void) moviePlayBackDidFinish:(NSNotification*)notification {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    
+    [self.videoController stop];
+    [self.videoController.view removeFromSuperview];
 }
 
 #pragma mark like button
-- (void) likeButton {
+- (void) buttonPress:(id)sender {
+    UIButton* button = (UIButton*)sender;
+    if (!likeButton.selected) {
+        [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
+        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                NSLog(@"liked News!");
+                // [self likedSuccess];
+            }
+            else {
+                //[self likedFail];
+            }
+        }];
+        [likeButton setSelected:YES];
+        button.tintColor = BLUECOLOR;
+    } else {
+         NSLog(@"unlike News!");
+        [likeButton setSelected:NO];
+        button.tintColor = [UIColor lightGrayColor];
+    }
+}
+
+#pragma mark like button
+- (void)likeButton:(id)sender {
+//NSLog(@"TESTING %ld",(long)buttonPosition);
+    /*
+    UIButton *btn = (UIButton *) sender;
+    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.wallScroll];
+    NSIndexPath *indexPath = [self.wallImageView indexPathForRowAtPoint:buttonPosition.origin];
     
-    [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
-    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+    [query whereKey:@"objectId" equalTo:[[_imageFilesArray objectAtIndex:indexPath.row] objectId]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
         if (!error) {
-            NSLog(@"liked Company!");
-           // [self likedSuccess];
-        }
-        else {
-            //[self likedFail];
+            NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
+            int likeCount = [likedNum intValue];
+            
+            if (likeButton.isSelected) {
+                likeCount++;
+                [likeButton setSelected:YES];
+            } else {
+                likeCount--;
+                [likeButton setSelected:NO];
+            }
+            
+            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+            [updateLead saveInBackground];
+            
         }
     }];
+    
+    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
+    //[self.listTableView reloadData]; */
 }
 
 #pragma mark Error Alert
 
--(void)showErrorView:(NSString *)errorMsg{
+-(void)showErrorView:(NSString *)errorMsg {
     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMsg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [errorAlertView show];
 }
@@ -395,7 +497,6 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self presentViewController:activityVC animated:YES completion:nil];
     } else {
-
         activityVC.popoverPresentationController.sourceView = self.view;
         activityVC.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
         

@@ -303,7 +303,7 @@
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
    [myCell.leadnews setTextColor:DETAILCOLOR];
-    myCell.leadnews.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
+    //myCell.leadnews.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
     
     //Social buttons - code below
     UIButton *faceBtn;
@@ -312,7 +312,6 @@
     } else {
     faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height - 70, 20, 20)];
     }
-    
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [myCell.contentView addSubview:faceBtn];
@@ -382,7 +381,7 @@ return myCell;
     else t15 = @"None";
     
     if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 )) {
-        
+        /*
          NSString *dateStr = self.tbl16;
          static NSDateFormatter *DateFormatter = nil;
          if (DateFormatter == nil) {
@@ -392,10 +391,11 @@ return myCell;
          NSDate *dateFM = [DateFormatter dateFromString:dateStr];
          [DateFormatter setDateFormat:@"MMM dd yy"];
          dateStr = [DateFormatter stringFromDate:dateFM];
-         }
-        t16 = dateStr;
+         } */
+        t16 = self.tbl16; //dateStr;
     } else t16 = @"None";
-    NSLog(@"rawStr is %@",t16);
+   //NSLog(@"rawStr is %@",t16);
+    
     if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
         t21 = self.tbl21;
     else t21 = @"None";

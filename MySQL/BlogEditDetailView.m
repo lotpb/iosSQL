@@ -151,7 +151,7 @@ UIBarButtonItem *trashItem, *shareItem;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT18)];
         [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT18)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT14)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
         [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT17)];
         [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT17)];

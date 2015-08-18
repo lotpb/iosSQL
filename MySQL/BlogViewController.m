@@ -281,9 +281,9 @@ Parse.com
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT16)];
-        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
-        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT12)];
+        [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT18)];
+        [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
@@ -417,7 +417,6 @@ Parse.com
         [likeButton setSelected:NO];
         button.tintColor = [UIColor lightGrayColor];
     }
-    NSLog(@"buttonPressed");
 }
 
 /*
@@ -434,7 +433,7 @@ Parse.com
 } */
 
 #pragma mark like button
-- (void) likeButton:(id)sender  {
+- (void)likeButton:(id)sender  {
     //[sender setTintColor:[UIColor redColor]];
     UIButton *btn = (UIButton *) sender;
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];

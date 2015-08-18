@@ -12,6 +12,6 @@
 @interface CollectionDetailController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
-@property (strong, nonatomic) UIImage *jobimage;
+@property (strong, nonatomic) UIImage *image;
 
 @end

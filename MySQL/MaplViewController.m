@@ -50,11 +50,6 @@
    //self.mapView.pitchEnabled = YES; // 3d dont work
     self.routView.hidden = false;
     
-    //if (self.routView.hidden) {
-        //self.mapView.frame = self.view.bounds;
-        //self.mapView.autoresizingMask = self.view.autoresizingMask;
-   // }
-    
     [self.travelTime setTextColor:BLUECOLOR];
     [self.travelDistance setTextColor:BLUECOLOR];
     self.steps.font = [UIFont systemFontOfSize:IPHONEFONT16];
@@ -89,42 +84,40 @@
                  completionHandler:^(NSArray* placemarks, NSError* error){
                      
                      if (placemarks && placemarks.count > 0) {
-                         CLPlacemark *topResult = [placemarks objectAtIndex:0];
                          
-                         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-                         annotation.coordinate = topResult.location.coordinate;
-                         annotation.title = self.mapaddress;
-                         annotation.subtitle = [NSString stringWithFormat:@"%@ %@ %@", self.mapcity, self.mapstate, self.mapzip];
-                        
-                         MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
-
-                         [self.mapView addAnnotation:annotation];
+                         CLPlacemark *thePlacemark = [placemarks objectAtIndex:0];
+                         MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:thePlacemark];
+                         
+                         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+                         point.coordinate = thePlacemark.location.coordinate;
+                         point.title = self.mapaddress;
+                         point.subtitle = [NSString stringWithFormat:@"%@ %@ %@", self.mapcity, self.mapstate, self.mapzip];
+                         [self.mapView addAnnotation:point];
 
  //-------------------------------Directions below------------------------------
                          
                          CLLocationCoordinate2D sourceCoords = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude,self.locationManager.location.coordinate.longitude);
                          MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:sourceCoords addressDictionary:nil];
                          MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
-
-                         // Make the destination location
+                         
                          CLLocationCoordinate2D destinationCoords = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude);
                          MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:destinationCoords addressDictionary:nil];
                          MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
                          
-                         MKDirectionsRequest *directionsRequest = [MKDirectionsRequest new];
-                         [directionsRequest setSource:source];
-                         [directionsRequest setDestination:destination];
-                          directionsRequest.transportType = MKDirectionsTransportTypeAutomobile;
+                         MKDirectionsRequest *request = [MKDirectionsRequest new];
+                         [request setSource:source];
+                         [request setDestination:destination];
+                        //request.requestsAlternateRoutes = YES;
+                          request.transportType = MKDirectionsTransportTypeAutomobile;
 
-                         MKDirections *directions = [[MKDirections alloc] initWithRequest:directionsRequest];
+                         MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
                          [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
                              if (error) {
                                  return;
                              }
-                             // So there wasn't an error - let's plot those routes
+ 
                              MKRoute *route = [response.routes lastObject];
                              [self.mapView setVisibleMapRect:route.polyline.boundingMapRect animated:NO];
-                             //[self.mapView addOverlay:route.polyline];
                              [self showRoute:response];
                          }];
                          
@@ -185,15 +178,6 @@
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-   /* //green pins
-    MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
-    annView.animatesDrop=TRUE;
-    annView.canShowCallout = YES;
-    [annView setSelected:YES];
-    annView.pinColor = MKPinAnnotationColorGreen;
-    annView.calloutOffset = CGPointMake(15, 15);
-    return annView; */
-    
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     if ([annotation isKindOfClass:[MKPointAnnotation class]]) {
@@ -201,7 +185,12 @@
         if (!pinView)
         {
             pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
-            pinView.canShowCallout = YES;
+            pinView.animatesDrop = true;
+            pinView.canShowCallout = true;
+            pinView.pinTintColor = [UIColor redColor];
+           [pinView setSelected:YES];
+            pinView.calloutOffset = CGPointMake(15, 15);
+          //pinView.detailCalloutAccessoryView = UIImage(image:UIImage(named:"YourImageName"))
         } else {
             pinView.annotation = annotation;
         }

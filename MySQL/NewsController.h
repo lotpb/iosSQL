@@ -16,5 +16,8 @@
 @interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *wallScroll;
+@property (strong, nonatomic) MPMoviePlayerController *videoController;
+@property (nonatomic, retain) NSArray *imageFilesArray;
+- (IBAction)playVideo:(id)sender;
 
 @end

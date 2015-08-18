@@ -196,26 +196,18 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    /*
-    [self performSegueWithIdentifier:@"showPhoto" sender:imageFilesArray];
+    [self performSegueWithIdentifier:@"showPhoto" sender:self];
     PFObject *object = [imageFilesArray objectAtIndex:indexPath.row];
-    PFFile *imageFile = [object objectForKey:KEY_IMAGE];
+    PFFile *file = [object objectForKey:KEY_IMAGE];
     
-    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             
-            CollectionDetailController *destViewController = (CollectionDetailController *)segue.destinationViewController;
-             destViewController.jobimage = [UIImage imageWithData:data];
+            CollectionDetailController *destViewController = [[CollectionDetailController alloc] init];
+            destViewController.jobImageView.image = [UIImage imageWithData:data];
             
         }
     }];
-    
-   
-    // if (shareEnabled) {
-    NSString *selectedRecipe = [selectedJobs[indexPath.section] objectAtIndex:indexPath.row];
-    [selectedJobs addObject:selectedRecipe];
-    // } */
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -227,35 +219,19 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+    /*
     if ([segue.identifier isEqualToString:@"showPhoto"]) {
       
-      /*
+      
         NSIndexPath *selectedIndexPath = [self.collectionView indexPathsForSelectedItems][0];
         
         // load the image, to prevent it from being cached we use 'initWithContentsOfFile'
         NSString *imageNameToLoad = [NSString stringWithFormat:@"%ld_full", (long)selectedIndexPath.row];
         UIImage *image = [UIImage imageNamed:imageNameToLoad];
         CollectionDetailController *detailViewController = segue.destinationViewController;
-        detailViewController.jobimage = image; */
+        detailViewController.jobimage = image;
         
-        /*
-         UICollectionViewCell *cell = (UICollectionViewCell *)sender;
-         NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-         
-         CollectionDetailController *destViewController = (CollectionDetailController *)segue.destinationViewController;
-         
-         PFObject *object=[imageFilesArray objectAtIndex:indexPath.row];
-         
-         destViewController.jobimage = [object objectForKey:@"imageFile"]; */
-        
-        
-        /*
-         NSIndexPath *indexPaths = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
-         CollectionDetailController *destViewController = segue.destinationViewController;
-         destViewController.jobimage = [imageFilesArray objectAtIndex:indexPath.row];
-         [self.collectionView deselectItemAtIndexPath:indexPath animated:NO]; */
-    }
+    } */
 }
 
 

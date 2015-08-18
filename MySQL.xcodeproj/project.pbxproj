@@ -10,6 +10,7 @@
 		AF023A9F1AE09691006D8AEC /* ParseConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF023A9E1AE09691006D8AEC /* ParseConnection.m */; };
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
 		AF0B56D21B1A0AC70085EFA8 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF789A901B17ED5D0049F540 /* iAd.framework */; };
+		AF1647371B82B55A008C34DC /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1647361B82B55A008C34DC /* play_button.png */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
 		AF23C4EE1A3B8B9A005FBDB6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */; };
 		AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF761A360BA300FFE5F0 /* SalesmanViewController.m */; };
@@ -157,6 +158,7 @@
 		AF0263DD1AEDCEEF005A0AD4 /* ConstantMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstantMain.h; sourceTree = "<group>"; };
 		AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeadDetailViewControler.h; sourceTree = "<group>"; };
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
+		AF1647361B82B55A008C34DC /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
 		AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseConnection.h; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				AF366E941A55A15800976387 /* footer_banner.png */,
 				AF366E951A55A15800976387 /* header_banner.png */,
 				AF366E9C1A55A15800976387 /* iosStar.png */,
+				AF1647361B82B55A008C34DC /* play_button.png */,
 				AF366E9D1A55A15800976387 /* iosStarNA.png */,
 				AF366EA21A55A15800976387 /* nav_bg.png */,
 				AF366EA51A55A15800976387 /* photo-frame-2.png */,
@@ -989,6 +992,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF1647371B82B55A008C34DC /* play_button.png in Resources */,
 				AF3339A21B6DB7D800914EF5 /* Thumb Up.png in Resources */,
 				AFDC35FD1B6EFBF8004F4C71 /* Flag.png in Resources */,
 				AFAF45E41B5AD8C900FA255A /* Tornado.caf in Resources */,
