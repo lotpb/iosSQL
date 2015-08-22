@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSOperationQueue+SharedQueue.h" //added to remove warning on thread
+#import "NewsdetailController.h"
 
 @interface NewsController : UIViewController <UITabBarControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate>
 

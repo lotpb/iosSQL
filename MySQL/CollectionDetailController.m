@@ -24,17 +24,33 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    //self.jobImageView.image = [UIImage imageNamed:self.jobImageName];
+    self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.title = NSLocalizedString(@"Check out my jobs!", nil);
+    self.scrollView.minimumZoomScale = 1.0;
+    self.scrollView.maximumZoomScale = 6.0;
+    self.scrollView.backgroundColor = BACKGROUNDCOLOR;
     self.jobImageView.image = self.image;
+    self.jobImageView.backgroundColor = [UIColor blackColor];
+    self.jobImageView.contentMode = UIViewContentModeScaleAspectFit;
+
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    self.jobImageView = nil;
+}
+
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    
+    return self.jobImageView;
 }
 
 @end

@@ -46,7 +46,8 @@
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
-     self.wallScroll.pagingEnabled = YES;
+     //self.wallScroll.pagingEnabled = YES;
+     //self.wallScroll.bounces = NO;
     
   #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -196,9 +197,14 @@
             userImage.frame = CGRectMake(0, 75, wallImageView.frame.size.width, 225);
         
         userImage.clipsToBounds = YES;
-      //userImage.layer.cornerRadius = 25.f;
         userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         userImage.layer.borderWidth = 0.5f;
+        userImage.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mySequeMethod:)];
+      
+        [userImage addGestureRecognizer:tap];
+        
         [wallImageView addSubview:userImage];
 
         /*
@@ -279,11 +285,13 @@
         [numLabel sizeToFit];
         [wallImageView addSubview:numLabel];
         
+        //_videoURL = [NSURL URLWithString:image.url];
+        
         if([image.url containsString:@"movie.mp4"]) {
             
             playButton = [[UIButton alloc] init];
             if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 55, 50, 50);
+                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 45, 50, 50);
             } else {
                 playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 10, 50, 50);
             }
@@ -293,16 +301,17 @@
             UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [playButton setImage:playbutton forState:UIControlStateNormal];
             playButton.userInteractionEnabled = YES;
-            userImage.userInteractionEnabled = YES;
+            //userImage.userInteractionEnabled = YES;
             
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
             [playButton addGestureRecognizer:tap];
             
             [userImage addSubview:playButton];
             
-            _videoURL = [NSURL URLWithString:@"http://files.parsetfss.com/6ab2bd45-dd6b-4dda-afde-ee839ccbdc32/tfss-512bafb0-b78d-4d18-9098-1e8c429ff7b8-movie.mp4"];
+            //_videoURL = [NSURL URLWithString:@"http://files.parsetfss.com/6ab2bd45-dd6b-4dda-afde-ee839ccbdc32/tfss-512bafb0-b78d-4d18-9098-1e8c429ff7b8-movie.mp4"];
             
-            //_videoURL = [NSURL URLWithString:image.url];
+            _videoURL = [NSURL URLWithString:image.url];
+            NSLog(@"Peter url...%@", _videoURL);
             
             /*
             playLabel = [[UILabel alloc] init];
@@ -347,12 +356,19 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
+- (void)mySequeMethod:(UITapGestureRecognizer *)gestureRecognizer {
+    
+    NSLog(@"Tapped!");
+    [self performSegueWithIdentifier: @"newsdetailseque" sender: self];
+    
+}
+
 #pragma mark - play video
 - (IBAction) playVideo:(id)sender { //(NSURL*) _videoURL{
      //UIButton* button = (UIButton *) sender;
     //NSLog([(long)sender tag]);
     //NSURL *url = [[NSBundle mainBundle] URLForResource:@"video1" withExtension:@"mp4"];
-
+      //NSString * videoPath = [wallObject objectForKey:KEY_IMAGE]
     //image = (PFFile *)[wallObject objectAtIndex:[sender tag]];
     //NSString *url = [[NSBundle mainBundle] pathForResource:@"Test_iPad" ofType:@"m4v"];
     //[image.url objectAtIndex:3];
@@ -501,6 +517,17 @@
         activityVC.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
         
         [self presentViewController:activityVC animated:YES completion:nil];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"newsdetailseque"]) {
+       
+        NewsDetailController *photo = segue.destinationViewController;
+        photo.image = userImage.image;
+        photo.newsTitle = titleLabel.text;
+        photo.newsDetail = detailLabel.text;
     }
 }
 

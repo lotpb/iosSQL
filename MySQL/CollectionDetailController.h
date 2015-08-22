@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CollectionParseController.h"
+#import "CollectionController.h"
+#import "Constants.h"
 
 @interface CollectionDetailController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
 @property (strong, nonatomic) UIImage *image;
 

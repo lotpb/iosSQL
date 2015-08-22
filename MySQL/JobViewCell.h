@@ -13,6 +13,4 @@
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 
-//@property (weak, nonatomic) IBOutlet UIImageView *recipeImageView;
-
 @end

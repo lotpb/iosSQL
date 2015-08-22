@@ -139,7 +139,6 @@ Parse.com
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
-
 #pragma mark flag button
 - (void) flagButton {
     UIAlertView *alert;

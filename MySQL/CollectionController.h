@@ -1,5 +1,5 @@
 //
-//  CollectionParseController.h
+//  CollectionController.h
 //  MySQL
 //
 //  Created by Peter Balsamo on 12/26/14.
@@ -11,17 +11,17 @@
 #import "CollectionHeaderView.h"
 #import "JobViewCell.h"
 #import "CollectionDetailController.h"
-
 #import <Social/Social.h>
 //#import "Constants.h"
 
-@interface CollectionParseController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface CollectionController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollection;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
-@property (strong, nonatomic) UIImage *imagePreview;
+@property (strong, nonatomic) UIImage *selectedImage;
 @property (strong, nonatomic) NSString *workseg;
+
 - (IBAction)shareButtonTouched:(id)sender;
 
 @end

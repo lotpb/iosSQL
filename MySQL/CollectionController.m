@@ -1,25 +1,27 @@
 //
-//  CollectionParseController.m
+//  CollectionController.m
 //  MySQL
 //
 //  Created by Peter Balsamo on 12/26/14.
 //  Copyright (c) 2014 Peter Balsamo. All rights reserved.
 //
 
-#import "CollectionParseController.h"
+#import "CollectionController.h"
 #import "Constants.h"
 
-@interface CollectionParseController ()
+@interface CollectionController ()
 {   //Parse
-    NSMutableArray *selectedJobs, *imageFilesArray, *jobImages;
+    NSMutableArray *selectedJobs, *imageFilesArray;
     BOOL shareEnabled;
     UIRefreshControl *refreshControl;
+    PFObject *imageObject;
+    PFFile *imageFile;
 }
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
 @end
 
-@implementation CollectionParseController
+@implementation CollectionController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,16 +36,14 @@
 {
     [super viewDidLoad];
     
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
+    self.imagesCollection.dataSource = self;
+    self.imagesCollection.delegate = self;
     self.workseg = nil;
     [self queryParseMethod];
     
     // on iphone 5 need to change cell width to 100
     UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
     collectionViewLayout.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
-    
-    // selectedJobs = [NSMutableArray array];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -74,7 +74,7 @@
 - (void)reloadDatas:(id)sender {
     
     [self queryParseMethod];
-    [self.collectionView reloadData];
+    [self.imagesCollection reloadData];
     
     if (refreshControl) {
         
@@ -131,19 +131,16 @@
     [self queryParseMethod];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [imageFilesArray count];
-    // return [[imageFilesArray objectAtIndex:section] count];
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
     UICollectionReusableView *reusableview = nil;
     
     if (kind == UICollectionElementKindSectionHeader) {
@@ -164,26 +161,23 @@
     return reusableview;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *identifier = @"Cell";
     JobViewCell *cell = (JobViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     //Parse Download
-    PFObject *imageObject = [imageFilesArray objectAtIndex:indexPath.row];
-    PFFile *imageFile = [imageObject objectForKey:KEY_IMAGE];
+    imageObject = [imageFilesArray objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:KEY_IMAGE];
     
     cell.loadingSpinner.hidden = NO;
     [cell.loadingSpinner startAnimating];
     
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
-           /*
-            UIImageView *jobImageView = (UIImageView *)[cell viewWithTag:100];
-            //recipeImageView.image = [UIImage imageNamed:[recipeImages[indexPath.section] objectAtIndex:indexPath.row]];
-            jobImageView.image = [UIImage imageWithData:data]; */
             
             cell.jobImageView.image = [UIImage imageWithData:data];
+            
             cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:PHOTOCELLIMAGE]];
             cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:PHOTOCELLSELECTIMAGE]];
             
@@ -194,47 +188,31 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self performSegueWithIdentifier:@"showPhoto" sender:self];
-    PFObject *object = [imageFilesArray objectAtIndex:indexPath.row];
-    PFFile *file = [object objectForKey:KEY_IMAGE];
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    [self performSegueWithIdentifier:@"showPhoto" sender:self.imagesCollection];
     
-    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+    imageObject = [imageFilesArray objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:KEY_IMAGE];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             
-            CollectionDetailController *destViewController = [[CollectionDetailController alloc] init];
-            destViewController.jobImageView.image = [UIImage imageWithData:data];
-            
+            self.selectedImage = [UIImage imageWithData:data];
         }
     }];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (shareEnabled) {
-        NSString *deSelectedJob = [selectedJobs[indexPath.section] objectAtIndex:indexPath.row];
-        [selectedJobs removeObject:deSelectedJob];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"showPhoto"]) {
+        
+        CollectionDetailController *detailViewController = segue.destinationViewController;
+        detailViewController.image = self.selectedImage;
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    /*
-    if ([segue.identifier isEqualToString:@"showPhoto"]) {
-      
-      
-        NSIndexPath *selectedIndexPath = [self.collectionView indexPathsForSelectedItems][0];
-        
-        // load the image, to prevent it from being cached we use 'initWithContentsOfFile'
-        NSString *imageNameToLoad = [NSString stringWithFormat:@"%ld_full", (long)selectedIndexPath.row];
-        UIImage *image = [UIImage imageNamed:imageNameToLoad];
-        CollectionDetailController *detailViewController = segue.destinationViewController;
-        detailViewController.jobimage = image;
-        
-    } */
-}
-
-
+/*
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if (shareEnabled) {
@@ -243,6 +221,14 @@
         return YES;
     }
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (shareEnabled) {
+        NSString *deSelectedJob = [selectedJobs[indexPath.section] objectAtIndex:indexPath.row];
+        [selectedJobs removeObject:deSelectedJob];
+    }
+} */
 
 - (IBAction)shareButtonTouched:(id)sender {
     if (shareEnabled) {
@@ -283,6 +269,5 @@
         [self.shareButton setStyle:UIBarButtonItemStyleDone];
     }
 }
-
 
 @end

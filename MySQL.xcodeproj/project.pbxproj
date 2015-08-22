@@ -11,6 +11,7 @@
 		AF02A0DC19E01EB600A6C1D0 /* LeadDetailViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */; };
 		AF0B56D21B1A0AC70085EFA8 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF789A901B17ED5D0049F540 /* iAd.framework */; };
 		AF1647371B82B55A008C34DC /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1647361B82B55A008C34DC /* play_button.png */; };
+		AF16E63C1B8609A8009A0660 /* NewsDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF16E63B1B8609A8009A0660 /* NewsDetailController.m */; };
 		AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */; };
 		AF23C4EE1A3B8B9A005FBDB6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF23C4ED1A3B8B9A005FBDB6 /* LoginViewController.m */; };
 		AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26EF761A360BA300FFE5F0 /* SalesmanViewController.m */; };
@@ -68,7 +69,7 @@
 		AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */; };
 		AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F8EE01A61C4290063B6DA /* LookupCity.m */; };
 		AF627C151A1239EF0048668B /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF627C141A1239EF0048668B /* ProfileViewController.m */; };
-		AF6308CF1A4DE1D800D89FD8 /* CollectionParseController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6308CE1A4DE1D800D89FD8 /* CollectionParseController.m */; };
+		AF6308CF1A4DE1D800D89FD8 /* CollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6308CE1A4DE1D800D89FD8 /* CollectionController.m */; };
 		AF65081119EB158300CEF44D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF65081019EB158300CEF44D /* MainViewController.m */; };
 		AF79A4251ADB6A6C003907FD /* CalenderEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = AF79A4241ADB6A6C003907FD /* CalenderEdit.m */; };
 		AF7B25721A05829600F7C058 /* CustController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25711A05829600F7C058 /* CustController.m */; };
@@ -159,6 +160,8 @@
 		AF02A0DA19E01EB600A6C1D0 /* LeadDetailViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeadDetailViewControler.h; sourceTree = "<group>"; };
 		AF02A0DB19E01EB600A6C1D0 /* LeadDetailViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadDetailViewControler.m; sourceTree = "<group>"; };
 		AF1647361B82B55A008C34DC /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
+		AF16E63A1B8609A8009A0660 /* NewsDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailController.h; sourceTree = "<group>"; };
+		AF16E63B1B8609A8009A0660 /* NewsDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailController.m; sourceTree = "<group>"; };
 		AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
 		AF20EFAE1ACF0A8C00572AD3 /* ParseConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseConnection.h; sourceTree = "<group>"; };
@@ -237,8 +240,8 @@
 		AF5F8EE01A61C4290063B6DA /* LookupCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupCity.m; sourceTree = "<group>"; };
 		AF627C131A1239EF0048668B /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		AF627C141A1239EF0048668B /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		AF6308CD1A4DE1D800D89FD8 /* CollectionParseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionParseController.h; sourceTree = "<group>"; };
-		AF6308CE1A4DE1D800D89FD8 /* CollectionParseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionParseController.m; sourceTree = "<group>"; };
+		AF6308CD1A4DE1D800D89FD8 /* CollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionController.h; sourceTree = "<group>"; };
+		AF6308CE1A4DE1D800D89FD8 /* CollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionController.m; sourceTree = "<group>"; };
 		AF65080F19EB158300CEF44D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		AF65081019EB158300CEF44D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		AF789A901B17ED5D0049F540 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -438,6 +441,8 @@
 			children = (
 				AFAAE6891A06C44A000C2423 /* NewsController.h */,
 				AFAAE68A1A06C44A000C2423 /* NewsController.m */,
+				AF16E63A1B8609A8009A0660 /* NewsDetailController.h */,
+				AF16E63B1B8609A8009A0660 /* NewsDetailController.m */,
 				AF5EF83A1A4F015900B802E1 /* UploadImageViewController.h */,
 				AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */,
 			);
@@ -668,8 +673,8 @@
 		AF9926831A4C796B00429EC8 /* Photo Collection */ = {
 			isa = PBXGroup;
 			children = (
-				AF6308CD1A4DE1D800D89FD8 /* CollectionParseController.h */,
-				AF6308CE1A4DE1D800D89FD8 /* CollectionParseController.m */,
+				AF6308CD1A4DE1D800D89FD8 /* CollectionController.h */,
+				AF6308CE1A4DE1D800D89FD8 /* CollectionController.m */,
 				AF9926B11A4CFD1100429EC8 /* CollectionDetailController.h */,
 				AF9926B21A4CFD1100429EC8 /* CollectionDetailController.m */,
 				AF99267D1A4C768B00429EC8 /* CollectionHeaderView.h */,
@@ -1060,13 +1065,14 @@
 				AFF3B8841A2133F5005D556C /* EmployeeViewController.m in Sources */,
 				AFFEA0891A32155300165318 /* JobViewController.m in Sources */,
 				AFA352E419FBE90600840AA3 /* SWRevealViewController.m in Sources */,
-				AF6308CF1A4DE1D800D89FD8 /* CollectionParseController.m in Sources */,
+				AF6308CF1A4DE1D800D89FD8 /* CollectionController.m in Sources */,
 				AFFE80401B47215D0022D2F9 /* StatisticsiPadController.m in Sources */,
 				AF3F388719EB595D00CB785F /* BlogViewController.m in Sources */,
 				AFAA0FD51A0E931E00205EE9 /* MasterAddressViewController.m in Sources */,
 				AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */,
 				AFFEA0761A31ED3500165318 /* ProductLocation.m in Sources */,
 				AF23C4EE1A3B8B9A005FBDB6 /* LoginViewController.m in Sources */,
+				AF16E63C1B8609A8009A0660 /* NewsDetailController.m in Sources */,
 				AFBC9E8D19D9CEDF0050E67A /* ViewController.m in Sources */,
 				AF3F388119EB562600CB785F /* BlogModel.m in Sources */,
 				AFAAE68B1A06C44A000C2423 /* NewsController.m in Sources */,
