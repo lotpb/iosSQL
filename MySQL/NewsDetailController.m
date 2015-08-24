@@ -18,18 +18,33 @@
     [super viewDidLoad];
     
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     self.scrollView.minimumZoomScale = 1.0;
     self.scrollView.maximumZoomScale = 6.0;
+     self.newsImageview.backgroundColor = BACKGROUNDCOLOR;
+    
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
+        self.newsImageview.contentMode = UIViewContentModeScaleToFill;
+        self.titleLabel.font = DETAILFONT(IPADFONT26);
+        self.detailLabel.font = DETAILFONT(IPADFONT16);
+        self.newsTextview.font = CELL_LIGHTFONT(IPADFONT18);
+    } else {
+        self.titleLabel.font = DETAILFONT(IPHONEFONT20);
+        self.detailLabel.font = DETAILFONT(IPHONEFONT14);
+        self.newsTextview.font = CELL_LIGHTFONT(IPHONEFONT16);
+    }
+    
     self.newsImageview.image = self.image;
     self.titleLabel.text = self.newsTitle;
-    self.titleLabel.font = DETAILFONT(IPHONEFONT20);
     self.titleLabel.numberOfLines = 2;
-    //[self.titleLabel sizeToFit];
     
     self.detailLabel.text = self.newsDetail;
-    self.detailLabel.font = DETAILFONT(IPHONEFONT14);
     self.detailLabel.textColor = [UIColor lightGrayColor];
     [self.detailLabel sizeToFit];
+    
+    self.newsTextview.text = textviewText;
 }
 
 - (void)didReceiveMemoryWarning {

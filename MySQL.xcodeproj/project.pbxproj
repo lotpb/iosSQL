@@ -21,7 +21,6 @@
 		AF28566A1A256BBB00A6F42A /* EmployeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2856691A256BBB00A6F42A /* EmployeeModel.m */; };
 		AF292DEB1B38F707007B69E2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF292DEA1B38F707007B69E2 /* Images.xcassets */; };
 		AF2B5AF51A137D5A00CABD1B /* VendorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2B5AF41A137D5A00CABD1B /* VendorModel.m */; };
-		AF3339A01B6D76E300914EF5 /* UserlocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF33399F1B6D76E300914EF5 /* UserlocationController.m */; };
 		AF3339A21B6DB7D800914EF5 /* Thumb Up.png in Resources */ = {isa = PBXBuildFile; fileRef = AF3339A11B6DB7D800914EF5 /* Thumb Up.png */; };
 		AF3339A41B6DB8D300914EF5 /* Left 2.png in Resources */ = {isa = PBXBuildFile; fileRef = AF3339A31B6DB8D300914EF5 /* Left 2.png */; };
 		AF3339A61B6DC1CE00914EF5 /* Left 2-25.png in Resources */ = {isa = PBXBuildFile; fileRef = AF3339A51B6DC1CE00914EF5 /* Left 2-25.png */; };
@@ -181,8 +180,6 @@
 		AF292DEA1B38F707007B69E2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AF2B5AF31A137D5A00CABD1B /* VendorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorModel.h; sourceTree = "<group>"; };
 		AF2B5AF41A137D5A00CABD1B /* VendorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorModel.m; sourceTree = "<group>"; };
-		AF33399E1B6D76E300914EF5 /* UserlocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserlocationController.h; sourceTree = "<group>"; };
-		AF33399F1B6D76E300914EF5 /* UserlocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserlocationController.m; sourceTree = "<group>"; };
 		AF3339A11B6DB7D800914EF5 /* Thumb Up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thumb Up.png"; sourceTree = "<group>"; };
 		AF3339A31B6DB8D300914EF5 /* Left 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Left 2.png"; sourceTree = "<group>"; };
 		AF3339A51B6DC1CE00914EF5 /* Left 2-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Left 2-25.png"; sourceTree = "<group>"; };
@@ -802,8 +799,6 @@
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
-				AF33399E1B6D76E300914EF5 /* UserlocationController.h */,
-				AF33399F1B6D76E300914EF5 /* UserlocationController.m */,
 				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
 				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
@@ -1099,7 +1094,6 @@
 				AF9926B01A4CF79300429EC8 /* JobViewCell.m in Sources */,
 				AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */,
 				AFD8AB0F1B33933200EF793D /* NSOperationQueue+SharedQueue.m in Sources */,
-				AF3339A01B6D76E300914EF5 /* UserlocationController.m in Sources */,
 				AFFEA0791A31ED5200165318 /* ProductModel.m in Sources */,
 				AFE9268A1A8AB7AA00FE7043 /* NewDataDetail.m in Sources */,
 				AFDDB3F81B3A2E3A00572370 /* YQL.m in Sources */,

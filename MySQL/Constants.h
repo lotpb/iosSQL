@@ -52,7 +52,8 @@
 
 // All STORYBOOKS
 //Navigation - Go back - POP view controller **/
-#define GOBACK [self.navigationController popViewControllerAnimated:YES]
+#define GOBACK               [self.navigationController popViewControllerAnimated:YES]
+#define textviewText         @"Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
 
 //iOS 7 default blue color is R:0.0 G:122.0 B:255.0
 #define BLUECOLOR [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]
@@ -80,6 +81,8 @@
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------iPad Font Form-------------------------------
+#define IPADFONT26         26
+#define IPADFONT24         24
 #define IPADFONT22         22
 #define IPADFONT20         20
 #define IPADFONT18         18

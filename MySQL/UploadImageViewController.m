@@ -25,6 +25,7 @@
 
 @synthesize imgToUpload = _imgToUpload;
 @synthesize commentTitle = _commentTitle;
+@synthesize commentSorce = _commentSorce;
 @synthesize commentDetail = _commentDetail;
 @synthesize username = _username;
 
@@ -41,9 +42,6 @@
 {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;//fix
-    self.imgToUpload.backgroundColor = [UIColor whiteColor];
-    self.imgToUpload.userInteractionEnabled = YES;
-    [[UITextField appearance] setTintColor:[UIColor grayColor]];
     [self.commentTitle becomeFirstResponder];
     
     if (self.progressView.progress == 0) {
@@ -51,6 +49,22 @@
     } else {
         self.progressView.hidden = YES;
     }
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.commentTitle.font = DETAILFONT(IPADFONT18);
+        self.commentSorce.font = DETAILFONT(IPADFONT18);
+        self.commentDetail.font = DETAILFONT(IPADFONT18);
+    } else {
+        self.commentTitle.font = DETAILFONT(IPHONEFONT16);
+        self.commentSorce.font = DETAILFONT(IPHONEFONT16);
+        self.commentDetail.font = DETAILFONT(IPHONEFONT16);
+    }
+    
+    self.commentDetail.text = textviewText;
+    self.imgToUpload.backgroundColor = [UIColor whiteColor];
+    self.imgToUpload.userInteractionEnabled = YES;
+    
+    [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
 - (void)viewDidUnload
@@ -60,6 +74,7 @@
     
     self.imgToUpload = nil;
     self.commentTitle = nil;
+    self.commentSorce = nil;
     self.commentDetail = nil;
     self.username = nil;
 }
@@ -127,7 +142,8 @@
             PFObject *imageObject = [PFObject objectWithClassName:@"Newsios"];
             [imageObject setObject:file forKey:@"imageFile"];
             [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
-            [imageObject setObject:self.commentDetail.text forKey:@"newsDetail"];
+            [imageObject setObject:self.commentSorce.text forKey:@"newsDetail"];
+            [imageObject setObject:self.commentDetail.text forKey:@"storyText"];
             
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                 [imageObject setObject:[PFUser currentUser].username forKey:@"username"];
@@ -161,7 +177,6 @@
 
 #pragma mark UIImagePicker delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)info {
     
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
@@ -169,33 +184,6 @@
     {
         videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
         pictureData = [NSData dataWithContentsOfURL:videoURL];
-        /*
-        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
-        CGSize size = [[[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] naturalSize];
-        NSTimeInterval durationInSeconds = 0.0;
-        if (asset) durationInSeconds = CMTimeGetSeconds(asset.duration);
-        
-        if (size.width>640 || size.height>480) {
-        //    [self showIndeterminateProgressWithTitle:@"processing video..."];
-            [self cropVideoAtURL:videoURL toWidth:480 height:360 completion:^(NSURL *resultURL, NSError *error) {
-                if (error) {
-                  //  DLOG(@"crop error %@", error);
-                  //  [self hideIndeterminateProgress];
-                } else {
-                    moviePath = resultURL;
-                    
-                    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:moviePath options:nil];
-                    CGSize size = [[[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] naturalSize];
-                 //   DLOG(@"video size after %@", NSStringFromCGSize(size));
-                    
-                    NSData *data = [NSData dataWithContentsOfURL:moviePath];
-                //    DLOG(@"VIDEO SIZE %.2f",(float)data.length/1024.0f/1024.0f);
-                    
-                    [self hideIndeterminateProgress];
-
-                }
-            }]; */
-        
         pickImage = nil;
         [self refreshSolutionView];
     } else {
@@ -209,7 +197,7 @@
 
 #pragma mark UIImagePickerVideo delegate
 - (void) refreshSolutionView {
-  //  [catchLabel removeFromSuperview];
+
     self.imgToUpload.image = nil;
     [self.videoController stop];
     self.videoController = nil;

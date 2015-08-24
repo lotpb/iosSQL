@@ -11,12 +11,14 @@
 @interface NewsController () {
     //NSURL *videoURL;
     UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *playLabel, *numLabel;
+    UITextView *newsTextview;
     PFImageView *userImage;
     PFFile *image;
     PFObject *wallObject;
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
-    UIButton *likeButton, *playButton;
+    UIButton *likeButton, *playButton, *actionBtn;
+    UIView *separatorLineView;
 }
 -(void)getNewsImages;
 -(void)loadWallViews;
@@ -44,10 +46,7 @@
    [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
-    //self.title = NSLocalizedString(@"News", nil);
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
-     //self.wallScroll.pagingEnabled = YES;
-     //self.wallScroll.bounces = NO;
     
   #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -219,7 +218,10 @@
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 70 , 66, wallImageView.frame.size.width, 15)];
+            newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(345, 86, wallImageView.frame.size.width - userImage.frame.size.width - 60, 45)];
+    
             titleLabel.font = CELL_LIGHTFONT(IPADFONT22);
+            newsTextview.font = DETAILFONT(IPADFONT16);
         } else {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
@@ -250,7 +252,9 @@
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
-        UIButton *actionBtn;
+        newsTextview.text = textviewText;
+        [wallImageView addSubview:newsTextview];
+        
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,165, 20, 20)];
         } else {
@@ -261,7 +265,7 @@
         [actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:actionBtn];
         
-        UIView* separatorLineView;
+        
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
         } else {
@@ -269,6 +273,7 @@
         }
         separatorLineView.backgroundColor = SCROLLBACKCOLOR;
         [wallImageView addSubview:separatorLineView];
+        
         
         likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
         likeButton.tintColor = [UIColor lightGrayColor]; //BLUECOLOR;
@@ -312,27 +317,6 @@
             
             _videoURL = [NSURL URLWithString:image.url];
             NSLog(@"Peter url...%@", _videoURL);
-            
-            /*
-            playLabel = [[UILabel alloc] init];
-            playLabel.font = DETAILFONT(IPHONEFONT20);
-            playLabel.text = @"Play";
-            playLabel.textColor = [UIColor grayColor];
-            [playLabel sizeToFit];
-            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                playLabel.frame = CGRectMake(userImage.frame.origin.x, userImage.frame.origin.y + 55, userImage.frame.size.width, playLabel.frame.size.height);
-            } else {
-                playLabel.frame = CGRectMake(userImage.frame.origin.x, userImage.frame.origin.y + 10, userImage.frame.size.width, playLabel.frame.size.height);
-            }
-            playLabel.textAlignment = NSTextAlignmentCenter;
-            playLabel.userInteractionEnabled = YES;
-            userImage.userInteractionEnabled = YES;
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-            [playLabel addGestureRecognizer:tap];
-            
-            [userImage addSubview:playLabel];
-            */
 
         }
         

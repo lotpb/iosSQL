@@ -60,8 +60,14 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize s = CGSizeMake([[UIScreen mainScreen] bounds].size.width/3 - 18, [[UIScreen mainScreen] bounds].size.height/7);
-    return s;
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CGSize s = CGSizeMake([[UIScreen mainScreen] bounds].size.width / 4 - 18, [[UIScreen mainScreen] bounds].size.height / 7 + 65);
+        return s;
+    } else {
+        CGSize s = CGSizeMake([[UIScreen mainScreen] bounds].size.width / 3 - 18, [[UIScreen mainScreen] bounds].size.height / 7);
+        return s;
+    }
 }
 
 - (void)didReceiveMemoryWarning

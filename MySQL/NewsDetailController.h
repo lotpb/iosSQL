@@ -21,5 +21,7 @@
 @property (strong, nonatomic) NSString *newsTitle;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (strong, nonatomic) NSString *newsDetail;
+@property (weak, nonatomic) IBOutlet UITextView *newsTextview;
+
 
 @end

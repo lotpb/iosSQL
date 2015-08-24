@@ -20,7 +20,9 @@ UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgToUpload;
 @property (weak, nonatomic) IBOutlet UITextField *commentTitle;
-@property (weak, nonatomic) IBOutlet UITextField *commentDetail;
+@property (weak, nonatomic) IBOutlet UITextField *commentSorce;
+@property (weak, nonatomic) IBOutlet UITextView *commentDetail;
+
 @property (nonatomic, strong) NSString *username;
 -(IBAction)selectPicturePressed:(id)sender;
 @end
