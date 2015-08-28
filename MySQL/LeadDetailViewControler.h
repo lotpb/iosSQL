@@ -17,12 +17,8 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <MessageUI/MessageUI.h> 
 #import <EventKit/EventKit.h> //calender
-//#import "CalenderEdit.h"
 
 @interface LeadDetailViewControler : UIViewController <UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate>
-{
-    BOOL suceed;
-}
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollWall;
 @property (strong, nonatomic) NSString *formController;

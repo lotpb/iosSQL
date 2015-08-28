@@ -22,6 +22,7 @@ UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *commentTitle;
 @property (weak, nonatomic) IBOutlet UITextField *commentSorce;
 @property (weak, nonatomic) IBOutlet UITextView *commentDetail;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
 
 @property (nonatomic, strong) NSString *username;
 -(IBAction)selectPicturePressed:(id)sender;

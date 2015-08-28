@@ -2923,7 +2923,7 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TMC-G7-a5l" userLabel="Img To Upload">
-                                                <rect key="frame" x="17" y="253" width="367" height="210"/>
+                                                <rect key="frame" x="17" y="280" width="367" height="210"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="210" id="hVL-5X-EuD"/>
@@ -2940,7 +2940,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWs-3e-wGr" userLabel="Select Picture">
-                                                <rect key="frame" x="19" y="473" width="138" height="21"/>
+                                                <rect key="frame" x="19" y="500" width="138" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="138" id="AQD-rW-VLw"/>
                                                     <constraint firstAttribute="height" constant="21" id="SXz-ls-RZn"/>
@@ -2950,11 +2950,22 @@
                                                     <action selector="selectPicturePressed:" destination="rMT-ER-m2z" eventType="touchUpInside" id="Pyt-jM-Mbr"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNI-9M-uSM">
+                                                <rect key="frame" x="17" y="244" width="79" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="79" id="4q5-jd-6at"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="activeButton:" destination="rMT-ER-m2z" eventType="touchUpInside" id="DGK-ZF-NpK"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.1964285714" green="0.1964285714" blue="0.1964285714" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="wrq-tG-hua" firstAttribute="trailing" secondItem="HFH-Bi-RZI" secondAttribute="trailing" id="DDy-NI-vJd"/>
                                             <constraint firstItem="wrq-tG-hua" firstAttribute="trailing" secondItem="TMC-G7-a5l" secondAttribute="trailing" id="ET5-MO-yBJ"/>
+                                            <constraint firstItem="fNI-9M-uSM" firstAttribute="top" secondItem="o8X-a8-VUO" secondAttribute="bottom" constant="8" symbolic="YES" id="F8V-OD-QEW"/>
                                             <constraint firstItem="wrq-tG-hua" firstAttribute="leading" secondItem="o8X-a8-VUO" secondAttribute="leading" id="H93-Ag-9m3"/>
                                             <constraint firstItem="wrq-tG-hua" firstAttribute="top" secondItem="HFH-Bi-RZI" secondAttribute="bottom" constant="13" id="IVo-5L-1D7"/>
                                             <constraint firstItem="HFH-Bi-RZI" firstAttribute="centerX" secondItem="WAs-my-HLU" secondAttribute="centerX" id="ODj-JL-2oi"/>
@@ -2968,7 +2979,8 @@
                                             <constraint firstItem="wrq-tG-hua" firstAttribute="trailing" secondItem="o8X-a8-VUO" secondAttribute="trailing" id="gQd-Lt-YW9"/>
                                             <constraint firstItem="LWs-3e-wGr" firstAttribute="leading" secondItem="o8X-a8-VUO" secondAttribute="leading" constant="2" id="kdz-xn-V02"/>
                                             <constraint firstItem="LWs-3e-wGr" firstAttribute="top" secondItem="TMC-G7-a5l" secondAttribute="bottom" constant="10" id="pPt-km-Kz0"/>
-                                            <constraint firstItem="TMC-G7-a5l" firstAttribute="top" secondItem="o8X-a8-VUO" secondAttribute="bottom" constant="17" id="yEo-kS-hYi"/>
+                                            <constraint firstItem="TMC-G7-a5l" firstAttribute="top" secondItem="o8X-a8-VUO" secondAttribute="bottom" constant="44" id="yEo-kS-hYi"/>
+                                            <constraint firstItem="fNI-9M-uSM" firstAttribute="leading" secondItem="o8X-a8-VUO" secondAttribute="leading" id="yxl-Sy-fwU"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -2997,6 +3009,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="clearButton" destination="fNI-9M-uSM" id="YAn-V6-0RQ"/>
                         <outlet property="commentDetail" destination="o8X-a8-VUO" id="CGL-WW-0c1"/>
                         <outlet property="commentSorce" destination="wrq-tG-hua" id="pPk-NN-QcB"/>
                         <outlet property="commentTitle" destination="HFH-Bi-RZI" id="8IL-eT-yaX"/>
@@ -4831,7 +4844,7 @@
         <image name="note30copy.png" width="30" height="30"/>
         <image name="photo.png" width="1024" height="1024"/>
         <image name="profile-bg.png" width="640" height="434"/>
-        <image name="profile-rabbit-toy.png" width="300" height="300"/>
+        <image name="profile-rabbit-toy.png" width="12" height="12"/>
         <image name="tag.png" width="1024" height="1024"/>
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>

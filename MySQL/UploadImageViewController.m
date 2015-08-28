@@ -63,6 +63,8 @@
     self.commentDetail.text = textviewText;
     self.imgToUpload.backgroundColor = [UIColor whiteColor];
     self.imgToUpload.userInteractionEnabled = YES;
+
+    [self.clearButton setTitle:@"clear" forState:UIControlStateNormal];
     
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
@@ -101,6 +103,7 @@
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     imgPicker.delegate = self;
     imgPicker.allowsEditing = YES;
+    imgPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
     imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
     
@@ -111,8 +114,20 @@
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
 
--(IBAction)sendPressed:(id)sender
-{
+-(IBAction)activeButton:(id)sender {
+    
+    if ([self.clearButton.titleLabel.text isEqualToString:@"clear"])   {
+        self.commentDetail.text = @"";
+        [self.clearButton setTitle: @"add text" forState: UIControlStateNormal];
+        [self.clearButton sizeToFit];
+    } else {
+        self.commentDetail.text = textviewText;
+        [self.clearButton setTitle: @"clear" forState: UIControlStateNormal];
+        [self.clearButton sizeToFit];
+    }
+}
+
+-(IBAction)sendPressed:(id)sender {
     [self.commentTitle resignFirstResponder];
     
     //Disable the send button until we are ready
@@ -205,6 +220,7 @@
     
     if (pickImage) { //it's image
         self.imgToUpload.image = pickImage;
+        //[self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
     } else { //it's video
         
         self.videoController = [[MPMoviePlayerController alloc] init];

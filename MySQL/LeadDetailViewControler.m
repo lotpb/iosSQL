@@ -42,12 +42,14 @@
     self.listTableView2.rowHeight = 25;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.newsTableView.estimatedRowHeight = 350;
-   [self parseData];
-   [self followButton];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
+        if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) ) {
             self.labelamount.font = CELL_FONT(20);
+            self.labelname.font = CELL_FONT(18);
+        } else {
+          self.labelname.font = CELL_FONT(24);
+        }
     }
  
     if ((![self.date isEqual:[NSNull null]] ) && ( [self.date length] != 0 ))
@@ -82,6 +84,8 @@
         [self.mySwitch setOn:YES];
     }
     
+    [self parseData];
+    [self followButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
@@ -151,7 +155,8 @@
         self.following.text = @"Following";
     } else {
         [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-        self.following.text = @"Follow";}
+        self.following.text = @"Follow";
+    }
 }
 
 #pragma mark  Map Buttons
@@ -163,13 +168,6 @@
 -(void)showEdit:(id)sender {
     [self performSegueWithIdentifier:VIEWSEGUE sender:self];
 }
-/*
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:self.newsTableView]) {
-    return 250.0f;
-    }
-    return 100;
-} */
 
 #pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -265,9 +263,8 @@
              myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
              myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
              myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
-             //self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
          } else {
-             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
+             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT18);
              myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
              myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
              myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
@@ -276,7 +273,6 @@
          self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
-    //myCell.separatorInset = UIEdgeInsetsMake(0.0f, myCell.frame.size.width, 0.0f, 0.0f);
     myCell.leadtitleLabel.text = self.lnewsTitle;
     myCell.leadtitleLabel.numberOfLines = 0;
    [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
@@ -303,14 +299,13 @@
     myCell.leadnews.text = self.comments;
     myCell.leadnews.numberOfLines = 0;
    [myCell.leadnews setTextColor:DETAILCOLOR];
-    //myCell.leadnews.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
     
     //Social buttons - code below
     UIButton *faceBtn;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 ,self.newsTableView.frame.size.height - 460, 25, 25)];
     } else {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 ,self.newsTableView.frame.size.height - 70, 20, 20)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 , myCell.leadtitleLabel.frame.size.height + 25, 20, 20)];
     }
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
@@ -381,20 +376,19 @@ return myCell;
     else t15 = @"None";
     
     if ((![self.tbl16 isEqual:[NSNull null]] ) && ( [self.tbl16 length] != 0 )) {
-        /*
-         NSString *dateStr = self.tbl16;
-         static NSDateFormatter *DateFormatter = nil;
-         if (DateFormatter == nil) {
-         NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-         [DateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
-         [DateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-         NSDate *dateFM = [DateFormatter dateFromString:dateStr];
-         [DateFormatter setDateFormat:@"MMM dd yy"];
-         dateStr = [DateFormatter stringFromDate:dateFM];
-         } */
-        t16 = self.tbl16; //dateStr;
+        
+        NSString *dateStr = self.tbl16;
+        static NSDateFormatter *DateFormatter = nil;
+        if (DateFormatter == nil) {
+            NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+            [DateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+            [DateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+            NSDate *dateFM = [DateFormatter dateFromString:dateStr];
+            [DateFormatter setDateFormat:@"MMM dd yy"];
+            dateStr = [DateFormatter stringFromDate:dateFM];
+        }
+        t16 = dateStr;
     } else t16 = @"None";
-   //NSLog(@"rawStr is %@",t16);
     
     if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 ))
         t21 = self.tbl21;
@@ -679,8 +673,8 @@ Parse.com
 
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"OK"]) {
        [self calenderEvent];
@@ -704,7 +698,7 @@ Parse.com
         NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
         [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        apptdate = [DateFormatter dateFromString:self.DateInput.text ];
+        apptdate = [DateFormatter dateFromString:self.DateInput.text];
     }
 
     EKEventStore *store = [[EKEventStore alloc] init];
