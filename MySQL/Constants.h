@@ -81,6 +81,8 @@
 //kPFCachePolicyCacheElseNetwork //kPFCachePolicyNetworkElseCache //kPFCachePolicyCacheThenNetwork
 #define QACTIVE            @"Active" //Query Active
 //------iPad Font Form-------------------------------
+#define IPADFONT36         36
+#define IPADFONT30         30
 #define IPADFONT26         26
 #define IPADFONT24         24
 #define IPADFONT22         22
@@ -90,6 +92,9 @@
 #define IPADFONT14         14
 #define IPADFONT12         12
 //------tableviewcell-------------------------------
+#define IPHONEFONT32       32
+#define IPHONEFONT30       30
+#define IPHONEFONT24       24
 #define IPHONEFONT20       20
 #define IPHONEFONT18       18
 #define IPHONEFONT17       17
@@ -194,6 +199,7 @@
 #define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
 
 //STATISTIC
+#define STOCKGREEN         [UIColor colorWithRed:0.0/255 green:153.0/255 blue:0.0/255 alpha:1.0]
 #define STATTEXTCOLOR      [UIColor blackColor]
 #define STATBACKCOLOR      [UIColor lightGrayColor]
 #define SLNAME1             @"Appointment's Today"
@@ -289,10 +295,10 @@
 #define DETAILSUBCOLOR     [UIColor grayColor]
 #define DETAILCOLOR        [UIColor darkGrayColor]
 #define DIVIDERCOLOR       [UIColor redColor]
-#define LEADNEWSTITLE      @"Customer News Company to expand to a new web advertising directive starting this week."
-#define CUSTOMERNEWSTITLE  @"Customer News Check out or new line of fabulous windows and siding."
-#define VENDORNEWSTITLE    @"Business News Peter Balsamo Appointed to United's Board of Directors."
-#define EMPLOYEENEWSTITLE  @"Employee News Health benifits cancelled immediately, ineffect starting today."
+#define LEADNEWSTITLE      @"Customer News: Company to expand to a new web advertising directive this week."
+#define CUSTOMERNEWSTITLE  @"Customer News: Check out or new line of fabulous windows and siding."
+#define VENDORNEWSTITLE    @"Business News: Peter Balsamo Appointed to United's Board of Directors."
+#define EMPLOYEENEWSTITLE  @"Employee News: Health benifits cancelled immediately, ineffect starting today."
 //------segue-------------------------------
 #define VIEWSEGUE          @"editFormSegue"
 #define NEWCUSTSEGUE       @"newcustSegue"

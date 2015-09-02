@@ -81,6 +81,7 @@
 @property (strong, nonatomic) NSString *active;
 
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
+@property (weak, nonatomic) IBOutlet UIView *mainView;
 
 // below from custom cell
 @property (strong, nonatomic) UILabel *leadtitleLabel;

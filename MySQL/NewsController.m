@@ -9,7 +9,7 @@
 #import "NewsController.h"
 
 @interface NewsController () {
-    //NSURL *videoURL;
+   // NSURL *url;
     UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *playLabel, *numLabel;
     UITextView *newsTextview;
     PFImageView *userImage;
@@ -18,13 +18,14 @@
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
     UIButton *likeButton, *playButton, *actionBtn;
-    UIView *separatorLineView;
+    UIView *wallImageView, *separatorLineView;
 }
+
 -(void)getNewsImages;
 -(void)loadWallViews;
 -(void)showErrorView:errorString;
 
-@property(copy, nonatomic) NSURL*videoURL;
+@property(copy, nonatomic) NSURL *videoURL;
 @property (nonatomic, strong) UISearchController *searchController;
 @end
 
@@ -125,8 +126,6 @@
             self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
             [self loadWallViews];
             
-            //[self.wallScroll reloadData];
-            
             if (self.imageFilesArray.count==0) {
                 [self.wallScroll addSubview:emptyLabel];
             } else {
@@ -153,7 +152,7 @@
 -(void)loadWallViews
 {
     //Clean the scroll view
-    for (id viewToRemove in [self.wallScroll subviews]){
+    for (id viewToRemove in [self.wallScroll subviews]) {
         
         if ([viewToRemove isMemberOfClass:[UIView class]])
             [viewToRemove removeFromSuperview];
@@ -161,11 +160,10 @@
     
     //For every wall element, put a view in the scroll
     int originY = 10;
-    for (wallObject in self.imageFilesArray){
+    for (wallObject in self.imageFilesArray) {
         
-        UIView *wallImageView;
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            //fix-self.view.frame.size.height - original height 330 not 345
+    
             wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20, 200)];
         } else {
             wallImageView = [[UIView alloc] initWithFrame:CGRectMake(10, originY, self.view.frame.size.width - 20, 345)];
@@ -174,8 +172,9 @@
         //Add the image
         image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
         userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-        userImage.backgroundColor = [UIColor blackColor];
-        NSLog(@"video url...%@", image.url);
+        //NSURL *imageFileURL = [[NSURL alloc] initWithString:image.url];
+        //NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
+        //NSLog(@"video url...%@", imageFileURL);
         
         //--------------------load background-----------------------------------
         
@@ -195,13 +194,13 @@
         else
             userImage.frame = CGRectMake(0, 75, wallImageView.frame.size.width, 225);
         
+        userImage.backgroundColor = [UIColor blackColor];
         userImage.clipsToBounds = YES;
         userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         userImage.layer.borderWidth = 0.5f;
         userImage.userInteractionEnabled = YES;
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mySequeMethod:)];
-      
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
         [userImage addGestureRecognizer:tap];
         
         [wallImageView addSubview:userImage];
@@ -228,6 +227,7 @@
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 56, wallImageView.frame.size.width, 15)];
             titleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
         }
+        
         detailLabel.font = DETAILFONT(IPHONEFONT14);
         readLabel.font = DETAILFONT(IPHONEFONT14);
         
@@ -252,7 +252,8 @@
         readLabel.backgroundColor = [UIColor clearColor];
         [wallImageView addSubview:readLabel];
         
-        newsTextview.text = textviewText;
+        newsTextview.text = [wallObject objectForKey:@"storyText"];
+        //NSLog(@"Testing Text url...%@", newsTextview.text);
         [wallImageView addSubview:newsTextview];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -302,21 +303,17 @@
             }
              playButton.alpha = 1.0f;
             //playButton.center = userImage.center;
-            //playButton.tintColor = [UIColor redColor]; //BLUECOLOR;
             UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [playButton setImage:playbutton forState:UIControlStateNormal];
             playButton.userInteractionEnabled = YES;
-            //userImage.userInteractionEnabled = YES;
             
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
             [playButton addGestureRecognizer:tap];
             
             [userImage addSubview:playButton];
             
-            //_videoURL = [NSURL URLWithString:@"http://files.parsetfss.com/6ab2bd45-dd6b-4dda-afde-ee839ccbdc32/tfss-512bafb0-b78d-4d18-9098-1e8c429ff7b8-movie.mp4"];
-            
             _videoURL = [NSURL URLWithString:image.url];
-            NSLog(@"Peter url...%@", _videoURL);
+            //NSLog(@"Testing url...%@", _videoURL);
 
         }
         
@@ -340,9 +337,19 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
-- (void)mySequeMethod:(UITapGestureRecognizer *)gestureRecognizer {
+- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
+
+    PFImageView *tappedimage = (PFImageView*)sender.view;
+    userImage.image = tappedimage.image;
+
+    //titleLabel.text = (NSString *)sender.view;
+    //detailLabel.text;
     
-    NSLog(@"Tapped!");
+    //if([image.url containsString:@"movie.mp4"]) {
+    //self.videoURL = [NSURL URLWithString:image.url];
+    //NSLog(@"Peter Test url...%@", sender);
+    //}
+
     [self performSegueWithIdentifier: @"newsdetailseque" sender: self];
     
 }
@@ -360,8 +367,9 @@
     //_videoURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.videoURL]];//[image objectForKey:@"url"];
     //_videoURL = [NSURL URLWithString:[_imageFilesArray objectAtIndex:1]];//[image objectForKey:@"url"];
     // _videoURL = [NSURL URLWithString:image.url];
-    self.videoController = [[MPMoviePlayerController alloc] init];
     //self.videoController = [[MPMoviePlayerController alloc] initWithFrame:frame placeholderImage:placeholderImage videoURL:videoURL];
+    
+    self.videoController = [[MPMoviePlayerController alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
@@ -512,6 +520,9 @@
         photo.image = userImage.image;
         photo.newsTitle = titleLabel.text;
         photo.newsDetail = detailLabel.text;
+        photo.newsStory = newsTextview.text;
+        photo.videoURL = self.videoURL;
+        
     }
 }
 

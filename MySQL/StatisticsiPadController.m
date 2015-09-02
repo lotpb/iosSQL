@@ -183,153 +183,154 @@
         static NSString *CellIdentifier = IDCELL;
         UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if (myCell == nil)
-            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -165, 6, 77, 17)];
+        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -80, 6, 67, 17)];
+        
+        [label1 setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [label1 setBackgroundColor:[UIColor whiteColor]];
+        label1.textAlignment = NSTextAlignmentRight;
+        [label2 setTextColor:[UIColor whiteColor]];
+        [label2 setFont:CELL_MEDFONT(IPADFONT16)];
+        label2.textAlignment = NSTextAlignmentRight;
         
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
         [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
-        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -165, 6, 77, 17)];
-        [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
-        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPADFONT16)];
-        [label1 setFont:CELL_LIGHTFONT(IPADFONT16)];
-        [label1 setBackgroundColor:[UIColor whiteColor]];
-        label1.textAlignment = NSTextAlignmentRight;
+        if (myCell == nil)
+            myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         if (indexPath.row == 0) {
             
-             if (![[changeYQL objectAtIndex:0] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:0] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:0];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:0];
+            label2.text = [changeYQL objectAtIndex:0];
             label1.text = [fieldYQL objectAtIndex:0];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
             
         } else if (indexPath.row == 1) {
             
-             if (![[changeYQL objectAtIndex:1] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:1] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:1];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:1];
+            label2.text = [changeYQL objectAtIndex:1];
             label1.text = [fieldYQL objectAtIndex:1];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
             
         } else if (indexPath.row == 2) {
             
-             if (![[changeYQL objectAtIndex:2] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:2] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:2] ;
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:2] ;
+            label2.text = [changeYQL objectAtIndex:2] ;
             label1.text = [fieldYQL objectAtIndex:2] ;
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 3) {
             
-             if (![[changeYQL objectAtIndex:3] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:3] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:3];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:3];
+            label2.text = [changeYQL objectAtIndex:3];
             label1.text = [fieldYQL objectAtIndex:3];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 4) {
             
-             if (![[changeYQL objectAtIndex:4] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:4] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:4];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:4];
+            label2.text = [changeYQL objectAtIndex:4];
             label1.text = [fieldYQL objectAtIndex:4];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 5) {
             
-             if (![[changeYQL objectAtIndex:5] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:5] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:5];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:5];
+            label2.text = [changeYQL objectAtIndex:5];
             label1.text = [fieldYQL objectAtIndex:5];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 6) {
             
-             if (![[changeYQL objectAtIndex:6] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:6] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:6];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:6];
+            label2.text = [changeYQL objectAtIndex:6];
             label1.text = [fieldYQL objectAtIndex:6];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 7) {
             
-             if (![[changeYQL objectAtIndex:7] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:7] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:7];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:7];
+            label2.text = [changeYQL objectAtIndex:7];
             label1.text = [fieldYQL objectAtIndex:7];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 8) {
             
-             if (![[changeYQL objectAtIndex:8] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:8] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:8];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:8];
+            label2.text = [changeYQL objectAtIndex:8];
             label1.text = [fieldYQL objectAtIndex:8];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 9) {
             
-             if (![[changeYQL objectAtIndex:9] containsString:@"-"]) {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
-             } else {
-             [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
-             }
+            if (![[changeYQL objectAtIndex:9] containsString:@"-"]) {
+                [label2 setBackgroundColor:STOCKGREEN];
+            } else {
+                [label2 setBackgroundColor:LINECOLOR3];
+            }
             myCell.textLabel.text = [symYQL objectAtIndex:9];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:9];
+            label2.text = [changeYQL objectAtIndex:9];
             label1.text = [fieldYQL objectAtIndex:9];
             [myCell.contentView addSubview:label1];
-            
+            [myCell.contentView addSubview:label2];
             return myCell;
         }
     } else if ([tableView isEqual:self.listTableViewLeft1]) {

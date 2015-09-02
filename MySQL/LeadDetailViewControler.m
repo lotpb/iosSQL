@@ -43,12 +43,23 @@
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.newsTableView.estimatedRowHeight = 350;
     
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) ) {
-            self.labelamount.font = CELL_FONT(20);
-            self.labelname.font = CELL_FONT(18);
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.labelamount.font = DETAILFONT(IPADFONT36);
+        self.labelname.font = DETAILFONT(IPADFONT30);
+        self.labeldate.font = DETAILFONT(IPADFONT18);
+    } else {
+        if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
+            self.labelamount.font = DETAILFONT(IPHONEFONT20);
+            self.labeldate.font = DETAILFONT(IPHONEFONT12);
         } else {
-          self.labelname.font = CELL_FONT(24);
+            self.labelamount.font = DETAILFONT(IPHONEFONT32);
+            self.labeldate.font = DETAILFONT(IPHONEFONT16);
+        }
+        
+        if ([_formController isEqual:TNAME3]) {
+            self.labelname.font = DETAILFONT(IPHONEFONT18);
+        } else {
+            self.labelname.font = DETAILFONT(IPHONEFONT24);
         }
     }
  
@@ -84,8 +95,22 @@
         [self.mySwitch setOn:YES];
     }
     
+    UIImageView *photoImage = [[UIImageView alloc] init];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        self.photoImage.frame = CGRectMake(15, 15, 300, 170);
+    else
+    photoImage.frame = CGRectMake(self.view.frame.size.width / 2 + 5, 60, self.mainView.frame.size.width / 2 - 140, 110);
+    UIImage *image = [UIImage imageNamed:@"IMG_1133.jpg"];
+    [photoImage setImage:image];
+    photoImage.clipsToBounds = YES;
+    photoImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    photoImage.layer.borderWidth = 0.5f;
+    photoImage.userInteractionEnabled = YES;
+    [self.mainView addSubview:photoImage];
+    
     [self parseData];
     [self followButton];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
@@ -189,17 +214,18 @@
     
     static NSString *CellIdentifier = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
+    }
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-        } else {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
-        }
         //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData4 objectAtIndex:indexPath.row];
     [myCell.textLabel setTextColor:DETAILCOLOR];
@@ -213,16 +239,16 @@
     static NSString *CellIdentifier2 = IDCELL;
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
+    }
+        
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-        } else {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
-        }
         
     //need to reload table (void)viewDidAppear to get fonts to change but its annoying
      myCell.textLabel.text = [tableData3 objectAtIndex:indexPath.row];
@@ -254,45 +280,48 @@
                               myCell.leadtitleLabel.transform = CGAffineTransformMakeScale(1, 1);
                           }]; */
          //---------------------animate label--------------------------------
-    
-    if (myCell == nil)
+         
+     //add dark line border TableView Header - code below
+     UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, 1.5)];
+     separatorLineTop.backgroundColor = [UIColor lightGrayColor];// you can also put image here
+     [myCell.contentView addSubview:separatorLineTop];
+         
+     self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+         
+     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+         myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPADFONT20);
+         myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
+         myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
+         myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
+     } else {
+         myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT18);
+         myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
+         myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
+         myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
+     }
+         
+         if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-         
-         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPADFONT20);
-             myCell.leadsubtitleLabel.font = CELL_FONT(IPADFONT16);
-             myCell.leadreadmore.font = CELL_FONT(IPADFONT16);
-             myCell.leadnews.font = CELL_MEDFONT(IPADFONT16);
-         } else {
-             myCell.leadtitleLabel.font = CELL_LIGHTFONT(IPHONEFONT18);
-             myCell.leadsubtitleLabel.font = CELL_FONT(IPHONEFONT14);
-             myCell.leadreadmore.font = CELL_FONT(IPHONEFONT14);
-             myCell.leadnews.font = CELL_MEDFONT(IPHONEFONT14);
-         }
-         
-         self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
      //need to reload table (void)viewDidAppear to get fonts to change but its annoying
     myCell.leadtitleLabel.text = self.lnewsTitle;
     myCell.leadtitleLabel.numberOfLines = 0;
    [myCell.leadtitleLabel setTextColor:DETAILTITLECOLOR];
-    myCell.leadtitleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
          
-        static NSDateFormatter *dateFormater = nil;
-        if (dateFormater == nil) {
-            
-            NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-            [dateFormater setDateFormat:KEY_DATESQLFORMAT];
-            dateFormater.timeZone = [NSTimeZone localTimeZone];
-            NSDate *creationDate = [dateFormater dateFromString:self.date];
-            NSDate *datetime1 = creationDate;
-            NSDate *datetime2 = [NSDate date];
-            double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
-            NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
-        
-    myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
-   [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
-   }
+     static NSDateFormatter *dateFormater = nil;
+     if (dateFormater == nil) {
+         NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+         [dateFormater setDateFormat:KEY_DATESQLFORMAT];
+         dateFormater.timeZone = [NSTimeZone localTimeZone];
+         NSDate *creationDate = [dateFormater dateFromString:self.date];
+         NSDate *datetime1 = creationDate;
+         NSDate *datetime2 = [NSDate date];
+         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+         NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+         myCell.leadsubtitleLabel.text = [NSString stringWithFormat:@"%@, %@",@"United News", resultDateDiff];
+         [myCell.leadsubtitleLabel setTextColor:DETAILSUBCOLOR];
+     }
+         
     myCell.leadreadmore.text = @"Read more";
    [myCell.leadreadmore setTextColor:BLUECOLOR];
         
@@ -301,20 +330,31 @@
    [myCell.leadnews setTextColor:DETAILCOLOR];
     
     //Social buttons - code below
-    UIButton *faceBtn;
+    UIButton *faceBtn = (UIButton*)[myCell.contentView viewWithTag:2000];
+    if(faceBtn == nil){
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 ,self.newsTableView.frame.size.height - 460, 25, 25)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 , myCell.leadtitleLabel.frame.size.height + 34, 25, 25)];
     } else {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 , myCell.leadtitleLabel.frame.size.height + 25, 20, 20)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 , myCell.leadtitleLabel.frame.size.height + 55, 20, 20)];
     }
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    [faceBtn setTag:2000];
     [myCell.contentView addSubview:faceBtn];
-        
-    //add dark line border TableView Header - code below
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, .5)];
-    separatorLineView.backgroundColor = [UIColor lightGrayColor];// you can also put image here
-    [myCell.contentView addSubview:separatorLineView];
+    }
+    
+     UIView *separatorLineBottom;
+     separatorLineBottom = [[UIView alloc] initWithFrame:CGRectZero];
+     separatorLineBottom.backgroundColor = [UIColor lightGrayColor];
+     separatorLineBottom.tag = 100;
+     [myCell.contentView addSubview:separatorLineBottom];
+     separatorLineBottom = (UIView*)[myCell.contentView viewWithTag:100];
+     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+         separatorLineBottom.frame = CGRectMake(0, myCell.frame.size.height + 20, self.view.frame.size.width, 1.5);
+     } else {
+         separatorLineBottom.frame = CGRectMake(0, myCell.frame.size.height + 15, self.view.frame.size.width, 1.5);
+     }
+     [myCell.contentView addSubview:separatorLineBottom];
 
 return myCell;
         

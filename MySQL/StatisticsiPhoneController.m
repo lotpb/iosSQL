@@ -228,15 +228,20 @@
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -155, 8, 77, 17)];
-    [label1 setBackgroundColor:[UIColor whiteColor]];
-    label1.textAlignment = NSTextAlignmentRight;
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    myCell.accessoryType = UITableViewCellAccessoryNone;
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -70, 8, 55, 17)];
     
+    [label1 setFont:CELL_FONT(IPHONEFONT14)];
+    [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
     [myCell.textLabel setFont:CELL_FONT(IPHONEFONT12)];
     [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT12)];
     [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
-    [label1 setFont:CELL_FONT(IPHONEFONT14)];
+    
+    [label1 setBackgroundColor:[UIColor whiteColor]];
+     label1.textAlignment = NSTextAlignmentRight;
+     label2.textAlignment = NSTextAlignmentRight;
+    [label2 setTextColor:[UIColor whiteColor]];
+     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+     myCell.accessoryType = UITableViewCellAccessoryNone;
     
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -246,142 +251,132 @@
         if (indexPath.row == 0) {
             
             if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:[UIColor colorWithRed:0.0 green:100.0 blue:0.0 alpha:1.0]];//LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:0];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:0];
-           [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-           [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:0];
             label1.text = [fieldYQL objectAtIndex:0];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 1) {
             
             if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:1];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:1];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-           [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:1];
             label1.text = [fieldYQL objectAtIndex:1];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 2) {
             
             if (([[changeYQL objectAtIndex:2] containsString:@"-"]) || ([[changeYQL objectAtIndex:2] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:2] ;
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:2];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:2];
             label1.text = [fieldYQL objectAtIndex:2] ;
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 3) {
             
             if (([[changeYQL objectAtIndex:3] containsString:@"-"]) || ([[changeYQL objectAtIndex:3] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:3];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:3];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:3];
             label1.text = [fieldYQL objectAtIndex:3];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 4) {
             
             if (([[changeYQL objectAtIndex:4] containsString:@"-"]) || ([[changeYQL objectAtIndex:4] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:4];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:4];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:4];
             label1.text = [fieldYQL objectAtIndex:4];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 5) {
             
             if (([[changeYQL objectAtIndex:5] containsString:@"-"]) || ([[changeYQL objectAtIndex:5] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:5];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:5];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:5];
             label1.text = [fieldYQL objectAtIndex:5];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 6) {
             
             if (([[changeYQL objectAtIndex:6] containsString:@"-"]) || ([[changeYQL objectAtIndex:6] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:6];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:6];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:6];
             label1.text = [fieldYQL objectAtIndex:6];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 7) {
             
             if (([[changeYQL objectAtIndex:7] containsString:@"-"]) || ([[changeYQL objectAtIndex:7] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:7];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:7];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:7];
             label1.text = [fieldYQL objectAtIndex:7];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 8) {
             
             if (([[changeYQL objectAtIndex:8] containsString:@"-"]) || ([[changeYQL objectAtIndex:8] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:8];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:8];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:8];
             label1.text = [fieldYQL objectAtIndex:8];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         } else if (indexPath.row == 9) {
             
             if (([[changeYQL objectAtIndex:9] containsString:@"-"]) || ([[changeYQL objectAtIndex:9] isEqual:[NSNull null]] )) {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR3];
+                [label2 setBackgroundColor:LINECOLOR3];
             } else {
-                [myCell.detailTextLabel setBackgroundColor:LINECOLOR1];
+                [label2 setBackgroundColor:STOCKGREEN];
             }
             myCell.textLabel.text = [symYQL objectAtIndex:9];
-            myCell.detailTextLabel.text = [changeYQL objectAtIndex:9];
-            [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
-            [myCell.detailTextLabel setTextColor:[UIColor whiteColor]];
+            label2.text = [changeYQL objectAtIndex:9];
             label1.text = [fieldYQL objectAtIndex:9];
             [myCell.contentView addSubview:label1];
+            [myCell.contentView addSubview:label2];
             return myCell;
         }
         
