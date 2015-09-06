@@ -17,11 +17,6 @@
 #define IPHONEFONT20       20
 #define IPHONEFONT14       14
 
-#define MAINLINESIZE1      12, 170, 60, 1.5
-#define MAINLINESIZE2      90, 170, 60, 1.5
-#define MAINLINESIZE3      163, 170, 60, 1.5
-#define MAINWEATHERSIZE1   12, 50, 60, 1.5
-
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define LINECOLOR1     [UIColor greenColor]
@@ -63,7 +58,19 @@
 #define MAINLABELSIZE2     90, 125, tableView.frame.size.width, 50
 #define MAINLABELSIZE3     163, 125, tableView.frame.size.width, 50
 #define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
-#define MAINLABELSIZE5     12, 80, tableView.frame.size.width, 20 //ipad
+#define PMAINLABELSIZE1    12, 165, tableView.frame.size.width, 50
+#define PMAINLABELSIZE2    90, 165, tableView.frame.size.width, 50
+#define PMAINLABELSIZE3    163, 165, tableView.frame.size.width, 50
+#define PMAINLABELSIZE4    12, 120, tableView.frame.size.width, 20 //ipad
+
+#define MAINLINESIZE1      12, 170, 60, 1.5
+#define MAINLINESIZE2      90, 170, 60, 1.5
+#define MAINLINESIZE3      163, 170, 60, 1.5
+#define PMAINLINESIZE1     12, 215, 60, 2.0
+#define PMAINLINESIZE2     90, 215, 60, 2.0
+#define PMAINLINESIZE3     163, 215, 60, 2.0
+#define MAINWEATHERSIZE1   12, 50, 60, 1.5
+
 //------table names-------------------------------
 #define TNAME1             @"Leads"
 #define TNAME2             @"Customers"

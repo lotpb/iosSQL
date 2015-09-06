@@ -13,6 +13,7 @@
     NSMutableArray *_statHeaderItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold, *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
     NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
+    NSTimer *myTimer;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -34,7 +35,6 @@
     self.listTableViewLeft1.rowHeight = 30;
     self.listTableViewRight1.rowHeight = 30;
     //UITableViewAutomaticDimension;
-    //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     //self.listTableView.estimatedRowHeight = 44.0;
     
     /*
@@ -54,7 +54,8 @@
     [self YahooFinanceLoad];
     
     //| -------------------------Timer----------------------------------
-      /*[NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];*/
+    
+      myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
     
     //| ---------------------------end----------------------------------
     
@@ -80,11 +81,16 @@
     [self.listTableView reloadData];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [myTimer invalidate];
+     myTimer = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    // self.navigationController.navigationBar.tintColor = NAVTINTCOLOR; //set in AppDelegate - grayColor
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,10 +158,7 @@
 #pragma mark - TableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
- 
-   // if ([tableView isEqual:self.listTableView])
-  //  return 1;
- //   else
+
     return 1;
 }
 
@@ -193,8 +196,8 @@
         [label2 setFont:CELL_MEDFONT(IPADFONT16)];
         label2.textAlignment = NSTextAlignmentRight;
         
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        myCell.accessoryType = UITableViewCellAccessoryNone;
+         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+         myCell.accessoryType = UITableViewCellAccessoryNone;
         [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
         
         if (myCell == nil)
@@ -552,69 +555,49 @@
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
     if ([tableView isEqual:self.listTableView]) {
         if (section == 0)
         return MAINHEADHEIGHT;
-    } else if ([tableView isEqual:self.listTableViewLeft1]) {
-        return 30;
-    } else if ([tableView isEqual:self.listTableViewRight1]) {
-        return 30;
-    } else if ([tableView isEqual:self.listTableViewLeft]) {
-        if (section == 0)
-        return 30;
-    } else if ([tableView isEqual:self.listTableViewRight]) {
-        if (section == 0)
-        return 30;
     }
-    
     return 0;
 }
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *headerTitle;
-    if ([tableView isEqual:self.listTableViewLeft1]) {
-        if (section == 0)
-        headerTitle = @"Lead Info";
-        
-    }
-    return headerTitle;
-} */
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
-(NSInteger)section {
-    
-    NSString *footerTitle;
-    if ([tableView isEqual:self.listTableViewLeft1]) {
-        footerTitle = @"Lead Info";
-    } else if ([tableView isEqual:self.listTableViewRight1]) {
-        footerTitle = @"Customer Info";
-    }
-    return footerTitle;
-} */
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UILabel *headerLabel = [[UILabel alloc]init];
+    headerLabel.textColor = [UIColor whiteColor];
+    headerLabel.shadowColor = [UIColor blackColor];
+    headerLabel.font = [UIFont fontWithName:@"Chalkduster" size:16];
+    UIColor *pinkTint = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1.0];
+    headerLabel.backgroundColor = pinkTint;
+    
+    if ([tableView isEqual:self.listTableView]) {
+        headerLabel.text = @"  My Weather";
+    } else if ([tableView isEqual:self.listTableViewLeft1]) {
+        headerLabel.text = @"  My Leads";
+    } else if ([tableView isEqual:self.listTableViewRight1]) {
+        headerLabel.text = @"  My Customer";
+    }
+    return headerLabel;
+    
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+    NSString *newString2 = @"$100,000"; //[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
     self.listTableView.tableHeaderView = view; //makes header move with tablecell
+    view.backgroundColor = BLOGNAVBARCOLOR;
+    /*
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, MAINHEADHEIGHT)];
-    
     UIImage *image = [UIImage imageNamed:@"background"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
-    [view addSubview:imageHolder];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -45, 3, 90, 45)];
-    [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];
-    [label setTextColor:HEADTEXTCOLOR];
-    label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = newString;
-    [label setText:string];
-    [view addSubview:label];
+    [view addSubview:imageHolder]; */
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
@@ -622,6 +605,14 @@
     [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
     segmentedControl.selectedSegmentIndex = 1;
     [view addSubview:segmentedControl];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -47, 3, 95, 45)];
+    [label setFont: [UIFont fontWithName:@"Avenir-Book" size:24]];//Avenir-Black];
+    [label setTextColor:HEADTEXTCOLOR];
+    label.textAlignment = NSTextAlignmentCenter;
+    NSString *string = newString;
+    [label setText:string];
+    [view addSubview:label];
     
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -25, 75, 50, 45)];
     label1.textAlignment = NSTextAlignmentCenter;
@@ -631,10 +622,6 @@
     [label1 setText:string1];
     [view addSubview:label1];
     
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -30, 110, 60, 1.9)];
-    separatorLineView1.backgroundColor = [UIColor whiteColor];
-    [view addSubview:separatorLineView1];
-    
     UILabel *textframe = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -70, 115, 140, 45)];
     self.label2 = textframe;
     self.label2.textAlignment = NSTextAlignmentCenter;
@@ -643,6 +630,10 @@
     NSString *string2 = newString2;
     [self.label2 setText:string2];
     [view addSubview:self.label2];
+    
+    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -30, 110, 60, 1.9)];
+    separatorLineView1.backgroundColor = [UIColor whiteColor];
+    [view addSubview:separatorLineView1];
     
     return view;
 }
@@ -692,13 +683,11 @@
     w1results = [yql query:queryStringw1];
     dayYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.day"];
     textYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.text"];
-    //NSLog(@"%@ %@", fieldYQL, w1results );
     
     resultsYQL = [yql query:queryString2];
     symYQL = [resultsYQL valueForKeyPath:@"query.results.quote.symbol"];
     fieldYQL = [resultsYQL valueForKeyPath:@"query.results.quote.LastTradePriceOnly"];
     changeYQL = [resultsYQL valueForKeyPath:@"query.results.quote.Change"];
-    //NSLog(@"%@ %@", fieldYQL, symYQL );
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {

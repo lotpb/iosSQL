@@ -199,8 +199,12 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (!isFilltered)
+    if (!isFilltered) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            return 225.0;
+        else
         return MAINHEADHEIGHT;
+        }
     else return 0.0;
 }
 
@@ -214,100 +218,106 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
     
-    UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
-    UILabel *label4;
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE5)];
+    UIImageView *imageHolder;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 225)];
     } else {
-    label4 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+    imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
     }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [label setFont:CELL_FONT(IPADFONT16)];
-        [label1 setFont:CELL_FONT(IPADFONT16)];
-        [label2 setFont:CELL_FONT(IPADFONT16)];
-        [label4 setFont:CELL_FONT(IPADFONT16)];
-        label.backgroundColor = [UIColor blackColor];
-        button.titleLabel.font = CELL_FONT(IPADFONT18);
-        button.frame = CGRectMake(tableView.frame.size.width -115, 130, 90, 37);
-    } else {
-        [label setFont:CELL_FONT(IPHONEFONT14 + 1)];
-        [label1 setFont:CELL_FONT(IPHONEFONT14 + 1)];
-        [label2 setFont:CELL_FONT(IPHONEFONT14 + 1)];
-        [label4 setFont:CELL_FONT(IPHONEFONT14)];
-        button.titleLabel.font = CELL_FONT(IPHONEFONT14);
-        button.frame = CGRectMake(tableView.frame.size.width -90, 125, 90, 37);
-    }
-    [label setTextColor:HEADTEXTCOLOR];
-    [label1 setTextColor:HEADTEXTCOLOR];
-    [label2 setTextColor:HEADTEXTCOLOR];
     
     UIImage *image;
-    /*  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-     image = nil; //[UIImage imageNamed:@""];
-     } else {
-     image = [UIImage imageNamed:@"IMG_1133New.jpg"];
-     }*/
     image = [UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
     [view addSubview:imageHolder];
-
+    
+    UILabel *label, *label1, *label2, *label3;
+    UIButton *button;
+    UIView *separatorLineView, *separatorLineView1, *separatorLineView2;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        label = [[UILabel alloc] initWithFrame:CGRectMake(PMAINLABELSIZE1)];
+        label1 = [[UILabel alloc] initWithFrame:CGRectMake(PMAINLABELSIZE2)];
+        label2 = [[UILabel alloc] initWithFrame:CGRectMake(PMAINLABELSIZE3)];
+        label3 = [[UILabel alloc] initWithFrame:CGRectMake(PMAINLABELSIZE4)];
+        separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE1)];
+        separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE2)];
+        separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE3)];
+        [label setFont:CELL_FONT(IPADFONT16)];
+        [label1 setFont:CELL_FONT(IPADFONT16)];
+        [label2 setFont:CELL_FONT(IPADFONT16)];
+        [label3 setFont:CELL_FONT(IPADFONT16)];
+        label.backgroundColor = [UIColor blackColor];
+        button.titleLabel.font = CELL_FONT(IPADFONT18);
+        button.frame = CGRectMake(tableView.frame.size.width -115, 170, 90, 37);
+    } else {
+        label = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE1)];
+        label1 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE2)];
+        label2 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE3)];
+        label3 = [[UILabel alloc] initWithFrame:CGRectMake(MAINLABELSIZE4)];
+        separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE1)];
+        separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
+        separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
+        [label setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label1 setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label2 setFont:CELL_FONT(IPHONEFONT14 + 1)];
+        [label3 setFont:CELL_FONT(IPHONEFONT14)];
+        button.titleLabel.font = CELL_FONT(IPHONEFONT14);
+        button.frame = CGRectMake(tableView.frame.size.width -90, 125, 90, 37);
+    }
+    
+    [label setTextColor:HEADTEXTCOLOR];
+    [label1 setTextColor:HEADTEXTCOLOR];
+    [label2 setTextColor:HEADTEXTCOLOR];
+    
     label.numberOfLines = 0;
     NSString *string3 = newString;
     [label setText:string3];
     [view addSubview:label];
     
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE1)];
-    separatorLineView.backgroundColor = LINECOLOR1;
-    [view addSubview:separatorLineView];
-    
     label1.numberOfLines = 0;
     NSString *string1 = newString1;
     [label1 setText:string1];
     [view addSubview:label1];
-    /*
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
-    if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
-        separatorLineView1.backgroundColor = LINECOLOR3;
-    } else {
-        separatorLineView1.backgroundColor = LINECOLOR1;
-    }
-    [view addSubview:separatorLineView1]; */
     
     label2.numberOfLines = 0;
     NSString *string2 = newString2;
     [label2 setText:string2];
     [view addSubview:label2];
-    /*
-    UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
+    
+    label3.numberOfLines = 0;
+    NSString *string = newString3;
+    [label3 setText:string];
+    [view addSubview:label3];
+    
+     button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"Statistics" forState:UIControlStateNormal];
+    [button setTitleColor:LINECOLOR1 forState:UIControlStateNormal];
+    [view addSubview:button];
+    
+    separatorLineView.backgroundColor = LINECOLOR1;
+    [view addSubview:separatorLineView];
+    
+    if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
+        separatorLineView1.backgroundColor = LINECOLOR3;
+    } else {
+        separatorLineView1.backgroundColor = LINECOLOR1;
+    }
+    [view addSubview:separatorLineView1];
+    
     if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:nil] )) {
         separatorLineView2.backgroundColor = LINECOLOR3;
     } else {
         separatorLineView2.backgroundColor = LINECOLOR1;
     }
-    [view addSubview:separatorLineView2]; */
+    [view addSubview:separatorLineView2];
     
     if (([textYQL containsString:@"Rain"]) || ([textYQL containsString:@"Snow"])) {
-        [label4 setTextColor:LINECOLOR3];
+        [label3 setTextColor:LINECOLOR3];
     } else {
-        [label4 setTextColor:LINECOLOR1];
+        [label3 setTextColor:LINECOLOR1];
     }
-    
-    label4.numberOfLines = 0;
-    NSString *string = newString3;
-    [label4 setText:string];
-    [view addSubview:label4];
-    
-    [button addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"Statistics" forState:UIControlStateNormal];
-    [button setTitleColor:LINECOLOR1 forState:UIControlStateNormal];
-    [view addSubview:button];
     
     if (!isFilltered)
         [view setBackgroundColor:[UIColor clearColor]];

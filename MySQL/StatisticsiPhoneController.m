@@ -14,6 +14,7 @@
     NSMutableArray *_statHeaderItems, *_feedCustItems, *_feedLeadItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold, *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
     NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
+    NSTimer *myTimer;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
@@ -22,8 +23,7 @@
 
 @implementation StatisticsiPhoneController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;//fix
     self.title = NSLocalizedString(@"Statistics", nil);
@@ -31,22 +31,8 @@
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = STATBACKCOLOR;
     self.listTableView.rowHeight = 30;
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-     //   self.listTableViewLeft.rowHeight = 30;
-     //   self.listTableViewRight.rowHeight = 30;
-     //   self.listTableViewLeft1.rowHeight = 30;
-     //   self.listTableViewRight1.rowHeight = 30;
-    }
  // UITableViewAutomaticDimension;
- //[self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
   //self.listTableView.estimatedRowHeight = 44.0;
-    
-    [self YahooFinanceLoad];
-    
-    //| -------------------------Timer----------------------------------
-    /*[NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];*/
-    
-    //| ---------------------------end----------------------------------
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
@@ -67,6 +53,13 @@
         tableLeadData = [[NSMutableArray alloc]initWithObjects:SLNAME1, SLNAME2, SLNAME3, SLNAME4, SLNAME5, SLNAME6, SLNAME7, SLNAME8, nil];
         tableCustData = [[NSMutableArray alloc]initWithObjects:SCNAME1, SCNAME2, SCNAME3, SCNAME4, SCNAME5, SCNAME6, SCNAME7, SCNAME8, nil];
     }
+    
+    [self YahooFinanceLoad];
+    
+    //| -------------------------Timer----------------------------------
+    myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+    
+    //| ---------------------------end----------------------------------
     
     filteredString= [[NSMutableArray alloc] init];
 
@@ -90,6 +83,12 @@
     [self.listTableView reloadData];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [myTimer invalidate];
+     myTimer = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
@@ -99,6 +98,38 @@
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - RefreshControl
+-(void)reloadDatas:(id)sender {
+    
+    [self YahooFinanceLoad];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
+        parseConnection.delegate = (id)self;
+        [parseConnection parseTodayLeads]; [parseConnection parseActiveLeads];
+        [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
+        [parseConnection parseWindowSold];
+    } else {
+        [_StatLeadModel downloadItems];
+        [_StatCustModel downloadItems];
+    }
+    [self.listTableView reloadData];
+    
+    if (refreshControl) {
+        
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            refreshControl.attributedTitle = attributedTitle; }
+        
+        [refreshControl endRefreshing];
+    }
 }
 
 #pragma mark - mySQL Delegate
@@ -153,71 +184,32 @@
     [self.listTableView reloadData];
 }
 
-#pragma mark - RefreshControl
--(void)reloadDatas:(id)sender {
-    
-    [self YahooFinanceLoad];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
-        parseConnection.delegate = (id)self;
-        [parseConnection parseTodayLeads]; [parseConnection parseActiveLeads];
-        [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
-        [parseConnection parseWindowSold];
-    } else {
-        [_StatLeadModel downloadItems];
-        [_StatCustModel downloadItems];
-    }
-    [self.listTableView reloadData];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    //    [self.listTableViewLeft reloadData]; [self.listTableViewRight reloadData];
-    //    [self.listTableViewLeft1 reloadData]; [self.listTableViewRight1 reloadData];
-
-    }
-    
-    if (refreshControl) {
-        
-        static NSDateFormatter *formatter = nil;
-        if (formatter == nil) {
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:KEY_DATEREFRESH];
-            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
-            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
-            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
-            refreshControl.attributedTitle = attributedTitle; }
-        
-        [refreshControl endRefreshing];
-    }
-}
-
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 1;
-    } else {
-        return 5;
-    }
+    
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-
-            if (section == 0)
-                return 10;
-            else if (section == 1)
-                return 6;
-            else if (section == 2)
-                return 6;
-            else if (section == 3)
-                return 8;
-            else if (section == 4)
-                return 8;
-        } else {
-            if (section == 3)
-                return _feedLeadItems.count;
-            else if (section == 4)
-                return _feedCustItems.count;
-        }
+        
+        if (section == 0)
+            return 10;
+        else if (section == 1)
+            return 6;
+        else if (section == 2)
+            return 6;
+        else if (section == 3)
+            return 8;
+        else if (section == 4)
+            return 8;
+    } else {
+        if (section == 3)
+            return _feedLeadItems.count;
+        else if (section == 4)
+            return _feedCustItems.count;
+    }
     return 0;
 }
 
@@ -558,6 +550,8 @@
 
 #pragma mark TableHeader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    if ([tableView isEqual:self.listTableView]) {
     if (section == 0)
         return MAINHEADHEIGHT;
     else if (section == 1)
@@ -568,72 +562,69 @@
         return 5;
     else if (section == 4)
         return 5;
-    
+    }
     return 0;
 }
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:
-(NSInteger)section {
-    NSString *footerTitle;
-    if (section == 0)
-        footerTitle = @"*";
-    
-    return footerTitle;
-} */
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *newString = @"Statistics";
-    NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$100,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    tableView.tableHeaderView = view; //makes header move with tablecell
-    UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, MAINHEADHEIGHT)];
-    
-    UIImage *image = [UIImage imageNamed:@"background"];
-    imageHolder.image = image;
-    imageHolder.contentMode = UIViewContentModeScaleAspectFill;
-    imageHolder.clipsToBounds = true;
-    [view addSubview:imageHolder];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -45, 3, 90, 45)];
-    [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];
-    [label setTextColor:HEADTEXTCOLOR];
-     label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = newString;
-    [label setText:string];
-    [view addSubview:label];
-    
-    NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);
-    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
-    segmentedControl.selectedSegmentIndex = 1;
-    [view addSubview:segmentedControl];
-    
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -25, 75, 50, 45)];
-     label1.textAlignment = NSTextAlignmentCenter;
-    [label1 setFont:[UIFont fontWithName:@"Avenir-Black" size:16]];
-    [label1 setTextColor:[UIColor greenColor]];
-    NSString *string1 = newString1;
-    [label1 setText:string1];
-    [view addSubview:label1];
-    
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -30, 110, 60, 1.9)];
-    separatorLineView1.backgroundColor = [UIColor whiteColor];
-    [view addSubview:separatorLineView1];
-    
-    UILabel *textframe = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -70, 115, 140, 45)];
-     self.label2 = textframe;
-     self.label2.textAlignment = NSTextAlignmentCenter;
-    [self.label2 setFont:[UIFont fontWithName:@"Avenir-Black" size:30]];
-    [self.label2 setTextColor:HEADTEXTCOLOR];
-    NSString *string2 = newString2;
-    [self.label2 setText:string2];
-    [view addSubview:self.label2];
-    
+    UIView *view;
+    if ([tableView isEqual:self.listTableView]) {
+        if (section == 0) {
+            NSString *newString = @"Statistics";
+            NSString *newString1 = @"SALES";
+            NSString *newString2 = @"$100,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+            
+            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
+            self.listTableView.tableHeaderView = view; //makes header move with tablecell
+            view.backgroundColor = BLOGNAVBARCOLOR;
+            /*
+             UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, MAINHEADHEIGHT)];
+             UIImage *image = [UIImage imageNamed:@"background"];
+             imageHolder.image = image;
+             imageHolder.contentMode = UIViewContentModeScaleAspectFill;
+             imageHolder.clipsToBounds = true;
+             [view addSubview:imageHolder]; */
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -45, 3, 90, 45)];
+            [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];
+            [label setTextColor:HEADTEXTCOLOR];
+            label.textAlignment = NSTextAlignmentCenter;
+            NSString *string = newString;
+            [label setText:string];
+            [view addSubview:label];
+            
+            NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
+            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+            segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);
+            [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
+            segmentedControl.selectedSegmentIndex = 1;
+            [view addSubview:segmentedControl];
+            
+            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -25, 75, 50, 45)];
+            label1.textAlignment = NSTextAlignmentCenter;
+            [label1 setFont:[UIFont fontWithName:@"Avenir-Black" size:16]];
+            [label1 setTextColor:[UIColor greenColor]];
+            NSString *string1 = newString1;
+            [label1 setText:string1];
+            [view addSubview:label1];
+            
+            UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -30, 110, 60, 1.9)];
+            separatorLineView1.backgroundColor = [UIColor whiteColor];
+            [view addSubview:separatorLineView1];
+            
+            UILabel *textframe = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -70, 115, 140, 45)];
+            self.label2 = textframe;
+            self.label2.textAlignment = NSTextAlignmentCenter;
+            [self.label2 setFont:[UIFont fontWithName:@"Avenir-Black" size:30]];
+            [self.label2 setTextColor:HEADTEXTCOLOR];
+            NSString *string2 = newString2;
+            [self.label2 setText:string2];
+            [view addSubview:self.label2];
+        }
+    }
     return view;
+    
 }
 
 #pragma mark - SegmentedControl
@@ -665,7 +656,6 @@
     self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
     self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
@@ -711,7 +701,6 @@
     symYQL = [resultsYQL valueForKeyPath:@"query.results.quote.symbol"];
     fieldYQL = [resultsYQL valueForKeyPath:@"query.results.quote.LastTradePriceOnly"]; //Array
     changeYQL = [resultsYQL valueForKeyPath:@"query.results.quote.Change"]; //Array
-    //NSLog(@"%@ %@", fieldYQL, symYQL );
 }
 
 @end

@@ -9,8 +9,8 @@
 #import "NewsController.h"
 
 @interface NewsController () {
-   // NSURL *url;
-    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *playLabel, *numLabel;
+
+    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *numLabel, *urlLabel;
     UITextView *newsTextview;
     PFImageView *userImage;
     PFFile *image;
@@ -76,7 +76,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
     //Clean the scroll view
@@ -111,41 +111,41 @@
     
     if (!requestInProgress && !stopFetching) {
         requestInProgress = YES;
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query setLimit:5]; //parse.com standard is 100
-     query.skip = pageNumber*5;
-     query.cachePolicy = kPFCACHEPOLICY;
-     query.maxCacheAge = 60*60;
-    [query orderByDescending:KEY_CREATION_DATE];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        if (!error) {
-            //Everything was correct, put the new objects and load the wall
-            self.imageFilesArray = nil;
-            self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
-            [self loadWallViews];
+        PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+        [query setLimit:5]; //parse.com standard is 100
+        query.skip = pageNumber*5;
+        query.cachePolicy = kPFCACHEPOLICY;
+        query.maxCacheAge = 60*60;
+        [query orderByDescending:KEY_CREATION_DATE];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
-            if (self.imageFilesArray.count==0) {
-                [self.wallScroll addSubview:emptyLabel];
+            if (!error) {
+                //Everything was correct, put the new objects and load the wall
+                self.imageFilesArray = nil;
+                self.imageFilesArray = [[NSMutableArray alloc] initWithArray:objects];
+                [self loadWallViews];
+                
+                if (self.imageFilesArray.count==0) {
+                    [self.wallScroll addSubview:emptyLabel];
+                } else {
+                    [emptyLabel removeFromSuperview];
+                }
+                
+                requestInProgress = NO;
+                forceRefresh = NO;
+                if (objects.count<5) {
+                    stopFetching = YES;
+                }
+                pageNumber++;
             } else {
-                [emptyLabel removeFromSuperview];
+                requestInProgress = NO;
+                forceRefresh = NO;
+                NSString *errorString = [[error userInfo] objectForKey:@"error"];
+                [self showErrorView:errorString];
             }
-            
-            requestInProgress = NO;
-            forceRefresh = NO;
-            if (objects.count<5) {
-                stopFetching = YES;
-            }
-            pageNumber++;
-        } else {
-            requestInProgress = NO;
-            forceRefresh = NO;
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            [self showErrorView:errorString];
-        }
-    }];
-}
+        }];
+    }
 }
 
 #pragma mark - Wall Load
@@ -172,11 +172,8 @@
         //Add the image
         image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
         userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-        //NSURL *imageFileURL = [[NSURL alloc] initWithString:image.url];
-        //NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
-        //NSLog(@"video url...%@", imageFileURL);
         
-        //--------------------load background-----------------------------------
+        //--------------------load in background------------------------------
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
             //added to remove warning on thread...load faster use above code
@@ -188,6 +185,7 @@
             [userImage loadInBackground];
             //userImage.contentMode = UIViewContentModeScaleAspectFit;
         }
+         //-------------------------------------------------------------------
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             userImage.frame = CGRectMake(15, 15, 300, 170);
@@ -198,11 +196,11 @@
         userImage.clipsToBounds = YES;
         userImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         userImage.layer.borderWidth = 0.5f;
-        userImage.userInteractionEnabled = YES;
-        
+
+         wallImageView.userInteractionEnabled = YES;
+        [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
-        [userImage addGestureRecognizer:tap];
-        
+        [wallImageView addGestureRecognizer:tap];
         [wallImageView addSubview:userImage];
 
         /*
@@ -210,8 +208,6 @@
          [UIImage imageWithData:image.getData]];
          userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
          [wallImageView addSubview:userImage]; */
-        
-        //--------------------------------------------------------------------------------------
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
@@ -225,15 +221,18 @@
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 56, wallImageView.frame.size.width, 15)];
+            newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(5, 86, wallImageView.frame.size.width, 45)];
+            
             titleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
         }
-        
+        newsTextview.editable = NO; //bug fix
         detailLabel.font = DETAILFONT(IPHONEFONT14);
         readLabel.font = DETAILFONT(IPHONEFONT14);
         
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.textColor = NEWSTITLECOLOR;
         titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.tag = 1;
         titleLabel.numberOfLines = 0;
         [wallImageView addSubview:titleLabel];
         
@@ -245,16 +244,53 @@
         detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
         detailLabel.textColor = NEWSDETAILCOLOR;
         detailLabel.backgroundColor = [UIColor clearColor];
+        detailLabel.tag = 2;
         [wallImageView addSubview:detailLabel];
         
         readLabel.text = READLABEL;
         readLabel.textColor = BLUECOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
+        readLabel.tag = 3;
         [wallImageView addSubview:readLabel];
         
         newsTextview.text = [wallObject objectForKey:@"storyText"];
-        //NSLog(@"Testing Text url...%@", newsTextview.text);
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        newsTextview.hidden = true;
+        }
         [wallImageView addSubview:newsTextview];
+        
+        urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
+        urlLabel.tag = 4;
+        urlLabel.text = image.url;
+        urlLabel.hidden = true;
+        [wallImageView addSubview:urlLabel];
+        
+        if([image.url containsString:@"movie.mp4"]) {
+            
+            playButton = [[UIButton alloc] init];
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                playButton.frame = CGRectMake(userImage.frame.size.width / 2, userImage.frame.origin.y + 55, 50, 50);
+            } else {
+                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50);
+            }
+            playButton.alpha = 1.0f;
+            //playButton.tag = 5;
+            //playButton.center = userImage.center;
+            UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [playButton setImage:playbutton forState:UIControlStateNormal];
+            playButton.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+            [playButton addGestureRecognizer:tap];
+            //[urlLabel addGestureRecognizer:tap];
+            
+            [wallImageView addSubview:playButton];
+            
+            //_videoURL = [NSURL URLWithString:self.imageDetailurl];
+            _videoURL = [NSURL URLWithString:image.url];
+            //NSLog(@"Testing url...%@", _videoURL);
+            
+        }
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,165, 20, 20)];
@@ -265,16 +301,6 @@
         [actionBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
         [actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:actionBtn];
-        
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
-        } else {
-            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
-        }
-        separatorLineView.backgroundColor = SCROLLBACKCOLOR;
-        [wallImageView addSubview:separatorLineView];
-        
         
         likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
         likeButton.tintColor = [UIColor lightGrayColor]; //BLUECOLOR;
@@ -291,41 +317,18 @@
         [numLabel sizeToFit];
         [wallImageView addSubview:numLabel];
         
-        //_videoURL = [NSURL URLWithString:image.url];
-        
-        if([image.url containsString:@"movie.mp4"]) {
-            
-            playButton = [[UIButton alloc] init];
-            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 45, 50, 50);
-            } else {
-                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25 , userImage.frame.origin.y + 10, 50, 50);
-            }
-             playButton.alpha = 1.0f;
-            //playButton.center = userImage.center;
-            UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [playButton setImage:playbutton forState:UIControlStateNormal];
-            playButton.userInteractionEnabled = YES;
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-            [playButton addGestureRecognizer:tap];
-            
-            [userImage addSubview:playButton];
-            
-            _videoURL = [NSURL URLWithString:image.url];
-            //NSLog(@"Testing url...%@", _videoURL);
-
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
+        } else {
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
         }
-        
-        //  self.wallScroll.layoutMargins = UIEdgeInsetsZero;
-        //  wallImageView.separatorInset = UIEdgeInsetsMake(0.0f, self.view.frame.size.width, 0.0f, 400.0f);
-        //   wallImageView = UIEdgeInsetsMake(0.0f, self.wallScroll.frame.size.width, 0.0f, 400.0f);
+        separatorLineView.backgroundColor = SCROLLBACKCOLOR;
+        [wallImageView addSubview:separatorLineView];
         
         // [self.wallScroll addSubview:wallImageView];
         // [self.wallScroll addSubview:separatorLineView];
         // self.automaticallyAdjustsScrollViewInsets = NO;
         
-        [wallImageView setBackgroundColor:VIEWBACKCOLOR];
         [self.wallScroll addSubview:wallImageView];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -338,24 +341,46 @@
 }
 
 - (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
-
-    PFImageView *tappedimage = (PFImageView*)sender.view;
-    userImage.image = tappedimage.image;
-
-    //titleLabel.text = (NSString *)sender.view;
-    //detailLabel.text;
+  
+    UIView *tappedView = sender.view;
+    UILabel *label1 = (UILabel*)[tappedView viewWithTag:1];
+    titleLabel.text = label1.text;
+    UILabel *label2 = (UILabel*)[tappedView viewWithTag:2];
+    detailLabel.text = label2.text;
+    //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
+    //detailLabel.text = label3.text;
+    UILabel *label4 = (UILabel*)[tappedView viewWithTag:4];
+    self.imageDetailurl = label4.text;
     
-    //if([image.url containsString:@"movie.mp4"]) {
-    //self.videoURL = [NSURL URLWithString:image.url];
-    //NSLog(@"Peter Test url...%@", sender);
-    //}
-
+    for (UIView *view in sender.view.subviews) {
+        
+        if([view isKindOfClass:[UITextView class]]) {
+            newsTextview.text = ((UITextView *)view).text;
+        }
+        
+        if([view isKindOfClass:[PFImageView class]]) {
+            userImage.image = ((PFImageView *)view).image;
+        }
+    }
     [self performSegueWithIdentifier: @"newsdetailseque" sender: self];
-    
 }
 
 #pragma mark - play video
-- (IBAction) playVideo:(id)sender { //(NSURL*) _videoURL{
+- (IBAction)playVideo:(id)sender {
+
+    /*
+    UIButton *button = (UIButton *) sender;
+    CGRect buttonPosition = [button convertRect:button.bounds toView:wallImageView];
+    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
+    UILabel *label1 = (UILabel*)[buttonPosition viewWithTag:4];
+    titleLabel.text = label1.text; */
+   /*
+    UIButton* button = (UIButton *) sender;
+    //UIView *tappedView1 = sender.view;
+    label4 = (UILabel*)[button viewWithTag:4];
+    self.imageDetailurl = label4.text;
+    _videoURL = [NSURL URLWithString:self.imageDetailurl]; */
+    
      //UIButton* button = (UIButton *) sender;
     //NSLog([(long)sender tag]);
     //NSURL *url = [[NSBundle mainBundle] URLForResource:@"video1" withExtension:@"mp4"];
@@ -367,7 +392,6 @@
     //_videoURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.videoURL]];//[image objectForKey:@"url"];
     //_videoURL = [NSURL URLWithString:[_imageFilesArray objectAtIndex:1]];//[image objectForKey:@"url"];
     // _videoURL = [NSURL URLWithString:image.url];
-    //self.videoController = [[MPMoviePlayerController alloc] initWithFrame:frame placeholderImage:placeholderImage videoURL:videoURL];
     
     self.videoController = [[MPMoviePlayerController alloc] init];
     
@@ -521,8 +545,7 @@
         photo.newsTitle = titleLabel.text;
         photo.newsDetail = detailLabel.text;
         photo.newsStory = newsTextview.text;
-        photo.videoURL = self.videoURL;
-        
+        photo.imageDetailurl = self.imageDetailurl;
     }
 }
 

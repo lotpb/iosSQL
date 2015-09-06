@@ -9,7 +9,8 @@
 #import "NewsDetailController.h"
 
 @interface NewsDetailController () {
-    UIButton *playButton;//
+    UIButton *playButton;
+    PFImageView *userImage;
     PFFile *imageParse;
     PFObject *wallObject;
 }
@@ -25,7 +26,7 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     self.scrollView.minimumZoomScale = 1.0;
     self.scrollView.maximumZoomScale = 6.0;
-     self.newsImageview.backgroundColor = BACKGROUNDCOLOR;
+    self.newsImageview.backgroundColor = BACKGROUNDCOLOR;
     
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -33,14 +34,19 @@
         self.newsImageview.contentMode = UIViewContentModeScaleToFill;
         self.titleLabel.font = DETAILFONT(IPADFONT26);
         self.detailLabel.font = DETAILFONT(IPADFONT16);
+        self.newsTextview.editable = YES; //bug fix
         self.newsTextview.font = CELL_LIGHTFONT(IPADFONT18);
+        self.newsTextview.editable = NO; //bug fix
     } else {
         self.titleLabel.font = DETAILFONT(IPHONEFONT20);
         self.detailLabel.font = DETAILFONT(IPHONEFONT14);
+        self.newsTextview.editable = YES; //bug fix
         self.newsTextview.font = CELL_LIGHTFONT(IPHONEFONT16);
+        self.newsTextview.editable = NO; //bug fix
     }
     
     self.newsImageview.image = self.image;
+    
     self.titleLabel.text = self.newsTitle;
     self.titleLabel.numberOfLines = 2;
     
@@ -48,33 +54,32 @@
     self.detailLabel.textColor = [UIColor lightGrayColor];
     [self.detailLabel sizeToFit];
     
-    self.newsTextview.text = self.newsStory; //textviewText;
+    self.newsTextview.text = self.newsStory;
     
     imageParse = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+    userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:imageParse.getData]];
+
+    if([self.imageDetailurl containsString:@"movie.mp4"]) {
+        
+    playButton = [[UIButton alloc] init];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 +150, self.newsImageview.frame.origin.y + 145, 50, 50);
+    } else {
+        playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 -130, self.newsImageview.frame.origin.y + 100, 50, 50);
+    }
+    playButton.alpha = 1.0f;
+    UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [playButton setImage:playbutton forState:UIControlStateNormal];
+     playButton.userInteractionEnabled = YES;
     
-    //if([imageParse.url containsString:@"movie.mp4"]) {
-        
-        playButton = [[UIButton alloc] init];
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 - 25 , self.newsImageview.frame.origin.y + 145, 50, 50);
-        } else {
-            playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 -130, self.newsImageview.frame.origin.y + 90, 50, 50);
-        }
-        playButton.alpha = 1.0f;
-        //playButton.center = self.newsImageview.center;
-        UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [playButton setImage:playbutton forState:UIControlStateNormal];
-         playButton.userInteractionEnabled = YES;
-        //self.newsImageview.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-        [playButton addGestureRecognizer:tap];
-        [self.newsImageview addSubview:playButton];
-        
-        self.videoURL = [NSURL URLWithString:imageParse.url];
-        //NSLog(@"Peter url...%@", _videoURL);
-        
-   // }
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+    [playButton addGestureRecognizer:tap];
+    
+    [self.scrollView addSubview:playButton];
+    
+    _videoURL = [NSURL URLWithString:self.imageDetailurl];
+ 
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +93,7 @@
 }
 
 #pragma mark - play video
-- (IBAction) playVideo:(id)sender { //(NSURL*) _videoURL{
+- (IBAction) playVideo:(id)sender {
 
     self.videoController = [[MPMoviePlayerController alloc] init];
     

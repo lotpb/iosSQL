@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
 @interface LoginViewController : UIViewController
@@ -17,7 +18,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *reEnterPasswordField;
 
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+
 - (IBAction)registerUser:(id)sender;
 - (IBAction)LoginUser:(id)sender;
 - (IBAction)authenticateButtonTapped:(id)sender;
+- (IBAction)passwordReset:(id)sender;
 @end

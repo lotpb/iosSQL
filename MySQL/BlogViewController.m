@@ -437,7 +437,7 @@ Parse.com
     UIButton *btn = (UIButton *) sender;
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
-    NSLog(@"%ld",(long)indexPath.row);
+    //NSLog(@"%ld",(long)indexPath.row);
     
     //BOOL liked = likeButton.selected;
     //CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.listTableView];

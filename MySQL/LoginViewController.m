@@ -8,7 +8,9 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () {
+    NSString *email, *finalEmail;
+}
 
 @end
 
@@ -93,6 +95,7 @@
 }
 
 - (IBAction)LoginUser:(id)sender {
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //check that username and password match stored values
@@ -103,9 +106,31 @@
     }
     else {
         UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Oooops" message:@"Your username and password does not match" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        
         [error show];
     }
+}
+
+- (IBAction)passwordReset:(id)sender {
+    
+     email = self.emailField.text;
+    finalEmail = [email stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    [PFUser requestPasswordResetForEmailInBackground:finalEmail block:^(BOOL succeeded,NSError *error) {
+        
+        if (!error) {
+            
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Link to reset the password has been send to specified email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
+            return;
+        } else {
+            
+            NSString *errorString = [error userInfo][@"error"];
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat: @"Password reset failed: %@",errorString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warning show];
+            return;
+        }
+        //[self dismissViewControllerAnimated:YES completion:NULL];
+    }];
 }
 //--------------------------------------------------------------------------------------------
 - (IBAction)authenticateButtonTapped:(id)sender {
