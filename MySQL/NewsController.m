@@ -113,8 +113,8 @@
         requestInProgress = YES;
         
         PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-        [query setLimit:5]; //parse.com standard is 100
-        query.skip = pageNumber*5;
+        [query setLimit:10]; //parse.com standard is 100
+        query.skip = pageNumber*10;
         query.cachePolicy = kPFCACHEPOLICY;
         query.maxCacheAge = 60*60;
         [query orderByDescending:KEY_CREATION_DATE];
@@ -134,7 +134,7 @@
                 
                 requestInProgress = NO;
                 forceRefresh = NO;
-                if (objects.count<5) {
+                if (objects.count<10) {
                     stopFetching = YES;
                 }
                 pageNumber++;
@@ -202,12 +202,6 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
         [wallImageView addGestureRecognizer:tap];
         [wallImageView addSubview:userImage];
-
-        /*
-         UIImageView *userImage = [[UIImageView alloc] initWithImage:
-         [UIImage imageWithData:image.getData]];
-         userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
-         [wallImageView addSubview:userImage]; */
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
@@ -274,22 +268,18 @@
                 playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50);
             }
             playButton.alpha = 1.0f;
-            //playButton.tag = 5;
-            //playButton.center = userImage.center;
-            UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [playButton setImage:playbutton forState:UIControlStateNormal];
+            playButton.tag = 5;
             playButton.userInteractionEnabled = YES;
+            //playButton.center = userImage.center;
+            UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [playButton setImage:button forState:UIControlStateNormal];
+            [playButton setTitle:urlLabel.text forState:UIControlStateNormal];
+          //[playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];//dont work
             
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+            
             [playButton addGestureRecognizer:tap];
-            //[urlLabel addGestureRecognizer:tap];
-            
             [wallImageView addSubview:playButton];
-            
-            //_videoURL = [NSURL URLWithString:self.imageDetailurl];
-            _videoURL = [NSURL URLWithString:image.url];
-            //NSLog(@"Testing url...%@", _videoURL);
-            
         }
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -332,9 +322,9 @@
         [self.wallScroll addSubview:wallImageView];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            originY = originY + 200 + 1;
+            originY = originY + 201;
         } else {
-            originY = originY + wallImageView.frame.size.width + 1;
+            originY = originY + wallImageView.frame.size.width;
         }
     }
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
@@ -347,8 +337,8 @@
     titleLabel.text = label1.text;
     UILabel *label2 = (UILabel*)[tappedView viewWithTag:2];
     detailLabel.text = label2.text;
-    //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
-    //detailLabel.text = label3.text;
+  //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
+  //detailLabel.text = label3.text;
     UILabel *label4 = (UILabel*)[tappedView viewWithTag:4];
     self.imageDetailurl = label4.text;
     
@@ -366,32 +356,11 @@
 }
 
 #pragma mark - play video
-- (IBAction)playVideo:(id)sender {
+- (IBAction)playVideo:(UITapGestureRecognizer *)sender {
 
-    /*
-    UIButton *button = (UIButton *) sender;
-    CGRect buttonPosition = [button convertRect:button.bounds toView:wallImageView];
-    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
-    UILabel *label1 = (UILabel*)[buttonPosition viewWithTag:4];
-    titleLabel.text = label1.text; */
-   /*
-    UIButton* button = (UIButton *) sender;
-    //UIView *tappedView1 = sender.view;
-    label4 = (UILabel*)[button viewWithTag:4];
-    self.imageDetailurl = label4.text;
-    _videoURL = [NSURL URLWithString:self.imageDetailurl]; */
-    
-     //UIButton* button = (UIButton *) sender;
-    //NSLog([(long)sender tag]);
-    //NSURL *url = [[NSBundle mainBundle] URLForResource:@"video1" withExtension:@"mp4"];
-      //NSString * videoPath = [wallObject objectForKey:KEY_IMAGE]
-    //image = (PFFile *)[wallObject objectAtIndex:[sender tag]];
-    //NSString *url = [[NSBundle mainBundle] pathForResource:@"Test_iPad" ofType:@"m4v"];
-    //[image.url objectAtIndex:3];
-    
-    //_videoURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.videoURL]];//[image objectForKey:@"url"];
-    //_videoURL = [NSURL URLWithString:[_imageFilesArray objectAtIndex:1]];//[image objectForKey:@"url"];
-    // _videoURL = [NSURL URLWithString:image.url];
+    UIButton *button = (UIButton *) sender.view;
+    self.imageDetailurl = button.titleLabel.text;
+    _videoURL = [NSURL URLWithString:self.imageDetailurl];
     
     self.videoController = [[MPMoviePlayerController alloc] init];
     
@@ -437,7 +406,29 @@
         [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 NSLog(@"liked News!");
-                // [self likedSuccess];
+                button.tintColor = [UIColor lightGrayColor];
+                PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+                [query whereKey:@"objectId" equalTo:wallObject.objectId];
+                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
+                    if (!error) {
+                        NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
+                        int likeCount = [likedNum intValue];
+                        
+                        if (likeButton.isSelected) {
+                            likeCount++;
+                            [likeButton setSelected:YES];
+                        } else {
+                            likeCount--;
+                            [likeButton setSelected:NO];
+                        }
+                        
+                        NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+                        [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+                        [updateLead saveInBackground];
+                        
+                    }
+                }];
+            
             }
             else {
                 //[self likedFail];
@@ -448,20 +439,17 @@
     } else {
          NSLog(@"unlike News!");
         [likeButton setSelected:NO];
-        button.tintColor = [UIColor lightGrayColor];
     }
 }
 
 #pragma mark like button
 - (void)likeButton:(id)sender {
-//NSLog(@"TESTING %ld",(long)buttonPosition);
-    /*
-    UIButton *btn = (UIButton *) sender;
-    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.wallScroll];
-    NSIndexPath *indexPath = [self.wallImageView indexPathForRowAtPoint:buttonPosition.origin];
+/*
+    UIButton *button = (UIButton *) sender;
+    if (likeButton.selected) {
     
     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query whereKey:@"objectId" equalTo:[[_imageFilesArray objectAtIndex:indexPath.row] objectId]];
+    [query whereKey:@"objectId" equalTo:wallObject.objectId];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
         if (!error) {
             NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
@@ -474,17 +462,18 @@
                 likeCount--;
                 [likeButton setSelected:NO];
             }
-            
+        
             NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
             [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
             [updateLead saveInBackground];
-            
+        
         }
     }];
     
     //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
-    //[self.listTableView reloadData]; */
+    //[self.listTableView reloadData];
+    } */
 }
 
 #pragma mark Error Alert

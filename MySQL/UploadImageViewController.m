@@ -79,6 +79,7 @@
     self.commentSorce = nil;
     self.commentDetail = nil;
     self.username = nil;
+    self.videoController = nil;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -103,13 +104,14 @@
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     imgPicker.delegate = self;
     imgPicker.allowsEditing = YES;
-    imgPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
     imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
-    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        imgPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
+    }
     /*
-    NSArray *mediaTypesAllowed = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    [imgPicker setMediaTypes:mediaTypesAllowed]; */
+     NSArray *mediaTypesAllowed = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+     [imgPicker setMediaTypes:mediaTypesAllowed]; */
     
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
@@ -200,13 +202,12 @@
         videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
         pictureData = [NSData dataWithContentsOfURL:videoURL];
         pickImage = nil;
-        [self refreshSolutionView];
+
     } else {
         moviePath = nil;
         pickImage = info[UIImagePickerControllerEditedImage];
-        [self refreshSolutionView];
     }
-    
+    [self refreshSolutionView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -219,8 +220,9 @@
     [self.videoController.view removeFromSuperview];
     
     if (pickImage) { //it's image
+        [self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
         self.imgToUpload.image = pickImage;
-        //[self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
+        
     } else { //it's video
         
         self.videoController = [[MPMoviePlayerController alloc] init];
@@ -232,6 +234,7 @@
         self.videoController.controlStyle = MPMovieControlStyleDefault;
         self.videoController.shouldAutoplay = NO;
         [self.imgToUpload addSubview:self.videoController.view];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(moviePlayBackDidFinish:)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
@@ -241,14 +244,25 @@
 }
 
 - (void) moviePlayBackDidFinish:(NSNotification*)notification {
-    MPMoviePlayerController *player = [notification object];
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-     name:MPMoviePlayerPlaybackDidFinishNotification
-     object:player];
+    /*
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     
-    if ([player
-         respondsToSelector:@selector(setFullscreen:animated:)])
+    // Stop the video player and remove it from view
+    [self.videoController stop];
+    [self.videoController.view removeFromSuperview];
+    self.videoController = nil;
+    
+    // Display a message
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Video Playback" message:@"Just finished the video playback. The video is now removed." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okayAction];
+    [self presentViewController:alertController animated:YES completion:nil]; */
+    
+    
+    MPMoviePlayerController *player = [notification object];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:player];
+
+    if ([player respondsToSelector:@selector(setFullscreen:animated:)])
     {
       //  [player.view removeFromSuperview];
     }

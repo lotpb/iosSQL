@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) UIImage *selectedImage;
 @property (strong, nonatomic) NSString *workseg;
+@property (weak, nonatomic) IBOutlet UILabel *jobTitle;
 
 - (IBAction)shareButtonTouched:(id)sender;
 

@@ -10,12 +10,12 @@
 #import "Constants.h"
 
 @interface CollectionController ()
-{   //Parse
+{
+    PFObject *imageObject;
+    PFFile *imageFile;
     NSMutableArray *selectedJobs, *imageFilesArray;
     BOOL shareEnabled;
     UIRefreshControl *refreshControl;
-    PFObject *imageObject;
-    PFFile *imageFile;
 }
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
@@ -38,7 +38,8 @@
     
     self.imagesCollection.dataSource = self;
     self.imagesCollection.delegate = self;
-    self.workseg = nil;
+    self.workseg = @"";
+
     [self queryParseMethod];
     
     // on iphone 5 need to change cell width to 100
@@ -108,7 +109,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"jobPhoto"];
     query.cachePolicy = kPFCACHEPOLICY;
     [query orderByDescending:KEY_CREATION_DATE];
-    // [query whereKey:@"imageGroup" equalTo:self.workseg];
+    //[query whereKey:@"imageGroup" equalTo:self.workseg];
     [query whereKey:@"imageGroup" containsString:self.workseg];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -122,7 +123,7 @@
 {
     if(self.segmentedControl.selectedSegmentIndex == 0)
     {
-        self.workseg = nil;
+        self.workseg = @"";
     } else if(self.segmentedControl.selectedSegmentIndex == 1)
     {
         self.workseg = @"window";
@@ -151,8 +152,17 @@
     
     if (kind == UICollectionElementKindSectionHeader) {
         CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
+        
         NSString *title = [[NSString alloc]initWithFormat:PHOTOHEADER, indexPath.section + (unsigned long)1];
         headerView.title.text = title;
+        headerView.title.textAlignment = NSTextAlignmentCenter;
+        headerView.title.textColor = [UIColor whiteColor];
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            headerView.title.font = DETAILFONT(IPADFONT26);
+        } else {
+            headerView.title.font = DETAILFONT(IPHONEFONT20);
+        }
+        
         UIImage *headerImage = [UIImage imageNamed:PHOTOHEADERIMAGE];
         headerView.backgroundImage.image = headerImage;
         
@@ -160,6 +170,7 @@
     }
     
     if (kind == UICollectionElementKindSectionFooter) {
+        
         UICollectionReusableView *footerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
         
         reusableview = footerview;
@@ -195,16 +206,14 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    [self performSegueWithIdentifier:@"showPhoto" sender:self.imagesCollection];
     
     imageObject = [imageFilesArray objectAtIndex:indexPath.row];
     imageFile = [imageObject objectForKey:KEY_IMAGE];
     
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
-            
             self.selectedImage = [UIImage imageWithData:data];
+            [self performSegueWithIdentifier:@"showPhoto" sender:self.imagesCollection];
         }
     }];
 }

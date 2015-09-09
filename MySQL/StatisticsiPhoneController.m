@@ -57,6 +57,10 @@
     [self YahooFinanceLoad];
     
     //| -------------------------Timer----------------------------------
+    if (myTimer != nil) {
+        [myTimer invalidate];
+    }
+    if (myTimer == nil)
     myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
     
     //| ---------------------------end----------------------------------
@@ -224,8 +228,8 @@
     
     [label1 setFont:CELL_FONT(IPHONEFONT14)];
     [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
-    [myCell.textLabel setFont:CELL_FONT(IPHONEFONT12)];
-    [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT12)];
+    [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+    [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
     [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
     
     [label1 setBackgroundColor:[UIColor whiteColor]];
@@ -573,7 +577,7 @@
         if (section == 0) {
             NSString *newString = @"Statistics";
             NSString *newString1 = @"SALES";
-            NSString *newString2 = @"$100,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+            NSString *newString2 = @"$200,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
             
             view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
             self.listTableView.tableHeaderView = view; //makes header move with tablecell
@@ -631,13 +635,13 @@
 - (void)segmentAction:(UISegmentedControl *)segment {
 
     if (segment.selectedSegmentIndex == 0) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:2] objectForKey:@"Amount"];;
+        self.label2.text = @"$100,000";//[[_statHeaderItems objectAtIndex:2] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 1) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];;
+        self.label2.text = @"$200,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 2) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:0] objectForKey:@"Amount"];
+        self.label2.text = @"$300,000";//[[_statHeaderItems objectAtIndex:0] objectForKey:@"Amount"];
     }
 }
 

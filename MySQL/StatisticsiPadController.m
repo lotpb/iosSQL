@@ -54,9 +54,12 @@
     [self YahooFinanceLoad];
     
     //| -------------------------Timer----------------------------------
-    
-      myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
-    
+    if (myTimer != nil) {
+        [myTimer invalidate];
+    }
+    if (myTimer == nil)
+    myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+
     //| ---------------------------end----------------------------------
     
     filteredString= [[NSMutableArray alloc] init];
@@ -189,16 +192,18 @@
         UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -165, 6, 77, 17)];
         UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -80, 6, 67, 17)];
         
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
         [label1 setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [label2 setFont:CELL_MEDFONT(IPADFONT16)];
+        
         [label1 setBackgroundColor:[UIColor whiteColor]];
         label1.textAlignment = NSTextAlignmentRight;
         [label2 setTextColor:[UIColor whiteColor]];
-        [label2 setFont:CELL_MEDFONT(IPADFONT16)];
         label2.textAlignment = NSTextAlignmentRight;
         
          myCell.selectionStyle = UITableViewCellSelectionStyleNone;
          myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
+        
         
         if (myCell == nil)
             myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -344,11 +349,11 @@
         if (myCell == nil)
             myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [myCell.detailTextLabel setFont:DETAILFONT(IPADFONT16)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
         if (indexPath.row == 0) {
             
@@ -395,11 +400,11 @@
         if (myCell == nil)
             myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [myCell.detailTextLabel setFont:DETAILFONT(IPADFONT16)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
         if (indexPath.row == 0) {
             
@@ -446,11 +451,11 @@
         if (myCell == nil)
             myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [myCell.detailTextLabel setFont:DETAILFONT(IPADFONT16)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
         if (indexPath.row == 0) {
             
@@ -502,11 +507,11 @@
         if (myCell == nil)
             myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+        [myCell.detailTextLabel setFont:DETAILFONT(IPADFONT16)];
+        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         myCell.selectionStyle = UITableViewCellSelectionStyleNone;
         myCell.accessoryType = UITableViewCellAccessoryNone;
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT12)];
-        [myCell.detailTextLabel setTextColor:[UIColor blackColor]];//STATTEXTCOLOR];
         
         if (indexPath.row == 0) {
             
@@ -566,8 +571,8 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     UILabel *headerLabel = [[UILabel alloc]init];
-    headerLabel.textColor = [UIColor whiteColor];
-    headerLabel.shadowColor = [UIColor blackColor];
+    headerLabel.textColor = [UIColor darkGrayColor];
+    headerLabel.shadowColor = [UIColor whiteColor];
     headerLabel.font = [UIFont fontWithName:@"Chalkduster" size:16];
     UIColor *pinkTint = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1.0];
     headerLabel.backgroundColor = pinkTint;
@@ -586,7 +591,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSString *newString = @"Statistics";
     NSString *newString1 = @"SALES";
-    NSString *newString2 = @"$100,000"; //[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
+    NSString *newString2 = @"$200,000"; //[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
     self.listTableView.tableHeaderView = view; //makes header move with tablecell
@@ -642,13 +647,13 @@
 - (void)segmentAction:(UISegmentedControl *)segment {
     
     if (segment.selectedSegmentIndex == 0) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:2] objectForKey:@"Amount"];;
+        self.label2.text = @"$100,000";//[[_statHeaderItems objectAtIndex:2] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 1) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];;
+        self.label2.text = @"$200,000";//[[_statHeaderItems objectAtIndex:1] objectForKey:@"Amount"];;
     }
     if (segment.selectedSegmentIndex == 2) {
-        self.label2.text = [[_statHeaderItems objectAtIndex:0] objectForKey:@"Amount"];
+        self.label2.text = @"$300,000";//[[_statHeaderItems objectAtIndex:0] objectForKey:@"Amount"];
     }
 }
 

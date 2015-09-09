@@ -51,6 +51,13 @@
 //#define DATE_FORMAT_QQQQ                    @"QQQQ"                      //e.g. 4th quarter
 
 // All STORYBOOKS
+//stats
+#define MAINHEADHEIGHT     175.0
+#define PMAINHEADHEIGHT    225.0
+//------searchbar-------------------------------
+#define SEARCHTINTCOLORMAIN  [UIColor redColor]
+#define MHIDE                 NO //hidesNavigationBarDuringPresentation
+//------sidebar revealViewController-------------------------------
 //Navigation - Go back - POP view controller **/
 #define GOBACK               [self.navigationController popViewControllerAnimated:YES]
 #define textviewText         @"Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
@@ -135,7 +142,7 @@
 //HelveticaNeue-UltraLightItalic
 //HelveticaNeue-Thin
 //HelveticaNeue-ThinItalic
-//#define CELL_FONT(s)      [UIFont fontWithName:@"HelveticaNeue" size:s]
+#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s] //ipad stats
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]  //ipad stats
 #define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //blogedit
@@ -406,7 +413,7 @@
 //-----------------------END-------------------------------
 
 // PHOTO COLLECTION
-#define PHOTOHEADER           @"Job Pictures #%li"  // CollectionParse
+#define PHOTOHEADER           @"My Job Pictures #%li"  // CollectionParse
 #define PHOTOHEADERIMAGE      @"header_banner.png"
 #define PHOTOCELLIMAGE        @"photo-frame-2.png" // cell.backgroundView
 #define PHOTOCELLSELECTIMAGE  @"photo-frame.png"  //cell.selectedBackgroundView
