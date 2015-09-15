@@ -28,11 +28,6 @@
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
 
 #pragma mark Form Circle Image
-    /*
-    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 8;
-    self.profileImageView.layer.borderWidth = 3.0f;
-    self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.profileImageView.clipsToBounds = YES; */
     
     self.profileImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.profileImageView.clipsToBounds = YES;
@@ -86,7 +81,7 @@ Parse.com
      //self.navigationController.hidesBarsOnSwipe = true;
      //self.navigationController.hidesBarsOnTap = false;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-    [self.first becomeFirstResponder];
+   // [self.first becomeFirstResponder];
   //[self.view endEditing:YES]; //dismiss the keyboard
 }
 

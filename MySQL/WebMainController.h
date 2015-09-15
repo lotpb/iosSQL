@@ -8,7 +8,10 @@
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
 #import "Constants.h"
-#import "SafariServices/SafariServices.h"
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+@import SafariServices;
+#endif
+//#import "SafariServices/SafariServices.h"
 
 @interface WebMainController : UIViewController <WKScriptMessageHandler, SFSafariViewControllerDelegate>
 

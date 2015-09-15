@@ -53,6 +53,7 @@
 }
 
 -(void)performPhoneAction:(BOOL)shouldMakeCall{
+    /*
     // Check if both mobile and home numbers exist.
     if (![[_dictContactDetails objectForKey:@"mobileNumber"] isEqualToString:@""] &&
         ![[_dictContactDetails objectForKey:@"homeNumber"] isEqualToString:@""]) {
@@ -93,9 +94,8 @@
             }
             
         }
-    }
+    } */
 }
-
 
 -(void)makeCallToNumber:(NSString *)numberToCall{
     NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", numberToCall]];

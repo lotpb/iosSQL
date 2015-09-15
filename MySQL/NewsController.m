@@ -158,6 +158,14 @@
             [viewToRemove removeFromSuperview];
     }
     
+    //shadow for uiview
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:self.wallScroll.bounds];
+    self.wallScroll.layer.masksToBounds = NO;
+    self.wallScroll.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.wallScroll.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+    self.wallScroll.layer.shadowOpacity = 0.5f;
+    self.wallScroll.layer.shadowPath = shadowPath.CGPath;
+    
     //For every wall element, put a view in the scroll
     int originY = 10;
     for (wallObject in self.imageFilesArray) {
@@ -208,20 +216,34 @@
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 70 , 66, wallImageView.frame.size.width, 15)];
             newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(345, 86, wallImageView.frame.size.width - userImage.frame.size.width - 60, 45)];
-    
+            playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2, userImage.frame.origin.y + 55, 50, 50)];
+            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 50 ,165, 20, 20)];
+            likeButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 90 ,167, 20, 20)];
+            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 110 ,167, 20, 20)];
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
             titleLabel.font = CELL_LIGHTFONT(IPADFONT22);
+            detailLabel.font = DETAILFONT(IPADFONT14);
+            readLabel.font = DETAILFONT(IPADFONT14);
             newsTextview.font = DETAILFONT(IPADFONT16);
+            numLabel.font = DETAILFONT(IPADFONT16);
         } else {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
             detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 56, wallImageView.frame.size.width, 15)];
             newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(5, 86, wallImageView.frame.size.width, 45)];
+            playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50)];
+            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
+            likeButton = [[UIButton alloc] initWithFrame:CGRectMake(60 ,312, 20, 20)];
+            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 312, 20, 20)];
+            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
+            titleLabel.font = DETAILFONT(IPHONEFONT20);
+            detailLabel.font = DETAILFONT(IPHONEFONT14);
+            readLabel.font = DETAILFONT(IPHONEFONT14);
+            newsTextview.font = DETAILFONT(IPHONEFONT16);
+            numLabel.font = DETAILFONT(IPHONEFONT16);
             
-            titleLabel.font = CELL_LIGHTFONT(IPHONEFONT20);
+            newsTextview.hidden = true;
         }
-        newsTextview.editable = NO; //bug fix
-        detailLabel.font = DETAILFONT(IPHONEFONT14);
-        readLabel.font = DETAILFONT(IPHONEFONT14);
         
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
         titleLabel.textColor = NEWSTITLECOLOR;
@@ -247,10 +269,8 @@
         readLabel.tag = 3;
         [wallImageView addSubview:readLabel];
         
+        newsTextview.editable = NO; //bug fix
         newsTextview.text = [wallObject objectForKey:@"storyText"];
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        newsTextview.hidden = true;
-        }
         [wallImageView addSubview:newsTextview];
         
         urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
@@ -260,65 +280,41 @@
         [wallImageView addSubview:urlLabel];
         
         if([image.url containsString:@"movie.mp4"]) {
-            
-            playButton = [[UIButton alloc] init];
-            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                playButton.frame = CGRectMake(userImage.frame.size.width / 2, userImage.frame.origin.y + 55, 50, 50);
-            } else {
-                playButton.frame = CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50);
-            }
             playButton.alpha = 1.0f;
-            playButton.tag = 5;
             playButton.userInteractionEnabled = YES;
+            //playButton.tag = 5;
             //playButton.center = userImage.center;
             UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [playButton setImage:button forState:UIControlStateNormal];
             [playButton setTitle:urlLabel.text forState:UIControlStateNormal];
-          //[playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];//dont work
-            
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-            
             [playButton addGestureRecognizer:tap];
             [wallImageView addSubview:playButton];
         }
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 55 ,165, 20, 20)];
-        } else {
-            actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 55 ,310, 20, 20)];
-        }
+
         actionBtn.tintColor = [UIColor lightGrayColor];
         [actionBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
         [actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:actionBtn];
-        
-        likeButton = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
+
         likeButton.tintColor = [UIColor lightGrayColor]; //BLUECOLOR;
         UIImage *imagebutton = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [likeButton setImage:imagebutton forState:UIControlStateNormal];
         [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
         [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:likeButton];
-        
-        numLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
-        numLabel.font = DETAILFONT(IPHONEFONT16);
+
         numLabel.textColor = [UIColor grayColor];
         numLabel.text = [[wallObject objectForKey:@"Liked"]stringValue];
         [numLabel sizeToFit];
         [wallImageView addSubview:numLabel];
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
-        } else {
-            separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
-        }
+
         separatorLineView.backgroundColor = SCROLLBACKCOLOR;
         [wallImageView addSubview:separatorLineView];
         
-        // [self.wallScroll addSubview:wallImageView];
-        // [self.wallScroll addSubview:separatorLineView];
-        // self.automaticallyAdjustsScrollViewInsets = NO;
-        
+        //[self.wallScroll addSubview:wallImageView];
+        //[self.wallScroll addSubview:separatorLineView];
+        //self.automaticallyAdjustsScrollViewInsets = NO;
         [self.wallScroll addSubview:wallImageView];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -330,34 +326,93 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
-- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
-  
-    UIView *tappedView = sender.view;
-    UILabel *label1 = (UILabel*)[tappedView viewWithTag:1];
-    titleLabel.text = label1.text;
-    UILabel *label2 = (UILabel*)[tappedView viewWithTag:2];
-    detailLabel.text = label2.text;
-  //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
-  //detailLabel.text = label3.text;
-    UILabel *label4 = (UILabel*)[tappedView viewWithTag:4];
-    self.imageDetailurl = label4.text;
+#pragma mark - like button
+- (void) buttonPress:(id)sender {
+    UIButton* button = (UIButton*)sender;
     
-    for (UIView *view in sender.view.subviews) {
+    if (!likeButton.selected) {
         
-        if([view isKindOfClass:[UITextView class]]) {
-            newsTextview.text = ((UITextView *)view).text;
-        }
+        button.tintColor = BLUECOLOR;
+        [likeButton setSelected:YES];
+        NSLog(@"liked News!");
+        [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
+        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                
+                /*
+                 PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+                 [query whereKey:@"objectId" equalTo:wallObject.objectId];
+                 [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLike, NSError *error) {
+                 if (!error) {
+                 NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
+                 int likeCount = [likedNum intValue];
+                 
+                 if (likeButton.isSelected) {
+                 likeCount++;
+                 [likeButton setSelected:YES];
+                 } else {
+                 likeCount--;
+                 [likeButton setSelected:NO];
+                 }
+                 
+                 NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+                 [updateLike setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+                 [updateLike saveInBackground];
+                 
+                 }
+                 }]; */
+                
+            }
+            else {
+                //[self likedFail];
+            }
+        }];
         
-        if([view isKindOfClass:[PFImageView class]]) {
-            userImage.image = ((PFImageView *)view).image;
-        }
+    } else {
+       
+        likeButton.tintColor = [UIColor lightGrayColor];
+        [likeButton setSelected:NO];
+         NSLog(@"unlike News!");
     }
-    [self performSegueWithIdentifier: @"newsdetailseque" sender: self];
+}
+
+#pragma mark like button
+- (void)likeButton:(id)sender {
+/*
+    UIButton *button = (UIButton *) sender;
+    if (likeButton.selected) {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+    [query whereKey:@"objectId" equalTo:wallObject.objectId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
+        if (!error) {
+            NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
+            int likeCount = [likedNum intValue];
+            
+            if (likeButton.isSelected) {
+                likeCount++;
+                [likeButton setSelected:YES];
+            } else {
+                likeCount--;
+                [likeButton setSelected:NO];
+            }
+        
+            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+            [updateLead saveInBackground];
+        
+        }
+    }];
+    
+    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
+    //[self.listTableView reloadData];
+    } */
 }
 
 #pragma mark - play video
 - (IBAction)playVideo:(UITapGestureRecognizer *)sender {
-
+    
     UIButton *button = (UIButton *) sender.view;
     self.imageDetailurl = button.titleLabel.text;
     _videoURL = [NSURL URLWithString:self.imageDetailurl];
@@ -396,84 +451,6 @@
     
     [self.videoController stop];
     [self.videoController.view removeFromSuperview];
-}
-
-#pragma mark like button
-- (void) buttonPress:(id)sender {
-    UIButton* button = (UIButton*)sender;
-    if (!likeButton.selected) {
-        [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
-        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (!error) {
-                NSLog(@"liked News!");
-                button.tintColor = [UIColor lightGrayColor];
-                PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-                [query whereKey:@"objectId" equalTo:wallObject.objectId];
-                [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
-                    if (!error) {
-                        NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
-                        int likeCount = [likedNum intValue];
-                        
-                        if (likeButton.isSelected) {
-                            likeCount++;
-                            [likeButton setSelected:YES];
-                        } else {
-                            likeCount--;
-                            [likeButton setSelected:NO];
-                        }
-                        
-                        NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
-                        [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
-                        [updateLead saveInBackground];
-                        
-                    }
-                }];
-            
-            }
-            else {
-                //[self likedFail];
-            }
-        }];
-        [likeButton setSelected:YES];
-        button.tintColor = BLUECOLOR;
-    } else {
-         NSLog(@"unlike News!");
-        [likeButton setSelected:NO];
-    }
-}
-
-#pragma mark like button
-- (void)likeButton:(id)sender {
-/*
-    UIButton *button = (UIButton *) sender;
-    if (likeButton.selected) {
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query whereKey:@"objectId" equalTo:wallObject.objectId];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
-        if (!error) {
-            NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
-            int likeCount = [likedNum intValue];
-            
-            if (likeButton.isSelected) {
-                likeCount++;
-                [likeButton setSelected:YES];
-            } else {
-                likeCount--;
-                [likeButton setSelected:NO];
-            }
-        
-            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
-            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
-            [updateLead saveInBackground];
-        
-        }
-    }];
-    
-    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
-    //[self.listTableView reloadData];
-    } */
 }
 
 #pragma mark Error Alert
@@ -523,6 +500,31 @@
         
         [self presentViewController:activityVC animated:YES completion:nil];
     }
+}
+#pragma mark - Segue
+- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
+    
+    UIView *tappedView = sender.view;
+    UILabel *label1 = (UILabel*)[tappedView viewWithTag:1];
+    titleLabel.text = label1.text;
+    UILabel *label2 = (UILabel*)[tappedView viewWithTag:2];
+    detailLabel.text = label2.text;
+    //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
+    //detailLabel.text = label3.text;
+    UILabel *label4 = (UILabel*)[tappedView viewWithTag:4];
+    self.imageDetailurl = label4.text;
+    
+    for (UIView *view in sender.view.subviews) {
+        
+        if([view isKindOfClass:[UITextView class]]) {
+            newsTextview.text = ((UITextView *)view).text;
+        }
+        
+        if([view isKindOfClass:[PFImageView class]]) {
+            userImage.image = ((PFImageView *)view).image;
+        }
+    }
+    [self performSegueWithIdentifier: @"newsdetailseque" sender: self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

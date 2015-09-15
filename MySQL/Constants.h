@@ -390,7 +390,7 @@
 
 // NOTIFICATION CONTROLLER
 //#define NOTIFICATION_BODY  @"You have a notification. Please check"
-#define NOTIFICATION_CATEGORY   @"Email" //@"INVITE_CATEGORY"
+#define NOTIFICATION_CATEGORY   @"INVITE_CATEGORY" //@"Email" 
 #define NOTIFICATION_ACTION     @"ACCEPT_IDENTIFIER"
 #define NOTIFICATION_TITLE      @"Alert! Breaking News"
 #define NOTIDATE    @"MM-dd-yyy hh:mm"
@@ -432,6 +432,7 @@
 #define LOOKCITYSEGUE   @"lookupCitySegue"
 #define LOOKJOBSEGUE    @"lookupJobSegue"
 #define LOOKPRODSEGUE   @"lookupProductSegue"
+#define LOOKSALESEGUE   @"lookupSalesmanSegue"
 //-----------------------END-------------------------------
 
 //LOOKUP EDITDATA SEGUE

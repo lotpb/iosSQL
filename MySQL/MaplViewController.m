@@ -60,6 +60,14 @@
     [self.travelTime sizeToFit];
     [self.travelDistance sizeToFit];
     
+    [self.clearRoute addTarget:self action:@selector(clearRoute:) forControlEvents:UIControlEventTouchDown];
+    [self.clearRoute setBackgroundColor:BLUECOLOR];
+    [self.clearRoute setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.clearRoute titleLabel] setFont:DETAILFONT(IPHONEFONT14)];
+    CALayer *btnLayer2 = [self.clearRoute layer];
+    [btnLayer2 setMasksToBounds:YES];
+    [btnLayer2 setCornerRadius:9.0f];
+    
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     NSArray *actionButtonItems = @[shareItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
@@ -129,14 +137,6 @@
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     
     self.mapView.centerCoordinate = userLocation.location.coordinate;
-    
-  /*
-    MKMapRect newDisplayRect;
-    [_mapView setVisibleMapRect:newDisplayRect animated:YES];
-    
-    [_mapView setVisibleMapRect:newDisplayRect edgePadding:UIEdgeInsetsMake(0, 0, 10, 10) animated:YES];
-    
-    //_mapView.showsUserLocation = YES; */
 }
 
 -(void)showRoute:(MKDirectionsResponse *)response
@@ -175,6 +175,49 @@
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)clearRoute:(id)sender {
+    
+    if (!(self.travelTime.text == nil )) {
+        self.travelTime.text = nil;
+        self.travelDistance.text = nil;
+        self.steps.text = nil;
+        [self.clearRoute setTitle: @"Show Route" forState: UIControlStateNormal];
+        
+        //self.routeView.hidden = true;
+        //[self showRoute:(MKDirectionsResponse *)response];
+        
+        [UIView animateWithDuration:0.1 animations:^{
+            //self.routeView.hidden = true;
+            
+            CGRect viewFrame = self.routeView.frame;
+            viewFrame.size.height = 187;
+            self.routeView.frame = viewFrame;
+            
+            CGRect viewFrame1 = self.mapView.frame;
+            viewFrame1.size.height = 300;
+            self.mapView.frame = viewFrame1;
+        }];
+
+        
+    } else {
+        [self.clearRoute setTitle: @"clear Route" forState: UIControlStateNormal];
+         self.travelTime.text = @"Clear Route";
+        //[self.mapView removeOverlay:route.polyline];
+       
+        [UIView animateWithDuration:0.1 animations:^{
+             //self.routeView.hidden = false;
+            
+            CGRect viewFrame = self.routeView.frame;
+            viewFrame.size.height = 0;
+            self.routeView.frame = viewFrame; 
+            
+            CGRect viewFrame1 = self.mapView.frame;
+            viewFrame1.size.height = 487;
+            self.mapView.frame = viewFrame1;
+        }];
+    }
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {

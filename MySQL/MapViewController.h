@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *steps;
 @property (strong, nonatomic) NSString *allSteps;
 @property (weak, nonatomic) IBOutlet UIView *routeView;
+@property (weak, nonatomic) IBOutlet UIButton *clearRoute;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentedControl;
 

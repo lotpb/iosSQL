@@ -96,6 +96,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *mySwitch;
 @property (weak, nonatomic) IBOutlet UIButton *activebutton;
 //@property (weak, nonatomic) Location *selectedLocation;
+@property (weak, nonatomic) IBOutlet UIButton *mapbutton;
 
 @property (strong, nonatomic) NSString *salesman;
 @property (strong, nonatomic) NSString *jobdescription;

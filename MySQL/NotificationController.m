@@ -61,7 +61,7 @@ bool allowsAlert;
     self.title = NSLocalizedString(@"Notification", nil);
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-    [self.customMessage becomeFirstResponder];
+    //[self.customMessage becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

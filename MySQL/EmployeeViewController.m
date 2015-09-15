@@ -78,6 +78,16 @@ Parse.com
     //[self.listTableView reloadData];
 }
 
+-(void)viewDidLayoutSubviews {//white space seperatorline
+    if ([self.listTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.listTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.listTableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.listTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -575,9 +585,9 @@ Parse.com
             detailVC.active = _selectedLocation.active;
         }
         
-        detailVC.l11 = @"Home Phone"; detailVC.l12 = @"Work phone";
-        detailVC.l13 = @"Mobile Phone"; detailVC.l14 = @"Social Security";
-        detailVC.l15 = @"Middle Name"; detailVC.l21 = @"Email";
+        detailVC.l11 = @"Home"; detailVC.l12 = @"Work";
+        detailVC.l13 = @"Mobile"; detailVC.l14 = @"Social Security";
+        detailVC.l15 = @"Middle "; detailVC.l21 = @"Email";
         detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
         detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
         detailVC.l16 = @"Last Updated"; detailVC.l26 = @"First";

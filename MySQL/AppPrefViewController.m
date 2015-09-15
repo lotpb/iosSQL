@@ -167,7 +167,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     TextColor textColor = [standardDefaults integerForKey:kFontColorKey];
     switch (textColor) {
         case blue:
-            self.nameColor = [UIColor blueColor];
+            self.nameColor = BLUECOLOR;
             break;
         case red:
             self.nameColor = [UIColor redColor];
@@ -186,7 +186,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 
@@ -196,21 +196,24 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (section == 0) {
         return 5;
     } else if (section == 1) {
-        return 2;
+        return 7;
     } else if (section == 2) {
+        return 2;
+    } else if (section == 3) {
         return 2;
     }
     return 0;
 }
-
 
 //| ----------------------------------------------------------------------------
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0){
         
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         if (indexPath.row == 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"First/Last";
             cell.textLabel.textColor = self.nameColor;
@@ -219,28 +222,24 @@ NSString* const kParseKey	     	    = @"parseKey";
             
             return cell;
         } else if (indexPath.row == 1) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"Email";
             cell.detailTextLabel.text = self.email;
             
             return cell;
         } else if (indexPath.row == 2) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"Website";
             cell.detailTextLabel.text = self.website;
             
             return cell;
         } else if (indexPath.row == 3) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"User Name";
             cell.detailTextLabel.text = self.username;
             
             return cell;
         } else if (indexPath.row  == 4) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"Password";
             cell.detailTextLabel.text = self.password;
@@ -249,42 +248,227 @@ NSString* const kParseKey	     	    = @"parseKey";
         }
         
     } else if (indexPath.section == 1) {
+
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+        theSwitch.onTintColor = BLUECOLOR;
+        theSwitch.tintColor = [UIColor lightGrayColor];
         
         if (indexPath.row == 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+
+            [theSwitch addTarget:self action:@selector(Switch6:) forControlEvents:UIControlEventValueChanged];
+
+            BOOL parsebool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"registered"];
+            if (parsebool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
             
+            cell.textLabel.text = @"Registered";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+            
+        } else if (indexPath.row == 1) {
+            
+            [theSwitch addTarget:self action:@selector(Switch5:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL parsebool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"];
+            if (parsebool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Login";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+            
+        } else if (indexPath.row == 2) {
+            
+            [theSwitch addTarget:self action:@selector(Switch4:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL parsebool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"];
+            if (parsebool == true)
+                [theSwitch setOn:YES];
+            else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Parse Data";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+
+        } else if (indexPath.row == 3) {
+            
+            [theSwitch addTarget:self action:@selector(Switch3:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL iadbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"iadKey"];
+            if (iadbool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"iAd";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+
+        } else if (indexPath.row == 4) {
+
+            [theSwitch addTarget:self action:@selector(Switch2:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL timerbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"timerKey"];
+            if (timerbool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Timer";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+
+        } else if (indexPath.row == 5) {
+
+            [theSwitch addTarget:self action:@selector(Switch1:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL autolockbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"autolockKey"];
+            if (autolockbool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Prevent Auto-Lock";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+
+        } else if (indexPath.row == 6) {
+            
+            [theSwitch addTarget:self action:@selector(Switch7:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL soundbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"soundKey"];
+            if (soundbool == true)
+                [theSwitch setOn:YES];
+             else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Sound";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+        }
+        
+    } else if (indexPath.section == 2) {
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Font";
             cell.detailTextLabel.text = self.Font;
             
             return cell;
         } else if (indexPath.row == 1) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
             
             cell.textLabel.text = @"Font Size";
             cell.detailTextLabel.text = self.FontSize;
             
             return cell;
         }
-    } else if (indexPath.section == 2) {
-            
+    } else if (indexPath.section == 3) {
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         if (indexPath.row == 0) {
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-                
-                cell.textLabel.text = @"Latitude";
-                cell.detailTextLabel.text = self.latitude;
-                
-                return cell;
+            cell.textLabel.text = @"Latitude";
+            cell.detailTextLabel.text = self.latitude;
+            
+            return cell;
         } else if (indexPath.row == 1) {
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fontCell"];
-                
-                cell.textLabel.text = @"Longtitude";
-                cell.detailTextLabel.text = self.longtitude;
-                
-                return cell;
+            
+            cell.textLabel.text = @"Longtitude";
+            cell.detailTextLabel.text = self.longtitude;
+            
+            return cell;
         }
     }
     
     return nil;
+}
+
+- (void)Switch1:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"autolockKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"autolockKey"];
+    }
+}
+
+- (void)Switch2:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"timerKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"timerKey"];
+    }
+}
+
+- (void)Switch3:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"iadKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"iadKey"];
+    }
+}
+
+- (void)Switch4:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parseKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"parseKey"];
+    }
+}
+
+- (void)Switch5:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"loginKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"loginKey"];
+    }
+}
+
+- (void)Switch6:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"registered"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"registered"];
+    }
+}
+
+- (void)Switch7:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"soundKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"soundKey"];
+    }
 }
 
 @end

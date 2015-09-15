@@ -47,6 +47,8 @@
         self.labelamount.font = DETAILFONT(IPADFONT36);
         self.labelname.font = DETAILFONT(IPADFONT30);
         self.labeldate.font = DETAILFONT(IPADFONT18);
+        self.labeladdress.font = DETAILFONT(IPADFONT26);
+        self.labelcity.font = DETAILFONT(IPADFONT26);
     } else {
         if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
             self.labelamount.font = DETAILFONT(IPHONEFONT20);
@@ -104,9 +106,20 @@
     [photoImage setImage:image];
     photoImage.clipsToBounds = YES;
     photoImage.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    photoImage.layer.borderWidth = 0.5f;
+    photoImage.layer.borderWidth = 1.0f;
     photoImage.userInteractionEnabled = YES;
     [self.mainView addSubview:photoImage];
+    
+    //photoImage.frame = CGRectMake(self.view.frame.size.width / 2 + 5, 60, self.mainView.frame.size.width / 2 - 140, 110);
+    [self.mapbutton setBackgroundColor:BLUECOLOR];
+    [self.mapbutton setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.mapbutton titleLabel] setFont:DETAILFONT(IPHONEFONT18)];
+    CALayer *btnLayer3 = [self.mapbutton layer];
+    [btnLayer3 setMasksToBounds:YES];
+    [btnLayer3 setCornerRadius:9.0f];
+    
+    self.mySwitch.onTintColor = BLUECOLOR;
+    self.mySwitch.tintColor = [UIColor lightGrayColor];
     
     [self parseData];
     [self followButton];
@@ -665,8 +678,8 @@ Parse.com
 #pragma mark - Web Page
 - (void)openurl {
     if ((![self.tbl26 isEqual:[NSNull null]] ) && ( [self.tbl26 length] != 0 )) {
-        NSString* text = self.tbl26;
-        NSURL*    url  = [[NSURL alloc] initWithString:text];
+        NSString *text = self.tbl26;
+        NSURL *url  = [[NSURL alloc] initWithString:text];
         text = [@"http://" stringByAppendingString:text];
         url  = [[NSURL alloc] initWithString:text];
         [[UIApplication sharedApplication] openURL:url];

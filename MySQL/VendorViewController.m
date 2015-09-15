@@ -77,6 +77,16 @@ Parse.com
    //self.navigationController.navigationBar.tintColor = NAVTINTCOLOR;
 }
 
+-(void)viewDidLayoutSubviews {//white space seperatorline
+    if ([self.listTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.listTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.listTableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.listTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

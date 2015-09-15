@@ -77,6 +77,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *cityLookup;
 @property (weak, nonatomic) IBOutlet UIButton *jobLookup;
 @property (weak, nonatomic) IBOutlet UIButton *productLookup;
+@property (weak, nonatomic) IBOutlet UIButton *salesLookup;
+@property (weak, nonatomic) IBOutlet UIButton *clearbutton;
 
 @property (strong, nonatomic) NSString *saleNoDetail;
 @property (strong, nonatomic) NSString *jobNoDetail;

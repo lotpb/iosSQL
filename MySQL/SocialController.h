@@ -13,9 +13,11 @@
 #import <MessageUI/MessageUI.h>
 #import "SWRevealViewController.h"
 
-@interface FacebookViewController : UIViewController <MFMessageComposeViewControllerDelegate>
+@interface SocialController : UIViewController <MFMessageComposeViewControllerDelegate, UITextViewDelegate>
 
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic) IBOutlet UITextView *socialText;
+@property (weak, nonatomic) IBOutlet UILabel *placeholderlabel;
 
 -(IBAction)twitterPost:(id)sender;
 -(IBAction)facebookPost:(id)sender;

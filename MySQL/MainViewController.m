@@ -14,7 +14,7 @@
    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
-
+@property (nonatomic, strong) NSTimer *myTimer;
 @end
 
 @implementation MainViewController
@@ -36,7 +36,6 @@
  [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
  block:^(PFUser *user, NSError *error) {
  if (user) {
- // Hooray! Let them use the app now.
      [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
          [user setObject:geoPoint forKey:@"currentLocation"];
@@ -63,25 +62,28 @@
         //NSLog(@"%@", object);
     }]; */
     
-     //| -------------------------iAd------------------------------
-  /*  bannerView = [[ADBannerView alloc]initWithFrame:
-                  CGRectMake(0, 0, 320, 50)];
-    // Optional to set background color to clear color
-    [bannerView setBackgroundColor:[UIColor clearColor]];
-    [self.view addSubview: bannerView]; */
-   
      //| -----------------------Sound Key---------------------------
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"soundKey"]) {
         [self playSound1];
     }
     //| -----------------------Notification Key---------------------------
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"verseKey"]) {
         [self sendLocalNotification];
     }
      //| -------------------------Timer----------------------------------
-  //  [NSTimer scheduledTimerWithTimeInterval: MTIMER target:self selector:@selector(timertest:) userInfo:nil repeats: MTIMERREP];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"timerKey"]) {
+    if (self.myTimer == nil)//DISPATCH_QUEUE_PRIORITY_HIGH
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.myTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+            [[NSRunLoop currentRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] run];
+        });
+    }
+    }
     //| ---------------------------end----------------------------------
     
 if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]) {
@@ -95,8 +97,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    //Change BarButton Font Below
-    // [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0]} forState:UIControlStateNormal];
     
 #pragma mark Sidebar
     SWRevealViewController *revealViewController = self.revealViewController;
@@ -127,13 +127,24 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
 }
+#pragma mark - iAd
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+//| -------------------------iAd------------------------------
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"iadKey"]) {
-    bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 50)];
+    //[bannerView setBackgroundColor:[UIColor clearColor]];
     bannerView.delegate = self;
+    [self.view addSubview: bannerView];
     }
+//| ----------------------------------------------------------
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.myTimer invalidate];
+    self.myTimer = nil;
 }
 
 -(void)didReceiveMemoryWarning {
@@ -210,11 +221,16 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *newString = [NSString stringWithFormat:@"FOLLOW \n%lu", (unsigned long) tableData.count];
-    NSString *newString1 = [NSString stringWithFormat:@"NASDAQ \n%@", [changeYQL objectAtIndex:0]];
-    NSString *newString2 = [NSString stringWithFormat:@"S&P 500 \n%@", [changeYQL objectAtIndex:1]];
-    NSString *newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", textYQL, tempYQL];
-    
+    NSString *newString, *newString1, *newString2, *newString3;
+     if ( ((NSNull *)[changeYQL objectAtIndex:0]  == [NSNull null]) || ((NSNull *)[changeYQL objectAtIndex:1]  == [NSNull null]) ) {
+         newString1 = @"-";
+         newString2 = @"-";
+     } else {
+    newString = [NSString stringWithFormat:@"FOLLOW \n%lu", (unsigned long) tableData.count];
+    newString1 = [NSString stringWithFormat:@"NASDAQ \n%@", [changeYQL objectAtIndex:0]];
+    newString2 = [NSString stringWithFormat:@"S&P 500 \n%@", [changeYQL objectAtIndex:1]];
+    newString3 = [NSString stringWithFormat:@"Todays Weather %@ %@", textYQL, tempYQL];
+     }
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     tableView.tableHeaderView = view; //makes header move with tablecell
     
@@ -231,12 +247,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
     
-    // create effect
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    // add effect to an effect view
-    UIVisualEffectView *effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
-    effectView.frame = view.frame;
-    [imageHolder addSubview:effectView];
+     // create effect
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *visualEffectView;
+    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    visualEffectView.frame = imageHolder.bounds;
+    [imageHolder addSubview:visualEffectView];
     
     [view addSubview:imageHolder];
     
@@ -253,9 +270,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE1)];
         separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE2)];
         separatorLineView3 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE3)];
-        statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -120, 175, 90, 37)];
+        statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -110, 181, 85, 28)];
         label.backgroundColor = [UIColor blackColor];
-        statButton.titleLabel.font = CELL_FONT(IPADFONT18);
+        statButton.titleLabel.font = CELL_FONTBOLD(IPADFONT18);
         [label setFont:CELL_FONT(IPADFONT16)];
         [label1 setFont:CELL_FONT(IPADFONT16)];
         [label2 setFont:CELL_FONT(IPADFONT16)];
@@ -270,8 +287,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE2)];
         separatorLineView3 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
         label.backgroundColor = [UIColor clearColor];
-        statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -90, 125, 90, 37)];
-        statButton.titleLabel.font = CELL_FONT(IPHONEFONT14);
+        statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -85, 137, 70, 25)];
+        statButton.titleLabel.font = CELL_FONTBOLD(IPHONEFONT14);
         [label setFont:CELL_FONT(IPHONEFONT14)];
         [label1 setFont:CELL_FONT(IPHONEFONT14)];
         [label2 setFont:CELL_FONT(IPHONEFONT14)];
@@ -304,33 +321,51 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     [statButton addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [statButton setTitle:@"Statistics" forState:UIControlStateNormal];
-    [statButton setTitleColor:LINECOLOR1 forState:UIControlStateNormal];
+    [statButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [statButton setBackgroundColor:[UIColor greenColor]];
+    CALayer *btnLayer = [statButton layer];
+    [btnLayer setMasksToBounds:YES];
+    [btnLayer setCornerRadius:9.0f];
     [view bringSubviewToFront:statButton];
+    //Gradient
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = statButton.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor yellowColor] CGColor],[[UIColor greenColor] CGColor ],[[UIColor blueColor] CGColor ], nil];
+    [statButton.layer insertSublayer:gradient atIndex:0];
+    
     [view addSubview:statButton];
     
   //------------------------lines-----------------------------------
     separatorLineView1.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView1];
-    
-    if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
+    /*
+    if ( ((NSNull *)[changeYQL objectAtIndex:0]  == [NSNull null]) || ((NSNull *)[changeYQL objectAtIndex:1]  == [NSNull null]) ) {
+        newString1 = @"-";
+        newString2 = @"-";
         separatorLineView2.backgroundColor = LINECOLOR3;
-    } else {
-        separatorLineView2.backgroundColor = LINECOLOR1;
-    }
-    [view addSubview:separatorLineView2];
-    
-    if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:nil] )) {
         separatorLineView3.backgroundColor = LINECOLOR3;
-    } else {
-        separatorLineView3.backgroundColor = LINECOLOR1;
-    }
-    [view addSubview:separatorLineView3];
-    
-    if (([textYQL containsString:@"Rain"]) || ([textYQL containsString:@"Snow"])) {
-        [label3 setTextColor:LINECOLOR3];
-    } else {
-        [label3 setTextColor:LINECOLOR1];
-    }
+        
+    } else { */
+        if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
+            separatorLineView2.backgroundColor = LINECOLOR3;
+        } else {
+            separatorLineView2.backgroundColor = LINECOLOR1;
+        }
+        [view addSubview:separatorLineView2];
+        
+        if (([[changeYQL objectAtIndex:1] containsString:@"-"]) || ([[changeYQL objectAtIndex:1] isEqual:nil] )) {
+            separatorLineView3.backgroundColor = LINECOLOR3;
+        } else {
+            separatorLineView3.backgroundColor = LINECOLOR1;
+        }
+        [view addSubview:separatorLineView3];
+        
+        if (([textYQL containsString:@"Rain"]) || ([textYQL containsString:@"Snow"])) {
+            [label3 setTextColor:LINECOLOR3];
+        } else {
+            [label3 setTextColor:LINECOLOR1];
+        }
+   // }
   //------------------------------------------------------------
 
     if (!isFilltered)

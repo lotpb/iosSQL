@@ -23,7 +23,37 @@ NSURL *url;
     [names enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL *stop) {
         [self.segControl setTitle:title forSegmentAtIndex:idx];
     }];
+   /*
+    Class svcClass = NSClassFromString(@"SFSafariViewController");
+    if (svcClass != nil) {
+        
+    NSURL *url = [NSURL URLWithString:KEY_WEBPAGE0];
+    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url];
+    safari.delegate = self;
+    [self presentViewController:safari animated:YES completion:^{
+        NSLog(@"presentViewController completion");
+    }];
+    } else {
+        //Your old web browser code here */
+        WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+        WKUserContentController *controller = [[WKUserContentController alloc] init];
+        
+        [controller addScriptMessageHandler:self name:@"observe"];
+        configuration.userContentController = controller;
+        
+        url = [NSURL URLWithString:KEY_WEBPAGE0];
+        
+        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 66,
+                                                                   self.view.bounds.size.width,
+                                                                   self.view.bounds.size.height - 155) configuration:configuration];
+        
+        [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+        [self.view addSubview:_webView];
+        
+        [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
+   // }
     
+    /*
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     WKUserContentController *controller = [[WKUserContentController alloc] init];
     
@@ -39,7 +69,7 @@ NSURL *url;
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self.view addSubview:_webView];
     
-    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
+    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL]; */
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -59,6 +89,12 @@ NSURL *url;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    [controller dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"dismissViewControllerAnimated completion");
+    }];
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController

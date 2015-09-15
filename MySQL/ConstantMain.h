@@ -18,6 +18,7 @@
 #define IPHONEFONT14       14
 
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
+#define CELL_FONTBOLD(s)      [UIFont fontWithName:@"Avenir-Heavy" size:s]//Avenir-Black
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define LINECOLOR1     [UIColor greenColor]
 //#define LINECOLOR2     [UIColor redColor]
@@ -56,9 +57,9 @@
 #define MAINHEADHEIGHT     175.0
 #define PMAINHEADHEIGHT    225.0
 
-#define MAINLABELSIZE1     12, 125, tableView.frame.size.width, 50
-#define MAINLABELSIZE2     90, 125, tableView.frame.size.width, 50
-#define MAINLABELSIZE3     163, 125, tableView.frame.size.width, 50
+#define MAINLABELSIZE1     12, 124, tableView.frame.size.width, 50
+#define MAINLABELSIZE2     90, 124, tableView.frame.size.width, 50
+#define MAINLABELSIZE3     163, 124, tableView.frame.size.width, 50
 #define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
 
 #define PMAINLABELSIZE1    12, 165, tableView.frame.size.width, 50
@@ -66,9 +67,9 @@
 #define PMAINLABELSIZE3    210, 165, tableView.frame.size.width, 50
 #define PMAINLABELSIZE4    12, 120, tableView.frame.size.width, 20 //ipad
 
-#define MAINLINESIZE1      12, 170, 60, 2.0
-#define MAINLINESIZE2      90, 170, 60, 2.0
-#define MAINLINESIZE3      163, 170, 60, 2.0
+#define MAINLINESIZE1      12, 169, 60, 2.5
+#define MAINLINESIZE2      90, 169, 60, 2.5
+#define MAINLINESIZE3      163, 169, 60, 2.5
 
 #define PMAINLINESIZE1     12, 215, 64, 3.0
 #define PMAINLINESIZE2     112, 215, 64, 3.0

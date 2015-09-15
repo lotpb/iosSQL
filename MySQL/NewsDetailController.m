@@ -74,7 +74,6 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
     [playButton addGestureRecognizer:tap];
-    
     [self.scrollView addSubview:playButton];
     
     _videoURL = [NSURL URLWithString:self.imageDetailurl];

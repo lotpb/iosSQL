@@ -10,6 +10,10 @@
 #import <Parse/Parse.h>
 #import "MainViewController.h"
 
+@interface AppDelegate () <UISplitViewControllerDelegate>
+
+@end
+
 @implementation AppDelegate
 @synthesize window;
 
@@ -60,6 +64,26 @@
     
 //| -----------------------register Settings---------------------------
         [self populateRegistrationDomain];
+    
+//| -----------------------splitview---------------------------
+   /*
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+        navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+        splitViewController.delegate = self;
+        
+      //  UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
+      //  MainViewController *controller = (MainViewController *)masterNavigationController.topViewController;
+       // controller.managedObjectContext = self.managedObjectContext;
+    } */
+
+    //| -----------------------prevent Autolock---------------------------
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"autolockKey"]) {
+        
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    }
     
     return YES;
 }

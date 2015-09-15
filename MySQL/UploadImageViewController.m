@@ -42,7 +42,7 @@
 {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;//fix
-    [self.commentTitle becomeFirstResponder];
+    //[self.commentTitle becomeFirstResponder];
     
     if (self.progressView.progress == 0) {
         self.progressView.hidden = NO;
@@ -149,6 +149,7 @@
         pictureData = [NSData dataWithContentsOfURL:videoURL];
         file = [PFFile fileWithName:@"movie.mp4" data:pictureData];
     }
+     NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (succeeded){
@@ -207,13 +208,16 @@
         moviePath = nil;
         pickImage = info[UIImagePickerControllerEditedImage];
     }
+     NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
     [self refreshSolutionView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UIImagePickerVideo delegate
 - (void) refreshSolutionView {
-
+    if ((pictureData.length/1024) >= 1024) {
+        NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
+    }
     self.imgToUpload.image = nil;
     [self.videoController stop];
     self.videoController = nil;
@@ -222,15 +226,17 @@
     if (pickImage) { //it's image
         [self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
         self.imgToUpload.image = pickImage;
+        self.imgToUpload.clipsToBounds = YES; //added
+        [self.imgToUpload sizeToFit]; //added
         
     } else { //it's video
-        
         self.videoController = [[MPMoviePlayerController alloc] init];
         [self.videoController setContentURL:videoURL];
         [self.videoController.view setFrame:self.imgToUpload.bounds];
         self.videoController.view.backgroundColor = [UIColor clearColor];
         self.videoController.view.clipsToBounds = YES;
         [self.videoController prepareToPlay];
+        self.videoController.scalingMode = MPMovieScalingModeFill; 
         self.videoController.controlStyle = MPMovieControlStyleDefault;
         self.videoController.shouldAutoplay = NO;
         [self.imgToUpload addSubview:self.videoController.view];
@@ -241,10 +247,12 @@
                                                    object:self.videoController];
 
     }
+    
+    
 }
 
 - (void) moviePlayBackDidFinish:(NSNotification*)notification {
-    /*
+    
     [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     
     // Stop the video player and remove it from view
@@ -256,7 +264,7 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Video Playback" message:@"Just finished the video playback. The video is now removed." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okayAction];
-    [self presentViewController:alertController animated:YES completion:nil]; */
+    [self presentViewController:alertController animated:YES completion:nil];
     
     
     MPMoviePlayerController *player = [notification object];

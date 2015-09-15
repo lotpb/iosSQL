@@ -93,7 +93,7 @@
 		AFA99E1E1A49E79700231173 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA99E1D1A49E79700231173 /* NotificationController.m */; };
 		AFAA0FD51A0E931E00205EE9 /* MasterAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FD41A0E931E00205EE9 /* MasterAddressViewController.m */; };
 		AFAA0FD81A0E93A600205EE9 /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FD71A0E93A600205EE9 /* AddressViewController.m */; };
-		AFAA0FDF1A10634600205EE9 /* FacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FDE1A10634600205EE9 /* FacebookViewController.m */; };
+		AFAA0FDF1A10634600205EE9 /* SocialController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA0FDE1A10634600205EE9 /* SocialController.m */; };
 		AFAAE68B1A06C44A000C2423 /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAE68A1A06C44A000C2423 /* NewsController.m */; };
 		AFACE9A61A0D04300066C042 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFACE9A51A0D04300066C042 /* CustomTableViewCell.m */; };
 		AFAF45E41B5AD8C900FA255A /* Tornado.caf in Resources */ = {isa = PBXBuildFile; fileRef = AFAF45E31B5AD75600FA255A /* Tornado.caf */; };
@@ -282,8 +282,8 @@
 		AFAA0FD41A0E931E00205EE9 /* MasterAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterAddressViewController.m; sourceTree = "<group>"; };
 		AFAA0FD61A0E93A600205EE9 /* AddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewController.h; sourceTree = "<group>"; };
 		AFAA0FD71A0E93A600205EE9 /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
-		AFAA0FDD1A10634600205EE9 /* FacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookViewController.h; sourceTree = "<group>"; };
-		AFAA0FDE1A10634600205EE9 /* FacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookViewController.m; sourceTree = "<group>"; };
+		AFAA0FDD1A10634600205EE9 /* SocialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialController.h; sourceTree = "<group>"; };
+		AFAA0FDE1A10634600205EE9 /* SocialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialController.m; sourceTree = "<group>"; };
 		AFAAE6891A06C44A000C2423 /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		AFAAE68A1A06C44A000C2423 /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
 		AFACE9A41A0D04300066C042 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
@@ -760,8 +760,8 @@
 				AF2856651A256B5000A6F42A /* MapController.m */,
 				AF79A4231ADB6A6C003907FD /* CalenderEdit.h */,
 				AF79A4241ADB6A6C003907FD /* CalenderEdit.m */,
-				AFAA0FDD1A10634600205EE9 /* FacebookViewController.h */,
-				AFAA0FDE1A10634600205EE9 /* FacebookViewController.m */,
+				AFAA0FDD1A10634600205EE9 /* SocialController.h */,
+				AFAA0FDE1A10634600205EE9 /* SocialController.m */,
 				AF1D63FE1A0D27A6007C6638 /* SidebarViewController.h */,
 				AF1D63FF1A0D27A6007C6638 /* SidebarViewController.m */,
 				AF57D6931A428B3200CF130C /* AppPrefViewController.h */,
@@ -1119,7 +1119,7 @@
 				AF558C6E19DACE25004D30D7 /* MaplViewController.m in Sources */,
 				AF2856661A256B5000A6F42A /* MapController.m in Sources */,
 				AFFEA0861A32101600165318 /* AdvertisingViewController.m in Sources */,
-				AFAA0FDF1A10634600205EE9 /* FacebookViewController.m in Sources */,
+				AFAA0FDF1A10634600205EE9 /* SocialController.m in Sources */,
 				AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */,
 				AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,
@@ -1183,7 +1183,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1219,7 +1219,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1240,7 +1240,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.PeterBalsamo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1263,7 +1263,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.PeterBalsamo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

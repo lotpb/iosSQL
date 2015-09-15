@@ -17,7 +17,6 @@
 {
 UIBarButtonItem *trashItem, *shareItem;
 }
-//@synthesize msgDate, postby, subject, rating, msgNo;
 
 - (void)viewDidLoad
 {
@@ -32,7 +31,6 @@ UIBarButtonItem *trashItem, *shareItem;
     trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -155,7 +153,7 @@ UIBarButtonItem *trashItem, *shareItem;
     } else {
         [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT17)];
         [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT17)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
+        [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT12)];
     }
     
     myCell.accessoryType = UITableViewCellAccessoryNone;

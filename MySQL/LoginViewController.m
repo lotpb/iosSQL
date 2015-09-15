@@ -34,6 +34,7 @@
         _registerBtn.hidden = YES;
     }
      self.usernameField.text = @"eunitedws@verizon.net";
+     self.emailField.hidden = true;
     // self.passwordField.text = @"3911";
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
@@ -111,8 +112,12 @@
 }
 
 - (IBAction)passwordReset:(id)sender {
-    
-     email = self.emailField.text;
+    self.emailField.hidden = false;
+    self.passwordField.hidden = true;
+    self.usernameField.hidden = true;
+    self.loginBtn.hidden = true;
+    self.authentButton.hidden = true;
+    email = self.emailField.text;
     finalEmail = [email stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     [PFUser requestPasswordResetForEmailInBackground:finalEmail block:^(BOOL succeeded,NSError *error) {
@@ -125,7 +130,7 @@
         } else {
             
             NSString *errorString = [error userInfo][@"error"];
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat: @"Password reset failed: %@",errorString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat: @"Enter email in field: %@",errorString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [warning show];
             return;
         }

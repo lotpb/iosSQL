@@ -60,7 +60,9 @@ Parse.com
           self.following.text = @"Following";
         } else {
          [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];
-          self.following.text = @"Follow"; }
+            self.following.text = @"Follow";}
+    
+    //self.following.textColor = BLUECOLOR;
 
 #pragma mark Form Circle Image
     /*
@@ -76,10 +78,49 @@ Parse.com
     self.profileImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.profileImageView.layer.borderWidth = 0.5f;
  
-#pragma mark BarButtons
+#pragma mark Buttons
     UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(share:)];
     NSArray *actionButtonItems = @[saveItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    [self.cityLookup setBackgroundColor:BLUECOLOR];
+    [self.cityLookup setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.cityLookup titleLabel] setFont:DETAILFONT(IPHONEFONT18)];
+    CALayer *btnLayer1 = [self.cityLookup layer];
+    [btnLayer1 setMasksToBounds:YES];
+    [btnLayer1 setCornerRadius:9.0f];
+    
+    [self.jobLookup setBackgroundColor:BLUECOLOR];
+    [self.jobLookup setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.jobLookup titleLabel] setFont:DETAILFONT(IPHONEFONT18)];
+    CALayer *btnLayer2 = [self.jobLookup layer];
+    [btnLayer2 setMasksToBounds:YES];
+    [btnLayer2 setCornerRadius:9.0f];
+    
+    [self.productLookup setBackgroundColor:BLUECOLOR];
+    [self.productLookup setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.productLookup titleLabel] setFont:DETAILFONT(IPHONEFONT18)];
+    CALayer *btnLayer3 = [self.productLookup layer];
+    [btnLayer3 setMasksToBounds:YES];
+    [btnLayer3 setCornerRadius:9.0f];
+    
+    [self.salesLookup setBackgroundColor:BLUECOLOR];
+    [self.salesLookup setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.salesLookup titleLabel] setFont:DETAILFONT(IPHONEFONT18)];
+    CALayer *btnLayer4 = [self.salesLookup layer];
+    [btnLayer4 setMasksToBounds:YES];
+    [btnLayer4 setCornerRadius:9.0f];
+    
+    [self.clearbutton setBackgroundColor:BLUECOLOR];
+    [self.clearbutton setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+    [[self.clearbutton titleLabel] setFont:DETAILFONT(IPHONEFONT14)];
+    CALayer *btnLayer5 = [self.clearbutton layer];
+    [btnLayer5 setMasksToBounds:YES];
+    [btnLayer5 setCornerRadius:7.0f];
+    
+    self.comment.layer.cornerRadius = 8.0;
+    self.comment.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+    self.comment.layer.borderWidth = 1.2;
     
     [[UITextView appearance] setTintColor:CURSERCOLOR];
     [[UITextField appearance] setTintColor:CURSERCOLOR];
@@ -90,10 +131,12 @@ Parse.com
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
      self.title = [NSString stringWithFormat:@" %@ %@", @"New", self.formController];
+    /*
      if ( ([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4]) )
           [self.company becomeFirstResponder];
-     else [self.first becomeFirstResponder];
-    [self.view endEditing:YES]; //dismiss the keyboard
+     else [self.first becomeFirstResponder]; */
+    
+    //[self.view endEditing:YES]; //dismiss the keyboard
 }
 
 - (void)didReceiveMemoryWarning {
@@ -526,6 +569,14 @@ Parse.com
     self.adName.text = passedData;
 }
 
+- (void)salesFromController:(NSString *)passedData{
+    self.saleNo.text = passedData;
+}
+
+- (void)salesNameFromController:(NSString *)passedData{
+    self.salesman.text = passedData;
+}
+
 #pragma mark Lookup City needed
 -(IBAction)updateCity:(id)sender{
     [self performSegueWithIdentifier:LOOKCITYSEGUE sender:self];
@@ -541,6 +592,11 @@ Parse.com
     [self performSegueWithIdentifier:LOOKPRODSEGUE sender:self];
 }
 
+#pragma mark Lookup Salesman needed
+-(IBAction)updateSalesman:(id)sender{
+    [self performSegueWithIdentifier:LOOKSALESEGUE sender:self];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     if ([[segue identifier] isEqualToString:LOOKCITYSEGUE]) {
@@ -554,6 +610,11 @@ Parse.com
         addViewControler.formController = self.formController;
     }
     if ([[segue identifier] isEqualToString:LOOKPRODSEGUE]) {
+        LookupProduct *addViewControler = [segue destinationViewController];
+        [addViewControler setDelegate:(id)self];
+        addViewControler.formController = self.formController;
+    }
+    if ([[segue identifier] isEqualToString:LOOKSALESEGUE]) {
         LookupProduct *addViewControler = [segue destinationViewController];
         [addViewControler setDelegate:(id)self];
         addViewControler.formController = self.formController;

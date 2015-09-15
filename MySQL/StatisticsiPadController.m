@@ -13,11 +13,10 @@
     NSMutableArray *_statHeaderItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold, *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
     NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
-    NSTimer *myTimer;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
-
+@property (nonatomic, strong) NSTimer *myTimer;
 @end
 
 @implementation StatisticsiPadController
@@ -54,11 +53,15 @@
     [self YahooFinanceLoad];
     
     //| -------------------------Timer----------------------------------
-    if (myTimer != nil) {
-        [myTimer invalidate];
+    
+    if (self.myTimer == nil)//DISPATCH_QUEUE_PRIORITY_DEFAULT
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            self.myTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+            [[NSRunLoop currentRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] run];
+        });
     }
-    if (myTimer == nil)
-    myTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0 target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
 
     //| ---------------------------end----------------------------------
     
@@ -86,8 +89,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [myTimer invalidate];
-     myTimer = nil;
+    [self.myTimer invalidate];
+     self.myTimer = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

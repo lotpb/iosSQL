@@ -102,6 +102,8 @@
         
         UISwitch *theSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
         [theSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+         theSwitch.onTintColor = BLUECOLOR;
+         theSwitch.tintColor = [UIColor lightGrayColor];
         
         if ([self.frm11 isEqual:@"Active"]) {
              [theSwitch setOn:YES];

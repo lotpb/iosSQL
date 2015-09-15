@@ -71,13 +71,17 @@
         [self.subject setFont:CELL_FONT(IPHONEFONT17)];
     }
     
+    self.subject.layer.cornerRadius = 8.0;
+    self.subject.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+    self.subject.layer.borderWidth = 1.2;
+    
   [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.title = NSLocalizedString(BLOGNEWTITLE, nil);
-    [self.subject becomeFirstResponder];
+    //[self.subject becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
