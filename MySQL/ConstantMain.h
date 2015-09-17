@@ -18,28 +18,27 @@
 #define IPHONEFONT14       14
 
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]//Avenir-Black
-#define CELL_FONTBOLD(s)      [UIFont fontWithName:@"Avenir-Heavy" size:s]//Avenir-Black
-#define HEADTEXTCOLOR   [UIColor whiteColor]
-#define LINECOLOR1     [UIColor greenColor]
-//#define LINECOLOR2     [UIColor redColor]
-#define LINECOLOR3     [UIColor redColor]
+#define CELL_FONTBOLD(s)  [UIFont fontWithName:@"Avenir-Heavy" size:s]//Avenir-Black
+#define HEADTEXTCOLOR     [UIColor whiteColor]
+#define LINECOLOR1        [UIColor greenColor]
+#define LINECOLOR3        [UIColor redColor]
 #define SEDGEINSERT           44, 0, 0, 0
 #define SDIM                 YES //dimsBackgroundDuringPresentation
 #define SHIDE                YES //hidesNavigationBarDuringPresentation
 #define SDEFINE              YES //definesPresentationContext
 #define SHIDEBAR             YES //hidesBottomBarWhenPushed
-#define SEARCHBARSTYLE      UIBarStyleBlack
+#define SEARCHBARSTYLE       UIBarStyleBlack
 
-#define IDCELL            @"BasicCell"
+#define IDCELL           @"BasicCell"
 #define KEY_DATEREFRESH  @"MMM d, h:mm a"
 #define UPDATETEXT       @"Last update: %@"
 #define REFRESHCOLOR     [UIColor blackColor]
 #define REFRESHTEXTCOLOR [UIColor whiteColor]
 #define TABTINTCOLOR     [UIColor whiteColor]
-#define MAINNAVLOGO           @"mySQLHOME.png"
-#define BACKGROUNDCOLOR   [UIColor blackColor]
-#define MAINNAVCOLOR       [UIColor blackColor]
-#define NAVTRANSLUCENT     YES
+#define MAINNAVLOGO      @"mySQLHOME.png"
+#define BACKGROUNDCOLOR  [UIColor blackColor]
+#define MAINNAVCOLOR     [UIColor blackColor]
+#define NAVTRANSLUCENT   YES
 
 #define SOUNDFILE     @"%@/03 A Whiter Shade Of Pale.mp3"
 //------notification-------------------------------
@@ -74,7 +73,6 @@
 #define PMAINLINESIZE1     12, 215, 64, 3.0
 #define PMAINLINESIZE2     112, 215, 64, 3.0
 #define PMAINLINESIZE3     210, 215, 64, 3.0
-//#define MAINWEATHERSIZE1   12, 50, 60, 1.5
 
 //------table names-------------------------------
 #define TNAME1             @"Leads"

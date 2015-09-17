@@ -30,12 +30,15 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* const userNameKey = KEY_USER;
     
-    self.view.backgroundColor = BLOGNEWBACKCOLOR;
+    //self.view.backgroundColor = BLOGNEWBACKCOLOR;
     self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
     self.toolBar.translucent = YES;
     self.toolBar.barTintColor = [UIColor grayColor];
+    self.subject.delegate = self;
     
     if (self.textcontentsubject.length == 0) {
+        self.placeholderlabel.text = @"Share an idea?";
+        self.placeholderlabel.textColor = [UIColor lightGrayColor];
         static NSDateFormatter *dateFormatter = nil;
         if (dateFormatter == nil) {
             
@@ -54,6 +57,7 @@
             }
             self.Update.hidden = YES; }
     } else {
+        self.placeholderlabel.hidden = true;;
         self.objectId = self.textcontentobjectId;
         self.msgNo = self.textcontentmsgNo;
         self.msgDate = self.textcontentdate;
@@ -71,9 +75,32 @@
         [self.subject setFont:CELL_FONT(IPHONEFONT17)];
     }
     
-    self.subject.layer.cornerRadius = 8.0;
-    self.subject.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-    self.subject.layer.borderWidth = 1.2;
+    PFQuery *query = [PFUser query];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        [query whereKey:@"username" equalTo:self.postby];
+    } else {
+        //[query whereKey:@"username" equalTo:self.selectedLocation.postby];
+    }
+    [query setLimit:1000]; //parse.com standard is 100
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            PFFile *file = [object objectForKey:@"imageFile"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    [self.imageBlog setImage:[UIImage imageWithData:data]];
+                } else {
+                    [self.imageBlog setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+                }
+            }];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    self.imageBlog.clipsToBounds = YES;
+    self.imageBlog.layer.cornerRadius = BLOGIMGRADIUS;
+    self.imageBlog.contentMode = UIViewContentModeScaleToFill;
     
   [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
@@ -86,6 +113,22 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - UITextView
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    self.placeholderlabel.hidden = YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    self.placeholderlabel.hidden = ([textView.text length] > 0);
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    self.placeholderlabel.hidden = ([textView.text length] > 0);
 }
 
 #pragma mark - TableView 

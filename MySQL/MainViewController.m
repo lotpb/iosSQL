@@ -12,6 +12,7 @@
 @interface MainViewController ()
 {
    UIRefreshControl *refreshControl;
+   UIBarButtonItem *searchItem, *shareItem;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSTimer *myTimer;
@@ -94,8 +95,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     tableData = [[NSMutableArray alloc]initWithObjects:TNAME1, TNAME2, TNAME3, TNAME4, TNAME5, TNAME6, TNAME7, TNAME8, TNAME9, nil];
  
 #pragma mark Bar Button
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
+    NSArray *actionButtonItems = @[searchItem, shareItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark Sidebar
@@ -327,25 +329,26 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [btnLayer setMasksToBounds:YES];
     [btnLayer setCornerRadius:9.0f];
     [view bringSubviewToFront:statButton];
+    
     //Gradient
-    CAGradientLayer *gradient = [CAGradientLayer layer];
+    /* CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = statButton.bounds;
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor yellowColor] CGColor],[[UIColor greenColor] CGColor ],[[UIColor blueColor] CGColor ], nil];
-    [statButton.layer insertSublayer:gradient atIndex:0];
+    [statButton.layer insertSublayer:gradient atIndex:0]; */
     
     [view addSubview:statButton];
     
   //------------------------lines-----------------------------------
     separatorLineView1.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView1];
-    /*
+    
     if ( ((NSNull *)[changeYQL objectAtIndex:0]  == [NSNull null]) || ((NSNull *)[changeYQL objectAtIndex:1]  == [NSNull null]) ) {
         newString1 = @"-";
         newString2 = @"-";
         separatorLineView2.backgroundColor = LINECOLOR3;
         separatorLineView3.backgroundColor = LINECOLOR3;
         
-    } else { */
+    } else {
         if (([[changeYQL objectAtIndex:0] containsString:@"-"]) || ([[changeYQL objectAtIndex:0] isEqual:nil] )) {
             separatorLineView2.backgroundColor = LINECOLOR3;
         } else {
@@ -365,7 +368,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         } else {
             [label3 setTextColor:LINECOLOR1];
         }
-   // }
+    }
   //------------------------------------------------------------
 
     if (!isFilltered)
@@ -514,6 +517,77 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1; //The number to diplay on the icon badge
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+}
+
+#pragma mark share
+- (void)share:(id)sender {
+    
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:@"Accessory Apps"
+                                 message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* facebook = [UIAlertAction
+                               actionWithTitle:@"View Social"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                    //[self performSegueWithIdentifier:@"lookupCitySegue" sender:self];
+                               }];
+    
+    UIAlertAction* twitter = [UIAlertAction
+                              actionWithTitle:@"View Notification"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //[self twitterPost:self];
+                              }];
+    UIAlertAction* message = [UIAlertAction
+                              actionWithTitle:@"View Calender"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //[self sendSMS:self];
+                              }];
+    UIAlertAction* photo = [UIAlertAction
+                              actionWithTitle:@"View Photos"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //[self sendSMS:self];
+                              }];
+    UIAlertAction* settings = [UIAlertAction
+                            actionWithTitle:@"View Settings"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //[self sendSMS:self];
+                            }];
+    UIAlertAction* map = [UIAlertAction
+                               actionWithTitle:@"View Map"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //[self sendSMS:self];
+                               }];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [view addAction:facebook];
+    [view addAction:twitter];
+    [view addAction:message];
+    [view addAction:photo];
+    [view addAction:settings];
+    [view addAction:map];
+    [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        view.popoverPresentationController.barButtonItem = shareItem;
+        view.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:view animated:YES completion:nil];
 }
 
 #pragma mark - Segue

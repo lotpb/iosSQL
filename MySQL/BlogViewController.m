@@ -418,22 +418,8 @@ Parse.com
     }
 }
 
-/*
--(void)buttonPressReset:(id)sender{
-    UIButton* button = (UIButton*)sender;
-    if (!likeButton.selected) {
-        [likeButton setSelected:YES];
-        button.tintColor = [UIColor redColor];
-    } else {
-        [likeButton setSelected:NO];
-        button.tintColor = [UIColor greenColor];
-    }
-    NSLog(@"buttonPressReset");
-} */
-
 #pragma mark like button
 - (void)likeButton:(id)sender  {
-    //[sender setTintColor:[UIColor redColor]];
     UIButton *btn = (UIButton *) sender;
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
@@ -452,13 +438,9 @@ Parse.com
  
             if (likeButton.isSelected) {
                 likeCount++;
-                [likeButton setSelected:YES];
-                //numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
                // NSLog(@"selected");
             } else {
                 likeCount--;
-                [likeButton setSelected:NO];
-               // numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
                // NSLog(@"not selected");
             }
             
@@ -468,12 +450,8 @@ Parse.com
 
             //[self reloadDatas:self];
             //numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
-
         }
     }];
-    
-    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-     //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
     //[self.listTableView reloadData];
 }
 

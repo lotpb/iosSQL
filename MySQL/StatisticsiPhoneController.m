@@ -11,7 +11,11 @@
 @interface StatisticsiPhoneController ()
 {
     StatCustModel *_StatCustModel; StatLeadModel *_StatLeadModel;
-    NSMutableArray *_statHeaderItems, *_feedCustItems, *_feedLeadItems, *_feedItems, *_feedLeadActive, *_feedCustActive, *_feedAppToday, *_feedWinSold, *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
+    NSMutableArray *_statHeaderItems, *_feedCustItems, *_feedLeadItems,
+    *_feedLeadsToday, *_feedAppToday, *_feedAppTomorrow, *_feedLeadActive, *_feedLeadYear,
+    *_feedCustToday, *_feedCustYesterday, *_feedCustActive, *_feedWinSold, *_feedCustYear,
+    *_feedTESTItems,
+    *symYQL, *fieldYQL, *changeYQL, *dayYQL, *textYQL, *humidityYQL;
     NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
     UIRefreshControl *refreshControl;
@@ -37,10 +41,13 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
         parseConnection.delegate = (id)self;
+        [parseConnection parseTodayLeads]; [parseConnection parseApptTodayLeads];
+        [parseConnection parseApptTomorrowLeads]; [parseConnection parseActiveLeads];
+        [parseConnection parseYearLeads];
+        [parseConnection parseTodayCust]; [parseConnection parseYesterdayCust];
+        [parseConnection parseWindowSold]; [parseConnection parseActiveCust];
+        [parseConnection parseYearCust];
         
-        [parseConnection parseTodayLeads]; [parseConnection parseActiveLeads];
-        [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
-        [parseConnection parseWindowSold];
     } else {
         [self itemsStatHeaderDownloaded];
         
@@ -53,18 +60,25 @@
         tableLeadData = [[NSMutableArray alloc]initWithObjects:SLNAME1, SLNAME2, SLNAME3, SLNAME4, SLNAME5, SLNAME6, SLNAME7, SLNAME8, nil];
         tableCustData = [[NSMutableArray alloc]initWithObjects:SCNAME1, SCNAME2, SCNAME3, SCNAME4, SCNAME5, SCNAME6, SCNAME7, SCNAME8, nil];
     }
-    
+
     [self YahooFinanceLoad];
     
     //| -------------------------Timer----------------------------------
     
     if (self.myTimer == nil)//DISPATCH_QUEUE_PRIORITY_DEFAULT
     {
-        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async( dispatch_get_main_queue(), ^{
+                self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+            });
+        });
+/*
+        //dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
             //[[NSRunLoop currentRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode];
             //[[NSRunLoop currentRunLoop] run];
-        //});
+        }); */
     }
     
     //| ---------------------------end----------------------------------
@@ -115,9 +129,13 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseStatConnection *parseConnection = [[ParseStatConnection alloc]init];
         parseConnection.delegate = (id)self;
-        [parseConnection parseTodayLeads]; [parseConnection parseActiveLeads];
-        [parseConnection parseActiveCust]; [parseConnection parseApptTodayLeads];
-        [parseConnection parseWindowSold];
+        [parseConnection parseTodayLeads]; [parseConnection parseApptTodayLeads];
+        [parseConnection parseApptTomorrowLeads]; [parseConnection parseActiveLeads];
+        [parseConnection parseYearLeads];
+        [parseConnection parseTodayCust]; [parseConnection parseYesterdayCust];
+        [parseConnection parseWindowSold]; [parseConnection parseActiveCust];
+        [parseConnection parseYearCust];
+        
     } else {
         [_StatLeadModel downloadItems];
         [_StatCustModel downloadItems];
@@ -156,6 +174,7 @@
     }
 }
 
+#pragma mark - mySQL Delegate
 -(void)itemsCustDownloaded:(NSMutableArray *)itemsCust {
     _feedCustItems = itemsCust;
     [self.listTableView reloadData];
@@ -167,18 +186,9 @@
 }
 
 #pragma mark - Parse Delegate
+
 - (void)parseLeadTodayloaded:(NSMutableArray *)leadItem {
-    _feedItems = leadItem;
-    [self.listTableView reloadData];
-}
-
-- (void)parseLeadActiveloaded:(NSMutableArray *)leadItem {
-    _feedLeadActive = leadItem;
-    [self.listTableView reloadData];
-}
-
-- (void)parseCustActiveloaded:(NSMutableArray *)leadItem {
-    _feedCustActive = leadItem;
+    _feedLeadsToday = leadItem;
     [self.listTableView reloadData];
 }
 
@@ -187,10 +197,46 @@
     [self.listTableView reloadData];
 }
 
+- (void)parseLeadApptTomorrowloaded:(NSMutableArray *)leadItem {
+    _feedAppTomorrow = leadItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseLeadActiveloaded:(NSMutableArray *)leadItem {
+    _feedLeadActive = leadItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseLeadYearloaded:(NSMutableArray *)leadItem {
+    _feedLeadYear = leadItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseCustTodayloaded:(NSMutableArray *)leadItem {
+    _feedCustToday = leadItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseCustYesterdayloaded:(NSMutableArray *)leadItem {
+     _feedCustYesterday = leadItem;
+    [self.listTableView reloadData];
+}
+
 - (void)parseWindowSoldloaded:(NSMutableArray *)leadItem {
     _feedWinSold = leadItem;
     [self.listTableView reloadData];
 }
+
+- (void)parseCustActiveloaded:(NSMutableArray *)leadItem {
+    _feedCustActive = leadItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseCustYearloaded:(NSMutableArray *)leadItem {
+    _feedCustYear = leadItem;
+    [self.listTableView reloadData];
+}
+
 
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -461,7 +507,7 @@
          if (indexPath.row == 0) {
              
              myCell.textLabel.text = @"Leads Today";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedLeadsToday.count];
              return myCell;
          } else if (indexPath.row == 1) {
              
@@ -471,7 +517,7 @@
          } else if (indexPath.row == 2) {
              
              myCell.textLabel.text = @"Appointment's Tomorrow";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedAppTomorrow.count];
              return myCell;
          } else if (indexPath.row == 3) {
              
@@ -481,22 +527,22 @@
          } else if (indexPath.row == 4) {
              
              myCell.textLabel.text = @"Leads Year";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedLeadYear.count];
              return myCell;
          } else if (indexPath.row == 5) {
              
              myCell.textLabel.text = @"Leads Avg";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          } else if (indexPath.row == 6) {
              
              myCell.textLabel.text = @"Leads High";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          } else if (indexPath.row == 7) {
              
              myCell.textLabel.text = @"Leads Low";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          }
 
@@ -514,12 +560,12 @@
          if (indexPath.row == 0) {
              
              myCell.textLabel.text = @"Customers Today";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedCustToday.count];
              return myCell;
          } else if (indexPath.row == 1) {
              
              myCell.textLabel.text = @"Customers Yesterday";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedCustYesterday.count];
              return myCell;
          } else if (indexPath.row == 2) {
              
@@ -534,22 +580,22 @@
          } else if (indexPath.row == 4) {
              
              myCell.textLabel.text = @"Customers Year";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedCustYear.count];
              return myCell;
          } else if (indexPath.row == 5) {
              
              myCell.textLabel.text = @"Customers Avg";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          } else if (indexPath.row == 6) {
              
              myCell.textLabel.text = @"Customers High";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          } else if (indexPath.row == 7) {
              
              myCell.textLabel.text = @"Customers Low";
-             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedItems.count];
+             myCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long) _feedTESTItems.count];
              return myCell;
          }
     }

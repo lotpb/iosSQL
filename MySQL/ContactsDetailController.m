@@ -6,16 +6,17 @@
 //  Copyright (c) 2014 Peter Balsamo. All rights reserved.
 //
 
-#import "AddressViewController.h"
+#import "ContactsDetailController.h"
 
-@interface AddressViewController ()
+@interface ContactsDetailController ()
+
 -(void)populateContactData;
 -(void)performPhoneAction:(BOOL)shouldMakeCall;
 -(void)makeCallToNumber:(NSString *)numberToCall;
 -(void)sendSMSToNumber:(NSString *)numberToSend;
 @end
 
-@implementation AddressViewController
+@implementation ContactsDetailController
 
 
 #pragma mark - Managing the detail item

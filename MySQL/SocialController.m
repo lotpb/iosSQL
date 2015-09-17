@@ -26,10 +26,11 @@
 
     doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showdone)];
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
-    //NSArray *actionButtonItems = @[doneButton, shareItem];
-    self.navigationItem.rightBarButtonItem = doneButton;
-    self.navigationItem.leftBarButtonItem = shareItem;
-    
+    shareItem.tintColor = [UIColor orangeColor];
+    doneButton.tintColor = [UIColor orangeColor];
+    NSArray *actionButtonItems = @[doneButton, shareItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+
     self.socialText.layer.cornerRadius = 8.0;
     self.socialText.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
     self.socialText.layer.borderWidth = 1.2;
@@ -45,12 +46,20 @@
     [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
+    self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextView
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     self.placeholderlabel.hidden = YES;

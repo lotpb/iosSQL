@@ -25,7 +25,7 @@
 @property (strong, nonatomic) NSString *msgDate;
 @property (strong, nonatomic) NSString *postby;
 @property (strong, nonatomic) NSString *rating;
-@property (weak, nonatomic) IBOutlet UITextView *subject;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *Share;
 @property (weak, nonatomic) IBOutlet UIButton *Update;
@@ -34,5 +34,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (strong, nonatomic) UIImageView *activeImage;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+
+@property (weak, nonatomic) IBOutlet UITextView *subject;
+@property (weak, nonatomic) IBOutlet UIImageView *imageBlog;
+@property (weak, nonatomic) IBOutlet UILabel *placeholderlabel;
 
 @end

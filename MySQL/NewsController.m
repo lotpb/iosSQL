@@ -282,7 +282,6 @@
         if([image.url containsString:@"movie.mp4"]) {
             playButton.alpha = 1.0f;
             playButton.userInteractionEnabled = YES;
-            //playButton.tag = 5;
             //playButton.center = userImage.center;
             UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [playButton setImage:button forState:UIControlStateNormal];
@@ -300,12 +299,14 @@
         likeButton.tintColor = [UIColor lightGrayColor]; //BLUECOLOR;
         UIImage *imagebutton = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [likeButton setImage:imagebutton forState:UIControlStateNormal];
-        [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [likeButton setTitle:wallObject.objectId forState:UIControlStateNormal];
+        [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
         [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:likeButton];
 
         numLabel.textColor = [UIColor grayColor];
         numLabel.text = [[wallObject objectForKey:@"Liked"]stringValue];
+        numLabel.tag = 14;
         [numLabel sizeToFit];
         [wallImageView addSubview:numLabel];
 
@@ -326,88 +327,47 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
-#pragma mark - like button
-- (void) buttonPress:(id)sender {
-    UIButton* button = (UIButton*)sender;
-    
-    if (!likeButton.selected) {
-        
-        button.tintColor = BLUECOLOR;
-        [likeButton setSelected:YES];
-        NSLog(@"liked News!");
-        [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
-        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (!error) {
-                
-                /*
-                 PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-                 [query whereKey:@"objectId" equalTo:wallObject.objectId];
-                 [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLike, NSError *error) {
-                 if (!error) {
-                 NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
-                 int likeCount = [likedNum intValue];
-                 
-                 if (likeButton.isSelected) {
-                 likeCount++;
-                 [likeButton setSelected:YES];
-                 } else {
-                 likeCount--;
-                 [likeButton setSelected:NO];
-                 }
-                 
-                 NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
-                 [updateLike setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
-                 [updateLike saveInBackground];
-                 
-                 }
-                 }]; */
-                
-            }
-            else {
-                //[self likedFail];
-            }
-        }];
-        
-    } else {
-       
-        likeButton.tintColor = [UIColor lightGrayColor];
-        [likeButton setSelected:NO];
-         NSLog(@"unlike News!");
-    }
-}
-
 #pragma mark like button
 - (void)likeButton:(id)sender {
-/*
-    UIButton *button = (UIButton *) sender;
-    if (likeButton.selected) {
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-    [query whereKey:@"objectId" equalTo:wallObject.objectId];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
+    UIButton* button = (UIButton*)sender;
+    NSString *objectidItem = button.titleLabel.text;
+    [[PFUser currentUser] addUniqueObject:[PFUser currentUser].objectId forKey:@"Liked"];
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            NSNumber* likedNum = [wallObject objectForKey:@"Liked"];
-            int likeCount = [likedNum intValue];
             
-            if (likeButton.isSelected) {
-                likeCount++;
-                [likeButton setSelected:YES];
-            } else {
-                likeCount--;
-                [likeButton setSelected:NO];
-            }
-        
-            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
-            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
-            [updateLead saveInBackground];
-        
+            PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+            [query whereKey:@"objectId" equalTo:objectidItem];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
+                if (!error) {
+                    NSNumber* likedNum = [updateLead valueForKey:@"Liked"];
+                    int likeCount = [likedNum intValue];
+                    
+                    if (likeButton.isSelected) {
+                        likeCount++;
+                    } else {
+                        likeCount--;
+                    }
+                    numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
+                    NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
+                    [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
+                    [updateLead saveInBackground];
+                }
+            }];
+        } else {
+            NSLog(@"unlike News!");
         }
     }];
-    
-    //[self.listTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    //numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"]stringValue];
-    //[self.listTableView reloadData];
-    } */
+}
+
+-(void)buttonPress:(id)sender{
+    UIButton* button = (UIButton*)sender;
+    if (!likeButton.selected) {
+        [likeButton setSelected:YES];
+        button.tintColor = BLUECOLOR;
+    } else {
+        [likeButton setSelected:NO];
+        button.tintColor = [UIColor lightGrayColor];
+    }
 }
 
 #pragma mark - play video
