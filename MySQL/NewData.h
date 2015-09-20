@@ -85,6 +85,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *photo;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
-@property (retain, nonatomic) UIPickerView *pickerView;
+//@property (retain, nonatomic) UIPickerView *pickerView;
 
 @end

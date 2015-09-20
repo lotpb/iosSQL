@@ -184,14 +184,23 @@
         //--------------------load in background------------------------------
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
+         
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                //image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+                //userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+                //[userImage loadInBackground];
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    [userImage loadInBackground];
+                });
+            });
+         
             //added to remove warning on thread...load faster use above code
-            [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
-                [userImage loadInBackground];
-                //userImage.contentMode = UIViewContentModeScaleAspectFill;
-            }];
+           // [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
+            //    [userImage loadInBackground];
+           // }];
         } else {
+             //userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
             [userImage loadInBackground];
-            //userImage.contentMode = UIViewContentModeScaleAspectFit;
         }
          //-------------------------------------------------------------------
         
@@ -269,8 +278,9 @@
         readLabel.tag = 3;
         [wallImageView addSubview:readLabel];
         
-        newsTextview.editable = NO; //bug fix
+        //newsTextview.editable = NO; //bug fix
         newsTextview.text = [wallObject objectForKey:@"storyText"];
+        [newsTextview setUserInteractionEnabled:NO];
         [wallImageView addSubview:newsTextview];
         
         urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
@@ -345,7 +355,9 @@
                     if (likeButton.isSelected) {
                         likeCount++;
                     } else {
-                        likeCount--;
+                        if (likeCount > 0) {
+                            likeCount--;
+                        }
                     }
                     numLabel.text = [NSString stringWithFormat:@"%d", likeCount];
                     NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
@@ -354,7 +366,7 @@
                 }
             }];
         } else {
-            NSLog(@"unlike News!");
+            NSLog(@"Parse not loading!");
         }
     }];
 }
@@ -416,8 +428,16 @@
 #pragma mark Error Alert
 
 -(void)showErrorView:(NSString *)errorMsg {
-    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMsg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [errorAlertView show];
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error"
+                                                                     message:errorMsg
+                                                              preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - search

@@ -86,32 +86,52 @@ UIBarButtonItem *trashItem, *shareItem;
                                      if (!error) {
                                          for (PFObject *object in objects) {
                                              [object deleteInBackground];
-                                             
-                                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Complete" message:@"Successfully deleted the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                             [alert show];
-                                             GOBACK;
-                                             //[self.listTableView reloadData];
+                                             UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Delete Complete"
+                                                                                                              message:@"Successfully updated the data"
+                                                                                                       preferredStyle:UIAlertControllerStyleAlert];
+                                             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                                        handler:^(UIAlertAction * action)
+                                                                  {
+                                                                      [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                      GOBACK;
+                                                                      return;
+                                                                  }];
+                                             [alert addAction:ok];
+                                             [self presentViewController:alert animated:YES completion:nil];
                                          }
                                      } else {
                                          NSLog(@"Error: %@ %@", error, [error userInfo]);
                                      }
                                  }];
-                             } else { /*
-                                       //BlogLocation *item;
-                                       //item = [_feedItems objectAtIndex:indexPath.row];
-                                       NSString *deletestring = _selectedLocation.msgNo;
-                                       NSString *_msgNo = deletestring;
-                                       NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
-                                       NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-                                       NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
-                                       NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                                       [request setHTTPMethod:@"POST"]; [request setHTTPBody:data];
-                                       NSURLResponse *response; NSError *err;
-                                       NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-                                       NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-                                       NSLog(@"%@", responseString);
-                                       NSString *success = @"success";
-                                       [success dataUsingEncoding:NSUTF8StringEncoding]; */
+                             } else {
+                                 /*
+                                 NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
+                                 NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                 NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+                                 
+                                 NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+                                 request.HTTPMethod = @"POST";
+                                 
+                                 //BlogLocation *item;
+                                 //item = [_feedItems objectAtIndex:indexPath.row];
+                                 NSString *deletestring = _selectedLocation.msgNo;
+                                 NSString *_msgNo = deletestring;
+                                 NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
+                                 NSError *error = nil;
+                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                 [request setHTTPBody:data];
+                                 
+                                 if (!error) {
+                                     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
+                                                                                                fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                                                                    // Handle response here
+                                                                                                }];
+                                     
+                                     [uploadTask resume];
+                                 }
+                                 
+                                 NSString *success = @"success";
+                                 [success dataUsingEncoding:NSUTF8StringEncoding]; */
                              }
                              
                              //[_feedItems removeObjectAtIndex:indexPath.row];
@@ -147,31 +167,24 @@ UIBarButtonItem *trashItem, *shareItem;
     CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT18)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT18)];
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT20)];
         [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT16)];
     } else {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT17)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT17)];
+        [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT18)];
+        [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT18)];
         [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT12)];
     }
     
     myCell.accessoryType = UITableViewCellAccessoryNone;
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    myCell.blogImageView.clipsToBounds = YES;
-    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+    /*
+     *******************************************************************************************
+     Parse.com
+     *******************************************************************************************
+     */
     
-  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
-
-    if (myCell == nil)
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
     PFQuery *query = [PFUser query];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         [query whereKey:@"username" equalTo:self.postby];
@@ -195,6 +208,15 @@ Parse.com
         }
     }];
     
+    myCell.blogImageView.clipsToBounds = YES;
+    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+    
+  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
+
+    if (myCell == nil)
+        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         NSString *dateStr = self.msgDate;
         static NSDateFormatter *DateFormatter = nil;
@@ -215,27 +237,21 @@ Parse.com
     }
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        
+        NSString *stringCount = [NSString stringWithFormat:@"%@  %@",@"Liked",  self.liked];
         if ([self.rating isEqual:@"5"]) {
-            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            [self.Like setTitle:stringCount forState: UIControlStateNormal];
             [self.Like setBackgroundColor:LIKECOLORBACK];
             [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
     } else {
         if ([self.selectedLocation.rating isEqual:@"5"]) {
-            [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+            [self.Like setTitle:@"Like" forState: UIControlStateNormal];
             [self.Like setBackgroundColor:LIKECOLORBACK];
             [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
     }
-
-/*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
 
     return myCell;
 }

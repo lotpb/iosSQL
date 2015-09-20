@@ -60,8 +60,13 @@
 }
 
 #pragma mark - UITextView
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    // Provide a "Done" button for the user to select to signify completion with writing text in the text view.
+    UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBarButtonItemClicked)];
+    
+    [self.navigationItem setLeftBarButtonItem:doneBarButtonItem animated:YES];
+    
+    
     self.placeholderlabel.hidden = YES;
 }
 
@@ -73,6 +78,13 @@
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     self.placeholderlabel.hidden = ([textView.text length] > 0);
+}
+
+- (void)doneBarButtonItemClicked {
+    // Dismiss the keyboard by removing it as the first responder.
+    [self.socialText resignFirstResponder];
+    
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
 }
 
 #pragma mark - BarButton
@@ -152,12 +164,16 @@
      }
      else
      {
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Facebook"
-                                                         message:@"Facebook integration is not available.  A Facebook account must be set up on your device."
-                                                        delegate:self
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-         [alert show];
+         UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Facebook"
+                                                                          message:@"Facebook integration is not available.  A Facebook account must be set up on your device."
+                                                                   preferredStyle:UIAlertControllerStyleAlert];
+         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * action)
+                              {
+                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                              }];
+         [alert addAction:ok];
+         [self presentViewController:alert animated:YES completion:nil];
      }
      
  /*
@@ -205,12 +221,16 @@
      }
      else
      {
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter"
-                                                         message:@"Twitter integration is not available.  A Twitter account must be set up on your device."
-                                                        delegate:self
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-         [alert show];
+         UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Twitter"
+                                                                          message:@"Twitter integration is not available.  A Twitter account must be set up on your device."
+                                                                   preferredStyle:UIAlertControllerStyleAlert];
+         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * action)
+                              {
+                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                              }];
+         [alert addAction:ok];
+         [self presentViewController:alert animated:YES completion:nil];
      }
      
 /*
@@ -227,8 +247,16 @@
 -(IBAction)sendSMS:(id)sender {
     //check if the device can send text messages
     if(![MFMessageComposeViewController canSendText]) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device cannot send text messages" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error"
+                                                                         message:@"Your device cannot send text messages"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     

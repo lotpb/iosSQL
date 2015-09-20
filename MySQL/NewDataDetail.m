@@ -55,16 +55,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)changeSwitch:(id)sender {
-    
-    if([sender isOn]) {
-        self.frm11 = @"Active";
-    } else {
-        self.frm11 = @"";
-    }
-       [self.listTableView reloadData];
-}
-
 #pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {   // Return the number of sections.
@@ -198,8 +188,20 @@
             [self.listTableView setContentOffset:CGPointMake(0.0f, maxOffset) animated:YES];
         }
 }
+
+#pragma mark TableView Switch
+- (void)changeSwitch:(id)sender {
+    
+    if([sender isOn]) {
+        self.frm11 = @"Active";
+    } else {
+        self.frm11 = @"";
+    }
+    [self.listTableView reloadData];
+}
+
 //---------------------------------------------------
-#pragma mark - TableView Header/Footer
+#pragma mark TableView Header/Footer
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section{
     NSString *headerTitle;
@@ -237,11 +239,29 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -279,11 +299,29 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -321,11 +359,29 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -363,11 +419,29 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -407,11 +481,29 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -450,11 +542,29 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -493,11 +603,29 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -536,11 +664,29 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {

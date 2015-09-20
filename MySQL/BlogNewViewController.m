@@ -70,9 +70,9 @@
         self.myDatePicker.hidden = YES;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.subject setFont:CELL_FONT(IPADFONT16)];
+        [self.subject setFont:CELL_FONT(IPADFONT20)];
     } else {
-        [self.subject setFont:CELL_FONT(IPHONEFONT17)];
+        [self.subject setFont:CELL_FONT(IPHONEFONT18)];
     }
     
     PFQuery *query = [PFUser query];
@@ -116,8 +116,13 @@
 }
 
 #pragma mark - UITextView
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    // Provide a "Done" button for the user to select to signify completion with writing text in the text view.
+    UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBarButtonItemClicked)];
+    
+    [self.navigationItem setRightBarButtonItem:doneBarButtonItem animated:YES];
+    
+
     self.placeholderlabel.hidden = YES;
 }
 
@@ -129,6 +134,13 @@
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     self.placeholderlabel.hidden = ([textView.text length] > 0);
+}
+
+- (void)doneBarButtonItemClicked {
+    // Dismiss the keyboard by removing it as the first responder.
+    [self.subject resignFirstResponder];
+    
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
 }
 
 #pragma mark - TableView 
@@ -152,13 +164,15 @@
     if (myCell == nil)
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
+    } else {
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
+    }
+    
     if (indexPath.row == 0) {
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
-        } else {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
-        }
         
     UIImageView *activeImage = [[UIImageView alloc]initWithFrame:CGRectMake(tableView.frame.size.width -35, 10, 18, 22)];
     activeImage.contentMode = UIViewContentModeScaleAspectFit;
@@ -176,14 +190,6 @@
          myCell.detailTextLabel.text = @"";
         
     } else if (indexPath.row == 1) {
-        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
-            [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
-        } else {
-            [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
-            [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
-        }
         
         myCell.textLabel.text = self.msgDate;
         myCell.detailTextLabel.text = @"Date";
@@ -233,41 +239,70 @@ Parse.com
                 [updateblog setObject:self.postby forKey:@"PostBy"];
                 [updateblog setObject:self.rating forKey:@"Rating"];
                 [updateblog setObject:self.subject.text forKey:@"Subject"];
-                [updateblog saveInBackground];
+                PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                [postACL setPublicReadAccess:YES];
+                [updateblog setACL:postACL];
+                //[updateblog saveInBackground];
+                [updateblog saveEventually];
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                              message:@"Successfully updated the data"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                         GOHOME;
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
+                
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                              message:[error localizedDescription]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
             }
         }];
           [self.listTableView reloadData];
     } else {
+        NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        request.HTTPMethod = @"POST";
         
         NSString *_msgNo = self.msgNo;
         NSString *_msgDate = self.msgDate;
         NSString *_subject = self.subject.text;
         NSString *_rating = self.rating;
         NSString *_postby = self.postby;
-        
         NSString *rawStr = [NSString stringWithFormat:BLOGUPDATEFIELD, BLOGUPDATEFIELD1];
+        NSError *error = nil;
         NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:BLOGUPDATEURL];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
         [request setHTTPBody:data];
-        NSURLResponse *response;
-        NSError *err;
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-        NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-        NSLog(@"%@", responseString);
+        
+        if (!error) {
+            NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
+                                                                       fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                                           // Handle response here
+                                                                       }];
+            
+            [uploadTask resume];
+        }
+        
         NSString *success = @"success";
         [success dataUsingEncoding:NSUTF8StringEncoding];
-    //  NSLog(@"%lu", (unsigned long)responseString.length);
-    //  NSLog(@"%lu", (unsigned long)success.length);
+         GOHOME;
     }
-    [[self navigationController]popToRootViewControllerAnimated:YES];
+    //[[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Button Update Database
@@ -291,17 +326,34 @@ Parse.com
         // Set ACL permissions for added security
         PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [postACL setPublicReadAccess:YES];
+      //[postACL setPublicWriteAccess:YES];
         [saveblog setACL:postACL];
         
         [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-                GOBACK;
-                        //[self.listTableView reloadData];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                              message:@"Successfully updated the data"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                          GOHOME;
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
+
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                              message:[error localizedDescription]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
             }
         }];
         
@@ -328,9 +380,10 @@ Parse.com
         [success dataUsingEncoding:NSUTF8StringEncoding];
      // NSLog(@"%lu", (unsigned long)responseString.length);
     //  NSLog(@"%lu", (unsigned long)success.length);
+        GOHOME;
     }
     
-    //[[self navigationController]popToRootViewControllerAnimated:YES];
+    //[[self navigationController]popToRootViewControllerAnimated:YES]; //error
 }
 
 @end

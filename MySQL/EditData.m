@@ -12,7 +12,7 @@
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray;
 }
-@property (nonatomic, weak) UIStepper *defaultStepper;
+
 @end
 
 @implementation EditData
@@ -26,27 +26,11 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-
-#pragma mark Form Circle Image
-    
-    self.profileImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.profileImageView.clipsToBounds = YES;
-    self.profileImageView.layer.cornerRadius = 30.f;
-    self.profileImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.profileImageView.layer.borderWidth = 0.5f;
-    
-#pragma mark BarButtons
-    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
-    NSArray *actionButtonItems = @[editItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
-    if ([_formController isEqual:TNAME4])
-     self.company.placeholder = @"Subcontractor";
-    
-    [[UITextView appearance] setTintColor:CURSERCOLOR];
-    [[UITextField appearance] setTintColor:CURSERCOLOR];
-    
-    //[self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(swipeGesture)];
+    /*
+    self.adName.delegate = self;
+    self.amount.delegate = self;
+    self.email.delegate = self;
+    self.spouse.delegate = self; */
     
 /*
 *******************************************************************************************
@@ -66,12 +50,26 @@ Parse.com
         [parseConnection parseRatePick];
         [parseConnection parseContractorPick];
     }
-    
     [self passFieldData];
     [self parseData];
     [self activeButton];
     
     [self.listTableView reloadData];
+    
+#pragma mark Form Circle Image
+    self.profileImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.profileImageView.clipsToBounds = YES;
+    self.profileImageView.layer.cornerRadius = 30.f;
+    self.profileImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.profileImageView.layer.borderWidth = 0.5f;
+    
+#pragma mark BarButtons
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateLeads:)];
+    NSArray *actionButtonItems = @[editItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    [[UITextView appearance] setTintColor:CURSERCOLOR];
+    [[UITextField appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,21 +79,69 @@ Parse.com
      //self.navigationController.hidesBarsOnSwipe = true;
      //self.navigationController.hidesBarsOnTap = false;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-   // [self.first becomeFirstResponder];
-  //[self.view endEditing:YES]; //dismiss the keyboard
+
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillShowNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+   // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Keyboard Event Notifications
+/*
+- (void)handleKeyboardNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    
+    // Get information about the animation.
+    NSTimeInterval animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    UIViewAnimationOptions animationCurve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    // Convert the keyboard frame from screen to view coordinates.
+    CGRect keyboardScreenBeginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGRect keyboardScreenEndFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    CGRect keyboardViewBeginFrame = [self.view convertRect:keyboardScreenBeginFrame fromView:self.view.window];
+    CGRect keyboardViewEndFrame = [self.view convertRect:keyboardScreenEndFrame fromView:self.view.window];
+    
+    // Determine how far the keyboard has moved up or down.
+    CGFloat originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y;
+    
+    // Calculate new scroll indicator and content insets for the table view.
+    UIEdgeInsets newIndicatorInsets = self.listTableView.scrollIndicatorInsets;
+    newIndicatorInsets.bottom -= originDelta;
+    
+    UIEdgeInsets newContentInsets = self.listTableView.contentInset;
+    newContentInsets.bottom -= originDelta;
+    
+    // Update the insets on the table view with the new values.
+    self.listTableView.scrollIndicatorInsets = newIndicatorInsets;
+    self.listTableView.contentInset = newContentInsets;
+    
+    // Inform the view that its the layout should be updated.
+    [self.view setNeedsLayout];
+    
+    // Animate updating the view's layout by calling `layoutIfNeeded` inside a `UIView` animation block.
+    UIViewAnimationOptions animationOptions = animationCurve | UIViewAnimationOptionBeginFromCurrentState;
+    [UIView animateWithDuration:animationDuration delay:0 options:animationOptions animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+} */
+
 -(IBAction)textFieldReturn:(id)sender {
     [sender resignFirstResponder];
 }
 
-
-#pragma mark - ParsePickView
+#pragma mark - Parse PickView Loading
 - (void)parseSalesPickloaded:(NSMutableArray *)salesItem {
     salesArray = salesItem;
 }
@@ -145,7 +191,7 @@ Parse.com
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
     pickerView.backgroundColor = DATEPKCOLOR;
     
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 175)];
     datePicker.tag = tag;
     [datePicker setDatePickerMode:UIDatePickerModeDate];
     datePicker.timeZone = [NSTimeZone localTimeZone];
@@ -173,7 +219,7 @@ Parse.com
         self.complete.text = [formatter stringFromDate:datePicker.date]; }
 }
 
-#pragma mark - ViewPicker
+#pragma mark - Picker View
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
@@ -190,23 +236,16 @@ Parse.com
     [barItems addObject:doneBtn];
     [toolbar setItems:barItems animated:YES];
     
-    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
+    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
     picker.tag = tag;
     picker.dataSource = self;
     picker.delegate = self;
     picker.showsSelectionIndicator = SHOWIND;
-    //[self.pickerView selectRow:3 inComponent:0 animated:NO];
-   // [picker selectRow:3 inComponent:0 animated:YES];
+    //[picker selectRow:3 inComponent:0 animated:YES];
     [pickerView addSubview:picker];
     [pickerView addSubview:toolbar];
-    
     [picker reloadAllComponents];
     return pickerView;
-}
-
-#pragma mark ViewPicker Done Button
--(void)doneClicked {
-    [self.view endEditing:YES];
 }
 
 // The number of columns of data
@@ -233,22 +272,22 @@ Parse.com
         return contractorArray.count;
      else if(pickerView.tag == 24)
          return rateArray.count;
-    return 0;
+    else return 0;
 }
 
 // The data to return for the row and component (column) that's being passed in
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *result = nil;
-    if (pickerView.tag == 6)
+    if (pickerView.tag == 6) {
         return[[salesArray objectAtIndex:row]valueForKey:@"Salesman"];
-    else if(pickerView.tag == 12)
+    } else if(pickerView.tag == 12) {
         return[[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
-    else if(pickerView.tag == 3)
+    } else if(pickerView.tag == 3) {
         return[[contractorArray objectAtIndex:row]valueForKey:@"Contractor"];
-    else if(pickerView.tag == 24)
+    } else if(pickerView.tag == 24) {
         return[[rateArray objectAtIndex:row]valueForKey:@"rating"];
-    return result;
+    } else return result;
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -262,6 +301,11 @@ Parse.com
         self.company.text = [[contractorArray objectAtIndex:row]valueForKey:@"Contractor"];
     else if(pickerView.tag == 24)
         self.aptDate.text = [[rateArray objectAtIndex:row]valueForKey:@"rating"];
+}
+
+#pragma mark PickerView Done Button
+-(void)doneClicked {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - TableView
@@ -348,7 +392,8 @@ Parse.com
         [self.spouse setFont:CELL_FONT(IPHONEFONT20)];
         [self.callback setFont:CELL_FONT(IPHONEFONT20)];
         [self.start setFont:CELL_FONT(IPHONEFONT20)];
-        [self.complete setFont:CELL_FONT(IPHONEFONT20)];
+        [self.comment setFont:CELL_FONT(IPHONEFONT20)];
+        //[self.complete setFont:CELL_FONT(IPHONEFONT20)];
     }
     
     self.first.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -422,24 +467,26 @@ Parse.com
     if (indexPath.row == 0) {
         
         self.date = textframe;
+        self.date.tag = 0;
         if ([self.frm18 isEqual:[NSNull null]])
             self.date.text = @"";
         else self.date.text = self.frm18;
-        self.date.tag = 0;
         
-        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             self.date.inputView = [self datePicker:0];
-        myCell.textLabel.text = @"Date";
+            myCell.textLabel.text = @"Date";
+        }
         
         if ([_formController isEqual:TNAME3]) {
             self.date.placeholder = @"Profession";
-            myCell.textLabel.text = @"Profession"; }
-        
-        else if ([_formController isEqual:TNAME4]) {
+            myCell.textLabel.text = @"Profession";
+            
+        } else if ([_formController isEqual:TNAME4]) {
             self.date.placeholder = @"Title";
-            myCell.textLabel.text = @"Title"; }
+            myCell.textLabel.text = @"Title";
+            
+        } else self.date.placeholder = @"Date";
         
-        else self.date.placeholder = @"Date";
         [myCell.contentView addSubview:self.date];
         
     } else if (indexPath.row == 1) {
@@ -476,10 +523,11 @@ Parse.com
         
         UITextField *aptframe = [[UITextField alloc] initWithFrame:CGRectMake(220, 7, 80, 30)];
         self.zip = aptframe;
+        self.zip.placeholder = @"Zip";
         if ([self.frm17 isEqual:[NSNull null]])
             self.zip.text = @"";
         else self.zip.text = self.frm17;
-        self.zip.placeholder = @"Zip";
+        
         [myCell.contentView addSubview:self.zip];
         
     } else if (indexPath.row == 4) {
@@ -492,21 +540,23 @@ Parse.com
         self.aptDate.placeholder = @"Apt Date";
         myCell.textLabel.text = @"Apt Date";
         
-        if ([_formController isEqual:TNAME1])
+        if ([_formController isEqual:TNAME1]) {
             self.aptDate.inputView = [self datePicker:4];
-        else if ([_formController isEqual:TNAME2]) {
+        
+        } else if ([_formController isEqual:TNAME2]) {
             self.aptDate.placeholder = @"Rate";
             self.aptDate.tag = 24;
             self.aptDate.inputView = [self customPicker:24];
-            myCell.textLabel.text = @"Rate"; }
-        
-        else if ([_formController isEqual:TNAME3]) {
+            myCell.textLabel.text = @"Rate";
+            
+        } else if ([_formController isEqual:TNAME3]) {
             self.aptDate.placeholder = @"Assistant";
-            myCell.textLabel.text = @"Assistant"; }
-        
-        else if ([_formController isEqual:TNAME4]) {
+            myCell.textLabel.text = @"Assistant";
+            
+        } else if ([_formController isEqual:TNAME4]) {
             self.aptDate.placeholder = @"Middle";
-            myCell.textLabel.text = @"Middle"; }
+            myCell.textLabel.text = @"Middle";
+        }
         
         [myCell.contentView addSubview:self.aptDate];
         
@@ -524,43 +574,45 @@ Parse.com
         
         self.salesman = textframe;
         self.salesman.adjustsFontSizeToFitWidth = YES;
+        self.salesman.tag = 6;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            myCell.textLabel.text = @"Salesman";
             if ([self.frm21 isEqual:[NSNull null]])
                 self.salesman.text = @"";
             else self.salesman.text = self.frm21;
             self.salesman.placeholder = @"Salesman";
-            myCell.textLabel.text = @"Salesman";
-            self.salesman.tag = 6;
-            self.salesman.inputView = [self customPicker:6]; }
-        
-        if ([_formController isEqual:TNAME3]) {
+            self.salesman.inputView = [self customPicker:6];
+            
+        } else if ([_formController isEqual:TNAME3]) {
             self.salesman.placeholder = @"Phone 1";
             myCell.textLabel.text = @"Phone 1";
-            self.salesman.inputView = nil;}
-        
-        else if ([_formController isEqual:TNAME4]) {
+            self.salesman.inputView = nil;
+            
+        } else if ([_formController isEqual:TNAME4]) {
             self.salesman.placeholder = @"Work Phone";
             myCell.textLabel.text = @"Work Phone";
-            self.salesman.inputView = nil;}
+            self.salesman.inputView = nil;
+        }
         
         [myCell.contentView addSubview:self.salesman];
         
     } else if (indexPath.row == 7) {
+        
         self.jobName = textframe;
         if ([self.frm22 isEqual:[NSNull null]])
             self.jobName.text = @"";
         else self.jobName.text = self.frm22;
         
-        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        
+        }
         if ([_formController isEqual:TNAME3]) {
             self.jobName.placeholder = @"Phone 2";
-            myCell.textLabel.text = @"Phone 2"; }
-        
-        else if ([_formController isEqual:TNAME4]) {
+            myCell.textLabel.text = @"Phone 2";
+            
+        } else if ([_formController isEqual:TNAME4]) {
             self.jobName.placeholder = @"Cell Phone";
             myCell.textLabel.text = @"Cell Phone";
         } else {
@@ -576,21 +628,22 @@ Parse.com
             self.adName.text = @"";
         else self.adName.text = self.frm23;
         
-        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]))
+        if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        
+        }
         if ([_formController isEqual:TNAME3]) {
             self.adName.placeholder = @"Phone 3";
-            myCell.textLabel.text = @"phone 3"; }
-        
-        else if ([_formController isEqual:TNAME4]) {
+            myCell.textLabel.text = @"phone 3";
+            
+        } else if ([_formController isEqual:TNAME4]) {
             self.adName.placeholder = @"Social Security";
-            myCell.textLabel.text = @"Social Security"; }
-        
-        else if ([_formController isEqual:TNAME2]) {
+            myCell.textLabel.text = @"Social Security";
+            
+        } else if ([_formController isEqual:TNAME2]) {
             self.adName.placeholder = @"Product";
-            myCell.textLabel.text = @"Product"; }
-        else myCell.textLabel.text = @"Advertiser";
+            myCell.textLabel.text = @"Product";
+            
+        } else myCell.textLabel.text = @"Advertiser";
         
         [myCell.contentView addSubview:self.adName];
         
@@ -666,20 +719,24 @@ Parse.com
             UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
             [wrapper addSubview:stepper];
             myCell.accessoryView = stepper;
-            [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged]; }
+            [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
+        }
         
         else if ([_formController isEqual:TNAME3]) {
             self.callback.placeholder = @"";
-            myCell.textLabel.text = @""; }
+            myCell.textLabel.text = @"";
+        }
         
         else if ([_formController isEqual:TNAME4]) {
             self.callback.placeholder = @"Manager";
-            myCell.textLabel.text = @"Manager"; }
+            myCell.textLabel.text = @"Manager";
+        }
         
         else if ([_formController isEqual:TNAME1]) {
             self.callback.placeholder = @"Call Back";
             myCell.textLabel.text = @"Call Back";
-            self.callback.inputView = [self customPicker:12]; }
+            self.callback.inputView = [self customPicker:12];
+        }
         
         [myCell.contentView addSubview:self.callback];
         
@@ -716,6 +773,7 @@ Parse.com
         self.complete.inputView = [self datePicker:15];
         myCell.textLabel.text = @"End Date";
         [myCell.contentView addSubview:self.complete];
+         [self.complete setFont:CELL_FONT(IPHONEFONT20)]; //fix font change only works when placed here
     }
     
     return myCell;
@@ -733,7 +791,7 @@ Parse.com
         [self performSegueWithIdentifier:EDITLOOKPRODSEGUE sender:self];
 }
 
-#pragma mark - TableView Header/Footer
+#pragma mark TableView Header/Footer
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:
 (NSInteger)section {
     NSString *headerTitle;
@@ -763,7 +821,7 @@ Parse.com
     [self.amount setText:[NSString stringWithFormat:@"%d", (int)va]];
 } */
 
-#pragma mark - LookupCity Data
+#pragma mark - Lookup Data
 - (void)cityFromController:(NSString *)passedData{
     self.city.text = passedData;
 }
@@ -800,7 +858,7 @@ Parse.com
     self.salesman.text = passedData;
 }
 
-#pragma mark - FieldData
+#pragma mark - Field Data Header
 - (void)passFieldData {
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
         self.last.borderStyle = TEXTBDSTYLE;
@@ -850,13 +908,16 @@ Parse.com
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
       }
+    
+    if ([_formController isEqual:TNAME4])
+        self.company.placeholder = @"Subcontractor";
 }
 /*
 *******************************************************************************************
 Parse.com
 *******************************************************************************************
 */
-#pragma mark - Parse
+#pragma mark - Parse Lookup //not sure
 - (void)parseData {
     if ([_formController isEqual:TNAME1]) {
         
@@ -932,7 +993,7 @@ Parse.com
     }
 }
 
-#pragma mark - EditData
+#pragma mark - update Save Data
 -(void)updateLeads:(id)sender {
 /*
 *******************************************************************************************
@@ -979,14 +1040,37 @@ Parse.com
                     [updateLead setObject:self.comment.text forKey:@"Coments"];
                     [updateLead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
                   //[updateData setObject:self.time.text forKey:@"Time"];
-                    [updateLead saveInBackground];
+                    //PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                  //[postACL setPublicReadAccess:YES];
+                  //[postACL setPublicWriteAccess:YES];
+                    //[updateLead setACL:postACL];
+                  //[updateLead saveInBackground];
+                    [updateLead saveEventually];
                     [self.listTableView reloadData];
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                     message:@"Successfully updated the data"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                             GOHOME;
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                     message:[error localizedDescription]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+                    [alert addAction:ok];
+                    //[self.view.window.rootViewController presentViewController:alert animated:YES completion:nil];
+                    [self presentViewController:alert animated:YES completion:nil];
                 }
             }];
         } else {
@@ -1079,14 +1163,35 @@ Parse.com
                     [updateData setObject:self.photo2 ? self.photo2 : [NSNull null] forKey:@"Photo2"];
                     [updateData setObject:self.time ? self.time : [NSNull null] forKey:@"Time"];
                     [updateData setObject:myActive forKey:@"Active"];
-                    [updateData saveInBackground];
+                    PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                    [postACL setPublicReadAccess:YES];
+                    [updateData setACL:postACL];
+                    //[updateData saveInBackground];
+                    [updateData saveEventually];
                     [self.listTableView reloadData];
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                     message:@"Successfully updated the data"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                             GOHOME;
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                     message:[error localizedDescription]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 }
             }];
         } else {
@@ -1172,13 +1277,33 @@ Parse.com
                     [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Assistant"];
                     [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
                     [updateData setObject:myActive forKey:@"Active"];
-                    [updateData saveInBackground];
+                    PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                    [postACL setPublicReadAccess:YES];
+                    [updateData setACL:postACL];
+                    //[updateData saveInBackground];
+                    [updateData saveEventually];
                     [self.listTableView reloadData];
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                     message:@"Successfully updated the data"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                     message:[error localizedDescription]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 }
             }];
         } else {
@@ -1264,14 +1389,37 @@ Parse.com
                     [updateData setObject:self.date.text ? self.date.text : [NSNull null] forKey:@"Title"];
                     [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
                     [updateData setObject:myActive forKey:@"Active"];
-                    [updateData saveInBackground];
+                    PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                    [postACL setPublicReadAccess:YES];
+                    [updateData setACL:postACL];
+                    //[updateData saveInBackground];
+                    [updateData saveEventually];
+                    
                     [self.listTableView reloadData];
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully updated the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                     message:@"Successfully updated the data"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                             GOHOME;
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                     message:[error localizedDescription]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+                                         {
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+                    [alert addAction:ok];
+                    [self presentViewController:alert animated:YES completion:nil];
+                    
                 }
             }];
         } else {
@@ -1313,7 +1461,8 @@ Parse.com
             [success dataUsingEncoding:NSUTF8StringEncoding];
         }
     }
-    [[self navigationController]popToRootViewControllerAnimated:YES];
+    //GOHOME
+    //[[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 @end

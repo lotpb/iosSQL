@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "ParseConnection.h"
-#import <Parse/Parse.h>
+//#import <Parse/Parse.h>
 #import "LeadDetailViewControler.h"
 #import "LookupCity.h"
 #import "LookupJob.h"
@@ -17,7 +17,7 @@
 #import "LookupSalesman.h"
 
 
-@interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface EditData : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 //@property (weak, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) NSString *formController;
@@ -83,7 +83,9 @@
 @property (strong, nonatomic) NSString *photo1;
 @property (strong, nonatomic) NSString *photo2;
 @property (strong, nonatomic) IBOutlet UIImageView *profileImageView;
-@property (retain, nonatomic) UIPickerView *pickerView;
+
+@property (nonatomic, weak) UIStepper *defaultStepper;
+//@property (retain, nonatomic) UIPickerView *picker;
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 

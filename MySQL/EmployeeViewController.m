@@ -280,34 +280,41 @@ Parse.com
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
                                      [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
-                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                                         if (!error) {
-                                             for (PFObject *object in objects) {
-                                                 [object deleteInBackground];
-                                             }
+                                     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                                         if (object) {
+                                             [object deleteEventually];
                                          } else {
                                              NSLog(@"Error: %@ %@", error, [error userInfo]);
                                          }
                                      }];
                                  } else {
-                                 EmployeeLocation *item;
-                                 item = [_feedItems objectAtIndex:indexPath.row];
-                                 NSString *deletestring = item.employeeNo;
-                                 NSString *_employeeNo = deletestring;
-                                 NSString *rawStr = [NSString stringWithFormat:EMPLOYDELETENO, EMPLOYDELETENO1];
-                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-                                 
-                                 NSURL *url = [NSURL URLWithString:EMPLOYEEDELETEURL];
-                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                                 [request setHTTPMethod:@"POST"];
-                                 [request setHTTPBody:data];
-                                 NSURLResponse *response;
-                                 NSError *err;
-                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-                                 NSLog(@"%@", responseString);
-                                 NSString *success = @"success";
-                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                     NSURL *url = [NSURL URLWithString:EMPLOYEEDELETEURL];
+                                     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+                                     
+                                     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+                                     request.HTTPMethod = @"POST";
+                                     
+                                     EmployeeLocation *item;
+                                     item = [_feedItems objectAtIndex:indexPath.row];
+                                     NSString *deletestring = item.employeeNo;
+                                     NSString *_employeeNo = deletestring;
+                                     NSString *rawStr = [NSString stringWithFormat:EMPLOYDELETENO, EMPLOYDELETENO1];
+                                     NSError *error = nil;
+                                     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                     [request setHTTPBody:data];
+                                     
+                                     if (!error) {
+                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
+                                                                                                    fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                                                                        // Handle response here
+                                                                                                    }];
+                                         
+                                         [uploadTask resume];
+                                     }
+                                     
+                                     NSString *success = @"success";
+                                     [success dataUsingEncoding:NSUTF8StringEncoding];
                                  }
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
@@ -586,7 +593,7 @@ Parse.com
         }
         
         detailVC.l11 = @"Home"; detailVC.l12 = @"Work";
-        detailVC.l13 = @"Mobile"; detailVC.l14 = @"Social Security";
+        detailVC.l13 = @"Mobile"; detailVC.l14 = @"Social";
         detailVC.l15 = @"Middle "; detailVC.l21 = @"Email";
         detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
         detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";

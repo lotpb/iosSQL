@@ -21,19 +21,6 @@ NSString* const kareacodeKeyKey = @"areacodeKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    
-    /*
-     if ([_formController isEqual:TNAME2]) { //need to add contractor to form
-     [parseConnection parseContractor];
-     
-     PFQuery *query13 = [PFQuery queryWithClassName:@"Contractor"];
-     query13.cachePolicy = kPFCACHEPOLICY;
-     [query13 selectKeys:@[@"Contractor"]];
-     [query13 orderByDescending:@"Contractor"];
-     [query13 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     contractorArray = [[NSMutableArray alloc]initWithArray:objects];
-     }];
-     } */
 /*
 *******************************************************************************************
 Parse.com
@@ -49,6 +36,10 @@ Parse.com
     if ( ([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2]) ) {
          [parseConnection parseSalesPick];
        }
+    
+    if ([_formController isEqual:TNAME4]) {
+        //[parseConnection parseContractorPick];
+    }
     
     [self passFieldData];
     
@@ -162,20 +153,20 @@ Parse.com
     [sender resignFirstResponder];
 }
 
-#pragma mark - ParsePickView
+#pragma mark - Parse PickView
 - (void)parseSalesPickloaded:(NSMutableArray *)salesItem {
     salesArray = salesItem;
 }
 
 - (void)parseContractorPickloaded:(NSMutableArray *)contractItem {
-    contractorArray = contractItem;
+    //contractorArray = contractItem;
 }
 
 - (void)parseCallbackPickloaded:(NSMutableArray *)callbackItem {
     callbackArray = callbackItem;
 }
 
-#pragma mark - LoadFieldData
+#pragma mark - Load Field Data
 - (void)passFieldData {
     self.saleNo.hidden = YES; //Field
     self.jobNo.hidden = YES; //Field
@@ -368,6 +359,7 @@ Parse.com
         [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged]; */
         
     } else if ([_formController isEqual:TNAME3]) {
+        self.company.placeholder = @"Company Name";
         self.first.placeholder = @"Profession";
         self.last.placeholder = @"Webpage";
         self.date.placeholder = @"Manager";
@@ -387,7 +379,7 @@ Parse.com
         self.aptDate.placeholder = @"Middle";
         self.salesman.placeholder = @"Work Phone";
         self.jobName.placeholder = @"Cell Phone";
-        self.adName.placeholder = @"Social security";
+        self.adName.placeholder = @"Social Security";
         self.amount.placeholder = @"Department";
         self.spouse.placeholder = @"Title";
         self.callback.placeholder = @"Manager";
@@ -540,7 +532,7 @@ Parse.com
        [self.activebutton setImage:buttonImage2 forState:UIControlStateNormal];}
 }
 
-#pragma mark - LookupData
+#pragma mark - Lookup Data
 - (void)cityFromController:(NSString *)passedData{
     self.city.text = passedData;
 }
@@ -626,7 +618,7 @@ Parse.com
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 175)];
     pickerView.backgroundColor = DATEPKCOLOR;
     
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 175)];
     datePicker.tag = 5;
     [datePicker setDatePickerMode:UIDatePickerModeDate];
     datePicker.timeZone = [NSTimeZone localTimeZone];
@@ -647,7 +639,7 @@ Parse.com
     self.aptDate.text = [formatter stringFromDate:datePicker.date]; }
 }
 
-#pragma mark - View Picker
+#pragma mark - PickerView
 - (UIView *)customPicker:(NSUInteger)tag {
     
     UIView *pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 200)];
@@ -664,7 +656,7 @@ Parse.com
     [barItems addObject:doneBtn];
     [toolbar setItems:barItems animated:YES];
     
-    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
+    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
     picker.tag = tag;
     picker.dataSource = self;
     picker.delegate = self;
@@ -689,6 +681,8 @@ Parse.com
         return 1;
     else if(pickerView.tag == 2)
         return 1;
+    //else if(pickerView.tag == 3)
+        //return 1;
     return 1;
 }
 // The number of rows of data
@@ -698,6 +692,8 @@ Parse.com
         return salesArray.count;
     else if(pickerView.tag == 2)
         return callbackArray.count;
+    //else if(pickerView.tag == 3)
+        //return contractorArray.count;
     return 0;
 }
 
@@ -710,6 +706,8 @@ Parse.com
         return[[salesArray objectAtIndex:row]valueForKey:@"Salesman"];
     else if(pickerView.tag == 2)
         return[[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
+    //else if(pickerView.tag == 3)
+        //return[[contractorArray objectAtIndex:row]valueForKey:@"Contractor"];
     return result;
 }
 
@@ -720,6 +718,8 @@ Parse.com
         self.salesman.text = [[salesArray objectAtIndex:row]valueForKey:@"Salesman"]; }
     else if(pickerView.tag == 2)
         self.callback.text = [[callbackArray objectAtIndex:row]valueForKey:@"Callback"];
+    //else if(pickerView.tag == 3)
+        //self.company.text = [[callbackArray objectAtIndex:row]valueForKey:@"Contractor"];
 }
 
 #pragma mark - New Data
@@ -727,12 +727,16 @@ Parse.com
     
     if (([self.last.text isEqualToString:@""]) || ([self.address.text isEqualToString:@""]))
     {
-        UIAlertView *ErrorAlert = [[UIAlertView alloc] initWithTitle:@"Error!!"
-                                                             message:@"Please fill in the details." delegate:nil
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil, nil];
-        [ErrorAlert show];
-        
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error"
+                                                                         message:@"Please fill in the details."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     } else {
         
         if ([_formController isEqual:TNAME1]) {
@@ -780,11 +784,29 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -879,11 +901,29 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 GOBACK;
+                                                 return;
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -975,11 +1015,27 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {
@@ -1064,11 +1120,27 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Complete" message:@"Successfully saved the data" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
+                                                                                         message:@"Successfully updated the data"
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Failure" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        [alert show];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
+                                                                                         message:[error localizedDescription]
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action)
+                                             {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+                        [alert addAction:ok];
+                        [self presentViewController:alert animated:YES completion:nil];
                     }
                 }];
             } else {

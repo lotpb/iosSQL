@@ -26,17 +26,14 @@
      UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
      if (localNotification) {
      application.applicationIconBadgeNumber = 0;
+         
      }
-    
-//| ------------------------ipad storyBoard---------------------------------
-    
-    UIStoryboard *storyboard = [self grabStoryboard];
-    
-    // display storyboard
-    self.window.rootViewController = [storyboard instantiateInitialViewController];
-    [self.window makeKeyAndVisible];
+//| ------------------------Background Fetch-------------------------
+
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
 //| ------------------------parse Key---------------------------------
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
  
     [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
@@ -49,6 +46,7 @@
     }
     
 //| -----------------------loginController Key------------------------
+    
     NSString *storyboardIdentifier;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
         storyboardIdentifier = @"loginViewController";
@@ -61,13 +59,15 @@
 //| --------------register Notification Actions-----------------
     
         [self registerForNotification];
+
+//| -----------------------register Settings-----------------------
     
-//| -----------------------register Settings---------------------------
         [self populateRegistrationDomain];
     
 //| -----------------------splitview---------------------------
    /*
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
@@ -84,6 +84,14 @@
         
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     }
+    
+    //| ------------------------ipad storyBoard----------------------------
+    
+    UIStoryboard *storyboard = [self grabStoryboard];
+    
+    // display storyboard
+    self.window.rootViewController = [storyboard instantiateInitialViewController];
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -127,6 +135,30 @@
 }
 
 //| --------------------------END--------------------------------------
+
+#pragma mark - Background Refresh
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    /*
+    NSLog(@"Current Time Altered");
+    // get current view controller
+    MainViewController *mainViewController = (MainViewController *)self.window.rootViewController;
+    [mainViewController YahooFinanceLoad]; */
+    
+    void (^safeHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(result);
+        });
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BackgroundFetch" object:safeHandler];
+    //------------------------------------------------------------------------------------------
+    NSLog(@"########### Received Background Fetch ###########");
+    //Download  the Content .
+    
+    //Cleanup
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
 #pragma mark - Notification
 #pragma mark Register
 - (void)registerForNotification {
@@ -187,8 +219,17 @@
 {
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification Received" message:notification.alertBody delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
+        
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Notification Received"
+                                                                         message:notification.alertBody
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
     }
     application.applicationIconBadgeNumber = 0;
 }

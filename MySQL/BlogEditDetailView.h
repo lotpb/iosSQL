@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSString *subject;
 @property (strong, nonatomic) NSString *msgDate;
 @property (strong, nonatomic) NSString *rating;
+@property (strong, nonatomic) NSString *liked;
 
 @property (strong, nonatomic) UITextField *DateInput; //calender event
 @property (strong, nonatomic) UITextField *itemText; //calender event

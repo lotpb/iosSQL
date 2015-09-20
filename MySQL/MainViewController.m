@@ -145,13 +145,23 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.myTimer invalidate];
-    self.myTimer = nil;
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"timerKey"]) {
+        [self.myTimer invalidate];
+        self.myTimer = nil;
+    }
 }
 
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Background Refresh
+- (void)insertNewObjectForFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"Update the tableview.");
+    
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 #pragma mark - RefreshControl
@@ -384,9 +394,17 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             
             [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
-           /*
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show]; */
+            /*
+            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Statistics"
+                                                                             message:@"No Statistics for Parse at this time."
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil]; */
         }
         else
             [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
@@ -621,27 +639,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
 }
-
-//------------
-/*
- NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate :[NSDate date]];
- 
- NSInteger hh = [components hour];
- 
- NSInteger mm = [components minute];
- //time is between 00:01 AM to 9:00 AM
- if( (9>hh && hh>0) || (hh==0 && mm >0)|| (hh ==9 && mm ==0 ))
- {
- UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 00:01 AM to 9:00 AM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
- [alert show];
- }
- //time is between 3:00 PM to 9:00 PM
- else if( (21>hh && hh>=15) || (hh==21 && mm ==0))
- {
- UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"time is between 3:00 PM to 9:00 PM" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
- [alert show];
- } */
-//--------------
 
 /*
  #pragma mark - AdViewDelegates

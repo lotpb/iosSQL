@@ -12,15 +12,13 @@
 {
     UILabel *emptyLabel;
     UIRefreshControl *refreshControl;
+    UIBarButtonItem *trashItem, *searchItem;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
 @end
 
 @implementation NotificationDetailController
-{
-    UIBarButtonItem *trashItem, *searchItem;
-}
 
 - (void)viewDidLoad
 {
@@ -30,7 +28,6 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
-    self.listTableView.pagingEnabled = YES;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
     searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];

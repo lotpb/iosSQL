@@ -38,8 +38,8 @@
     
     self.title = NSLocalizedString(name, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    self.listTableView.rowHeight = 25;
-    self.listTableView2.rowHeight = 25;
+    self.listTableView.rowHeight = 30;
+    self.listTableView2.rowHeight = 30;
     self.newsTableView.rowHeight = UITableViewAutomaticDimension;
     self.newsTableView.estimatedRowHeight = 350;
     
@@ -123,6 +123,7 @@
     
     [self parseData];
     [self followButton];
+    [self reloadTable];
 
 }
 
@@ -232,8 +233,8 @@
         [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
         [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
-        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT12)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT12)];
     }
     
     if (myCell == nil)
@@ -256,8 +257,8 @@
         [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
         [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT11)];
-        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT11)];
+        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT12)];
+        [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT12)];
     }
         
     if (myCell == nil)
@@ -348,7 +349,7 @@
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 50 , myCell.leadtitleLabel.frame.size.height + 34, 25, 25)];
     } else {
-    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 45 , myCell.leadtitleLabel.frame.size.height + 55, 20, 20)];
+    faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40 , myCell.leadtitleLabel.frame.size.height + 50, 20, 20)];
     }
     [faceBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
     [faceBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
@@ -584,13 +585,10 @@ Parse.com
 #pragma mark - AlertController ios8
 -(void)showNew:(id)sender {
     
-    UIAlertController* view= [UIAlertController
-                              alertControllerWithTitle:@"Note" message:@"Pick action"
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Note" message:@"Pick action"
                               preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* addr = [UIAlertAction
-                           actionWithTitle:@"Add Contact"
-                           style:UIAlertActionStyleDefault
+    UIAlertAction* addr = [UIAlertAction actionWithTitle:@"Add Contact" style:UIAlertActionStyleDefault
                            handler:^(UIAlertAction * action)
                            {
                                //Do some thing here
@@ -598,9 +596,7 @@ Parse.com
                                [view dismissViewControllerAnimated:YES completion:nil];
                            }];
     
-    UIAlertAction* cal = [UIAlertAction
-                          actionWithTitle:@"Add Calender Event"
-                          style:UIAlertActionStyleDefault
+    UIAlertAction* cal = [UIAlertAction actionWithTitle:@"Add Calender Event" style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
                               //Do some thing here
@@ -608,9 +604,7 @@ Parse.com
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
-    UIAlertAction* web = [UIAlertAction
-                              actionWithTitle:@"Web Page"
-                              style:UIAlertActionStyleDefault
+    UIAlertAction* web = [UIAlertAction actionWithTitle:@"Web Page" style:UIAlertActionStyleDefault
                               handler:^(UIAlertAction * action)
                               {
                                   //Do some thing here
@@ -618,9 +612,7 @@ Parse.com
                                   [view dismissViewControllerAnimated:YES completion:nil];
                               }];
     
-    UIAlertAction* new = [UIAlertAction
-                          actionWithTitle:@"Add Customer"
-                          style:UIAlertActionStyleDefault
+    UIAlertAction* new = [UIAlertAction actionWithTitle:@"Add Customer" style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
                               //Do some thing here
@@ -628,9 +620,7 @@ Parse.com
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
-    UIAlertAction* phone = [UIAlertAction
-                            actionWithTitle:@"Call Phone"
-                            style:UIAlertActionStyleDefault
+    UIAlertAction* phone = [UIAlertAction actionWithTitle:@"Call Phone" style:UIAlertActionStyleDefault
                             handler:^(UIAlertAction * action)
                             {
                                 //Do some thing here
@@ -638,9 +628,7 @@ Parse.com
                                 [view dismissViewControllerAnimated:YES completion:nil];
                             }];
     
-    UIAlertAction* email = [UIAlertAction
-                            actionWithTitle:@"Send Email"
-                            style:UIAlertActionStyleDefault
+    UIAlertAction* email = [UIAlertAction actionWithTitle:@"Send Email" style:UIAlertActionStyleDefault
                             handler:^(UIAlertAction * action)
                             {
                                 //Do some thing here
@@ -648,9 +636,7 @@ Parse.com
                                 [view dismissViewControllerAnimated:YES completion:nil];
                             }];
     
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancel"
-                             style:UIAlertActionStyleDefault
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -684,8 +670,16 @@ Parse.com
         url  = [[NSURL alloc] initWithString:text];
         [[UIApplication sharedApplication] openURL:url];
     } else {
-        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid web address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warning show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                message:@"Your field doesn't have valid web address."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -771,14 +765,30 @@ Parse.com
         {
             NSLog(@"error = %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Event not successfully saved." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [warning show];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                        message:@"Event not successfully saved."
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
                 [self dismissViewControllerAnimated:YES completion:NULL];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Event" message:@"Event successfully saved." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [warning show];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Event"
+                                                                        message:@"Event successfully saved."
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
                 [self dismissViewControllerAnimated:YES completion:NULL];
             });
         }
@@ -801,12 +811,30 @@ Parse.com
             
             [[UIApplication sharedApplication] openURL:phoneUrl];
         } else {
-            UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [calert show];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
+                                          message:@"Call facility is not available!!!"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     } else {
-        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Note" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warning show];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
+                                      message:@"Your device doesn't support this feature."
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -817,16 +845,28 @@ Parse.com
         if ((![self.tbl15 isEqual:[NSNull null]] ) && ( [self.tbl15 length] != 0 )) {
             [self getEmail:t15];
         } else {
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Your field doesn't have valid email." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
     if (([_formController isEqual: TNAME3]) || ([_formController isEqual: TNAME4])) {
         if ((![self.tbl21 isEqual:[NSNull null]] ) && ( [self.tbl21 length] != 0 )) {
             [self getEmail:t21];
         } else {
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your field doesn't have valid email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Your field doesn't have valid email." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
 }
@@ -849,8 +889,16 @@ Parse.com
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     if(error) {
-        UIAlertView *alrt=[[UIAlertView alloc]initWithTitle:@"Mail sent failure" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
-        [alrt show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Mail sent failure"
+                                                                message:[error localizedDescription]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
         [self dismissViewControllerAnimated:YES completion:NULL];
     }
     else {

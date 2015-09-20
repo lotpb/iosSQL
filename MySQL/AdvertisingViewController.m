@@ -173,36 +173,42 @@ Parse.com
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
                                      [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId] ];
-                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                                         if (!error) {
-                                             for (PFObject *object in objects) {
-                                                 [object deleteInBackground];
-                                             }
+                                     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                                         if (object) {
+                                             [object deleteEventually];
                                          } else {
                                              NSLog(@"Error: %@ %@", error, [error userInfo]);
                                          }
                                      }];
                                      
                                  } else {
-                                 AdLocation *item;
-                                 item = [_feedItems objectAtIndex:indexPath.row];
-                                 NSString *deletestring = item.AdNo;
-                                 NSString *_adNo = deletestring;
-                                 NSString *rawStr = [NSString stringWithFormat:ADDELETENO, ADDELETENO1];
-                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-                                 
-                                 NSURL *url = [NSURL URLWithString:ADDELETEURL];
-                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                                 
-                                 [request setHTTPMethod:@"POST"];
-                                 [request setHTTPBody:data];
-                                 NSURLResponse *response;
-                                 NSError *err;
-                                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-                                 NSString *responseString = [NSString stringWithUTF8String:[responseData bytes]];
-                                 NSLog(@"%@", responseString);
-                                 NSString *success = @"success";
-                                 [success dataUsingEncoding:NSUTF8StringEncoding];
+                                     NSURL *url = [NSURL URLWithString:ADDELETEURL];
+                                     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+                                     
+                                     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+                                     request.HTTPMethod = @"POST";
+                                     
+                                     AdLocation *item;
+                                     item = [_feedItems objectAtIndex:indexPath.row];
+                                     NSString *deletestring = item.AdNo;
+                                     NSString *_adNo = deletestring;
+                                     NSString *rawStr = [NSString stringWithFormat:ADDELETENO, ADDELETENO1];
+                                     NSError *error = nil;
+                                     NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                     [request setHTTPBody:data];
+                                     
+                                     if (!error) {
+                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
+                                                                                                    fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                                                                        // Handle response here
+                                                                                                    }];
+                                         
+                                         [uploadTask resume];
+                                     }
+                                     
+                                     NSString *success = @"success";
+                                     [success dataUsingEncoding:NSUTF8StringEncoding];
                                  }
                                  [_feedItems removeObjectAtIndex:indexPath.row];
                                  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];

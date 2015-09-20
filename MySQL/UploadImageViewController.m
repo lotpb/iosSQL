@@ -279,8 +279,16 @@
 #pragma mark Error View
 -(void)showErrorView:(NSString *)errorMsg
 {
-    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMsg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [errorAlertView show];
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error"
+                                                                     message:errorMsg
+                                                              preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

@@ -196,7 +196,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (section == 0) {
         return 5;
     } else if (section == 1) {
-        return 7;
+        return 9;
     } else if (section == 2) {
         return 2;
     } else if (section == 3) {
@@ -268,6 +268,7 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"Registered";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
@@ -284,13 +285,14 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"Login";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
             
-        } else if (indexPath.row == 2) {
+        }  else if (indexPath.row == 2) {
             
-            [theSwitch addTarget:self action:@selector(Switch4:) forControlEvents:UIControlEventValueChanged];
+            [theSwitch addTarget:self action:@selector(Switch9:) forControlEvents:UIControlEventValueChanged];
             
             BOOL parsebool =
             [[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"];
@@ -299,12 +301,30 @@ NSString* const kParseKey	     	    = @"parseKey";
             else
                 [theSwitch setOn:NO];
             
+            cell.textLabel.text = @"Parse Register";
+            cell.detailTextLabel.text = @"";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+            
+        }  else if (indexPath.row == 3) {
+            
+            [theSwitch addTarget:self action:@selector(Switch4:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL parsebool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"];
+            if (parsebool == true)
+                [theSwitch setOn:YES];
+            else
+                [theSwitch setOn:NO];
+            
             cell.textLabel.text = @"Parse Data";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
 
-        } else if (indexPath.row == 3) {
+        } else if (indexPath.row == 4) {
             
             [theSwitch addTarget:self action:@selector(Switch3:) forControlEvents:UIControlEventValueChanged];
             
@@ -316,11 +336,12 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"iAd";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
 
-        } else if (indexPath.row == 4) {
+        } else if (indexPath.row == 5) {
 
             [theSwitch addTarget:self action:@selector(Switch2:) forControlEvents:UIControlEventValueChanged];
             
@@ -332,11 +353,12 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"Timer";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
 
-        } else if (indexPath.row == 5) {
+        } else if (indexPath.row == 6) {
 
             [theSwitch addTarget:self action:@selector(Switch1:) forControlEvents:UIControlEventValueChanged];
             
@@ -348,11 +370,12 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"Prevent Auto-Lock";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
 
-        } else if (indexPath.row == 6) {
+        } else if (indexPath.row == 7) {
             
             [theSwitch addTarget:self action:@selector(Switch7:) forControlEvents:UIControlEventValueChanged];
             
@@ -364,6 +387,23 @@ NSString* const kParseKey	     	    = @"parseKey";
                 [theSwitch setOn:NO];
             
             cell.textLabel.text = @"Sound";
+            cell.detailTextLabel.text = @"";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
+        } else if (indexPath.row == 8) {
+            
+            [theSwitch addTarget:self action:@selector(Switch8:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL soundbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"];
+            if (soundbool == true)
+                [theSwitch setOn:YES];
+            else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Background Images";
+            cell.detailTextLabel.text = @"";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
@@ -438,9 +478,9 @@ NSString* const kParseKey	     	    = @"parseKey";
 - (void)Switch4:(id)sender {
     
     if([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parseKey"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parsedataKey"];
     } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"parseKey"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"parsedataKey"];
     }
 }
 
@@ -468,6 +508,24 @@ NSString* const kParseKey	     	    = @"parseKey";
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"soundKey"];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"soundKey"];
+    }
+}
+
+- (void)Switch8:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"backgroundImageKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"backgroundImageKey"];
+    }
+}
+
+- (void)Switch9:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parseKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"parseKey"];
     }
 }
 

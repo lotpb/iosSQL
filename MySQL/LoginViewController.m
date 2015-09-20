@@ -55,9 +55,16 @@
     //check if all text fields are completed
     if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
         
-        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Oooops" message:@"You must complete all fields" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        
-        [error show];
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
+                                                                         message:@"You must complete all fields"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else {
         [self checkPasswordsMatch];
@@ -72,9 +79,16 @@
         [self registerNewUser];
     }
     else {
-        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Oooops" message:@"Your entered passwords do not match" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        
-        [error show];
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
+                                                                         message:@"Your entered passwords do not match"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -88,9 +102,16 @@
     
     [defaults synchronize];
     
-    UIAlertView *success = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have registered a new user" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    
-    [success show];
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Success"
+                                                                     message:@"You have registered a new user"
+                                                              preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
     
     [self performSegueWithIdentifier:@"loginSegue" sender:self];
 }
@@ -106,8 +127,17 @@
         [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller
     }
     else {
-        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Oooops" message:@"Your username and password does not match" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [error show];
+        
+        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
+                                                                         message:@"Your username and password does not match"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -124,14 +154,32 @@
         
         if (!error) {
             
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Link to reset the password has been send to specified email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
+            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                             message:@"Link to reset the password has been send to specified email"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+            
             return;
         } else {
             
             NSString *errorString = [error userInfo][@"error"];
-            UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat: @"Enter email in field: %@",errorString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warning show];
+            
+            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                             message:[NSString stringWithFormat: @"Enter email in field: %@",errorString]
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
             return;
         }
         //[self dismissViewControllerAnimated:YES completion:NULL];
