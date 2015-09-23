@@ -74,6 +74,12 @@
      self.wallScroll = nil;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    //self.navigationController.hidesBarsOnSwipe = true;
+    //self.navigationController.hidesBarsOnTap = YES;
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -178,30 +184,31 @@
         }
 
         //Add the image
-        image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-        userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+        //image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+        //userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
         
         //--------------------load in background------------------------------
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"backgroundImageKey"]) {
-         
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                //image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
-                //userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-                //[userImage loadInBackground];
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    [userImage loadInBackground];
-                });
-            });
-         
+            
+             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+             image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+             dispatch_async(dispatch_get_main_queue(), ^(void){
+             userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+             });
+             });
+            /*
             //added to remove warning on thread...load faster use above code
-           // [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
-            //    [userImage loadInBackground];
-           // }];
+            [[NSOperationQueue pffileOperationQueue] addOperationWithBlock:^ {
+                image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+                userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+            }]; */
         } else {
-             //userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
-            [userImage loadInBackground];
+            image = (PFFile *)[wallObject objectForKey:KEY_IMAGE];
+            userImage = [[PFImageView alloc] initWithImage:[UIImage imageWithData:image.getData]];
+            
         }
+        [userImage loadInBackground];
          //-------------------------------------------------------------------
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -228,7 +235,7 @@
             playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2, userImage.frame.origin.y + 55, 50, 50)];
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 50 ,165, 20, 20)];
             likeButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 90 ,167, 20, 20)];
-            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 110 ,167, 20, 20)];
+            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 113 ,168, 20, 20)];
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
             titleLabel.font = CELL_LIGHTFONT(IPADFONT22);
             detailLabel.font = DETAILFONT(IPADFONT14);
@@ -243,7 +250,7 @@
             playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50)];
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
             likeButton = [[UIButton alloc] initWithFrame:CGRectMake(60 ,312, 20, 20)];
-            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 312, 20, 20)];
+            numLabel = [[UILabel alloc] initWithFrame:CGRectMake(82, 314, 20, 20)];
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
             titleLabel.font = DETAILFONT(IPHONEFONT20);
             detailLabel.font = DETAILFONT(IPHONEFONT14);
@@ -300,9 +307,10 @@
             [playButton addGestureRecognizer:tap];
             [wallImageView addSubview:playButton];
         }
-
-        actionBtn.tintColor = [UIColor lightGrayColor];
-        [actionBtn setImage:[UIImage imageNamed:@"Upload50.png"] forState:UIControlStateNormal];
+        
+        actionBtn.tintColor = [UIColor darkGrayColor];
+        UIImage *imagebutton1 = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [actionBtn setImage:imagebutton1 forState:UIControlStateNormal];
         [actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         [wallImageView addSubview:actionBtn];
 
@@ -318,6 +326,13 @@
         numLabel.text = [[wallObject objectForKey:@"Liked"]stringValue];
         numLabel.tag = 14;
         [numLabel sizeToFit];
+        if (![numLabel.text isEqual: @"0"] ) {
+            numLabel.textColor = BLUECOLOR;
+            numLabel.font = LIKEFONT(IPHONEFONT16);
+        } else {
+            //numLabel.textColor = [UIColor grayColor];
+            numLabel.text = @"";
+        }
         [wallImageView addSubview:numLabel];
 
         separatorLineView.backgroundColor = SCROLLBACKCOLOR;
@@ -475,8 +490,10 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self presentViewController:activityVC animated:YES completion:nil];
     } else {
-        activityVC.popoverPresentationController.sourceView = self.view;
-        activityVC.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        UIView* senderView = (UIView *)sender;
+        activityVC.popoverPresentationController.sourceView = senderView;
+        activityVC.popoverPresentationController.sourceRect = senderView.bounds;
+        activityVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
         
         [self presentViewController:activityVC animated:YES completion:nil];
     }

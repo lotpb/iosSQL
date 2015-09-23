@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9046" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9035"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -364,7 +364,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="drG-Bm-OQ2"/>
                                     <barButtonItem style="plain" id="Lni-TM-hj7">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="thz-9H-lwS">
-                                            <rect key="frame" x="170" y="7" width="46" height="30"/>
+                                            <rect key="frame" x="163" y="7" width="65" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="Like">
@@ -375,7 +375,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="fCI-0A-4Ft"/>
                                     <barButtonItem title="             " style="plain" id="2W7-6c-aUJ">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="W7T-3N-nXC">
-                                            <rect key="frame" x="375" y="7" width="55" height="30"/>
+                                            <rect key="frame" x="382" y="7" width="55" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="Edit">
@@ -3557,26 +3557,68 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="UK5-va-e07" userLabel="buttonView">
+                                                    <rect key="frame" x="84" y="54" width="495" height="25"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Htu-tC-LBV">
+                                                            <rect key="frame" x="7" y="4" width="20" height="20"/>
+                                                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <state key="normal" image="Left 2.png">
+                                                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KSJ-Af-kjY">
+                                                            <rect key="frame" x="60" y="4" width="20" height="20"/>
+                                                            <state key="normal" image="Thumb Up.png"/>
+                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gr-Ui-cU1">
+                                                            <rect key="frame" x="81" y="5" width="20" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRG-N2-R0W">
+                                                            <rect key="frame" x="124" y="6" width="20" height="20"/>
+                                                            <state key="normal" image="Flag.png"/>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2C-Af-z0c">
+                                                            <rect key="frame" x="177" y="4" width="20" height="20"/>
+                                                            <state key="normal" image="Upload50.png"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="Lez-he-kNq"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zzD-t4-wqZ" firstAttribute="leading" secondItem="VGB-w0-hhH" secondAttribute="trailing" constant="269" id="4Az-MS-BXU"/>
+                                                <constraint firstItem="UK5-va-e07" firstAttribute="top" secondItem="bcO-Xy-m1R" secondAttribute="bottom" constant="1" id="H1L-Zw-HNr"/>
                                                 <constraint firstItem="VGB-w0-hhH" firstAttribute="leading" secondItem="Wiz-Db-PiE" secondAttribute="trailing" constant="13" id="IDY-Aa-iYO"/>
                                                 <constraint firstItem="bcO-Xy-m1R" firstAttribute="top" secondItem="VGB-w0-hhH" secondAttribute="bottom" constant="5" id="JK9-sW-MEg"/>
                                                 <constraint firstItem="Wiz-Db-PiE" firstAttribute="leading" secondItem="ijX-pn-ehn" secondAttribute="leading" constant="26" id="NBW-Mw-RBk"/>
                                                 <constraint firstItem="zzD-t4-wqZ" firstAttribute="top" secondItem="ijX-pn-ehn" secondAttribute="top" constant="13" id="NG3-0C-LgK"/>
                                                 <constraint firstAttribute="trailing" secondItem="zzD-t4-wqZ" secondAttribute="trailing" constant="26" id="NRn-Qs-hbG"/>
+                                                <constraint firstItem="UK5-va-e07" firstAttribute="leading" secondItem="bcO-Xy-m1R" secondAttribute="leading" id="PZQ-ax-XCk"/>
                                                 <constraint firstAttribute="trailing" secondItem="bcO-Xy-m1R" secondAttribute="trailing" constant="26" id="T5p-O2-A9E"/>
                                                 <constraint firstAttribute="bottom" secondItem="bcO-Xy-m1R" secondAttribute="bottom" priority="250" constant="30" id="cQW-tr-5dR"/>
                                                 <constraint firstItem="bcO-Xy-m1R" firstAttribute="leading" secondItem="Wiz-Db-PiE" secondAttribute="trailing" constant="13" id="iiX-jq-iek"/>
                                                 <constraint firstItem="Wiz-Db-PiE" firstAttribute="top" secondItem="ijX-pn-ehn" secondAttribute="top" constant="8" id="rLi-oP-pzr"/>
                                                 <constraint firstItem="VGB-w0-hhH" firstAttribute="top" secondItem="ijX-pn-ehn" secondAttribute="top" constant="10" id="ufz-cO-BCa"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UK5-va-e07" secondAttribute="trailing" constant="13" id="w6f-YB-ox3"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="actionBtn" destination="r2C-Af-z0c" id="qeg-Xb-IF6"/>
                                             <outlet property="blog2ImageView" destination="Wiz-Db-PiE" id="pjX-mb-wlZ"/>
                                             <outlet property="blogmsgDateLabel" destination="zzD-t4-wqZ" id="mso-zp-bTy"/>
                                             <outlet property="blogsubtitleLabel" destination="bcO-Xy-m1R" id="GkL-A9-ezk"/>
                                             <outlet property="blogtitleLabel" destination="VGB-w0-hhH" id="RDi-nH-Scb"/>
+                                            <outlet property="buttonView" destination="UK5-va-e07" id="ra6-Zk-Kp1"/>
+                                            <outlet property="flagButton" destination="fRG-N2-R0W" id="cDK-em-5vi"/>
+                                            <outlet property="likeButton" destination="KSJ-Af-kjY" id="bVL-hy-lPR"/>
+                                            <outlet property="numLabel" destination="5gr-Ui-cU1" id="yhw-ai-DzZ"/>
+                                            <outlet property="replyButton" destination="Htu-tC-LBV" id="yec-Ek-zG0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -4925,7 +4967,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Flag.png" width="25" height="25"/>
         <image name="IMG_1133.jpg" width="400" height="130"/>
+        <image name="Left 2.png" width="25" height="25"/>
+        <image name="Thumb Up.png" width="25" height="25"/>
+        <image name="Upload50.png" width="50" height="50"/>
         <image name="bookmark.png" width="1024" height="1024"/>
         <image name="calendar.png" width="1024" height="1024"/>
         <image name="cloud30copy.png" width="30" height="30"/>
@@ -4947,14 +4993,14 @@
     <inferredMetricsTieBreakers>
         <segue reference="OIT-Tg-XOk"/>
         <segue reference="Nyg-nQ-ht6"/>
-        <segue reference="70v-lH-UvB"/>
+        <segue reference="wDP-4Y-cdF"/>
         <segue reference="e2A-fc-Mn4"/>
-        <segue reference="YL2-bg-fIc"/>
         <segue reference="zQR-YQ-xF4"/>
-        <segue reference="caJ-Lp-u5t"/>
+        <segue reference="YL2-bg-fIc"/>
+        <segue reference="dip-5A-Lje"/>
         <segue reference="Vww-ua-WBq"/>
         <segue reference="xOD-Ja-G1n"/>
-        <segue reference="dip-5A-Lje"/>
+        <segue reference="caJ-Lp-u5t"/>
         <segue reference="46l-tX-X1A"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

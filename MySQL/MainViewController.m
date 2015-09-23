@@ -32,22 +32,23 @@
     
     [self YahooFinanceLoad];
 
+    
 //-------------------create Parse User------------------
-
- [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911"
- block:^(PFUser *user, NSError *error) {
- if (user) {
-     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-        // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
-         [user setObject:geoPoint forKey:@"currentLocation"];
-         [user saveInBackground];
-      //   [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
-         
-     //    [refreshMap:nil];
-     }];
-
- } 
- }];
+if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+    [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911" block:^(PFUser *user, NSError *error) {
+        if (user) {
+            [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+                // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+                [user setObject:geoPoint forKey:@"currentLocation"];
+                [user saveInBackground];
+                //   [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+                
+                //    [refreshMap:nil];
+            }];
+            
+        }
+    }];
+}
 //----------------------------------------------------
    /*
     NSString *url = @"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=dagqdghwaq3e3mxyrp7kmmj5&limit=20&country=us";
@@ -541,7 +542,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 - (void)share:(id)sender {
     
     UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:@"Accessory Apps"
+                                 alertControllerWithTitle:nil
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     

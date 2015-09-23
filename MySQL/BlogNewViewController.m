@@ -165,8 +165,8 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT16)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT16)];
+        [myCell.textLabel setFont:CELL_FONT(IPADFONT18)];
+        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT18)];
     } else {
         [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
         [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 
-@interface ContactsDetailController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, MFMessageComposeViewControllerDelegate>
+@interface ContactsDetailController : UIViewController <UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate>
 
 @property (strong, nonatomic ) NSDictionary *dictContactDetails;
 
@@ -17,6 +17,4 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgContactImage;
 @property (weak, nonatomic) IBOutlet UITableView *tblContactDetails;
 
--(IBAction)makeCall:(id)sender;
--(IBAction)sendSMS:(id)sender;
 @end

@@ -13,12 +13,14 @@
     BlogModel *_BlogModel; BlogLocation *_selectedLocation;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-    UILabel *numLabel;
-    UIButton *flagButton;
+    //UILabel *numLabel;
+    //UIButton *flagButton;
     UIButton *likeButton;
-    //BOOL *liked, *likeSelected;
+    BOOL *likeSelected;
 }
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) UIView *buttonView;
+
 
 @end
 
@@ -34,7 +36,7 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 110; ROW_HEIGHT;
+    self.listTableView.estimatedRowHeight = 110; //ROW_HEIGHT;
     self.listTableView.backgroundColor = BLOGNAVBARCOLOR;
     
     //[self.listTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
@@ -153,40 +155,56 @@ Parse.com
 
 #pragma mark flag button
 - (void) flagButton:(id)sender  {
+
     UIButton *btn = (UIButton *) sender;
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Report inappropriate user" message:@"Please enter reason" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action) {
-                                                   //Do Some action here
-                                               }];
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action) {
-                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                   }];
-    [alert addAction:cancel];
-    [alert addAction:ok];
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"Reason";
     }];
+    
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-
         textField.placeholder = @"Username";
         textField.text = [[_feedItems objectAtIndex:indexPath.row] valueForKey:@"PostBy"];
         textField.textColor = [UIColor redColor];
     }];
-     [alert.textFields[1] becomeFirstResponder];
-    [self presentViewController:alert animated:YES completion:nil];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                   //Do Some action here
+                                                [alert dismissViewControllerAnimated:YES completion:nil];
+                                               }];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+    [alert addAction:cancel];
+    [alert addAction:ok];
+    
+     //[alert.textFields[1] becomeFirstResponder];
+   
+    //if (!(self == self.navigationController.visibleViewController)) {
+    //UIViewController *vc =  self.navigationController.topViewController;
+    UIViewController *vc = self.navigationController.visibleViewController;
+    //}
+    //self.modalPresentationStyle = UIModalPresentationFormSheet;
+    //self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [vc presentViewController:alert animated:YES completion:nil];
+
 }
 
+
+
 #pragma mark like button
-- (void)likeButton:(id)sender  {
+- (void)likeButton:(id)sender {
     UIButton *btn = (UIButton *) sender;
+
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
+     [btn setSelected:YES];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
@@ -195,14 +213,13 @@ Parse.com
             NSNumber* likedNum = [[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"];
             int likeCount = [likedNum intValue];
             
-            if (likeButton.isSelected) {
+            if (btn.isSelected) {
                 likeCount++;
             } else {
                 if (likeCount > 0) {
                     likeCount--;
                 }
             }
-            
             NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
             [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
             [updateLead saveInBackground];
@@ -212,7 +229,7 @@ Parse.com
     //[self.listTableView reloadData];
 }
 
--(void)buttonPress:(id)sender{
+-(void)buttonPress:(id)sender {
     UIButton* button = (UIButton*)sender;
     if (!likeButton.selected) {
         [likeButton setSelected:YES];
@@ -223,19 +240,65 @@ Parse.com
     }
 }
 
+#pragma mark reply button
+-(void)replyButton:(id)sender {
+    //UIButton* button = (UIButton*)sender;
+    [self performSegueWithIdentifier: @"NewBlogSegue" sender: self];
+}
+
+#pragma mark ActivityViewController
+- (void)share:(id)sender {
+    
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:nil
+                                 message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* facebook = [UIAlertAction
+                               actionWithTitle:@"Share on Facebook"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //[self facebookPost:self];
+                               }];
+    
+    UIAlertAction* twitter = [UIAlertAction
+                              actionWithTitle:@"Share on Twitter"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //[self twitterPost:self];
+                              }];
+    UIAlertAction* message = [UIAlertAction
+                              actionWithTitle:@"Send Text Message"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  //[self sendSMS:self];
+                              }];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [view addAction:facebook];
+    [view addAction:twitter];
+    [view addAction:message];
+    [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIView* senderView = (UIView *)sender;
+        view.popoverPresentationController.sourceView = senderView;
+        view.popoverPresentationController.sourceRect = senderView.bounds;
+        view.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
+    [self presentViewController:view animated:YES completion:nil];
+}
+
 #pragma mark - TableView
 -(void)itemsDownloaded:(NSMutableArray *)items {
     _feedItems = items;
     [self.listTableView reloadData];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    return 110.0;
-    } else {
-    return 105.0;
-    }
 }
 
 #pragma mark TableView Delete Button
@@ -410,10 +473,12 @@ Parse.com
             myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             myCell.blogmsgDateLabel.text = dateStr;
+            myCell.numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
         } else {
             myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             myCell.blogmsgDateLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            myCell.numLabel.text = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
         }
     } else {
         BlogLocation *item;
@@ -426,49 +491,39 @@ Parse.com
         myCell.blogsubtitleLabel.text = item.subject;
         myCell.blogmsgDateLabel.text = item.msgDate;
     }
-   
-    UIView *buttonview = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(myCell.blogsubtitleLabel.frame) +40, self.listTableView.frame.size.width, 25)];
-    buttonview.backgroundColor = [UIColor whiteColor];
-    [myCell.contentView addSubview:buttonview];
     
-    UIButton *replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75 ,5, 20, 20)];
-    replyButton.tintColor = [UIColor lightGrayColor];
+    myCell.replyButton.tintColor = [UIColor lightGrayColor];
     UIImage *replyimage =[[UIImage imageNamed:@"Left 2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [replyButton setImage:replyimage forState:UIControlStateNormal];
-    [replyButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonview addSubview:replyButton];
+    [myCell.replyButton setImage:replyimage forState:UIControlStateNormal];
+    [myCell.replyButton addTarget:self action:@selector(replyButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    //bool liked = likeButton.selected;
     UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [likeButton setImage:image forState:UIControlStateNormal];
+    [myCell.likeButton setImage:image forState:UIControlStateNormal];
+    [myCell.likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
+    [myCell.likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
+    myCell.likeButton.tintColor = [UIColor lightGrayColor];
     
-    [likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
-    [likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
-    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(140 ,5, 20, 20)];
-    likeButton.tintColor = [UIColor lightGrayColor];
-    [buttonview addSubview:likeButton];
    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
        
-    numLabel = nil;
-    numLabel = [[UILabel alloc] initWithFrame:CGRectMake(163, 7, 20, 20)];
-    numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
-    [numLabel sizeToFit];
-       if (![numLabel.text isEqual: @"0"] ) {
-           numLabel.textColor = [UIColor redColor];
-           numLabel.font = LIKEFONT(IPHONEFONT16);
+    [myCell.numLabel sizeToFit];
+       if (![myCell.numLabel.text isEqual: @"0"] ) {
+           myCell.numLabel.textColor = [UIColor redColor];
+           myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
        } else {
            //numLabel.textColor = [UIColor grayColor];
-           numLabel.text = @"";
+           myCell.numLabel.text = @"";
        }
-    [buttonview addSubview:numLabel];
    }
     
-    flagButton = [[UIButton alloc] initWithFrame:CGRectMake(205 ,5, 20, 20)];
-    flagButton.tintColor = [UIColor lightGrayColor];
+    myCell.flagButton.tintColor = [UIColor lightGrayColor];
     UIImage *reportimage = [[UIImage imageNamed:@"Flag.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [flagButton setImage:reportimage forState:UIControlStateNormal];
-    [flagButton addTarget:self action:@selector(flagButton:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonview addSubview:flagButton];
+    [myCell.flagButton setImage:reportimage forState:UIControlStateNormal];
+    [myCell.flagButton addTarget:self action:@selector(flagButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    myCell.actionBtn.tintColor = [UIColor darkGrayColor];
+     UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [myCell.actionBtn setImage:imagebutton forState:UIControlStateNormal];
+    [myCell.actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
 
     return myCell;
 }
@@ -633,6 +688,21 @@ Parse.com
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([[segue identifier] isEqualToString:@"NewBlogSegue"]) {
+        
+        //BlogNewViewController *detailVC = segue.destinationViewController;
+        /*
+         *******************************************************************************************
+         Parse.com
+         *******************************************************************************************
+         */
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            // NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+             //detailVC.textcontentsubject = @"parsedataKey";//[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+        }
+        
+    }
     
     if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
     {

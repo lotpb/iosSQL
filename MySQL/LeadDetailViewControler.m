@@ -576,8 +576,10 @@ Parse.com
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        avc.popoverPresentationController.sourceView = self.view;
-        avc.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        UIView* senderView = (UIView *)sender;
+        avc.popoverPresentationController.sourceView = senderView;
+        avc.popoverPresentationController.sourceRect = senderView.bounds;
+        avc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     }
     [self presentViewController:avc animated:YES completion:nil];
 }
@@ -585,7 +587,7 @@ Parse.com
 #pragma mark - AlertController ios8
 -(void)showNew:(id)sender {
     
-    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Note" message:@"Pick action"
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:nil message:nil
                               preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* addr = [UIAlertAction actionWithTitle:@"Add Contact" style:UIAlertActionStyleDefault

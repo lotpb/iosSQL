@@ -196,7 +196,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (section == 0) {
         return 5;
     } else if (section == 1) {
-        return 9;
+        return 10;
     } else if (section == 2) {
         return 2;
     } else if (section == 3) {
@@ -407,6 +407,22 @@ NSString* const kParseKey	     	    = @"parseKey";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
+        } else if (indexPath.row == 9) {
+            
+            [theSwitch addTarget:self action:@selector(Switch10:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL soundbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"fetchKey"];
+            if (soundbool == true)
+                [theSwitch setOn:YES];
+            else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Background Fetch";
+            cell.detailTextLabel.text = @"";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
         }
         
     } else if (indexPath.section == 2) {
@@ -526,6 +542,15 @@ NSString* const kParseKey	     	    = @"parseKey";
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parseKey"];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"parseKey"];
+    }
+}
+
+- (void)Switch10:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fetchKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"fetchKey"];
     }
 }
 

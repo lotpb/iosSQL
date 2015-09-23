@@ -22,8 +22,11 @@
     NSMutableArray *filteredString;
     BOOL isFilltered;
 }
+//@property (strong, nonatomic) IBOutlet UIView *mainView;
 //@property(nonatomic,retain) IBOutlet UIView *Headerview;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
+//@property (weak, nonatomic) IBOutlet UIView *buttonView;
+//@property (weak, nonatomic) IBOutlet UIButton *replyButton;
 
 @end
 

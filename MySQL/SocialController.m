@@ -97,7 +97,7 @@
 - (void)share:(id)sender {
     
     UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:@"Share your Note"
+                                 alertControllerWithTitle:nil
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     

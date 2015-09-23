@@ -11,9 +11,8 @@
 @interface ContactsDetailController ()
 
 -(void)populateContactData;
--(void)performPhoneAction:(BOOL)shouldMakeCall;
--(void)makeCallToNumber:(NSString *)numberToCall;
--(void)sendSMSToNumber:(NSString *)numberToSend;
+//-(void)makeCallToNumber:(NSString *)numberToCall;
+//-(void)sendSMSToNumber:(NSString *)numberToSend;
 @end
 
 @implementation ContactsDetailController
@@ -36,7 +35,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark - Private method implementation
 
 -(void)populateContactData{
@@ -53,50 +51,6 @@
     [_tblContactDetails reloadData];
 }
 
--(void)performPhoneAction:(BOOL)shouldMakeCall{
-    /*
-    // Check if both mobile and home numbers exist.
-    if (![[_dictContactDetails objectForKey:@"mobileNumber"] isEqualToString:@""] &&
-        ![[_dictContactDetails objectForKey:@"homeNumber"] isEqualToString:@""]) {
-        // In this case show an action sheet to let user select a number.
-        UIActionSheet *phoneOptions = [[UIActionSheet alloc] initWithTitle:@"Pick a number"
-                                                                  delegate:self
-                                                         cancelButtonTitle:@"Cancel"
-                                                    destructiveButtonTitle:@""
-                                                         otherButtonTitles:[_dictContactDetails objectForKey:@"mobileNumber"], [_dictContactDetails objectForKey:@"homeNumber"], nil];
-        [phoneOptions showInView:self.view];
-        
-        // Depending on whether the action should be made regards a phone call or sending a SMS, set the appropriate tag
-        // value to the action sheet.
-        if (shouldMakeCall) {
-            [phoneOptions setTag:101];
-        }
-        else{
-            [phoneOptions setTag:102];
-        }
-        
-    }
-    else{
-        NSString *selectedPhoneNumber = nil;
-        
-        // Otherwise make a call to any of the phone numbers that may exit.
-        if (![[_dictContactDetails objectForKey:@"mobileNumber"] isEqualToString:@""]) {
-            selectedPhoneNumber = [_dictContactDetails objectForKey:@"mobileNumber"];
-        }
-        if (![[_dictContactDetails objectForKey:@"homeNumber"] isEqualToString:@""]) {
-            selectedPhoneNumber = [_dictContactDetails objectForKey:@"homeNumber"];
-        }
-        if (selectedPhoneNumber != nil) {
-            if (shouldMakeCall) {
-                [self makeCallToNumber:selectedPhoneNumber];
-            }
-            else{
-                [self sendSMSToNumber:selectedPhoneNumber];
-            }
-            
-        }
-    } */
-}
 
 -(void)makeCallToNumber:(NSString *)numberToCall{
     NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", numberToCall]];
@@ -214,35 +168,6 @@
     cell.detailTextLabel.text = detailText;
     
     return cell;
-}
-
-#pragma mark - IBAction method implementation
-
--(IBAction)makeCall:(id)sender{
-    [self performPhoneAction:YES];
-}
-
--(IBAction)sendSMS:(id)sender{
-    [self performPhoneAction:NO];
-}
-
-#pragma mark - UIActionSheet Delegate method implementation
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    // Proceed if only the selected button index is other than 3 (the Cancel button).
-    if (buttonIndex != 3) {
-        // Get the selected phone number.
-        NSString *selectedPhoneNumber = [actionSheet buttonTitleAtIndex:buttonIndex];
-        
-        // If the action sheet tag is equal to 101 then make a call to the selected number.
-        // Otherwise send a SMS.
-        if ([actionSheet tag] == 101) {
-            [self makeCallToNumber:selectedPhoneNumber];
-        }
-        else{
-            [self sendSMSToNumber:selectedPhoneNumber];
-        }
-    }
-    
 }
 
 #pragma mark - MessageComposeViewController Delegate method

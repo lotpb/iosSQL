@@ -29,20 +29,24 @@
          
      }
 //| ------------------------Background Fetch-------------------------
-
-    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"fetchKey"]) {
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+}
+
 //| ------------------------parse Key---------------------------------
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
- 
-    [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
-                  clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
-    
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-        
-  //[PFFacebookUtils initializeFacebook];
-  //[Parse enableLocalDatastore];
+        //Registers current device to Parse
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
+                          clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
+            
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+            
+            //[PFFacebookUtils initializeFacebook];
+            //[Parse enableLocalDatastore];
+        });
     }
     
 //| -----------------------loginController Key------------------------
@@ -139,24 +143,35 @@
 #pragma mark - Background Refresh
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
-    /*
-    NSLog(@"Current Time Altered");
-    // get current view controller
-    MainViewController *mainViewController = (MainViewController *)self.window.rootViewController;
-    [mainViewController YahooFinanceLoad]; */
-    
-    void (^safeHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler(result);
-        });
-    };
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BackgroundFetch" object:safeHandler];
-    //------------------------------------------------------------------------------------------
-    NSLog(@"########### Received Background Fetch ###########");
-    //Download  the Content .
-    
-    //Cleanup
-    completionHandler(UIBackgroundFetchResultNewData);
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"fetchKey"]) {
+        /*
+         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Received Background Fetch"
+         message:nil preferredStyle:UIAlertControllerStyleAlert];
+         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+         handler:^(UIAlertAction * action)
+         {
+         [alert dismissViewControllerAnimated:YES completion:nil];
+         }];
+         [alert addAction:ok];
+         [self.window.rootViewController presentViewController:alert animated:YES completion:nil]; */
+        
+        //------------------------------------------------------------------------------------------
+        
+        NSLog(@"########### Received Background Fetch ###########");
+        
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+        
+        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+        localNotification.alertBody = @"Background transfer service: Download complete!";
+        localNotification.alertAction = @"Background transfer service download!";
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        //increase the badge number of application plus 1
+        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+        
+        
+        //Cleanup
+        completionHandler(UIBackgroundFetchResultNewData);
+    }
 }
 
 #pragma mark - Notification
@@ -220,9 +235,8 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
         
-        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Notification Received"
-                                                                         message:notification.alertBody
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notification Received"
+                            message:notification.alertBody preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {

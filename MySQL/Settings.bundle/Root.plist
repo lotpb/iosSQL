@@ -56,6 +56,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Background Fetch</string>
+			<key>Key</key>
+			<string>fetchKey</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>iAd</string>
 			<key>Key</key>
 			<string>iadKey</string>
