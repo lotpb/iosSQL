@@ -252,6 +252,23 @@ UIBarButtonItem *trashItem, *shareItem;
             self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         }
     }
+/*
+    NSString *text = myCell.subtitleLabel.text;
+    NSString *a = @"@";
+    NSString *searchby = [a stringByAppendingString:self.subject];
+    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
+    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
+    //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
+    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
+    myCell.subtitleLabel.attributedText = str; */
+    
+    
+    NSString *textLink = myCell.subtitleLabel.text;
+    //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
+    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:textLink];
+    //[str addAttribute:NSLinkAttributeName value:URL range:[textLink rangeOfString:@"@"]];
+    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:@"@Peter Balsamo"]];
+    myCell.subtitleLabel.attributedText = str;
 
     return myCell;
 }
@@ -273,7 +290,7 @@ Parse.com
 *******************************************************************************************
 */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            
+            detailVC.formStatus = @"None";
             detailVC.textcontentobjectId = self.objectId;
             detailVC.textcontentmsgNo = self.msgNo;
             detailVC.textcontentdate = self.msgDate;

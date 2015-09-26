@@ -8,7 +8,8 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController () {
+@interface LoginViewController ()
+{
     NSString *email, *finalEmail;
 }
 
@@ -19,14 +20,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; //create instance of NSUSerDefaults
-    
-    //if statement to check if there is a registered user or not
-    if (![defaults boolForKey:@"registered"]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"registerKey"]) {
         NSLog(@"No user registered");
-        _loginBtn.hidden = YES; //hide login button because no user is regsitered
+        self.loginBtn.hidden = YES; //hide login button no user is regsitered
+        self.forgotPassword.hidden = YES;
+        self.authentButton.hidden = YES;
     }
     else {
         NSLog(@"user is registered");
@@ -55,9 +55,8 @@
     //check if all text fields are completed
     if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
         
-        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
-                                                                         message:@"You must complete all fields"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
+        
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {
@@ -79,10 +78,9 @@
         [self registerNewUser];
     }
     else {
-        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
-                                                                         message:@"Your entered passwords do not match"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your entered passwords do not match" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
@@ -95,17 +93,14 @@
 - (void) registerNewUser {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    //write the username and password and set BOOL value in NSUserDefaults
     [defaults setObject:_usernameField.text forKey:@"usernameKey"];
     [defaults setObject:_passwordField.text forKey:@"passwordKey"];
     [defaults setBool:YES forKey:@"registered"];
-    
     [defaults synchronize];
     
-    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Success"
-                                                                     message:@"You have registered a new user"
-                                                              preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action)
                          {
                              [alert dismissViewControllerAnimated:YES completion:nil];
@@ -119,8 +114,7 @@
 - (IBAction)LoginUser:(id)sender {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    //check that username and password match stored values
+
     if (([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] || [_usernameField.text isEqualToString:[defaults objectForKey:@"emailKey"]]) && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
         _usernameField.text = nil;
         _passwordField.text = nil;
@@ -128,10 +122,9 @@
     }
     else {
         
-        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Oooops"
-                                                                         message:@"Your username and password does not match"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your username and password does not match" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
@@ -154,26 +147,22 @@
         
         if (!error) {
             
-            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Alert"
-                                                                             message:@"Link to reset the password has been send to specified email"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Link to reset the password has been send to specified email" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
                                  {
                                      [alert dismissViewControllerAnimated:YES completion:nil];
                                  }];
             [alert addAction:ok];
             [self presentViewController:alert animated:YES completion:nil];
-            
             return;
         } else {
             
             NSString *errorString = [error userInfo][@"error"];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:[NSString stringWithFormat: @"Enter email in field: %@",errorString] preferredStyle:UIAlertControllerStyleAlert];
             
-            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Alert"
-                                                                             message:[NSString stringWithFormat: @"Enter email in field: %@",errorString]
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
                                  {
                                      [alert dismissViewControllerAnimated:YES completion:nil];
@@ -190,23 +179,18 @@
     [self.passwordField resignFirstResponder];
     LAContext *myContext = [[LAContext alloc] init];
     NSError *authError = nil;
-    NSString *myLocalizedReasonString = @"Authenticate using your finger";
+    NSString *reason = @"Authenticate using your finger";
     if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
         
         [myContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                  localizedReason:myLocalizedReasonString
+                  localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 
                                 if (success) {
-                                    
-                                   
-                                    //NSLog(@"User authenticated");
                                     dispatch_async(dispatch_get_main_queue(), ^{
                                     [self didAuthenticateWithTouchId];
                                     //[self showMessage:@"Authentication is successful" withTitle:@"Success"];
-
                                     });
-                       
                                 }  else {
                                     
                                     switch (error.code) {
@@ -236,7 +220,6 @@
                             }];
     } else {
         [self showMessage:@"Your device doesn't support this feature." withTitle:@"Error"];
-        
     }
 }
 
@@ -248,21 +231,13 @@
 
 -(void) showMessage:(NSString*)message withTitle:(NSString *)title
 {
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:title
-                                  message:message
-                                  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert= [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
  
-    
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancel"
-                             style:UIAlertActionStyleDefault
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
-    
     [alert addAction:cancel];
     [self presentViewController:alert animated:YES completion:nil];
 }

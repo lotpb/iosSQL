@@ -141,6 +141,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     bannerView.delegate = self;
     [self.view addSubview: bannerView];
     }
+    
+    static dispatch_once_t once;
+    dispatch_once(&once, ^
+    {
+        [self updateCheck]; // Code to run once
+    });
+    
 //| ----------------------------------------------------------
 }
 
@@ -149,7 +156,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"timerKey"]) {
         [self.myTimer invalidate];
-        self.myTimer = nil;
+         self.myTimer = nil;
     }
 }
 
@@ -516,6 +523,32 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
 }
 
+#pragma mark - Check Update
+-(void)updateCheck {
+    __block NSString *versionId;
+    PFQuery *query21 = [PFQuery queryWithClassName:@"Version"];
+    //query21.cachePolicy = kPFCACHEPOLICY;
+    [query21 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        versionId = [object objectForKey:@"VersionId"];
+        
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        if (![versionId isEqualToString:[standardDefaults objectForKey:@"versionKey"]])
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"New Version!!" message:@"A new version of app is available to download"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     NSString *iTunesLink = @"itms-apps://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=<appid>&mt=8";
+                                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
+}
+
 #pragma mark - AudioPlayer
 -(void)playSound1 {
     NSString *path = [NSString stringWithFormat:SOUNDFILE, [[NSBundle mainBundle] resourcePath]];
@@ -523,6 +556,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
     [_audioPlayer play];
 }
+
 //verse of the day
 #pragma mark - Notification
 - (void)sendLocalNotification {

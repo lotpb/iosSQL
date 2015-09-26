@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "MainViewController.h"
 
-@interface AppDelegate () <UISplitViewControllerDelegate>
+@interface AppDelegate () //<UISplitViewControllerDelegate>
 
 @end
 
@@ -18,7 +18,8 @@
 @synthesize window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
+    
+     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
  // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
     
@@ -28,15 +29,10 @@
      application.applicationIconBadgeNumber = 0;
          
      }
-//| ------------------------Background Fetch-------------------------
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"fetchKey"]) {
-    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-}
 
 //| ------------------------parse Key---------------------------------
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parseKey"]) {
+    if ([defaults boolForKey:@"parseKey"]) {
         //Registers current device to Parse
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
@@ -49,12 +45,21 @@
         });
     }
     
-//| -----------------------loginController Key------------------------
+//| ------------------------ipad storyBoard----------------------------
+    
+    UIStoryboard *storyboard = [self grabStoryboard];
+    
+    // display storyboard
+    self.window.rootViewController = [storyboard instantiateInitialViewController];
+    [self.window makeKeyAndVisible];
+    
+    
+//| -----------------------register login Key------------------------
     
     NSString *storyboardIdentifier;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loginKey"])
+    if ((![defaults boolForKey:@"registerKey"]) || ([defaults boolForKey:@"loginKey"]))
         storyboardIdentifier = @"loginViewController";
-     else
+    else
         storyboardIdentifier = @"mainViewController";
     
     UIViewController *rootViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:storyboardIdentifier];
@@ -84,18 +89,16 @@
 
     //| -----------------------prevent Autolock---------------------------
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"autolockKey"]) {
+    if ([defaults boolForKey:@"autolockKey"]) {
         
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     }
     
-    //| ------------------------ipad storyBoard----------------------------
+    //| ------------------------Background Fetch-------------------------
     
-    UIStoryboard *storyboard = [self grabStoryboard];
-    
-    // display storyboard
-    self.window.rootViewController = [storyboard instantiateInitialViewController];
-    [self.window makeKeyAndVisible];
+    if ([defaults boolForKey:@"fetchKey"]) {
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    }
     
     return YES;
 }
@@ -143,19 +146,8 @@
 #pragma mark - Background Refresh
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"fetchKey"]) {
-        /*
-         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Received Background Fetch"
-         message:nil preferredStyle:UIAlertControllerStyleAlert];
-         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-         handler:^(UIAlertAction * action)
-         {
-         [alert dismissViewControllerAnimated:YES completion:nil];
-         }];
-         [alert addAction:ok];
-         [self.window.rootViewController presentViewController:alert animated:YES completion:nil]; */
-        
-        //------------------------------------------------------------------------------------------
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults boolForKey:@"fetchKey"]) {
         
         NSLog(@"########### Received Background Fetch ###########");
         
@@ -167,7 +159,6 @@
         localNotification.soundName = UILocalNotificationDefaultSoundName;
         //increase the badge number of application plus 1
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-        
         
         //Cleanup
         completionHandler(UIBackgroundFetchResultNewData);

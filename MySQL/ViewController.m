@@ -28,6 +28,8 @@
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.listTableView.delegate = self;
      self.listTableView.dataSource = self;
+     //self.listTableView.rowHeight = UITableViewAutomaticDimension;
+     //self.listTableView.estimatedRowHeight = 110; //ROW_HEIGHT;
      self.listTableView.backgroundColor = BACKGROUNDCOLOR;
 
 /*

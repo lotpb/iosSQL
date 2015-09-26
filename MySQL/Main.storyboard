@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9052" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -3562,7 +3562,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUq-ce-i2D">
                                                             <rect key="frame" x="81" y="5" width="20" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AdO-6s-tbM">
@@ -4252,7 +4252,6 @@
                                 <rect key="frame" x="138" y="214" width="57" height="30"/>
                                 <state key="normal" title="Register">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="registerUser:" destination="P0A-9J-ykz" eventType="touchUpInside" id="ijd-2N-H1t"/>
@@ -4291,7 +4290,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73u-16-KO4">
-                                <rect key="frame" x="138" y="215" width="132" height="30"/>
+                                <rect key="frame" x="138" y="259" width="132" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="132" id="pt0-XU-Pj6"/>
                                 </constraints>
@@ -4306,10 +4305,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dyk-QN-rK7" firstAttribute="leading" secondItem="73u-16-KO4" secondAttribute="leading" constant="205" id="3yy-rm-ff2"/>
-                            <constraint firstItem="dyk-QN-rK7" firstAttribute="top" secondItem="73u-16-KO4" secondAttribute="bottom" constant="-76" id="7Ul-pI-azu"/>
+                            <constraint firstItem="dyk-QN-rK7" firstAttribute="top" secondItem="73u-16-KO4" secondAttribute="bottom" constant="-120" id="7Ul-pI-azu"/>
                             <constraint firstItem="XCZ-a6-NqR" firstAttribute="trailing" secondItem="d1R-V9-ec5" secondAttribute="trailing" id="Ctf-sU-hLD"/>
                             <constraint firstItem="Ij6-MG-PoF" firstAttribute="leading" secondItem="gXx-ky-eN8" secondAttribute="leading" id="Div-y9-grG"/>
-                            <constraint firstItem="73u-16-KO4" firstAttribute="top" secondItem="EJR-fv-q7N" secondAttribute="top" constant="215" id="EhI-9U-vWI"/>
+                            <constraint firstItem="73u-16-KO4" firstAttribute="top" secondItem="EJR-fv-q7N" secondAttribute="top" constant="259" id="EhI-9U-vWI"/>
                             <constraint firstItem="Ij6-MG-PoF" firstAttribute="top" secondItem="dyk-QN-rK7" secondAttribute="bottom" constant="16" id="Ikw-vc-7aa"/>
                             <constraint firstItem="d1R-V9-ec5" firstAttribute="top" secondItem="XCZ-a6-NqR" secondAttribute="bottom" constant="22" id="LTg-LG-Bq1"/>
                             <constraint firstItem="XCZ-a6-NqR" firstAttribute="top" secondItem="Ib5-7k-9oU" secondAttribute="bottom" constant="47" id="NU3-bl-YeF"/>
@@ -4320,7 +4319,7 @@
                             <constraint firstItem="XCZ-a6-NqR" firstAttribute="leading" secondItem="d1R-V9-ec5" secondAttribute="leading" id="ZYG-mH-M05"/>
                             <constraint firstItem="gXx-ky-eN8" firstAttribute="leading" secondItem="gwn-TP-lJJ" secondAttribute="trailing" constant="-45" id="hgq-9u-XGr"/>
                             <constraint firstItem="Ij6-MG-PoF" firstAttribute="trailing" secondItem="gXx-ky-eN8" secondAttribute="trailing" id="jLG-Te-xjt"/>
-                            <constraint firstItem="73u-16-KO4" firstAttribute="top" secondItem="ucx-uH-P3x" secondAttribute="bottom" constant="-29" id="mVn-O6-goa"/>
+                            <constraint firstItem="73u-16-KO4" firstAttribute="top" secondItem="ucx-uH-P3x" secondAttribute="bottom" constant="15" id="mVn-O6-goa"/>
                             <constraint firstItem="73u-16-KO4" firstAttribute="leading" secondItem="ucx-uH-P3x" secondAttribute="leading" id="oE3-wu-5w4"/>
                             <constraint firstItem="gXx-ky-eN8" firstAttribute="top" secondItem="d1R-V9-ec5" secondAttribute="bottom" constant="20" id="oWS-8N-fsO"/>
                             <constraint firstItem="XCZ-a6-NqR" firstAttribute="centerX" secondItem="EJR-fv-q7N" secondAttribute="centerX" id="raZ-v1-PyW"/>
@@ -4329,6 +4328,7 @@
                     <connections>
                         <outlet property="authentButton" destination="73u-16-KO4" id="ArI-XE-mPJ"/>
                         <outlet property="emailField" destination="Ij6-MG-PoF" id="cfT-tu-8MY"/>
+                        <outlet property="forgotPassword" destination="dyk-QN-rK7" id="zDp-cj-FqU"/>
                         <outlet property="loginBtn" destination="gwn-TP-lJJ" id="Dug-V5-OhS"/>
                         <outlet property="passwordField" destination="d1R-V9-ec5" id="mdr-gt-N80"/>
                         <outlet property="reEnterPasswordField" destination="gXx-ky-eN8" id="yGH-oW-0x4"/>
@@ -4739,13 +4739,13 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OIT-Tg-XOk"/>
+        <segue reference="jwQ-k2-eY1"/>
         <segue reference="8fI-fo-TTU"/>
-        <segue reference="zQR-YQ-xF4"/>
         <segue reference="YL2-bg-fIc"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="P6P-ng-NfQ"/>
-        <segue reference="Vww-ua-WBq"/>
         <segue reference="xOD-Ja-G1n"/>
+        <segue reference="Vww-ua-WBq"/>
         <segue reference="dip-5A-Lje"/>
         <segue reference="RkH-L9-G0j"/>
         <segue reference="MEa-hs-crl"/>

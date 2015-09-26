@@ -33,6 +33,7 @@ NSString* const kLatitudeKey	   	   	= @"latitudeKey";
 NSString* const kLongtitudeKey	    	= @"longtitudeKey";
 //NSString* const kiCloudKey	    	= @"icloudKey";
 NSString* const kSoundKey	        	= @"soundKey";
+NSString* const kVersionKey	        	= @"versionKey";
 
 //EditProfile.plist
 NSString* const kFirstNameKey			= @"firstNameKey";
@@ -61,6 +62,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 @property (strong) NSString *username;
 @property (strong) NSString *latitude;
 @property (strong) NSString *longtitude;
+@property (strong) NSString *version;
 
 @end
 
@@ -162,6 +164,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     self.username = [standardDefaults objectForKey:kUserNameKey];
     self.latitude = [standardDefaults objectForKey:kLatitudeKey];
     self.longtitude = [standardDefaults objectForKey:kLongtitudeKey];
+    self.version = [standardDefaults objectForKey:kVersionKey];
     // The value for the 'Text Color' setting is stored as an integer between
     // one and three inclusive.  Convert the integer into a UIColor object.
     TextColor textColor = [standardDefaults integerForKey:kFontColorKey];
@@ -194,7 +197,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 5;
+        return 6;
     } else if (section == 1) {
         return 10;
     } else if (section == 2) {
@@ -245,6 +248,12 @@ NSString* const kParseKey	     	    = @"parseKey";
             cell.detailTextLabel.text = self.password;
             
             return cell;
+        } else if (indexPath.row  == 5) {
+            
+            cell.textLabel.text = @"Version";
+            cell.detailTextLabel.text = self.version;
+            
+            return cell;
         }
         
     } else if (indexPath.section == 1) {
@@ -261,7 +270,7 @@ NSString* const kParseKey	     	    = @"parseKey";
             [theSwitch addTarget:self action:@selector(Switch6:) forControlEvents:UIControlEventValueChanged];
 
             BOOL parsebool =
-            [[NSUserDefaults standardUserDefaults] boolForKey:@"registered"];
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"registerKey"];
             if (parsebool == true)
                 [theSwitch setOn:YES];
              else
@@ -512,9 +521,9 @@ NSString* const kParseKey	     	    = @"parseKey";
 - (void)Switch6:(id)sender {
     
     if([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"registered"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"registerKey"];
     } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"registered"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"registerKey"];
     }
 }
 

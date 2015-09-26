@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9052" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -3574,7 +3574,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gr-Ui-cU1">
                                                             <rect key="frame" x="81" y="5" width="20" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRG-N2-R0W">
@@ -4330,12 +4330,22 @@
                                     <action selector="LoginUser:" destination="P0A-9J-ykz" eventType="touchUpInside" id="va3-gf-cvv"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7M4-S1-drt">
+                                <rect key="frame" x="332" y="154" width="129" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="129" id="Zwh-gf-PwT"/>
+                                </constraints>
+                                <state key="normal" title="Forgot Password?">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="top" secondItem="EJR-fv-q7N" secondAttribute="top" constant="103" id="5fX-6b-U8b"/>
                             <constraint firstItem="z4w-FS-lFa" firstAttribute="trailing" secondItem="MOa-ah-D2s" secondAttribute="trailing" constant="-280" id="6Yp-7l-x1T"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="leading" secondItem="TRn-QQ-TmX" secondAttribute="leading" id="LAR-Li-8kx"/>
+                            <constraint firstAttribute="trailing" secondItem="7M4-S1-drt" secondAttribute="trailing" constant="139" id="LiI-C4-aXf"/>
                             <constraint firstItem="z4w-FS-lFa" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="leading" constant="1" id="MaW-1P-ZSc"/>
                             <constraint firstItem="tlZ-fE-izq" firstAttribute="top" secondItem="z4w-FS-lFa" secondAttribute="bottom" constant="-3" id="Pfs-GM-BdW"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="trailing" secondItem="TRn-QQ-TmX" secondAttribute="trailing" id="Pw9-UO-kKg"/>
@@ -4343,6 +4353,7 @@
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="trailing" secondItem="MOa-ah-D2s" secondAttribute="trailing" id="Zys-aG-CJb"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="leading" id="aG3-Qt-q2j"/>
                             <constraint firstItem="BHQ-oc-gnW" firstAttribute="leading" secondItem="MOa-ah-D2s" secondAttribute="trailing" constant="-337" id="ajE-TP-I3x"/>
+                            <constraint firstItem="7M4-S1-drt" firstAttribute="baseline" secondItem="BHQ-oc-gnW" secondAttribute="baseline" id="dly-On-Mrh"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="centerX" secondItem="EJR-fv-q7N" secondAttribute="centerX" id="ghr-0N-Fdi"/>
                             <constraint firstItem="LVJ-Fp-TAB" firstAttribute="top" secondItem="TRn-QQ-TmX" secondAttribute="bottom" constant="23" id="hXk-up-m6l"/>
                             <constraint firstItem="tlZ-fE-izq" firstAttribute="leading" secondItem="z4w-FS-lFa" secondAttribute="leading" id="ihQ-MM-PSN"/>
@@ -4352,6 +4363,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="forgotPassword" destination="7M4-S1-drt" id="aTt-mT-Ghx"/>
                         <outlet property="loginBtn" destination="BHQ-oc-gnW" id="Se1-fM-jvZ"/>
                         <outlet property="passwordField" destination="LVJ-Fp-TAB" id="HYg-uq-CWd"/>
                         <outlet property="reEnterPasswordField" destination="MOa-ah-D2s" id="Vc3-cn-xXi"/>

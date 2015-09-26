@@ -208,9 +208,19 @@
 			<key>Title</key>
 			<string>Registered</string>
 			<key>Key</key>
-			<string>registered</string>
+			<string>registerKey</string>
 			<key>DefaultValue</key>
 			<string>1</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>Key</key>
+			<string>versionKey</string>
+			<key>DefaultValue</key>
+			<string>1.0</string>
 		</dict>
 		<dict>
 			<key>Type</key>

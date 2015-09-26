@@ -13,6 +13,8 @@
 
 @interface BlogNewViewController : UIViewController <UITextViewDelegate>
 
+@property (strong, nonatomic) NSString *formStatus;
+
 @property (strong, nonatomic) NSString *textcontentobjectId;
 @property (strong, nonatomic) NSString *textcontentmsgNo;
 @property (strong, nonatomic) NSString *textcontentdate;

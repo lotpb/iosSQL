@@ -29,45 +29,65 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* const userNameKey = KEY_USER;
-    
     //self.view.backgroundColor = BLOGNEWBACKCOLOR;
     self.listTableView.backgroundColor = BLOGNEWBACKCOLOR;
     self.toolBar.translucent = YES;
     self.toolBar.barTintColor = [UIColor grayColor];
     self.subject.delegate = self;
+    [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.myDatePicker.hidden = YES;
     
-    if (self.textcontentsubject.length == 0) {
-        self.placeholderlabel.text = @"Share an idea?";
+    //if (self.textcontentsubject.length == 0) {
+    if (([self.formStatus isEqualToString:@"New"]) || ([self.formStatus isEqualToString:@"Reply"])) {
+        
+        self.Update.hidden = YES;
         self.placeholderlabel.textColor = [UIColor lightGrayColor];
+        
         static NSDateFormatter *dateFormatter = nil;
         if (dateFormatter == nil) {
-            
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.timeZone = [NSTimeZone localTimeZone];
-        dateFormatter.dateFormat = KEY_DATETIME;
-        NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
-        self.msgDate = dateString;
-        self.rating = @"4";
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.timeZone = [NSTimeZone localTimeZone];
+            dateFormatter.dateFormat = KEY_DATETIME;
+            NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+            self.msgDate = dateString;
+            self.rating = @"4";
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-                PFUser *currentUser = [PFUser currentUser];
-                if (currentUser) {
-                    self.postby =  currentUser.username;}
-                else
-                    self.postby = [defaults objectForKey:userNameKey];
+                self.postby =  self.textcontentpostby;
+            } else {
+                self.postby = [defaults objectForKey:userNameKey];
             }
-            self.Update.hidden = YES; }
-    } else {
-        self.placeholderlabel.hidden = true;;
+        }
+    } else if ((self.formStatus = @"None")) { //set in BlogEdit
+        
+        self.Share.hidden = YES;
+        self.placeholderlabel.hidden = true;
         self.objectId = self.textcontentobjectId;
         self.msgNo = self.textcontentmsgNo;
         self.msgDate = self.textcontentdate;
         self.subject.text = self.textcontentsubject;
         self.postby = self.textcontentpostby;
         self.rating = self.textcontentrating;
-        self.Share.hidden = YES;
     }
-       [self.listTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-        self.myDatePicker.hidden = YES;
+    
+    if ([self.formStatus isEqualToString:@"New"]) {
+        self.placeholderlabel.text = @"Share an idea?";
+    } else if ([self.formStatus isEqualToString:@"Reply"]) {
+        self.placeholderlabel.hidden = true;
+        self.subject.text = self.textcontentsubject;
+        [self.subject becomeFirstResponder];
+    }
+    
+    self.subject.userInteractionEnabled = YES;
+    self.subject.dataDetectorTypes = UIDataDetectorTypeAll; //UIDataDetectorTypeAddress | UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
+    
+    NSString *text = self.subject.text;
+    NSString *a = @"@";
+    NSString *searchby = [a stringByAppendingString:self.textcontentpostby];
+    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
+    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
+    //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
+    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
+    self.subject.attributedText = str;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [self.subject setFont:CELL_FONT(IPADFONT20)];

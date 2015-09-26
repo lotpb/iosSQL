@@ -74,7 +74,7 @@
       else self.comments = @"No Comments";
     
 #pragma mark Bar Button
-    newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showNew:)];
+    newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showNew:)];
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showEdit:)];
     NSArray *actionButtonItems = @[editItem, newItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;

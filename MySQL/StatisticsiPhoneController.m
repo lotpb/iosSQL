@@ -67,18 +67,16 @@
     
     if (self.myTimer == nil)//DISPATCH_QUEUE_PRIORITY_DEFAULT
     {
+        /*
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             dispatch_async( dispatch_get_main_queue(), ^{
                 self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
             });
-        });
-/*
-        //dispatch_async(dispatch_get_main_queue(), ^{
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
-            //[[NSRunLoop currentRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode];
-            //[[NSRunLoop currentRunLoop] run];
         }); */
+
+        
+        self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+        [[NSRunLoop mainRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode]; 
     }
     
     //| ---------------------------end----------------------------------
@@ -156,6 +154,8 @@
         
         [refreshControl endRefreshing];
     }
+    //[self.myTimer invalidate];
+     self.myTimer = nil;
 }
 
 #pragma mark - mySQL Delegate

@@ -16,7 +16,8 @@
     //UILabel *numLabel;
     //UIButton *flagButton;
     UIButton *likeButton;
-    BOOL *likeSelected;
+    BOOL isReplyClicked;
+    NSString *posttoIndex;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;
@@ -131,6 +132,18 @@ Parse.com
     }
 }
 
+#pragma mark - Fix
+- (UIViewController*) topMostController // view is not in the window hierarchy
+{
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
+}
+
 /*
 *******************************************************************************************
 Parse.com
@@ -148,8 +161,9 @@ Parse.com
 }
 
 #pragma mark - Button
-#pragma mark Bar Button
+#pragma mark New BarButton
 -(void)foundView:(id)sender {
+     isReplyClicked = NO;
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
@@ -185,18 +199,10 @@ Parse.com
     [alert addAction:ok];
     
      //[alert.textFields[1] becomeFirstResponder];
-   
-    //if (!(self == self.navigationController.visibleViewController)) {
-    //UIViewController *vc =  self.navigationController.topViewController;
-    UIViewController *vc = self.navigationController.visibleViewController;
-    //}
-    //self.modalPresentationStyle = UIModalPresentationFormSheet;
-    //self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [vc presentViewController:alert animated:YES completion:nil];
+    UIViewController *top = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [top presentViewController:alert animated:YES completion: nil];
 
 }
-
-
 
 #pragma mark like button
 - (void)likeButton:(id)sender {
@@ -224,6 +230,7 @@ Parse.com
             [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
             [updateLead saveInBackground];
             //numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
+            //numLabel.text = [NSString stringWithFormat:@"%@ until %@!", [CustomTableViewCell stringifyDistance:(self.upcomingBadge.distance - self.distance)], self.upcomingBadge.name];
         }
     }];
     //[self.listTableView reloadData];
@@ -242,48 +249,66 @@ Parse.com
 
 #pragma mark reply button
 -(void)replyButton:(id)sender {
-    //UIButton* button = (UIButton*)sender;
-    [self performSegueWithIdentifier: @"NewBlogSegue" sender: self];
+    isReplyClicked = YES;
+    UIButton *btn = (UIButton *) sender;
+    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
+    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
+    posttoIndex = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+    //userIndex = [NSString stringWithFormat:@"@%@",[[PFUser currentUser]valueForKey:@"username"]];
+    [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
 #pragma mark ActivityViewController
 - (void)share:(id)sender {
     
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* facebook = [UIAlertAction
-                               actionWithTitle:@"Share on Facebook"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-                               {
-                                   //[self facebookPost:self];
-                               }];
+    UIAlertAction* email = [UIAlertAction
+                            actionWithTitle:@"Email this Message"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //[self facebookPost:self];
+                            }];
     
-    UIAlertAction* twitter = [UIAlertAction
-                              actionWithTitle:@"Share on Twitter"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  //[self twitterPost:self];
-                              }];
-    UIAlertAction* message = [UIAlertAction
-                              actionWithTitle:@"Send Text Message"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  //[self sendSMS:self];
-                              }];
+    UIAlertAction* sms = [UIAlertAction
+                          actionWithTitle:@"SMS this Message"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              //[self twitterPost:self];
+                          }];
+    UIAlertAction* follow = [UIAlertAction
+                             actionWithTitle:@"Follow"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 //[self sendSMS:self];
+                             }];
+    UIAlertAction* block = [UIAlertAction
+                            actionWithTitle:@"Block this Message"
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action)
+                            {
+                                //[self twitterPost:self];
+                            }];
+    UIAlertAction* report = [UIAlertAction
+                             actionWithTitle:@"Report this Message"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 //[self sendSMS:self];
+                             }];
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
                                                      style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-    [view addAction:facebook];
-    [view addAction:twitter];
-    [view addAction:message];
+    [view addAction:email];
+    [view addAction:sms];
+    [view addAction:follow];
+    [view addAction:block];
+    [view addAction:report];
     [view addAction:cancel];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -524,6 +549,13 @@ Parse.com
      UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.actionBtn setImage:imagebutton forState:UIControlStateNormal];
     [myCell.actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+   
+    NSString *text = myCell.blogsubtitleLabel.text;
+    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
+    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
+    //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
+    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:@"@Peter Balsamo"]];
+    myCell.blogsubtitleLabel.attributedText = str;
 
     return myCell;
 }
@@ -683,25 +715,20 @@ Parse.com
         _selectedLocation = _feedItems[indexPath.row];
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
-    
     [self performSegueWithIdentifier:BLOGVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([[segue identifier] isEqualToString:@"NewBlogSegue"]) {
-        
-        //BlogNewViewController *detailVC = segue.destinationViewController;
-        /*
-         *******************************************************************************************
-         Parse.com
-         *******************************************************************************************
-         */
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            // NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-             //detailVC.textcontentsubject = @"parsedataKey";//[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+    if ([[segue identifier] isEqualToString:BLOGNEWSEGUE]) {
+        BlogNewViewController *detailVC = segue.destinationViewController;
+        if (isReplyClicked) {
+            detailVC.formStatus = @"Reply";
+            detailVC.textcontentsubject = [NSString stringWithFormat:@"@%@",posttoIndex];
+            detailVC.textcontentpostby = [NSString stringWithFormat:@"%@",[[PFUser currentUser]valueForKey:@"username"]];
+        } else {
+            detailVC.formStatus = @"New";
+            detailVC.textcontentpostby = [NSString stringWithFormat:@"%@",[[PFUser currentUser]valueForKey:@"username"]];
         }
-        
     }
     
     if ([[segue identifier] isEqualToString:BLOGVIEWSEGUE])
