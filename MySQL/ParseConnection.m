@@ -11,8 +11,6 @@
 @interface ParseConnection ()
 {
     NSMutableArray *salesArray, *callbackArray, *contractorArray, *rateArray, *headCount, *_feedItems;
-    int pageNumber;
-    BOOL stopFetching, requestInProgress, forceRefresh;
 }
 @end
 
@@ -23,24 +21,14 @@
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query setLimit:1000]; //parse.com standard is 100
-     //query.skip = pageNumber*50;
+    [query whereKey:@"ReplyId" equalTo:[NSNull null]];
      query.cachePolicy = kPFCACHEPOLICY;
-     //query.maxCacheAge = 60*60;
     [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
-         
-                requestInProgress = NO;
-                forceRefresh = NO;
-                if (objects.count<50) {
-                    stopFetching = YES;
-                }
-                
-                pageNumber++;
-                
                 if (self.delegate) {
                     [self.delegate parseBlogloaded:_feedItems];
                 }
@@ -53,7 +41,7 @@
 #pragma mark - Customer Form
 - (void)parseCustomer {
   PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
-    [query clearCachedResult];
+    //[query clearCachedResult];
   //[query setMaxCacheAge:60 * 4];  //4 mins cache
     [query setLimit:1000]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
@@ -77,7 +65,7 @@
 #pragma mark - Lead Form //not setup yet
 - (void)parseLeads {
      PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query orderByDescending:@"createdAt"];
      query.skip = 0;
     [query setLimit: 1000]; //parse.com standard is 100
@@ -122,7 +110,7 @@
 #pragma mark - Employee Form
 - (void)parseEmployee {
     PFQuery *query = [PFQuery queryWithClassName:@"Employee"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query orderByAscending:@"createdAt"];
     [query setLimit: 100]; //parse.com standard is 100
      query.cachePolicy = kPFCACHEPOLICY;
@@ -144,7 +132,7 @@
 #pragma mark - Advertiser Form 
 - (void)parseAdvertiser {
     PFQuery *query = [PFQuery queryWithClassName:@"Advertising"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query orderByAscending:@"Advertiser"];
     //[query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
@@ -187,7 +175,7 @@
 #pragma mark - Job Form
 - (void)parseJob {
     PFQuery *query = [PFQuery queryWithClassName:@"Job"];
-    [PFQuery clearAllCachedResults];
+    //[PFQuery clearAllCachedResults];
     [query orderByAscending:@"Description"];
     [query setLimit: 500]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;

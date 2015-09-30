@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSString *msgDate;
 @property (strong, nonatomic) NSString *postby;
 @property (strong, nonatomic) NSString *rating;
+@property (strong, nonatomic) NSString *replyId;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *Share;

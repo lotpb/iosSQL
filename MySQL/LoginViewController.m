@@ -27,21 +27,28 @@
         self.loginBtn.hidden = YES; //hide login button no user is regsitered
         self.forgotPassword.hidden = YES;
         self.authentButton.hidden = YES;
+        self.emailField.hidden = NO;
+        self.phoneField.hidden = NO;
     }
     else {
         NSLog(@"user is registered");
-        _reEnterPasswordField.hidden = YES;
-        _registerBtn.hidden = YES;
+        self.usernameField.text = @"Peter Balsamo"; //@"eunitedws@verizon.net";
+        self.reEnterPasswordField.hidden = YES;
+        self.registerBtn.hidden = YES;
+        self.emailField.hidden = YES;
+        self.phoneField.hidden = YES;
     }
-     self.usernameField.text = @"eunitedws@verizon.net";
-     self.emailField.hidden = true;
-    // self.passwordField.text = @"3911";
+
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.passwordField becomeFirstResponder];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"registerKey"])
+        [self.usernameField becomeFirstResponder];
+    else
+        [self.passwordField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,11 +98,31 @@
 }
 
 - (void) registerNewUser {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        PFUser *user = [PFUser user];
+        user.username = _usernameField.text;
+        user.password = _passwordField.text;
+        user.email = _emailField.text;
+        user[@"phone"] = _phoneField.text;
+        
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {   // Hooray! Let them use the app now.
+                _usernameField.text = nil;
+                _passwordField.text = nil;
+                [self performSegueWithIdentifier:@"loginSegue" sender:self];
+                
+            } else {
+                 NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_usernameField.text forKey:@"usernameKey"];
     [defaults setObject:_passwordField.text forKey:@"passwordKey"];
-    [defaults setBool:YES forKey:@"registered"];
+    [defaults setObject:_emailField.text forKey:@"emailKey"];
+    [defaults setBool:YES forKey:@"registerKey"];
     [defaults synchronize];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
@@ -109,28 +136,65 @@
     [self presentViewController:alert animated:YES completion:nil];
     
     [self performSegueWithIdentifier:@"loginSegue" sender:self];
+    
 }
 
 - (IBAction)LoginUser:(id)sender {
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    if (([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] || [_usernameField.text isEqualToString:[defaults objectForKey:@"emailKey"]]) && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
-        _usernameField.text = nil;
-        _passwordField.text = nil;
-        [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller
-    }
-    else {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your username and password does not match" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
-        [alert addAction:ok];
-        [self presentViewController:alert animated:YES completion:nil];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        [PFUser logInWithUsernameInBackground:self.usernameField.text password:self.passwordField.text block:^(PFUser *user, NSError *error) {
+            if (user) {
+                [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+                    // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+                    [user setObject:geoPoint forKey:@"currentLocation"];
+                    [user saveInBackground];
+                    //  [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+                    
+                    //    [refreshMap:nil];
+                    _usernameField.text = nil;
+                    _passwordField.text = nil;
+                    [self performSegueWithIdentifier:@"loginSegue" sender:self];
+                }];
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+                [defaults setObject:_passwordField.text forKey:@"passwordKey"];
+                //[defaults setObject:_emailField.text forKey:@"emailKey"];
+                [defaults setBool:YES forKey:@"registerKey"];
+                [defaults synchronize];
+                
+            } else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your username and password does not match" preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
+                 NSLog(@"User Failed");
+            }
+        }];
+    } else {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if (([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] || [_usernameField.text isEqualToString:[defaults objectForKey:@"emailKey"]]) && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
+            _usernameField.text = nil;
+            _passwordField.text = nil;
+            [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller
+        }
+        else {
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your username and password does not match" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }
 }
 
@@ -224,8 +288,12 @@
 }
 
 - (void)didAuthenticateWithTouchId {
-    _usernameField.text = nil;
-    _passwordField.text = nil;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+    [defaults setObject:@"3911" forKey:@"passwordKey"];
+    //[defaults setObject:_emailField.text forKey:@"emailKey"];
+    [defaults setBool:YES forKey:@"registerKey"];
+    [defaults synchronize];
    [self performSegueWithIdentifier:@"loginSegue" sender:self];
 }
 

@@ -108,8 +108,6 @@ static NSDateFormatter *formatter = nil;
             _feedItems = [[NSMutableArray alloc]initWithArray:objects];
             if (self.delegate) {
                 [self.delegate parseLeadYearloaded:_feedItems];
-                //NSLog(@"Object Peter Baby id %@",stringFrom);
-                //NSLog(@"Object Peter Baby id %@",_feedItems);
             }
         }];
     }

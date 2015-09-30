@@ -73,10 +73,9 @@
                 self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
             });
         }); */
-
         
         self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode]; 
+        [[NSRunLoop mainRunLoop] addTimer:self.myTimer forMode:NSRunLoopCommonModes];
     }
     
     //| ---------------------------end----------------------------------

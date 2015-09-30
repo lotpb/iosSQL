@@ -107,11 +107,9 @@
         if (!error) {
             PFFile *file = [object objectForKey:@"imageFile"];
             [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                if (!error) {
-                    [self.imageBlog setImage:[UIImage imageWithData:data]];
-                } else {
-                    [self.imageBlog setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-                }
+                
+            [self.imageBlog setImage:[UIImage imageWithData:data]];
+
             }];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -121,6 +119,10 @@
     self.imageBlog.clipsToBounds = YES;
     self.imageBlog.layer.cornerRadius = BLOGIMGRADIUS;
     self.imageBlog.contentMode = UIViewContentModeScaleToFill;
+    
+    UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.Like setImage:image forState:UIControlStateNormal];
+    [self.Like setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
   [[UITextView appearance] setTintColor:CURSERCOLOR];
 }
@@ -221,11 +223,15 @@
 -(IBAction)like:(id)sender {
     
     if([self.rating isEqualToString: @"4"]) {
-       [self.Like setTitle: @"UnLike" forState: UIControlStateNormal];
+       [self.Like setTitle: @" UnLike" forState: UIControlStateNormal];
+        [self.Like setSelected:YES];
+        self.Like.tintColor = [UIColor redColor];
         self.activeImage.image = [UIImage imageNamed:ACTIVEBUTTONYES];
         self.rating = @"5";
       } else {
-       [self.Like setTitle: @"Like" forState: UIControlStateNormal];
+       [self.Like setTitle: @" Like" forState: UIControlStateNormal];
+       [self.Like setSelected:NO];
+        self.Like.tintColor = [UIColor whiteColor];
         self.activeImage.image = [UIImage imageNamed:ACTIVEBUTTONNO];
         self.rating = @"4"; }
        [self.listTableView reloadData];
@@ -259,6 +265,7 @@ Parse.com
                 [updateblog setObject:self.postby forKey:@"PostBy"];
                 [updateblog setObject:self.rating forKey:@"Rating"];
                 [updateblog setObject:self.subject.text forKey:@"Subject"];
+                [updateblog setObject:self.replyId forKey:@"ReplyId"];
                 PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
                 [postACL setPublicReadAccess:YES];
                 [updateblog setACL:postACL];
@@ -333,6 +340,20 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
+        
+        /*
+        if ([self.formStatus isEqualToString:@"Reply"]) {
+            PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
+                if (!error) {
+                    [updateblog incrementKey:@"CommentCount"];
+                    [updateblog saveEventually];
+                }
+            }];
+        } */
+        
+        
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         NSNumber *myMsgNo = [formatter numberFromString:self.msgNo];
         
@@ -342,12 +363,14 @@ Parse.com
         [saveblog setObject:self.postby forKey:@"PostBy"];
         [saveblog setObject:self.rating forKey:@"Rating"];
         [saveblog setObject:self.subject.text forKey:@"Subject"];
+        [saveblog setObject:self.replyId forKey:@"ReplyId"];
         
+        /*
         // Set ACL permissions for added security
         PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [postACL setPublicReadAccess:YES];
       //[postACL setPublicWriteAccess:YES];
-        [saveblog setACL:postACL];
+        [saveblog setACL:postACL]; */
         
         [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {

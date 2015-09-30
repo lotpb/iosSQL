@@ -35,17 +35,17 @@
     
 //-------------------create Parse User------------------
 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-    [PFUser logInWithUsernameInBackground:@"Peter Balsamo" password:@"3911" block:^(PFUser *user, NSError *error) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [PFUser logInWithUsernameInBackground:[defaults objectForKey:@"usernameKey"] password:[defaults objectForKey:@"passwordKey"] block:^(PFUser *user, NSError *error) {
         if (user) {
             [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-                // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+                 //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
                 [user setObject:geoPoint forKey:@"currentLocation"];
                 [user saveInBackground];
                 //   [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
                 
                 //    [refreshMap:nil];
             }];
-            
         }
     }];
 }

@@ -17,7 +17,7 @@
     //UIButton *flagButton;
     UIButton *likeButton;
     BOOL isReplyClicked;
-    NSString *posttoIndex;
+    NSString *posttoIndex, *userIndex;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;
@@ -186,7 +186,7 @@ Parse.com
         textField.textColor = [UIColor redColor];
     }];
     
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action) {
                                                    //Do Some action here
                                                 [alert dismissViewControllerAnimated:YES completion:nil];
@@ -198,16 +198,23 @@ Parse.com
     [alert addAction:cancel];
     [alert addAction:ok];
     
-     //[alert.textFields[1] becomeFirstResponder];
-    UIViewController *top = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [top presentViewController:alert animated:YES completion: nil];
+    /*
+     UIViewController *top = [UIApplication sharedApplication].keyWindow.rootViewController;
+     [top presentViewController:alert animated:YES completion: nil];
+     */
+    
+    UIViewController *viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    
+    if ( viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed ) {
+        viewController = viewController.presentedViewController;
+    }
 
+    [viewController presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark like button
 - (void)likeButton:(id)sender {
     UIButton *btn = (UIButton *) sender;
-
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
      [btn setSelected:YES];
@@ -254,7 +261,7 @@ Parse.com
     CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
     NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
     posttoIndex = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-    //userIndex = [NSString stringWithFormat:@"@%@",[[PFUser currentUser]valueForKey:@"username"]];
+    userIndex = [[_feedItems objectAtIndex:indexPath.row] objectId];
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
@@ -310,7 +317,7 @@ Parse.com
     [view addAction:block];
     [view addAction:report];
     [view addAction:cancel];
-    
+    //[[UIView appearanceWhenContainedIn:[UIAlertController class], nil] setBackgroundColor:[UIColor blackColor]];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         UIView* senderView = (UIView *)sender;
         view.popoverPresentationController.sourceView = senderView;
@@ -725,6 +732,7 @@ Parse.com
             detailVC.formStatus = @"Reply";
             detailVC.textcontentsubject = [NSString stringWithFormat:@"@%@",posttoIndex];
             detailVC.textcontentpostby = [NSString stringWithFormat:@"%@",[[PFUser currentUser]valueForKey:@"username"]];
+            detailVC.replyId = [NSString stringWithFormat:@"%@",userIndex];
         } else {
             detailVC.formStatus = @"New";
             detailVC.textcontentpostby = [NSString stringWithFormat:@"%@",[[PFUser currentUser]valueForKey:@"username"]];
@@ -750,6 +758,7 @@ Parse.com
                 detailVC.msgDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
                 detailVC.rating = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"];
                 detailVC.liked = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"];
+                detailVC.replyId = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ReplyId"];
             } else {
                 detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
                 detailVC.msgNo = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];

@@ -9,14 +9,15 @@
 #import "BlogEditDetailView.h"
 
 @interface BlogEditDetailView ()
+{
+    NSMutableArray *_feedItems;
+    UIBarButtonItem *trashItem, *shareItem;
+}
 
 - (IBAction)sendNotification:(UIButton *)sender;
 @end
 
 @implementation BlogEditDetailView
-{
-UIBarButtonItem *trashItem, *shareItem;
-}
 
 - (void)viewDidLoad
 {
@@ -24,13 +25,38 @@ UIBarButtonItem *trashItem, *shareItem;
     self.title = NSLocalizedString(BLOGEDITTITLE, nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
+    self.listTableView1.rowHeight = UITableViewAutomaticDimension;
+    self.listTableView1.estimatedRowHeight = 75;
+    self.listTableView1.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
     self.view.backgroundColor = BLOGBACKCOLOR;
-    //self.toolBar.backgroundColor = [UIColor lightGrayColor];
+    self.toolBar.translucent=NO;
+    self.toolBar.barTintColor = [UIColor whiteColor];
+    
+    UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.Like setImage:image forState:UIControlStateNormal];
+    [self.Like setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.update setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     trashItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(showDeleteConfirmation:)];
     NSArray *actionButtonItems = @[shareItem, trashItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+//---------------Reply Blog Query--------------------------------------
+    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+    [query whereKey:@"ReplyId" equalTo:self.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
+        if (!error) {
+            for (PFObject *object in objects) {
+                [_feedItems addObject:object];
+                [self.listTableView1 reloadData];
+            }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -86,9 +112,8 @@ UIBarButtonItem *trashItem, *shareItem;
                                      if (!error) {
                                          for (PFObject *object in objects) {
                                              [object deleteInBackground];
-                                             UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Delete Complete"
-                                                                                                              message:@"Successfully updated the data"
-                                                                                                       preferredStyle:UIAlertControllerStyleAlert];
+                                             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Complete"
+                                                            message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                                              UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                                         handler:^(UIAlertAction * action)
                                                                   {
@@ -156,122 +181,233 @@ UIBarButtonItem *trashItem, *shareItem;
 
 #pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{   // Return the number of feed items (initially 0)
+{
+    if ([tableView isEqual:self.listTableView]) {
+        return 1;
+    } else if ([tableView isEqual:self.listTableView1]) {
+        return [_feedItems count];
+    }
     return 1;
 }
 
 #pragma mark - TableView Delegate Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = IDCELL;
-    CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT20)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT16)];
-    } else {
-        [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT18)];
-        [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT18)];
-        [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT12)];
-    }
-    
-    myCell.accessoryType = UITableViewCellAccessoryNone;
-    myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    /*
-     *******************************************************************************************
-     Parse.com
-     *******************************************************************************************
-     */
-    
-    PFQuery *query = [PFUser query];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        [query whereKey:@"username" equalTo:self.postby];
-    } else {
-        [query whereKey:@"username" equalTo:self.selectedLocation.postby];
-    }
-    [query setLimit:1000]; //parse.com standard is 100
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            PFFile *file = [object objectForKey:@"imageFile"];
-            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                if (!error) {
-                    [myCell.blogImageView setImage:[UIImage imageWithData:data]];
-                } else {
-                    [myCell.blogImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-                }
-            }];
+    if ([tableView isEqual:self.listTableView]) {
+        
+        static NSString *CellIdentifier = IDCELL;
+        CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
+            [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT20)];
+            [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT16)];
         } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT18)];
+            [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT18)];
+            [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT12)];
         }
-    }];
-    
-    myCell.blogImageView.clipsToBounds = YES;
-    myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
-    
-  //UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width / 10, 145, 30, 11)];
-
-    if (myCell == nil)
-        myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        NSString *dateStr = self.msgDate;
-        static NSDateFormatter *DateFormatter = nil;
-        if (DateFormatter == nil) {
-            NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-            [DateFormatter setDateFormat:KEY_DATETIME];
-            NSDate *date = [DateFormatter dateFromString:dateStr];
-            [DateFormatter setDateFormat:BLOG_FORMAT];
-            dateStr = [DateFormatter stringFromDate:date];
+        
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        /*
+         *******************************************************************************************
+         Parse.com
+         *******************************************************************************************
+         */
+        
+        PFQuery *query = [PFUser query];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            [query whereKey:@"username" equalTo:self.postby];
+        } else {
+            [query whereKey:@"username" equalTo:self.selectedLocation.postby];
         }
-        myCell.titleLabel.text = self.postby;
-        myCell.subtitleLabel.text = self.subject;
-        myCell.msgDateLabel.text = dateStr;
-    } else {
-        myCell.titleLabel.text = self.selectedLocation.postby;
-        myCell.subtitleLabel.text = self.selectedLocation.subject;
-        myCell.msgDateLabel.text = self.selectedLocation.msgDate;
+        [query setLimit:1]; //parse.com standard is 100
+        query.cachePolicy = kPFCACHEPOLICY;
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                PFFile *file = [object objectForKey:@"imageFile"];
+                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                    if (!error) {
+                        [myCell.blogImageView setImage:[UIImage imageWithData:data]];
+                    } else {
+                        [myCell.blogImageView setImage:[UIImage imageNamed:@"profile-rabbit-toy.png"]];
+                    }
+                }];
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+        
+        myCell.blogImageView.clipsToBounds = YES;
+        myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
+        myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+        
+        if (myCell == nil)
+            myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            NSString *dateStr = self.msgDate;
+            static NSDateFormatter *DateFormatter = nil;
+            if (DateFormatter == nil) {
+                NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+                [DateFormatter setDateFormat:KEY_DATETIME];
+                NSDate *date = [DateFormatter dateFromString:dateStr];
+                [DateFormatter setDateFormat:BLOG_FORMAT];
+                dateStr = [DateFormatter stringFromDate:date];
+            }
+            myCell.titleLabel.text = self.postby;
+            myCell.subtitleLabel.text = self.subject;
+            myCell.msgDateLabel.text = dateStr;
+        } else {
+            myCell.titleLabel.text = self.selectedLocation.postby;
+            myCell.subtitleLabel.text = self.selectedLocation.subject;
+            myCell.msgDateLabel.text = self.selectedLocation.msgDate;
+        }
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            
+            if (([self.rating isEqual:@"5"]) ||  ([self.selectedLocation.rating isEqual:@"5"])){
+                NSString *stringCount = [NSString stringWithFormat:@"%@ %@",@" Likes", self.liked];
+                [self.Like setTitle:stringCount forState: UIControlStateNormal];
+                [self.Like setSelected:YES];
+                self.Like.tintColor = [UIColor redColor];
+                //[self.Like setBackgroundColor:LIKECOLORBACK];
+                //[self.Like setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                //self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+            } else {
+                //if (self.liked > 0) {
+                NSString *stringCount = @" Like";
+                [self.Like setTitle:stringCount forState: UIControlStateNormal];
+                [self.Like setSelected:NO];
+                self.Like.tintColor = [UIColor lightGrayColor];
+                // }
+            }
+        }
+        
+        /*
+         NSString *text = myCell.subtitleLabel.text;
+         NSString *a = @"@";
+         NSString *searchby = [a stringByAppendingString:self.subject];
+         //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
+         NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
+         //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
+         [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
+         myCell.subtitleLabel.attributedText = str; */
+    
+        
+        NSString *textLink = myCell.subtitleLabel.text;
+        //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
+        NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:textLink];
+        //[str addAttribute:NSLinkAttributeName value:URL range:[textLink rangeOfString:@"@"]];
+        [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:@"@Adam Monteleone"]];
+        myCell.subtitleLabel.attributedText = str;
+        
+        return myCell;
     }
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        NSString *stringCount = [NSString stringWithFormat:@"%@  %@",@"Liked",  self.liked];
-        if ([self.rating isEqual:@"5"]) {
-            [self.Like setTitle:stringCount forState: UIControlStateNormal];
-            [self.Like setBackgroundColor:LIKECOLORBACK];
-            [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
-            self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    else if ([tableView isEqual:self.listTableView1]) {
+        
+        static NSString *CellIdentifier = @"ReplyCell";
+        CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
+            [myCell.replysubtitleLabel setFont:CELL_FONT(IPADFONT20)];
+            [myCell.replynumLabel setFont:CELL_FONT(IPADFONT16)];
+            [myCell.replydateLabel setFont:CELL_FONT(IPADFONT16)];
+        } else {
+            [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPHONEFONT14)];
+            [myCell.replysubtitleLabel setFont:CELL_FONT(IPHONEFONT14)];
+            [myCell.replynumLabel setFont:CELL_FONT(IPHONEFONT12)];
+            [myCell.replydateLabel setFont:CELL_FONT(IPHONEFONT12)];
         }
+        
+        if (myCell == nil)
+            myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            /*
+            NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            static NSDateFormatter *DateFormatter = nil;
+            if (DateFormatter == nil) {
+                NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+                [DateFormatter setDateFormat:KEY_DATETIME];
+                NSDate *date = [DateFormatter dateFromString:dateStr];
+                [DateFormatter setDateFormat:BLOG_FORMAT];
+                dateStr = [DateFormatter stringFromDate:date];
+            } */
+            
+            NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"createdAt"];
+            NSDate *datetime1 = creationDate;
+            NSDate *datetime2 = [NSDate date];
+            double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+            NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+            
+            UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, 0.5)];
+            separatorLineTop.backgroundColor = [UIColor lightGrayColor];// you can also put image here
+            [myCell.contentView addSubview:separatorLineTop];
+         
+            myCell.replytitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
+            myCell.replysubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            myCell.replydateLabel.text = resultDateDiff;
+        } else {
+            myCell.replysubtitleLabel.text = self.selectedLocation.postby;
+            myCell.replysubtitleLabel.text = self.selectedLocation.subject;
+            myCell.replydateLabel.text = self.selectedLocation.msgDate;
+        }
+        
+        UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [myCell.replylikeButton setImage:image forState:UIControlStateNormal];
+        [myCell.replylikeButton sizeToFit];
+         myCell.replylikeButton.tintColor = [UIColor lightGrayColor];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            [myCell.replynumLabel sizeToFit];
+            if (![myCell.replynumLabel.text isEqual: @"0"] ) {
+                myCell.replynumLabel.textColor = [UIColor grayColor];
+            } else {
+                myCell.replynumLabel.text = @"";
+            }
+        }
+        
+       [myCell.replydateLabel sizeToFit];
+        myCell.replydateLabel.textColor = [UIColor grayColor];
+        
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
+        [query setLimit:1]; //parse.com standard is 100
+        query.cachePolicy = kPFCACHEPOLICY;
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                PFFile *file = [object objectForKey:@"imageFile"];
+                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                    if (!error) {
+                        [myCell.replyImageView setImage:[UIImage imageWithData:data]];
+                    } else {
+                        [myCell.replyImageView setImage:[UIImage imageNamed:@"profile-rabbit-toy.png"]];
+                    }
+                }];
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+        
+        //[myCell.replyImageView setImage:[UIImage imageNamed:@"profile-rabbit-toy.png"]];
+        myCell.replyImageView.clipsToBounds = YES;
+        myCell.replyImageView.layer.cornerRadius = BLOGIMGRADIUS;
+        myCell.replyImageView.contentMode = UIViewContentModeScaleToFill;
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return myCell;
     } else {
-        if ([self.selectedLocation.rating isEqual:@"5"]) {
-            [self.Like setTitle:@"Like" forState: UIControlStateNormal];
-            [self.Like setBackgroundColor:LIKECOLORBACK];
-            [self.Like setTitleColor:LIKECOLORTEXT forState:UIControlStateNormal];
-            self.Like.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-        }
+        NSLog(@"I have no idea what's going on...");
+        return nil;
     }
-/*
-    NSString *text = myCell.subtitleLabel.text;
-    NSString *a = @"@";
-    NSString *searchby = [a stringByAppendingString:self.subject];
-    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
-    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
-    //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
-    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
-    myCell.subtitleLabel.attributedText = str; */
-    
-    
-    NSString *textLink = myCell.subtitleLabel.text;
-    //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
-    NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:textLink];
-    //[str addAttribute:NSLinkAttributeName value:URL range:[textLink rangeOfString:@"@"]];
-    [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:@"@Peter Balsamo"]];
-    myCell.subtitleLabel.attributedText = str;
-
-    return myCell;
 }
+
 
 #pragma mark - Button Update
 -(IBAction)update:(id)sender{
