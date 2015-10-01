@@ -506,11 +506,13 @@ Parse.com
             myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             myCell.blogmsgDateLabel.text = dateStr;
             myCell.numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
+            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CommentCount"]stringValue];
         } else {
             myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
             myCell.blogmsgDateLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
             myCell.numLabel.text = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
+            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CommentCount"]stringValue];
         }
     } else {
         BlogLocation *item;
@@ -525,7 +527,7 @@ Parse.com
     }
     
     myCell.replyButton.tintColor = [UIColor lightGrayColor];
-    UIImage *replyimage =[[UIImage imageNamed:@"Left 2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *replyimage =[[UIImage imageNamed:@"Commentfilled.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.replyButton setImage:replyimage forState:UIControlStateNormal];
     [myCell.replyButton addTarget:self action:@selector(replyButton:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -544,6 +546,15 @@ Parse.com
        } else {
            //numLabel.textColor = [UIColor grayColor];
            myCell.numLabel.text = @"";
+       }
+       
+       [myCell.commentLabel sizeToFit];
+       if (![myCell.commentLabel.text isEqual: @"0"] ) {
+           myCell.commentLabel.textColor = [UIColor lightGrayColor];
+           myCell.commentLabel.font = LIKEFONT(IPHONEFONT16);
+       } else {
+           //numLabel.textColor = [UIColor grayColor];
+           myCell.commentLabel.text = @"";
        }
    }
     

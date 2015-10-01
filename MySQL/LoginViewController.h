@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ConstantMain.h"
 #import <Parse/Parse.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 

@@ -20,6 +20,7 @@
 		AF28566A1A256BBB00A6F42A /* EmployeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2856691A256BBB00A6F42A /* EmployeeModel.m */; };
 		AF292DEB1B38F707007B69E2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF292DEA1B38F707007B69E2 /* Images.xcassets */; };
 		AF2B5AF51A137D5A00CABD1B /* VendorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2B5AF41A137D5A00CABD1B /* VendorModel.m */; };
+		AF32D1F71BBC3FF900602BBD /* Commentfilled.png in Resources */ = {isa = PBXBuildFile; fileRef = AF32D1F61BBC3FF900602BBD /* Commentfilled.png */; settings = {ASSET_TAGS = (); }; };
 		AF366EB31A55A15800976387 /* IMG_1133.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF366E841A55A15800976387 /* IMG_1133.jpg */; };
 		AF366EB41A55A15800976387 /* IMG_1133New.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF366E851A55A15800976387 /* IMG_1133New.jpg */; };
 		AF366EBA1A55A15800976387 /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = AF366E8B1A55A15800976387 /* bookmark.png */; };
@@ -180,6 +181,7 @@
 		AF292DEA1B38F707007B69E2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AF2B5AF31A137D5A00CABD1B /* VendorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorModel.h; sourceTree = "<group>"; };
 		AF2B5AF41A137D5A00CABD1B /* VendorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorModel.m; sourceTree = "<group>"; };
+		AF32D1F61BBC3FF900602BBD /* Commentfilled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Commentfilled.png; path = images/Commentfilled.png; sourceTree = "<group>"; };
 		AF366E841A55A15800976387 /* IMG_1133.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_1133.jpg; path = images/IMG_1133.jpg; sourceTree = "<group>"; };
 		AF366E851A55A15800976387 /* IMG_1133New.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_1133New.jpg; path = images/IMG_1133New.jpg; sourceTree = "<group>"; };
 		AF366E8B1A55A15800976387 /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bookmark.png; path = images/bookmark.png; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				AFFC3ED11B9B3502009AFB44 /* Left 2.png */,
 				AFFC3ED31B9B3511009AFB44 /* Left 2-25.png */,
 				AFFC3ED51B9B351F009AFB44 /* Flag.png */,
+				AF32D1F61BBC3FF900602BBD /* Commentfilled.png */,
 				AF4CD2A01B31E17900009991 /* Upload50.png */,
 			);
 			name = "Social Button";
@@ -1002,6 +1005,7 @@
 				AF366EC81A55A15800976387 /* home30.png in Resources */,
 				AF58DFB21B409520006729A3 /* iPad.storyboard in Resources */,
 				AF366EC01A55A15800976387 /* display30copy.png in Resources */,
+				AF32D1F71BBC3FF900602BBD /* Commentfilled.png in Resources */,
 				AF366ED81A55A15800976387 /* profile-rabbit-toy.png in Resources */,
 				AF366EDE1A55A15800976387 /* wishlist.png in Resources */,
 				AF366EDA1A55A15800976387 /* tag.png in Resources */,
@@ -1187,7 +1191,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1223,7 +1227,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

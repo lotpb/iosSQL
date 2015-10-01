@@ -32,8 +32,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *flagButton;
 @property (weak, nonatomic) IBOutlet UILabel *numLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *actionBtn;
 
+//Lead Controller
 @property (weak, nonatomic) IBOutlet UIImageView *leadImageView;
 @property (weak, nonatomic) IBOutlet UILabel *leadtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leadsubtitleLabel;

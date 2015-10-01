@@ -24,6 +24,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (![defaults boolForKey:@"registerKey"]) {
         NSLog(@"No user registered");
+        [self.registerBtn setTitle: @"Sign in" forState: UIControlStateNormal];
         self.loginBtn.hidden = YES; //hide login button no user is regsitered
         self.forgotPassword.hidden = YES;
         self.authentButton.hidden = YES;
@@ -32,23 +33,40 @@
     }
     else {
         NSLog(@"user is registered");
-        self.usernameField.text = @"Peter Balsamo"; //@"eunitedws@verizon.net";
+        self.usernameField.text = [defaults objectForKey:@"usernameKey"];
         self.reEnterPasswordField.hidden = YES;
-        self.registerBtn.hidden = YES;
+        self.registerBtn.hidden = NO;
         self.emailField.hidden = YES;
         self.phoneField.hidden = YES;
+        self.forgotPassword.hidden = NO;
     }
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.usernameField setFont:CELL_FONT(IPADFONT20)];
+        [self.passwordField setFont:CELL_FONT(IPADFONT20)];
+        [self.reEnterPasswordField setFont:CELL_FONT(IPADFONT20)];
+        [self.emailField setFont:CELL_FONT(IPADFONT20)];
+        [self.phoneField setFont:CELL_FONT(IPADFONT20)];
+    } else {
+        [self.usernameField setFont:CELL_FONT(IPADFONT18)];
+        [self.passwordField setFont:CELL_FONT(IPADFONT18)];
+        [self.reEnterPasswordField setFont:CELL_FONT(IPADFONT18)];
+        [self.emailField setFont:CELL_FONT(IPADFONT18)];
+        [self.phoneField setFont:CELL_FONT(IPADFONT18)];
+    }
+
 
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    /*
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (![defaults boolForKey:@"registerKey"])
         [self.usernameField becomeFirstResponder];
     else
-        [self.passwordField becomeFirstResponder];
+        [self.passwordField becomeFirstResponder]; */
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,21 +77,32 @@
 
 - (IBAction)registerUser:(id)sender {
     
-    //check if all text fields are completed
-    if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
-        
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
-        [alert addAction:ok];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-    else {
-        [self checkPasswordsMatch];
+    if ([self.registerBtn.titleLabel.text isEqualToString: @"Create an Account"]) {
+        [self.registerBtn setTitle: @"Sign in" forState: UIControlStateNormal];
+        self.usernameField.text = @"";
+        self.loginBtn.hidden = YES;
+        self.forgotPassword.hidden = YES;
+        self.authentButton.hidden = YES;
+        self.reEnterPasswordField.hidden = NO;
+        self.emailField.hidden = NO;
+        self.phoneField.hidden = NO;
+    } else {
+        //check if all text fields are completed
+        if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
+            
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else {
+            [self checkPasswordsMatch];
+        }
     }
 }
 
@@ -203,7 +232,7 @@
     self.passwordField.hidden = true;
     self.usernameField.hidden = true;
     self.loginBtn.hidden = true;
-    self.authentButton.hidden = true;
+    self.authentButton.hidden = NO;
     email = self.emailField.text;
     finalEmail = [email stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     

@@ -12,6 +12,7 @@
 {
     NSMutableArray *_feedItems;
     UIBarButtonItem *trashItem, *shareItem;
+    NSDate *creationDate;
 }
 
 - (IBAction)sendNotification:(UIButton *)sender;
@@ -45,11 +46,13 @@
 //---------------Reply Blog Query--------------------------------------
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query whereKey:@"ReplyId" equalTo:self.objectId];
+     query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
             for (PFObject *object in objects) {
                 [_feedItems addObject:object];
+                creationDate = [object updatedAt];
                 [self.listTableView1 reloadData];
             }
         } else
@@ -96,12 +99,10 @@
 -(void)showDeleteConfirmation:(id)sender {
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:DELMESSAGE1
-                                 message:DELMESSAGE2
+                                 message:nil//DELMESSAGE2
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"OK"
-                         style:UIAlertActionStyleDefault
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
                              if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
@@ -115,7 +116,7 @@
                                              UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Complete"
                                                             message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                                              UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                                        handler:^(UIAlertAction * action)
+                                                                handler:^(UIAlertAction * action)
                                                                   {
                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
                                                                       GOBACK;
@@ -147,10 +148,9 @@
                                  [request setHTTPBody:data];
                                  
                                  if (!error) {
-                                     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
-                                                                                                fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                                                                                                    // Handle response here
-                                                                                                }];
+                                     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                            // Handle response here
+                                                            }];
                                      
                                      [uploadTask resume];
                                  }
@@ -239,10 +239,10 @@
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
         }];
-        
+        /*
         myCell.blogImageView.clipsToBounds = YES;
         myCell.blogImageView.layer.cornerRadius = BLOGIMGRADIUS;
-        myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+        myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill; */
         
         if (myCell == nil)
             myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -295,7 +295,7 @@
          //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
          [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
          myCell.subtitleLabel.attributedText = str; */
-    
+        
         
         NSString *textLink = myCell.subtitleLabel.text;
         //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
@@ -324,22 +324,26 @@
             [myCell.replydateLabel setFont:CELL_FONT(IPHONEFONT12)];
         }
         
+        myCell.accessoryType = UITableViewCellAccessoryNone;
+        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         if (myCell == nil)
             myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             /*
-            NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-            static NSDateFormatter *DateFormatter = nil;
-            if (DateFormatter == nil) {
-                NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-                [DateFormatter setDateFormat:KEY_DATETIME];
-                NSDate *date = [DateFormatter dateFromString:dateStr];
-                [DateFormatter setDateFormat:BLOG_FORMAT];
-                dateStr = [DateFormatter stringFromDate:date];
-            } */
+             NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+             static NSDateFormatter *DateFormatter = nil;
+             if (DateFormatter == nil) {
+             NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+             [DateFormatter setDateFormat:KEY_DATETIME];
+             NSDate *date = [DateFormatter dateFromString:dateStr];
+             [DateFormatter setDateFormat:BLOG_FORMAT];
+             dateStr = [DateFormatter stringFromDate:date];
+             } */
             
-            NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"createdAt"];
+            //NSDate *creationDate = [_feedItems updatedAt];
+            //NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"createdAt"];
             NSDate *datetime1 = creationDate;
             NSDate *datetime2 = [NSDate date];
             double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
@@ -348,9 +352,10 @@
             UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, 0.5)];
             separatorLineTop.backgroundColor = [UIColor lightGrayColor];// you can also put image here
             [myCell.contentView addSubview:separatorLineTop];
-         
+            
             myCell.replytitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.replysubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            myCell.replynumLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"] stringValue];
             myCell.replydateLabel.text = resultDateDiff;
         } else {
             myCell.replysubtitleLabel.text = self.selectedLocation.postby;
@@ -361,18 +366,16 @@
         UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [myCell.replylikeButton setImage:image forState:UIControlStateNormal];
         [myCell.replylikeButton sizeToFit];
-         myCell.replylikeButton.tintColor = [UIColor lightGrayColor];
+        myCell.replylikeButton.tintColor = [UIColor lightGrayColor];
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            [myCell.replynumLabel sizeToFit];
-            if (![myCell.replynumLabel.text isEqual: @"0"] ) {
-                myCell.replynumLabel.textColor = [UIColor grayColor];
-            } else {
-                myCell.replynumLabel.text = @"";
-            }
+        [myCell.replynumLabel sizeToFit];
+        if (![myCell.replynumLabel.text isEqual: @"0"] ) {
+            myCell.replynumLabel.textColor = [UIColor grayColor];
+        } else {
+            myCell.replynumLabel.text = @"";
         }
         
-       [myCell.replydateLabel sizeToFit];
+        [myCell.replydateLabel sizeToFit];
         myCell.replydateLabel.textColor = [UIColor grayColor];
         
         PFQuery *query = [PFUser query];
@@ -394,16 +397,8 @@
             }
         }];
         
-        //[myCell.replyImageView setImage:[UIImage imageNamed:@"profile-rabbit-toy.png"]];
-        myCell.replyImageView.clipsToBounds = YES;
-        myCell.replyImageView.layer.cornerRadius = BLOGIMGRADIUS;
-        myCell.replyImageView.contentMode = UIViewContentModeScaleToFill;
-        myCell.accessoryType = UITableViewCellAccessoryNone;
-        myCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         return myCell;
     } else {
-        NSLog(@"I have no idea what's going on...");
         return nil;
     }
 }

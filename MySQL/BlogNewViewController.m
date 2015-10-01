@@ -341,17 +341,17 @@ Parse.com
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveBlog
         
-        /*
+        
         if ([self.formStatus isEqualToString:@"Reply"]) {
             PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-            [query whereKey:@"objectId" equalTo:self.objectId];
+            [query whereKey:@"objectId" equalTo:self.replyId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
                 if (!error) {
                     [updateblog incrementKey:@"CommentCount"];
                     [updateblog saveEventually];
                 }
             }];
-        } */
+        } 
         
         
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
