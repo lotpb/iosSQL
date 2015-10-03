@@ -623,6 +623,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                                {
                                    //[self sendSMS:self];
                                }];
+    UIAlertAction* logout = [UIAlertAction
+                          actionWithTitle:@"Logout"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              [self logout];
+                          }];
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
                                                      style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
@@ -634,6 +641,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addAction:photo];
     [view addAction:settings];
     [view addAction:map];
+    [view addAction:logout];
     [view addAction:cancel];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -673,6 +681,11 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
+}
+
+- (void)logout {
+    [PFUser logOut];
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
 
 /*

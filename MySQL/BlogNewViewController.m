@@ -80,11 +80,11 @@
     self.subject.userInteractionEnabled = YES;
     self.subject.dataDetectorTypes = UIDataDetectorTypeAll; //UIDataDetectorTypeAddress | UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
     
-    NSString *text = self.subject.text;
+    NSString *text = [self.subject.text stringByAppendingString:@" "];//add space end of string
     NSString *a = @"@";
     NSString *searchby = [a stringByAppendingString:self.textcontentpostby];
-    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
     NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
+    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
     //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
     [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
     self.subject.attributedText = str;
@@ -256,6 +256,7 @@ Parse.com
 *******************************************************************************************
 */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {  //updateBlog
+        
         PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
         [query whereKey:@"objectId" equalTo:self.objectId];
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
@@ -265,33 +266,33 @@ Parse.com
                 [updateblog setObject:self.postby forKey:@"PostBy"];
                 [updateblog setObject:self.rating forKey:@"Rating"];
                 [updateblog setObject:self.subject.text forKey:@"Subject"];
-                [updateblog setObject:self.replyId forKey:@"ReplyId"];
+                 /*
                 PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
                 [postACL setPublicReadAccess:YES];
-                [updateblog setACL:postACL];
+                [postACL setPublicWriteAccess:YES];
+                [updateblog setACL:postACL]; */
+                
                 //[updateblog saveInBackground];
                 [updateblog saveEventually];
                 
-                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                              message:@"Successfully updated the data"
-                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
+                
                 UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                      handler:^(UIAlertAction * action)
                                      {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                         GOHOME;
+                                    [alert dismissViewControllerAnimated:YES completion:nil];
+                                    GOHOME;
                                      }];
                 [alert addAction:ok];
                 [self presentViewController:alert animated:YES completion:nil];
                 
             } else {
-                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                              message:[error localizedDescription]
-                                              preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                
                 UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                      handler:^(UIAlertAction * action)
                                      {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                      }];
                 [alert addAction:ok];
                 [self presentViewController:alert animated:YES completion:nil];
@@ -317,11 +318,9 @@ Parse.com
         [request setHTTPBody:data];
         
         if (!error) {
-            NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
-                                                                       fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                                                                           // Handle response here
-                                                                       }];
-            
+            NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                  // Handle response here
+                        }];
             [uploadTask resume];
         }
         
@@ -343,6 +342,7 @@ Parse.com
         
         
         if ([self.formStatus isEqualToString:@"Reply"]) {
+            
             PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
             [query whereKey:@"objectId" equalTo:self.replyId];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateblog, NSError *error) {
@@ -363,14 +363,13 @@ Parse.com
         [saveblog setObject:self.postby forKey:@"PostBy"];
         [saveblog setObject:self.rating forKey:@"Rating"];
         [saveblog setObject:self.subject.text forKey:@"Subject"];
-        [saveblog setObject:self.replyId forKey:@"ReplyId"];
+        [saveblog setObject:self.replyId ? self.replyId : [NSNull null] forKey:@"ReplyId"];
         
-        /*
         // Set ACL permissions for added security
         PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [postACL setPublicReadAccess:YES];
-      //[postACL setPublicWriteAccess:YES];
-        [saveblog setACL:postACL]; */
+        [postACL setPublicWriteAccess:YES];
+        [saveblog setACL:postACL];
         
         [saveblog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {

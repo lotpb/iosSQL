@@ -29,13 +29,13 @@
 @property (strong, nonatomic) NSString *rating;
 @property (strong, nonatomic) NSString *replyId;
 
-
 @property (weak, nonatomic) IBOutlet UIButton *Share;
 @property (weak, nonatomic) IBOutlet UIButton *Update;
 @property (weak, nonatomic) IBOutlet UIButton *Like;
+
 @property (weak, nonatomic) IBOutlet UIDatePicker *myDatePicker;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-@property (strong, nonatomic) UIImageView *activeImage;
+@property (strong, nonatomic) UIImageView *activeImage;//star button
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (weak, nonatomic) IBOutlet UITextView *subject;

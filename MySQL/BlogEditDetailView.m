@@ -12,7 +12,7 @@
 {
     NSMutableArray *_feedItems;
     UIBarButtonItem *trashItem, *shareItem;
-    NSDate *creationDate;
+    UIRefreshControl *refreshControl;
 }
 
 - (IBAction)sendNotification:(UIButton *)sender;
@@ -33,6 +33,16 @@
     self.toolBar.translucent=NO;
     self.toolBar.barTintColor = [UIColor whiteColor];
     
+    CALayer *topBorder = [CALayer layer];
+    topBorder.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 0.5f);
+    topBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
+    [self.toolBar.layer addSublayer:topBorder];
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, self.toolBar.frame.size.height, self.view.frame.size.width, 0.5f);
+    bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
+    [self.toolBar.layer addSublayer:bottomBorder];
+    
     UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.Like setImage:image forState:UIControlStateNormal];
     [self.Like setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -48,18 +58,23 @@
     [query whereKey:@"ReplyId" equalTo:self.objectId];
      query.cachePolicy = kPFCACHEPOLICY;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        _feedItems = [[NSMutableArray alloc]initWithArray:objects];
         if (!error) {
-            for (PFObject *object in objects) {
-                [_feedItems addObject:object];
-                creationDate = [object updatedAt];
-                [self.listTableView1 reloadData];
-            }
+            _feedItems = nil;
+            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+            [self.listTableView1 reloadData];
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
     }];
     
-    
+#pragma mark RefreshControl
+    UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [self.listTableView insertSubview:refreshView atIndex:0];
+    refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.backgroundColor = REFRESHCOLOR;
+    [refreshControl setTintColor:REFRESHTEXTCOLOR];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
+    [refreshView addSubview:refreshControl];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -70,6 +85,27 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - RefreshControl
+- (void)reloadDatas:(id)sender {
+    
+    [self.listTableView reloadData];
+    [self.listTableView1 reloadData];
+    
+    if (refreshControl) {
+        
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:KEY_DATEREFRESH];
+            NSString *lastUpdated = [NSString stringWithFormat:UPDATETEXT, [formatter stringFromDate:[NSDate date]]];
+            NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:REFRESHTEXTCOLOR forKey:NSForegroundColorAttributeName];
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated attributes:attrsDictionary];
+            refreshControl.attributedTitle = attributedTitle; }
+        [refreshControl endRefreshing];
+    }
 }
 
 #pragma mark - BarButton
@@ -286,22 +322,13 @@
             }
         }
         
-        /*
-         NSString *text = myCell.subtitleLabel.text;
-         NSString *a = @"@";
-         NSString *searchby = [a stringByAppendingString:self.subject];
-         //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
-         NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
-         //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
-         [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
-         myCell.subtitleLabel.attributedText = str; */
-        
-        
         NSString *textLink = myCell.subtitleLabel.text;
-        //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
+        NSString *a = @"@";
+        NSString *searchby = [a stringByAppendingString:self.postby];
         NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:textLink];
+        //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
         //[str addAttribute:NSLinkAttributeName value:URL range:[textLink rangeOfString:@"@"]];
-        [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:@"@Adam Monteleone"]];
+        [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:searchby]];
         myCell.subtitleLabel.attributedText = str;
         
         return myCell;
@@ -313,10 +340,10 @@
         CustomTableViewCell *myCell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
-            [myCell.replysubtitleLabel setFont:CELL_FONT(IPADFONT20)];
-            [myCell.replynumLabel setFont:CELL_FONT(IPADFONT16)];
-            [myCell.replydateLabel setFont:CELL_FONT(IPADFONT16)];
+            [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPADFONT16)];
+            [myCell.replysubtitleLabel setFont:CELL_FONT(IPADFONT16)];
+            [myCell.replynumLabel setFont:CELL_FONT(IPADFONT14)];
+            [myCell.replydateLabel setFont:CELL_FONT(IPADFONT12)];
         } else {
             [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPHONEFONT14)];
             [myCell.replysubtitleLabel setFont:CELL_FONT(IPHONEFONT14)];
@@ -342,16 +369,11 @@
              dateStr = [DateFormatter stringFromDate:date];
              } */
             
-            //NSDate *creationDate = [_feedItems updatedAt];
-            //NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"createdAt"];
+            NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] createdAt];
             NSDate *datetime1 = creationDate;
             NSDate *datetime2 = [NSDate date];
             double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
             NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
-            
-            UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, myCell.frame.size.width, 0.5)];
-            separatorLineTop.backgroundColor = [UIColor lightGrayColor];// you can also put image here
-            [myCell.contentView addSubview:separatorLineTop];
             
             myCell.replytitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
             myCell.replysubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
@@ -396,6 +418,13 @@
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
         }];
+        
+        NSString *textLink = myCell.replysubtitleLabel.text;
+        NSString *a = @"@";
+        NSString *searchby = [a stringByAppendingString:self.postby];
+        NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:textLink];
+        [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[textLink rangeOfString:searchby]];
+        myCell.replysubtitleLabel.attributedText = str;
         
         return myCell;
     } else {

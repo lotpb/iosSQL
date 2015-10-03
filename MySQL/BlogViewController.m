@@ -350,9 +350,7 @@ Parse.com
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        UIAlertController * view=   [UIAlertController
-                                     alertControllerWithTitle:DELMESSAGE1
-                                     message:DELMESSAGE2
+        UIAlertController *view = [UIAlertController alertControllerWithTitle:DELMESSAGE1 message:DELMESSAGE2
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -366,14 +364,29 @@ Parse.com
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      
                                      PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-                                     [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
-                                     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                                         if (object) {
-                                             [object deleteEventually];
+                                      [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+                                     
+                                     //[query whereKey:@"ReplyId" equalTo:[_feedItems valueForKey objectId ]];
+                                      //[query whereKey:@"ReplyId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+                                    
+                                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (objects) {
+                                             [PFObject deleteAllInBackground:objects];
                                          } else {
                                              NSLog(@"Error: %@ %@", error, [error userInfo]);
                                          }
                                      }];
+                                     /*
+                                     PFQuery *query1 = [PFQuery queryWithClassName:@"Blog"];
+                                     [query whereKey:@"ReplyId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+                                     //[query1 whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+                                     [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                         if (objects) {
+                                             [PFObject deleteAllInBackground:objects];
+                                         } else {
+                                             NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                         }
+                                     }]; */
                                      
                                  } else {
                                      NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
@@ -393,11 +406,9 @@ Parse.com
                                      [request setHTTPBody:data];
                                      
                                      if (!error) {
-                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
-                                                                                                    fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                                                                                                        // Handle response here
-                                                                                                    }];
-                                         
+                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                                     // Handle response here
+                                                    }];
                                          [uploadTask resume];
                                      }
 
@@ -411,8 +422,7 @@ Parse.com
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                 style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
                                      
@@ -449,10 +459,14 @@ Parse.com
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT18)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT16)];
+         myCell.numLabel.font = LIKEFONT(IPADFONT16);
+         myCell.commentLabel.font = LIKEFONT(IPADFONT16);
     } else {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
+         myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
+         myCell.commentLabel.font = LIKEFONT(IPHONEFONT16);
     }
     
     /*
@@ -542,19 +556,21 @@ Parse.com
     [myCell.numLabel sizeToFit];
        if (![myCell.numLabel.text isEqual: @"0"] ) {
            myCell.numLabel.textColor = [UIColor redColor];
-           myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
        } else {
-           //numLabel.textColor = [UIColor grayColor];
            myCell.numLabel.text = @"";
        }
        
        [myCell.commentLabel sizeToFit];
        if (![myCell.commentLabel.text isEqual: @"0"] ) {
            myCell.commentLabel.textColor = [UIColor lightGrayColor];
-           myCell.commentLabel.font = LIKEFONT(IPHONEFONT16);
        } else {
-           //numLabel.textColor = [UIColor grayColor];
            myCell.commentLabel.text = @"";
+       }
+       
+       if ([myCell.commentLabel.text length] > 0)  {
+           myCell.replyButton.tintColor = [UIColor redColor];
+       } else {
+           myCell.replyButton.tintColor = [UIColor lightGrayColor];
        }
    }
     

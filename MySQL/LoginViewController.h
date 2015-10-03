@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ConstantMain.h"
 #import <Parse/Parse.h>
+#import <MapKit/MapKit.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
 @interface LoginViewController : UIViewController
@@ -16,12 +17,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backloginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *authentButton;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *reEnterPasswordField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneField;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (IBAction)registerUser:(id)sender;
 - (IBAction)LoginUser:(id)sender;

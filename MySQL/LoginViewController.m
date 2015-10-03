@@ -12,7 +12,7 @@
 {
     NSString *email, *finalEmail;
 }
-
+@property (strong, nonatomic) PFUser *user;
 @end
 
 @implementation LoginViewController
@@ -39,6 +39,7 @@
         self.emailField.hidden = YES;
         self.phoneField.hidden = YES;
         self.forgotPassword.hidden = NO;
+        self.backloginBtn.hidden = YES;
     }
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -54,7 +55,19 @@
         [self.emailField setFont:CELL_FONT(IPADFONT18)];
         [self.phoneField setFont:CELL_FONT(IPADFONT18)];
     }
-
+    
+    if([PFUser currentUser])
+    {
+        self.user = [PFUser user];
+        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+            NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+            [self.user setObject:geoPoint forKey:@"currentLocation"];
+            [self.user saveInBackground];
+            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+            
+            [self refreshMap];
+        }];
+    }
 
      [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
@@ -75,101 +88,34 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)registerUser:(id)sender {
+#pragma mark - map
+- (void)refreshMap {
     
-    if ([self.registerBtn.titleLabel.text isEqualToString: @"Create an Account"]) {
-        [self.registerBtn setTitle: @"Sign in" forState: UIControlStateNormal];
-        self.usernameField.text = @"";
-        self.loginBtn.hidden = YES;
-        self.forgotPassword.hidden = YES;
-        self.authentButton.hidden = YES;
-        self.reEnterPasswordField.hidden = NO;
-        self.emailField.hidden = NO;
-        self.phoneField.hidden = NO;
-    } else {
-        //check if all text fields are completed
-        if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
-            
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-        else {
-            [self checkPasswordsMatch];
-        }
-    }
+    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:100.0f];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+     {
+         if(error)
+         {
+             NSLog(@"%@",error);
+         }
+         for (id object in objects)
+         {
+             
+             MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+             annotation.title = [object objectForKey:@"username"];
+             PFGeoPoint *geoPoint= [object objectForKey:@"currentLocation"];
+             annotation.coordinate = CLLocationCoordinate2DMake(geoPoint.latitude,geoPoint.longitude);
+             
+             [self.mapView addAnnotation:annotation];
+         }
+     }];
 }
 
-- (void) checkPasswordsMatch {
-    
-    //check that the two apssword fields are identical
-    if ([_passwordField.text isEqualToString:_reEnterPasswordField.text]) {
-        NSLog(@"passwords match!");
-        [self registerNewUser];
-    }
-    else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your entered passwords do not match" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
-        [alert addAction:ok];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
-
-- (void) registerNewUser {
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        PFUser *user = [PFUser user];
-        user.username = _usernameField.text;
-        user.password = _passwordField.text;
-        user.email = _emailField.text;
-        user[@"phone"] = _phoneField.text;
-        
-        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (!error) {   // Hooray! Let them use the app now.
-                _usernameField.text = nil;
-                _passwordField.text = nil;
-                [self performSegueWithIdentifier:@"loginSegue" sender:self];
-                
-            } else {
-                 NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
-    [defaults setObject:_passwordField.text forKey:@"passwordKey"];
-    [defaults setObject:_emailField.text forKey:@"emailKey"];
-    [defaults setBool:YES forKey:@"registerKey"];
-    [defaults synchronize];
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action)
-                         {
-                             [alert dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    [alert addAction:ok];
-    [self presentViewController:alert animated:YES completion:nil];
-    
-    [self performSegueWithIdentifier:@"loginSegue" sender:self];
-    
-}
-
+#pragma mark - login
 - (IBAction)LoginUser:(id)sender {
-    
+    //finalEmail = [self.usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         [PFUser logInWithUsernameInBackground:self.usernameField.text password:self.passwordField.text block:^(PFUser *user, NSError *error) {
             if (user) {
@@ -202,7 +148,7 @@
                                      }];
                 [alert addAction:ok];
                 [self presentViewController:alert animated:YES completion:nil];
-                 NSLog(@"User Failed");
+                NSLog(@"User Failed");
             }
         }];
     } else {
@@ -227,12 +173,128 @@
     }
 }
 
-- (IBAction)passwordReset:(id)sender {
-    self.emailField.hidden = false;
-    self.passwordField.hidden = true;
-    self.usernameField.hidden = true;
-    self.loginBtn.hidden = true;
+- (IBAction)returnLogin:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self.registerBtn setTitle: @"Create an Account" forState: UIControlStateNormal];
+    self.usernameField.text = [defaults objectForKey:@"usernameKey"];
+    self.passwordField.hidden = NO;
+    self.usernameField.hidden = NO;
+    self.loginBtn.hidden = NO;
+    self.registerBtn.hidden = NO;
+    self.forgotPassword.hidden = NO;
     self.authentButton.hidden = NO;
+    self.backloginBtn.hidden = YES;
+    self.reEnterPasswordField.hidden = YES;
+    self.emailField.hidden = YES;
+    self.phoneField.hidden = YES;
+    
+}
+
+#pragma mark - register User
+- (IBAction)registerUser:(id)sender {
+    
+    if ([self.registerBtn.titleLabel.text isEqualToString: @"Create an Account"]) {
+        [self.registerBtn setTitle: @"Sign in" forState: UIControlStateNormal];
+        self.usernameField.text = @"";
+        self.loginBtn.hidden = YES;
+        self.forgotPassword.hidden = YES;
+        self.authentButton.hidden = YES;
+        self.backloginBtn.hidden = NO;
+        self.reEnterPasswordField.hidden = NO;
+        self.emailField.hidden = NO;
+        self.phoneField.hidden = NO;
+        
+    } else {
+        //check if all text fields are completed
+        if ([_usernameField.text isEqualToString:@""] || [_passwordField.text isEqualToString:@""] || [_reEnterPasswordField.text isEqualToString:@""]) {
+            
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else {
+            [self checkPasswordsMatch];
+        }
+    }
+}
+
+- (void) registerNewUser {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        PFUser *user = [PFUser user];
+        user.username = _usernameField.text;
+        user.password = _passwordField.text;
+        user.email = _emailField.text;
+        user[@"phone"] = _phoneField.text;
+        
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {   // Hooray! Let them use the app now.
+                _usernameField.text = nil;
+                _passwordField.text = nil;
+                [self performSegueWithIdentifier:@"loginSegue" sender:self];
+                
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+    [defaults setObject:_passwordField.text forKey:@"passwordKey"];
+    [defaults setObject:_emailField.text forKey:@"emailKey"];
+    [defaults setBool:YES forKey:@"registerKey"];
+    [defaults synchronize];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    [self performSegueWithIdentifier:@"loginSegue" sender:self];
+    
+}
+
+#pragma mark - passsword
+- (void) checkPasswordsMatch {
+    
+    //check that the two apssword fields are identical
+    if ([_passwordField.text isEqualToString:_reEnterPasswordField.text]) {
+        NSLog(@"passwords match!");
+        [self registerNewUser];
+    }
+    else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your entered passwords do not match" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (IBAction)passwordReset:(id)sender {
+    self.emailField.hidden = NO;
+    self.backloginBtn.hidden = NO;
+    self.passwordField.hidden = YES;
+    self.usernameField.hidden = YES;
+    self.loginBtn.hidden = YES;
+    self.registerBtn.hidden = YES;
+    self.authentButton.hidden = YES;
     email = self.emailField.text;
     finalEmail = [email stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
@@ -268,6 +330,8 @@
     }];
 }
 //--------------------------------------------------------------------------------------------
+
+#pragma mark - authenticate
 - (IBAction)authenticateButtonTapped:(id)sender {
     [self.passwordField resignFirstResponder];
     LAContext *myContext = [[LAContext alloc] init];
