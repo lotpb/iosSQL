@@ -80,12 +80,11 @@
     self.subject.userInteractionEnabled = YES;
     self.subject.dataDetectorTypes = UIDataDetectorTypeAll; //UIDataDetectorTypeAddress | UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
     
+    //not working below
     NSString *text = [self.subject.text stringByAppendingString:@" "];//add space end of string
     NSString *a = @"@";
     NSString *searchby = [a stringByAppendingString:self.textcontentpostby];
     NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];
-    //NSURL *URL = [NSURL URLWithString: @"whatsapp://app"];
-    //[str addAttribute:NSLinkAttributeName value:URL range:[text rangeOfString:@"@"]];
     [str addAttribute: NSForegroundColorAttributeName value:BLUECOLOR range:[text rangeOfString:searchby]];
     self.subject.attributedText = str;
     

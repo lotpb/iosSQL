@@ -159,11 +159,11 @@
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define HEADHEIGHT      55.0
 #define LABELSIZE1      12, 3, tableView.frame.size.width, 45
-#define LABELSIZE2      85, 3, tableView.frame.size.width, 45
-#define LABELSIZE3      158, 3, tableView.frame.size.width, 45
-#define LINESIZE1       12, 45, 60, 1.5
-#define LINESIZE2       85, 45, 60, 1.5
-#define LINESIZE3       158, 45, 60, 1.5
+#define LABELSIZE2      105, 3, tableView.frame.size.width, 45
+#define LABELSIZE3      198, 3, tableView.frame.size.width, 45
+#define LINESIZE1       12, 45, 75, 1.5
+#define LINESIZE2       105, 45, 75, 1.5
+#define LINESIZE3       198, 45, 75, 1.5
 #define LINECOLOR1     [UIColor greenColor]
 #define LINECOLOR3     [UIColor redColor]
 //------tabBar Controller-------------------------------

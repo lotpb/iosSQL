@@ -66,7 +66,6 @@ NSString* const kParseKey	     	    = @"parseKey";
 
 @end
 
-
 @implementation AppPrefViewController
 
 //| ----------------------------------------------------------------------------
@@ -97,6 +96,11 @@ NSString* const kParseKey	     	    = @"parseKey";
 {
     [super viewWillAppear:animated];
     
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+    self.navigationController.navigationBar.translucent = NO;
+    
     // Load our preferences.  Preloading the relevant preferences here will
     // prevent possible diskIO latency from stalling our code in more time
     // critical areas, such as tableView:cellForRowAtIndexPath:, where the
@@ -114,6 +118,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 
 
 //| ----------------------------------------------------------------------------
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

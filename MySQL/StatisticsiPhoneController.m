@@ -19,9 +19,9 @@
     NSDictionary *dict, *w1results, *resultsYQL;
     NSString *amount;
     UIRefreshControl *refreshControl;
+    NSTimer *myTimer;
 }
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) NSTimer *myTimer;
 
 @end
 
@@ -61,25 +61,6 @@
         tableCustData = [[NSMutableArray alloc]initWithObjects:SCNAME1, SCNAME2, SCNAME3, SCNAME4, SCNAME5, SCNAME6, SCNAME7, SCNAME8, nil];
     }
 
-    [self YahooFinanceLoad];
-    
-    //| -------------------------Timer----------------------------------
-    
-    if (self.myTimer == nil)//DISPATCH_QUEUE_PRIORITY_DEFAULT
-    {
-        /*
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            dispatch_async( dispatch_get_main_queue(), ^{
-                self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
-            });
-        }); */
-        
-        self.myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.myTimer forMode:NSRunLoopCommonModes];
-    }
-    
-    //| ---------------------------end----------------------------------
-    
     filteredString= [[NSMutableArray alloc] init];
 
 #pragma mark Bar Button
@@ -95,6 +76,10 @@
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
+    
+     [self YahooFinanceLoad];
+    
+//| ---------------------------end----------------------------------
 }
 
 - (void)viewDidAppear:(BOOL)animated { //fix only works in viewdidappear
@@ -102,16 +87,32 @@
     [self.listTableView reloadData];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self.myTimer invalidate];
-     self.myTimer = nil;
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [myTimer invalidate];
+     myTimer = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    
+    //| -------------------------Timer----------------------------------
+    
+    if (myTimer == nil)//DISPATCH_QUEUE_PRIORITY_DEFAULT
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async( dispatch_get_main_queue(), ^{
+                myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+                [[NSRunLoop currentRunLoop] addTimer:myTimer forMode:NSDefaultRunLoopMode];
+                //[[NSRunLoop currentRunLoop] run];
+            });
+        });
+        /*
+         myTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self selector:@selector(reloadDatas:) userInfo:nil repeats: YES];
+         [[NSRunLoop mainRunLoop] addTimer:myTimer forMode:NSRunLoopCommonModes]; */
+    }
 }
 
 -(void)didReceiveMemoryWarning {
@@ -153,8 +154,6 @@
         
         [refreshControl endRefreshing];
     }
-    //[self.myTimer invalidate];
-     self.myTimer = nil;
 }
 
 #pragma mark - mySQL Delegate

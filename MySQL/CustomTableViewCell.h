@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+@interface CustomTableViewCell : UITableViewCell
+
+//BUser Controller
+@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+@property (weak, nonatomic) IBOutlet UILabel *usertitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *usersubtitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *userDateLabel;
+
 //BlogEditView
-@interface CustomTableViewCell : UITableViewCell//
 @property (weak, nonatomic) IBOutlet UIImageView *blogImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;

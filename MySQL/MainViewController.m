@@ -623,6 +623,13 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                                {
                                    //[self sendSMS:self];
                                }];
+    UIAlertAction* user = [UIAlertAction
+                             actionWithTitle:@"Users"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [self performSegueWithIdentifier:@"userSegue" sender:self];
+                             }];
     UIAlertAction* logout = [UIAlertAction
                           actionWithTitle:@"Logout"
                           style:UIAlertActionStyleDefault
@@ -641,6 +648,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [view addAction:photo];
     [view addAction:settings];
     [view addAction:map];
+    [view addAction:user];
     [view addAction:logout];
     [view addAction:cancel];
     

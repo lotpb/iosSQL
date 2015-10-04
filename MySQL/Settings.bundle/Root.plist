@@ -8,6 +8,26 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Registered</string>
+			<key>Key</key>
+			<string>registerKey</string>
+			<key>DefaultValue</key>
+			<string>1</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Login</string>
+			<key>Key</key>
+			<string>loginKey</string>
+			<key>DefaultValue</key>
+			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
 			<string>Edit Profile</string>
@@ -59,26 +79,6 @@
 			<string>Background Fetch</string>
 			<key>Key</key>
 			<string>fetchKey</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>iAd</string>
-			<key>Key</key>
-			<string>iadKey</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Timer</string>
-			<key>Key</key>
-			<string>timerKey</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
@@ -196,21 +196,21 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Login</string>
+			<string>Timer</string>
 			<key>Key</key>
-			<string>loginKey</string>
+			<string>timerKey</string>
 			<key>DefaultValue</key>
-			<string>No</string>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Registered</string>
+			<string>iAd</string>
 			<key>Key</key>
-			<string>registerKey</string>
+			<string>iadKey</string>
 			<key>DefaultValue</key>
-			<string>1</string>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>

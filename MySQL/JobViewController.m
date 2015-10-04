@@ -338,7 +338,7 @@ Parse.com
     [label1 setText:string1];
     [view addSubview:label1];
     
-    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE1)];
+    UIView* separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(LINESIZE2)];
     separatorLineView1.backgroundColor = LINECOLOR1;
     [view addSubview:separatorLineView1];
     

@@ -90,7 +90,6 @@
     //| -----------------------prevent Autolock---------------------------
     
     if ([defaults boolForKey:@"autolockKey"]) {
-        
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     }
     

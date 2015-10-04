@@ -63,7 +63,7 @@
             NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
             [self.user setObject:geoPoint forKey:@"currentLocation"];
             [self.user saveInBackground];
-            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.40, 0.40))];
             
             [self refreshMap];
         }];
