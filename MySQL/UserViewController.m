@@ -37,6 +37,7 @@
     */
     
     PFQuery *query = [PFUser query];
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             _feedItems = nil;
@@ -152,9 +153,13 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         if (!isFilltered) {
+            NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"MM-dd-yyyy"];
+            NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
             
             myCell.usertitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
-            myCell.usersubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"email"];
+            myCell.usersubtitleLabel.text = createAtString;
         } else {
             myCell.usertitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"username"];
             myCell.usersubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"email"];
@@ -290,12 +295,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"userdetailSegue"]) {
-         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        
+        NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        
+        NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM-dd-yyyy"];
+        NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
+        
         UserDetailController *detailVC = segue.destinationViewController;
         detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
         detailVC.username = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
-        //detailVC.password = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"password"];
-        //detailVC.create = [[_feedItems objectAtIndex:indexPath.row] createAt];
+        detailVC.create = createAtString;
         detailVC.email = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"email"];
         detailVC.phone = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"phone"];
         detailVC.userimage = self.selectedImage;

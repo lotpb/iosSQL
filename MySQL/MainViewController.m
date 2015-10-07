@@ -35,6 +35,7 @@
     
 //-------------------create Parse User------------------
 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+    /*
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [PFUser logInWithUsernameInBackground:[defaults objectForKey:@"usernameKey"] password:[defaults objectForKey:@"passwordKey"] block:^(PFUser *user, NSError *error) {
         if (user) {
@@ -47,7 +48,7 @@ if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                 //    [refreshMap:nil];
             }];
         }
-    }];
+    }]; */
 }
 //----------------------------------------------------
    /*

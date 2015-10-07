@@ -1004,7 +1004,6 @@ Parse.com
           
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //updateParseLead
          
-
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             NSNumber *myLeadNo = [formatter numberFromString:self.leadNo];
             NSNumber *myActive = [formatter numberFromString:self.active];

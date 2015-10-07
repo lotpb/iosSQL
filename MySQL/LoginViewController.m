@@ -13,6 +13,7 @@
     NSString *email, *finalEmail;
 }
 @property (strong, nonatomic) PFUser *user;
+@property (nonatomic, strong) IBOutlet UIImageView *photo;
 @end
 
 @implementation LoginViewController
@@ -211,7 +212,7 @@
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"You must complete all fields" preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
+                                    handler:^(UIAlertAction * action)
                                  {
                                      [alert dismissViewControllerAnimated:YES completion:nil];
                                  }];
@@ -224,50 +225,8 @@
     }
 }
 
-- (void) registerNewUser {
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        PFUser *user = [PFUser user];
-        user.username = _usernameField.text;
-        user.password = _passwordField.text;
-        user.email = _emailField.text;
-        user[@"phone"] = _phoneField.text;
-        
-        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (!error) {   // Hooray! Let them use the app now.
-                _usernameField.text = nil;
-                _passwordField.text = nil;
-                [self performSegueWithIdentifier:@"loginSegue" sender:self];
-                
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
-    [defaults setObject:_passwordField.text forKey:@"passwordKey"];
-    [defaults setObject:_emailField.text forKey:@"emailKey"];
-    [defaults setBool:YES forKey:@"registerKey"];
-    [defaults synchronize];
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action)
-                         {
-                             [alert dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    [alert addAction:ok];
-    [self presentViewController:alert animated:YES completion:nil];
-    
-    [self performSegueWithIdentifier:@"loginSegue" sender:self];
-    
-}
-
-#pragma mark - passsword
-- (void) checkPasswordsMatch {
+#pragma mark register check password
+- (void)checkPasswordsMatch {
     
     //check that the two apssword fields are identical
     if ([_passwordField.text isEqualToString:_reEnterPasswordField.text]) {
@@ -287,6 +246,52 @@
     }
 }
 
+#pragma mark send register Parse
+- (void)registerNewUser {
+    
+    UIImage *myImage = [UIImage imageNamed:@"profile-rabbit-toy.png"];
+    NSData *pictureData = UIImageJPEGRepresentation(myImage, 0.9f);
+    PFFile *file = [PFFile fileWithName:@"Image.jpg" data:pictureData];
+    
+    PFUser *user = [PFUser user];
+    user.username = _usernameField.text;
+    user.password = _passwordField.text;
+    //user.email = _emailField.text;
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+                [user setObject:_emailField.text ? _emailField.text : [NSNull null] forKey:@"email"];
+                [user setObject:_phoneField.text ? _phoneField.text : [NSNull null] forKey:@"phone"];
+                [user setObject:file forKey:@"imageFile"];
+                [user setObject:geoPoint forKey:@"currentLocation"];
+                [user saveEventually];
+            }];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+            [defaults setObject:_passwordField.text forKey:@"passwordKey"];
+            //[defaults setObject:_emailField.text forKey:@"emailKey"];
+            [defaults setBool:YES forKey:@"registerKey"];
+            [defaults synchronize];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"You have registered a new user" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                     [self performSegueWithIdentifier:@"loginSegue" sender:self];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        } else {
+            NSLog(@"Error1: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+#pragma mark - password reset
 - (IBAction)passwordReset:(id)sender {
     self.emailField.hidden = NO;
     self.backloginBtn.hidden = NO;
@@ -382,9 +387,9 @@
 
 - (void)didAuthenticateWithTouchId {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:_usernameField.text forKey:@"usernameKey"];
+    [defaults setObject:@"Peter Balsamo" forKey:@"usernameKey"];
     [defaults setObject:@"3911" forKey:@"passwordKey"];
-    //[defaults setObject:_emailField.text forKey:@"emailKey"];
+    [defaults setObject:@"eunitedws@verizon.net" forKey:@"emailKey"];
     [defaults setBool:YES forKey:@"registerKey"];
     [defaults synchronize];
    [self performSegueWithIdentifier:@"loginSegue" sender:self];
