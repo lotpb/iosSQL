@@ -35,40 +35,22 @@
     Parse.com
     *******************************************************************************************
     */
-    
-    PFQuery *query = [PFUser query];
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            _feedItems = nil;
-            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
-            [self.listTableView reloadData];
-        }
-    }];
-    
-    if([PFUser currentUser])
-    {
-        self.user = [PFUser user];
-        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-            NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
-            [self.user setObject:geoPoint forKey:@"currentLocation"];
-            [self.user saveInBackground];
-            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.40, 0.40))];
-            
-            [self refreshMap];
-        }];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self;
+        [parseConnection parseUser];
     }
-    
+
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
    
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem,addItem];
+    NSArray *actionButtonItems = @[addItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark RefreshControl
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.listTableView insertSubview:refreshView atIndex:0];
+    [self.mapView insertSubview:refreshView atIndex:0];
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
@@ -81,8 +63,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if([PFUser currentUser])
+    {
+        self.user = [PFUser user];
+        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+            //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+            [self.user setObject:geoPoint forKey:@"currentLocation"];
+            [self.user saveInBackground];
+            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.40, 0.40))];
+            
+            [self refreshMap];
+        }];
+    }
+}
+
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        ParseConnection *parseConnection = [[ParseConnection alloc]init];
+        parseConnection.delegate = (id)self;
+       [parseConnection parseUser];
+    }
+    [self.listTableView reloadData];
     
     if (refreshControl) {
         
@@ -97,6 +102,12 @@
             refreshControl.attributedTitle = attributedTitle; }
         [refreshControl endRefreshing];
     }
+}
+
+#pragma mark - ParseDelegate
+- (void)parseUserloaded:(NSMutableArray *)UserItem {
+    _feedItems = UserItem;
+    [self.listTableView reloadData];
 }
 
 #pragma mark - TableView
@@ -134,7 +145,6 @@
     
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"]];
-    [query setLimit:1]; //parse.com standard is 100
     query.cachePolicy = kPFCACHEPOLICY;
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error) {
@@ -142,8 +152,6 @@
             [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
                 if (!error) {
                     [myCell.userImageView setImage:[UIImage imageWithData:data]];
-                } else {
-                    [myCell.userImageView setImage:[UIImage imageNamed:@"profile-rabbit-toy.png"]];
                 }
             }];
         } else {
@@ -153,13 +161,17 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         if (!isFilltered) {
-            NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"MM-dd-yyyy"];
-            NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
             
-            myCell.usertitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
-            myCell.usersubtitleLabel.text = createAtString;
+            static NSDateFormatter *formatter = nil;
+            if (formatter == nil) {
+                NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"MM-dd-yyyy"];
+                NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
+                
+                myCell.usertitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
+                myCell.usersubtitleLabel.text = createAtString;
+            }
         } else {
             myCell.usertitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"username"];
             myCell.usersubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"email"];
@@ -170,6 +182,27 @@
     }
 }
 
+#pragma mark table header
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 25;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UILabel *headerLabel = [[UILabel alloc]init];
+    headerLabel.textColor = [UIColor blackColor];
+    headerLabel.backgroundColor = [UIColor whiteColor];
+    headerLabel.text = [NSString stringWithFormat:@"  User's \n%lu", (unsigned long) _feedItems.count];
+   [headerLabel setFont:CELL_FONT(IPHONEFONT14)];
+    NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
+    
+    UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];
+    separatorLineBottom.backgroundColor = [UIColor lightGrayColor];
+    [self.listTableView addSubview:separatorLineBottom];
+    
+    return headerLabel;
+}
 
 #pragma mark - map
 - (void)refreshMap {
@@ -177,15 +210,13 @@
     PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
     PFQuery *query = [PFUser query];
     [query whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:100.0f];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-     {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
          if(error)
          {
              NSLog(@"%@",error);
          }
          for (id object in objects)
          {
-             
              MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
              annotation.title = [object objectForKey:@"username"];
              PFGeoPoint *geoPoint= [object objectForKey:@"currentLocation"];
@@ -195,7 +226,6 @@
          }
      }];
 }
-
 
 #pragma mark - search
 - (void)searchButton:(id)sender {
@@ -210,11 +240,9 @@
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
     self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.searchBar.barTintColor = SEARCHBARTINTCOLOR;
-    self.searchController.searchBar.scopeButtonTitles = @[LEADSCOPE];
+    self.searchController.searchBar.scopeButtonTitles = @[USERSCOPE];
     self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
-    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
     [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
@@ -226,7 +254,7 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
+
         return;
     }
     
@@ -237,34 +265,21 @@
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *string in _feedItems)
-            //for(Location* string in _feedItems)
+
         {
             NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0) {
-                stringRange = [[string objectForKey:@"LastName"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.name rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                stringRange = [[string objectForKey:@"username"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 1) {
-                stringRange = [[string objectForKey:@"City"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.city rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                stringRange = [[string objectForKey:@"email"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             }
             
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2) {
-                stringRange = [[string objectForKey:@"Phone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.phone rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+                stringRange = [[string objectForKey:@"phone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 3) {
-                stringRange = [[string objectForKey:@"Date"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.date rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 4) {
-                NSString *quoteFromObject = [NSString stringWithFormat:@"%@", [string objectForKey:@"Active"]];
-                stringRange = [quoteFromObject rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.active rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
+
             if(stringRange.location != NSNotFound)
                 [filteredString addObject:string];
         }
@@ -275,10 +290,8 @@
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PFObject *imageObject;
-    PFFile *imageFile;
-    imageObject = [_feedItems objectAtIndex:indexPath.row];
-    imageFile = [imageObject objectForKey:@"imageFile"];
+    PFObject *imageObject = [_feedItems objectAtIndex:indexPath.row];
+    PFFile *imageFile = [imageObject objectForKey:@"imageFile"];
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             self.selectedImage = [UIImage imageWithData:data];
@@ -297,22 +310,23 @@
     if ([[segue identifier] isEqualToString:@"userdetailSegue"]) {
         
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-        
-        NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"MM-dd-yyyy"];
-        NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
-        
-        UserDetailController *detailVC = segue.destinationViewController;
-        detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
-        detailVC.username = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
-        detailVC.create = createAtString;
-        detailVC.email = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"email"];
-        detailVC.phone = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"phone"];
-        detailVC.userimage = self.selectedImage;
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil) {
+            NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"MMM dd, yyyy"];
+            NSString *createAtString = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:updated]];
+            
+            UserDetailController *detailVC = segue.destinationViewController;
+            detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
+            detailVC.username = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
+            detailVC.create = createAtString;
+            detailVC.email = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"email"];
+            detailVC.phone = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"phone"];
+            detailVC.userimage = self.selectedImage;
+        }
     }
 }
-
 
 @end
 

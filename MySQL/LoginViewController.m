@@ -11,9 +11,10 @@
 @interface LoginViewController ()
 {
     NSString *email, *finalEmail;
+    UIImageView *photo;
 }
 @property (strong, nonatomic) PFUser *user;
-@property (nonatomic, strong) IBOutlet UIImageView *photo;
+
 @end
 
 @implementation LoginViewController
@@ -57,6 +58,9 @@
         [self.phoneField setFont:CELL_FONT(IPADFONT18)];
     }
     
+    self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.phoneField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    
     if([PFUser currentUser])
     {
         self.user = [PFUser user];
@@ -75,18 +79,18 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    /*
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (![defaults boolForKey:@"registerKey"])
-        [self.usernameField becomeFirstResponder];
-    else
-        [self.passwordField becomeFirstResponder]; */
+
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - textfield
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
 }
 
 #pragma mark - map
@@ -121,12 +125,8 @@
         [PFUser logInWithUsernameInBackground:self.usernameField.text password:self.passwordField.text block:^(PFUser *user, NSError *error) {
             if (user) {
                 [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-                    // NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
                     [user setObject:geoPoint forKey:@"currentLocation"];
                     [user saveInBackground];
-                    //  [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
-                    
-                    //    [refreshMap:nil];
                     _usernameField.text = nil;
                     _passwordField.text = nil;
                     [self performSegueWithIdentifier:@"loginSegue" sender:self];
@@ -157,14 +157,14 @@
         if (([_usernameField.text isEqualToString:[defaults objectForKey:@"usernameKey"]] || [_usernameField.text isEqualToString:[defaults objectForKey:@"emailKey"]]) && [_passwordField.text isEqualToString:[defaults objectForKey:@"passwordKey"]]) {
             _usernameField.text = nil;
             _passwordField.text = nil;
-            [self performSegueWithIdentifier:@"loginSegue" sender:self]; //perform segue to next view controller
+            [self performSegueWithIdentifier:@"loginSegue" sender:self];
         }
         else {
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Oooops" message:@"Your username and password does not match" preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
+                                handler:^(UIAlertAction * action)
                                  {
                                      [alert dismissViewControllerAnimated:YES completion:nil];
                                  }];
@@ -256,7 +256,7 @@
     PFUser *user = [PFUser user];
     user.username = _usernameField.text;
     user.password = _passwordField.text;
-    //user.email = _emailField.text;
+    //user.email = _emailField.text; //login with email
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
@@ -264,13 +264,15 @@
                 [user setObject:_phoneField.text ? _phoneField.text : [NSNull null] forKey:@"phone"];
                 [user setObject:file forKey:@"imageFile"];
                 [user setObject:geoPoint forKey:@"currentLocation"];
-                [user saveEventually];
+                [user save];
             }];
             
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:_usernameField.text forKey:@"usernameKey"];
             [defaults setObject:_passwordField.text forKey:@"passwordKey"];
-            //[defaults setObject:_emailField.text forKey:@"emailKey"];
+            if (!(self.emailField.text.length == 0)) {
+                [defaults setObject:_emailField.text forKey:@"emailKey"];
+            }
             [defaults setBool:YES forKey:@"registerKey"];
             [defaults synchronize];
             
@@ -279,6 +281,10 @@
             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
                                  {
+                                     _usernameField.text = nil;
+                                     _passwordField.text = nil;
+                                     _emailField.text = nil;
+                                     _phoneField.text = nil;
                                      [alert dismissViewControllerAnimated:YES completion:nil];
                                      [self performSegueWithIdentifier:@"loginSegue" sender:self];
                                  }];

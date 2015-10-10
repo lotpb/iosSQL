@@ -26,4 +26,7 @@
 @property (strong, nonatomic) MPMoviePlayerController *videoController;
 - (IBAction)playVideo:(id)sender;
 
+@property (strong, nonatomic) UITextField *DateInput; //calender event
+@property (strong, nonatomic) UITextField *itemText; //calender event
+
 @end

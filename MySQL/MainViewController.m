@@ -31,39 +31,24 @@
      self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
     
     [self YahooFinanceLoad];
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation addUniqueObject:@"Giants" forKey:@"channels"];
+    [currentInstallation saveInBackground];
+    
+    PFPush *push = [[PFPush alloc] init];
+    [push setChannel:@"Giants"];
+    [push setMessage:@"The Giants just scored!"];
+    [push sendPushInBackground];
 
     
 //-------------------create Parse User------------------
 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-    /*
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [PFUser logInWithUsernameInBackground:[defaults objectForKey:@"usernameKey"] password:[defaults objectForKey:@"passwordKey"] block:^(PFUser *user, NSError *error) {
-        if (user) {
-            [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-                 //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
-                [user setObject:geoPoint forKey:@"currentLocation"];
-                [user saveInBackground];
-                //   [mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.01, 0.01))];
-                
-                //    [refreshMap:nil];
-            }];
-        }
-    }]; */
+    }];
 }
-//----------------------------------------------------
-   /*
-    NSString *url = @"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=dagqdghwaq3e3mxyrp7kmmj5&limit=20&country=us";
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        self.movies = dict[@"movies"];
-        [self.tableView reloadData];
-        //NSArray * movies = dict[@"movies"];
-        //NSDictionary * firstMovie = movies[0];
-        //NSLog(@"%@", firstMovie);
-        //NSLog(@"%@", object);
-    }]; */
     
      //| -----------------------Sound Key---------------------------
 
@@ -99,7 +84,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 #pragma mark Bar Button
     searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
-    NSArray *actionButtonItems = @[searchItem, shareItem];
+    NSArray *actionButtonItems = @[shareItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark Sidebar
@@ -404,11 +389,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
             
             [self performSegueWithIdentifier:@"statisticSegue" sender:nil];
             /*
-            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Statistics"
-                                                                             message:@"No Statistics for Parse at this time."
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Statistics" message:@"No Statistics for Parse at this time." preferredStyle:UIAlertControllerStyleAlert];
+             
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                                  {
                                      [alert dismissViewControllerAnimated:YES completion:nil];
                                  }];
@@ -535,10 +518,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
         if (![versionId isEqualToString:[standardDefaults objectForKey:@"versionKey"]])
         {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"New Version!!" message:@"A new version of app is available to download"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"New Version!!" message:@"A new version of app is available to download" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                                  {
                                      NSString *iTunesLink = @"itms-apps://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=<appid>&mt=8";
                                      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
@@ -576,79 +558,28 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 #pragma mark share
 - (void)share:(id)sender {
     
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * view=   [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* facebook = [UIAlertAction
-                               actionWithTitle:@"View Social"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
+    UIAlertAction* settings = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action)
                                {
-                    //[self performSegueWithIdentifier:@"lookupCitySegue" sender:self];
+                                [self performSegueWithIdentifier:@"settingSegue" sender:self];
                                }];
-    
-    UIAlertAction* twitter = [UIAlertAction
-                              actionWithTitle:@"View Notification"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  //[self twitterPost:self];
-                              }];
-    UIAlertAction* message = [UIAlertAction
-                              actionWithTitle:@"View Calender"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  //[self sendSMS:self];
-                              }];
-    UIAlertAction* photo = [UIAlertAction
-                              actionWithTitle:@"View Photos"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  //[self sendSMS:self];
-                              }];
-    UIAlertAction* settings = [UIAlertAction
-                            actionWithTitle:@"View Settings"
-                            style:UIAlertActionStyleDefault
-                            handler:^(UIAlertAction * action)
-                            {
-                                //[self sendSMS:self];
-                            }];
-    UIAlertAction* map = [UIAlertAction
-                               actionWithTitle:@"View Map"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-                               {
-                                   //[self sendSMS:self];
-                               }];
-    UIAlertAction* user = [UIAlertAction
-                             actionWithTitle:@"Users"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action)
+    UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action)
+                           {
+                               [self performSegueWithIdentifier:@"userSegue" sender:self];
+                           }];
+    UIAlertAction* logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action)
                              {
-                                 [self performSegueWithIdentifier:@"userSegue" sender:self];
+                                [self logout];
                              }];
-    UIAlertAction* logout = [UIAlertAction
-                          actionWithTitle:@"Logout"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              [self logout];
-                          }];
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-    [view addAction:facebook];
-    [view addAction:twitter];
-    [view addAction:message];
-    [view addAction:photo];
     [view addAction:settings];
-    [view addAction:map];
     [view addAction:user];
     [view addAction:logout];
     [view addAction:cancel];

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
+#import "ParseConnection.h"
 #import <MapKit/MapKit.h>
 #import "Constants.h"
 #import "CustomTableViewCell.h"

@@ -712,7 +712,7 @@
     self.searchController.dimsBackgroundDuringPresentation = SDIM;
     self.definesPresentationContext = SDEFINE;
     self.searchController.searchBar.barStyle = SEARCHBARSTYLE;
-    self.searchController.searchBar.tintColor = SEARCHTINTCOLORMAIN;
+    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
     self.searchController.hidesBottomBarWhenPushed = SHIDEBAR;
     self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];

@@ -55,7 +55,7 @@
 #define MAINHEADHEIGHT     175.0
 #define PMAINHEADHEIGHT    225.0
 //------searchbar-------------------------------
-#define SEARCHTINTCOLORMAIN  [UIColor redColor]
+//#define SEARCHTINTCOLORMAIN  [UIColor redColor]
 #define MHIDE                 NO //hidesNavigationBarDuringPresentation
 //------sidebar revealViewController-------------------------------
 //Navigation - Go back - POP view controller **/
@@ -206,6 +206,16 @@
 #define SHOWIND           YES                      //showsSelectionIndicator
 #define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
 
+//BLOGUSER
+#define BLABELSIZE1      12, 130, tableView.frame.size.width - 12, 45
+#define BLABELSIZE2      105, 130, tableView.frame.size.width -105, 45
+#define BLABELSIZE3      198, 130, tableView.frame.size.width - 198, 45
+#define BLABELSIZE4      12, 95, tableView.frame.size.width -12, 45
+#define BLABELSIZE5      78, 2, tableView.frame.size.width -80, 45
+#define BLABELSIZE6      12, 60, tableView.frame.size.width -22, 45
+#define BLINESIZE1       12, 170, 75, 1.5
+#define BLINESIZE2       105, 170, 75, 1.5
+#define BLINESIZE3       198, 170, 75, 1.5
 //STATISTIC
 #define STOCKGREEN         [UIColor colorWithRed:0.0/255 green:153.0/255 blue:0.0/255 alpha:1.0]
 #define STATTEXTCOLOR      [UIColor blackColor]
@@ -227,6 +237,9 @@
 #define SCNAME6             @"Customer High"
 #define SCNAME7             @"Customer Low"
 #define SCNAME8             @"Windows Sold"
+
+// USER
+#define USERSCOPE          @"name",@"email",@"phone"
 
 // LEAD
 #define LEADDELETENO       @"_leadNo=%@&&"
@@ -337,11 +350,6 @@
 // BLOGEDIT
 #define BLOGEDITTITLE      @"Message"
 #define BLOGBACKCOLOR      [UIColor lightGrayColor]
-//------notification-------------------------------
-#define BLOGNOT_BODY       @"You have entered the region you are monitoring"
-#define BLOGNOT_CATEGORY   @"INVITE_CATEGORY"
-#define BLOGNOT_ACTION     @"Details"
-#define BLOGNOT_TITLE      @"Alert! Breaking News"
 //-------------segue-------------------------------
 #define BLOGEDITSEGUE      @"updateNewSeque"
 //-----------------------END-------------------------------
@@ -362,6 +370,12 @@
 //-----------------------END-------------------------------
 
 // NEWS
+//------notification-------------------------------
+#define NEWSBODY       @"You have news item waiting"
+#define NEWSCATEGORY   @"INVITE_CATEGORY"
+#define NEWSACTION     @"Details"
+#define NEWSTITLE      @"Alert! Breaking News"
+
 #define SCROLLBACKCOLOR  [UIColor lightGrayColor]
 #define VIEWBACKCOLOR    [UIColor whiteColor]
 #define KEY_IMAGE         @"imageFile" //news

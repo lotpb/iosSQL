@@ -15,7 +15,6 @@
     UIRefreshControl *refreshControl;
 }
 
-- (IBAction)sendNotification:(UIButton *)sender;
 @end
 
 @implementation BlogEditDetailView
@@ -30,7 +29,7 @@
     self.listTableView1.estimatedRowHeight = 75;
     self.listTableView1.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
     self.view.backgroundColor = BLOGBACKCOLOR;
-    self.toolBar.translucent=NO;
+    self.toolBar.translucent = NO;
     self.toolBar.barTintColor = [UIColor whiteColor];
     
     CALayer *topBorder = [CALayer layer];
@@ -65,6 +64,7 @@
         } else
             NSLog(@"Error: %@ %@", error, [error userInfo]);
     }];
+//------------------------------------------------------------------
     
 #pragma mark RefreshControl
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -76,6 +76,7 @@
     [refreshView addSubview:refreshControl];
 
 }
+//-----------------------------end-------------------------------------
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -106,113 +107,6 @@
             refreshControl.attributedTitle = attributedTitle; }
         [refreshControl endRefreshing];
     }
-}
-
-#pragma mark - BarButton
-- (void)share:(id)sender {
-    NSString *message, *message1, *message2;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        message = self.msgDate;
-        message1 = self.postby;
-        message2 = self.subject;
-    } else {
-        message = self.selectedLocation.msgDate;
-        message1 = self.selectedLocation.postby;
-        message2 = self.selectedLocation.subject;
-    }
-    UIImage * image = [UIImage imageNamed:@"IMG_1133.jpg"];
-    NSArray * shareItems = @[message, message1, message2, image];
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        avc.popoverPresentationController.barButtonItem = shareItem;
-        avc.popoverPresentationController.sourceView = self.view;
-    }
-    [self presentViewController:avc animated:YES completion:nil];
-}
-
-#pragma mark - ActionSheet
--(void)showDeleteConfirmation:(id)sender {
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:DELMESSAGE1
-                                 message:nil//DELMESSAGE2
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-                                 
-                                 PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-                                 [query whereKey:@"objectId" equalTo:self.objectId];
-                                 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                                     if (!error) {
-                                         for (PFObject *object in objects) {
-                                             [object deleteInBackground];
-                                             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Complete"
-                                                            message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
-                                             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                handler:^(UIAlertAction * action)
-                                                                  {
-                                                                      [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                      GOBACK;
-                                                                      return;
-                                                                  }];
-                                             [alert addAction:ok];
-                                             [self presentViewController:alert animated:YES completion:nil];
-                                         }
-                                     } else {
-                                         NSLog(@"Error: %@ %@", error, [error userInfo]);
-                                     }
-                                 }];
-                             } else {
-                                 /*
-                                 NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
-                                 NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-                                 NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-                                 
-                                 NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-                                 request.HTTPMethod = @"POST";
-                                 
-                                 //BlogLocation *item;
-                                 //item = [_feedItems objectAtIndex:indexPath.row];
-                                 NSString *deletestring = _selectedLocation.msgNo;
-                                 NSString *_msgNo = deletestring;
-                                 NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
-                                 NSError *error = nil;
-                                 NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
-                                 [request setHTTPBody:data];
-                                 
-                                 if (!error) {
-                                     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                                                            // Handle response here
-                                                            }];
-                                     
-                                     [uploadTask resume];
-                                 }
-                                 
-                                 NSString *success = @"success";
-                                 [success dataUsingEncoding:NSUTF8StringEncoding]; */
-                             }
-                             
-                             //[_feedItems removeObjectAtIndex:indexPath.row];
-                             //[tableView deleteRowsAtIndexPaths:@[indexPath]
-                             [view dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
-                             {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    [view addAction:ok];
-    [view addAction:cancel];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        view.popoverPresentationController.barButtonItem = trashItem;
-        view.popoverPresentationController.sourceView = self.view;
-    }
-    [self presentViewController:view animated:YES completion:nil];
 }
 
 #pragma mark - TableView
@@ -432,8 +326,168 @@
     }
 }
 
+#pragma mark TableView Delete Button
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:self.listTableView1]) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return 0;
+}
 
-#pragma mark - Button Update
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated{
+    
+    [super setEditing:editing animated:animated];
+    [self.listTableView1 setEditing:editing animated:animated];
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        UIAlertController *view = [UIAlertController alertControllerWithTitle:DELMESSAGE1 message:DELMESSAGE2 preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                    handler:^(UIAlertAction * action)
+                     {
+                         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                             
+                             PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+                             [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
+                             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                 if (objects) {
+                                     //[updateblog incrementKey:@"CommentCount"];
+                                     [PFObject deleteAllInBackground:objects];
+                                 } else {
+                                     NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                 }
+                             }];
+                         }
+                     }];
+        
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                         {
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                         }];
+        
+        [view addAction:ok];
+        [view addAction:cancel];
+        
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            view.popoverPresentationController.sourceView = self.view;
+            view.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
+        }
+        [self presentViewController:view animated:YES completion:nil];
+    }
+}
+
+#pragma mark - button
+- (void)share:(id)sender {
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, self.view.frame.size.height), self.view.opaque, 0.0);
+    }else {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.view.frame.size.width, self.view.frame.size.height), self.view.opaque, 0.0);
+    }
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *newPNG = UIImageJPEGRepresentation(img, 0.0f); // or you can use JPG or PDF
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:[NSArray arrayWithObjects:@"I would like to share this.",newPNG, nil] applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        activityVC.popoverPresentationController.barButtonItem = shareItem;
+        activityVC.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:activityVC animated:YES completion:nil];
+}
+
+#pragma mark actionSheet
+-(void)showDeleteConfirmation:(id)sender {
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:DELMESSAGE1
+                                 message:nil//DELMESSAGE2
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+                                 
+                                 PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
+                                 [query whereKey:@"objectId" equalTo:self.objectId];
+                                 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                     if (!error) {
+                                         for (PFObject *object in objects) {
+                                             [object deleteInBackground];
+                                             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
+                                             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action)
+                                                                  {
+                                                                      [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                      GOBACK;
+                                                                      return;
+                                                                  }];
+                                             [alert addAction:ok];
+                                             [self presentViewController:alert animated:YES completion:nil];
+                                         }
+                                     } else {
+                                         NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                     }
+                                 }];
+                             } else {
+                                 /*
+                                  NSURL *url = [NSURL URLWithString:BLOGDELETEURL];
+                                  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                  NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+                                  
+                                  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+                                  request.HTTPMethod = @"POST";
+                                  
+                                  //BlogLocation *item;
+                                  //item = [_feedItems objectAtIndex:indexPath.row];
+                                  NSString *deletestring = _selectedLocation.msgNo;
+                                  NSString *_msgNo = deletestring;
+                                  NSString *rawStr = [NSString stringWithFormat:BLOGDELETENO, BLOGDELETENO1];
+                                  NSError *error = nil;
+                                  NSData *data = [rawStr dataUsingEncoding:NSUTF8StringEncoding];
+                                  [request setHTTPBody:data];
+                                  
+                                  if (!error) {
+                                  NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+                                  // Handle response here
+                                  }];
+                                  
+                                  [uploadTask resume];
+                                  }
+                                  
+                                  NSString *success = @"success";
+                                  [success dataUsingEncoding:NSUTF8StringEncoding]; */
+                             }
+                             
+                             //[_feedItems removeObjectAtIndex:indexPath.row];
+                             //[tableView deleteRowsAtIndexPaths:@[indexPath]
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [view addAction:ok];
+    [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        view.popoverPresentationController.barButtonItem = trashItem;
+        view.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:view animated:YES completion:nil];
+}
+
+
+#pragma mark  Button Update
 -(IBAction)update:(id)sender{
    [self performSegueWithIdentifier:BLOGEDITSEGUE sender:self];
 }
@@ -465,82 +519,6 @@ Parse.com
             detailVC.textcontentrating = self.selectedLocation.rating;
         }
     }
-}
-
-#pragma mark - Notification
-#pragma mark Button Notification
-- (IBAction)sendNotification:(UIButton *)sender
-{
-    UIAlertView *alert;
-    UIDatePicker *DatePicker;
-    
-    static NSDateFormatter *DateFormatter = nil;
-    if (DateFormatter == nil) {
-        DateFormatter = [[NSDateFormatter alloc] init];
-        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    }
-    
-    alert = [[UIAlertView alloc] initWithTitle:@"Notification date:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
-    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;//UIAlertViewStylePlainTextInput;
-    DatePicker = [[UIDatePicker alloc] init];
-    DatePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    DatePicker.timeZone = [NSTimeZone localTimeZone];
-    DatePicker.date = [NSDate date];
-    
-    self.DateInput = [alert textFieldAtIndex:0];
-    self.itemText = [alert textFieldAtIndex:1];
-    [self.DateInput setTextAlignment:NSTextAlignmentLeft];
-    [self.itemText setTextAlignment:NSTextAlignmentLeft];
-    self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
-    self.itemText.text = BLOGNOT_BODY;
-    [self.DateInput setPlaceholder:@"notification date"];
-    [self.itemText setPlaceholder:@"title"];
-    self.itemText.secureTextEntry = NO;
-    self.DateInput.inputView=DatePicker;
-    [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-    [alert show];
-}
-
-- (void) dateChanged:(UIDatePicker *)DatePicker {
-    static NSDateFormatter *DateFormatter = nil;
-    if (DateFormatter == nil) {
-        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
-        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        self.DateInput.text = [DateFormatter stringFromDate:DatePicker.date];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if([title isEqualToString:@"OK"]) {
-        [self requestApptdate];
-    }
-}
-
-- (void)requestApptdate {
-    NSDate *apptdate;
-    static NSDateFormatter *DateFormatter = nil;
-    if (DateFormatter == nil) {
-        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
-        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        apptdate = [DateFormatter dateFromString:self.DateInput.text];
-    }
-    
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = self.itemText.text; //BLOGNOTIFICATION;
-    localNotification.category = BLOGNOT_CATEGORY;
-    localNotification.alertAction = NSLocalizedString(BLOGNOT_ACTION, nil);
-    localNotification.alertTitle = NSLocalizedString(BLOGNOT_TITLE, nil);;
-    localNotification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
-    localNotification.fireDate = apptdate;//[NSDate dateWithTimeIntervalSinceNow:60];
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] BADGENO; //The number to diplay on the icon badge
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
 @end

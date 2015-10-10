@@ -10,10 +10,8 @@
 #import "Constants.h"
 #import <Parse/Parse.h>
 #import <MapKit/MapKit.h>
-//#import <MobileCoreServices/MobileCoreServices.h>
-//#import <MediaPlayer/MediaPlayer.h>
 
-@interface UserDetailController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface UserDetailController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) NSString *objectId;
 @property (strong, nonatomic) NSString *username;

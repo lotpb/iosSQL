@@ -51,7 +51,7 @@ Parse.com
     
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newData)];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem, addItem];
+    NSArray *actionButtonItems = @[addItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark RefreshControl

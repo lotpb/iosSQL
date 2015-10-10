@@ -19,6 +19,7 @@
     int pageNumber;
     UIButton *likeButton, *playButton, *actionBtn;
     UIView *wallImageView, *separatorLineView;
+    UIBarButtonItem *searchItem, *shareItem;
 }
 
 -(void)getNewsImages;
@@ -27,6 +28,7 @@
 
 @property(copy, nonatomic) NSURL *videoURL;
 @property (nonatomic, strong) UISearchController *searchController;
+//- (IBAction)sendNotification:(UIButton *)sender;
 @end
 
 @implementation NewsController
@@ -49,13 +51,13 @@
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
     [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
     
-  #pragma mark RefreshControl
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [self.wallScroll addSubview:refreshControl];
     
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[searchItem];
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(notification:)];
+    searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
+    NSArray *actionButtonItems = @[shareItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     emptyLabel = [[UILabel alloc] initWithFrame:self.wallScroll.bounds];
@@ -99,12 +101,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - RefreshControl
+#pragma mark - refreshControl
 - (void)reloadDatas:(UIRefreshControl *)refreshControl {
     [self getNewsImages];
     [refreshControl endRefreshing];
 }
 
+#pragma mark - fetch data
 - (void)forceFetchData {
     forceRefresh = YES;
     stopFetching = NO;
@@ -406,14 +409,8 @@
     
     self.videoController = [[MPMoviePlayerController alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(moviePlayBackDidFinish:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:self.videoController];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(stopPlayingVideo:)
-                                                 name:MPMoviePlayerWillExitFullscreenNotification
-                                               object:self.videoController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopPlayingVideo:) name:MPMoviePlayerWillExitFullscreenNotification object:self.videoController];
     
     self.videoController.view.frame = self.view.bounds;
     [self.videoController prepareToPlay];
@@ -443,11 +440,11 @@
 #pragma mark Error Alert
 
 -(void)showErrorView:(NSString *)errorMsg {
-    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error"
-                                                                     message:errorMsg
-                                                              preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
+    
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action)
+                                handler:^(UIAlertAction * action)
                          {
                              [alert dismissViewControllerAnimated:YES completion:nil];
                          }];
@@ -498,6 +495,104 @@
         [self presentViewController:activityVC animated:YES completion:nil];
     }
 }
+
+- (void)notification:(id)sender {
+    
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* notify = [UIAlertAction actionWithTitle:@"Notification" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                               {
+                                   [self sendNotification];
+                               }];
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [view addAction:notify];
+    [view addAction:cancel];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        view.popoverPresentationController.barButtonItem = shareItem;
+        view.popoverPresentationController.sourceView = self.view;
+    }
+    [self presentViewController:view animated:YES completion:nil];
+}
+
+#pragma mark - Notification
+- (void)sendNotification {
+    UIAlertView *alert;
+    UIDatePicker *DatePicker;
+    
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        DateFormatter = [[NSDateFormatter alloc] init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    }
+    
+    alert = [[UIAlertView alloc] initWithTitle:@"Notification date:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    DatePicker = [[UIDatePicker alloc] init];
+    DatePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    DatePicker.timeZone = [NSTimeZone localTimeZone];
+    DatePicker.date = [NSDate date];
+    
+    self.DateInput = [alert textFieldAtIndex:0];
+    self.itemText = [alert textFieldAtIndex:1];
+    [self.DateInput setTextAlignment:NSTextAlignmentLeft];
+    [self.itemText setTextAlignment:NSTextAlignmentLeft];
+    self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
+    self.itemText.text = NEWSBODY;
+    [self.DateInput setPlaceholder:@"notification date"];
+    [self.itemText setPlaceholder:@"title"];
+    self.itemText.secureTextEntry = NO;
+    self.DateInput.inputView=DatePicker;
+    [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    [alert show];
+}
+
+- (void) dateChanged:(UIDatePicker *)DatePicker {
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        self.DateInput.text = [DateFormatter stringFromDate:DatePicker.date];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"OK"]) {
+        [self requestApptdate];
+    }
+}
+
+- (void)requestApptdate {
+    NSDate *apptdate;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc]init];
+        [DateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [DateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        apptdate = [DateFormatter dateFromString:self.DateInput.text];
+    }
+    
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertBody = self.itemText.text; //BLOGNOTIFICATION;
+    localNotification.category = NEWSCATEGORY;
+    localNotification.alertAction = NSLocalizedString(NEWSACTION, nil);
+    localNotification.alertTitle = NSLocalizedString(NEWSTITLE, nil);;
+    localNotification.soundName = @"Tornado.caf";//UILocalNotificationDefaultSoundName;
+    localNotification.fireDate = apptdate;//[NSDate dateWithTimeIntervalSinceNow:60];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] BADGENO; //The number to diplay on the icon badge
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+}
+
 #pragma mark - Segue
 - (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
     

@@ -18,6 +18,22 @@
 
 //------------------Table Data----------------------------------
 #pragma mark - Blog Form
+- (void)parseUser {
+    PFQuery *query = [PFUser query];
+    [query orderByDescending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _feedItems = nil;
+            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+            if (self.delegate) {
+                [self.delegate parseUserloaded:_feedItems];
+            }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
+}
+
+#pragma mark - Blog Form
 - (void)parseBlog {
     PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
     [query setLimit:1000]; //parse.com standard is 100

@@ -129,6 +129,7 @@
 		AFF3B8871A2135B6005D556C /* EmployeeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B8861A2135B6005D556C /* EmployeeLocation.m */; };
 		AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF5F4891A68921900687BC3 /* LookupProduct.m */; };
 		AFF782041A41B6760098692C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AFF782031A41B6760098692C /* Settings.bundle */; };
+		AFFAC9041BC9413700718246 /* BlogUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFAC9031BC9413700718246 /* BlogUserController.m */; settings = {ASSET_TAGS = (); }; };
 		AFFC3ED01B9B34F1009AFB44 /* Thumb Up.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFC3ECF1B9B34F1009AFB44 /* Thumb Up.png */; };
 		AFFC3ED21B9B3502009AFB44 /* Left 2.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFC3ED11B9B3502009AFB44 /* Left 2.png */; };
 		AFFC3ED41B9B3511009AFB44 /* Left 2-25.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFC3ED31B9B3511009AFB44 /* Left 2-25.png */; };
@@ -351,6 +352,8 @@
 		AFF5F4881A68921900687BC3 /* LookupProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookupProduct.h; sourceTree = "<group>"; };
 		AFF5F4891A68921900687BC3 /* LookupProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupProduct.m; sourceTree = "<group>"; };
 		AFF782031A41B6760098692C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		AFFAC9021BC9413700718246 /* BlogUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlogUserController.h; sourceTree = "<group>"; };
+		AFFAC9031BC9413700718246 /* BlogUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlogUserController.m; sourceTree = "<group>"; };
 		AFFC3ECF1B9B34F1009AFB44 /* Thumb Up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Thumb Up.png"; path = "images/Thumb Up.png"; sourceTree = "<group>"; };
 		AFFC3ED11B9B3502009AFB44 /* Left 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Left 2.png"; path = "images/Left 2.png"; sourceTree = "<group>"; };
 		AFFC3ED31B9B3511009AFB44 /* Left 2-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Left 2-25.png"; path = "images/Left 2-25.png"; sourceTree = "<group>"; };
@@ -666,6 +669,8 @@
 				AFDE52B619F9E26B00220656 /* BlogEditDetailView.m */,
 				AFCB325E19F40B390087D3EF /* BlogNewViewController.h */,
 				AFCB325F19F40B390087D3EF /* BlogNewViewController.m */,
+				AFFAC9021BC9413700718246 /* BlogUserController.h */,
+				AFFAC9031BC9413700718246 /* BlogUserController.m */,
 			);
 			name = Blog;
 			sourceTree = "<group>";
@@ -810,14 +815,11 @@
 				AF0263DD1AEDCEEF005A0AD4 /* ConstantMain.h */,
 				AFBC9E8819D9CEDE0050E67A /* AppDelegate.h */,
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
-				AFAF87051BC18C6400E5415B /* UserViewController.h */,
-				AFAF87061BC18C6400E5415B /* UserViewController.m */,
-				AFAF87081BC1CB9D00E5415B /* UserDetailController.h */,
-				AFAF87091BC1CB9D00E5415B /* UserDetailController.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF58DFB11B409520006729A3 /* iPad.storyboard */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
 				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
+				AFFAC9011BC9409200718246 /* User */,
 				AF5D75951B4A241B00EEAA80 /* Parse */,
 				AF0634871AF662A000D4B846 /* MainMenu */,
 				AF4E626C1A5CBABA007A56D0 /* New/Edit Data */,
@@ -898,6 +900,17 @@
 				AFF3B8831A2133F5005D556C /* EmployeeViewController.m */,
 			);
 			name = Employee;
+			sourceTree = "<group>";
+		};
+		AFFAC9011BC9409200718246 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				AFAF87051BC18C6400E5415B /* UserViewController.h */,
+				AFAF87061BC18C6400E5415B /* UserViewController.m */,
+				AFAF87081BC1CB9D00E5415B /* UserDetailController.h */,
+				AFAF87091BC1CB9D00E5415B /* UserDetailController.m */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 		AFFEA0831A320F1C00165318 /* Product */ = {
@@ -1100,6 +1113,7 @@
 				AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */,
 				AF26EF771A360BA300FFE5F0 /* SalesmanViewController.m in Sources */,
 				AFF5F48A1A68921900687BC3 /* LookupProduct.m in Sources */,
+				AFFAC9041BC9413700718246 /* BlogUserController.m in Sources */,
 				AF57D6951A428B3200CF130C /* AppPrefViewController.m in Sources */,
 				AF79A4251ADB6A6C003907FD /* CalenderEdit.m in Sources */,
 				AF65081119EB158300CEF44D /* MainViewController.m in Sources */,

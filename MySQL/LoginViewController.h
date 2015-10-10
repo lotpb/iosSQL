@@ -12,7 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;

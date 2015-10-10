@@ -47,7 +47,7 @@
 #define MAIN_ACTION       @"View Details"
 #define MAIN_ALERTTITLE   @"Item Due"
 //------searchbar-------------------------------
-#define SEARCHTINTCOLORMAIN  [UIColor redColor]
+#define SEARCHTINTCOLORMAIN  [UIColor whiteColor]
 #define MHIDE                 NO //hidesNavigationBarDuringPresentation
 //------sidebar revealViewController-------------------------------
 #define SIDEBARTINTCOLOR     [UIColor whiteColor]

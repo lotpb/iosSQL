@@ -11,6 +11,7 @@
 #import "CustomTableViewCell.h"
 #import "BlogViewController.h"
 #import <Parse/Parse.h>
+#import "BlogLocation.h"
 
 @interface BlogEditDetailView : UIViewController
 
@@ -22,10 +23,6 @@
 @property (strong, nonatomic) NSString *rating;
 @property (strong, nonatomic) NSString *liked;
 @property (strong, nonatomic) NSString *replyId;
-
-
-@property (strong, nonatomic) UITextField *DateInput; //calender event
-@property (strong, nonatomic) UITextField *itemText; //calender event
 
 @property (weak, nonatomic) IBOutlet UIButton *Like;
 @property (weak, nonatomic) IBOutlet UIButton *update;

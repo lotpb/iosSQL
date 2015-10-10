@@ -14,6 +14,7 @@
 
 @required
 
+- (void)parseUserloaded:(NSMutableArray *)UserItem;
 - (void)parseBlogloaded:(NSMutableArray *)blogItem;
 - (void)parseCustomerloaded:(NSMutableArray *)custItem;
 - (void)parseLeadloaded:(NSMutableArray *)leadItem;
@@ -51,6 +52,7 @@
 
 @property (weak, nonatomic) id<ParseConnectionProtocal> delegate;
 
+- (void)parseUser;
 - (void)parseBlog;
 - (void)parseCustomer;
 - (void)parseLeads;

@@ -19,11 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.title = NSLocalizedString(@"User Detail", nil);
+
+    self.title = NSLocalizedString(@"User Info", nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    
     self.usernameField.text = self.username;
     self.emailField.text = self.email;
     self.phoneField.text = self.phone;
@@ -55,30 +53,24 @@
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.phoneField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
-    PFObject *user = [PFUser currentUser];;
+    PFQuery *query = [PFUser query];
+    PFObject *user = [query getObjectWithId:self.objectId];
     PFGeoPoint *location = [user objectForKey:@"currentLocation"];
-    [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(location.latitude, location.longitude),MKCoordinateSpanMake(0.01, 0.01))];
+    [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(location.latitude, location.longitude),MKCoordinateSpanMake(0.005, 0.005))];
 
     [self refreshMap];
     
-    /*
-    if([PFUser currentUser])
-    {
-        //self.user = [PFUser currentUser];
-        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-            //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
-            //[self.user setObject:geoPoint forKey:@"currentLocation"];
-            //[self.user saveInBackground];
-            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.05, 0.05))];
-            
-            [self refreshMap];
-        }];
-    } */
+    [[UITextField appearance] setTintColor:CURSERCOLOR];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - textfield
+-(IBAction)textFieldReturn:(id)sender {
+    [sender resignFirstResponder];
 }
 
 #pragma mark - map
@@ -94,7 +86,6 @@
          {
              NSLog(@"%@",error);
          }
-             
              MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
              annotation.title = [object objectForKey:@"username"];
              PFGeoPoint *geoPoint= [object objectForKey:@"currentLocation"];
@@ -131,7 +122,6 @@
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         imgPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
-    
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
 
