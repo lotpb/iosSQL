@@ -56,15 +56,15 @@
 #define MAINHEADHEIGHT     175.0
 #define PMAINHEADHEIGHT    225.0
 
-#define MAINLABELSIZE1     12, 124, tableView.frame.size.width, 50
-#define MAINLABELSIZE2     90, 124, tableView.frame.size.width, 50
-#define MAINLABELSIZE3     163, 124, tableView.frame.size.width, 50
-#define MAINLABELSIZE4     12, 5, tableView.frame.size.width, 20
+#define MAINLABELSIZE1     12, 124, 90, 50
+#define MAINLABELSIZE2     90, 124, 90, 50
+#define MAINLABELSIZE3     163, 124, 90, 50
+#define MAINLABELSIZE4     12, 5, tableView.frame.size.width -12, 20
 
-#define PMAINLABELSIZE1    12, 165, tableView.frame.size.width, 50
-#define PMAINLABELSIZE2    112, 165, tableView.frame.size.width, 50
-#define PMAINLABELSIZE3    210, 165, tableView.frame.size.width, 50
-#define PMAINLABELSIZE4    12, 120, tableView.frame.size.width, 20 //ipad
+#define PMAINLABELSIZE1    12, 165, tableView.frame.size.width -12, 50
+#define PMAINLABELSIZE2    112, 165, 90, 50
+#define PMAINLABELSIZE3    210, 165, 90, 50
+#define PMAINLABELSIZE4    12, 120, tableView.frame.size.width -12, 20 //ipad
 
 #define MAINLINESIZE1      12, 169, 60, 2.5
 #define MAINLINESIZE2      90, 169, 60, 2.5

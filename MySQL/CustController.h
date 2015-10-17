@@ -13,6 +13,7 @@
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
 #import "MapViewController.h"
+#import "LeadsUserController.h"
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, CustModelProtocol>
 {

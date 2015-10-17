@@ -1,21 +1,20 @@
 //
-//  BlogUserController.m
+//  LeadsUserController.m
 //  MySQL
 //
-//  Created by Peter Balsamo on 10/10/15.
+//  Created by Peter Balsamo on 10/11/15.
 //  Copyright © 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "BlogUserController.h"
+#import "LeadsUserController.h"
 
-@interface BlogUserController ()
+@interface LeadsUserController ()
 {
     BlogModel *_BlogModel; BlogLocation *_selectedLocation;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-    UIButton *likeButton;
     BOOL isReplyClicked;
-    NSString *posttoIndex, *userIndex, *getpostby, *getdate;
+    //NSString *posttoIndex, *userIndex, *getpostby, *getdate;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;
@@ -23,7 +22,7 @@
 
 @end
 
-@implementation BlogUserController
+@implementation LeadsUserController
 
 - (void)viewDidLoad
 {
@@ -37,30 +36,72 @@
     self.listTableView.estimatedRowHeight = 110; //ROW_HEIGHT;
     self.listTableView.backgroundColor = [UIColor whiteColor]; //BLOGNAVBARCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
-
+    
 /*
- *******************************************************************************************
- Parse.com
- *******************************************************************************************
- */
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
+    if ([self.formController isEqual:TNAME1]) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Customer"];
+        [query whereKey:@"LastName" equalTo:self.postBy];
+        query.cachePolicy = kPFCACHEPOLICY;
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                _feedItems = nil;
+                _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+                [self.listTableView reloadData];
+            } else
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }];
+        
+        PFQuery *query1 = [PFQuery queryWithClassName:@"Leads"];
+        [query1 whereKey:@"objectId" equalTo:self.objectId];
+        query1.cachePolicy = kPFCACHEPOLICY;
+        [query1 orderByDescending:@"createdAt"];
+        [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                self.comments = [object objectForKey:@"Coments"];
+                self.leadDate = [object objectForKey:@"Date"];
+                [self.listTableView reloadData];
+            } else
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }];
+    } else {
+        PFQuery *query = [PFQuery queryWithClassName:@"Leads"];
+        [query whereKey:@"LastName" equalTo:self.postBy];
+        query.cachePolicy = kPFCACHEPOLICY;
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                _feedItems = nil;
+                _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+                [self.listTableView reloadData];
+            } else
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }];
+        
+        PFQuery *query1 = [PFQuery queryWithClassName:@"Customer"];
+        [query1 whereKey:@"objectId" equalTo:self.objectId];
+        query1.cachePolicy = kPFCACHEPOLICY;
+        [query1 orderByDescending:@"createdAt"];
+        [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                self.comments = [object objectForKey:@"Comments"];
+                self.leadDate = [object objectForKey:@"Date"];
+                [self.listTableView reloadData];
+            } else
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }];
+    }
+
+    self.selectedImage = [UIImage imageNamed:@"profile-rabbit-toy.png"];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-    [query setLimit:1000]; //parse.com standard is 100
-    [query whereKey:@"PostBy" equalTo:self.postBy];
-     query.cachePolicy = kPFCACHEPOLICY;
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            _feedItems = nil;
-            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
-            [self.listTableView reloadData];
-        } else
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }];
-    
+    /*
     PFQuery *query1 = [PFUser query];
     [query1 whereKey:@"username" equalTo:self.postBy];
-     query1.cachePolicy = kPFCACHEPOLICY;
+    query1.cachePolicy = kPFCACHEPOLICY;
     [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error) {
             getpostby = [object objectForKey:@"username"];
@@ -82,18 +123,18 @@
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
-    }];
+    }]; */
     
     /*
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self;
-        [parseConnection parseBlog]; [parseConnection parseHeadBlog];
-    } else {
-        //_feedItems = [[NSMutableArray alloc] init];
-        //_BlogModel = [[BlogModel alloc] init];
-        //_BlogModel.delegate = self; [_BlogModel downloadItems];
-    } */
+     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+     ParseConnection *parseConnection = [[ParseConnection alloc]init];
+     parseConnection.delegate = (id)self;
+     [parseConnection parseBlog]; [parseConnection parseHeadBlog];
+     } else {
+     //_feedItems = [[NSMutableArray alloc] init];
+     //_BlogModel = [[BlogModel alloc] init];
+     //_BlogModel.delegate = self; [_BlogModel downloadItems];
+     } */
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
@@ -141,19 +182,19 @@
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
-/*
- *******************************************************************************************
- Parse.com
- *******************************************************************************************
- */
     /*
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        ParseConnection *parseConnection = [[ParseConnection alloc]init];
-        parseConnection.delegate = (id)self;
-        [parseConnection parseBlog]; [parseConnection parseHeadBlog];
-    } else {
-        [_BlogModel downloadItems];
-    } */
+     *******************************************************************************************
+     Parse.com
+     *******************************************************************************************
+     */
+    /*
+     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+     ParseConnection *parseConnection = [[ParseConnection alloc]init];
+     parseConnection.delegate = (id)self;
+     [parseConnection parseBlog]; [parseConnection parseHeadBlog];
+     } else {
+     [_BlogModel downloadItems];
+     } */
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -185,10 +226,10 @@
 }
 
 /*
- *******************************************************************************************
- Parse.com
- *******************************************************************************************
- */
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
 
 - (void)parseHeadBlogloaded:(NSMutableArray *)blogheadItem {
     headCount = blogheadItem;
@@ -196,91 +237,14 @@
 }
 
 #pragma mark - Button
+
 #pragma mark New BarButton
 -(void)foundView:(id)sender {
-    isReplyClicked = NO;
-    [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
+    //isReplyClicked = NO;
+    //[self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
 }
 
-#pragma mark flag button
-- (void) flagButton:(id)sender  {
-    
-    UIButton *btn = (UIButton *) sender;
-    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
-    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Report inappropriate user" message:@"Please enter reason" preferredStyle:UIAlertControllerStyleAlert];
-    
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Reason";
-    }];
-    
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Username";
-        textField.text = [[_feedItems objectAtIndex:indexPath.row] valueForKey:@"PostBy"];
-        textField.textColor = [UIColor redColor];
-    }];
-    
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action) {
-                                                   //Do Some action here
-                                                   [alert dismissViewControllerAnimated:YES completion:nil];
-                                               }];
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action) {
-                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                   }];
-    [alert addAction:cancel];
-    [alert addAction:ok];
-    
-    UIViewController *viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    
-    if ( viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed ) {
-        viewController = viewController.presentedViewController;
-    }
-    
-    [viewController presentViewController:alert animated:YES completion:nil];
-}
-
-#pragma mark like button
-- (void)likeButton:(id)sender {
-    UIButton *btn = (UIButton *) sender;
-    CGRect buttonPosition = [btn convertRect:btn.bounds toView:self.listTableView];
-    NSIndexPath *indexPath = [self.listTableView indexPathForRowAtPoint:buttonPosition.origin];
-    [btn setSelected:YES];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
-    [query whereKey:@"objectId" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectId]];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject * updateLead, NSError *error) {
-        if (!error) {
-            NSNumber* likedNum = [[_feedItems objectAtIndex:indexPath.row] valueForKey:@"Liked"];
-            int likeCount = [likedNum intValue];
-            
-            if (btn.isSelected) {
-                likeCount++;
-            } else {
-                if (likeCount > 0) {
-                    likeCount--;
-                }
-            }
-            NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
-            [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
-            [updateLead saveInBackground];
-        }
-    }];
-}
-
--(void)buttonPress:(id)sender {
-    UIButton* button = (UIButton*)sender;
-    if (!likeButton.selected) {
-        [likeButton setSelected:YES];
-        button.tintColor = [UIColor redColor];
-    } else {
-        [likeButton setSelected:NO];
-        button.tintColor = [UIColor lightGrayColor];
-    }
-}
-
+/*
 #pragma mark reply button
 -(void)replyButton:(id)sender {
     isReplyClicked = YES;
@@ -290,7 +254,7 @@
     posttoIndex = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
     userIndex = [[_feedItems objectAtIndex:indexPath.row] objectId];
     [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
-}
+} */
 
 #pragma mark ActivityViewController
 - (void)share:(id)sender {
@@ -344,7 +308,7 @@
     [view addAction:block];
     [view addAction:report];
     [view addAction:cancel];
-
+    
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         UIView* senderView = (UIView *)sender;
         view.popoverPresentationController.sourceView = senderView;
@@ -383,11 +347,11 @@
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {
- /*
-  *******************************************************************************************
-  Parse.com
-  *******************************************************************************************
-  */
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
                                  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
                                      
                                      PFQuery *query = [PFQuery queryWithClassName:@"Blog"];
@@ -471,13 +435,13 @@
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT18)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT16)];
-        myCell.numLabel.font = LIKEFONT(IPADFONT16);
+        //myCell.numLabel.font = LIKEFONT(IPADFONT16);
         myCell.commentLabel.font = LIKEFONT(IPADFONT16);
     } else {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
-        myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
+        //myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
         myCell.commentLabel.font = LIKEFONT(IPHONEFONT16);
     }
     
@@ -487,27 +451,26 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         if (!isFilltered) {
-            NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
+            
+            NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
             static NSDateFormatter *DateFormatter = nil;
             if (DateFormatter == nil) {
                 NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-                [DateFormatter setDateFormat:KEY_DATETIME];
+                [DateFormatter setDateFormat:@"yyyy-mm-dd"];
                 NSDate *date = [DateFormatter dateFromString:dateStr];
-                [DateFormatter setDateFormat:@"MMM-dd"];
+                [DateFormatter setDateFormat:@"MMM-dd-yy"];
                 dateStr = [DateFormatter stringFromDate:date];
             }
             
-            myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-            myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
+            myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+            myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
             myCell.blogmsgDateLabel.text = dateStr;
-            myCell.numLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
-            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CommentCount"]stringValue];
+            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]stringValue];
         } else {
-            myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-            myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-            myCell.blogmsgDateLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-            myCell.numLabel.text = [[[filteredString objectAtIndex:indexPath.row] objectForKey:@"Liked"]stringValue];
-            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CommentCount"]stringValue];
+            myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+            myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
+            //myCell.blogmsgDateLabel.text = dateStr;
+            myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]stringValue];
         }
     } else {
         BlogLocation *item;
@@ -527,27 +490,19 @@
     myCell.blog2ImageView.layer.cornerRadius = myCell.blog2ImageView.frame.size.width / 2;
     myCell.blog2ImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     myCell.blog2ImageView.layer.borderWidth = 0.5f;
-    myCell.blog2ImageView.layer.masksToBounds = YES;
     
     myCell.replyButton.tintColor = [UIColor lightGrayColor];
     UIImage *replyimage =[[UIImage imageNamed:@"Commentfilled.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.replyButton setImage:replyimage forState:UIControlStateNormal];
-    [myCell.replyButton addTarget:self action:@selector(replyButton:) forControlEvents:UIControlEventTouchUpInside];
+    //[myCell.replyButton addTarget:self action:@selector(replyButton:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.likeButton setImage:image forState:UIControlStateNormal];
-    [myCell.likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
-    [myCell.likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
+    //[myCell.likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
+    //[myCell.likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
     myCell.likeButton.tintColor = [UIColor lightGrayColor];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-        
-        [myCell.numLabel sizeToFit];
-        if (![myCell.numLabel.text isEqual: @"0"] ) {
-            myCell.numLabel.textColor = [UIColor redColor];
-        } else {
-            myCell.numLabel.text = @"";
-        }
         
         [myCell.commentLabel sizeToFit];
         if (![myCell.commentLabel.text isEqual: @"0"] ) {
@@ -562,11 +517,6 @@
             myCell.replyButton.tintColor = [UIColor lightGrayColor];
         }
     }
-    
-    myCell.flagButton.tintColor = [UIColor lightGrayColor];
-    UIImage *reportimage = [[UIImage imageNamed:@"Flag.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [myCell.flagButton setImage:reportimage forState:UIControlStateNormal];
-    [myCell.flagButton addTarget:self action:@selector(flagButton:) forControlEvents:UIControlEventTouchUpInside];
     
     myCell.actionBtn.tintColor = [UIColor darkGrayColor];
     UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -593,12 +543,27 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *newString = [NSString stringWithFormat:@"MSG \n%lu", (unsigned long) _feedItems.count];
-    NSString *newString1 = [NSString stringWithFormat:@"LIKES \n%lu",(unsigned long) headCount.count];
+    NSString *newString3;
+    NSString *newString = [NSString stringWithFormat:@"CUST \n%lu", (unsigned long) _feedItems.count];
+    NSString *newString1 = [NSString stringWithFormat:@"ACTIVE \n%lu",(unsigned long) headCount.count];
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
-    NSString *newString3 = [NSString stringWithFormat:@"Member since %@",getdate];
-    NSString *newString4 = getpostby;
-    NSString *newString5 = [NSString stringWithFormat:@"90 of my picks made $$$. The stock whisper has traded over 1000 traders worldwide"];
+    NSString *newString4 = self.postBy;
+    NSString *newString5 = self.comments;
+    
+    NSString *dateStr = self.leadDate;
+    static NSDateFormatter *DateFormatter = nil;
+    if (DateFormatter == nil) {
+        NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-mm-dd"];
+        NSDate *date = [DateFormatter dateFromString:dateStr];
+        [DateFormatter setDateFormat:@"MMM-dd-yy"];
+        dateStr = [DateFormatter stringFromDate:date];
+        if ([self.formController isEqual:TNAME1]) {
+            newString3 = [NSString stringWithFormat:@"Lead since %@",dateStr];
+        } else {
+            newString3 = [NSString stringWithFormat:@"Customer since %@",dateStr];
+        }
+    }
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //self.listTableView.tableHeaderView = view; //makes header move with tablecell
@@ -790,40 +755,11 @@
     else
         _selectedLocation = [filteredString objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"blogusereditSegue" sender:self];
-
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"blogusereditSegue"])
-    {
-        BlogEditDetailView *detailVC = segue.destinationViewController;
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
-            if (!isFilltered) {
-                detailVC.objectId = [[_feedItems objectAtIndex:indexPath.row] objectId];
-                detailVC.msgNo = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
-                detailVC.postby = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-                detailVC.subject = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-                detailVC.msgDate = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-                detailVC.rating = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Rating"];
-                detailVC.liked = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Liked"];
-                detailVC.replyId = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"ReplyId"];
-            } else {
-                detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
-                detailVC.msgNo = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgNo"];
-                detailVC.postby = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"PostBy"];
-                detailVC.subject = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Subject"];
-                detailVC.msgDate = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-                detailVC.rating = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Rating"];
-            }
-        }
-        else
-            detailVC.selectedLocation = _selectedLocation;
-        
-    }
 
+    
 }
 
 @end

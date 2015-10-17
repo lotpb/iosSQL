@@ -12,7 +12,7 @@
 #import "CustomTableViewCell.h"
 #import "BlogModel.h"
 #import "BlogLocation.h"
-//#import "BlogEditDetailView.h"
+#import "BlogEditDetailView.h"
 //#import "BlogNewViewController.h"
 
 @interface BlogUserController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>

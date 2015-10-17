@@ -19,15 +19,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [[UINavigationBar appearance] setTintColor:[UIColor grayColor]]; //Nav textcolor
- // [[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
+  //[[UIView appearance] setTintColor:[UIColor whiteColor]]; // TabBar textcolor
     
     // Handle launching from a notification
-     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-     if (localNotification) {
-     application.applicationIconBadgeNumber = 0;
-     }
+    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotification) {
+        application.applicationIconBadgeNumber = 0;
+    }
 
 //| ------------------------parse Key---------------------------------
     
@@ -47,11 +47,8 @@
 //| ------------------------ipad storyBoard----------------------------
     
     UIStoryboard *storyboard = [self grabStoryboard];
-    
-    // display storyboard
     self.window.rootViewController = [storyboard instantiateInitialViewController];
     [self.window makeKeyAndVisible];
-    
     
 //| -----------------------register login Key------------------------
     

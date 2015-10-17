@@ -53,6 +53,8 @@
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.phoneField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
+    self.mapView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.mapView.layer.borderWidth = 0.5;
     PFQuery *query = [PFUser query];
     PFObject *user = [query getObjectWithId:self.objectId];
     PFGeoPoint *location = [user objectForKey:@"currentLocation"];
@@ -110,9 +112,9 @@
         [self.userimageView setContentMode:UIViewContentModeScaleToFill];
         self.userimageView.image = pickImage;
         self.userimageView.clipsToBounds = YES; //added
-        [self.userimageView sizeToFit]; //added
 }
 
+#pragma mark - button
 -(IBAction)selectPicturePressed:(id)sender {
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     imgPicker.delegate = self;
@@ -125,6 +127,7 @@
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
 
+#pragma mark upload
 -(IBAction)sendPicture:(id)sender {
     
     //Place the loading spinner
@@ -168,20 +171,7 @@
     }];
 }
 
-#pragma mark Error View
--(void)showErrorView:(NSString *)errorMsg {
-    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action)
-                         {
-                             [alert dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    [alert addAction:ok];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-#pragma mark - Update
+#pragma mark update
 -(IBAction)Update:(id)sender {
     /*
      *******************************************************************************************
@@ -231,6 +221,19 @@
         }];
     }
     //[[self navigationController]popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark - Error View
+-(void)showErrorView:(NSString *)errorMsg {
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Error" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

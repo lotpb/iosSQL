@@ -13,6 +13,8 @@
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
 #import "MapViewController.h"
+#import "LeadsUserController.h"
+
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, HomeModelProtocol>
 {

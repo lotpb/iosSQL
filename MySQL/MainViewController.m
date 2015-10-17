@@ -116,8 +116,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
 }
-#pragma mark - iAd
 
+#pragma mark - iAd
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 //| -------------------------iAd------------------------------
@@ -278,7 +278,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         separatorLineView3 = [[UIView alloc] initWithFrame:CGRectMake(PMAINLINESIZE3)];
         statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -110, 181, 85, 28)];
         label.backgroundColor = [UIColor blackColor];
-        statButton.titleLabel.font = CELL_FONTBOLD(IPADFONT18);
+        statButton.titleLabel.font = CELL_FONT(IPADFONT18);
         [label setFont:CELL_FONT(IPADFONT16)];
         [label1 setFont:CELL_FONT(IPADFONT16)];
         [label2 setFont:CELL_FONT(IPADFONT16)];
@@ -294,7 +294,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
         separatorLineView3 = [[UIView alloc] initWithFrame:CGRectMake(MAINLINESIZE3)];
         label.backgroundColor = [UIColor clearColor];
         statButton = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width -85, 137, 70, 25)];
-        statButton.titleLabel.font = CELL_FONTBOLD(IPHONEFONT14);
+        statButton.titleLabel.font = CELL_FONT(IPHONEFONT14);
         [label setFont:CELL_FONT(IPHONEFONT14)];
         [label1 setFont:CELL_FONT(IPHONEFONT14)];
         [label2 setFont:CELL_FONT(IPHONEFONT14)];
@@ -328,7 +328,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     [statButton addTarget:self action:@selector(openStats:) forControlEvents:UIControlEventTouchDown];
     [statButton setTitle:@"Statistics" forState:UIControlStateNormal];
     [statButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [statButton setBackgroundColor:[UIColor greenColor]];
+    [statButton setBackgroundColor:[UIColor darkGrayColor]];
     CALayer *btnLayer = [statButton layer];
     [btnLayer setMasksToBounds:YES];
     [btnLayer setCornerRadius:9.0f];

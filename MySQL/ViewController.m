@@ -13,6 +13,7 @@
     HomeModel *_homeModel; Location *_selectedLocation;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
+    NSString *titleLabel, *dateLabel, *objectIdLabel;
 }
 @property (strong, nonatomic) NSString *tsa22;
 @property (nonatomic, strong) UISearchController *searchController;
@@ -293,12 +294,24 @@ Parse.com
         myCell.detailTextLabel.text = item.city;
         label1.text = item.callback;
         label2.text = item.date;
+        
     }
     
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+    //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];//@"profile-rabbit-toy.png"
     [myCell.imageView setImage:myImage];
-    }
+    myCell.imageView.userInteractionEnabled = YES;
+    myCell.imageView.tag = indexPath.row;
+   /*
+    myCell.imageView.contentMode = UIViewContentModeScaleToFill;
+    myCell.imageView.clipsToBounds = YES;
+    myCell.imageView.layer.cornerRadius = myCell.imageView.frame.size.width / 2;
+    myCell.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    myCell.imageView.layer.borderWidth = 0.5f;
+    myCell.imageView.layer.masksToBounds = YES; */
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
+    [myCell.imageView addGestureRecognizer:tap];
+    //}
     
     //label1.tag = 102;
     [myCell.contentView addSubview:label1];
@@ -453,6 +466,13 @@ Parse.com
 }
 
 #pragma mark - Segue
+- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
+    objectIdLabel = [_feedItems[sender.view.tag] objectId];
+    dateLabel = [_feedItems[sender.view.tag] objectForKey:@"Date"];
+    titleLabel = [_feedItems[sender.view.tag] objectForKey:@"LastName"];
+    [self performSegueWithIdentifier: @"leaduserSegue" sender:self];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (!isFilltered)
@@ -465,15 +485,28 @@ Parse.com
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([[segue identifier] isEqualToString:@"leaduserSegue"]) {
+        LeadsUserController *detailVC = segue.destinationViewController;
+        detailVC.formController = TNAME1;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            if (!isFilltered) {
+                detailVC.objectId = objectIdLabel;
+                detailVC.postBy = titleLabel;
+                detailVC.leadDate = dateLabel;
+                
+            }
+        }
+    }
+    
     if ([[segue identifier] isEqualToString:LEADVIEWSEGUE])
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME1;
-        /*
-         *******************************************************************************************
-         Parse.com
-         *******************************************************************************************
-         */
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
             if (!isFilltered) {

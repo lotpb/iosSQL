@@ -26,9 +26,10 @@
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
-    self.listTableView.estimatedRowHeight = 110; //ROW_HEIGHT;
+    self.listTableView.estimatedRowHeight = 44; //ROW_HEIGHT;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
+    //self.listTableView.tableHeaderView = self.mapView;
     
     /*
     *******************************************************************************************
@@ -189,12 +190,11 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
     UILabel *headerLabel = [[UILabel alloc]init];
     headerLabel.textColor = [UIColor blackColor];
     headerLabel.backgroundColor = [UIColor whiteColor];
     headerLabel.text = [NSString stringWithFormat:@"  User's \n%lu", (unsigned long) _feedItems.count];
-   [headerLabel setFont:CELL_FONT(IPHONEFONT14)];
+   [headerLabel setFont:CELL_FONT(IPHONEFONT18)];
     NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
     
     UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];

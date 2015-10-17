@@ -152,15 +152,25 @@
 #define DATECOLORTEXT     [UIColor whiteColor]
 #define DATECOLORBACK     [UIColor redColor]
 #define NUMCOLORBACK      [UIColor darkGrayColor]
+//------table names-------------------------------
+#define TNAME1             @"Leads"
+#define TNAME2             @"Customers"
+#define TNAME3             @"Vendors"
+#define TNAME4             @"Employee"
+#define TNAME5             @"Advertising"
+#define TNAME6             @"Product"
+#define TNAME7             @"Job"
+#define TNAME8             @"Salesman"
+#define TNAME9             @"Blog"
 //------tableHeader-------------------------------
 //#define HEADTITLE1    @"NASDAQ \n4,727.35"
 //#define HEADTITLE2    @"NASDAQ \n4,727.35"
 #define HEADTITLE3      @"DOW \n17,776.80"
 #define HEADTEXTCOLOR   [UIColor whiteColor]
 #define HEADHEIGHT      55.0
-#define LABELSIZE1      12, 3, tableView.frame.size.width, 45
-#define LABELSIZE2      105, 3, tableView.frame.size.width, 45
-#define LABELSIZE3      198, 3, tableView.frame.size.width, 45
+#define LABELSIZE1      12, 3, 90, 45
+#define LABELSIZE2      105, 3, 90, 45
+#define LABELSIZE3      198, 3, 90, 45
 #define LINESIZE1       12, 45, 75, 1.5
 #define LINESIZE2       105, 45, 75, 1.5
 #define LINESIZE3       198, 45, 75, 1.5
@@ -207,10 +217,10 @@
 #define DATEPKCOLOR       [UIColor lightGrayColor] //datepicker backgroundColor
 
 //BLOGUSER
-#define BLABELSIZE1      12, 130, tableView.frame.size.width - 12, 45
-#define BLABELSIZE2      105, 130, tableView.frame.size.width -105, 45
-#define BLABELSIZE3      198, 130, tableView.frame.size.width - 198, 45
-#define BLABELSIZE4      12, 95, tableView.frame.size.width -12, 45
+#define BLABELSIZE1      12, 130, 90, 45
+#define BLABELSIZE2      105, 130, 90, 45
+#define BLABELSIZE3      198, 130, 90, 45
+#define BLABELSIZE4      12, 107, tableView.frame.size.width -12, 20
 #define BLABELSIZE5      78, 2, tableView.frame.size.width -80, 45
 #define BLABELSIZE6      12, 60, tableView.frame.size.width -22, 45
 #define BLINESIZE1       12, 170, 75, 1.5

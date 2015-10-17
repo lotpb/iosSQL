@@ -13,6 +13,7 @@
     CustModel *_CustModel; CustLocation *_selectedLocation;
     NSMutableArray * headCount, *_feedItems;
     UIRefreshControl *refreshControl;
+       NSString *titleLabel, *dateLabel, *objectIdLabel;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -289,10 +290,14 @@ Parse.com
         label2.text = item.date;
     }
     
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
         [myCell.imageView setImage:myImage];
-    }
+        myCell.imageView.userInteractionEnabled = YES;
+        myCell.imageView.tag = indexPath.row;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
+        [myCell.imageView addGestureRecognizer:tap];
+    //}
     
     label1.tag = 102;
     [myCell.contentView addSubview:label1];
@@ -448,6 +453,13 @@ Parse.com
 }
 
 #pragma mark - Segue
+- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
+    objectIdLabel = [_feedItems[sender.view.tag] objectId];
+    dateLabel = [_feedItems[sender.view.tag] objectForKey:@"Date"];
+    titleLabel = [_feedItems[sender.view.tag] objectForKey:@"LastName"];
+    [self performSegueWithIdentifier: @"custuserSeque" sender:self];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!isFilltered)
@@ -460,6 +472,19 @@ Parse.com
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([[segue identifier] isEqualToString:@"custuserSeque"]) {
+        LeadsUserController *detailVC = segue.destinationViewController;
+         detailVC.formController = TNAME2;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+            if (!isFilltered) {
+                detailVC.objectId = objectIdLabel;
+                detailVC.postBy = titleLabel;
+                detailVC.leadDate = dateLabel;
+                
+            }
+        }
+    }
+    
     if ([[segue identifier] isEqualToString:CUSTVIEWSEGUE])
     {
         LeadDetailViewControler *detailVC = segue.destinationViewController;
