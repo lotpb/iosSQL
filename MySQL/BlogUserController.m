@@ -17,7 +17,7 @@
     BOOL isReplyClicked;
     NSString *posttoIndex, *userIndex, *getpostby, *getdate;
 }
-@property (nonatomic, strong) UISearchController *searchController;
+//@property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;
 @property (strong, nonatomic) UIImage *selectedImage;
 
@@ -98,10 +98,10 @@
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];
     
 #pragma mark Bar Button
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(foundView:)];
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[addItem, searchItem];
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(popoverWithoutBarButton:)];
+    NSArray *actionButtonItems = @[shareItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
     
 #pragma mark RefreshControl
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -137,6 +137,46 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+# pragma mark - Popover Presentation Controller Delegate
+-(UIModalPresentationStyle) adaptivePresentationStyleForPresentationController: (UIPresentationController * ) controller
+{
+    return UIModalPresentationNone;
+}
+
+- (IBAction)popoverWithoutBarButton:(id)sender {
+    
+    UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:controller];
+    nav.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *popover = nav.popoverPresentationController;
+    controller.preferredContentSize = CGSizeMake(300, 200);
+    popover.delegate = self;
+    popover.sourceView = self.view;
+    popover.sourceRect = CGRectMake(100, 100, 0, 0);
+    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:nav animated:YES completion:nil];
+    /*
+    
+    // grab the view controller we want to show
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    
+    // present the controller
+    // on iPad, this will be a Popover
+    // on iPhone, this will be an action sheet
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    // configure the Popover presentation controller
+    UIPopoverPresentationController *popController = [controller popoverPresentationController];
+    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popController.delegate = self;
+    
+    // in case we don't have a bar button as reference
+    popController.sourceView = self.view;
+    popController.sourceRect = CGRectMake(30, 50, 10, 10); */
 }
 
 #pragma mark - RefreshControl
@@ -196,11 +236,6 @@
 }
 
 #pragma mark - Button
-#pragma mark New BarButton
--(void)foundView:(id)sender {
-    isReplyClicked = NO;
-    [self performSegueWithIdentifier:BLOGNEWSEGUE sender:self];
-}
 
 #pragma mark flag button
 - (void) flagButton:(id)sender  {
@@ -598,7 +633,7 @@
     NSString *newString2 = [NSString stringWithFormat:HEADTITLE3];
     NSString *newString3 = [NSString stringWithFormat:@"Member since %@",getdate];
     NSString *newString4 = getpostby;
-    NSString *newString5 = [NSString stringWithFormat:@"90 of my picks made $$$. The stock whisper has traded over 1000 traders worldwide"];
+    NSString *newString5 = [NSString stringWithFormat:@"90 percent of my picks made $$$. The stock whisper has traded over 1000 traders worldwide"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //self.listTableView.tableHeaderView = view; //makes header move with tablecell
@@ -614,16 +649,16 @@
         [label setFont:CELL_BOLDFONT(IPADFONT16)];
         [label1 setFont:CELL_BOLDFONT(IPADFONT16)];
         [label2 setFont:CELL_BOLDFONT(IPADFONT16)];
-        [label3 setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [label3 setFont:CELL_MEDFONT(IPADFONT18)];
         [label4 setFont:CELL_MEDFONT(IPADFONT18)];
         [label5 setFont:CELL_LIGHTFONT(IPADFONT18)];
     } else {
         [label setFont:CELL_MEDFONT(IPHONEFONT14) ];
         [label1 setFont:CELL_MEDFONT(IPHONEFONT14)];
         [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
-        [label3 setFont:CELL_LIGHTFONT(IPHONEFONT17) ];
-        [label4 setFont:CELL_MEDFONT(IPHONEFONT17)];
-        [label5 setFont:CELL_LIGHTFONT(IPHONEFONT17)];
+        [label3 setFont:CELL_MEDFONT(IPHONEFONT18) ];
+        [label4 setFont:CELL_MEDFONT(IPHONEFONT18)];
+        [label5 setFont:CELL_LIGHTFONT(IPHONEFONT18)];
     }
     
     UIImageView *image1 =[[UIImageView alloc] initWithFrame:CGRectMake(21, 10, 45, 45)];
@@ -635,7 +670,7 @@
     image1.layer.borderWidth = 0.5f;
     [view addSubview:image1];
     
-    [label4 setTextColor:HEADTEXTCOLOR];
+    [label4 setTextColor:MAINNAVCOLOR];
     label4.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label4.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label4.backgroundColor = [UIColor clearColor];
@@ -644,7 +679,7 @@
     [label4 setText:string4];
     [view addSubview:label4];
     
-    [label5 setTextColor:HEADTEXTCOLOR];
+    [label5 setTextColor:MAINNAVCOLOR];
     label5.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label5.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label5.numberOfLines = 0;
@@ -653,7 +688,7 @@
     [label5 setText:string5];
     [view addSubview:label5];
     
-    [label3 setTextColor:HEADTEXTCOLOR];
+    [label3 setTextColor:MAINNAVCOLOR];
     label3.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label3.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label3.numberOfLines = 0;
@@ -662,7 +697,7 @@
     [label3 setText:string3];
     [view addSubview:label3];
     
-    [label setTextColor:HEADTEXTCOLOR];
+    [label setTextColor:MAINNAVCOLOR];
     label.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label.numberOfLines = 0;
@@ -676,7 +711,7 @@
     [view addSubview:separatorLineView];
     
     label1.numberOfLines = 0;
-    [label1 setTextColor:HEADTEXTCOLOR];
+    [label1 setTextColor:MAINNAVCOLOR];
     label1.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label1.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label1.backgroundColor = [UIColor clearColor];
@@ -689,7 +724,7 @@
     [view addSubview:separatorLineView1];
     
     label2.numberOfLines = 0;
-    [label2 setTextColor:HEADTEXTCOLOR];
+    [label2 setTextColor:MAINNAVCOLOR];
     label2.shadowColor = [UIColor colorWithWhite:1.0f alpha:0.7f];
     label2.shadowOffset = CGSizeMake(0.0f, 0.5f);
     label2.backgroundColor = [UIColor clearColor];
@@ -698,88 +733,15 @@
     [view addSubview:label2];
     
     UIView* separatorLineView2 = [[UIView alloc] initWithFrame:CGRectMake(BLINESIZE3)];
-    separatorLineView2.backgroundColor = LINECOLOR1;
+    separatorLineView2.backgroundColor = BLOGLINECOLOR1;
     [view addSubview:separatorLineView2];
     
     if (!isFilltered)
-        [view setBackgroundColor:BLOGNAVBARCOLOR]; //[UIColor clearColor]]
+        [view setBackgroundColor:LIGHTGRAYCOLOR]; //BLOGNAVBARCOLOR
     else
         [view setBackgroundColor:[UIColor blackColor]];
     
     return view;
-}
-
-#pragma mark - Search
-- (void)searchButton:(id)sender {
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.delegate = self;
-    [self.searchController.searchBar sizeToFit];
-    self.searchController.hidesNavigationBarDuringPresentation = SHIDE;
-    self.searchController.dimsBackgroundDuringPresentation = SDIM;
-    self.definesPresentationContext = SDEFINE;
-    self.searchController.searchBar.barStyle = SEARCHBARSTYLEBLOG;
-    self.searchController.searchBar.tintColor = SEARCHTINTCOLOR;
-    self.searchController.searchBar.barTintColor = BLOGNAVBARCOLOR;
-    //self.navigationItem.titleView = self.searchController.searchBar;
-    self.searchController.searchBar.scopeButtonTitles = @[BLOGSCOPE];
-    self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
-    self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    [self presentViewController:self.searchController animated:YES completion:nil];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
-{
-    [self updateSearchResultsForSearchController:self.searchController];
-}
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    if (!searchController.active){
-        self.listTableView.contentInset = UIEdgeInsetsMake(SEDGEINSERT);
-        return;
-    }
-    
-    NSString *searchText = searchController.searchBar.text;
-    if(searchText.length == 0)
-        isFilltered = NO;
-    else {
-        isFilltered = YES;
-        filteredString = [[NSMutableArray alloc]init];
-        for(PFObject *string in _feedItems)
-            //for(BlogLocation* string in _feedItems)
-        {
-            NSRange stringRange;
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 0)
-            {
-                stringRange = [[string objectForKey:@"Subject"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.subject rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 1)
-            {
-                stringRange = [[string objectForKey:@"MsgDate"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.msgDate rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 2)
-            {
-                stringRange = [[string objectForKey:@"Rating"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.rating rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
-            
-            if (self.searchController.searchBar.selectedScopeButtonIndex == 3)
-            {
-                stringRange = [[string objectForKey:@"PostBy"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                //stringRange = [string.postby rangeOfString:searchText options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-            }
-            if(stringRange.location != NSNotFound)
-                [filteredString addObject:string];
-        }
-    }
-    [self.listTableView reloadData];
 }
 
 #pragma mark - Segue

@@ -96,10 +96,10 @@ NSString* const kParseKey	     	    = @"parseKey";
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = DARKGRAYCOLOR; //[UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = YES;
     
     // Load our preferences.  Preloading the relevant preferences here will
     // prevent possible diskIO latency from stalling our code in more time

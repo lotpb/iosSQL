@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -464,11 +464,12 @@
                     </view>
                     <connections>
                         <outlet property="listTableView" destination="nJ0-yN-fn9" id="rlZ-qI-0JB"/>
+                        <segue destination="7T0-2h-dH4" kind="show" identifier="leaduserDetailSegue" id="Ac2-sU-6c1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ur1-G0-nzJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-138" y="2987"/>
+            <point key="canvasLocation" x="1284" y="2733"/>
         </scene>
         <!--Blog User-->
         <scene sceneID="OdN-Br-l2P">
@@ -2695,7 +2696,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5Z-bl-YrX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-74" y="1161"/>
+            <point key="canvasLocation" x="-82" y="1161"/>
         </scene>
         <!--News-->
         <scene sceneID="HLY-BF-Aq6">
@@ -3770,7 +3771,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="aSN-Xu-god">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9M-Sm-qE1">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9M-Sm-qE1" userLabel="mainView">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="news title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qgd-JB-9KV" userLabel="Comment Title">
@@ -3918,7 +3919,9 @@
                         <outlet property="commentSorce" destination="oaW-cd-i4t" id="LKW-zp-OTF"/>
                         <outlet property="commentTitle" destination="Qgd-JB-9KV" id="9So-xa-f9l"/>
                         <outlet property="imgToUpload" destination="dGE-Pd-d9e" id="uja-2I-BnS"/>
+                        <outlet property="mainView" destination="e9M-Sm-qE1" id="eRb-zv-3k2"/>
                         <outlet property="progressView" destination="WL5-P3-BX9" id="BfT-Ag-sDj"/>
+                        <outlet property="selectPic" destination="dRc-bU-Xh5" id="9eS-kS-4CW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io1-xW-K9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3940,7 +3943,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Em2-uc-hAa">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-rB-VyF">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-rB-VyF" userLabel="mainView">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                                         <subviews>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dtu-5T-Ywm">
@@ -4053,6 +4056,7 @@
                     </view>
                     <connections>
                         <outlet property="listTableView" destination="15t-DS-WIn" id="dOd-0h-hfn"/>
+                        <outlet property="mainView" destination="hvr-rB-VyF" id="bBF-5b-cVJ"/>
                         <outlet property="mapView" destination="dtu-5T-Ywm" id="e3B-6w-JF7"/>
                         <segue destination="bbr-C1-2u1" kind="show" identifier="userdetailSegue" id="1XZ-nt-vxr"/>
                     </connections>
@@ -6073,20 +6077,20 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RkH-L9-G0j"/>
         <segue reference="jwQ-k2-eY1"/>
-        <segue reference="MEa-hs-crl"/>
+        <segue reference="0RT-Di-IAk"/>
+        <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="RkH-L9-G0j"/>
         <segue reference="wDP-4Y-cdF"/>
         <segue reference="LW3-fz-kP6"/>
-        <segue reference="0RT-Di-IAk"/>
-        <segue reference="OQh-pS-HTt"/>
-        <segue reference="e2A-fc-Mn4"/>
-        <segue reference="8CE-Ce-Bwc"/>
+        <segue reference="dZl-6c-nn2"/>
+        <segue reference="Ac2-sU-6c1"/>
         <segue reference="YL2-bg-fIc"/>
-        <segue reference="P6P-ng-NfQ"/>
-        <segue reference="dip-5A-Lje"/>
+        <segue reference="zQR-YQ-xF4"/>
         <segue reference="Vww-ua-WBq"/>
         <segue reference="xOD-Ja-G1n"/>
+        <segue reference="dip-5A-Lje"/>
+        <segue reference="P6P-ng-NfQ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

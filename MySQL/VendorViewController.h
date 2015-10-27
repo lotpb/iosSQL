@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseConnection.h"
 #import "VendLocation.h"
 #import "VendorModel.h"
-#import "ParseConnection.h"
 #import "VendorDetailController.h"
 #import "NewData.h"
 #import "LeadDetailViewControler.h"

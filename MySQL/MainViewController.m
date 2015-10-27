@@ -131,7 +131,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     static dispatch_once_t once;
     dispatch_once(&once, ^
     {
-        [self updateCheck]; // Code to run once
+        [self versionCheck]; // Code to run once
     });
     
 //| ----------------------------------------------------------
@@ -507,8 +507,8 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     }
 }
 
-#pragma mark - Check Update
--(void)updateCheck {
+#pragma mark - version check
+-(void)versionCheck {
     __block NSString *versionId;
     PFQuery *query21 = [PFQuery queryWithClassName:@"Version"];
     //query21.cachePolicy = kPFCACHEPOLICY;

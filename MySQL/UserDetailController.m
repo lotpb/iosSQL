@@ -27,8 +27,9 @@
     self.phoneField.text = self.phone;
     self.createLabel.text = self.create;
     self.userimageView.image = self.userimage;
-    self.userimageView.backgroundColor = [UIColor whiteColor];
+    self.userimageView.backgroundColor = [UIColor blackColor];
     self.userimageView.userInteractionEnabled = YES;
+    self.mainView.backgroundColor = LIGHTGRAYCOLOR;
     
     UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 175, self.mainView.frame.size.width, 0.5)];
     separatorLineTop.backgroundColor = [UIColor darkGrayColor];// you can also put image here

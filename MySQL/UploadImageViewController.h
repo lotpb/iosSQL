@@ -16,13 +16,14 @@
 @interface UploadImageViewController : UIViewController <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate>
 
-
+@property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgToUpload;
 @property (weak, nonatomic) IBOutlet UITextField *commentTitle;
 @property (weak, nonatomic) IBOutlet UITextField *commentSorce;
 @property (weak, nonatomic) IBOutlet UITextView *commentDetail;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
+@property (weak, nonatomic) IBOutlet UIButton *selectPic;
 
 @property (nonatomic, strong) NSString *username;
 -(IBAction)selectPicturePressed:(id)sender;

@@ -37,6 +37,7 @@
 	<string>To Find out your location</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>location</string>
 	</array>

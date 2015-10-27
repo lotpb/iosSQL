@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseConnection.h"
 #import "Location.h"
 #import "HomeModel.h"
-#import "ParseConnection.h"
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
-#import "MapViewController.h"
 #import "LeadsUserController.h"
+#import "UIImageView+Letters.h"
+//#import <QuartzCore/QuartzCore.h>
+//#import "MapViewController.h"
 
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, HomeModelProtocol>

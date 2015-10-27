@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 #import "BlogModel.h"
 #import "BlogViewController.h"
-#import "Constants.h"
 
 @interface BlogNewViewController : UIViewController <UITextViewDelegate>
 

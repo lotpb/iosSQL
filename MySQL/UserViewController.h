@@ -19,6 +19,7 @@
     BOOL isFilltered;
 }
 
+@property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) UIImage *selectedImage;

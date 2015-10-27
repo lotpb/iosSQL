@@ -17,8 +17,7 @@
     //UIButton *flagButton;
     UIButton *likeButton;
     BOOL isReplyClicked;
-    NSString *posttoIndex, *userIndex;
-    NSString *titleLabel;
+    NSString *posttoIndex, *userIndex, *titleLabel;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;

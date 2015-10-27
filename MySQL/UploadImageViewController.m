@@ -42,7 +42,13 @@
 {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;//fix
+    self.mainView.backgroundColor = LIGHTGRAYCOLOR;
     //[self.commentTitle becomeFirstResponder];
+    
+    self.navigationController.navigationBar.barTintColor = DARKGRAYCOLOR; //[UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = YES;
     
     if (self.progressView.progress == 0) {
         self.progressView.hidden = NO;
@@ -65,6 +71,8 @@
     self.imgToUpload.userInteractionEnabled = YES;
 
     [self.clearButton setTitle:@"clear" forState:UIControlStateNormal];
+     self.clearButton.tintColor = DARKGRAYCOLOR;
+     self.selectPic.tintColor = DARKGRAYCOLOR;
     
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
@@ -206,7 +214,7 @@
 
     } else {
         moviePath = nil;
-        pickImage = info[UIImagePickerControllerEditedImage];
+        pickImage = [info objectForKey:UIImagePickerControllerEditedImage];
     }
      NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
     [self refreshSolutionView];
@@ -227,7 +235,7 @@
         [self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
         self.imgToUpload.image = pickImage;
         self.imgToUpload.clipsToBounds = YES; //added
-        [self.imgToUpload sizeToFit]; //added
+        //[self.imgToUpload sizeToFit]; //added
         
     } else { //it's video
         self.videoController = [[MPMoviePlayerController alloc] init];

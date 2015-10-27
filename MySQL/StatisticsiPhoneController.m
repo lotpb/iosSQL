@@ -33,7 +33,7 @@
     self.title = NSLocalizedString(@"Statistics", nil);
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    self.listTableView.backgroundColor = STATBACKCOLOR;
+    self.listTableView.backgroundColor = LIGHTGRAYCOLOR;
     self.listTableView.rowHeight = 30;
  // UITableViewAutomaticDimension;
   //self.listTableView.estimatedRowHeight = 44.0;
@@ -629,14 +629,23 @@
             
             view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
             self.listTableView.tableHeaderView = view; //makes header move with tablecell
-            view.backgroundColor = BLOGNAVBARCOLOR;
-            /*
-             UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, MAINHEADHEIGHT)];
-             UIImage *image = [UIImage imageNamed:@"background"];
-             imageHolder.image = image;
-             imageHolder.contentMode = UIViewContentModeScaleAspectFill;
-             imageHolder.clipsToBounds = true;
-             [view addSubview:imageHolder]; */
+            //view.backgroundColor = BLOGNAVBARCOLOR;
+            
+            UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, MAINHEADHEIGHT)];
+            UIImage *image = [UIImage imageNamed:@"IMG_1133New.jpg"];
+            imageHolder.image = image;
+            imageHolder.contentMode = UIViewContentModeScaleAspectFill;
+            imageHolder.clipsToBounds = true;
+            
+            // create effect
+            UIVisualEffect *blurEffect;
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            UIVisualEffectView *visualEffectView;
+            visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+            visualEffectView.frame = imageHolder.bounds;
+            [imageHolder addSubview:visualEffectView];
+            
+            [view addSubview:imageHolder];
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -45, 3, 90, 45)];
             [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];

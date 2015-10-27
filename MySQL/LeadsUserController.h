@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "ParseConnection.h"
-#import "CustomTableViewCell.h"
+//#import "CustomTableViewCell.h"
 #import "BlogModel.h"
 #import "BlogLocation.h"
+#import "LeadDetailViewControler.h"
 
-@interface LeadsUserController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
+@interface LeadsUserController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

@@ -294,23 +294,30 @@ Parse.com
         myCell.detailTextLabel.text = item.city;
         label1.text = item.callback;
         label2.text = item.date;
-        
     }
     
     //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];//@"profile-rabbit-toy.png"
-    [myCell.imageView setImage:myImage];
+    
+    //NSString *userName = @"Michael Bluth"; //[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
+   //UIImageView *myImgView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 10, 50, 50)];
+    //[myCell.imageView setImageWithString:userName color:nil circular:YES];
+    
+    //UIImage *myImage = [UIImage imageNamed:@"profile-rabbit-toy.png"];
+    UIImage *myImage = [UIImage imageNamed:TABLECELLIMAGE];
+   [myCell.imageView setImage:myImage];
     myCell.imageView.userInteractionEnabled = YES;
     myCell.imageView.tag = indexPath.row;
-   /*
+
+/*
     myCell.imageView.contentMode = UIViewContentModeScaleToFill;
     myCell.imageView.clipsToBounds = YES;
     myCell.imageView.layer.cornerRadius = myCell.imageView.frame.size.width / 2;
     myCell.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     myCell.imageView.layer.borderWidth = 0.5f;
-    myCell.imageView.layer.masksToBounds = YES; */
+    //myCell.imageView.layer.masksToBounds = YES; */
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
     [myCell.imageView addGestureRecognizer:tap];
+    
     //}
     
     //label1.tag = 102;
@@ -600,10 +607,10 @@ Parse.com
     }
     
 }
-
+/*
 - (BOOL)shouldAutorotateToInterfaceOrientation:
 (UIInterfaceOrientation)toInterfaceOrientation {
     return YES;
-}
+} */
 
 @end

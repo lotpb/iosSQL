@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseConnection.h"
 #import "CustLocation.h"
 #import "CustModel.h"
-#import "ParseConnection.h"
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
-#import "MapViewController.h"
 #import "LeadsUserController.h"
+//#import "MapViewController.h"
 
 @interface CustController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, CustModelProtocol>
 {

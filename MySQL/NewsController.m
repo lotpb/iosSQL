@@ -8,15 +8,15 @@
 
 #import "NewsController.h"
 
-@interface NewsController () {
-
-    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *numLabel, *urlLabel;
-    UITextView *newsTextview;
+@interface NewsController ()
+{
     PFImageView *userImage;
     PFFile *image;
     PFObject *wallObject;
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
+    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *numLabel, *urlLabel;
+    UITextView *newsTextview;
     UIButton *likeButton, *playButton, *actionBtn;
     UIView *wallImageView, *separatorLineView;
     UIBarButtonItem *searchItem, *shareItem;
@@ -28,7 +28,7 @@
 
 @property(copy, nonatomic) NSURL *videoURL;
 @property (nonatomic, strong) UISearchController *searchController;
-//- (IBAction)sendNotification:(UIButton *)sender;
+
 @end
 
 @implementation NewsController
@@ -49,11 +49,7 @@
    [super viewDidLoad];
      self.edgesForExtendedLayout = UIRectEdgeNone; //fix
      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NEWSNAVLOGO]];
-    [self.wallScroll setBackgroundColor:SCROLLBACKCOLOR];
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    [self.wallScroll addSubview:refreshControl];
+    [self.wallScroll setBackgroundColor:LIGHTGRAYCOLOR];//SCROLLBACKCOLOR
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(notification:)];
     searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
@@ -64,6 +60,10 @@
     emptyLabel.textAlignment = NSTextAlignmentCenter;
     emptyLabel.textColor = [UIColor lightGrayColor];
     emptyLabel.text = @"You have no pending news :)";
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
+    [self.wallScroll addSubview:refreshControl];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

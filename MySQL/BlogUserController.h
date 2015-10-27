@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "ParseConnection.h"
-#import "CustomTableViewCell.h"
 #import "BlogModel.h"
 #import "BlogLocation.h"
 #import "BlogEditDetailView.h"
+//#import "CustomTableViewCell.h"
 //#import "BlogNewViewController.h"
 
-@interface BlogUserController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
+@interface BlogUserController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate>
 {
     NSMutableArray *filteredString;
     BOOL isFilltered;

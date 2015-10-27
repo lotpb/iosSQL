@@ -98,10 +98,11 @@
     }
     
     UIImageView *photoImage = [[UIImageView alloc] init];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         self.photoImage.frame = CGRectMake(15, 15, 300, 170);
-    else
-    photoImage.frame = CGRectMake(self.view.frame.size.width / 2, 60, self.mainView.frame.size.width / 2 - 140, 110);
+    } else {
+        photoImage.frame = CGRectMake(self.view.frame.size.width / 2 +15, 60, self.view.frame.size.width / 2 -25, 110);
+    }
     UIImage *image = [UIImage imageNamed:@"IMG_1133.jpg"];
     [photoImage setImage:image];
     photoImage.clipsToBounds = YES;

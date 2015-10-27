@@ -13,7 +13,7 @@
     CustModel *_CustModel; CustLocation *_selectedLocation;
     NSMutableArray * headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-       NSString *titleLabel, *dateLabel, *objectIdLabel;
+    NSString *titleLabel, *dateLabel, *objectIdLabel;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -182,11 +182,8 @@ Parse.com
                                      [request setHTTPBody:data];
                                      
                                      if (!error) {
-                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
-                                                                                                    fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                                                                                                        // Handle response here
-                                                                                                    }];
-                                         
+                                         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) { // Handle response here
+                                    }];
                                          [uploadTask resume];
                                      }
                                      
@@ -198,9 +195,7 @@ Parse.com
                                 // GOBACK; // Dismiss the viewController upon success
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-        UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:@"Cancel"
-                                 style:UIAlertActionStyleDefault
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                  handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
@@ -589,6 +584,7 @@ Parse.com
         detailVC.l1datetext = @"Sale Date:";
         detailVC.lnewsTitle = CUSTOMERNEWSTITLE;
     }
+    
     if ([[segue identifier] isEqualToString:CUSTNEWSEGUE]) {
         NewData *detailVC = segue.destinationViewController;
         detailVC.formController = TNAME2 ;

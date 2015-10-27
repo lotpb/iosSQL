@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -3902,7 +3902,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="uJe-8f-ZEn">
                                 <rect key="frame" x="0.0" y="-1" width="600" height="488"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAs-my-HLU">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAs-my-HLU" userLabel="mainView">
                                         <rect key="frame" x="100" y="0.0" width="400" height="488"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Aof-Mq-xma">
@@ -4029,7 +4029,9 @@
                         <outlet property="commentSorce" destination="wrq-tG-hua" id="pPk-NN-QcB"/>
                         <outlet property="commentTitle" destination="HFH-Bi-RZI" id="8IL-eT-yaX"/>
                         <outlet property="imgToUpload" destination="TMC-G7-a5l" id="ktD-XN-wUy"/>
+                        <outlet property="mainView" destination="WAs-my-HLU" id="Q43-99-OQm"/>
                         <outlet property="progressView" destination="Aof-Mq-xma" id="cl2-L9-WVN"/>
+                        <outlet property="selectPic" destination="LWs-3e-wGr" id="Acj-P2-INY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io1-xW-K9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4822,11 +4824,12 @@
                     </view>
                     <connections>
                         <outlet property="listTableView" destination="NP6-jp-PmX" id="uOa-dP-CN8"/>
+                        <segue destination="7T0-2h-dH4" kind="show" identifier="leaduserDetailSegue" id="T0A-Gx-DIp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Sv-cP-77e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1278" y="217"/>
+            <point key="canvasLocation" x="1274" y="217"/>
         </scene>
         <!--Home-->
         <scene sceneID="ETP-CH-IV2">
@@ -4969,6 +4972,7 @@
                         <outlet property="listTableView" destination="ahO-jB-BaI" id="LVI-2c-wr1"/>
                         <segue destination="7T0-2h-dH4" kind="show" identifier="detailCustSegue" id="e2A-fc-Mn4"/>
                         <segue destination="xTM-Le-5MW" kind="show" identifier="newCustSeque" id="8CE-Ce-Bwc"/>
+                        <segue destination="evR-RE-enK" kind="show" identifier="custuserSeque" id="lVf-JF-ViE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vz9-DE-WgZ" sceneMemberID="firstResponder"/>
@@ -6390,19 +6394,20 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="46l-tX-X1A"/>
         <segue reference="OIT-Tg-XOk"/>
-        <segue reference="dEx-BS-YRT"/>
         <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="dEx-BS-YRT"/>
+        <segue reference="lVf-JF-ViE"/>
+        <segue reference="8CE-Ce-Bwc"/>
+        <segue reference="T0A-Gx-DIp"/>
+        <segue reference="YL2-bg-fIc"/>
+        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="qxc-XD-hBQ"/>
+        <segue reference="46l-tX-X1A"/>
         <segue reference="wDP-4Y-cdF"/>
         <segue reference="Ny2-Ly-bNj"/>
-        <segue reference="JGM-Q4-zwX"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="Vww-ua-WBq"/>
-        <segue reference="caJ-Lp-u5t"/>
-        <segue reference="dip-5A-Lje"/>
-        <segue reference="xOD-Ja-G1n"/>
-        <segue reference="YL2-bg-fIc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

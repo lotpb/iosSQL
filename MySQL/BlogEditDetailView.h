@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import <Parse/Parse.h>
 #import "CustomTableViewCell.h"
 #import "BlogViewController.h"
-#import <Parse/Parse.h>
 #import "BlogLocation.h"
 
 @interface BlogEditDetailView : UIViewController

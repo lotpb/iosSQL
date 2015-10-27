@@ -29,13 +29,11 @@
     self.listTableView.estimatedRowHeight = 44; //ROW_HEIGHT;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
-    //self.listTableView.tableHeaderView = self.mapView;
-    
-    /*
-    *******************************************************************************************
-    Parse.com
-    *******************************************************************************************
-    */
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self;
@@ -88,6 +86,7 @@
         parseConnection.delegate = (id)self;
        [parseConnection parseUser];
     }
+    [self refreshMap];
     [self.listTableView reloadData];
     
     if (refreshControl) {
@@ -186,22 +185,25 @@
 #pragma mark table header
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 25;
+    return 30;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *headerLabel = [[UILabel alloc]init];
-    headerLabel.textColor = [UIColor blackColor];
-    headerLabel.backgroundColor = [UIColor whiteColor];
-    headerLabel.text = [NSString stringWithFormat:@"  User's \n%lu", (unsigned long) _feedItems.count];
-   [headerLabel setFont:CELL_FONT(IPHONEFONT18)];
-    NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
+    [view setBackgroundColor:LIGHTGRAYCOLOR];
+    UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, tableView.frame.size.width -10, 20)];
     
+   [headerLabel setFont:CELL_FONT(IPHONEFONT16)];
+    headerLabel.textColor = [UIColor blackColor];
+    headerLabel.text = [NSString stringWithFormat:@"Users 10 \n%lu", (unsigned long)_feedItems.count];
+    //NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
+    [view addSubview:headerLabel];
+    /*
     UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];
     separatorLineBottom.backgroundColor = [UIColor lightGrayColor];
-    [self.listTableView addSubview:separatorLineBottom];
-    
-    return headerLabel;
+    [self.listTableView addSubview:separatorLineBottom]; */
+
+    return view;
 }
 
 #pragma mark - map
