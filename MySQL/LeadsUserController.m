@@ -249,22 +249,21 @@ Parse.com
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
         if (!isFilltered) {
-            /*
+            
             NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];
             static NSDateFormatter *DateFormatter = nil;
             if (DateFormatter == nil) {
                 NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-                [DateFormatter setDateFormat:@"yyyy-mm-dd"];
+                [DateFormatter setDateFormat:@"yyyy-MM-dd"];
                 NSDate *date = [DateFormatter dateFromString:dateStr];
-                [DateFormatter setDateFormat:@"MMM-dd-yy"];
-                dateStr = [DateFormatter stringFromDate:date]; */
-            
+                [DateFormatter setDateFormat:@"MMM dd, yyyy"];
+                dateStr = [DateFormatter stringFromDate:date];
             
             myCell.blogtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"LastName"];
             myCell.blogsubtitleLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
-            myCell.blogmsgDateLabel.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];;
+                myCell.blogmsgDateLabel.text = dateStr;//[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Date"];;
             myCell.commentLabel.text = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Amount"]stringValue];
-            //}
+            }
         } else {
             myCell.blogtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"LastName"];
             myCell.blogsubtitleLabel.text = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"City"];
@@ -346,20 +345,20 @@ Parse.com
     NSString *newString4 = self.postBy;
     NSString *newString5 = self.comments;
     NSString *dateStr = self.leadDate;
-    /*
+    
     static NSDateFormatter *DateFormatter = nil;
     if (DateFormatter == nil) {
         NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-        [DateFormatter setDateFormat:@"yyyy-mm-dd"];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSDate *date = [DateFormatter dateFromString:dateStr];
-        [DateFormatter setDateFormat:@"MMM-dd-yy"];
-        dateStr = [DateFormatter stringFromDate:date]; */
+        [DateFormatter setDateFormat:@"MMM dd, yyyy"];
+        dateStr = [DateFormatter stringFromDate:date];
         if ([self.formController isEqual:TNAME1]) {
             newString3 = [NSString stringWithFormat:@"Lead since %@",dateStr];
         } else {
             newString3 = [NSString stringWithFormat:@"Customer since %@",dateStr];
         }
-  //  }
+    }
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
     //self.listTableView.tableHeaderView = view; //makes header move with tablecell

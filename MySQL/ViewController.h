@@ -13,7 +13,8 @@
 #import "LeadDetailViewControler.h"
 #import "NewData.h"
 #import "LeadsUserController.h"
-#import "UIImageView+Letters.h"
+//#import "UIImageView+Letters.h"
+//#import "CRNInitialsImageView.h"
 //#import <QuartzCore/QuartzCore.h>
 //#import "MapViewController.h"
 

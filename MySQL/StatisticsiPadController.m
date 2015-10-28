@@ -639,14 +639,21 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, 0)];
     self.listTableView.tableHeaderView = view; //makes header move with tablecell
-    view.backgroundColor = BLOGNAVBARCOLOR;
-    /*
+    //view.backgroundColor = BLOGNAVBARCOLOR;
+    
     UIImageView *imageHolder = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.listTableView.frame.size.width, MAINHEADHEIGHT)];
-    UIImage *image = [UIImage imageNamed:@"background"];
+    UIImage *image = [UIImage imageNamed:@"IMG_1133New.jpg"];
     imageHolder.image = image;
     imageHolder.contentMode = UIViewContentModeScaleAspectFill;
     imageHolder.clipsToBounds = true;
-    [view addSubview:imageHolder]; */
+    
+    // create effect
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *visualEffectView;
+    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    visualEffectView.frame = imageHolder.bounds;
+    [imageHolder addSubview:visualEffectView];
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];

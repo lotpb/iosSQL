@@ -1354,7 +1354,7 @@
 				AFBC9EA319D9CEDF0050E67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		AFBC9EA419D9CEDF0050E67A /* Build configuration list for PBXNativeTarget "MySQL" */ = {
 			isa = XCConfigurationList;
@@ -1363,7 +1363,7 @@
 				AFBC9EA619D9CEDF0050E67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		AFBC9EA719D9CEDF0050E67A /* Build configuration list for PBXNativeTarget "MySQLTests" */ = {
 			isa = XCConfigurationList;
@@ -1372,7 +1372,7 @@
 				AFBC9EA919D9CEDF0050E67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

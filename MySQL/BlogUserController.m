@@ -528,7 +528,7 @@
                 NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
                 [DateFormatter setDateFormat:KEY_DATETIME];
                 NSDate *date = [DateFormatter dateFromString:dateStr];
-                [DateFormatter setDateFormat:@"MMM-dd"];
+                [DateFormatter setDateFormat:@"MMM dd, yyyy"];
                 dateStr = [DateFormatter stringFromDate:date];
             }
             

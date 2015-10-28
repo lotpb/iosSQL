@@ -13,6 +13,7 @@
 // The value for the 'Text Color' setting is stored as an integer between
 // one and three inclusive.  This enumeration provides a mapping between
 // the integer value, and color.
+
 typedef NS_ENUM(NSUInteger, TextColor) {
     blue = 1,
     red,
@@ -132,7 +133,9 @@ NSString* const kParseKey	     	    = @"parseKey";
 //! Unwind action for the Done button on the Info screen.
 //
 - (IBAction)unwindFromInfoScreen:(UIStoryboardSegue *)sender
-{ }
+{
+
+}
 
 #pragma mark -
 #pragma mark Preferences
@@ -224,7 +227,6 @@ NSString* const kParseKey	     	    = @"parseKey";
         if (indexPath.row == 0) {
             
             cell.textLabel.text = @"First/Last";
-            cell.textLabel.textColor = self.nameColor;
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
             cell.detailTextLabel.textColor = self.nameColor;
             
