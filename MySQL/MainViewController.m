@@ -568,7 +568,7 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                            {
-                               [self performSegueWithIdentifier:@"userSegue" sender:self];
+                               [self performSegueWithIdentifier:@"user1Segue" sender:self];
                            }];
     UIAlertAction* logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)

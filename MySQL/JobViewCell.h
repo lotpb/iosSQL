@@ -10,6 +10,9 @@
 
 @interface JobViewCell : UICollectionViewCell
 
+
+@property (weak, nonatomic) IBOutlet UIImageView *user2ImageView;
+
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 

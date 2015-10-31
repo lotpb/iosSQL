@@ -28,7 +28,6 @@
     self.scrollView.maximumZoomScale = 6.0;
     self.newsImageview.backgroundColor = BACKGROUNDCOLOR;
     
-    
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
         self.newsImageview.contentMode = UIViewContentModeScaleToFill;

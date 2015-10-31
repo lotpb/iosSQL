@@ -299,4 +299,19 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+//video thumbnail
+- (UIImage *)thumbnailImageFromURL:(NSURL *)videoURL {
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: videoURL options:nil];
+    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    NSError *err = NULL;
+    CMTime requestedTime = CMTimeMake(1, 60);     // To create thumbnail image
+    CGImageRef imgRef = [generator copyCGImageAtTime:requestedTime actualTime:NULL error:&err];
+    NSLog(@"err = %@, imageRef = %@", err, imgRef);
+    
+    UIImage *thumbnailImage = [[UIImage alloc] initWithCGImage:imgRef];
+    CGImageRelease(imgRef);    // MUST release explicitly to avoid memory leak
+    
+    return thumbnailImage;
+}
+
 @end

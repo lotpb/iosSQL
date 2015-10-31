@@ -22,7 +22,6 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) UIView *buttonView;
 
-
 @end
 
 @implementation BlogViewController

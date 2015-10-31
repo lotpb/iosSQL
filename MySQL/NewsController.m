@@ -85,8 +85,11 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-     self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
-     self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
+    self.navigationController.navigationBar.barTintColor = DARKGRAYCOLOR;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+   [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = YES;
+
     //Clean the scroll view
      for (id viewToRemove in [self.wallScroll subviews]) {
         if ([viewToRemove isMemberOfClass:[UIView class]])
@@ -333,12 +336,12 @@
             numLabel.textColor = BLUECOLOR;
             numLabel.font = LIKEFONT(IPHONEFONT16);
         } else {
-            //numLabel.textColor = [UIColor grayColor];
+          //numLabel.textColor = [UIColor grayColor];
             numLabel.text = @"";
         }
         [wallImageView addSubview:numLabel];
 
-        separatorLineView.backgroundColor = SCROLLBACKCOLOR;
+        separatorLineView.backgroundColor = LIGHTGRAYCOLOR; //SCROLLBACKCOLOR;
         [wallImageView addSubview:separatorLineView];
         
         //[self.wallScroll addSubview:wallImageView];

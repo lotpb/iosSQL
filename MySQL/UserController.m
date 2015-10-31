@@ -1,23 +1,25 @@
 //
-//  UserViewController.m
+//  UserController.m
 //  MySQL
 //
-//  Created by Peter Balsamo on 10/4/15.
+//  Created by Peter Balsamo on 10/30/15.
 //  Copyright © 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "UserViewController.h"
+#import "UserController.h"
 
-@interface UserViewController ()
+@interface UserController ()
 {
-    NSMutableArray *_feedItems;
+    NSMutableArray *_feedItems, *_feedItemsCol;
     UIRefreshControl *refreshControl;
+    PFObject *imageObject;
+    PFFile *imageFile;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (strong, nonatomic) PFUser *user;
 @end
 
-@implementation UserViewController
+@implementation UserController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,24 +31,31 @@
     self.listTableView.estimatedRowHeight = 44; //ROW_HEIGHT;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
+    
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.backgroundColor = BACKGROUNDCOLOR;
+    
+    [self queryParseMethod];
+
 /*
-*******************************************************************************************
-Parse.com
-*******************************************************************************************
-*/
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self;
         [parseConnection parseUser];
     }
-
+    
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
-   
+    
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[addItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
+/*
 #pragma mark RefreshControl
     UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.mapView insertSubview:refreshView atIndex:0];
@@ -54,7 +63,10 @@ Parse.com
     refreshControl.backgroundColor = REFRESHCOLOR;
     [refreshControl setTintColor:REFRESHTEXTCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
-    [refreshView addSubview:refreshControl];
+    [refreshView addSubview:refreshControl];  */
+   
+    UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
+    collectionViewLayout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,7 +96,7 @@ Parse.com
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         ParseConnection *parseConnection = [[ParseConnection alloc]init];
         parseConnection.delegate = (id)self;
-       [parseConnection parseUser];
+        [parseConnection parseUser];
     }
     [self refreshMap];
     [self.listTableView reloadData];
@@ -137,11 +149,11 @@ Parse.com
     
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    /*
-     *******************************************************************************************
-     Parse.com
-     *******************************************************************************************
-     */
+/*
+ *******************************************************************************************
+ Parse.com
+ *******************************************************************************************
+ */
     
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"]];
@@ -193,16 +205,16 @@ Parse.com
     [view setBackgroundColor:LIGHTGRAYCOLOR];
     UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, tableView.frame.size.width -10, 20)];
     
-   [headerLabel setFont:CELL_FONT(IPHONEFONT16)];
+    [headerLabel setFont:CELL_FONT(IPHONEFONT16)];
     headerLabel.textColor = [UIColor blackColor];
     headerLabel.text = [NSString stringWithFormat:@"Users 11 \n%lu", (unsigned long)_feedItems.count];
     //NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
     [view addSubview:headerLabel];
     /*
-    UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];
-    separatorLineBottom.backgroundColor = [UIColor lightGrayColor];
-    [self.listTableView addSubview:separatorLineBottom]; */
-
+     UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];
+     separatorLineBottom.backgroundColor = [UIColor lightGrayColor];
+     [self.listTableView addSubview:separatorLineBottom]; */
+    
     return view;
 }
 
@@ -213,20 +225,20 @@ Parse.com
     PFQuery *query = [PFUser query];
     [query whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:100.0f];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         if(error)
-         {
-             NSLog(@"%@",error);
-         }
-         for (id object in objects)
-         {
-             MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-             annotation.title = [object objectForKey:@"username"];
-             PFGeoPoint *geoPoint= [object objectForKey:@"currentLocation"];
-             annotation.coordinate = CLLocationCoordinate2DMake(geoPoint.latitude,geoPoint.longitude);
-             
-             [self.mapView addAnnotation:annotation];
-         }
-     }];
+        if(error)
+        {
+            NSLog(@"%@",error);
+        }
+        for (id object in objects)
+        {
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            annotation.title = [object objectForKey:@"username"];
+            PFGeoPoint *geoPoint= [object objectForKey:@"currentLocation"];
+            annotation.coordinate = CLLocationCoordinate2DMake(geoPoint.latitude,geoPoint.longitude);
+            
+            [self.mapView addAnnotation:annotation];
+        }
+    }];
 }
 
 #pragma mark - search
@@ -256,7 +268,7 @@ Parse.com
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     if (!searchController.active){
-
+        
         return;
     }
     
@@ -267,7 +279,7 @@ Parse.com
         isFilltered = YES;
         filteredString = [[NSMutableArray alloc]init];
         for(PFObject *string in _feedItems)
-
+            
         {
             NSRange stringRange;
             if (self.searchController.searchBar.selectedScopeButtonIndex == 0) {
@@ -281,7 +293,7 @@ Parse.com
             if (self.searchController.searchBar.selectedScopeButtonIndex == 2) {
                 stringRange = [[string objectForKey:@"phone"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
             }
-
+            
             if(stringRange.location != NSNotFound)
                 [filteredString addObject:string];
         }
@@ -292,21 +304,107 @@ Parse.com
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PFObject *imageObject = [_feedItems objectAtIndex:indexPath.row];
-    PFFile *imageFile = [imageObject objectForKey:@"imageFile"];
+    imageObject = [_feedItems objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:@"imageFile"];
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             self.selectedImage = [UIImage imageWithData:data];
-           [self performSegueWithIdentifier:@"userdetailSegue" sender:self.listTableView];
+            [self performSegueWithIdentifier:@"userdetailSegue" sender:self.listTableView];
         }
-    }]; 
+    }];
     
     /*
-    if (!isFilltered)
-        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
-    else
-        _selectedLocation = [filteredString objectAtIndex:indexPath.row]; */
+     if (!isFilltered)
+     _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+     else
+     _selectedLocation = [filteredString objectAtIndex:indexPath.row]; */
 }
+
+#pragma mark - UICollectionViewDataSource methods
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [_feedItemsCol count];
+}
+
+- (void)queryParseMethod {
+    /*
+    PFQuery *query = [PFQuery queryWithClassName:@"jobPhoto"];
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query orderByDescending:KEY_CREATION_DATE];
+    //[query whereKey:@"imageGroup" equalTo:self.workseg];
+    //[query whereKey:@"imageGroup" containsString:self.workseg];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _feedItemsCol = [[NSMutableArray alloc] initWithArray:objects];
+            [self.collectionView reloadData];
+        }
+    }]; */
+    
+    PFQuery *query1 = [PFUser query];
+     query1.cachePolicy = kPFCACHEPOLICY;
+    [query1 orderByAscending:KEY_CREATION_DATE];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _feedItemsCol = [[NSMutableArray alloc] initWithArray:objects];
+            [self.collectionView reloadData];
+        }
+    }];
+    
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *identifier = @"Cell";
+    JobViewCell *cell = (JobViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    /*
+    imageObject = [_feedItemsCol objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:KEY_IMAGE];
+    
+    cell.loadingSpinner.hidden = NO;
+    [cell.loadingSpinner startAnimating];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error) {
+            
+            cell.user2ImageView.image = [UIImage imageWithData:data];
+            
+            [cell.loadingSpinner stopAnimating];
+            cell.loadingSpinner.hidden = YES;
+        }
+    }]; */
+    
+    imageObject = [_feedItemsCol objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:@"imageFile"];
+    
+    cell.loadingSpinner.hidden = NO;
+    [cell.loadingSpinner startAnimating];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error) {
+            
+            cell.user2ImageView.image = [UIImage imageWithData:data];
+            
+            [cell.loadingSpinner stopAnimating];
+            cell.loadingSpinner.hidden = YES;
+        }
+    }];
+    
+    return cell;
+}
+/*
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CGSize s = CGSizeMake([[UIScreen mainScreen] bounds].size.width / 4 - 18, [[UIScreen mainScreen] bounds].size.height / 7 + 65);
+        return s;
+    } else {
+        CGSize s = CGSizeMake([[UIScreen mainScreen] bounds].size.width / 3 - 18, [[UIScreen mainScreen] bounds].size.height / 7);
+        return s;
+    }
+} */
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"userdetailSegue"]) {
@@ -331,4 +429,3 @@ Parse.com
 }
 
 @end
-
