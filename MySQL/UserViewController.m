@@ -10,8 +10,10 @@
 
 @interface UserViewController ()
 {
-    NSMutableArray *_feedItems;
+    NSMutableArray *_feedItems; //, *_feedItemsCol;
     UIRefreshControl *refreshControl;
+    PFObject *imageObject;
+    PFFile *imageFile;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 @property (strong, nonatomic) PFUser *user;
@@ -29,6 +31,11 @@
     self.listTableView.estimatedRowHeight = 44; //ROW_HEIGHT;
     self.listTableView.backgroundColor = BACKGROUNDCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
+    
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.backgroundColor = [UIColor whiteColor]; //BACKGROUNDCOLOR;
+    
 /*
 *******************************************************************************************
 Parse.com
@@ -42,9 +49,9 @@ Parse.com
 
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
    
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
+    //UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[addItem, searchItem];
+    NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
 #pragma mark RefreshControl
@@ -68,7 +75,6 @@ Parse.com
     {
         self.user = [PFUser user];
         [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-            //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
             [self.user setObject:geoPoint forKey:@"currentLocation"];
             [self.user saveInBackground];
             [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude),MKCoordinateSpanMake(0.40, 0.40))];
@@ -108,6 +114,7 @@ Parse.com
 - (void)parseUserloaded:(NSMutableArray *)UserItem {
     _feedItems = UserItem;
     [self.listTableView reloadData];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - TableView
@@ -195,8 +202,7 @@ Parse.com
     
    [headerLabel setFont:CELL_FONT(IPHONEFONT16)];
     headerLabel.textColor = [UIColor blackColor];
-    headerLabel.text = [NSString stringWithFormat:@"Users 11 \n%lu", (unsigned long)_feedItems.count];
-    //NSLog(@"Object peter id %lu",(unsigned long) _feedItems.count);
+    headerLabel.text = [NSString stringWithFormat:@"Users %ld", (unsigned long)_feedItems.count];
     [view addSubview:headerLabel];
     /*
     UIView* separatorLineBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 25, self.listTableView.frame.size.width, 0.2)];
@@ -206,6 +212,48 @@ Parse.com
     return view;
 }
 
+#pragma mark - UICollectionViewDataSource methods
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [_feedItems count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *identifier = @"Cell";
+    JobViewCell *cell = (JobViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
+    title.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
+    title.font = [UIFont systemFontOfSize:12];
+    title.adjustsFontSizeToFitWidth = YES;
+    title.clipsToBounds = YES;
+    title.textColor = [UIColor blackColor];
+    title.backgroundColor = [UIColor whiteColor];
+    title.textAlignment = NSTextAlignmentCenter;
+    [cell.contentView addSubview:title];
+    
+    imageObject = [_feedItems objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:@"imageFile"];
+    
+    cell.loadingSpinner.hidden = NO;
+    [cell.loadingSpinner startAnimating];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error) {
+            
+            cell.user2ImageView.image = [UIImage imageWithData:data];
+            [cell.loadingSpinner stopAnimating];
+            cell.loadingSpinner.hidden = YES;
+        }
+    }];
+    
+    return cell;
+}
+
 #pragma mark - map
 - (void)refreshMap {
     
@@ -213,8 +261,7 @@ Parse.com
     PFQuery *query = [PFUser query];
     [query whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:100.0f];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         if(error)
-         {
+         if(error) {
              NSLog(@"%@",error);
          }
          for (id object in objects)
@@ -291,9 +338,9 @@ Parse.com
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PFObject *imageObject = [_feedItems objectAtIndex:indexPath.row];
-    PFFile *imageFile = [imageObject objectForKey:@"imageFile"];
+    self.formController = @"TableView";
+    imageObject = [_feedItems objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:@"imageFile"];
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             self.selectedImage = [UIImage imageWithData:data];
@@ -308,10 +355,29 @@ Parse.com
         _selectedLocation = [filteredString objectAtIndex:indexPath.row]; */
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.formController = @"CollectionView";
+    imageObject = [_feedItems objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:@"imageFile"];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error) {
+            self.selectedImage = [UIImage imageWithData:data];
+            [self performSegueWithIdentifier:@"userdetailSegue" sender:self.collectionView];
+        }
+    }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([[segue identifier] isEqualToString:@"userdetailSegue"]) {
+        NSIndexPath *indexPath;
+        if ([self.formController isEqualToString:@"TableView"]) {
+            indexPath = [self.listTableView indexPathForSelectedRow];
+        } else {
+            indexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+        }
         
-        NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         static NSDateFormatter *formatter = nil;
         if (formatter == nil) {
             NSDate *updated = [[_feedItems objectAtIndex:indexPath.row] createdAt];

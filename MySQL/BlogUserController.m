@@ -506,14 +506,14 @@
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT18)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT16)];
-        myCell.numLabel.font = LIKEFONT(IPADFONT16);
-        myCell.commentLabel.font = LIKEFONT(IPADFONT16);
+        myCell.numLabel.font = CELL_BOLDFONT(IPADFONT16);
+        myCell.commentLabel.font = CELL_BOLDFONT(IPADFONT16);
     } else {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
         [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
-        myCell.numLabel.font = LIKEFONT(IPHONEFONT16);
-        myCell.commentLabel.font = LIKEFONT(IPHONEFONT16);
+        myCell.numLabel.font = CELL_BOLDFONT(IPHONEFONT16);
+        myCell.commentLabel.font = CELL_BOLDFONT(IPHONEFONT16);
     }
     
     if (myCell == nil)

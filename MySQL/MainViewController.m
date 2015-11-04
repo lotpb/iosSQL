@@ -41,7 +41,6 @@
     [push setMessage:@"The Giants just scored!"];
     [push sendPushInBackground];
 
-    
 //-------------------create Parse User------------------
 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
     
@@ -149,6 +148,12 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Logout
+- (void)logout {
+    [PFUser logOut];
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
 
 #pragma mark - Background Refresh
@@ -560,16 +565,21 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     UIAlertController * view=   [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
+    UIAlertAction* snapshot = [UIAlertAction actionWithTitle:@"SnapShot" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action)
+                               {
+                                   [self performSegueWithIdentifier:@"user1Segue" sender:self];
+                               }];
+    UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * action)
+                           {
+                               [self performSegueWithIdentifier:@"userSegue" sender:self];
+                           }];
     UIAlertAction* settings = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                                {
                                 [self performSegueWithIdentifier:@"settingSegue" sender:self];
                                }];
-    UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action)
-                           {
-                               [self performSegueWithIdentifier:@"user1Segue" sender:self];
-                           }];
     UIAlertAction* logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                              {
@@ -579,8 +589,10 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-    [view addAction:settings];
+    
+    [view addAction:snapshot];
     [view addAction:user];
+    [view addAction:settings];
     [view addAction:logout];
     [view addAction:cancel];
     
@@ -621,11 +633,6 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
     
     if ([mycell.textLabel.text isEqualToString:TNAME9])
         [self performSegueWithIdentifier:MAINVIEWSEGUE9 sender:nil];
-}
-
-- (void)logout {
-    [PFUser logOut];
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
 
 /*

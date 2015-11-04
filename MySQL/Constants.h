@@ -146,11 +146,11 @@
 //HelveticaNeue-Thin
 //HelveticaNeue-ThinItalic
 #define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
-#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s] //ipad stats
-#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]  //ipad stats
-#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //blogedit
 #define DETAILFONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s] //news
-#define LIKEFONT(s)       [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //like button
+#define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]//ipad stats
+#define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]//ipad stats
+#define CELL_BOLDFONT(s)  [UIFont fontWithName:@"HelveticaNeue-Bold" size:s] //blogedit
+
 #define DATECOLORTEXT     [UIColor whiteColor]
 #define DATECOLORBACK     [UIColor redColor]
 #define NUMCOLORBACK      [UIColor darkGrayColor]

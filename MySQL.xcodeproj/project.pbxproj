@@ -64,7 +64,7 @@
 		AF5D75941B4A21E200EEAA80 /* ParseStatConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D75931B4A21E200EEAA80 /* ParseStatConnection.m */; };
 		AF5EF8391A4F013D00B802E1 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */; };
 		AF5F8EE11A61C4290063B6DA /* LookupCity.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F8EE01A61C4290063B6DA /* LookupCity.m */; };
-		AF600A6B1BE3A74600B34814 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF600A6A1BE3A74600B34814 /* UserController.m */; };
+		AF600A6B1BE3A74600B34814 /* SnapshotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF600A6A1BE3A74600B34814 /* SnapshotController.m */; };
 		AF627C151A1239EF0048668B /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF627C141A1239EF0048668B /* ProfileViewController.m */; };
 		AF6308CF1A4DE1D800D89FD8 /* CollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6308CE1A4DE1D800D89FD8 /* CollectionController.m */; };
 		AF65081119EB158300CEF44D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF65081019EB158300CEF44D /* MainViewController.m */; };
@@ -240,8 +240,8 @@
 		AF5EF8381A4F013D00B802E1 /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		AF5EF83A1A4F015900B802E1 /* UploadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
 		AF5F8EE01A61C4290063B6DA /* LookupCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookupCity.m; sourceTree = "<group>"; };
-		AF600A691BE3A74600B34814 /* UserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserController.h; sourceTree = "<group>"; };
-		AF600A6A1BE3A74600B34814 /* UserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserController.m; sourceTree = "<group>"; };
+		AF600A691BE3A74600B34814 /* SnapshotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapshotController.h; sourceTree = "<group>"; };
+		AF600A6A1BE3A74600B34814 /* SnapshotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapshotController.m; sourceTree = "<group>"; };
 		AF627C131A1239EF0048668B /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		AF627C141A1239EF0048668B /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		AF6308CD1A4DE1D800D89FD8 /* CollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionController.h; sourceTree = "<group>"; };
@@ -828,8 +828,8 @@
 				AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */,
 				AF3B2CB419ECBF1B00604562 /* Main.storyboard */,
 				AF58DFB11B409520006729A3 /* iPad.storyboard */,
-				AF600A691BE3A74600B34814 /* UserController.h */,
-				AF600A6A1BE3A74600B34814 /* UserController.m */,
+				AF600A691BE3A74600B34814 /* SnapshotController.h */,
+				AF600A6A1BE3A74600B34814 /* SnapshotController.m */,
 				AFA7CC8C1A3F8C5700128607 /* LaunchScreen.xib */,
 				AF292DEA1B38F707007B69E2 /* Images.xcassets */,
 				AFFAC9011BC9409200718246 /* User */,
@@ -1171,7 +1171,7 @@
 				AF2856661A256B5000A6F42A /* MapController.m in Sources */,
 				AFFEA0861A32101600165318 /* AdvertisingViewController.m in Sources */,
 				AFAA0FDF1A10634600205EE9 /* SocialController.m in Sources */,
-				AF600A6B1BE3A74600B34814 /* UserController.m in Sources */,
+				AF600A6B1BE3A74600B34814 /* SnapshotController.m in Sources */,
 				AF26EF7A1A360BFB00FFE5F0 /* SalesLocation.m in Sources */,
 				AFE1DA5D1A751BB50022025C /* LookupSalesman.m in Sources */,
 				AF1D64001A0D27A6007C6638 /* SidebarViewController.m in Sources */,

@@ -14,7 +14,9 @@
 
 @required
 
-- (void)parseUserloaded:(NSMutableArray *)UserItem;
+- (void)parseNewsloaded:(NSMutableArray *)newsItem;
+- (void)parseJobPhotoloaded:(NSMutableArray *)jobphotoItem;
+- (void)parseUserloaded:(NSMutableArray *)userItem;
 - (void)parseBlogloaded:(NSMutableArray *)blogItem;
 - (void)parseCustomerloaded:(NSMutableArray *)custItem;
 - (void)parseLeadloaded:(NSMutableArray *)leadItem;
@@ -52,6 +54,8 @@
 
 @property (weak, nonatomic) id<ParseConnectionProtocal> delegate;
 
+- (void)parseNews;
+- (void)parseJobPhoto;
 - (void)parseUser;
 - (void)parseBlog;
 - (void)parseCustomer;

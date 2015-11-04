@@ -12,7 +12,7 @@
 @interface CustomTableViewCell : UITableViewCell
 
 //UserController
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 
 //BUser Controller
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;

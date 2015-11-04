@@ -334,7 +334,7 @@
         [numLabel sizeToFit];
         if (![numLabel.text isEqual: @"0"] ) {
             numLabel.textColor = BLUECOLOR;
-            numLabel.font = LIKEFONT(IPHONEFONT16);
+            numLabel.font = CELL_BOLDFONT(IPHONEFONT16);
         } else {
           //numLabel.textColor = [UIColor grayColor];
             numLabel.text = @"";
