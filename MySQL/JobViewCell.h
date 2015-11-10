@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JobViewCell : UICollectionViewCell 
+@interface JobViewCell : UICollectionViewCell
 
+//Snapshot Controller / UserView Controller
 @property (weak, nonatomic) IBOutlet UIImageView *user2ImageView;
-//@property (weak, nonatomic) IBOutlet UILabel *usertitleLabel;
-//@property (weak, nonatomic) IBOutlet UILabel *usersubtitleLabel;
 
+//Collection Controller
 @property (weak, nonatomic) IBOutlet UIImageView *jobImageView;
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 
 @end

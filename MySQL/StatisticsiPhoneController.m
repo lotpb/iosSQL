@@ -647,6 +647,13 @@
             
             [view addSubview:imageHolder];
             
+            NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
+            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+            segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);
+            [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
+            segmentedControl.selectedSegmentIndex = 1;
+            [view addSubview:segmentedControl];
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.listTableView.frame.size.width /2 -45, 3, 90, 45)];
             [label setFont: [UIFont fontWithName:@"Avenir-Book" size:21]];//Avenir-Black];
             [label setTextColor:HEADTEXTCOLOR];
@@ -654,13 +661,6 @@
             NSString *string = newString;
             [label setText:string];
             [view addSubview:label];
-            
-            NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
-            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-            segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);
-            [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents: UIControlEventValueChanged];
-            segmentedControl.selectedSegmentIndex = 1;
-            [view addSubview:segmentedControl];
             
             UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width /2 -25, 75, 50, 45)];
             label1.textAlignment = NSTextAlignmentCenter;

@@ -16,6 +16,15 @@
 @interface UploadImageViewController : UIViewController <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate>
 
+@property (strong, nonatomic) NSString *formStat;
+
+@property (strong, nonatomic) NSString *objectId;
+@property (strong, nonatomic) NSString *newstitle;
+@property (strong, nonatomic) NSString *newsdetail;
+@property (strong, nonatomic) NSString *newsStory;
+@property (strong, nonatomic) NSString *imageDetailurl;
+@property (strong, nonatomic) UIImage *newsImage;
+
 @property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgToUpload;

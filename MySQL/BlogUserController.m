@@ -147,6 +147,7 @@
 
 - (IBAction)popoverWithoutBarButton:(id)sender {
     
+    //ContentViewController *contentVC = [[ContentViewController alloc] initWithNibName:@"ContentViewController" bundle:nil];
     UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:controller];
     nav.modalPresentationStyle = UIModalPresentationPopover;
@@ -154,29 +155,14 @@
     controller.preferredContentSize = CGSizeMake(300, 200);
     popover.delegate = self;
     popover.sourceView = self.view;
+    //popover.sourceRect = self.button.frame;
     popover.sourceRect = CGRectMake(100, 100, 0, 0);
     popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
     [self presentViewController:nav animated:YES completion:nil];
     /*
-    
-    // grab the view controller we want to show
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
-    
-    // present the controller
-    // on iPad, this will be a Popover
-    // on iPhone, this will be an action sheet
-    controller.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:controller animated:YES completion:nil];
-    
-    // configure the Popover presentation controller
-    UIPopoverPresentationController *popController = [controller popoverPresentationController];
-    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    popController.delegate = self;
-    
-    // in case we don't have a bar button as reference
-    popController.sourceView = self.view;
-    popController.sourceRect = CGRectMake(30, 50, 10, 10); */
+     // in case we don't have a bar button as reference
+     popController.sourceView = self.view;
+     popController.sourceRect = CGRectMake(30, 50, 10, 10); */
 }
 
 #pragma mark - RefreshControl

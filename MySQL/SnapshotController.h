@@ -11,7 +11,9 @@
 #import "Constants.h"
 #import "CustomTableViewCell.h"
 #import "JobViewCell.h"
-//#import "UserDetailController.h"
+#import "UserDetailController.h"
+#import "NewsDetailController.h"
+#import "CollectionDetailController.h"
 
 @interface SnapshotController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -20,8 +22,13 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-
-//@property (strong, nonatomic) UIImage *selectedImage;
+@property (strong, nonatomic) UIImage *selectedImage;
+@property (strong, nonatomic) NSString *selectedObjectId;
+@property (strong, nonatomic) NSString *selectedTitle;
+@property (strong, nonatomic) NSString *selectedName;
+@property (strong, nonatomic) NSString *selectedCreate;
+@property (strong, nonatomic) NSString *selectedEmail;
+@property (strong, nonatomic) NSString *selectedPhone;
 
 @end
 

@@ -570,16 +570,21 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                                {
                                    [self performSegueWithIdentifier:@"user1Segue" sender:self];
                                }];
-    UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action)
-                           {
-                               [self performSegueWithIdentifier:@"userSegue" sender:self];
-                           }];
+    UIAlertAction* notification = [UIAlertAction actionWithTitle:@"Notification" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action)
+                               {
+                                   [self performSegueWithIdentifier:@"notifiSegue" sender:self];
+                               }];
     UIAlertAction* settings = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                                {
                                 [self performSegueWithIdentifier:@"settingSegue" sender:self];
                                }];
+    UIAlertAction* user = [UIAlertAction actionWithTitle:@"Users" style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * action)
+                           {
+                               [self performSegueWithIdentifier:@"userSegue" sender:self];
+                           }];
     UIAlertAction* logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                              {
@@ -591,8 +596,9 @@ if ([self.tabBarController.tabBar respondsToSelector:@selector(setTranslucent:)]
                              }];
     
     [view addAction:snapshot];
-    [view addAction:user];
+    [view addAction:notification];
     [view addAction:settings];
+    [view addAction:user];
     [view addAction:logout];
     [view addAction:cancel];
     

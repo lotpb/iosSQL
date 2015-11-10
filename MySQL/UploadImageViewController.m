@@ -66,7 +66,15 @@
         self.commentDetail.font = DETAILFONT(IPHONEFONT16);
     }
     
-    self.commentDetail.text = textviewText;
+    if ([self.formStat isEqual:@"Update"]) {
+        self.commentTitle.text = self.newstitle;
+        self.commentDetail.text = self.newsStory;
+        self.commentSorce.text = self.newsdetail;
+        self.imgToUpload.image = self.newsImage;
+    } else {
+        self.commentDetail.text = textviewText;
+    }
+    
     self.imgToUpload.backgroundColor = [UIColor whiteColor];
     self.imgToUpload.userInteractionEnabled = YES;
 
@@ -149,56 +157,74 @@
     [loadingSpinner startAnimating];
     [self.view addSubview:loadingSpinner];
     
-    PFFile *file;
-    if (pickImage) {
-        pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
-        file = [PFFile fileWithName:@"img" data:pictureData];
-    } else {
-        pictureData = [NSData dataWithContentsOfURL:videoURL];
-        file = [PFFile fileWithName:@"movie.mp4" data:pictureData];
-    }
-     NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        
-        if (succeeded){
-            
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            NSString* const userNameKey = KEY_USER;
-            
-            PFObject *imageObject = [PFObject objectWithClassName:@"Newsios"];
-            [imageObject setObject:file forKey:@"imageFile"];
-            [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
-            [imageObject setObject:self.commentSorce.text forKey:@"newsDetail"];
-            [imageObject setObject:self.commentDetail.text forKey:@"storyText"];
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+    if ([self.formStat isEqual:@"Update"]) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+        [query whereKey:@"objectId" equalTo:self.objectId];
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject * imageObject, NSError *error) {
+            if (!error) {
+                //[imageObject setObject:self.imgToUpload.image forKey:@"imageFile"];
+                [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
+                [imageObject setObject:self.commentSorce.text forKey:@"newsDetail"];
+                [imageObject setObject:self.commentDetail.text forKey:@"storyText"];
                 [imageObject setObject:[PFUser currentUser].username forKey:@"username"];
-            } else {
-                [imageObject setObject:[defaults objectForKey:userNameKey]forKey:@"usernameKey"];
-            }
-
-            [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [imageObject saveInBackground];
+                //[imageObject saveEventually];
                 
-                if (succeeded)
-                    //Go back to the wall
-                    GOBACK;
-                else{
-                    NSString *errorString = [[error userInfo] objectForKey:@"error"];
-                    [self showErrorView:errorString];
-                    }
-            }];
+                UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                         GOBACK; //GOHOME;
+                                     }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
+            } else {
+                NSString *errorString = [[error userInfo] objectForKey:@"error"];
+                [self showErrorView:errorString];
+            }
+        }];
+    } else {
+        
+        PFFile *file;
+        if (pickImage) {
+            pictureData = UIImageJPEGRepresentation(self.imgToUpload.image, 0.9f);
+            file = [PFFile fileWithName:@"img" data:pictureData];
+        } else {
+            pictureData = [NSData dataWithContentsOfURL:videoURL];
+            file = [PFFile fileWithName:@"movie.mp4" data:pictureData];
         }
-        else {
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            [self showErrorView:errorString];
-             }
-        
-        [loadingSpinner stopAnimating];
-        [loadingSpinner removeFromSuperview];
-        
-    } progressBlock:^(int percentDone) {
-     [self.progressView setProgress:(float)percentDone/100.0f];
-    }];
+        NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
+        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded){
+                PFObject *imageObject = [PFObject objectWithClassName:@"Newsios"];
+                [imageObject setObject:file forKey:@"imageFile"];
+                [imageObject setObject:self.commentTitle.text forKey:@"newsTitle"];
+                [imageObject setObject:self.commentSorce.text forKey:@"newsDetail"];
+                [imageObject setObject:self.commentDetail.text forKey:@"storyText"];
+                [imageObject setObject:[PFUser currentUser].username forKey:@"username"];
+                [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded)
+                        //Go back to the wall
+                        GOBACK;
+                    else {
+                        NSString *errorString = [[error userInfo] objectForKey:@"error"];
+                        [self showErrorView:errorString];
+                    }
+                }];
+            } else {
+                NSString *errorString = [[error userInfo] objectForKey:@"error"];
+                [self showErrorView:errorString];
+                }
+            
+            [loadingSpinner stopAnimating];
+            [loadingSpinner removeFromSuperview];
+            
+        } progressBlock:^(int percentDone) {
+            [self.progressView setProgress:(float)percentDone/100.0f];
+        }];
+    }
 }
 
 #pragma mark UIImagePicker delegate
@@ -235,7 +261,6 @@
         [self.imgToUpload setContentMode:UIViewContentModeScaleToFill];
         self.imgToUpload.image = pickImage;
         self.imgToUpload.clipsToBounds = YES; //added
-        //[self.imgToUpload sizeToFit]; //added
         
     } else { //it's video
         self.videoController = [[MPMoviePlayerController alloc] init];
@@ -253,10 +278,7 @@
                                                  selector:@selector(moviePlayBackDidFinish:)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
                                                    object:self.videoController];
-
     }
-    
-    
 }
 
 - (void) moviePlayBackDidFinish:(NSNotification*)notification {
@@ -298,7 +320,7 @@
     [alert addAction:ok];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
+/*
 //video thumbnail
 - (UIImage *)thumbnailImageFromURL:(NSURL *)videoURL {
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: videoURL options:nil];
@@ -312,6 +334,6 @@
     CGImageRelease(imgRef);    // MUST release explicitly to avoid memory leak
     
     return thumbnailImage;
-}
+} */
 
 @end

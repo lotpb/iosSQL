@@ -11,8 +11,9 @@
 
 @interface CustomTableViewCell : UITableViewCell
 
-//UserController
+//Snapshot Controller
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+//@property (weak, nonatomic) IBOutlet UILabel *title;
 
 //BUser Controller
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;

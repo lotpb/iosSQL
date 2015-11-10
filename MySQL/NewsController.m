@@ -15,11 +15,13 @@
     PFObject *wallObject;
     BOOL stopFetching, requestInProgress, forceRefresh;
     int pageNumber;
-    UILabel *titleLabel, *detailLabel, *readLabel, *emptyLabel, *numLabel, *urlLabel;
-    UITextView *newsTextview;
+    UILabel *titleLabel, *newsDetail, *readLabel, *numLabel;
+    UILabel *emptyLabel, *objectIdLabel, *urlLabel, *newsSource, *dateLabel; //hidden labels
+    UITextView *newsStory;
     UIButton *likeButton, *playButton, *actionBtn;
     UIView *wallImageView, *separatorLineView;
     UIBarButtonItem *searchItem, *shareItem;
+    NSString *resultDateDiff;
 }
 
 -(void)getNewsImages;
@@ -103,6 +105,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 #pragma mark - refreshControl
 - (void)reloadDatas:(UIRefreshControl *)refreshControl {
@@ -235,36 +239,36 @@
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 10, wallImageView.frame.size.width - userImage.frame.size.width - 50, 55)];
-            detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
+            newsDetail = [[UILabel alloc] initWithFrame:CGRectMake(345, 66, wallImageView.frame.size.width - userImage.frame.size.width - 50, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 70 , 66, wallImageView.frame.size.width, 15)];
-            newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(345, 86, wallImageView.frame.size.width - userImage.frame.size.width - 60, 45)];
+            newsStory = [[UITextView alloc] initWithFrame:CGRectMake(345, 86, wallImageView.frame.size.width - userImage.frame.size.width - 60, 45)];
             playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2, userImage.frame.origin.y + 55, 50, 50)];
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 50 ,165, 20, 20)];
             likeButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 90 ,167, 20, 20)];
             numLabel = [[UILabel alloc] initWithFrame:CGRectMake(userImage.frame.size.width + 113 ,168, 20, 20)];
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, .8)];
             titleLabel.font = CELL_LIGHTFONT(IPADFONT22);
-            detailLabel.font = DETAILFONT(IPADFONT14);
+            newsDetail.font = DETAILFONT(IPADFONT14);
             readLabel.font = DETAILFONT(IPADFONT14);
-            newsTextview.font = DETAILFONT(IPADFONT16);
+            newsStory.font = DETAILFONT(IPADFONT16);
             numLabel.font = DETAILFONT(IPADFONT16);
         } else {
             titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, wallImageView.frame.size.width - 7, 55)];
-            detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
+            newsDetail = [[UILabel alloc] initWithFrame:CGRectMake(5, 56, wallImageView.frame.size.width, 15)];
             readLabel = [[UILabel alloc] initWithFrame:CGRectMake(wallImageView.frame.size.width - 50 , 56, wallImageView.frame.size.width, 15)];
-            newsTextview = [[UITextView alloc] initWithFrame:CGRectMake(5, 86, wallImageView.frame.size.width, 45)];
+            newsStory = [[UITextView alloc] initWithFrame:CGRectMake(5, 86, wallImageView.frame.size.width, 45)];
             playButton = [[UIButton alloc] initWithFrame:CGRectMake(userImage.frame.size.width / 2 - 25, userImage.frame.origin.y + 85, 50, 50)];
             actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(20 ,310, 20, 20)];
             likeButton = [[UIButton alloc] initWithFrame:CGRectMake(60 ,312, 20, 20)];
             numLabel = [[UILabel alloc] initWithFrame:CGRectMake(82, 314, 20, 20)];
             separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 350, self.view.frame.size.width, .8)];
             titleLabel.font = DETAILFONT(IPHONEFONT20);
-            detailLabel.font = DETAILFONT(IPHONEFONT14);
+            newsDetail.font = DETAILFONT(IPHONEFONT14);
             readLabel.font = DETAILFONT(IPHONEFONT14);
-            newsTextview.font = DETAILFONT(IPHONEFONT16);
+            newsStory.font = DETAILFONT(IPHONEFONT16);
             numLabel.font = DETAILFONT(IPHONEFONT16);
             
-            newsTextview.hidden = true;
+            newsStory.hidden = true;
         }
         
         titleLabel.text = [wallObject objectForKey:@"newsTitle"];
@@ -278,29 +282,45 @@
         NSDate *datetime1 = creationDate;
         NSDate *datetime2 = [NSDate date];
         double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
-        NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
-        detailLabel.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
-        detailLabel.textColor = NEWSDETAILCOLOR;
-        detailLabel.backgroundColor = [UIColor clearColor];
-        detailLabel.tag = 2;
-        [wallImageView addSubview:detailLabel];
+        resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+        newsDetail.text = [NSString stringWithFormat:@" %@, %@", [wallObject objectForKey:@"newsDetail"], resultDateDiff];
+        newsDetail.textColor = NEWSDETAILCOLOR;
+        newsDetail.backgroundColor = [UIColor clearColor];
+        [wallImageView addSubview:newsDetail];
         
         readLabel.text = READLABEL;
         readLabel.textColor = BLUECOLOR;
         readLabel.backgroundColor = [UIColor clearColor];
-        readLabel.tag = 3;
         [wallImageView addSubview:readLabel];
         
+        newsSource = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
+        newsSource.tag = 2;
+        newsSource.text = [wallObject objectForKey:@"newsDetail"];
+        newsSource.hidden = true;
+        [wallImageView addSubview:newsSource];
+        
+        dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
+        dateLabel.tag = 5;
+        dateLabel.text = resultDateDiff;
+        dateLabel.hidden = true;
+        [wallImageView addSubview:dateLabel];
+        
         //newsTextview.editable = NO; //bug fix
-        newsTextview.text = [wallObject objectForKey:@"storyText"];
-        [newsTextview setUserInteractionEnabled:NO];
-        [wallImageView addSubview:newsTextview];
+        newsStory.text = [wallObject objectForKey:@"storyText"];
+        [newsStory setUserInteractionEnabled:NO];
+        [wallImageView addSubview:newsStory];
         
         urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
         urlLabel.tag = 4;
         urlLabel.text = image.url;
         urlLabel.hidden = true;
         [wallImageView addSubview:urlLabel];
+        
+        objectIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 310, 20, 20)];
+        objectIdLabel.tag = 3;
+        objectIdLabel.text = wallObject.objectId;
+        objectIdLabel.hidden = true;
+        [wallImageView addSubview:objectIdLabel];
         
         if([image.url containsString:@"movie.mp4"]) {
             playButton.alpha = 1.0f;
@@ -603,16 +623,18 @@
     UILabel *label1 = (UILabel*)[tappedView viewWithTag:1];
     titleLabel.text = label1.text;
     UILabel *label2 = (UILabel*)[tappedView viewWithTag:2];
-    detailLabel.text = label2.text;
-    //UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
-    //detailLabel.text = label3.text;
+    newsSource.text = label2.text;
+    UILabel *label3 = (UILabel*)[tappedView viewWithTag:3];
+    objectIdLabel.text = label3.text;
     UILabel *label4 = (UILabel*)[tappedView viewWithTag:4];
     self.imageDetailurl = label4.text;
+    UILabel *label5 = (UILabel*)[tappedView viewWithTag:5];
+    dateLabel.text = label5.text;
     
     for (UIView *view in sender.view.subviews) {
         
         if([view isKindOfClass:[UITextView class]]) {
-            newsTextview.text = ((UITextView *)view).text;
+            newsStory.text = ((UITextView *)view).text;
         }
         
         if([view isKindOfClass:[PFImageView class]]) {
@@ -627,10 +649,12 @@
     if ([segue.identifier isEqualToString:@"newsdetailseque"]) {
        
         NewsDetailController *photo = segue.destinationViewController;
+        photo.objectId = objectIdLabel.text;
         photo.image = userImage.image;
         photo.newsTitle = titleLabel.text;
-        photo.newsDetail = detailLabel.text;
-        photo.newsStory = newsTextview.text;
+        photo.newsDetail = newsSource.text;
+        photo.newsDate = dateLabel.text;
+        photo.newsStory = newsStory.text;
         photo.imageDetailurl = self.imageDetailurl;
     }
 }

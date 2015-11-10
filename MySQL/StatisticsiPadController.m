@@ -655,6 +655,8 @@
     visualEffectView.frame = imageHolder.bounds;
     [imageHolder addSubview:visualEffectView];
     
+    [view addSubview:imageHolder];
+    
     NSArray *itemArray = [NSArray arrayWithObjects: @"WEEKLY", @"MONTHLY", @"YEARLY", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(tableView.frame.size.width /2 -125, 45, 250, 30);

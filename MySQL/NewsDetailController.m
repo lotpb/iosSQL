@@ -10,6 +10,7 @@
 
 @interface NewsDetailController () {
     UIButton *playButton;
+     UIBarButtonItem *editItem;
     PFImageView *userImage;
     PFFile *imageParse;
     PFObject *wallObject;
@@ -28,17 +29,21 @@
     self.scrollView.maximumZoomScale = 6.0;
     self.newsImageview.backgroundColor = BACKGROUNDCOLOR;
     
+    editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editData:)];
+    NSArray *actionButtonItems = @[editItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
         self.newsImageview.contentMode = UIViewContentModeScaleToFill;
         self.titleLabel.font = DETAILFONT(IPADFONT26);
-        self.detailLabel.font = DETAILFONT(IPADFONT16);
+        self.detailLabel.font = DETAILFONT(IPADFONT18);
         self.newsTextview.editable = YES; //bug fix
         self.newsTextview.font = CELL_LIGHTFONT(IPADFONT18);
         self.newsTextview.editable = NO; //bug fix
     } else {
         self.titleLabel.font = DETAILFONT(IPHONEFONT20);
-        self.detailLabel.font = DETAILFONT(IPHONEFONT14);
+        self.detailLabel.font = DETAILFONT(IPHONEFONT16);
         self.newsTextview.editable = YES; //bug fix
         self.newsTextview.font = CELL_LIGHTFONT(IPHONEFONT16);
         self.newsTextview.editable = NO; //bug fix
@@ -49,7 +54,7 @@
     self.titleLabel.text = self.newsTitle;
     self.titleLabel.numberOfLines = 2;
     
-    self.detailLabel.text = self.newsDetail;
+    self.detailLabel.text = [NSString stringWithFormat:@" %@, %@", self.newsDetail, self.newsDate];
     self.detailLabel.textColor = [UIColor lightGrayColor];
     [self.detailLabel sizeToFit];
     
@@ -96,6 +101,11 @@
     return self.newsImageview;
 }
 
+#pragma mark - BarButton New
+-(void)editData:(id)sender {
+    [self performSegueWithIdentifier:@"uploadSegue" sender:self];
+}
+
 #pragma mark - play video
 - (IBAction) playVideo:(id)sender {
 
@@ -133,6 +143,21 @@
     
     [self.videoController stop];
     [self.videoController.view removeFromSuperview];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"uploadSegue"]) {
+        
+        UploadImageViewController *photo = segue.destinationViewController;
+        photo.formStat = @"Update";
+        photo.objectId = self.objectId;
+        photo.newsImage = self.newsImageview.image;
+        photo.newstitle = self.titleLabel.text;
+        photo.newsdetail = self.newsDetail;
+        photo.newsStory = self.newsStory;
+        photo.imageDetailurl = self.imageDetailurl;
+    }
 }
 
 
