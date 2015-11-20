@@ -30,6 +30,7 @@
     self.userimageView.backgroundColor = [UIColor blackColor];
     self.userimageView.userInteractionEnabled = YES;
     self.mainView.backgroundColor = LIGHTGRAYCOLOR;
+    self.view.backgroundColor = LIGHTGRAYCOLOR;
     
     UIView* separatorLineTop = [[UIView alloc] initWithFrame:CGRectMake(0, 175, self.mainView.frame.size.width, 0.5)];
     separatorLineTop.backgroundColor = [UIColor darkGrayColor];// you can also put image here
@@ -40,15 +41,15 @@
     [self.mainView addSubview:separatorLineBottom];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.usernameField setFont:CELL_FONT(IPADFONT20)];
-        [self.emailField setFont:CELL_FONT(IPADFONT20)];
-        [self.phoneField setFont:CELL_FONT(IPADFONT20)];
-        [self.createLabel setFont:CELL_FONT(IPADFONT16)];
+        [self.usernameField setFont:CELL_LIGHTFONT(IPADFONT20)];
+        [self.emailField setFont:CELL_LIGHTFONT(IPADFONT20)];
+        [self.phoneField setFont:CELL_LIGHTFONT(IPADFONT20)];
+        [self.createLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
     } else {
-        [self.usernameField setFont:CELL_FONT(IPADFONT18)];
-        [self.emailField setFont:CELL_FONT(IPADFONT18)];
-        [self.phoneField setFont:CELL_FONT(IPADFONT18)];
-        [self.createLabel setFont:CELL_FONT(IPADFONT14)];
+        [self.usernameField setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [self.emailField setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [self.phoneField setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [self.createLabel setFont:CELL_LIGHTFONT(IPADFONT14)];
     }
     
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -64,6 +65,16 @@
     [self refreshMap];
     
     [[UITextField appearance] setTintColor:CURSERCOLOR];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = DARKGRAYCOLOR;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {

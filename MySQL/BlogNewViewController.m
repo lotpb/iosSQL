@@ -89,9 +89,9 @@
     self.subject.attributedText = str;
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.subject setFont:CELL_FONT(IPADFONT20)];
+        [self.subject setFont:CELL_LIGHTFONT(IPADFONT20)];
     } else {
-        [self.subject setFont:CELL_FONT(IPHONEFONT18)];
+        [self.subject setFont:CELL_LIGHTFONT(IPHONEFONT18)];
     }
     
     PFQuery *query = [PFUser query];
@@ -186,11 +186,11 @@
         myCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.textLabel setFont:CELL_FONT(IPADFONT18)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPADFONT18)];
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
+        [myCell.detailTextLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
     } else {
-        [myCell.textLabel setFont:CELL_FONT(IPHONEFONT16)];
-        [myCell.detailTextLabel setFont:CELL_FONT(IPHONEFONT16)];
+        [myCell.textLabel setFont:CELL_LIGHTFONT(IPHONEFONT16)];
+        [myCell.detailTextLabel setFont:CELL_LIGHTFONT(IPHONEFONT16)];
     }
     
     if (indexPath.row == 0) {

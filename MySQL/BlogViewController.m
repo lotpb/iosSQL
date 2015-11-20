@@ -457,13 +457,13 @@ Parse.com
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPADFONT18)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT18)];
-        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPADFONT16)];
+        [myCell.blogmsgDateLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
          myCell.numLabel.font = CELL_BOLDFONT(IPADFONT16);
          myCell.commentLabel.font = CELL_BOLDFONT(IPADFONT16);
     } else {
         [myCell.blogtitleLabel setFont:CELL_MEDFONT(IPHONEFONT17)];
         [myCell.blogsubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT17)];
-        [myCell.blogmsgDateLabel setFont:CELL_FONT(IPHONEFONT14)];
+        [myCell.blogmsgDateLabel setFont:CELL_LIGHTFONT(IPHONEFONT14)];
          myCell.numLabel.font = CELL_BOLDFONT(IPHONEFONT16);
          myCell.commentLabel.font = CELL_BOLDFONT(IPHONEFONT16);
     }

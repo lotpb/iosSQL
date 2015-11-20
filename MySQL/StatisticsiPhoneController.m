@@ -274,9 +274,9 @@
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -155, 8, 77, 17)];
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width -70, 8, 55, 17)];
     
-    [label1 setFont:CELL_FONT(IPHONEFONT14)];
+    [label1 setFont:CELL_LIGHTFONT(IPHONEFONT14)];
     [label2 setFont:CELL_MEDFONT(IPHONEFONT14)];
-    [myCell.textLabel setFont:CELL_FONT(IPHONEFONT14)];
+    [myCell.textLabel setFont:CELL_LIGHTFONT(IPHONEFONT14)];
     [myCell.detailTextLabel setFont:CELL_MEDFONT(IPHONEFONT14)];
     [myCell.detailTextLabel setTextColor:STATTEXTCOLOR];
     

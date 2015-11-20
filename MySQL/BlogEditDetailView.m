@@ -130,12 +130,12 @@
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [myCell.titleLabel setFont:CELL_BOLDFONT(IPADFONT20)];
-            [myCell.subtitleLabel setFont:CELL_FONT(IPADFONT20)];
-            [myCell.msgDateLabel setFont:CELL_FONT(IPADFONT16)];
+            [myCell.subtitleLabel setFont:CELL_LIGHTFONT(IPADFONT20)];
+            [myCell.msgDateLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
         } else {
             [myCell.titleLabel setFont:CELL_BOLDFONT(IPHONEFONT18)];
-            [myCell.subtitleLabel setFont:CELL_FONT(IPHONEFONT18)];
-            [myCell.msgDateLabel setFont:CELL_FONT(IPHONEFONT12)];
+            [myCell.subtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT18)];
+            [myCell.msgDateLabel setFont:CELL_LIGHTFONT(IPHONEFONT12)];
         }
         
         myCell.accessoryType = UITableViewCellAccessoryNone;
@@ -235,14 +235,14 @@
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPADFONT16)];
-            [myCell.replysubtitleLabel setFont:CELL_FONT(IPADFONT16)];
-            [myCell.replynumLabel setFont:CELL_FONT(IPADFONT14)];
-            [myCell.replydateLabel setFont:CELL_FONT(IPADFONT12)];
+            [myCell.replysubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
+            [myCell.replynumLabel setFont:CELL_LIGHTFONT(IPADFONT14)];
+            [myCell.replydateLabel setFont:CELL_LIGHTFONT(IPADFONT12)];
         } else {
             [myCell.replytitleLabel setFont:CELL_BOLDFONT(IPHONEFONT14)];
-            [myCell.replysubtitleLabel setFont:CELL_FONT(IPHONEFONT14)];
-            [myCell.replynumLabel setFont:CELL_FONT(IPHONEFONT12)];
-            [myCell.replydateLabel setFont:CELL_FONT(IPHONEFONT12)];
+            [myCell.replysubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT14)];
+            [myCell.replynumLabel setFont:CELL_LIGHTFONT(IPHONEFONT12)];
+            [myCell.replydateLabel setFont:CELL_LIGHTFONT(IPHONEFONT12)];
         }
         
         myCell.accessoryType = UITableViewCellAccessoryNone;

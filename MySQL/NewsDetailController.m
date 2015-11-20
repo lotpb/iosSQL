@@ -8,9 +8,10 @@
 
 #import "NewsDetailController.h"
 
-@interface NewsDetailController () {
+@interface NewsDetailController ()
+{
     UIButton *playButton;
-     UIBarButtonItem *editItem;
+    UIBarButtonItem *editItem;
     PFImageView *userImage;
     PFFile *imageParse;
     PFObject *wallObject;

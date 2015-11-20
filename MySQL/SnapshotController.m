@@ -14,6 +14,7 @@
     UIRefreshControl *refreshControl;
     PFObject *imageObject;
     PFFile *imageFile;
+    NSString *resultDateDiff;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -154,7 +155,7 @@ Parse.com
         return result;
         
     } else if (indexPath.section == 1) {
-        CGFloat result = 80;
+        CGFloat result = 85;
         switch ([indexPath row])
         {
             case 0:
@@ -288,7 +289,8 @@ Parse.com
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top News %ld", (unsigned long)_feedItems3.count];
-            myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            //myCell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return myCell;
             
         } else if (indexPath.row == 1) {
@@ -327,7 +329,7 @@ Parse.com
             
         } else if (indexPath.row == 1) {
             
-            UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(15, 25, myCell.frame.size.width - 15, 20)];
+            UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(15, 23, myCell.frame.size.width - 15, 50)];
             UILabel *datetitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, myCell.frame.size.width - 15, 20)];
             
             [title setFont:DETAILFONT(IPHONEFONT18)];
@@ -345,31 +347,26 @@ Parse.com
             title.tag = 1;
             [myCell.contentView addSubview:title];
             
-            static NSDateFormatter *dateFormater = nil;
-            if (dateFormater == nil) {
-                NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
-                [dateFormater setDateFormat:KEY_DATESQLFORMAT];
-                dateFormater.timeZone = [NSTimeZone localTimeZone];
-                NSDate *creationDate = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"createdAt"];
-                NSDate *datetime1 = creationDate;
-                NSDate *datetime2 = [NSDate date];
-                double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
-                NSString *resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
-                
-                datetitle.textColor = [UIColor lightGrayColor];
-                datetitle.backgroundColor = [UIColor clearColor];
-                datetitle.numberOfLines = 1;
-                datetitle.tag = 2;
-                [myCell.contentView addSubview:datetitle];
+            datetitle.textColor = [UIColor lightGrayColor];
+            datetitle.backgroundColor = [UIColor clearColor];
+            datetitle.numberOfLines = 1;
+            datetitle.tag = 2;
+            [myCell.contentView addSubview:datetitle];
+            
+            NSDate *creationDate = [[_feedItems3 objectAtIndex:indexPath.row] createdAt];
+            NSDate *datetime1 = creationDate;
+            NSDate *datetime2 = [NSDate date];
+            double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+            resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
-            UILabel *datetitle = (UILabel *)[myCell viewWithTag:2];
+            datetitle = (UILabel *)[myCell viewWithTag:2];
             datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsDetail"], resultDateDiff];
             
-            UILabel *title = (UILabel *)[myCell viewWithTag:1];
+            title = (UILabel *)[myCell viewWithTag:1];
             title.text = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsTitle"];
-            }
-            return myCell;
             
+            
+            return myCell;
         }
 //------------------------------------------------------------------------------
     } else if (indexPath.section == 2) {
@@ -404,6 +401,7 @@ Parse.com
             myCell.collectionView.delegate = nil;
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.collectionView.tag = 14;
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Users %ld", (unsigned long)_feedItems.count];
             myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             return myCell;
@@ -506,39 +504,6 @@ Parse.com
     }
     return nil;
 }
-/*
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    // iPhone 6+ device width handler
-    CGFloat multiplier = (screenWidth > kNumberOfCellsWidthThreshold) ? 4 : 3;
-    CGFloat size = screenWidth / multiplier;
-    return CGSizeMake(size, size);
-} */
-
-/*
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(0, 0, 0, 0);
-}
-
-//-----Fix not sure if it works
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Remove seperator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    // Prevent the cell from inheriting the Table View's margin settings
-    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
-        [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
-    // Explictly set your cell's layout margins
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-} */
 
 #pragma mark - UICollectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -702,49 +667,13 @@ Parse.com
          [cell.contentView addSubview:celltitle];
          
          return cell;
+     } else if (collectionView.tag == 13) {
+[self performSegueWithIdentifier:@"newssnapSegue" sender:self];
+         
+         return cell;
      }
     return nil;
 }
-
-/*
- #pragma mark table header
- -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
- 
- return 50;
- }
- 
- -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
- UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
- [view setBackgroundColor:[UIColor whiteColor]];
- UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, tableView.frame.size.width -10, 20)];
- headerLabel.adjustsFontSizeToFitWidth = YES;
- headerLabel.clipsToBounds = YES;
- [headerLabel setFont:CELL_FONT(IPHONEFONT20)];
- headerLabel.textColor = [UIColor blackColor];
- headerLabel.text = [NSString stringWithFormat:@"Users %ld", (unsigned long)_feedItems.count];
- 
- [view addSubview:headerLabel];
- 
- return view;
- } */
-/*
- #pragma mark table footer
- -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
- 
- return 50;
- }
- 
- - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
- 
- UILabel *headerLabel = [[UILabel alloc]init];
- headerLabel.textColor = [UIColor darkGrayColor];
- [headerLabel setFont:CELL_FONT(IPHONEFONT20)];
- headerLabel.backgroundColor = [UIColor whiteColor];
- 
- headerLabel.text = @"  My Users";
- return headerLabel;
- 
- } */
 
 #pragma mark - search
 - (void)searchButton:(id)sender {
@@ -808,7 +737,16 @@ Parse.com
 
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
+    if (indexPath.section == 0) {
+        if(indexPath.row == 0) {
+            [self performSegueWithIdentifier:@"topnewsSegue" sender:self];
+        }
+    } else if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            [self performSegueWithIdentifier:@"topuserSegue" sender:self];
+        }
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -820,8 +758,16 @@ Parse.com
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error) {
                 self.selectedImage = [UIImage imageWithData:data];
+                self.imageDetailurl = imageFile.url;
                 self.selectedObjectId = [[_feedItems3 objectAtIndex:indexPath.row] objectId];
-                //self.selectedName = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"username"];
+                
+                NSDate *creationDate = [[_feedItems3 objectAtIndex:indexPath.row] createdAt];;
+                NSDate *datetime1 = creationDate;
+                NSDate *datetime2 = [NSDate date];
+                double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+                resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+                self.selectedCreate = resultDateDiff;
+                
                 self.selectedTitle = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsTitle"];
                 self.selectedEmail = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsDetail"];
                 self.selectedPhone = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"storyText"];
@@ -859,6 +805,43 @@ Parse.com
                 [self performSegueWithIdentifier:@"userdetailSegue" sender:self];
             }
         }];
+    } else if (collectionView.tag == 3) {
+        self.selectedObjectId = [[_feedItems4 objectAtIndex:indexPath.row] objectId];
+        self.selectedCreate = [[_feedItems4 objectAtIndex:indexPath.row] objectForKey:@"Active"];
+        self.selectedPhone = [[_feedItems4 objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
+        self.selectedName = [[_feedItems4 objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+        [self performSegueWithIdentifier:@"snapsalesSegue" sender:self];
+        
+    } else if (collectionView.tag == 4) {
+        
+        self.selectedObjectId = [[_feedItems5 objectAtIndex:indexPath.row] objectId];
+        self.selectedPhone = [[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"EmployeeNo"]stringValue];
+        self.selectedCreate = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Email"];
+        self.selectedName = [NSString stringWithFormat:@"%@ %@ %@",[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"First"],[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Last"], [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Company"]];
+        self.selectedTitle = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Last"];
+        self.selectedEmail = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Street"];
+        /*
+        detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
+        detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
+        detailVC.zip = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"];
+        detailVC.amount = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
+        detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"HomePhone"];
+        detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WorkPhone"];
+        detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CellPhone"];
+        detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SS"];
+        detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Middle"];
+        detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
+        detailVC.tbl22 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Department"];
+        detailVC.tbl23 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
+        detailVC.tbl24 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Manager"];
+        detailVC.tbl25 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Country"];
+        detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] updatedAt]];
+        detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
+        detailVC.tbl27 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
+        detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+        detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue]; */
+        [self performSegueWithIdentifier:@"snapemploySegue" sender:self];
+
     }
 }
 
@@ -869,9 +852,10 @@ Parse.com
         detailVC.objectId = self.selectedObjectId;
         detailVC.newsTitle = self.selectedTitle;
         detailVC.newsDetail = self.selectedEmail;
+        detailVC.newsDate = self.selectedCreate;
         detailVC.newsStory = self.selectedPhone;
         detailVC.image = self.selectedImage;
-      //detailVC.username = self.selectedName;
+        detailVC.imageDetailurl = self.imageDetailurl;
         
     } else if ([[segue identifier] isEqualToString:@"userdetailSegue"]) {
         UserDetailController *detailVC = segue.destinationViewController;
@@ -884,9 +868,21 @@ Parse.com
         
     } else if ([[segue identifier] isEqualToString:@"showsnapSegue"]) {
         CollectionDetailController *detailVC = segue.destinationViewController;
-        //detailVC.jobImageView = self.selectedObjectId;
         detailVC.image = self.selectedImage;
 
+    } else if ([[segue identifier] isEqualToString:@"snapsalesSegue"]) {
+         NewDataDetail *detailVC = segue.destinationViewController;
+         detailVC.formController = TNAME8;
+         detailVC.formStatus = @"Edit";
+         detailVC.objectId = self.selectedObjectId;
+         detailVC.frm11 = self.selectedCreate;
+         detailVC.frm12 = self.selectedPhone;
+         detailVC.frm13 = self.selectedName;
+        
+    } else if ([[segue identifier] isEqualToString:@"snapemploySegue"]) {
+        
+         LeadDetailViewControler *detailVC = segue.destinationViewController;
+         detailVC.formController = TNAME4;
     }
 } 
 

@@ -1490,7 +1490,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ut3-TK-3Mm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1137" y="2733.75"/>
+            <point key="canvasLocation" x="-387" y="2733"/>
         </scene>
         <!--lookupCity-->
         <scene sceneID="lkQ-WA-6w8">
@@ -3496,11 +3496,11 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JR9-N4-rJH">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JR9-N4-rJH">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46E-Ye-rTH">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="46E-Ye-rTH">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                         <animations/>
                                     </imageView>
                                 </subviews>
@@ -4971,11 +4971,14 @@
                         <segue destination="bbr-C1-2u1" kind="show" identifier="userdetailSegue" id="tOL-3h-g8i"/>
                         <segue destination="5K8-Wk-eVO" kind="show" identifier="newssnapSegue" id="yTl-2c-eeE"/>
                         <segue destination="J59-gH-usf" kind="show" identifier="showsnapSegue" id="FsV-SU-ACy"/>
+                        <segue destination="tqF-Od-4Qw" kind="show" identifier="snapsalesSegue" id="JkK-qv-s4J"/>
+                        <segue destination="6ae-zf-NgQ" kind="show" identifier="topnewsSegue" id="G0D-ko-6v2"/>
+                        <segue destination="N3C-tr-ilK" kind="show" identifier="topuserSegue" id="q0P-ws-J7X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01p-Rk-rko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1270" y="217"/>
+            <point key="canvasLocation" x="1302" y="217"/>
         </scene>
         <!--Home-->
         <scene sceneID="ETP-CH-IV2">
@@ -6263,24 +6266,26 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="jwQ-k2-eY1"/>
-        <segue reference="d4o-g4-75O"/>
         <segue reference="0RT-Di-IAk"/>
-        <segue reference="Nyg-nQ-ht6"/>
         <segue reference="FGg-VS-tNk"/>
-        <segue reference="yTl-2c-eeE"/>
-        <segue reference="tOL-3h-g8i"/>
-        <segue reference="FsV-SU-ACy"/>
+        <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="I3q-7y-gcY"/>
+        <segue reference="wDP-4Y-cdF"/>
         <segue reference="dZl-6c-nn2"/>
         <segue reference="Ac2-sU-6c1"/>
         <segue reference="zQR-YQ-xF4"/>
         <segue reference="YL2-bg-fIc"/>
         <segue reference="JT1-3I-mwZ"/>
-        <segue reference="382-1V-m5k"/>
-        <segue reference="Dbq-7P-K8C"/>
         <segue reference="qxc-XD-hBQ"/>
-        <segue reference="wDP-4Y-cdF"/>
-        <segue reference="I3q-7y-gcY"/>
-        <segue reference="RkH-L9-G0j"/>
+        <segue reference="Dbq-7P-K8C"/>
+        <segue reference="382-1V-m5k"/>
+        <segue reference="tOL-3h-g8i"/>
+        <segue reference="FsV-SU-ACy"/>
+        <segue reference="JkK-qv-s4J"/>
+        <segue reference="yTl-2c-eeE"/>
+        <segue reference="G0D-ko-6v2"/>
+        <segue reference="q0P-ws-J7X"/>
+        <segue reference="d4o-g4-75O"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

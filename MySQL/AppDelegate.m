@@ -187,15 +187,19 @@
     
     UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
     notificationCategory.identifier = @"Email";
+    
     [notificationCategory setActions:@[notificationAction1,notificationAction2,notificationAction3] forContext:UIUserNotificationActionContextDefault];
-    [notificationCategory setActions:@[notificationAction1,notificationAction2] forContext:UIUserNotificationActionContextMinimal];
+    
+    [notificationCategory setActions:@[notificationAction1,notificationAction2] forContext:UIUserNotificationActionContextDefault];
     
     NSSet *categories = [NSSet setWithObjects:notificationCategory, nil];
     
     UIUserNotificationType notificationType = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
     UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:notificationType categories:categories];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    
     [[UIApplication sharedApplication] registerForRemoteNotifications];
 }
 

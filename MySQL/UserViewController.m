@@ -71,6 +71,12 @@ Parse.com
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = DARKGRAYCOLOR;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = YES;
+    
     if([PFUser currentUser])
     {
         self.user = [PFUser user];
@@ -134,11 +140,11 @@ Parse.com
     [myCell.detailTextLabel setTextColor:[UIColor grayColor]];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [myCell.usertitleLabel setFont:CELL_FONT(IPADFONT20)];
-        [myCell.usersubtitleLabel setFont:CELL_FONT(IPADFONT16)];
+        [myCell.usertitleLabel setFont:CELL_LIGHTFONT(IPADFONT20)];
+        [myCell.usersubtitleLabel setFont:CELL_LIGHTFONT(IPADFONT16)];
     } else {
-        [myCell.usertitleLabel setFont:CELL_FONT(IPHONEFONT18)];
-        [myCell.usersubtitleLabel setFont:CELL_FONT(IPHONEFONT14)];
+        [myCell.usertitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT18)];
+        [myCell.usersubtitleLabel setFont:CELL_LIGHTFONT(IPHONEFONT14)];
     }
     [myCell.usersubtitleLabel setTextColor:[UIColor grayColor]];
     
@@ -200,7 +206,7 @@ Parse.com
     [view setBackgroundColor:LIGHTGRAYCOLOR];
     UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, tableView.frame.size.width -10, 20)];
     
-   [headerLabel setFont:CELL_FONT(IPHONEFONT16)];
+   [headerLabel setFont:CELL_LIGHTFONT(IPHONEFONT16)];
     headerLabel.textColor = [UIColor blackColor];
     headerLabel.text = [NSString stringWithFormat:@"Users %ld", (unsigned long)_feedItems.count];
     [view addSubview:headerLabel];

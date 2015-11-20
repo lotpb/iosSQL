@@ -35,9 +35,11 @@
 //#define NOTIFICATION_CENTER     [NSNotificationCenter defaultCenter]
 //#define SHARED_APPLICATION      [UIApplication sharedApplication]
 
+
+#define KEY_DATETIME      @"yyyy-MM-dd HH:mm:ss" //news
 //#define DATE_FORMAT_DD_MM_YYYY              @"dd-MM-yyyy"               //e.g. 24-07-1990
 //#define DATE_FORMAT_MM_DD_YYYY              @"MM-dd-yyyy"               //e.g. 07-24-1990
-//#define DATE_FORMAT_YYYY_MM_DD              @"yyyy-MM-dd"               //e.g. 1990-07-24
+#define KEY_DATESQLFORMAT                     @"yyyy-MM-dd"               //e.g. 1990-07-24
 //#define DATE_FORMAT_DD_MM_YYYY_HH_MM_12H    @"dd-MM-yyyy hh:mm a"       //e.g. 24-07-1990 05:20 AM
 //#define DATE_FORMAT_MMM_DD_YYYY             @"MMM dd, yyyy"             //e.g. Jul 24, 1990
 //#define DATE_FORMAT_MMMM_DD                 @"MMMM dd"                  //e.g. July 24
@@ -145,7 +147,7 @@
 //HelveticaNeue-UltraLightItalic
 //HelveticaNeue-Thin
 //HelveticaNeue-ThinItalic
-#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
+//#define CELL_FONT(s)      [UIFont fontWithName:@"Avenir-Book" size:s]
 #define DETAILFONT(s)     [UIFont fontWithName:@"HelveticaNeue" size:s] //news
 #define CELL_LIGHTFONT(s) [UIFont fontWithName:@"HelveticaNeue-Light" size:s]//ipad stats
 #define CELL_MEDFONT(s)   [UIFont fontWithName:@"HelveticaNeue-Medium" size:s]//ipad stats
@@ -196,8 +198,7 @@
 #define LIKECOLORBACK     [UIColor redColor]
 #define ACTIVEBUTTONYES   @"iosStar.png"
 #define ACTIVEBUTTONNO    @"iosStarNA.png"
-//------dates-------------------------------
-#define KEY_DATESQLFORMAT @"yyyy-MM-dd" //NewDataView, LeadDetail
+
 //------timer-------------------------------
 //#define MTIMER           5.0 //MainController
 //#define MTIMERREP        NO  //repeats
@@ -392,7 +393,6 @@
 #define VIEWBACKCOLOR    [UIColor whiteColor]
 #define KEY_IMAGE         @"imageFile" //news
 #define KEY_CREATION_DATE @"createdAt" //news
-#define KEY_DATETIME      @"yyyy-MM-dd HH:mm:ss" //news
 
 #define NEWSTITLECOLOR   [UIColor blackColor] //darkGrayColor
 #define NEWSDETAILCOLOR  [UIColor grayColor]

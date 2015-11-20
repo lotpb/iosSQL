@@ -14,6 +14,8 @@
 #import "UserDetailController.h"
 #import "NewsDetailController.h"
 #import "CollectionDetailController.h"
+#import "NewDataDetail.h"
+#import "LeadDetailViewControler.h"
 
 @interface SnapshotController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -29,6 +31,7 @@
 @property (strong, nonatomic) NSString *selectedCreate;
 @property (strong, nonatomic) NSString *selectedEmail;
 @property (strong, nonatomic) NSString *selectedPhone;
+@property (strong, nonatomic) NSString *imageDetailurl;
 
 @end
 

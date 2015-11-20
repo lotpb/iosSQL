@@ -19,36 +19,36 @@
 #pragma mark - UserController
 - (void)parseNews {
     
-     PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
-     //[query setLimit:10]; //parse.com standard is 100
-     query.cachePolicy = kPFCACHEPOLICY;
-     [query orderByDescending:KEY_CREATION_DATE];
-     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     if (!error) {
-     _feedItems = nil;
-     _feedItems = [[NSMutableArray alloc] initWithArray:objects];
-     if (self.delegate) {
-     [self.delegate parseNewsloaded:_feedItems];
-     }
-     } else
-     NSLog(@"Error: %@ %@", error, [error userInfo]);
-     }];
+    PFQuery *query = [PFQuery queryWithClassName:@"Newsios"];
+    //[query setLimit:10]; //parse.com standard is 100
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query orderByDescending:KEY_CREATION_DATE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _feedItems = nil;
+            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+            if (self.delegate) {
+                [self.delegate parseNewsloaded:_feedItems];
+            }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
 }
 
 - (void)parseJobPhoto {
-     PFQuery *query = [PFQuery queryWithClassName:@"jobPhoto"];
-     query.cachePolicy = kPFCACHEPOLICY;
-     [query orderByDescending:KEY_CREATION_DATE];
-     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-     if (!error) {
-     _feedItems = nil;
-     _feedItems = [[NSMutableArray alloc] initWithArray:objects];
-     if (self.delegate) {
-     [self.delegate parseJobPhotoloaded:_feedItems];
-     }
-     } else
-     NSLog(@"Error: %@ %@", error, [error userInfo]);
-     }];
+    PFQuery *query = [PFQuery queryWithClassName:@"jobPhoto"];
+    query.cachePolicy = kPFCACHEPOLICY;
+    [query orderByDescending:KEY_CREATION_DATE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _feedItems = nil;
+            _feedItems = [[NSMutableArray alloc] initWithArray:objects];
+            if (self.delegate) {
+                [self.delegate parseJobPhotoloaded:_feedItems];
+            }
+        } else
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }];
 }
 
 //------------------Table Data----------------------------------
