@@ -3541,7 +3541,7 @@
             <objects>
                 <collectionViewController id="JqH-Qr-nrh" customClass="CollectionController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="dCn-Zp-rfb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1Th-lo-Ceu">
@@ -3750,16 +3750,11 @@
                             <constraint firstItem="KIs-zd-Va2" firstAttribute="top" secondItem="8gE-zd-Pzo" secondAttribute="bottom" id="hwN-h2-kLF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="x8c-3V-Ik7">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="dVR-WD-jtN">
-                            <connections>
-                                <segue destination="rMT-ER-m2z" kind="show" id="d4o-g4-75O"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="x8c-3V-Ik7"/>
                     <connections>
                         <outlet property="wallScroll" destination="KIs-zd-Va2" id="3WY-Xs-Gvq"/>
                         <segue destination="5K8-Wk-eVO" kind="show" identifier="newsdetailseque" id="1Fj-W7-VxM"/>
+                        <segue destination="rMT-ER-m2z" kind="show" identifier="newuploadSegue" id="1pM-sK-sxx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zbu-Ts-P3l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4231,7 +4226,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXS-5J-shN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1404" y="-1565"/>
+            <point key="canvasLocation" x="1395" y="-1565"/>
         </scene>
         <!--Sidebar View Controller-->
         <scene sceneID="aHG-mj-enl">
@@ -4974,11 +4969,12 @@
                         <segue destination="tqF-Od-4Qw" kind="show" identifier="snapsalesSegue" id="JkK-qv-s4J"/>
                         <segue destination="6ae-zf-NgQ" kind="show" identifier="topnewsSegue" id="G0D-ko-6v2"/>
                         <segue destination="N3C-tr-ilK" kind="show" identifier="topuserSegue" id="q0P-ws-J7X"/>
+                        <segue destination="C3E-uN-uhi" kind="show" identifier="topjobsegue" id="FBB-tQ-9pc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01p-Rk-rko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1302" y="217"/>
+            <point key="canvasLocation" x="1284" y="217"/>
         </scene>
         <!--Home-->
         <scene sceneID="ETP-CH-IV2">
@@ -6266,26 +6262,27 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="jwQ-k2-eY1"/>
-        <segue reference="0RT-Di-IAk"/>
+        <segue reference="zVy-OX-5l2"/>
+        <segue reference="1Fj-W7-VxM"/>
+        <segue reference="kRM-nV-eu6"/>
         <segue reference="FGg-VS-tNk"/>
         <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="0RT-Di-IAk"/>
         <segue reference="I3q-7y-gcY"/>
         <segue reference="wDP-4Y-cdF"/>
         <segue reference="dZl-6c-nn2"/>
         <segue reference="Ac2-sU-6c1"/>
         <segue reference="zQR-YQ-xF4"/>
         <segue reference="YL2-bg-fIc"/>
-        <segue reference="JT1-3I-mwZ"/>
-        <segue reference="qxc-XD-hBQ"/>
         <segue reference="Dbq-7P-K8C"/>
+        <segue reference="JT1-3I-mwZ"/>
         <segue reference="382-1V-m5k"/>
-        <segue reference="tOL-3h-g8i"/>
-        <segue reference="FsV-SU-ACy"/>
-        <segue reference="JkK-qv-s4J"/>
-        <segue reference="yTl-2c-eeE"/>
-        <segue reference="G0D-ko-6v2"/>
+        <segue reference="qxc-XD-hBQ"/>
+        <segue reference="FBB-tQ-9pc"/>
         <segue reference="q0P-ws-J7X"/>
-        <segue reference="d4o-g4-75O"/>
+        <segue reference="JkK-qv-s4J"/>
+        <segue reference="FsV-SU-ACy"/>
+        <segue reference="tOL-3h-g8i"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

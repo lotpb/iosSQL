@@ -10,6 +10,8 @@
 
 @interface SalesmanViewController ()
 {
+    PFObject *imageObject;
+    PFFile *imageFile;
     SalesModel *_SalesModel; SalesLocation *_selectedLocation;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
@@ -428,6 +430,16 @@ Parse.com
 #pragma mark - Segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    imageObject = [_feedItems objectAtIndex:indexPath.row];
+    imageFile = [imageObject objectForKey:KEY_IMAGE];
+    
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error) {
+            self.selectedImage = [UIImage imageWithData:data];
+            //[self performSegueWithIdentifier:@"showPhoto" sender:self.imagesCollection];
+        }
+    }];
+    
     if (!isFilltered)
         _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
     else
@@ -448,11 +460,11 @@ Parse.com
             detailVC.formStatus = @"New";
         else
             detailVC.formStatus = @"Edit";
-        /*
-         *******************************************************************************************
-         Parse.com
-         *******************************************************************************************
-         */
+/*
+*******************************************************************************************
+Parse.com
+*******************************************************************************************
+*/
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
             NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
             if (!isFilltered) {
@@ -460,11 +472,13 @@ Parse.com
                 detailVC.frm11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"];
                 detailVC.frm12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
                 detailVC.frm13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+                detailVC.image = self.selectedImage;
             } else {
                 detailVC.objectId = [[filteredString objectAtIndex:indexPath.row] objectId];
                 detailVC.frm11 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Active"];
                 detailVC.frm12 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"SalesNo"];
                 detailVC.frm13 = [[filteredString objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
+                detailVC.image = self.selectedImage;
             }
         } else {
             detailVC.frm11 = _selectedLocation.active;

@@ -23,12 +23,6 @@
 
 @implementation UploadImageViewController
 
-@synthesize imgToUpload = _imgToUpload;
-@synthesize commentTitle = _commentTitle;
-@synthesize commentSorce = _commentSorce;
-@synthesize commentDetail = _commentDetail;
-@synthesize username = _username;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -226,6 +220,19 @@
         }];
     }
 }
+/*
+- (UIImage *)firstFrame:(NSURL *)videoURL {
+    
+    // courtesy of null0pointer and Javi Campaña
+    // http://stackoverflow.com/questions/10221242/first-frame-of-a-video-using-avfoundation
+    
+    AVURLAsset* asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
+    AVAssetImageGenerator* generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
+    generator.appliesPreferredTrackTransform = YES;
+    UIImage* image = [UIImage imageWithCGImage:[generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
+    
+    return image;
+} */
 
 #pragma mark UIImagePicker delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -320,20 +327,5 @@
     [alert addAction:ok];
     [self presentViewController:alert animated:YES completion:nil];
 }
-/*
-//video thumbnail
-- (UIImage *)thumbnailImageFromURL:(NSURL *)videoURL {
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: videoURL options:nil];
-    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    NSError *err = NULL;
-    CMTime requestedTime = CMTimeMake(1, 60);     // To create thumbnail image
-    CGImageRef imgRef = [generator copyCGImageAtTime:requestedTime actualTime:NULL error:&err];
-    NSLog(@"err = %@, imageRef = %@", err, imgRef);
-    
-    UIImage *thumbnailImage = [[UIImage alloc] initWithCGImage:imgRef];
-    CGImageRelease(imgRef);    // MUST release explicitly to avoid memory leak
-    
-    return thumbnailImage;
-} */
 
 @end

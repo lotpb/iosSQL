@@ -897,9 +897,7 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -910,9 +908,8 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                        
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -1011,9 +1008,7 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -1022,9 +1017,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -1116,9 +1109,7 @@ Parse.com
                 
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -1127,9 +1118,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {

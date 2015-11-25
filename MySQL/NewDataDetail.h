@@ -20,6 +20,8 @@
 @property (strong, nonatomic) UITextField *salesNo;
 @property (strong, nonatomic) UITextField *salesman;
 
+@property (strong, nonatomic) UIImage *image;
+
 @property (strong, nonatomic) NSString *frm11;
 @property (strong, nonatomic) NSString *frm12;
 @property (strong, nonatomic) NSString *frm13;

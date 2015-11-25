@@ -20,7 +20,7 @@
     UITextView *newsStory;
     UIButton *likeButton, *playButton, *actionBtn;
     UIView *wallImageView, *separatorLineView;
-    UIBarButtonItem *searchItem, *shareItem;
+    UIBarButtonItem *searchItem, *shareItem, *addItem;
     NSString *resultDateDiff;
 }
 
@@ -55,7 +55,8 @@
     
     shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(notification:)];
     searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
-    NSArray *actionButtonItems = @[shareItem, searchItem];
+    addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButton:)];
+    NSArray *actionButtonItems = @[shareItem, addItem, searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     emptyLabel = [[UILabel alloc] initWithFrame:self.wallScroll.bounds];
@@ -378,7 +379,7 @@
     self.wallScroll.contentSize = CGSizeMake(self.wallScroll.frame.size.width, originY);
 }
 
-#pragma mark like button
+#pragma mark button
 - (void)likeButton:(id)sender {
     UIButton* button = (UIButton*)sender;
     NSString *objectidItem = button.titleLabel.text;
@@ -412,7 +413,7 @@
     }];
 }
 
--(void)buttonPress:(id)sender{
+-(void)buttonPress:(id)sender {
     UIButton* button = (UIButton*)sender;
     if (!likeButton.selected) {
         [likeButton setSelected:YES];
@@ -421,6 +422,10 @@
         [likeButton setSelected:NO];
         button.tintColor = [UIColor lightGrayColor];
     }
+}
+
+-(void)addButton:(id)sender {
+   [self performSegueWithIdentifier: @"newuploadSegue" sender: self];
 }
 
 #pragma mark - play video

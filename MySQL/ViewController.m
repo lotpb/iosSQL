@@ -397,6 +397,61 @@ Parse.com
     return view;
 }
 
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{ /*
+    // Set the cells background color
+    if (indexPath.row % 2 == 0) {
+        UIColor *altCellColor = [UIColor colorWithWhite:0.3 alpha:0.5];
+        cell.backgroundColor = altCellColor;
+    }
+    
+    [UIView beginAnimations:@"fade" context:nil];
+    [UIView setAnimationDuration:20.0];
+    [UIView setAnimationRepeatAutoreverses:YES];
+    [UIView setAnimationRepeatCount: 0.5];
+    [cell.textLabel setAlpha:0.4];
+    [cell.textLabel setAlpha:1];
+    [UIView commitAnimations]; */
+    
+    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+        NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+        NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+        if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+            // This is the last cell
+            if ([_feedItems count]!=0) {
+                [self loadMore];
+            }
+        }
+    }
+}
+
+// Load more
+- (void)loadMore {
+    /*
+    if (showingRowCount != [_feedItems count]) {
+        
+        NSUInteger balance = [_feedItems count] - showingRowCount;
+        
+        if (balance >=5) {
+            showingRowCount = showingRowCount+5;
+        }else{
+            showingRowCount = [_feedItems count];
+        }
+        
+        [self.tableViewBalanceList reloadData];
+        
+        if (showingRowCount == [arrayBalanceList count]) {
+            [footerIndicator stopAnimating];
+            self.tableViewBalanceList.sectionFooterHeight = 0.0;
+        }
+        //        }else{
+        //            [footerIndicator startAnimating];
+        //            self.tableViewBalanceList.sectionFooterHeight = 40.0;
+        //        }
+    }
+    // NSLog(@"Last cell"); */
+}
+
 #pragma mark - search
 - (void)searchButton:(id)sender {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];

@@ -21,5 +21,6 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
+@property (strong, nonatomic) UIImage *selectedImage;
 
 @end

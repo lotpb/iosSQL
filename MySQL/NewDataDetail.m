@@ -65,7 +65,7 @@
     if ([_formStatus isEqual:@"New"])
     return 2;
     else
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,6 +167,21 @@
             myCell.textLabel.text = @"JobNo";}
         
         [myCell.contentView addSubview:self.salesNo];
+        
+    } else if (indexPath.row == 3){
+        
+        if ([_formController isEqual:TNAME8]) {
+            myCell.textLabel.text = @"";
+            myCell.imageView.image = self.image; }
+        
+        else if ([_formController isEqual:TNAME6]) {
+            myCell.textLabel.text = @"";}
+        
+        else if ([_formController isEqual:TNAME5]) {
+            myCell.textLabel.text = @"";}
+        
+        else if ([_formController isEqual:TNAME7]) {
+            myCell.textLabel.text = @"";}
     }
 
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -239,9 +254,7 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -252,10 +265,8 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
@@ -299,9 +310,7 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -312,9 +321,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -359,9 +366,7 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -372,9 +377,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -419,9 +422,7 @@ Parse.com
                 [savelead setObject:self.active ? self.active : [NSNull null] forKey:@"Active"];
                 [savelead saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -432,9 +433,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -481,9 +480,7 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -494,9 +491,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -542,9 +537,7 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -555,9 +548,7 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -603,9 +594,7 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -616,10 +605,9 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                        
+                        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
@@ -664,9 +652,7 @@ Parse.com
                         [updateData saveInBackground];
                         [self.listTableView reloadData];
                         
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete"
-                                                                                         message:@"Successfully updated the data"
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Complete" message:@"Successfully updated the data" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
@@ -677,9 +663,8 @@ Parse.com
                         [alert addAction:ok];
                         [self presentViewController:alert animated:YES completion:nil];
                     } else {
-                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure"
-                                                                                         message:[error localizedDescription]
-                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Upload Failure" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                        
                         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action)
                                              {
