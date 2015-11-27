@@ -16,6 +16,7 @@
 #import "CollectionDetailController.h"
 #import "NewDataDetail.h"
 #import "LeadDetailViewControler.h"
+//#import <AudioToolbox/AudioServices.h> //vibrate
 
 @interface SnapshotController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -32,6 +33,26 @@
 @property (strong, nonatomic) NSString *selectedEmail;
 @property (strong, nonatomic) NSString *selectedPhone;
 @property (strong, nonatomic) NSString *imageDetailurl;
+
+@property (strong, nonatomic) NSString *selectedState;
+@property (strong, nonatomic) NSString *selectedZip;
+@property (strong, nonatomic) NSString *selectedAmount;
+@property (strong, nonatomic) NSString *selectedComments;
+@property (strong, nonatomic) NSString *selectedActive;
+
+@property (strong, nonatomic) NSString *selected11;
+@property (strong, nonatomic) NSString *selected12;
+@property (strong, nonatomic) NSString *selected13;
+@property (strong, nonatomic) NSString *selected14;
+@property (strong, nonatomic) NSString *selected15;
+@property (strong, nonatomic) NSString *selected21;
+@property (strong, nonatomic) NSString *selected22;
+@property (strong, nonatomic) NSString *selected23;
+@property (strong, nonatomic) NSString *selected24;
+@property (strong, nonatomic) NSString *selected25;
+@property (strong, nonatomic) NSString *selected16;
+@property (strong, nonatomic) NSString *selected26;
+@property (strong, nonatomic) NSString *selected27;
 
 @end
 

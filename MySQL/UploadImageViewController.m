@@ -76,6 +76,7 @@
      self.clearButton.tintColor = DARKGRAYCOLOR;
      self.selectPic.tintColor = DARKGRAYCOLOR;
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [[UITextField appearance] setTintColor:[UIColor grayColor]];
 }
 
@@ -110,7 +111,6 @@
 
 -(IBAction)selectPicturePressed:(id)sender
 {
-    //Open a UIImagePickerController to select the picture
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     imgPicker.delegate = self;
     imgPicker.allowsEditing = YES;
@@ -119,10 +119,7 @@
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         imgPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
-    /*
-     NSArray *mediaTypesAllowed = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-     [imgPicker setMediaTypes:mediaTypesAllowed]; */
-    
+    self.navigationItem.rightBarButtonItem.enabled = YES;
     [self presentViewController:imgPicker animated:YES completion:nil];
 }
 
@@ -256,9 +253,11 @@
 
 #pragma mark UIImagePickerVideo delegate
 - (void) refreshSolutionView {
+    /*
     if ((pictureData.length/1024) >= 1024) {
         NSLog(@"Size of Image(bytes):%lu",(unsigned long)[pictureData length]);
-    }
+    } */
+    
     self.imgToUpload.image = nil;
     [self.videoController stop];
     self.videoController = nil;
@@ -281,10 +280,8 @@
         self.videoController.shouldAutoplay = NO;
         [self.imgToUpload addSubview:self.videoController.view];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(moviePlayBackDidFinish:)
-                                                     name:MPMoviePlayerPlaybackDidFinishNotification
-                                                   object:self.videoController];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:)
+                name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoController];
     }
 }
 
@@ -306,11 +303,11 @@
     
     MPMoviePlayerController *player = [notification object];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:player];
-
+/*
     if ([player respondsToSelector:@selector(setFullscreen:animated:)])
     {
       //  [player.view removeFromSuperview];
-    }
+    } */
 }
 
 #pragma mark Error View

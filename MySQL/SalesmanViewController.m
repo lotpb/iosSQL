@@ -432,21 +432,19 @@ Parse.com
 {
     imageObject = [_feedItems objectAtIndex:indexPath.row];
     imageFile = [imageObject objectForKey:KEY_IMAGE];
-    
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         if (!error) {
             self.selectedImage = [UIImage imageWithData:data];
-            //[self performSegueWithIdentifier:@"showPhoto" sender:self.imagesCollection];
+            
+            if (!isFilltered)
+                _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
+            else
+                _selectedLocation = [filteredString objectAtIndex:indexPath.row];
+            
+            isFormStat = NO;
+            [self performSegueWithIdentifier:SALEVIEWSEGUE sender:self];
         }
     }];
-    
-    if (!isFilltered)
-        _selectedLocation = [_feedItems objectAtIndex:indexPath.row];
-    else
-        _selectedLocation = [filteredString objectAtIndex:indexPath.row];
-    
-    isFormStat = NO;
-    [self performSegueWithIdentifier:SALEVIEWSEGUE sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

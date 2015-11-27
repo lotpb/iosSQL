@@ -63,9 +63,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([_formStatus isEqual:@"New"])
-    return 2;
+        return 2;
+    else if (([_formStatus isEqual:@"Edit"]) && ([_formController isEqual:TNAME8]))
+        return 4;
     else
-    return 4;
+        return 3;
+}
+
+//Field Height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat result = ROW_HEIGHT;
+    switch ([indexPath row])
+    {
+        case 3:
+        {
+            result = 100;
+            break;
+        }
+    }
+    return result;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -172,6 +189,7 @@
         
         if ([_formController isEqual:TNAME8]) {
             myCell.textLabel.text = @"";
+            //myCell.imageView.a;
             myCell.imageView.image = self.image; }
         
         else if ([_formController isEqual:TNAME6]) {
@@ -186,10 +204,6 @@
 
     myCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return myCell;
-}
-//-----------------Makes Form Scroll to Bottom--------------------------------
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return ROW_HEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -259,7 +273,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -315,7 +329,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -371,7 +385,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -427,7 +441,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -485,7 +499,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -542,7 +556,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -599,7 +613,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -657,7 +671,7 @@ Parse.com
                                                                    handler:^(UIAlertAction * action)
                                              {
                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 GOBACK;
+                                                 GOHOME;
                                                  return;
                                              }];
                         [alert addAction:ok];
@@ -696,7 +710,7 @@ Parse.com
             }
         }
     }
-    [[self navigationController]popToRootViewControllerAnimated:YES];
+    //[[self navigationController]popToRootViewControllerAnimated:YES];
 }
 
 @end

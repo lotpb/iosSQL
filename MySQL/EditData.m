@@ -505,7 +505,7 @@ Parse.com
         if ([self.frm15 isEqual:[NSNull null]])
             self.city.text = @"";
         else self.city.text = self.frm15;
-        myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.city.placeholder = @"City";
         myCell.textLabel.text = @"City";
         [myCell.contentView addSubview:self.city];
@@ -577,7 +577,7 @@ Parse.com
         self.salesman.tag = 6;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-            myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             myCell.textLabel.text = @"Salesman";
             if ([self.frm21 isEqual:[NSNull null]])
                 self.salesman.text = @"";
@@ -606,7 +606,7 @@ Parse.com
         else self.jobName.text = self.frm22;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-            myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         if ([_formController isEqual:TNAME3]) {
             self.jobName.placeholder = @"Phone 2";
@@ -629,7 +629,7 @@ Parse.com
         else self.adName.text = self.frm23;
         
         if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
-            myCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         if ([_formController isEqual:TNAME3]) {
             self.adName.placeholder = @"Phone 3";

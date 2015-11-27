@@ -36,7 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(name, nil);
+    self.title = NSLocalizedString(self.formController, nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
     self.listTableView.rowHeight = 30;
     self.listTableView2.rowHeight = 30;
@@ -490,6 +490,7 @@ return myCell;
     self.labeldate.text = date;
     self.labeldatetext.text = self.l1datetext;
     self.labelname.text = name;
+    self.labelname.adjustsFontSizeToFitWidth = YES;
     self.labeladdress.text = address;
     self.labelcity.text = [NSString stringWithFormat:@"%@ %@ %@", city, state, zip];
 /*

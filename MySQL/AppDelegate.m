@@ -9,12 +9,16 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "MainViewController.h"
+//#import <MediaPlayer/MediaPlayer.h>
 
 @interface AppDelegate () //<UISplitViewControllerDelegate>
 
 @end
 
 @implementation AppDelegate
+{
+    BOOL _isFullScreen;
+}
 @synthesize window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -55,6 +59,8 @@
     NSString *storyboardIdentifier;
     if ((![defaults boolForKey:@"registerKey"]) || ([defaults boolForKey:@"loginKey"]))
         storyboardIdentifier = @"loginViewController";
+    else if ([defaults boolForKey:@"snapshotKey"])
+        storyboardIdentifier = @"snapshotController";
     else
         storyboardIdentifier = @"mainViewController";
     
@@ -95,10 +101,42 @@
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     }
     
+     //| ------------movie players to rotate in fullscreen-------------------------
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willEnterFullScreen:)
+                                                 name:MPMoviePlayerWillEnterFullscreenNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willExitFullScreen:)
+                                                 name:MPMoviePlayerWillExitFullscreenNotification
+                                               object:nil];
+    
     return YES;
 }
 //| --------------------------END--------------------------------------
 
+#pragma mark - movie players to rotate in fullscreen
+- (void)willEnterFullScreen:(NSNotification *)notification
+{
+    _isFullScreen = YES;
+}
+
+- (void)willExitFullScreen:(NSNotification *)notification
+{
+    _isFullScreen = NO;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if (_isFullScreen) {
+        return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    } else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+}
+
+#pragma mark - Storyboard
 - (UIStoryboard *)grabStoryboard {
     
     // determine screen size
@@ -239,6 +277,7 @@
     application.applicationIconBadgeNumber = 0;
 }
 
+#pragma mark RemoteNotification
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Store the deviceToken in the current Installation and save it to Parse
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -252,6 +291,7 @@
 
 //| -----------------------END------------------------------------------
 
+#pragma mark - application
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

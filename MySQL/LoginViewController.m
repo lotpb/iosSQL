@@ -256,16 +256,17 @@
     PFUser *user = [PFUser user];
     user.username = _usernameField.text;
     user.password = _passwordField.text;
-    //user.email = _emailField.text; //login with email
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+  //user.email = _emailField.text; //login with email
+   [user setObject:file forKey:@"imageFile"];
+   [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
+            /*
             [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-                [user setObject:_emailField.text ? _emailField.text : [NSNull null] forKey:@"email"];
+            [user setObject:geoPoint forKey:@"currentLocation"];
+                //[user setObject:_emailField.text ? _emailField.text : [NSNull null] forKey:@"email"];
                 [user setObject:_phoneField.text ? _phoneField.text : [NSNull null] forKey:@"phone"];
-                [user setObject:file forKey:@"imageFile"];
-                [user setObject:geoPoint forKey:@"currentLocation"];
                 [user save];
-            }];
+            }]; */
             
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:_usernameField.text forKey:@"usernameKey"];

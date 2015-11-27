@@ -11,7 +11,7 @@
 //#import <Parse/Parse.h>
 //#import <ParseUI/ParseUI.h> //added to use PFImageView
 #import <MediaPlayer/MediaPlayer.h>
-//#import <AVFoundation/AVFoundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import "NSOperationQueue+SharedQueue.h" //added to remove warning on thread
 #import "NewsdetailController.h"
 

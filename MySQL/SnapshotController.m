@@ -10,11 +10,12 @@
 
 @interface SnapshotController ()
 {
-    NSMutableArray *_feedItems, *_feedItems2, *_feedItems3, *_feedItems4, *_feedItems5;
-    UIRefreshControl *refreshControl;
     PFObject *imageObject;
     PFFile *imageFile;
+    UIButton *playButton;
     NSString *resultDateDiff;
+    NSMutableArray *_feedItems, *_feedItems2, *_feedItems3, *_feedItems4, *_feedItems5;
+    UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -33,6 +34,10 @@
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.backgroundColor = LIGHTGRAYCOLOR;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
+    
+    //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    //AudioServicesPlayAlertSound(1352);
 
 /*
 *******************************************************************************************
@@ -324,8 +329,8 @@ Parse.com
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = @"Top News Story";
-            myCell.selectionStyle = UITableViewCellSelectionStyleGray;
-            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return myCell;
             
         } else if (indexPath.row == 1) {
@@ -443,8 +448,8 @@ Parse.com
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Salesman %ld", (unsigned long)_feedItems4.count];
-            myCell.selectionStyle = UITableViewCellSelectionStyleGray;
-            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            myCell.accessoryType = UITableViewCellAccessoryNone;
             return myCell;
             
         } else if (indexPath.row == 1) {
@@ -479,8 +484,8 @@ Parse.com
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Employee %ld", (unsigned long)_feedItems5.count];
-            myCell.selectionStyle = UITableViewCellSelectionStyleGray;
-            myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            myCell.accessoryType = UITableViewCellAccessoryNone;
             return myCell;
             
         } else if (indexPath.row == 1) {
@@ -548,14 +553,35 @@ Parse.com
             if (!error) {
                 cell.user2ImageView.image = [UIImage imageWithData:data];
                 cell.user2ImageView.backgroundColor = [UIColor blackColor];
+                
+                if([imageFile.url containsString:@"movie.mp4"]) {
+                    NSString *localPath = imageFile.url;
+                    NSURL *localURL = [NSURL URLWithString:localPath];
+                    AVURLAsset* asset = [AVURLAsset URLAssetWithURL:localURL options:nil];
+                    AVAssetImageGenerator* generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
+                    generator.appliesPreferredTrackTransform = YES;
+                    UIImage* thumbnail = [UIImage imageWithCGImage:[generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
+                    cell.user2ImageView.image = thumbnail;
+                    
+                    playButton.alpha = 1.0f;
+                    //playButton.userInteractionEnabled = YES;
+                    //playButton.center = cell.user2ImageView.center;
+                    UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    [playButton setImage:button forState:UIControlStateNormal];
+                    //[playButton setTitle:@"play_button" forState:UIControlStateNormal];
+                    //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+                    //[playButton addGestureRecognizer:tap];
+                    [cell.contentView addSubview:playButton];
+                }
+                
                [cell.loadingSpinner stopAnimating];
                 cell.loadingSpinner.hidden = YES;
             }
         }];
+        
         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
         celltitle.text = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsTitle"];
         celltitle.font = [UIFont systemFontOfSize:12];
-        //title.adjustsFontSizeToFitWidth = YES;
         celltitle.clipsToBounds = YES;
         celltitle.textColor = [UIColor blackColor];
         celltitle.backgroundColor = [UIColor whiteColor];
@@ -767,6 +793,8 @@ Parse.com
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error) {
                 self.selectedImage = [UIImage imageWithData:data];
+                //self.selectedImage = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"imageFile"];
+
                 self.imageDetailurl = imageFile.url;
                 self.selectedObjectId = [[_feedItems3 objectAtIndex:indexPath.row] objectId];
                 
@@ -838,26 +866,26 @@ Parse.com
         self.selectedName = [NSString stringWithFormat:@"%@ %@ %@",[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"First"],[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Last"], [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Company"]];
         self.selectedTitle = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Last"];
         self.selectedEmail = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Street"];
-        /*
-         detailVC.city = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"City"];
-         detailVC.state = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"State"];
-         detailVC.zip = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Zip"];
-         detailVC.amount = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
-         detailVC.tbl11 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"HomePhone"];
-         detailVC.tbl12 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"WorkPhone"];
-         detailVC.tbl13 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"CellPhone"];
-         detailVC.tbl14 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"SS"];
-         detailVC.tbl15 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Middle"];
-         detailVC.tbl21 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Email"];
-         detailVC.tbl22 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Department"];
-         detailVC.tbl23 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Title"];
-         detailVC.tbl24 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Manager"];
-         detailVC.tbl25 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Country"];
-         detailVC.tbl16 = [NSString stringWithFormat:@"%@",[[_feedItems objectAtIndex:indexPath.row] updatedAt]];
-         detailVC.tbl26 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"First"];
-         detailVC.tbl27 = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Company"];
-         detailVC.comments = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Comments"];
-         detailVC.active = [[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue]; */
+        self.imageDetailurl = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"City"];
+        
+        self.selectedState = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"State"];
+        self.selectedZip = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Zip"];
+        self.selectedAmount = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Title"];
+        self.selected11 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"HomePhone"];
+        self.selected12 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"WorkPhone"];
+        self.selected13 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"CellPhone"];
+        self.selected14 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"SS"];
+        self.selected15 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Middle"];
+        self.selected21 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Email"];
+        self.selected22 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Department"];
+        self.selected23 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Title"];
+        self.selected24 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Manager"];
+        self.selected25 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Country"];
+        self.selected16 = [NSString stringWithFormat:@"%@",[[_feedItems5 objectAtIndex:indexPath.row] updatedAt]];
+        self.selected26 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"First"];
+        self.selected27 = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Company"];
+        self.selectedComments = [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Comments"];
+        self.selectedActive = [[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Active"]stringValue];
         
         [self performSegueWithIdentifier:@"snapemploySegue" sender:self];
     }
@@ -899,9 +927,43 @@ Parse.com
          detailVC.image = self.selectedImage;
         
     } else if ([[segue identifier] isEqualToString:@"snapemploySegue"]) {
-         LeadDetailViewControler *detailVC = segue.destinationViewController;
-         detailVC.formController = TNAME4;
+        LeadDetailViewControler *detailVC = segue.destinationViewController;
+        detailVC.formController = TNAME4;
+        detailVC.objectId = self.selectedObjectId;
+        detailVC.leadNo = self.selectedPhone;
+        detailVC.date = self.selectedCreate;
+        detailVC.name = self.selectedName;
+        detailVC.custNo = self.selectedTitle;
+        detailVC.address = self.selectedEmail;
+        detailVC.city = self.imageDetailurl;
+        detailVC.state = self.selectedState;
+        detailVC.zip = self.selectedZip;
+        detailVC.amount = self.selectedAmount;
+        detailVC.tbl11 = self.selected11;
+        detailVC.tbl12 = self.selected12;
+        detailVC.tbl13 = self.selected13;
+        detailVC.tbl14 = self.selected14;
+        detailVC.tbl15 = self.selected15;
+        detailVC.tbl21 = self.selected21;
+        detailVC.tbl22 = self.selected22;
+        detailVC.tbl23 = self.selected23;
+        detailVC.tbl24 = self.selected24;
+        detailVC.tbl25 = self.selected25;
+        detailVC.tbl16 = self.selected16;
+        detailVC.tbl26 = self.selected26;
+        detailVC.tbl27 = self.selected27;
+        detailVC.comments = self.selectedComments;
+        detailVC.active = self.selectedActive;
+        
+        detailVC.l11 = @"Home"; detailVC.l12 = @"Work";
+        detailVC.l13 = @"Mobile"; detailVC.l14 = @"Social";
+        detailVC.l15 = @"Middle "; detailVC.l21 = @"Email";
+        detailVC.l22 = @"Department"; detailVC.l23 = @"Title";
+        detailVC.l24 = @"Manager"; detailVC.l25 = @"Country";
+        detailVC.l16 = @"Last Updated"; detailVC.l26 = @"First";
+        detailVC.l1datetext = @"Email:";
+        detailVC.lnewsTitle = EMPLOYEENEWSTITLE;
     }
-} 
+}
 
 @end

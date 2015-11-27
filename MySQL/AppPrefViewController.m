@@ -35,6 +35,7 @@ NSString* const kLongtitudeKey	    	= @"longtitudeKey";
 //NSString* const kiCloudKey	    	= @"icloudKey";
 NSString* const kSoundKey	        	= @"soundKey";
 NSString* const kVersionKey	        	= @"versionKey";
+//NSString* const kSnapshotKey	        = @"snapshotKey";
 
 //EditProfile.plist
 NSString* const kFirstNameKey			= @"firstNameKey";
@@ -64,6 +65,7 @@ NSString* const kParseKey	     	    = @"parseKey";
 @property (strong) NSString *latitude;
 @property (strong) NSString *longtitude;
 @property (strong) NSString *version;
+//@property (strong) NSString *snapshot;
 
 @end
 
@@ -173,6 +175,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     self.latitude = [standardDefaults objectForKey:kLatitudeKey];
     self.longtitude = [standardDefaults objectForKey:kLongtitudeKey];
     self.version = [standardDefaults objectForKey:kVersionKey];
+    //self.snapshot = [standardDefaults objectForKey:kSnapshotKey];
     // The value for the 'Text Color' setting is stored as an integer between
     // one and three inclusive.  Convert the integer into a UIColor object.
     TextColor textColor = [standardDefaults integerForKey:kFontColorKey];
@@ -207,7 +210,7 @@ NSString* const kParseKey	     	    = @"parseKey";
     if (section == 0) {
         return 6;
     } else if (section == 1) {
-        return 10;
+        return 11;
     } else if (section == 2) {
         return 2;
     } else if (section == 3) {
@@ -439,6 +442,22 @@ NSString* const kParseKey	     	    = @"parseKey";
             cell.accessoryView = theSwitch;
             [cell addSubview:theSwitch];
             return cell;
+        } else if (indexPath.row == 10) {
+            
+            [theSwitch addTarget:self action:@selector(Switch11:) forControlEvents:UIControlEventValueChanged];
+            
+            BOOL soundbool =
+            [[NSUserDefaults standardUserDefaults] boolForKey:@"snapshotKey"];
+            if (soundbool == true)
+                [theSwitch setOn:YES];
+            else
+                [theSwitch setOn:NO];
+            
+            cell.textLabel.text = @"Snapshot";
+            cell.detailTextLabel.text = @"";
+            cell.accessoryView = theSwitch;
+            [cell addSubview:theSwitch];
+            return cell;
         }
         
     } else if (indexPath.section == 2) {
@@ -567,6 +586,15 @@ NSString* const kParseKey	     	    = @"parseKey";
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fetchKey"];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"fetchKey"];
+    }
+}
+
+- (void)Switch11:(id)sender {
+    
+    if([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"snapshotKey"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"snapshotKey"];
     }
 }
 
