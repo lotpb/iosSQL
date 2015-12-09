@@ -32,6 +32,8 @@
     
     [self YahooFinanceLoad];
     
+//-------------------Push Parse------------------
+    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation addUniqueObject:@"Giants" forKey:@"channels"];
     [currentInstallation saveInBackground];

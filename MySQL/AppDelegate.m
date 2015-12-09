@@ -38,6 +38,7 @@
     if ([defaults boolForKey:@"parseKey"]) {
         //Registers current device to Parse
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            
             [Parse setApplicationId:@"lMUWcnNfBE2HcaGb2zhgfcTgDLKifbyi6dgmEK3M"
                           clientKey:@"UVyAQYRpcfZdkCa5Jzoza5fTIPdELFChJ7TVbSeX"];
             
@@ -59,12 +60,15 @@
     NSString *storyboardIdentifier;
     if ((![defaults boolForKey:@"registerKey"]) || ([defaults boolForKey:@"loginKey"]))
         storyboardIdentifier = @"loginViewController";
+    
     else if ([defaults boolForKey:@"snapshotKey"])
         storyboardIdentifier = @"snapshotController";
+    
     else
         storyboardIdentifier = @"mainViewController";
     
     UIViewController *rootViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:storyboardIdentifier];
+    
     [[self window] setRootViewController:rootViewController];
 
 //| --------------register Notification Actions-----------------
@@ -132,11 +136,14 @@
     if (_isFullScreen) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
     } else {
-        return UIInterfaceOrientationMaskPortrait;
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            return UIInterfaceOrientationMaskPortrait;
+        }
+        return 0;
     }
 }
 
-#pragma mark - Storyboard
+#pragma mark - Storyboard ipad or iphone
 - (UIStoryboard *)grabStoryboard {
     
     // determine screen size

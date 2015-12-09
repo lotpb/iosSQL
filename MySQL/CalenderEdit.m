@@ -96,9 +96,7 @@
         case EKAuthorizationStatusDenied:
         case EKAuthorizationStatusRestricted:
         {
-            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Privacy Warning"
-                                                                             message:@"Permission was not granted for Calendar"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Privacy Warning" message:@"Permission was not granted for Calendar" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
                                  {

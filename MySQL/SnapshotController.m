@@ -6,18 +6,26 @@
 //  Copyright © 2015 Peter Balsamo. All rights reserved.
 //
 
-#import "SnapshotController.h"
 
-@interface SnapshotController ()
+#import "SnapshotController.h"
+//#import <EventKit/EventKit.h>
+//#import <EventKitUI/EventKitUI.h>
+
+@interface SnapshotController () //<EKEventEditViewDelegate>
 {
     PFObject *imageObject;
     PFFile *imageFile;
-    UIButton *playButton;
+    //UIButton *playButton;
     NSString *resultDateDiff;
-    NSMutableArray *_feedItems, *_feedItems2, *_feedItems3, *_feedItems4, *_feedItems5;
+    UILabel *title, *datetitle;
+    NSMutableArray *_feedItems, *_feedItems2, *_feedItems3, *_feedItems4, *_feedItems5, *_feedItems6;
     UIRefreshControl *refreshControl;
 }
 @property (nonatomic, strong) UISearchController *searchController;
+
+@property (strong, nonatomic) EKEventStore *eventStore;
+//@property (strong, nonatomic) EKCalendar *defaultCalendar;
+@property (strong, nonatomic) NSMutableArray *eventsList;
 
 @end
 
@@ -27,7 +35,6 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Snapshot", nil);
     self.edgesForExtendedLayout = UIRectEdgeNone; //fix
-    //self.automaticallyAdjustsScrollViewInsets = NO; //fix dont work
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
@@ -36,8 +43,10 @@
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];//fix
     
     //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     //AudioServicesPlayAlertSound(1352);
+    
+    //[self addEvent:self];
 
 /*
 *******************************************************************************************
@@ -49,7 +58,7 @@ Parse.com
         parseConnection.delegate = (id)self;
         [parseConnection parseUser]; [parseConnection parseJobPhoto];
         [parseConnection parseNews]; [parseConnection parseSalesman];
-        [parseConnection parseEmployee];
+        [parseConnection parseEmployee]; [parseConnection parseBlog];
     }
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
@@ -69,9 +78,11 @@ Parse.com
     [refreshView addSubview:refreshControl];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidAppear:(BOOL)animated
+{
+
+    //[self checkEventStoreAccessForCalendar];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,6 +95,104 @@ Parse.com
 
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+-(void)checkEventStoreAccessForCalendar
+{
+    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent];
+    
+    switch (status)
+    {
+            // Update our UI if the user has granted access to their Calendar
+        case EKAuthorizationStatusAuthorized: [self accessGrantedForCalendar];
+            break;
+            // Prompt the user for access to Calendar if there is no definitive answer
+        case EKAuthorizationStatusNotDetermined: [self requestCalendarAccess];
+            break;
+            // Display a message if the user has denied or restricted access to Calendar
+        case EKAuthorizationStatusDenied:
+        case EKAuthorizationStatusRestricted:
+        {
+            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Privacy Warning" message:@"Permission was not granted for Calendar" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)requestCalendarAccess
+{
+    [self.eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error)
+     {
+         if (granted)
+         {
+             SnapshotController * __weak weakSelf = self;
+             // Let's ensure that our code will be executed from the main queue
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
+                 [weakSelf accessGrantedForCalendar];
+             });
+         }
+     }];
+}
+
+
+// This method is called when the user has granted permission to Calendar
+-(void)accessGrantedForCalendar
+{
+    // Let's get the default calendar associated with our event store
+    self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents;
+    // Enable the Add button
+    //self.addButton.enabled = YES;
+    // Fetch all events happening in the next 24 hours and put them into eventsList
+    self.eventsList = [self fetchEvents];
+    // Update the UI with the above events
+    //[self.listTableView reloadData];
+}
+
+- (NSMutableArray *)fetchEvents
+{
+    NSDate *startDate = [NSDate date];
+    
+    //Create the end date components
+    NSDateComponents *tomorrowDateComponents = [[NSDateComponents alloc] init];
+    tomorrowDateComponents.day = 1;
+    
+    NSDate *endDate = [[NSCalendar currentCalendar] dateByAddingComponents:tomorrowDateComponents
+                                                                    toDate:startDate
+                                                                   options:0];
+    // We will only search the default calendar for our events
+    NSArray *calendarArray = [NSArray arrayWithObject:self.defaultCalendar];
+    
+    // Create the predicate
+    NSPredicate *predicate = [self.eventStore predicateForEventsWithStartDate:startDate
+                                                                      endDate:endDate
+                                                                    calendars:calendarArray];
+    
+    // Fetch all events that match the predicate
+    NSMutableArray *events = [NSMutableArray arrayWithArray:[self.eventStore eventsMatchingPredicate:predicate]];
+    
+    return events;
+}
+
+- (EKCalendar *)eventEditViewControllerDefaultCalendarForNewEvents:(EKEventEditViewController *)controller
+{
+    return self.defaultCalendar;
+}
+*/
+
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
 
@@ -92,7 +201,7 @@ Parse.com
         parseConnection.delegate = (id)self;
         [parseConnection parseUser]; [parseConnection parseJobPhoto];
         [parseConnection parseNews]; [parseConnection parseSalesman];
-        [parseConnection parseEmployee];
+        [parseConnection parseEmployee]; [parseConnection parseBlog];
     }
 
     [self.listTableView reloadData];
@@ -135,6 +244,11 @@ Parse.com
 
 - (void)parseEmployeeloaded:(NSMutableArray *)employItem {
     _feedItems5 = employItem;
+    [self.listTableView reloadData];
+}
+
+- (void)parseBlogloaded:(NSMutableArray *)blogItem {
+    _feedItems6 = blogItem;
     [self.listTableView reloadData];
 }
 
@@ -219,12 +333,48 @@ Parse.com
             }
         }
         return result;
+    } else if (indexPath.section == 6) {
+        
+        CGFloat result = 85;
+        switch ([indexPath row])
+        {
+            case 0:
+            {
+                result = 44;
+                break;
+            }
+        }
+        return result;
+    } else if (indexPath.section == 7) {
+        
+        CGFloat result = 85;
+        switch ([indexPath row])
+        {
+            case 0:
+            {
+                result = 44;
+                break;
+            }
+        }
+        return result;
+    } else if (indexPath.section == 8) {
+        
+        CGFloat result = 85;
+        switch ([indexPath row])
+        {
+            case 0:
+            {
+                result = 44;
+                break;
+            }
+        }
+        return result;
     }
     return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 6;
+    return 9;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -240,6 +390,12 @@ Parse.com
     } else if (section == 4) {
         return 2;
     } else if (section == 5) {
+        return 2;
+    } else if (section == 6) {
+        return 2;
+    } else if (section == 7) {
+        return 2; //[[[UIApplication sharedApplication] scheduledLocalNotifications] count];
+    } else if (section == 8) {
         return 2;
     }
     return 0;
@@ -259,6 +415,12 @@ Parse.com
         return CGFLOAT_MIN;
     if (section == 5)
         return CGFLOAT_MIN;
+    if (section == 6)
+        return CGFLOAT_MIN;
+    if (section == 7)
+        return CGFLOAT_MIN;
+    if (section == 8)
+        return CGFLOAT_MIN;
     return tableView.sectionHeaderHeight;
 }
 
@@ -269,12 +431,17 @@ Parse.com
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)myCell.collectionView.collectionViewLayout;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.itemSize = CGSizeMake(120.0, 120.0);
     [myCell.collectionView setCollectionViewLayout:flowLayout];
     
-    myCell.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; //fix
+    //myCell.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; //fix
+    
+    title = [[UILabel alloc]initWithFrame:CGRectMake(15, 23, myCell.frame.size.width - 15, 50)];
+    datetitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, myCell.frame.size.width - 15, 20)];
+    
+    [title setFont:DETAILFONT(IPHONEFONT18)];
+    [datetitle setFont:DETAILFONT(IPHONEFONT14)];
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.textLabel setFont:CELL_MEDFONT(IPADFONT18)];
@@ -307,6 +474,8 @@ Parse.com
             [myCell.collectionView setContentOffset:CGPointZero animated:NO];
             [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
+            datetitle.text = nil;
+            title.text = nil;
             myCell.accessoryType = NO;
             return myCell;
             
@@ -334,16 +503,11 @@ Parse.com
             return myCell;
             
         } else if (indexPath.row == 1) {
-            
-            UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(15, 23, myCell.frame.size.width - 15, 50)];
-            UILabel *datetitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, myCell.frame.size.width - 15, 20)];
-            
-            [title setFont:DETAILFONT(IPHONEFONT18)];
-            [datetitle setFont:DETAILFONT(IPHONEFONT14)];
-            
+
             myCell.collectionView.delegate = nil;
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
             myCell.accessoryType = NO;
 
@@ -357,20 +521,20 @@ Parse.com
             datetitle.backgroundColor = [UIColor clearColor];
             datetitle.numberOfLines = 1;
             datetitle.tag = 2;
+            //[myCell bringSubviewToFront:datetitle];
             [myCell.contentView addSubview:datetitle];
-            
-            NSDate *creationDate = [[_feedItems3 objectAtIndex:indexPath.row] createdAt];
+
+            NSDate *creationDate = [[_feedItems3 objectAtIndex:0] createdAt];
             NSDate *datetime1 = creationDate;
             NSDate *datetime2 = [NSDate date];
             double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
             resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
             datetitle = (UILabel *)[myCell viewWithTag:2];
-            datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsDetail"], resultDateDiff];
+            datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems3 firstObject] objectForKey:@"newsDetail"], resultDateDiff];
             
             title = (UILabel *)[myCell viewWithTag:1];
-            title.text = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsTitle"];
-            
+            title.text = [[_feedItems3 firstObject] objectForKey:@"newsTitle"];
             
             return myCell;
         }
@@ -382,6 +546,7 @@ Parse.com
             myCell.collectionView.delegate = nil;
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            //myCell.collectionView.tag = 12;
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Jobs %ld", (unsigned long)_feedItems2.count];
             myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -396,6 +561,12 @@ Parse.com
            [myCell.collectionView setContentOffset:CGPointZero animated:NO];
            [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
+            title.tag = 61;
+            datetitle.tag = 62;
+            title = (UILabel *)[myCell viewWithTag:61];
+            title.text = nil;
+            datetitle = (UILabel *)[myCell viewWithTag:62];
+            datetitle.text = nil;
             myCell.accessoryType = NO;
             return myCell;
             
@@ -408,7 +579,6 @@ Parse.com
             myCell.collectionView.delegate = nil;
             myCell.collectionView.dataSource = nil;
             myCell.collectionView.backgroundColor = [UIColor whiteColor];
-            myCell.collectionView.tag = 14;
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Users %ld", (unsigned long)_feedItems.count];
             myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -426,6 +596,8 @@ Parse.com
             [myCell.collectionView setContentOffset:CGPointZero animated:NO];
             [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
+            datetitle.text = nil;
+            title.text = nil;
             myCell.accessoryType = NO;
             return myCell;
             
@@ -458,10 +630,11 @@ Parse.com
             flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
             flowLayout.itemSize = CGSizeMake(80.0, 120.0);
             [myCell.collectionView setCollectionViewLayout:flowLayout];
-            
-            UILabel *title = (UILabel *)[myCell viewWithTag:1];
+            title.tag = 81;
+            datetitle.tag = 82;
+            title = (UILabel *)[myCell viewWithTag:81];
             title.text = nil;
-            UILabel *datetitle = (UILabel *)[myCell viewWithTag:2];
+            datetitle = (UILabel *)[myCell viewWithTag:82];
             datetitle.text = nil;
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
@@ -471,7 +644,6 @@ Parse.com
             [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
             myCell.accessoryType = NO;
-            
             return myCell;
             
         }
@@ -495,9 +667,9 @@ Parse.com
             flowLayout.itemSize = CGSizeMake(80.0, 120.0);
             [myCell.collectionView setCollectionViewLayout:flowLayout];
             
-            UILabel *title = (UILabel *)[myCell viewWithTag:1];
+            title = (UILabel *)[myCell viewWithTag:1];
             title.text = nil;
-            UILabel *datetitle = (UILabel *)[myCell viewWithTag:2];
+            datetitle = (UILabel *)[myCell viewWithTag:2];
             datetitle.text = nil;
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
@@ -506,13 +678,161 @@ Parse.com
             [myCell.collectionView setContentOffset:CGPointZero animated:NO];
             [myCell.collectionView reloadData];
             myCell.textLabel.text = nil;
+            datetitle.text = nil;
+            title.text = nil;
             myCell.accessoryType = NO;
 
             return myCell;
             
         }
+//------------------------------------------------------------------------------
+    } else if (indexPath.section == 6) {
+        
+        if (indexPath.row == 0) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = @"Top Blog Story";
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return myCell;
+            
+        } else if (indexPath.row == 1) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = nil;
+            myCell.accessoryType = NO;
+            
+            title.textColor = [UIColor blackColor];
+            title.backgroundColor = [UIColor clearColor];
+            title.numberOfLines = 2;
+            title.tag = 61;
+            [myCell.contentView addSubview:title];
+            
+            datetitle.textColor = [UIColor lightGrayColor];
+            datetitle.backgroundColor = [UIColor clearColor];
+            datetitle.numberOfLines = 1;
+            datetitle.tag = 62;
+            [myCell.contentView addSubview:datetitle];
+            
+            NSDate *creationDate = [[_feedItems6 objectAtIndex:0] createdAt];
+            NSDate *datetime1 = creationDate;
+            NSDate *datetime2 = [NSDate date];
+            double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
+            resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
+            
+            datetitle = (UILabel *)[myCell viewWithTag:62];
+            datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems6 firstObject] objectForKey:@"PostBy"], resultDateDiff];
+            
+            title = (UILabel *)[myCell viewWithTag:61];
+            title.text = [[_feedItems6 firstObject] objectForKey:@"Subject"];
+            
+            return myCell;
+        }
+        //------------------------------------------------------------------------------
+    } else if (indexPath.section == 7) {
+        
+        if (indexPath.row == 0) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = @"Top Notification";
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return myCell;
+            
+        } else if (indexPath.row == 1) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = nil;
+            myCell.accessoryType = NO;
+            
+            // Get list of local notifications
+            NSArray *localNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+            UILocalNotification *localNotification = [localNotifications firstObject];
+            
+            title.textColor = [UIColor blackColor];
+            title.backgroundColor = [UIColor clearColor];
+            title.numberOfLines = 2;
+            title.tag = 81;
+            [myCell.contentView addSubview:title];
+            
+            datetitle.textColor = [UIColor lightGrayColor];
+            datetitle.backgroundColor = [UIColor clearColor];
+            datetitle.numberOfLines = 1;
+            datetitle.tag = 82;
+            [myCell.contentView addSubview:datetitle];
+            
+            title = (UILabel *)[myCell viewWithTag:81];
+            datetitle = (UILabel *)[myCell viewWithTag:82];
+            
+            if ([[[UIApplication sharedApplication] scheduledLocalNotifications] count] == 0) {
+                datetitle.text = @"";
+                title.text = @"You have no pending notifications :)";
+            } else {
+                datetitle.text = [localNotification.fireDate description];
+                title.text = localNotification.alertBody;
+            }
+            
+            return myCell;
+        }
+        //------------------------------------------------------------------------------
+    } else if (indexPath.section == 8) {
+        
+        if (indexPath.row == 0) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = @"Top Calander Event";
+            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
+            //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return myCell;
+            
+        } else if (indexPath.row == 1) {
+            
+            myCell.collectionView.delegate = nil;
+            myCell.collectionView.dataSource = nil;
+            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+            myCell.textLabel.text = nil;
+            myCell.accessoryType = NO;
+            
+            //self.eventStore = [[EKEventStore alloc] init];
+            self.eventsList = [[NSMutableArray alloc] initWithCapacity:0];
+
+            title.textColor = [UIColor blackColor];
+            title.backgroundColor = [UIColor clearColor];
+            title.numberOfLines = 2;
+            title.tag = 81;
+            [myCell.contentView addSubview:title];
+            
+            datetitle.textColor = [UIColor lightGrayColor];
+            datetitle.backgroundColor = [UIColor clearColor];
+            datetitle.numberOfLines = 1;
+            datetitle.tag = 82;
+            [myCell.contentView addSubview:datetitle];
+            
+            title = (UILabel *)[myCell viewWithTag:81];
+            datetitle = (UILabel *)[myCell viewWithTag:82];
+            datetitle.text = [[self.eventsList firstObject] title];
+            
+            if (self.eventsList.count == 0) {
+                title.text = @"You have no pending events :)";
+            } else {
+                title.text = [[self.eventsList firstObject] title];
+            }
+            
+            return myCell;
+        }
+        //------------------------------------------------------------------------------
     }
-    return nil;
+    return 0;
 }
 
 #pragma mark - UICollectionView
@@ -542,19 +862,21 @@ Parse.com
     JobViewCell *cell = (JobViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
 //------------------------------------------------------------------------------
     if (collectionView.tag == 0) {
-    
+
         imageObject = [_feedItems3 objectAtIndex:indexPath.row];
         imageFile = [imageObject objectForKey:@"imageFile"];
         
         cell.loadingSpinner.hidden = NO;
-       [cell.loadingSpinner startAnimating];
+        [cell.loadingSpinner startAnimating];
         
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error) {
-                cell.user2ImageView.image = [UIImage imageWithData:data];
-                cell.user2ImageView.backgroundColor = [UIColor blackColor];
                 
+                cell.user2ImageView.backgroundColor = [UIColor blackColor];
+                cell.user2ImageView.image = [UIImage imageWithData:data];
+                /*
                 if([imageFile.url containsString:@"movie.mp4"]) {
+ 
                     NSString *localPath = imageFile.url;
                     NSURL *localURL = [NSURL URLWithString:localPath];
                     AVURLAsset* asset = [AVURLAsset URLAssetWithURL:localURL options:nil];
@@ -562,21 +884,26 @@ Parse.com
                     generator.appliesPreferredTrackTransform = YES;
                     UIImage* thumbnail = [UIImage imageWithCGImage:[generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
                     cell.user2ImageView.image = thumbnail;
-                    
+            
+                 
+                    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                        playButton = [[UIButton alloc] initWithFrame:CGRectMake(cell.user2ImageView.frame.size.width / 2 - 10, cell.user2ImageView.frame.origin.y + 35, 25, 25)];
+                    } else {
+                        playButton = [[UIButton alloc] initWithFrame:CGRectMake(cell.user2ImageView.frame.size.width / 2 - 10, cell.user2ImageView.frame.origin.y + 35, 25, 25)];
+                    }
                     playButton.alpha = 1.0f;
-                    //playButton.userInteractionEnabled = YES;
-                    //playButton.center = cell.user2ImageView.center;
+                    playButton.userInteractionEnabled = YES;
+                    playButton.center = cell.user2ImageView.center;
                     UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                     [playButton setImage:button forState:UIControlStateNormal];
-                    //[playButton setTitle:@"play_button" forState:UIControlStateNormal];
-                    //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-                    //[playButton addGestureRecognizer:tap];
-                    [cell.contentView addSubview:playButton];
-                }
+                    [cell.user2ImageView addSubview:playButton];
+
+                } */
                 
-               [cell.loadingSpinner stopAnimating];
+                [cell.loadingSpinner stopAnimating];
                 cell.loadingSpinner.hidden = YES;
             }
+            
         }];
         
         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
@@ -589,9 +916,9 @@ Parse.com
         [cell.contentView addSubview:celltitle];
         
         return cell;
-    
-//------------------------------------------------------------------------------
-     } else if (collectionView.tag == 1) {
+        
+        //------------------------------------------------------------------------------
+    } else if (collectionView.tag == 1) {
        
          imageObject = [_feedItems2 objectAtIndex:indexPath.row];
          imageFile = [imageObject objectForKey:@"imageFile"];
@@ -699,7 +1026,7 @@ Parse.com
          
          return cell;
      } else if (collectionView.tag == 13) {
-[self performSegueWithIdentifier:@"newssnapSegue" sender:self];
+            [self performSegueWithIdentifier:@"newssnapSegue" sender:self];
          
          return cell;
      }
