@@ -13,8 +13,6 @@
     BlogModel *_BlogModel; BlogLocation *_selectedLocation;
     NSMutableArray *headCount, *_feedItems;
     UIRefreshControl *refreshControl;
-    //UILabel *numLabel;
-    //UIButton *flagButton;
     UIButton *likeButton;
     BOOL isReplyClicked;
     NSString *posttoIndex, *userIndex, *titleLabel;
@@ -156,6 +154,11 @@ Parse.com
 
 - (void)parseHeadBlogloaded:(NSMutableArray *)blogheadItem {
     headCount = blogheadItem;
+    [self.listTableView reloadData];
+}
+
+-(void)itemsDownloaded:(NSMutableArray *)items {
+    _feedItems = items;
     [self.listTableView reloadData];
 }
 
@@ -327,12 +330,7 @@ Parse.com
 }
 
 #pragma mark - TableView
--(void)itemsDownloaded:(NSMutableArray *)items {
-    _feedItems = items;
-    [self.listTableView reloadData];
-}
 
-#pragma mark TableView Delete Button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -467,34 +465,39 @@ Parse.com
          myCell.numLabel.font = CELL_BOLDFONT(IPHONEFONT16);
          myCell.commentLabel.font = CELL_BOLDFONT(IPHONEFONT16);
     }
-    
-    /*
-     *******************************************************************************************
-     Parse.com
-     *******************************************************************************************
-     */
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
-    query.cachePolicy = kPFCACHEPOLICY;
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            PFFile *file = [object objectForKey:@"imageFile"];
-            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                if (!error) {
-                    [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
-                } else {
-                    [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
-                }
-            }];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    }
 
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"username" equalTo:[[_feedItems objectAtIndex:indexPath.row] objectForKey:@"PostBy"]];
+        query.cachePolicy = kPFCACHEPOLICY;
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                PFFile *file = [object objectForKey:@"imageFile"];
+                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                    if (!error) {
+                        [myCell.blog2ImageView setImage:[UIImage imageWithData:data]];
+                    } else {
+                        [myCell.blog2ImageView setImage:[UIImage imageNamed:BLOGCELLIMAGE]];
+                    }
+                }];
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+
+    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
+    myCell.blog2ImageView.clipsToBounds = YES;
+    myCell.blog2ImageView.layer.cornerRadius = myCell.blog2ImageView.frame.size.width / 2;
+    myCell.blog2ImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    myCell.blog2ImageView.layer.borderWidth = 0.5f;
+    myCell.blog2ImageView.userInteractionEnabled = YES;
+    myCell.blog2ImageView.tag = indexPath.row;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
+    [myCell.blog2ImageView addGestureRecognizer:tap];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
         
@@ -538,54 +541,44 @@ Parse.com
     [myCell.replyButton setImage:replyimage forState:UIControlStateNormal];
     [myCell.replyButton addTarget:self action:@selector(replyButton:) forControlEvents:UIControlEventTouchUpInside];
     
+    myCell.likeButton.tintColor = [UIColor lightGrayColor];
     UIImage *image = [[UIImage imageNamed:@"Thumb Up.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.likeButton setImage:image forState:UIControlStateNormal];
     [myCell.likeButton addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
     [myCell.likeButton addTarget:self action:@selector(likeButton:) forControlEvents:UIControlEventTouchUpInside];
-    myCell.likeButton.tintColor = [UIColor lightGrayColor];
-    
-   if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-       
-    [myCell.numLabel sizeToFit];
-       if (![myCell.numLabel.text isEqual: @"0"] ) {
-           myCell.numLabel.textColor = [UIColor redColor];
-       } else {
-           myCell.numLabel.text = @"";
-       }
-       
-       [myCell.commentLabel sizeToFit];
-       if (![myCell.commentLabel.text isEqual: @"0"] ) {
-           myCell.commentLabel.textColor = [UIColor lightGrayColor];
-       } else {
-           myCell.commentLabel.text = @"";
-       }
-       
-       if ([myCell.commentLabel.text length] > 0)  {
-           myCell.replyButton.tintColor = [UIColor redColor];
-       } else {
-           myCell.replyButton.tintColor = [UIColor lightGrayColor];
-       }
-   }
-
-    myCell.blog2ImageView.contentMode = UIViewContentModeScaleToFill;
-    myCell.blog2ImageView.clipsToBounds = YES;
-    myCell.blog2ImageView.layer.cornerRadius = myCell.blog2ImageView.frame.size.width / 2;
-    myCell.blog2ImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    myCell.blog2ImageView.layer.borderWidth = 0.5f;
-    myCell.blog2ImageView.userInteractionEnabled = YES;
-    myCell.blog2ImageView.tag = indexPath.row;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgLoadSegue:)];
-    [myCell.blog2ImageView addGestureRecognizer:tap];
     
     myCell.flagButton.tintColor = [UIColor lightGrayColor];
     UIImage *reportimage = [[UIImage imageNamed:@"Flag.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.flagButton setImage:reportimage forState:UIControlStateNormal];
     [myCell.flagButton addTarget:self action:@selector(flagButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    myCell.actionBtn.tintColor = [UIColor darkGrayColor];
+    myCell.actionBtn.tintColor = [UIColor lightGrayColor];
      UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.actionBtn setImage:imagebutton forState:UIControlStateNormal];
     [myCell.actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
+        
+        [myCell.numLabel sizeToFit];
+        if (![myCell.numLabel.text isEqual: @"0"] ) {
+            myCell.numLabel.textColor = [UIColor redColor];
+        } else {
+            myCell.numLabel.text = @"";
+        }
+        
+        [myCell.commentLabel sizeToFit];
+        if (![myCell.commentLabel.text isEqual: @"0"] ) {
+            myCell.commentLabel.textColor = [UIColor lightGrayColor];
+        } else {
+            myCell.commentLabel.text = @"";
+        }
+        
+        if ([myCell.commentLabel.text length] > 0)  {
+            myCell.replyButton.tintColor = [UIColor redColor];
+        } else {
+            myCell.replyButton.tintColor = [UIColor lightGrayColor];
+        }
+    }
    
     NSString *text = myCell.blogsubtitleLabel.text;
     NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:text];

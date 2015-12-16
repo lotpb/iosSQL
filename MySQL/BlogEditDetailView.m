@@ -252,16 +252,6 @@
             myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) {
-            /*
-             NSString *dateStr = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"MsgDate"];
-             static NSDateFormatter *DateFormatter = nil;
-             if (DateFormatter == nil) {
-             NSDateFormatter *DateFormatter = [[NSDateFormatter alloc] init];
-             [DateFormatter setDateFormat:KEY_DATETIME];
-             NSDate *date = [DateFormatter dateFromString:dateStr];
-             [DateFormatter setDateFormat:BLOG_FORMAT];
-             dateStr = [DateFormatter stringFromDate:date];
-             } */
             
             NSDate *creationDate = [[_feedItems objectAtIndex:indexPath.row] createdAt];
             NSDate *datetime1 = creationDate;

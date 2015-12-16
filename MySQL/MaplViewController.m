@@ -163,7 +163,7 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay {
     
     if ([overlay isKindOfClass:[MKPolyline class]]) {
-        MKPolylineView* aView = [[MKPolylineView alloc]initWithPolyline:(MKPolyline*)overlay] ;
+        MKPolylineRenderer *aView = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         aView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
         aView.lineWidth = 10;
         return aView;

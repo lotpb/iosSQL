@@ -107,7 +107,6 @@
 		AFBC9E8719D9CEDE0050E67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8619D9CEDE0050E67A /* main.m */; };
 		AFBC9E8A19D9CEDF0050E67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8919D9CEDF0050E67A /* AppDelegate.m */; };
 		AFBC9E8D19D9CEDF0050E67A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9E8C19D9CEDF0050E67A /* ViewController.m */; };
-		AFBC9EA119D9CEDF0050E67A /* MySQLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9EA019D9CEDF0050E67A /* MySQLTests.m */; };
 		AFBC9EAC19D9D1730050E67A /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9EAB19D9D1730050E67A /* HomeModel.m */; };
 		AFBC9EAF19D9D1A60050E67A /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBC9EAE19D9D1A60050E67A /* Location.m */; };
 		AFBDBF3D1A90F54200DD4C66 /* mySQLBLOG.png in Resources */ = {isa = PBXBuildFile; fileRef = AFBDBF3A1A90F54200DD4C66 /* mySQLBLOG.png */; };
@@ -1184,7 +1183,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFBC9EA119D9CEDF0050E67A /* MySQLTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

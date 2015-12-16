@@ -68,7 +68,7 @@
 //iOS 7 default blue color is R:0.0 G:122.0 B:255.0
 #define BLUECOLOR      [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]
 #define LIGHTGRAYCOLOR [UIColor colorWithWhite: 0.90 alpha:1]
-#define DARKGRAYCOLOR [UIColor colorWithWhite: 0.45 alpha:1]
+#define DARKGRAYCOLOR  [UIColor colorWithWhite: 0.45 alpha:1]
 //------------date format-----------------------
 #define BLOG_FORMAT         @"MM/dd/yy, h:mm a"
 //------searchbar-------------------------------
