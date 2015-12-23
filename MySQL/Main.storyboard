@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -280,7 +280,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5r-8w-O1k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1284" y="-663"/>
+            <point key="canvasLocation" x="1361" y="-663"/>
         </scene>
         <!--Lead User Controller-->
         <scene sceneID="735-BB-O1H">
@@ -894,7 +894,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R10-AN-gNG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="-663"/>
+            <point key="canvasLocation" x="608" y="-663"/>
         </scene>
         <!--User Detail Controller-->
         <scene sceneID="eKX-s8-tOp">
@@ -2257,6 +2257,16 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="AqX-DL-gNI">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CdX-CU-2U2">
+                                        <rect key="frame" x="173" y="25" width="255" height="29"/>
+                                        <segments>
+                                            <segment title="Once"/>
+                                            <segment title="Daily"/>
+                                            <segment title="Weekly"/>
+                                            <segment title="Monthly"/>
+                                        </segments>
+                                        <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </segmentedControl>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0T4-gm-H5O">
                                         <rect key="frame" x="25" y="78" width="550" height="30"/>
                                         <constraints>
@@ -2273,26 +2283,6 @@
                                             <action selector="textFieldReturn:" destination="y78-Mw-3ln" eventType="editingDidEndOnExit" id="trk-6A-MAj"/>
                                         </connections>
                                     </textField>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rgb-1g-xd8">
-                                        <rect key="frame" x="103" y="167" width="395" height="235"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="235" id="G3T-me-8ZY"/>
-                                            <constraint firstAttribute="width" constant="395" id="nRI-J8-Ybx"/>
-                                        </constraints>
-                                        <date key="date" timeIntervalSinceReferenceDate="441056268.06321102">
-                                            <!--2014-12-23 19:37:48 +0000-->
-                                        </date>
-                                    </datePicker>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CdX-CU-2U2">
-                                        <rect key="frame" x="173" y="25" width="255" height="29"/>
-                                        <segments>
-                                            <segment title="Once"/>
-                                            <segment title="Daily"/>
-                                            <segment title="Weekly"/>
-                                            <segment title="Monthly"/>
-                                        </segments>
-                                        <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lds-x2-f0u">
                                         <rect key="frame" x="283" y="117" width="34" height="30"/>
                                         <state key="normal" title="Save">
@@ -2303,6 +2293,16 @@
                                             <action selector="saveNotification:" destination="y78-Mw-3ln" eventType="touchUpInside" id="rXa-lc-9wf"/>
                                         </connections>
                                     </button>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rgb-1g-xd8">
+                                        <rect key="frame" x="103" y="167" width="395" height="235"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="235" id="G3T-me-8ZY"/>
+                                            <constraint firstAttribute="width" constant="395" id="nRI-J8-Ybx"/>
+                                        </constraints>
+                                        <date key="date" timeIntervalSinceReferenceDate="441056268.06321102">
+                                            <!--2014-12-23 19:37:48 +0000-->
+                                        </date>
+                                    </datePicker>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Rgb-1g-xd8" firstAttribute="centerX" secondItem="CdX-CU-2U2" secondAttribute="centerX" id="Cet-a8-Gvz"/>
@@ -3218,7 +3218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b3e-fB-wpQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1615.5" y="906"/>
+            <point key="canvasLocation" x="-1616" y="1116"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="d9d-h9-6xA">
@@ -3674,7 +3674,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-rB-VyF" userLabel="mainView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1500"/>
                                         <subviews>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dtu-5T-Ywm">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="175"/>
@@ -3728,7 +3728,7 @@
                                                 </cells>
                                             </collectionView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="15t-DS-WIn">
-                                                <rect key="frame" x="0.0" y="317" width="600" height="828"/>
+                                                <rect key="frame" x="0.0" y="317" width="600" height="1183"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="73" id="c8z-Ib-Q6Y" customClass="CustomTableViewCell">
@@ -3794,12 +3794,12 @@
                                             <constraint firstItem="dtu-5T-Ywm" firstAttribute="leading" secondItem="hvr-rB-VyF" secondAttribute="leading" id="3mC-85-uyo"/>
                                             <constraint firstItem="pm8-kZ-Bqa" firstAttribute="top" secondItem="dtu-5T-Ywm" secondAttribute="bottom" constant="1" id="4nJ-0D-74S"/>
                                             <constraint firstItem="15t-DS-WIn" firstAttribute="leading" secondItem="dtu-5T-Ywm" secondAttribute="leading" id="AlN-Fl-r9T"/>
-                                            <constraint firstAttribute="bottom" secondItem="15t-DS-WIn" secondAttribute="bottom" constant="-145" id="Bk1-uP-W9O"/>
+                                            <constraint firstAttribute="bottom" secondItem="15t-DS-WIn" secondAttribute="bottom" id="Bk1-uP-W9O"/>
                                             <constraint firstAttribute="trailing" secondItem="dtu-5T-Ywm" secondAttribute="trailing" id="F93-UM-xah"/>
                                             <constraint firstItem="dtu-5T-Ywm" firstAttribute="top" secondItem="hvr-rB-VyF" secondAttribute="top" id="LHk-2e-UKu"/>
                                             <constraint firstItem="pm8-kZ-Bqa" firstAttribute="trailing" secondItem="dtu-5T-Ywm" secondAttribute="trailing" id="PWX-Ug-8ya"/>
                                             <constraint firstItem="15t-DS-WIn" firstAttribute="top" secondItem="dtu-5T-Ywm" secondAttribute="top" constant="317" id="lwU-Wd-nbJ"/>
-                                            <constraint firstAttribute="height" constant="1000" id="nqp-do-PyO"/>
+                                            <constraint firstAttribute="height" constant="1500" id="nqp-do-PyO"/>
                                             <constraint firstItem="15t-DS-WIn" firstAttribute="trailing" secondItem="dtu-5T-Ywm" secondAttribute="trailing" id="oGA-Mn-9PJ"/>
                                             <constraint firstItem="pm8-kZ-Bqa" firstAttribute="leading" secondItem="dtu-5T-Ywm" secondAttribute="leading" id="yeS-Mx-gyO"/>
                                         </constraints>
@@ -3807,7 +3807,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="hvr-rB-VyF" firstAttribute="centerX" secondItem="Em2-uc-hAa" secondAttribute="centerX" id="6vk-ij-N2p"/>
-                                    <constraint firstAttribute="bottom" secondItem="hvr-rB-VyF" secondAttribute="bottom" id="Gq1-7V-mg6"/>
+                                    <constraint firstAttribute="bottom" secondItem="hvr-rB-VyF" secondAttribute="bottom" constant="-1013" id="Gq1-7V-mg6"/>
                                     <constraint firstItem="hvr-rB-VyF" firstAttribute="top" secondItem="Em2-uc-hAa" secondAttribute="top" id="U33-JN-ntn"/>
                                     <constraint firstItem="hvr-rB-VyF" firstAttribute="leading" secondItem="Em2-uc-hAa" secondAttribute="leading" id="WGj-lC-NWg"/>
                                     <constraint firstAttribute="trailing" secondItem="hvr-rB-VyF" secondAttribute="trailing" id="iMl-PD-tGy"/>
@@ -3832,7 +3832,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qmn-d6-YTO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2013" y="-663"/>
+            <point key="canvasLocation" x="2017" y="-663"/>
         </scene>
         <!--News Detail Controller-->
         <scene sceneID="HK9-1I-feb">
@@ -4495,7 +4495,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i1g-Dx-QyA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="xUz-ng-wZa"/>
             </objects>
-            <point key="canvasLocation" x="600" y="217"/>
+            <point key="canvasLocation" x="730" y="217"/>
         </scene>
         <!--Snapshot Controller-->
         <scene sceneID="Q97-wR-WiD">
@@ -5411,7 +5411,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCG-NR-TJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-761" y="1161"/>
+            <point key="canvasLocation" x="-815" y="1116"/>
         </scene>
         <!--Product Info-->
         <scene sceneID="3rz-8B-oqJ">
@@ -5812,27 +5812,27 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="jwQ-k2-eY1"/>
-        <segue reference="MEa-hs-crl"/>
-        <segue reference="I3q-7y-gcY"/>
-        <segue reference="ySd-Pu-O7O"/>
         <segue reference="FGg-VS-tNk"/>
         <segue reference="0RT-Di-IAk"/>
-        <segue reference="4KL-RL-dt5"/>
-        <segue reference="dZl-6c-nn2"/>
+        <segue reference="FsV-SU-ACy"/>
+        <segue reference="FBB-tQ-9pc"/>
+        <segue reference="9QI-SV-Rv2"/>
+        <segue reference="G0D-ko-6v2"/>
+        <segue reference="yTl-2c-eeE"/>
+        <segue reference="q0P-ws-J7X"/>
+        <segue reference="tOL-3h-g8i"/>
+        <segue reference="JkK-qv-s4J"/>
         <segue reference="YL2-bg-fIc"/>
         <segue reference="zQR-YQ-xF4"/>
         <segue reference="JT1-3I-mwZ"/>
         <segue reference="382-1V-m5k"/>
         <segue reference="Dbq-7P-K8C"/>
         <segue reference="qxc-XD-hBQ"/>
-        <segue reference="FsV-SU-ACy"/>
-        <segue reference="FBB-tQ-9pc"/>
-        <segue reference="G0D-ko-6v2"/>
-        <segue reference="q0P-ws-J7X"/>
-        <segue reference="JkK-qv-s4J"/>
-        <segue reference="tOL-3h-g8i"/>
-        <segue reference="yTl-2c-eeE"/>
         <segue reference="kRM-nV-eu6"/>
+        <segue reference="dZl-6c-nn2"/>
+        <segue reference="MEa-hs-crl"/>
+        <segue reference="I3q-7y-gcY"/>
+        <segue reference="ySd-Pu-O7O"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

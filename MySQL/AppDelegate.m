@@ -11,7 +11,7 @@
 #import "MainViewController.h"
 //#import <MediaPlayer/MediaPlayer.h>
 
-@interface AppDelegate () //<UISplitViewControllerDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -71,35 +71,22 @@
     
     [[self window] setRootViewController:rootViewController];
 
-//| --------------register Notification Actions-----------------
+     //| ----------------register Notification Actions--------------
     
         [self registerForNotification];
 
-//| -----------------------register Settings-----------------------
+     //| -------------------register Settings-----------------------
     
         [self populateRegistrationDomain];
-    
-//| -----------------------splitview---------------------------
-   /*
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-        navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-        splitViewController.delegate = self;
-        
-      //  UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
-      //  MainViewController *controller = (MainViewController *)masterNavigationController.topViewController;
-       // controller.managedObjectContext = self.managedObjectContext;
-    } */
 
-    //| -----------------------prevent Autolock---------------------------
+
+    //| -----------------------prevent Autolock---------------------
     
     if ([defaults boolForKey:@"autolockKey"]) {
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     }
     
-    //| ------------------------Background Fetch-------------------------
+    //| --------------------Background Fetch-------------------------
     
     if ([defaults boolForKey:@"fetchKey"]) {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];

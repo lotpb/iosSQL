@@ -57,6 +57,7 @@
     
     self.mapView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.mapView.layer.borderWidth = 0.5;
+    
     PFQuery *query = [PFUser query];
     PFObject *user = [query getObjectWithId:self.objectId];
     PFGeoPoint *location = [user objectForKey:@"currentLocation"];
@@ -199,11 +200,6 @@
                 [updateblog setObject:self.usernameField.text forKey:@"username"];
                 [updateblog setObject:self.emailField.text forKey:@"email"];
                 [updateblog setObject:self.phoneField.text forKey:@"phone"];
-                /*
-                PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
-                [postACL setPublicReadAccess:YES];
-                [postACL setPublicWriteAccess:YES];
-                [updateblog setACL:postACL]; */
                 
                 //[updateblog saveInBackground];
                 [updateblog saveEventually];

@@ -63,7 +63,6 @@ Parse.com
     
     filteredString= [[NSMutableArray alloc] initWithArray:_feedItems];;
     
-    //UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButton:)];
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
@@ -76,13 +75,6 @@ Parse.com
     [refreshControl setTintColor:DARKGRAYCOLOR];
     [refreshControl addTarget:self action:@selector(reloadDatas:) forControlEvents:UIControlEventValueChanged];
     [refreshView addSubview:refreshControl];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-
-    //[self checkEventStoreAccessForCalendar];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,99 +91,6 @@ Parse.com
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
--(void)checkEventStoreAccessForCalendar
-{
-    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent];
-    
-    switch (status)
-    {
-            // Update our UI if the user has granted access to their Calendar
-        case EKAuthorizationStatusAuthorized: [self accessGrantedForCalendar];
-            break;
-            // Prompt the user for access to Calendar if there is no definitive answer
-        case EKAuthorizationStatusNotDetermined: [self requestCalendarAccess];
-            break;
-            // Display a message if the user has denied or restricted access to Calendar
-        case EKAuthorizationStatusDenied:
-        case EKAuthorizationStatusRestricted:
-        {
-            UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"Privacy Warning" message:@"Permission was not granted for Calendar" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-            break;
-        default:
-            break;
-    }
-}
-
--(void)requestCalendarAccess
-{
-    [self.eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error)
-     {
-         if (granted)
-         {
-             SnapshotController * __weak weakSelf = self;
-             // Let's ensure that our code will be executed from the main queue
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
-                 [weakSelf accessGrantedForCalendar];
-             });
-         }
-     }];
-}
-
-
-// This method is called when the user has granted permission to Calendar
--(void)accessGrantedForCalendar
-{
-    // Let's get the default calendar associated with our event store
-    self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents;
-    // Enable the Add button
-    //self.addButton.enabled = YES;
-    // Fetch all events happening in the next 24 hours and put them into eventsList
-    self.eventsList = [self fetchEvents];
-    // Update the UI with the above events
-    //[self.listTableView reloadData];
-}
-
-- (NSMutableArray *)fetchEvents
-{
-    NSDate *startDate = [NSDate date];
-    
-    //Create the end date components
-    NSDateComponents *tomorrowDateComponents = [[NSDateComponents alloc] init];
-    tomorrowDateComponents.day = 1;
-    
-    NSDate *endDate = [[NSCalendar currentCalendar] dateByAddingComponents:tomorrowDateComponents
-                                                                    toDate:startDate
-                                                                   options:0];
-    // We will only search the default calendar for our events
-    NSArray *calendarArray = [NSArray arrayWithObject:self.defaultCalendar];
-    
-    // Create the predicate
-    NSPredicate *predicate = [self.eventStore predicateForEventsWithStartDate:startDate
-                                                                      endDate:endDate
-                                                                    calendars:calendarArray];
-    
-    // Fetch all events that match the predicate
-    NSMutableArray *events = [NSMutableArray arrayWithArray:[self.eventStore eventsMatchingPredicate:predicate]];
-    
-    return events;
-}
-
-- (EKCalendar *)eventEditViewControllerDefaultCalendarForNewEvents:(EKEventEditViewController *)controller
-{
-    return self.defaultCalendar;
-}
-*/
 
 #pragma mark - RefreshControl
 - (void)reloadDatas:(id)sender {
@@ -381,47 +280,15 @@ Parse.com
     
     if (section == 0) {
         return 3;
-    } else if (section == 1) {
-        return 2;
-    } else if (section == 2) {
-        return 2;
     } else if (section == 3) {
         return 3;
-    } else if (section == 4) {
-        return 2;
-    } else if (section == 5) {
-        return 2;
-    } else if (section == 6) {
-        return 2;
-    } else if (section == 7) {
-        return 2; //[[[UIApplication sharedApplication] scheduledLocalNotifications] count];
-    } else if (section == 8) {
-        return 2;
     }
-    return 0;
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
-    if (section == 0)
-        return CGFLOAT_MIN;
-    if (section == 1)
-        return CGFLOAT_MIN;
-    if (section == 2)
-        return CGFLOAT_MIN;
-    if (section == 3)
-        return CGFLOAT_MIN;
-    if (section == 4)
-        return CGFLOAT_MIN;
-    if (section == 5)
-        return CGFLOAT_MIN;
-    if (section == 6)
-        return CGFLOAT_MIN;
-    if (section == 7)
-        return CGFLOAT_MIN;
-    if (section == 8)
-        return CGFLOAT_MIN;
-    return tableView.sectionHeaderHeight;
+    return CGFLOAT_MIN;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -435,19 +302,34 @@ Parse.com
     flowLayout.itemSize = CGSizeMake(120.0, 120.0);
     [myCell.collectionView setCollectionViewLayout:flowLayout];
     
-    //myCell.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; //fix
-    
-    title = [[UILabel alloc]initWithFrame:CGRectMake(15, 23, myCell.frame.size.width - 15, 50)];
-    datetitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, myCell.frame.size.width - 15, 20)];
-    
-    [title setFont:DETAILFONT(IPHONEFONT18)];
-    [datetitle setFont:DETAILFONT(IPHONEFONT14)];
-    
+
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [myCell.textLabel setFont:CELL_MEDFONT(IPADFONT18)];
     } else {
         [myCell.textLabel setFont:CELL_MEDFONT(IPHONEFONT18)];
     }
+    
+    [title setFont:DETAILFONT(IPHONEFONT18)];
+    [datetitle setFont:DETAILFONT(IPHONEFONT14)];
+    
+    
+    title = [[UILabel alloc]initWithFrame:CGRectMake(15, 23, myCell.frame.size.width - 15, 50)];
+    datetitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, myCell.frame.size.width - 15, 20)];
+    
+    myCell.collectionView.delegate = nil;
+    myCell.collectionView.dataSource = nil;
+    myCell.collectionView.backgroundColor = [UIColor whiteColor];
+    [myCell.collectionView setContentOffset:CGPointZero animated:NO];
+    myCell.accessoryType = UITableViewCellAccessoryNone;
+    myCell.textLabel.text = nil;
+ 
+    title.text = nil;
+    title.textColor = [UIColor blackColor];
+    title.backgroundColor = [UIColor clearColor];
+    
+    datetitle.text = nil;
+    datetitle.textColor = [UIColor lightGrayColor];
+    datetitle.backgroundColor = [UIColor clearColor];
     
     if (myCell == nil)
         myCell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
@@ -456,10 +338,7 @@ Parse.com
     if (indexPath.section == 0) {
         
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.textLabel.text = [NSString stringWithFormat:@"Top News %ld", (unsigned long)_feedItems3.count];
             myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -469,23 +348,16 @@ Parse.com
             
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.collectionView.tag = 0;
-            [myCell.collectionView setContentOffset:CGPointZero animated:NO];
+            
             [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
-            datetitle.text = nil;
-            title.text = nil;
-            myCell.accessoryType = NO;
+
             return myCell;
             
         } else if (indexPath.row == 2) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = @"myNews";
-            myCell.accessoryType = NO;
+
             return myCell;
             
         }
@@ -493,32 +365,19 @@ Parse.com
     } else if (indexPath.section == 1) {
 
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.textLabel.text = @"Top News Story";
-            //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
-            //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
             return myCell;
             
         } else if (indexPath.row == 1) {
 
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
-            myCell.accessoryType = NO;
 
-            title.textColor = [UIColor blackColor];
-            title.backgroundColor = [UIColor clearColor];
             title.numberOfLines = 2;
             title.tag = 1;
             [myCell.contentView addSubview:title];
             
-            datetitle.textColor = [UIColor lightGrayColor];
-            datetitle.backgroundColor = [UIColor clearColor];
             datetitle.numberOfLines = 1;
             datetitle.tag = 2;
             //[myCell bringSubviewToFront:datetitle];
@@ -530,11 +389,11 @@ Parse.com
             double dateInterval = [datetime2 timeIntervalSinceDate:datetime1] / (60*60*24);
             resultDateDiff = [NSString stringWithFormat:@"%.0f days ago",dateInterval];
 
-            datetitle = (UILabel *)[myCell viewWithTag:2];
-            datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems3 firstObject] objectForKey:@"newsDetail"], resultDateDiff];
-            
             title = (UILabel *)[myCell viewWithTag:1];
+            datetitle = (UILabel *)[myCell viewWithTag:2];
+            
             title.text = [[_feedItems3 firstObject] objectForKey:@"newsTitle"];
+            datetitle.text = [NSString stringWithFormat:@"%@, %@",[[_feedItems3 firstObject] objectForKey:@"newsDetail"], resultDateDiff];
             
             return myCell;
         }
@@ -542,11 +401,7 @@ Parse.com
     } else if (indexPath.section == 2) {
         
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
-            //myCell.collectionView.tag = 12;
+
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Jobs %ld", (unsigned long)_feedItems2.count];
             myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -556,18 +411,15 @@ Parse.com
             
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.collectionView.tag = 1;
-           [myCell.collectionView setContentOffset:CGPointZero animated:NO];
+          
            [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
+ 
             title.tag = 61;
             datetitle.tag = 62;
             title = (UILabel *)[myCell viewWithTag:61];
-            title.text = nil;
             datetitle = (UILabel *)[myCell viewWithTag:62];
-            datetitle.text = nil;
-            myCell.accessoryType = NO;
+
             return myCell;
             
         }
@@ -576,38 +428,31 @@ Parse.com
         
         if (indexPath.row == 0) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Users %ld", (unsigned long)_feedItems.count];
             myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
             return myCell;
             
         } else if (indexPath.row == 1) {
+            
             UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)myCell.collectionView.collectionViewLayout;
             flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
             flowLayout.itemSize = CGSizeMake(100.0, 120.0);
             [myCell.collectionView setCollectionViewLayout:flowLayout];
+            
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.collectionView.tag = 2;
-            [myCell.collectionView setContentOffset:CGPointZero animated:NO];
+
             [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
-            datetitle.text = nil;
-            title.text = nil;
-            myCell.accessoryType = NO;
+            
             return myCell;
             
         } else if (indexPath.row == 2) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = @"myUser";
-            myCell.accessoryType = NO;
+            
             return myCell;
             
         }
@@ -616,12 +461,10 @@ Parse.com
         
         if (indexPath.row == 0) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Salesman %ld", (unsigned long)_feedItems4.count];
             //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryNone;
+            
             return myCell;
             
         } else if (indexPath.row == 1) {
@@ -630,20 +473,16 @@ Parse.com
             flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
             flowLayout.itemSize = CGSizeMake(80.0, 120.0);
             [myCell.collectionView setCollectionViewLayout:flowLayout];
+            
             title.tag = 81;
             datetitle.tag = 82;
             title = (UILabel *)[myCell viewWithTag:81];
-            title.text = nil;
             datetitle = (UILabel *)[myCell viewWithTag:82];
-            datetitle.text = nil;
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.collectionView.tag = 3;
-            [myCell.collectionView setContentOffset:CGPointZero animated:NO];
             [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
-            myCell.accessoryType = NO;
+
             return myCell;
             
         }
@@ -652,9 +491,6 @@ Parse.com
         
         if (indexPath.row == 0) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
             myCell.textLabel.text = [NSString stringWithFormat:@"Top Employee %ld", (unsigned long)_feedItems5.count];
             //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             myCell.accessoryType = UITableViewCellAccessoryNone;
@@ -668,19 +504,12 @@ Parse.com
             [myCell.collectionView setCollectionViewLayout:flowLayout];
             
             title = (UILabel *)[myCell viewWithTag:1];
-            title.text = nil;
             datetitle = (UILabel *)[myCell viewWithTag:2];
-            datetitle.text = nil;
             myCell.collectionView.delegate = self;
             myCell.collectionView.dataSource = self;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.collectionView.tag = 4;
-            [myCell.collectionView setContentOffset:CGPointZero animated:NO];
             [myCell.collectionView reloadData];
-            myCell.textLabel.text = nil;
-            datetitle.text = nil;
-            title.text = nil;
-            myCell.accessoryType = NO;
 
             return myCell;
             
@@ -689,10 +518,7 @@ Parse.com
     } else if (indexPath.section == 6) {
         
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.textLabel.text = @"Top Blog Story";
             //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -700,20 +526,10 @@ Parse.com
             
         } else if (indexPath.row == 1) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
-            myCell.textLabel.text = nil;
-            myCell.accessoryType = NO;
-            
-            title.textColor = [UIColor blackColor];
-            title.backgroundColor = [UIColor clearColor];
             title.numberOfLines = 2;
             title.tag = 61;
             [myCell.contentView addSubview:title];
             
-            datetitle.textColor = [UIColor lightGrayColor];
-            datetitle.backgroundColor = [UIColor clearColor];
             datetitle.numberOfLines = 1;
             datetitle.tag = 62;
             [myCell.contentView addSubview:datetitle];
@@ -736,10 +552,7 @@ Parse.com
     } else if (indexPath.section == 7) {
         
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.textLabel.text = @"Top Notification";
             //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -747,24 +560,13 @@ Parse.com
             
         } else if (indexPath.row == 1) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
-            myCell.textLabel.text = nil;
-            myCell.accessoryType = NO;
-            
-            // Get list of local notifications
             NSArray *localNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
             UILocalNotification *localNotification = [localNotifications firstObject];
             
-            title.textColor = [UIColor blackColor];
-            title.backgroundColor = [UIColor clearColor];
             title.numberOfLines = 2;
             title.tag = 81;
             [myCell.contentView addSubview:title];
             
-            datetitle.textColor = [UIColor lightGrayColor];
-            datetitle.backgroundColor = [UIColor clearColor];
             datetitle.numberOfLines = 1;
             datetitle.tag = 82;
             [myCell.contentView addSubview:datetitle];
@@ -786,10 +588,7 @@ Parse.com
     } else if (indexPath.section == 8) {
         
         if (indexPath.row == 0) {
-            
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
+
             myCell.textLabel.text = @"Top Calander Event";
             //myCell.selectionStyle = UITableViewCellSelectionStyleGray;
             //myCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -797,29 +596,19 @@ Parse.com
             
         } else if (indexPath.row == 1) {
             
-            myCell.collectionView.delegate = nil;
-            myCell.collectionView.dataSource = nil;
-            myCell.collectionView.backgroundColor = [UIColor whiteColor];
-            myCell.textLabel.text = nil;
-            myCell.accessoryType = NO;
-            
             //self.eventStore = [[EKEventStore alloc] init];
             self.eventsList = [[NSMutableArray alloc] initWithCapacity:0];
 
-            title.textColor = [UIColor blackColor];
-            title.backgroundColor = [UIColor clearColor];
             title.numberOfLines = 2;
-            title.tag = 81;
+            title.tag = 91;
             [myCell.contentView addSubview:title];
             
-            datetitle.textColor = [UIColor lightGrayColor];
-            datetitle.backgroundColor = [UIColor clearColor];
             datetitle.numberOfLines = 1;
-            datetitle.tag = 82;
+            datetitle.tag = 92;
             [myCell.contentView addSubview:datetitle];
             
-            title = (UILabel *)[myCell viewWithTag:81];
-            datetitle = (UILabel *)[myCell viewWithTag:82];
+            title = (UILabel *)[myCell viewWithTag:91];
+            datetitle = (UILabel *)[myCell viewWithTag:92];
             datetitle.text = [[self.eventsList firstObject] title];
             
             if (self.eventsList.count == 0) {
@@ -860,6 +649,14 @@ Parse.com
     
     static NSString *identifier = @"Cell";
     JobViewCell *cell = (JobViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
+    celltitle.font = [UIFont systemFontOfSize:12];
+    //celltitle.adjustsFontSizeToFitWidth = YES;
+    celltitle.clipsToBounds = YES;
+    celltitle.textColor = [UIColor blackColor];
+    celltitle.backgroundColor = [UIColor whiteColor];
+    celltitle.textAlignment = NSTextAlignmentCenter;
 //------------------------------------------------------------------------------
     if (collectionView.tag == 0) {
 
@@ -874,45 +671,13 @@ Parse.com
                 
                 cell.user2ImageView.backgroundColor = [UIColor blackColor];
                 cell.user2ImageView.image = [UIImage imageWithData:data];
-                /*
-                if([imageFile.url containsString:@"movie.mp4"]) {
- 
-                    NSString *localPath = imageFile.url;
-                    NSURL *localURL = [NSURL URLWithString:localPath];
-                    AVURLAsset* asset = [AVURLAsset URLAssetWithURL:localURL options:nil];
-                    AVAssetImageGenerator* generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
-                    generator.appliesPreferredTrackTransform = YES;
-                    UIImage* thumbnail = [UIImage imageWithCGImage:[generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
-                    cell.user2ImageView.image = thumbnail;
-            
-                 
-                    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                        playButton = [[UIButton alloc] initWithFrame:CGRectMake(cell.user2ImageView.frame.size.width / 2 - 10, cell.user2ImageView.frame.origin.y + 35, 25, 25)];
-                    } else {
-                        playButton = [[UIButton alloc] initWithFrame:CGRectMake(cell.user2ImageView.frame.size.width / 2 - 10, cell.user2ImageView.frame.origin.y + 35, 25, 25)];
-                    }
-                    playButton.alpha = 1.0f;
-                    playButton.userInteractionEnabled = YES;
-                    playButton.center = cell.user2ImageView.center;
-                    UIImage *button = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                    [playButton setImage:button forState:UIControlStateNormal];
-                    [cell.user2ImageView addSubview:playButton];
-
-                } */
                 
                 [cell.loadingSpinner stopAnimating];
                 cell.loadingSpinner.hidden = YES;
             }
-            
         }];
         
-        UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
         celltitle.text = [[_feedItems3 objectAtIndex:indexPath.row] objectForKey:@"newsTitle"];
-        celltitle.font = [UIFont systemFontOfSize:12];
-        celltitle.clipsToBounds = YES;
-        celltitle.textColor = [UIColor blackColor];
-        celltitle.backgroundColor = [UIColor whiteColor];
-        celltitle.textAlignment = NSTextAlignmentCenter;
         [cell.contentView addSubview:celltitle];
         
         return cell;
@@ -933,14 +698,8 @@ Parse.com
                  cell.loadingSpinner.hidden = YES;
              }
          }];
-         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
+
          celltitle.text = [[_feedItems2 objectAtIndex:indexPath.row] objectForKey:@"imageGroup"];
-         celltitle.font = [UIFont systemFontOfSize:12];
-         celltitle.adjustsFontSizeToFitWidth = YES;
-         celltitle.clipsToBounds = YES;
-         celltitle.textColor = [UIColor blackColor];
-         celltitle.backgroundColor = [UIColor whiteColor];
-         celltitle.textAlignment = NSTextAlignmentCenter;
          [cell.contentView addSubview:celltitle];
          
          return cell;
@@ -960,14 +719,8 @@ Parse.com
                  cell.loadingSpinner.hidden = YES;
              }
          }];
-         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
+
          celltitle.text = [[_feedItems objectAtIndex:indexPath.row] objectForKey:@"username"];
-         celltitle.font = [UIFont systemFontOfSize:12];
-         celltitle.adjustsFontSizeToFitWidth = YES;
-         celltitle.clipsToBounds = YES;
-         celltitle.textColor = [UIColor blackColor];
-         celltitle.backgroundColor = [UIColor whiteColor];
-         celltitle.textAlignment = NSTextAlignmentCenter;
          [cell.contentView addSubview:celltitle];
          
          return cell;
@@ -987,14 +740,7 @@ Parse.com
              }
          }];
          
-         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
          celltitle.text = [[_feedItems4 objectAtIndex:indexPath.row] objectForKey:@"Salesman"];
-         celltitle.font = [UIFont systemFontOfSize:12];
-         //celltitle.adjustsFontSizeToFitWidth = YES;
-         //celltitle.clipsToBounds = YES;
-         celltitle.textColor = [UIColor blackColor];
-         celltitle.backgroundColor = [UIColor whiteColor];
-         celltitle.textAlignment = NSTextAlignmentCenter;
          [cell.contentView addSubview:celltitle];
          
          return cell;
@@ -1014,14 +760,8 @@ Parse.com
                  cell.loadingSpinner.hidden = YES;
              }
          }];
-         UILabel *celltitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, cell.bounds.size.width, 20)];
+
          celltitle.text = [NSString stringWithFormat:@"%@ %@ %@",[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"First"],[[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Last"], [[_feedItems5 objectAtIndex:indexPath.row] objectForKey:@"Company"]];
-         celltitle.font = [UIFont systemFontOfSize:12];
-         //celltitle.adjustsFontSizeToFitWidth = YES;
-         //celltitle.clipsToBounds = YES;
-         celltitle.textColor = [UIColor blackColor];
-         celltitle.backgroundColor = [UIColor whiteColor];
-         celltitle.textAlignment = NSTextAlignmentCenter;
          [cell.contentView addSubview:celltitle];
          
          return cell;
