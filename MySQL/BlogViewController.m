@@ -238,8 +238,6 @@ Parse.com
             NSNumber *numCount = [NSNumber numberWithInteger: likeCount];
             [updateLead setObject:numCount ? numCount:[NSNumber numberWithInteger: 0] forKey:@"Liked"];
             [updateLead saveInBackground];
-            //numLabel.text = [NSString stringWithFormat:@"%d", likeCount]; //dont work
-            //numLabel.text = [NSString stringWithFormat:@"%@ until %@!", [CustomTableViewCell stringifyDistance:(self.upcomingBadge.distance - self.distance)], self.upcomingBadge.name];
         }
     }];
     //[self.listTableView reloadData];
@@ -302,7 +300,7 @@ Parse.com
                                 //[self twitterPost:self];
                             }];
     UIAlertAction* report = [UIAlertAction
-                             actionWithTitle:@"Report this Message"
+                             actionWithTitle:@"Report this User"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
@@ -590,13 +588,6 @@ Parse.com
     return myCell;
 }
 
-#pragma mark - Segue
-- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
-    
-    titleLabel = [_feedItems[sender.view.tag] objectForKey:@"PostBy"];
-    [self performSegueWithIdentifier: @"bloguserSegue" sender: self];
-}
-
 #pragma mark Tableheader
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (!isFilltered)
@@ -746,6 +737,12 @@ Parse.com
 }
 
 #pragma mark - Segue
+- (void)imgLoadSegue:(UITapGestureRecognizer *)sender {
+    
+    titleLabel = [_feedItems[sender.view.tag] objectForKey:@"PostBy"];
+    [self performSegueWithIdentifier: @"bloguserSegue" sender: self];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!isFilltered)
