@@ -44,9 +44,10 @@
 @property (strong, nonatomic) UITextField *email;
 @property (strong, nonatomic) UITextField *spouse;
 @property (strong, nonatomic) UITextField *callback;
-@property (strong, nonatomic) UITextView *comment;
 @property (strong, nonatomic) UITextField *start; // cust
 @property (strong, nonatomic) UITextField *complete; //cust
+
+@property (strong, nonatomic) UITextView *comment;
 
 @property (strong, nonatomic) NSString *rate; //cust
 @property (strong, nonatomic) NSString *saleNo;

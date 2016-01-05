@@ -26,11 +26,6 @@
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     self.listTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-    /*
-    self.adName.delegate = self;
-    self.amount.delegate = self;
-    self.email.delegate = self;
-    self.spouse.delegate = self; */
     
 /*
 *******************************************************************************************
@@ -76,19 +71,12 @@ Parse.com
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.barTintColor = MAINNAVCOLOR;
      self.navigationController.navigationBar.translucent = NAVTRANSLUCENT;
-     //self.navigationController.hidesBarsOnSwipe = true;
-     //self.navigationController.hidesBarsOnTap = false;
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
-
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillShowNotification object:nil];
-   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-   // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-   // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 
@@ -96,46 +84,6 @@ Parse.com
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Keyboard Event Notifications
-/*
-- (void)handleKeyboardNotification:(NSNotification *)notification {
-    NSDictionary *userInfo = notification.userInfo;
-    
-    // Get information about the animation.
-    NSTimeInterval animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    UIViewAnimationOptions animationCurve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
-    
-    // Convert the keyboard frame from screen to view coordinates.
-    CGRect keyboardScreenBeginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    CGRect keyboardScreenEndFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    CGRect keyboardViewBeginFrame = [self.view convertRect:keyboardScreenBeginFrame fromView:self.view.window];
-    CGRect keyboardViewEndFrame = [self.view convertRect:keyboardScreenEndFrame fromView:self.view.window];
-    
-    // Determine how far the keyboard has moved up or down.
-    CGFloat originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y;
-    
-    // Calculate new scroll indicator and content insets for the table view.
-    UIEdgeInsets newIndicatorInsets = self.listTableView.scrollIndicatorInsets;
-    newIndicatorInsets.bottom -= originDelta;
-    
-    UIEdgeInsets newContentInsets = self.listTableView.contentInset;
-    newContentInsets.bottom -= originDelta;
-    
-    // Update the insets on the table view with the new values.
-    self.listTableView.scrollIndicatorInsets = newIndicatorInsets;
-    self.listTableView.contentInset = newContentInsets;
-    
-    // Inform the view that its the layout should be updated.
-    [self.view setNeedsLayout];
-    
-    // Animate updating the view's layout by calling `layoutIfNeeded` inside a `UIView` animation block.
-    UIViewAnimationOptions animationOptions = animationCurve | UIViewAnimationOptionBeginFromCurrentState;
-    [UIView animateWithDuration:animationDuration delay:0 options:animationOptions animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-} */
 
 -(IBAction)textFieldReturn:(id)sender {
     [sender resignFirstResponder];
@@ -436,7 +384,6 @@ Parse.com
     //[self.comment setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.start setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.complete setClearButtonMode:UITextFieldViewModeWhileEditing];
-    
     [self.callback setClearButtonMode:UITextFieldViewModeNever];
     
     if (([_formController isEqual:TNAME1]) || ([_formController isEqual:TNAME2])) {
@@ -659,16 +606,6 @@ Parse.com
         if (([_formController isEqual:TNAME3]) || ([_formController isEqual:TNAME4])) {
             self.amount.placeholder = @"Department";
             myCell.textLabel.text = @"Department";
-            /*    } else {
-             UIStepper *stepper = [[UIStepper alloc] init];
-             stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-             [stepper setTintColor:[UIColor grayColor]];
-             stepper.value = [self.amount.text doubleValue];
-             stepper.stepValue = 1;
-             UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
-             [wrapper addSubview:stepper];
-             myCell.accessoryView = stepper;
-             [stepper addTarget:self action:@selector(changestepAmount:) forControlEvents:UIControlEventValueChanged]; */
         }
         
         [myCell.contentView addSubview:self.amount];
@@ -756,7 +693,6 @@ Parse.com
         if ([self.frm31 isEqual:[NSNull null]])
             self.start.text = @"";
         else self.start.text = self.frm31;
-        //  if ([_formController isEqual: @"Customer"])
         self.start.inputView = [self datePicker:14];
         myCell.textLabel.text = @"Start Date";
         [myCell.contentView addSubview:self.start];
@@ -815,11 +751,6 @@ Parse.com
     double va = [sender value];
     [self.callback setText:[NSString stringWithFormat:@"%d", (int)va]];
 }
-/*
-- (void) changestepAmount:(UIStepper *)sender {
-    double va = [sender value];
-    [self.amount setText:[NSString stringWithFormat:@"%d", (int)va]];
-} */
 
 #pragma mark - Lookup Data
 - (void)cityFromController:(NSString *)passedData{
@@ -1038,12 +969,7 @@ Parse.com
                     [updateLead setObject:myAdNo ? myAdNo : [NSNumber numberWithInteger: -1] forKey:@"AdNo"];
                     [updateLead setObject:self.comment.text forKey:@"Coments"];
                     [updateLead setObject:self.photo.text ? self.photo.text : [NSNull null] forKey:@"Photo"];
-                  //[updateData setObject:self.time.text forKey:@"Time"];
-                    //PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
-                  //[postACL setPublicReadAccess:YES];
-                  //[postACL setPublicWriteAccess:YES];
-                    //[updateLead setACL:postACL];
-                  //[updateLead saveInBackground];
+  
                     [updateLead saveEventually];
                     [self.listTableView reloadData];
                     
@@ -1068,7 +994,7 @@ Parse.com
                                              [alert dismissViewControllerAnimated:YES completion:nil];
                                          }];
                     [alert addAction:ok];
-                    //[self.view.window.rootViewController presentViewController:alert animated:YES completion:nil];
+         
                     [self presentViewController:alert animated:YES completion:nil];
                 }
             }];

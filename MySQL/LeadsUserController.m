@@ -289,6 +289,11 @@ Parse.com
     myCell.blog2ImageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     myCell.blog2ImageView.layer.borderWidth = 0.5f;
     
+    myCell.actionBtn.tintColor = [UIColor darkGrayColor];
+    UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [myCell.actionBtn setImage:imagebutton forState:UIControlStateNormal];
+    [myCell.actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    
     myCell.replyButton.tintColor = [UIColor lightGrayColor];
     UIImage *replyimage =[[UIImage imageNamed:@"Commentfilled.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [myCell.replyButton setImage:replyimage forState:UIControlStateNormal];
@@ -308,11 +313,6 @@ Parse.com
             myCell.replyButton.tintColor = [UIColor lightGrayColor];
         }
     }
-    
-    myCell.actionBtn.tintColor = [UIColor darkGrayColor];
-    UIImage *imagebutton = [[UIImage imageNamed:@"Upload50.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [myCell.actionBtn setImage:imagebutton forState:UIControlStateNormal];
-    [myCell.actionBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString *textLink = myCell.blogsubtitleLabel.text;
     NSString *a = @"@";
