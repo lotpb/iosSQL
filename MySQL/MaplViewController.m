@@ -9,16 +9,14 @@
 #import "MapViewController.h"
 
 @interface MapViewController ()
-//@property (nonatomic, strong) MKCircle *circleOverlay;
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay;
-//@property (nonatomic, strong) NSMutableArray *locations;
+
 @end
 
 @implementation MapViewController
 {
     UIBarButtonItem *shareItem;
-    //MKPlacemark *placemark;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,7 +46,7 @@
    //self.mapView.camera.altitude = 200;
    //self.mapView.camera.pitch = 70;
    //self.mapView.pitchEnabled = YES; // 3d dont work
-    self.routView.hidden = false;
+    self.routeView.hidden = false;
     
     [self.travelTime setTextColor:BLUECOLOR];
     [self.travelDistance setTextColor:BLUECOLOR];
@@ -74,11 +72,6 @@
     
     [self startLocationUpdates];
     
-}
-
--(void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-  //  self.mapView.frame = self.view.bounds;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -184,9 +177,7 @@
         self.travelDistance.text = nil;
         self.steps.text = nil;
         [self.clearRoute setTitle: @"Show Route" forState: UIControlStateNormal];
-        
-        //self.routeView.hidden = true;
-        //[self showRoute:(MKDirectionsResponse *)response];
+
         
         [UIView animateWithDuration:0.1 animations:^{
             //self.routeView.hidden = true;
@@ -204,10 +195,8 @@
     } else {
         [self.clearRoute setTitle: @"clear Route" forState: UIControlStateNormal];
          self.travelTime.text = @"Clear Route";
-        //[self.mapView removeOverlay:route.polyline];
        
         [UIView animateWithDuration:0.1 animations:^{
-             //self.routeView.hidden = false;
             
             CGRect viewFrame = self.routeView.frame;
             viewFrame.size.height = 0;
@@ -273,8 +262,6 @@
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    //self.locationManager.activityType = CLActivityTypeFitness;
-    //self.locationManager.distanceFilter = 10; // meters
     
     // Check for iOS 8
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {

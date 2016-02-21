@@ -852,8 +852,7 @@ Parse.com
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (collectionView.tag == 0) {
+        if (collectionView.tag == 0) {
         
         imageObject = [_feedItems3 objectAtIndex:indexPath.row];
         imageFile = [imageObject objectForKey:@"imageFile"];
@@ -878,7 +877,8 @@ Parse.com
                 [self performSegueWithIdentifier:@"newssnapSegue" sender:self];
             }
         }];
-    } else if (collectionView.tag == 1) {
+    }
+ else if (collectionView.tag == 1) {
         
         imageObject = [_feedItems2 objectAtIndex:indexPath.row];
         imageFile = [imageObject objectForKey:@"imageFile"];

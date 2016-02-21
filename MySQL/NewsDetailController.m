@@ -66,23 +66,23 @@
 
     if([self.imageDetailurl containsString:@"movie.mp4"]) {
         
-    playButton = [[UIButton alloc] init];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 +150, self.newsImageview.frame.origin.y + 145, 50, 50);
-    } else {
-        playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 -130, self.newsImageview.frame.origin.y + 100, 50, 50);
-    }
-    playButton.alpha = 1.0f;
-    UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [playButton setImage:playbutton forState:UIControlStateNormal];
-     playButton.userInteractionEnabled = YES;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
-    [playButton addGestureRecognizer:tap];
-    [self.scrollView addSubview:playButton];
-    
-    _videoURL = [NSURL URLWithString:self.imageDetailurl];
- 
+        playButton = [[UIButton alloc] init];
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 +150, self.newsImageview.frame.origin.y + 145, 50, 50);
+        } else {
+            playButton.frame = CGRectMake(self.newsImageview.frame.size.width / 2 -130, self.newsImageview.frame.origin.y + 100, 50, 50);
+        }
+        playButton.alpha = 1.0f;
+        UIImage *playbutton = [[UIImage imageNamed:@"play_button.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [playButton setImage:playbutton forState:UIControlStateNormal];
+        playButton.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+        [playButton addGestureRecognizer:tap];
+        [self.scrollView addSubview:playButton];
+        
+        _videoURL = [NSURL URLWithString:self.imageDetailurl];
+        
     }
 }
 

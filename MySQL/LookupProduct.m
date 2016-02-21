@@ -25,8 +25,9 @@
 {
     [super viewDidLoad];
     if ([_formController isEqual:TNAME2])
-    self.title = NSLocalizedString(@"Product lookup", nil);
-    else self.title = NSLocalizedString(@"Advertising lookup", nil);
+        self.title = NSLocalizedString(@"Product lookup", nil);
+    else
+        self.title = NSLocalizedString(@"Advertising lookup", nil);
     self.listTableView.rowHeight = UITableViewAutomaticDimension;
     self.listTableView.estimatedRowHeight = ROW_HEIGHT;
     

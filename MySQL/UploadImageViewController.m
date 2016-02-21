@@ -45,9 +45,9 @@
     self.navigationController.navigationBar.translucent = YES;
     
     if (self.progressView.progress == 0) {
-        self.progressView.hidden = NO;
+        self.progressView.hidden = true;
     } else {
-        self.progressView.hidden = YES;
+        self.progressView.hidden = false;
     }
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

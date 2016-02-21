@@ -333,20 +333,6 @@
             UIImage* thumbnail = [UIImage imageWithCGImage:[generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
             userImage.image = thumbnail;
             
-            /*
-            NSString *localPath = image.url;
-            NSURL *localURL = [NSURL URLWithString:localPath];
-            AVAsset *asset = [AVAsset assetWithURL:localURL];
-            AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:asset];
-            CMTime time = CMTimeMake(1, 2);
-            //CMTime time = CMTimeMake(1, 60);
-            //CMTime thumbnailTime = [asset duration];
-            CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
-            UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
-            CGImageRelease(imageRef); // CGImageRef won't be released by ARC
-            userImage.image = thumbnail; */
-            //userImage.contentMode = UIViewContentModeScaleAspectFit;
-            
             playButton.alpha = 1.0f;
             playButton.userInteractionEnabled = YES;
             //playButton.center = userImage.center;
@@ -387,10 +373,7 @@
 
         separatorLineView.backgroundColor = LIGHTGRAYCOLOR; //SCROLLBACKCOLOR;
         [wallImageView addSubview:separatorLineView];
-        
-        //[self.wallScroll addSubview:wallImageView];
-        //[self.wallScroll addSubview:separatorLineView];
-        //self.automaticallyAdjustsScrollViewInsets = NO;
+
         [self.wallScroll addSubview:wallImageView];
         
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

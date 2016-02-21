@@ -74,12 +74,6 @@ Parse.com
      self.title = [NSString stringWithFormat:@" %@ %@", @"Edit", self.formController];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -649,17 +643,26 @@ Parse.com
             myCell.textLabel.text = @"# Windows";
             
             UIStepper *stepper = [[UIStepper alloc] init];
+            
             stepper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            
             [stepper setTintColor:[UIColor grayColor]];
+            
             stepper.value = [self.callback.text doubleValue];
+            
             stepper.stepValue = 1;
+            
             UIView *wrapper = [[UIView alloc] initWithFrame:stepper.frame];
+            
             [wrapper addSubview:stepper];
+            
             myCell.accessoryView = stepper;
+            
             [stepper addTarget:self action:@selector(changestep:) forControlEvents:UIControlEventValueChanged];
         }
         
         else if ([_formController isEqual:TNAME3]) {
+            self.callback.hidden = YES;
             self.callback.placeholder = @"";
             myCell.textLabel.text = @"";
         }
@@ -713,18 +716,6 @@ Parse.com
     }
     
     return myCell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 2)
-        [self performSegueWithIdentifier:EDITLOOKCITYSEGUE sender:self];
-    if (indexPath.row == 6)
-        [self performSegueWithIdentifier:EDITLOOKSALESEGUE sender:self];
-    if (indexPath.row == 7)
-        [self performSegueWithIdentifier:EDITLOOKJOBSEGUE sender:self];
-    if (indexPath.row == 8)
-        [self performSegueWithIdentifier:EDITLOOKPRODSEGUE sender:self];
 }
 
 #pragma mark TableView Header/Footer
@@ -834,7 +825,6 @@ Parse.com
       } else if ([_formController isEqual:TNAME3]) {
         self.first.placeholder = @"Manager";
         self.last.placeholder = @"Webpage";
-        self.callback.hidden = YES;//Field
       } else if ([_formController isEqual:TNAME4]) {
         self.first.placeholder = @"First";
         self.last.placeholder = @"Last";
@@ -900,6 +890,19 @@ Parse.com
 }
 
 #pragma mark - Segue
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 2)
+        [self performSegueWithIdentifier:EDITLOOKCITYSEGUE sender:self];
+    if (indexPath.row == 6)
+        [self performSegueWithIdentifier:EDITLOOKSALESEGUE sender:self];
+    if (indexPath.row == 7)
+        [self performSegueWithIdentifier:EDITLOOKJOBSEGUE sender:self];
+    if (indexPath.row == 8)
+        [self performSegueWithIdentifier:EDITLOOKPRODSEGUE sender:self];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:EDITLOOKCITYSEGUE]) {
@@ -1076,7 +1079,6 @@ Parse.com
                     [updateData setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
                     [updateData setObject:self.spouse.text ? self.spouse.text : [NSNull null] forKey:@"Spouse"];
                     [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Rate"];
-                    [updateData setObject:self.photo.text ? self.phone.text : [NSNull null] forKey:@"Photo"];
                     [updateData setObject:mySalesNo ? mySalesNo : [NSNumber numberWithInteger: -1] forKey:@"SalesNo"];
                     [updateData setObject:myJobNo ? myJobNo : [NSNumber numberWithInteger: -1] forKey:@"JobNo"];
                     [updateData setObject:self.start.text ? self.start.text : [NSNull null] forKey:@"Start"];
@@ -1202,9 +1204,11 @@ Parse.com
                     [updateData setObject:self.aptDate.text ? self.aptDate.text : [NSNull null] forKey:@"Assistant"];
                     [updateData setObject:self.comment.text ? self.comment.text : [NSNull null] forKey:@"Comments"];
                     [updateData setObject:myActive forKey:@"Active"];
+                    
                     PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
                     [postACL setPublicReadAccess:YES];
                     [updateData setACL:postACL];
+                    
                     //[updateData saveInBackground];
                     [updateData saveEventually];
                     [self.listTableView reloadData];

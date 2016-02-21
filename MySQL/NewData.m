@@ -866,9 +866,9 @@ Parse.com
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Customer"];
                 [savelead setObject:myActive ? myActive : [NSNumber numberWithInteger: 0] forKey:@"Active"];
-                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
                 [savelead setObject:myCustNo ? myCustNo : [NSNumber numberWithInteger: -1] forKey:@"CustNo"];
                 [savelead setObject:myLeadNo ? myLeadNo : [NSNumber numberWithInteger: -1] forKey:@"LeadNo"];
+                [savelead setObject:self.first.text ? self.first.text : [NSNull null] forKey:@"First"];
                 [savelead setObject:self.last.text ? self.last.text : [NSNull null] forKey:@"LastName"];
                 [savelead setObject:self.company.text ? self.company.text : [NSNull null] forKey:@"Contractor"];
                 [savelead setObject:self.address.text ? self.address.text : [NSNull null] forKey:@"Address"];

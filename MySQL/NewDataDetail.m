@@ -371,7 +371,7 @@ Parse.com
 Parse.com
 *******************************************************************************************
 */
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveJob
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"parsedataKey"]) { //saveProduct
                 
                 PFObject *savelead = [PFObject objectWithClassName:@"Product"];
                 NSLog(@"rawStr is %@",savelead);

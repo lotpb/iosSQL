@@ -138,6 +138,46 @@
     [self queryParseMethod];
 }
 
+- (IBAction)shareButtonTouched:(id)sender {
+    if (shareEnabled) {
+        
+        // Post selected photos to Facebook
+        if ([selectedJobs count] > 0) {
+            if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+                SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+                
+                [controller setInitialText:@"Check out my jobs!"];
+                for (NSString *jobPhoto in selectedJobs) {
+                    [controller addImage:[UIImage imageNamed:jobPhoto]];
+                }
+                [self presentViewController:controller animated:YES completion:Nil];
+            }
+        }
+        
+        // Deselect all selected items
+        for(NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
+            [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        }
+        
+        // Remove all items from selectedRecipes array
+        [selectedJobs removeAllObjects];
+        
+        // Change the sharing mode to NO
+        shareEnabled = NO;
+        self.collectionView.allowsMultipleSelection = NO;
+        self.shareButton.title = PHOTOBUTTONTITLE1;
+        [self.shareButton setStyle:UIBarButtonItemStylePlain];
+        
+    } else {
+        
+        // Change shareEnabled to YES and change the button text to DONE
+        shareEnabled = YES;
+        self.collectionView.allowsMultipleSelection = YES;
+        self.shareButton.title = PHOTOBUTTONTITLE2;
+        [self.shareButton setStyle:UIBarButtonItemStyleDone];
+    }
+}
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -227,62 +267,5 @@
     }
 }
 
-/*
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    if (shareEnabled) {
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (shareEnabled) {
-        NSString *deSelectedJob = [selectedJobs[indexPath.section] objectAtIndex:indexPath.row];
-        [selectedJobs removeObject:deSelectedJob];
-    }
-} */
-
-- (IBAction)shareButtonTouched:(id)sender {
-    if (shareEnabled) {
-        
-        // Post selected photos to Facebook
-        if ([selectedJobs count] > 0) {
-            if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-                SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-                
-                [controller setInitialText:@"Check out my jobs!"];
-                for (NSString *jobPhoto in selectedJobs) {
-                    [controller addImage:[UIImage imageNamed:jobPhoto]];
-                }
-                [self presentViewController:controller animated:YES completion:Nil];
-            }
-        }
-        
-        // Deselect all selected items
-        for(NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
-            [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
-        }
-        
-        // Remove all items from selectedRecipes array
-        [selectedJobs removeAllObjects];
-        
-        // Change the sharing mode to NO
-        shareEnabled = NO;
-        self.collectionView.allowsMultipleSelection = NO;
-        self.shareButton.title = PHOTOBUTTONTITLE1;
-        [self.shareButton setStyle:UIBarButtonItemStylePlain];
-        
-    } else {
-        
-        // Change shareEnabled to YES and change the button text to DONE
-        shareEnabled = YES;
-        self.collectionView.allowsMultipleSelection = YES;
-        self.shareButton.title = PHOTOBUTTONTITLE2;
-        [self.shareButton setStyle:UIBarButtonItemStyleDone];
-    }
-}
 
 @end

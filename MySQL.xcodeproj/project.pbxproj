@@ -72,6 +72,10 @@
 		AF7B25721A05829600F7C058 /* CustController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25711A05829600F7C058 /* CustController.m */; };
 		AF7B25751A0583E500F7C058 /* CustLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25741A0583E500F7C058 /* CustLocation.m */; };
 		AF7B25781A0584AC00F7C058 /* CustModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7B25771A0584AC00F7C058 /* CustModel.m */; };
+		AF7FF16C1C78DE6400175B6C /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7FF16B1C78DE6400175B6C /* NotificationCenter.framework */; };
+		AF7FF1701C78DE6400175B6C /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7FF16F1C78DE6400175B6C /* TodayViewController.m */; };
+		AF7FF1771C78DE6400175B6C /* Used Space.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AF7FF1691C78DE6400175B6C /* Used Space.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AF7FF17C1C7920BA00175B6C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF7FF17B1C7920BA00175B6C /* MainInterface.storyboard */; };
 		AF81F3991A06E4B40036FEDF /* WebMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81F3981A06E4B40036FEDF /* WebMainController.m */; };
 		AF89085E1A325E630032CEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA352F919FC70E300840AA3 /* StoreKit.framework */; };
 		AF8B684C1AE442810025A2FD /* StatisticsiPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8B684B1AE442810025A2FD /* StatisticsiPhoneController.m */; };
@@ -151,6 +155,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AF7FF1751C78DE6400175B6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AFBC9E7919D9CEDE0050E67A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF7FF1681C78DE6400175B6C;
+			remoteInfo = "Used Space";
+		};
 		AFBC9E9B19D9CEDF0050E67A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AFBC9E7919D9CEDE0050E67A /* Project object */;
@@ -159,6 +170,20 @@
 			remoteInfo = MySQL;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AFF84B0B1C77569400D10470 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AF7FF1771C78DE6400175B6C /* Used Space.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AF023A9E1AE09691006D8AEC /* ParseConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseConnection.m; sourceTree = "<group>"; };
@@ -256,6 +281,12 @@
 		AF7B25741A0583E500F7C058 /* CustLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustLocation.m; sourceTree = "<group>"; };
 		AF7B25761A0584AC00F7C058 /* CustModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustModel.h; sourceTree = "<group>"; };
 		AF7B25771A0584AC00F7C058 /* CustModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustModel.m; sourceTree = "<group>"; };
+		AF7FF1691C78DE6400175B6C /* Used Space.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Used Space.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF7FF16B1C78DE6400175B6C /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		AF7FF16E1C78DE6400175B6C /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		AF7FF16F1C78DE6400175B6C /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		AF7FF1741C78DE6400175B6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF7FF17B1C7920BA00175B6C /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		AF81F3971A06E4B40036FEDF /* WebMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebMainController.h; sourceTree = "<group>"; };
 		AF81F3981A06E4B40036FEDF /* WebMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMainController.m; sourceTree = "<group>"; };
 		AF8B684A1AE442810025A2FD /* StatisticsiPhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsiPhoneController.h; sourceTree = "<group>"; };
@@ -391,6 +422,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AF7FF1661C78DE6400175B6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF7FF16C1C78DE6400175B6C /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFBC9E7E19D9CEDE0050E67A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -683,6 +722,25 @@
 			name = Blog;
 			sourceTree = "<group>";
 		};
+		AF7FF16A1C78DE6400175B6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF7FF16B1C78DE6400175B6C /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF7FF16D1C78DE6400175B6C /* Used Space */ = {
+			isa = PBXGroup;
+			children = (
+				AF7FF16E1C78DE6400175B6C /* TodayViewController.h */,
+				AF7FF16F1C78DE6400175B6C /* TodayViewController.m */,
+				AF7FF17B1C7920BA00175B6C /* MainInterface.storyboard */,
+				AF7FF1741C78DE6400175B6C /* Info.plist */,
+			);
+			path = "Used Space";
+			sourceTree = "<group>";
+		};
 		AF8F7E131A37E26B009D34EA /* Salesman */ = {
 			isa = PBXGroup;
 			children = (
@@ -804,6 +862,8 @@
 			children = (
 				AFBC9E8319D9CEDE0050E67A /* MySQL */,
 				AFBC9E9D19D9CEDF0050E67A /* MySQLTests */,
+				AF7FF16D1C78DE6400175B6C /* Used Space */,
+				AF7FF16A1C78DE6400175B6C /* Frameworks */,
 				AFBC9E8219D9CEDE0050E67A /* Products */,
 				AFA744921B50AD17004F7984 /* OptimizationProfiles */,
 			);
@@ -814,6 +874,7 @@
 			children = (
 				AFBC9E8119D9CEDE0050E67A /* MySQL.app */,
 				AFBC9E9A19D9CEDF0050E67A /* MySQLTests.xctest */,
+				AF7FF1691C78DE6400175B6C /* Used Space.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -957,6 +1018,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AF7FF1681C78DE6400175B6C /* Used Space */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF7FF1781C78DE6400175B6C /* Build configuration list for PBXNativeTarget "Used Space" */;
+			buildPhases = (
+				AF7FF1651C78DE6400175B6C /* Sources */,
+				AF7FF1661C78DE6400175B6C /* Frameworks */,
+				AF7FF1671C78DE6400175B6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Used Space";
+			productName = "Used Space";
+			productReference = AF7FF1691C78DE6400175B6C /* Used Space.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		AFBC9E8019D9CEDE0050E67A /* MySQL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AFBC9EA419D9CEDF0050E67A /* Build configuration list for PBXNativeTarget "MySQL" */;
@@ -964,10 +1042,12 @@
 				AFBC9E7D19D9CEDE0050E67A /* Sources */,
 				AFBC9E7E19D9CEDE0050E67A /* Frameworks */,
 				AFBC9E7F19D9CEDE0050E67A /* Resources */,
+				AFF84B0B1C77569400D10470 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AF7FF1761C78DE6400175B6C /* PBXTargetDependency */,
 			);
 			name = MySQL;
 			productName = MySQL;
@@ -998,9 +1078,14 @@
 		AFBC9E7919D9CEDE0050E67A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Peter Balsamo";
 				TargetAttributes = {
+					AF7FF1681C78DE6400175B6C = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = YX8KSFWQDW;
+					};
 					AFBC9E8019D9CEDE0050E67A = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = YX8KSFWQDW;
@@ -1026,11 +1111,20 @@
 			targets = (
 				AFBC9E8019D9CEDE0050E67A /* MySQL */,
 				AFBC9E9919D9CEDF0050E67A /* MySQLTests */,
+				AF7FF1681C78DE6400175B6C /* Used Space */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AF7FF1671C78DE6400175B6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF7FF17C1C7920BA00175B6C /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFBC9E7F19D9CEDE0050E67A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1095,6 +1189,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AF7FF1651C78DE6400175B6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF7FF1701C78DE6400175B6C /* TodayViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFBC9E7D19D9CEDE0050E67A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1189,6 +1291,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AF7FF1761C78DE6400175B6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF7FF1681C78DE6400175B6C /* Used Space */;
+			targetProxy = AF7FF1751C78DE6400175B6C /* PBXContainerItemProxy */;
+		};
 		AFBC9E9C19D9CEDF0050E67A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AFBC9E8019D9CEDE0050E67A /* MySQL */;
@@ -1197,6 +1304,39 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		AF7FF1791C78DE6400175B6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Used Space/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.PeterBalsamo.MySQL.Used-Space";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AF7FF17A1C78DE6400175B6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Used Space/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.PeterBalsamo.MySQL.Used-Space";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		AFBC9EA219D9CEDF0050E67A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1351,6 +1491,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AF7FF1781C78DE6400175B6C /* Build configuration list for PBXNativeTarget "Used Space" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF7FF1791C78DE6400175B6C /* Debug */,
+				AF7FF17A1C78DE6400175B6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AFBC9E7C19D9CEDE0050E67A /* Build configuration list for PBXProject "MySQL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -96,6 +96,8 @@
     } else {
         [self.mySwitch setOn:YES];
     }
+    self.mySwitch.onTintColor = BLUECOLOR;
+    self.mySwitch.tintColor = [UIColor lightGrayColor];
     
     UIImageView *photoImage = [[UIImageView alloc] init];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -118,9 +120,6 @@
     CALayer *btnLayer3 = [self.mapbutton layer];
     [btnLayer3 setMasksToBounds:YES];
     [btnLayer3 setCornerRadius:9.0f];
-    
-    self.mySwitch.onTintColor = BLUECOLOR;
-    self.mySwitch.tintColor = [UIColor lightGrayColor];
     
     [self parseData];
     [self followButton];
@@ -674,11 +673,8 @@ Parse.com
         url  = [[NSURL alloc] initWithString:text];
         [[UIApplication sharedApplication] openURL:url];
     } else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
-                                                                message:@"Your field doesn't have valid web address."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action)
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Your field doesn't have valid web address." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
                              }];
@@ -713,12 +709,12 @@ Parse.com
     [self.itemText setTextAlignment:NSTextAlignmentLeft];
     self.DateInput.text = [DateFormatter stringFromDate:[NSDate date]];
     self.itemText.text = [standardDefaults objectForKey:@"eventtitleKey"]; //@"Appt:"
-  //self.itemText.text = [DateFormatter stringFromDate:[[NSDate date]dateByAddingTimeInterval:60*60]];
+
     [self.DateInput setPlaceholder:@"appointment date"];
     [self.itemText setPlaceholder:@"title"];
     self.itemText.secureTextEntry = NO;
     self.DateInput.inputView=DatePicker;
-  //self.itemText.inputView=DatePicker;
+  
     [DatePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [alert show];
 
