@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x6e-uX-tAZ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -5811,28 +5811,28 @@
         <image name="wishlist.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9QI-SV-Rv2"/>
-        <segue reference="jwQ-k2-eY1"/>
-        <segue reference="0RT-Di-IAk"/>
-        <segue reference="Nyg-nQ-ht6"/>
         <segue reference="FGg-VS-tNk"/>
+        <segue reference="jwQ-k2-eY1"/>
+        <segue reference="Nyg-nQ-ht6"/>
+        <segue reference="0RT-Di-IAk"/>
         <segue reference="OQh-pS-HTt"/>
-        <segue reference="LW3-fz-kP6"/>
-        <segue reference="ySd-Pu-O7O"/>
-        <segue reference="G0D-ko-6v2"/>
         <segue reference="yTl-2c-eeE"/>
         <segue reference="q0P-ws-J7X"/>
         <segue reference="JkK-qv-s4J"/>
-        <segue reference="tOL-3h-g8i"/>
         <segue reference="FsV-SU-ACy"/>
+        <segue reference="tOL-3h-g8i"/>
+        <segue reference="9QI-SV-Rv2"/>
+        <segue reference="G0D-ko-6v2"/>
         <segue reference="FBB-tQ-9pc"/>
         <segue reference="kRM-nV-eu6"/>
-        <segue reference="YL2-bg-fIc"/>
         <segue reference="zQR-YQ-xF4"/>
-        <segue reference="JT1-3I-mwZ"/>
-        <segue reference="Dbq-7P-K8C"/>
-        <segue reference="qxc-XD-hBQ"/>
+        <segue reference="YL2-bg-fIc"/>
         <segue reference="dip-5A-Lje"/>
+        <segue reference="Vww-ua-WBq"/>
+        <segue reference="xOD-Ja-G1n"/>
+        <segue reference="P6P-ng-NfQ"/>
+        <segue reference="LW3-fz-kP6"/>
+        <segue reference="ySd-Pu-O7O"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
