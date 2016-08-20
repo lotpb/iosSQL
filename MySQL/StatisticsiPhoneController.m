@@ -752,12 +752,12 @@
     yql = [[YQL alloc] init];
     //NSString *queryString = @"select * from local.search where zip='11758' and query='pizza'";
     NSString *queryString1 = @"select * from weather.forecast where woeid=2446726";
-    NSString *queryString2 = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\",\"SPY\",\"UUP\",\"VCSY\",\"GPRO\",\"VXX\",\"UPL\",\"UGAZ\",\"XLE\",\"^XOI\")";
     
     w1results = [yql query:queryString1];
     dayYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.day"];  //5 day forcast Array
     textYQL = [w1results valueForKeyPath:@"query.results.channel.item.forecast.text"]; //5 day forcast Array
     
+    NSString *queryString2 = @"select * from yahoo.finance.quote where symbol in (\"^IXIC\",\"SPY\",\"UUP\",\"VCSY\",\"GPRO\",\"VXX\",\"UPL\",\"UGAZ\",\"XLE\",\"^XOI\")";
     resultsYQL = [yql query:queryString2];
     symYQL = [resultsYQL valueForKeyPath:@"query.results.quote.symbol"];
     fieldYQL = [resultsYQL valueForKeyPath:@"query.results.quote.LastTradePriceOnly"]; //Array

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0800"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AFB619A01C78D5C700F1BAE8"
+               BlueprintIdentifier = "AF7FF1681C78DE6400175B6C"
                BuildableName = "Used Space.appex"
                BlueprintName = "Used Space"
                ReferencedContainer = "container:MySQL.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AFB619A01C78D5C700F1BAE8"
+            BlueprintIdentifier = "AF7FF1681C78DE6400175B6C"
             BuildableName = "Used Space.appex"
             BlueprintName = "Used Space"
             ReferencedContainer = "container:MySQL.xcodeproj">

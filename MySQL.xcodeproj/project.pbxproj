@@ -359,6 +359,7 @@
 		AFBDBF3B1A90F54200DD4C66 /* mySQLHOME.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mySQLHOME.png; path = images/mySQLHOME.png; sourceTree = "<group>"; };
 		AFBDBF3C1A90F54200DD4C66 /* mySQLNEWS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mySQLNEWS.png; path = images/mySQLNEWS.png; sourceTree = "<group>"; };
 		AFBDBF401A90F54D00DD4C66 /* user_male-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user_male-128.png"; path = "images/user_male-128.png"; sourceTree = "<group>"; };
+		AFBDF0041D465A210032E6EA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AFC604B51A12C4570094538A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AFC820991BCAFA8200E81DE8 /* LeadsUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeadsUserController.h; sourceTree = "<group>"; };
 		AFC8209A1BCAFA8200E81DE8 /* LeadsUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeadsUserController.m; sourceTree = "<group>"; };
@@ -725,6 +726,7 @@
 		AF7FF16A1C78DE6400175B6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AFBDF0041D465A210032E6EA /* AVFoundation.framework */,
 				AF7FF16B1C78DE6400175B6C /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -1079,7 +1081,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Peter Balsamo";
 				TargetAttributes = {
 					AF7FF1681C78DE6400175B6C = {
@@ -1089,6 +1091,7 @@
 					AFBC9E8019D9CEDE0050E67A = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = YX8KSFWQDW;
+						ProvisioningStyle = Automatic;
 					};
 					AFBC9E9919D9CEDF0050E67A = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -1361,6 +1364,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1403,6 +1407,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1423,6 +1428,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YX8KSFWQDW;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/mySQL/Parse";
 				INFOPLIST_FILE = MySQL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -1441,6 +1447,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YX8KSFWQDW;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/mySQL/Parse";
 				INFOPLIST_FILE = MySQL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -1498,6 +1505,7 @@
 				AF7FF17A1C78DE6400175B6C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AFBC9E7C19D9CEDE0050E67A /* Build configuration list for PBXProject "MySQL" */ = {
 			isa = XCConfigurationList;
